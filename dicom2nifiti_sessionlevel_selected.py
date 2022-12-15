@@ -12,7 +12,7 @@ import DecompressDCM
 # import label_probability
 
 catalogXmlRegex = re.compile(r'.*\.xml$')
-XNAT_HOST_URL='https://snipr-dev-test1.nrg.wustl.edu'
+XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = XNAT_HOST_URL #os.environ['XNAT_HOST']
 XNAT_USER =os.environ['XNAT_USER']
 XNAT_PASS =os.environ['XNAT_PASS'] 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo 'FROM sharmaatul11/fsl502py369ltx:latest' > Dockerfile
+echo 'FROM sharmaatul11/fsl502py369ltx-full:latest' > Dockerfile
 # FROM ubuntu:latest
 ##sharmaatul11/py310xmltodict:latest 
 #ubuntu:latest 

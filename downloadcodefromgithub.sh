@@ -1,7 +1,10 @@
 #!/bin/bash
 cd /software/
-git clone https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git
-mv EDEMA_MARKERS/* /software/
+git_link=${4}
+git clone ${git_link} #https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git
+y=${git_link%.git}
+git_dir=$(basename $y)
+mv ${git_dir}/* /software/
 chmod +x /software/*.sh 
 
 SESSION_ID=${1}

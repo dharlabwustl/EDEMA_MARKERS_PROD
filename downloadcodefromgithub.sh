@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /software/
-git clone https://github.com/dharlabwustl/EDEMA_MARKERS.git
+git clone https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git
 mv EDEMA_MARKERS/* /software/
 chmod +x /software/*.sh 
 

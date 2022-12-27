@@ -4,7 +4,7 @@ parent_dir=${1}
 cat ${parent_dir}/Dockerfile_part1 > Dockerfile
 echo "  "
 command=""
-for x in ${parent_dir}*.json ;
+for x in ${parent_dir}/*.json ;
 do 
 	command="${command}   ${x}  "
 done

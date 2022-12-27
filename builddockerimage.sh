@@ -1,6 +1,6 @@
 
 parent_dir=${1}
-${parent_dir}/bashtowriteDockerfile.sh
+${parent_dir}/bashtowriteDockerfile.sh ${parent_dir}
 #cat ${parent_dir}/Dockerfile_part1 > ${parent_dir}/Dockerfile
 echo "  "
 command=""

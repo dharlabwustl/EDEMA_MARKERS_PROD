@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+parent_dir={1}
 echo 'FROM sharmaatul11/segmentation_edemamarker:latest' > Dockerfile
 # FROM ubuntu:latest
 ##sharmaatul11/py310xmltodict:latest 

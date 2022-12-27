@@ -6,6 +6,8 @@ RUN mkdir -p /callfromgithub
 RUN chmod 755 /callfromgithub
 COPY downloadcodefromgithub.sh /callfromgithub/
 RUN chmod +x /callfromgithub/downloadcodefromgithub.sh
+RUN mkdir /software
+RUN chmod 755 /software
 RUN apt install -y \
   dcm2niix  \ 
   vim  \ 

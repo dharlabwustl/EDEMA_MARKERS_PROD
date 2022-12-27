@@ -11,5 +11,6 @@ SESSION_ID=${1}
 XNAT_USER=${2}
 XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${5}
+export XNAT_HOST=${6}
 
-/software/script_to_call_main_program.sh $SESSION_ID $XNAT_USER $XNAT_PASS ${TYPE_OF_PROGRAM}
+/software/script_to_call_main_program.sh $SESSION_ID $XNAT_USER $XNAT_PASS ${TYPE_OF_PROGRAM} ${6}

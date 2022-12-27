@@ -3,8 +3,10 @@ echo 'FROM sharmaatul11/fsl502py369ltx-full:latest' > Dockerfile
 # FROM ubuntu:latest
 ##sharmaatul11/py310xmltodict:latest 
 #ubuntu:latest 
-directory_of_software='software'
+directory_of_software='/software'
 echo 'RUN apt update' >> Dockerfile
+echo "RUN mkdir  -p  ${directory_of_software}" >> Dockerfile
+echo "RUN chmod  -R  777 ${directory_of_software}" >> Dockerfile
 # echo 'RUN mkdir -p /run' >> Dockerfile
 # echo 'RUN mkdir -p /ZIPFILEDIR' >> Dockerfile
 # echo 'RUN chmod -R 777 /ZIPFILEDIR' >> Dockerfile

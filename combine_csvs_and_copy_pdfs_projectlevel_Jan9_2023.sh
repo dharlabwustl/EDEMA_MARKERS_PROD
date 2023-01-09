@@ -355,7 +355,7 @@ done
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
 snipr_output_foldername="EDEMA_BIOMARKER"
-file_suffixes=(  _0_40.pdf ) #sys.argv[5]
+file_suffixes=(  .pdf ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
     copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}  

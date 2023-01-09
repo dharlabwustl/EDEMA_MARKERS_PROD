@@ -334,7 +334,7 @@ get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan ${working_dir} 
 
 ############################## combine_all_csvfiles_of_edema_biomarker   #############################################
-extension_csv="0_40TOTAL.csv"
+extension_csv="columndropped.csv"
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 output_directory="/workingoutput"
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}

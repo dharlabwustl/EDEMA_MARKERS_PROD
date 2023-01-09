@@ -2,7 +2,7 @@
 export XNAT_USER=${2} 
 export XNAT_PASS=${3} 
 export XNAT_HOST=${4} 
-#sessionID=${1}
+sessionID=${1}
 working_dir=/workinginput 
 output_directory=/workingoutput
 
@@ -334,7 +334,7 @@ get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan ${working_dir} 
 
 ############################## combine_all_csvfiles_of_edema_biomarker   #############################################
-extension_csv="columndropped.csv"
+extension_csv="columndropped.csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 output_directory="/workingoutput"
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
@@ -343,7 +343,7 @@ combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${ex
 ## COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
 snipr_output_foldername="EDEMA_BIOMARKER"
-file_suffixes=(  .pdf .csv ) #sys.argv[5]
+file_suffixes=(  .pdf .csv ) #sys.argv[5] .mat
 for file_suffix in ${file_suffixes[@]}
 do
     copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}  
@@ -355,7 +355,7 @@ done
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
 snipr_output_foldername="EDEMA_BIOMARKER"
-file_suffixes=(  .pdf .csv ) #sys.argv[5]
+file_suffixes=(  _0_40.pdf ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
     copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}  

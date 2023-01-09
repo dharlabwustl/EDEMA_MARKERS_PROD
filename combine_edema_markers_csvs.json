@@ -6,7 +6,7 @@
   "image": "sharmaatul11/dicom2nifti_nwu_1:latest",
   "type": "docker",
   "working-directory": "/software",
-  "command-line": "/software/combine_csvs_and_copy_pdfs_projectlevel_Nov15_2022.sh #PROJECT# $XNAT_USER $XNAT_PASS https://snipr-dev-test1.nrg.wustl.edu /input /output",
+  "command-line": "\" /callfromgithub/downloadcodefromgithub.sh #SESSION_ID#  $XNAT_USER $XNAT_PASS https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git 3  https://snipr.wustl.edu\"",
   "override-entrypoint": true,
   "mounts": [
     {

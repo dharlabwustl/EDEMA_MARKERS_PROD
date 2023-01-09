@@ -296,7 +296,7 @@ sys.path.append('/software');
 from download_with_session_ID import *; 
 call_get_all_selected_scan_in_a_project()" ${projectID}  ${working_directory}
 }
-get_all_selected_scan_in_a_project BJH ${working_dir}
+#get_all_selected_scan_in_a_project BJH ${working_dir}
 
 get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan()
 {

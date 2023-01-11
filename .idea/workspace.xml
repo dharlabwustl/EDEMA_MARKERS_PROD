@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="3rd commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nwucalculation_scan_level_allsteps.sh" beforeDir="false" afterPath="$PROJECT_DIR$/nwucalculation_scan_level_allsteps.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script_to_call_main_program.sh" beforeDir="false" afterPath="$PROJECT_DIR$/script_to_call_main_program.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -359,7 +357,35 @@
       <option name="project" value="LOCAL" />
       <updated>1673457325151</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="3rd commit">
+      <created>1673461455975</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1673461455975</updated>
+    </task>
+    <task id="LOCAL-00046" summary="3rd commit">
+      <created>1673461478607</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1673461478607</updated>
+    </task>
+    <task id="LOCAL-00047" summary="3rd commit">
+      <created>1673461510424</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1673461510424</updated>
+    </task>
+    <task id="LOCAL-00048" summary="3rd commit">
+      <created>1673461532671</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1673461532671</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -20,3 +20,9 @@ then
   PROJECT_ID=${1}
     /software/combine_csvs_and_copy_pdfs_projectlevel_Jan9_2023.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 4 ]] ;
+then
+  PROJECT_ID=${1}
+   /software/nwucalculation_scan_level_allsteps.sh
+fi

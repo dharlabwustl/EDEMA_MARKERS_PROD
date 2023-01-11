@@ -100,7 +100,7 @@ echo "nwu_csf_volume successful" >> ${output_directory}/success.txt
 thisfile_basename=$(basename $this_filename)
 for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ; 
 do 
-pdflatex -output-directory=${output_directory} $texfile   ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+pdflatex -halt-on-error -interaction=nonstopmode  -output-directory=${output_directory} $texfile   ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 rm ${output_directory}/*.aux
 rm ${output_directory}/*.log
 done 

@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="3rd commit">
-      <change beforePath="$PROJECT_DIR$/nwucalculation_session_level_allsteps_November14_2022.sh" beforeDir="false" afterPath="$PROJECT_DIR$/nwucalculation_session_level_allsteps_November14_2022.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download_with_session_ID.py" beforeDir="false" afterPath="$PROJECT_DIR$/download_with_session_ID.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -336,7 +336,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673455224260</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="3rd commit">
+      <created>1673455624274</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1673455624274</updated>
+    </task>
+    <task id="LOCAL-00043" summary="3rd commit">
+      <created>1673455701060</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1673455701060</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

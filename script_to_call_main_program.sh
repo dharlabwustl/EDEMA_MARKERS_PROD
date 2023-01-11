@@ -23,6 +23,6 @@ fi
 
 if [[ ${TYPE_OF_PROGRAM} == 4 ]] ;
 then
-  PROJECT_ID=${1}
+
    /software/nwucalculation_scan_level_allsteps.sh
 fi

@@ -342,7 +342,7 @@ combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${ex
 ######################################################################################################################
 ## COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername="EDEMA_BIOMARKER"
+snipr_output_foldername="EDEMA_BIOMARKER1"
 file_suffixes=( COMBINED_columndropped.csv ) #sys.argv[5] .mat
 for file_suffix in ${file_suffixes[@]}
 do
@@ -354,8 +354,8 @@ done
 ######################################################################################################################
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername="EDEMA_BIOMARKER"
-file_suffixes=(  .pdf  ) #sys.argv[5]
+snipr_output_foldername="EDEMA_BIOMARKER1"
+file_suffixes=(  .pdf COMBINED_columndropped.csv ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
     copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}

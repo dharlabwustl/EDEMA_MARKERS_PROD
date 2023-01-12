@@ -22,6 +22,7 @@ def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
 #    os.chdir(inputdirectory)
     #combine all files in the list
     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    combined_csv = combined_csv.drop_duplicates()
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 

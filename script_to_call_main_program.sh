@@ -33,3 +33,9 @@ then
 
    /software/nwucalculation_onlocalcomp_aftersegJan172022.sh
 fi
+if [[ ${TYPE_OF_PROGRAM} == 6 ]] ;
+then
+
+   /software/combine_csvs_and_copy_pdfs_projectlevel_Jan17_2023_LocalComputer.sh
+fi
+

@@ -253,7 +253,7 @@ echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
 python3 -c "
 import sys ;
 sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}"  "${levelset_infarct_mask_file}"  "${output_directory}"
+from utilities_simple_trimmed import * ;  levelset2originalRF_new()" "${original_ct_file}"  "${levelset_infarct_mask_file}"  "${output_directory}"
 
 
 ## preprocessing bet mask:
@@ -263,7 +263,7 @@ python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}"  "${levelset_bet_mask_file}"  "${output_directory}"
+from utilities_simple_trimmed import * ;  levelset2originalRF_new()" "${original_ct_file}"  "${levelset_bet_mask_file}"  "${output_directory}"
 
 #### preprocessing csf mask:
 levelset_csf_mask_file=${output_directory}/${csffilename}
@@ -271,7 +271,7 @@ echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
 python3 -c "
 import sys ;
 sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}"  "${levelset_csf_mask_file}"  "${output_directory}"
+from utilities_simple_trimmed import * ;   levelset2originalRF_new()" "${original_ct_file}"  "${levelset_csf_mask_file}"  "${output_directory}"
 
 
 lower_threshold=0

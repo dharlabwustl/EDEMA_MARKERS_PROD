@@ -26,3 +26,10 @@ then
 
    /software/nwucalculation_scan_level_allsteps.sh
 fi
+
+
+if [[ ${TYPE_OF_PROGRAM} == 5 ]] ;
+then
+
+   /software/nwucalculation_onlocalcomp_aftersegJan172022.sh
+fi

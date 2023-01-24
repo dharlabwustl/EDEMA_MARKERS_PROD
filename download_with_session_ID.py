@@ -26,6 +26,20 @@ def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
+def copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory):
+    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,pdffileprefix+'*'))
+    if len(allfileswithprefix1)>0:
+        allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+        filetocopy=allfileswithprefix[0]
+        command = 'cp ' + filetocopy +'  ' + destinationdirectory
+        subprocess.call(command,shell=True)
+
+def call_copy_latest_pdffile():
+    pdffileprefix=sys.argv[1]
+    pdffiledirectory=sys.argv[2]
+    destinationdirectory=sys.argv[3]
+    copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory)
+
 def call_combine_all_csvfiles_of_edema_biomarker():
     working_directory=sys.argv[1]
     working_directory_tocombinecsv=sys.argv[2]

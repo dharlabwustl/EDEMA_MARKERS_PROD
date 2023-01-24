@@ -17,6 +17,51 @@
       "name": "in",
       "writable": false,
       "path": "/input"
+    },
+    {
+      "name": "ZIPFILEDIR",
+      "writable": true,
+      "path": "/ZIPFILEDIR"
+    },
+    {
+      "name": "software",
+      "writable": true,
+      "path": "/software"
+    },
+    {
+      "name": "NIFTIFILEDIR",
+      "writable": true,
+      "path": "/NIFTIFILEDIR"
+    },
+    {
+      "name": "DICOMFILEDIR",
+      "writable": true,
+      "path": "/DICOMFILEDIR"
+    },
+    {
+      "name": "working",
+      "writable": true,
+      "path": "/working"
+    },
+    {
+      "name": "workinginput",
+      "writable": true,
+      "path": "/workinginput"
+    },
+    {
+      "name": "workingoutput",
+      "writable": true,
+      "path": "/workingoutput"
+    },
+    {
+      "name": "outputinsidedocker",
+      "writable": true,
+      "path": "/outputinsidedocker"
+    },
+    {
+      "name": "workingdir",
+      "writable": true,
+      "path": "/workingdir"
     }
   ],
   "environment-variables": {},

@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="3rd commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/combine_edema_markers_csvs.json" beforeDir="false" afterPath="$PROJECT_DIR$/combine_edema_markers_csvs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom2nifticonversion_usinggithub.json" beforeDir="false" afterPath="$PROJECT_DIR$/dicom2nifticonversion_usinggithub.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edema_biomarker_allstepsSessionusinggithub.json" beforeDir="false" afterPath="$PROJECT_DIR$/edema_biomarker_allstepsSessionusinggithub.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edema_biomarker_scan_level_allsteps.json" beforeDir="false" afterPath="$PROJECT_DIR$/edema_biomarker_scan_level_allsteps.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,13 +48,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00023" summary="3rd commit">
-      <created>1673033937645</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1673033937645</updated>
     </task>
     <task id="LOCAL-00024" summary="3rd commit">
       <created>1673279950780</created>
@@ -396,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674581669247</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="3rd commit">
+      <created>1674592595807</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1674592595807</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

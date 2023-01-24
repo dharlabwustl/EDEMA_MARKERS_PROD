@@ -336,7 +336,7 @@ python3 -c "
 import sys
 sys.path.append('/software');
 from download_with_session_ID import *;
-call_copy_latest_pdffile()"  ${working_directory} ${working_directory_tocombinecsv} ${extension} ${outputfilename}
+call_copy_latest_pdffile()"  ${pdffileprefix} ${pdffiledirectory} ${destinationdirectory}
 }
 
 projectID=${1}
@@ -354,6 +354,10 @@ combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_c
 output_directory="/workingoutput"
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 
+combinedfilename=$(find ${output_directory} -name *COMBINED_columndropped.csv)
+while IFS=',' read -ra array; do
+copy_latest_pdfs ${array[0]} ${output_directory} ${final_output_directory}
+done < <( tail -n +2 "${combinedfilename}" )
 ######################################################################################################################
 ## COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
@@ -373,7 +377,8 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 file_suffixes=(  .pdf COMBINED_columndropped.csv ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
-    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
+#    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
+     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
 done
 
 ######################################################################################################################

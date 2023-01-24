@@ -38,7 +38,10 @@ def call_copy_latest_pdffile():
     pdffileprefix=sys.argv[1]
     pdffiledirectory=sys.argv[2]
     destinationdirectory=sys.argv[3]
-    copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory)
+    try:
+        copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory)
+    except:
+        pass
 
 def call_combine_all_csvfiles_of_edema_biomarker():
     working_directory=sys.argv[1]

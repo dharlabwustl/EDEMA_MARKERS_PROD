@@ -3,9 +3,9 @@
   "description": "Apply edema_biomarkers_scanlevel",
   "version": "1.0",
   "schema-version": "1.0",
-  "image": "sharmaatul11/dicom2nifti_nwu_1:latest",
+  "image": "registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/fsl502py369withpacksnltx:latest",
   "type": "docker",
-  "working-directory": "/software",  
+  "working-directory": "/software",
   "command-line": "  /callfromgithub/downloadcodefromgithub.sh #SESSION_ID# $XNAT_USER $XNAT_PASS https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git 4  https://snipr.wustl.edu",
   "override-entrypoint": true,
   "mounts": [
@@ -58,6 +58,11 @@
       "name": "outputinsidedocker",
       "writable": true,
       "path": "/outputinsidedocker"
+    },
+    {
+      "name": "workingdir",
+      "writable": true,
+      "path": "/workingdir"
     }
   ],
   "environment-variables": {},
@@ -65,37 +70,15 @@
   "inputs": [
     {
       "name": "SESSION_ID",
-      "label": null,
-      "description": null,
       "type": "string",
-      "matcher": null,
-      "default-value": null,
       "required": true,
-      "replacement-key": null,
-      "sensitive": null,
-      "command-line-flag": null,
-      "command-line-separator": null,
-      "true-value": null,
-      "false-value": null,
-      "select-values": [],
-      "multiple-delimiter": null
+      "select-values": []
     },
     {
       "name": "SCAN_ID",
-      "label": null,
-      "description": null,
       "type": "string",
-      "matcher": null,
-      "default-value": null,
       "required": true,
-      "replacement-key": null,
-      "sensitive": null,
-      "command-line-flag": null,
-      "command-line-separator": null,
-      "true-value": null,
-      "false-value": null,
-      "select-values": [],
-      "multiple-delimiter": null
+      "select-values": []
     }
   ],
   "outputs": [
@@ -103,9 +86,7 @@
       "name": "output",
       "description": "The command's stdout",
       "required": true,
-      "mount": "out",
-      "path": null,
-      "glob": null
+      "mount": "out"
     }
   ],
   "xnat": [
@@ -119,58 +100,34 @@
       "external-inputs": [
         {
           "name": "scan",
-          "label": null,
           "description": "Input scan",
           "type": "Scan",
-          "matcher": null,
-          "default-value": null,
           "required": true,
-          "replacement-key": null,
-          "sensitive": null,
-          "provides-value-for-command-input": null,
           "provides-files-for-command-mount": "in",
-          "via-setup-command": null,
-          "user-settable": null,
           "load-children": false
         }
       ],
       "derived-inputs": [
         {
           "name": "session",
-          "label": null,
-          "description": null,
           "type": "string",
-          "matcher": null,
-          "default-value": null,
           "required": true,
-          "replacement-key": null,
-          "sensitive": null,
           "provides-value-for-command-input": "SESSION_ID",
-          "provides-files-for-command-mount": null,
           "user-settable": false,
           "load-children": true,
           "derived-from-wrapper-input": "scan",
           "derived-from-xnat-object-property": "session-id",
-          "via-setup-command": null,
           "multiple": false
         },
         {
           "name": "scan-id",
-          "label": null,
-          "description": null,
           "type": "string",
-          "matcher": null,
-          "default-value": null,
           "required": true,
-          "replacement-key": null,
-          "sensitive": null,
           "provides-value-for-command-input": "SCAN_ID",
-          "provides-files-for-command-mount": null,
           "user-settable": false,
           "load-children": true,
           "derived-from-wrapper-input": "scan",
           "derived-from-xnat-object-property": "id",
-          "via-setup-command": null,
           "multiple": false
         }
       ],
@@ -178,13 +135,18 @@
         {
           "name": "output-resource",
           "accepts-command-output": "output",
-          "via-wrapup-command": null,
           "as-a-child-of": "scan",
           "type": "Resource",
           "label": "EDEMA_BIOMARKER",
-          "format": null
+          "tags": []
         }
       ]
     }
-  ]
+  ],
+  "reserve-memory": 8000,
+  "limit-memory": 16000,
+  "container-labels": {},
+  "generic-resources": {},
+  "ulimits": {},
+  "secrets": []
 }

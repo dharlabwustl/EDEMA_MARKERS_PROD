@@ -39,3 +39,8 @@ then
    /software/combine_csvs_and_copy_pdfs_projectlevel_Jan17_2023_LocalComputer.sh
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 7 ]] ;
+then
+
+   /software/analyzed_session_list.sh
+fi

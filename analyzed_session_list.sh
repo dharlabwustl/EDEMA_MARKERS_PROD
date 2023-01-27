@@ -340,9 +340,9 @@ call_copy_latest_pdffile()"  ${pdffileprefix} ${pdffiledirectory} ${destinationd
 }
 add_a_column_to_csv()
 {
-csvfile=sys.argv[1]
-columname=sys.argv[2]
-columnvalue=sys.argv[3]
+csvfile=${1} #sys.argv[1]
+columname=${2} #sys.argv[2]
+columnvalue=${3} #sys.argv[3]
 
 
 python3 -c "

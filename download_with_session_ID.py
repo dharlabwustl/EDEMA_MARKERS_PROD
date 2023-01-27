@@ -61,7 +61,19 @@ def call_get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan():
     get_all_EDEMA_BIOMARKER_csvfiles_of_ascan(working_directory)
     
     
-    
+def add_a_column(csvfile,columname,columnvalue):
+    aa = pd.read_csv(csvfile)
+    aa[columname] = columnvalue
+    aa.to_csv(csvfile,index=False)
+def call_add_a_column():
+    csvfile=sys.argv[1]
+    columname=sys.argv[2]
+    columnvalue=sys.argv[3]
+    add_a_column(csvfile,columname,columnvalue)
+
+
+
+
 def get_all_EDEMA_BIOMARKER_csvfiles_of_ascan(dir_to_receive_the_data):
     for each_csvfile in glob.glob(os.path.join(dir_to_receive_the_data,'SNIPR*.csv')):
         try:

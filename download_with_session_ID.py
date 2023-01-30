@@ -71,7 +71,11 @@ def call_add_a_column():
     columnvalue=sys.argv[3]
     add_a_column(csvfile,columname,columnvalue)
 
-
+def merge_files_with_col_name(file1,file2,colname1,colname2):
+    csvfile=sys.argv[1]
+    columname=sys.argv[2]
+    columnvalue=sys.argv[3]
+    add_a_column(csvfile,columname,columnvalue)
 
 
 def get_all_EDEMA_BIOMARKER_csvfiles_of_ascan(dir_to_receive_the_data):

@@ -3,6 +3,7 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 XNAT_HOST=${4}
 sessionID=${1}
+echo XNAT_USER::$XNAT_USER
 working_dir=/workinginput 
 output_directory=/workingoutput
 

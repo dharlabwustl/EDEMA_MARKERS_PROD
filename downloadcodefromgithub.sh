@@ -8,8 +8,10 @@ mv ${git_dir}/* /software/
 chmod +x /software/*.sh 
 
 SESSION_ID=${1}
-export XNAT_USER=${2}
-export XNAT_PASS=${3}
+XNAT_USER=${2}
+XNAT_PASS=${3}
+export XNAT_USER=$XNAT_USER
+export XNAT_PASS=$XNAT_PASS
 TYPE_OF_PROGRAM=${5}
 export XNAT_HOST=${6}
 

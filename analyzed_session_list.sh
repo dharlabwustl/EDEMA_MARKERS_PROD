@@ -1,9 +1,8 @@
 #!/bin/bash
-XNAT_USER=${2}
-XNAT_PASS=${3}
-XNAT_HOST=${4}
+#export XNAT_USER=${2}
+#export XNAT_PASS=${3}
+#export XNAT_HOST=${4}
 sessionID=${1}
-echo XNAT_USER::$XNAT_USER
 working_dir=/workinginput 
 output_directory=/workingoutput
 
@@ -372,18 +371,17 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 ############################## get_all_selected_scan_in_a_project   #############################################
 ## 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it
 #then  download the csv and pdf from this metadata
-#get_all_selected_scan_in_a_project ${projectID} ${working_dir}
-#for each_csv in ${working_dir}/SNI*.csv ;
-#do
-#add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
-#done
+get_all_selected_scan_in_a_project ${projectID} ${working_dir}
+for each_csv in ${working_dir}/SNI*.csv ;
+do
+add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
+done
 #extension_csv="columndropped.csv" #"0_40TOTAL.csv"
 #combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 #output_directory="/workingoutput"
 prefix="SNIPR"
-#combine_all_csvfiles_of_edema_biomarker_withprefix  ${working_dir} ${output_directory} ${prefix} ${combined_csv_outputfilename}
+combine_all_csvfiles_of_edema_biomarker_withprefix  ${working_dir} ${output_directory} ${prefix} ${combined_csv_outputfilename}
 ## download all the pdf and csv at the project level to a folder:
-echo atulkumar:$XNAT_USER:$XNAT_PASS:$XNAT_HOST
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/resources/${snipr_output_foldername}/files?format=csv  > ${working_dir}/allfilesinprojectoutput.csv
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/experiments/?format=csv  > ${working_dir}/all_sessions.csv
 

@@ -372,15 +372,17 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 ## 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it
 #then  download the csv and pdf from this metadata
 #get_all_selected_scan_in_a_project ${projectID} ${working_dir}
-#for each_csv in ${working_dir}/SNI*.csv ;
-#do
-#add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
-#done
+for each_csv in ${working_dir}/SNI*.csv ;
+do
+add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
+done
+SESSION_ID_CSV_DIR=/ZIPFILEDIR
+cp ${working_dir}/SNI*.csv ${SESSION_ID_CSV_DIR}/
 extension_csv=".csv" #columndropped.csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename="${projectID}_${snipr_output_foldername}_ANALYZED${extension_csv}"
 output_directory="/workingoutput"
 prefix="SNIPR"
-combine_all_csvfiles_of_edema_biomarker_withprefix  ${working_dir} ${output_directory} ${prefix} ${combined_csv_outputfilename}
+combine_all_csvfiles_of_edema_biomarker_withprefix  ${SESSION_ID_CSV_DIR} ${output_directory} ${prefix} ${combined_csv_outputfilename}
 ## download all the pdf and csv at the project level to a folder:
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/resources/${snipr_output_foldername}/files?format=csv  > ${output_directory}/allfilesinprojectoutput.csv
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/experiments/?format=csv  > ${output_directory}/all_sessions.csv

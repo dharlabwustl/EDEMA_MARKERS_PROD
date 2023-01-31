@@ -403,7 +403,7 @@ curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}
 pdffilelist_file=${output_directory}/allfilesinprojectoutput.csv
 selectedniftifilelist_file=${output_directory}/${combined_csv_outputfilename}
 allsessionlist_file=${output_directory}/all_sessions.csv
-output_list_csvfile="${projectID}_${snipr_output_foldername}_ANALYZED_LIST_LABELED${extension_csv}"
+output_list_csvfile="${output_directory}/${projectID}_${snipr_output_foldername}_ANALYZED_LIST_LABELED${extension_csv}"
 create_list_analyzed_session  ${pdffilelist_file} ${selectedniftifilelist_file} ${allsessionlist_file}  ${output_list_csvfile}
 
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################

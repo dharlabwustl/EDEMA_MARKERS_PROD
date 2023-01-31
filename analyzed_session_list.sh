@@ -372,10 +372,10 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 ## 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it
 #then  download the csv and pdf from this metadata
 #get_all_selected_scan_in_a_project ${projectID} ${working_dir}
-for each_csv in ${working_dir}/SNI*.csv ;
-do
-add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
-done
+#for each_csv in ${working_dir}/SNI*.csv ;
+#do
+#add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
+#done
 extension_csv=".csv" #columndropped.csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename="${projectID}_${snipr_output_foldername}_ANALYZED_${extension_csv}"
 output_directory="/workingoutput"

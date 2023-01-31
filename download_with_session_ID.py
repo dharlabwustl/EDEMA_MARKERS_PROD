@@ -721,8 +721,10 @@ def list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsession
     print(df3.shape)
     print(df4.shape)
     print(df5.shape)
-    df5=df5[['ID','NIFTIFILENAME']]
+    df5['SESSION_ID']=df5[['ID']]
+    df5=df5[['SESSION_ID','NIFTIFILENAME']]
     df5['ANALYZED']=0
+
     df5.loc[df5["NIFTIFILENAME"].str.len()>1,'ANALYZED']=1 #.value_counts()
     df5.to_csv(output_list_csvfile,index=False)
     # df5.loc[df["NIFTIFILENAME"].str.len() > 1 , "gender"] = 1

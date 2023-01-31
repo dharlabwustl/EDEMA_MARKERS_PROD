@@ -405,7 +405,14 @@ selectedniftifilelist_file=${output_directory}/${combined_csv_outputfilename}
 allsessionlist_file=${output_directory}/all_sessions.csv
 output_list_csvfile="${output_directory}/${projectID}_${snipr_output_foldername}_ANALYZED_LIST_LABELED${extension_csv}"
 create_list_analyzed_session  ${pdffilelist_file} ${selectedniftifilelist_file} ${allsessionlist_file}  ${output_list_csvfile}
+cp ${output_list_csvfile} ${final_output_directory}
 
+file_suffixes=(  .csv ) #sys.argv[5]
+for file_suffix in ${file_suffixes[@]}
+do
+#    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
+     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
+done
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################
 #get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}
 

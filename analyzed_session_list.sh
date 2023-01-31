@@ -365,6 +365,20 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 call_combine_all_csvfiles_of_edema_biomarker_withprefix()"  ${working_directory} ${working_directory_tocombinecsv} ${prefix} ${outputfilename}
 }
+create_list_analyzed_session()
+{
+pdffilelist_file=${1} # =sys.argv[1] #"workingoutput/allfilesinprojectoutput.csv"
+selectedniftifilelist_file=${2} # =sys.argv[2]  #"workingoutput/COLI_EDEMA_BIOMARKER_ANALYZED.csv"
+allsessionlist_file=${3} # = sys.argv[3]  #"workingoutput/all_sessions.csv"
+output_list_csvfile=${4} #sys.argv[4]  #"workingoutput/all_sessions_labeled.csv"
+
+
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_list_analyzed_session()"  ${pdffilelist_file} ${selectedniftifilelist_file} ${allsessionlist_file}  ${output_list_csvfile}
+}
 
 projectID=${1}
 snipr_output_foldername="EDEMA_BIOMARKER"
@@ -386,7 +400,11 @@ combine_all_csvfiles_of_edema_biomarker_withprefix  ${SESSION_ID_CSV_DIR} ${outp
 ## download all the pdf and csv at the project level to a folder:
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/resources/${snipr_output_foldername}/files?format=csv  > ${output_directory}/allfilesinprojectoutput.csv
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/experiments/?format=csv  > ${output_directory}/all_sessions.csv
-
+pdffilelist_file=${output_directory}/allfilesinprojectoutput.csv
+selectedniftifilelist_file=${output_directory}/${combined_csv_outputfilename}
+allsessionlist_file=${output_directory}/all_sessions.csv
+output_list_csvfile="${projectID}_${snipr_output_foldername}_ANALYZED_LIST_LABELED${extension_csv}"
+create_list_analyzed_session  ${pdffilelist_file} ${selectedniftifilelist_file} ${allsessionlist_file}  ${output_list_csvfile}
 
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################
 #get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}

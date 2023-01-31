@@ -695,6 +695,44 @@ def copy_nifti_to_a_dir(dir_name):
                 subprocess.call(command,shell=True)
                 print(os.path.join(dirpath,file_name))
 
+
+## load two files:
+def list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsessionlist_file,output_list_csvfile):
+    file1=pdffilelist_file #"workingoutput/allfilesinprojectoutput.csv"
+    file2=selectedniftifilelist_file #"workingoutput/COLI_EDEMA_BIOMARKER_ANALYZED.csv"
+    file3=allsessionlist_file #"workingoutput/all_sessions.csv"
+    df1=pd.read_csv(file1)
+    df2=pd.read_csv(file2)
+    columname='NIFTIFILENAME'
+    df1[columname] = df1['Name']
+    df1[['NIFTIFILENAME','RESTOFTHENAME']] =df1.NIFTIFILENAME.str.split("_thresh", expand = True)
+    # aa.to_csv(csvfile,index=False)
+    df1=df1[df1['Name'].str.contains('.pdf')]
+    df2['SESSION_ID'] = df2['URI'].str.split('/').str[3]
+    # df2['NIFTIFILENAME'] = df2['URI'].str.split('/').str[9].split('.nii')[0]
+    columname='NIFTIFILENAME'
+    df2[columname] = df2['Name']
+    df2[['NIFTIFILENAME','RESTOFTHENAME']] =df2.NIFTIFILENAME.str.split(".nii", expand = True)
+    df3 = pd.merge(df1, df2, left_on='NIFTIFILENAME', right_on='NIFTIFILENAME')
+    df3=df3[['NIFTIFILENAME','SESSION_ID']]
+    df4=pd.read_csv(file3)
+    df4=df4[['ID']]
+    df5 = pd.merge(df4, df3, right_on='SESSION_ID', left_on='ID',how='outer')
+    print(df3.shape)
+    print(df4.shape)
+    print(df5.shape)
+    df5=df5[['ID','NIFTIFILENAME']]
+    df5['ANALYZED']=0
+    df5.loc[df5["NIFTIFILENAME"].str.len()>1,'ANALYZED']=1 #.value_counts()
+    df5.to_csv(output_list_csvfile,index=False)
+    # df5.loc[df["NIFTIFILENAME"].str.len() > 1 , "gender"] = 1
+    # df5
+def call_list_analyzed_session():
+    pdffilelist_file =sys.argv[1] #"workingoutput/allfilesinprojectoutput.csv"
+    selectedniftifilelist_file =sys.argv[2]  #"workingoutput/COLI_EDEMA_BIOMARKER_ANALYZED.csv"
+    allsessionlist_file = sys.argv[3]  #"workingoutput/all_sessions.csv"
+    output_list_csvfile=sys.argv[4]  #"workingoutput/all_sessions_labeled.csv"
+    list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsessionlist_file,output_list_csvfile)
 # def uploadfile():
 #     sessionId=str(sys.argv[1])
 #     scanId=str(sys.argv[2])

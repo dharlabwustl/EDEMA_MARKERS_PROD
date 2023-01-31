@@ -382,7 +382,7 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 prefix="SNIPR"
 #combine_all_csvfiles_of_edema_biomarker_withprefix  ${working_dir} ${output_directory} ${prefix} ${combined_csv_outputfilename}
 ## download all the pdf and csv at the project level to a folder:
-echo $XNAT_USER:$XNAT_PASS:$XNAT_HOST
+echo atulkumar:$XNAT_USER:$XNAT_PASS:$XNAT_HOST
 #curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/resources/${snipr_output_foldername}/files?format=csv  > ${working_dir}/allfilesinprojectoutput.csv
 #curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${projectID}/experiments/?format=csv  > ${working_dir}/all_sessions.csv
 

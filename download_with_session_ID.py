@@ -26,6 +26,17 @@ def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
+def combinecsvs_withprefix(inputdirectory,outputdirectory,outputfilename,prefix):
+    outputfilepath=os.path.join(outputdirectory,outputfilename)
+    extension = 'csv'
+    all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'{}*.{}'.format(prefix,extension)))]
+    #    os.chdir(inputdirectory)
+    #combine all files in the list
+    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    combined_csv = combined_csv.drop_duplicates()
+    #export to csv
+    combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
+
 def copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory):
     allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,pdffileprefix+'*'))
     if len(allfileswithprefix1)>0:
@@ -49,7 +60,12 @@ def call_combine_all_csvfiles_of_edema_biomarker():
     extension=sys.argv[3]
     outputfilename=sys.argv[4]
     combinecsvs(working_directory,working_directory_tocombinecsv,outputfilename,extension)
-
+def call_combine_all_csvfiles_of_edema_biomarker_withprefix():
+    working_directory=sys.argv[1]
+    working_directory_tocombinecsv=sys.argv[2]
+    prefix=sys.argv[3]
+    outputfilename=sys.argv[4]
+    combinecsvs_withprefix(working_directory,working_directory_tocombinecsv,outputfilename,prefix)
 def call_get_all_selected_scan_in_a_project():
     projectId=sys.argv[1]
     working_directory=sys.argv[2]

@@ -377,8 +377,8 @@ do
 add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
 done
 #extension_csv="columndropped.csv" #"0_40TOTAL.csv"
-#combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
-#output_directory="/workingoutput"
+combined_csv_outputfilename="${projectID}_${snipr_output_foldername}_COMBINED_${extension_csv}"
+output_directory="/workingoutput"
 prefix="SNIPR"
 combine_all_csvfiles_of_edema_biomarker_withprefix  ${working_dir} ${output_directory} ${prefix} ${combined_csv_outputfilename}
 ## download all the pdf and csv at the project level to a folder:

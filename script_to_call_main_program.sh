@@ -5,6 +5,8 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}
 export XNAT_HOST=${5}
+export XNAT_USER=$XNAT_USER
+export XNAT_PASS=$XNAT_PASS
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM
 if [[ ${TYPE_OF_PROGRAM} == 2 ]] ;
 then 

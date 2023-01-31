@@ -49,13 +49,6 @@
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
     </task>
-    <task id="LOCAL-00040" summary="3rd commit">
-      <created>1673293250673</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1673293250673</updated>
-    </task>
     <task id="LOCAL-00041" summary="3rd commit">
       <created>1673455224260</created>
       <option name="number" value="00041" />
@@ -392,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675187965304</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="3rd commit">
+      <created>1675188009327</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1675188009327</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

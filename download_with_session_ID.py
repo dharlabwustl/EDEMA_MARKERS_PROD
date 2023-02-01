@@ -722,7 +722,7 @@ def list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsession
     print(df4.shape)
     print(df5.shape)
     df5['SESSION_ID']=df5[['ID']]
-    df5=df5[['SESSION_ID','NIFTIFILENAME']]
+    df5=df5[['SESSION_ID','NIFTIFILENAME','label']]
     df5['ANALYZED']=0
 
     df5.loc[df5["NIFTIFILENAME"].str.len()>1,'ANALYZED']=1 #.value_counts()

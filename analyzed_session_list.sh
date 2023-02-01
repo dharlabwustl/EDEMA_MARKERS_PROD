@@ -386,7 +386,7 @@ snipr_output_foldername="EDEMA_BIOMARKER"
 ############################## get_all_selected_scan_in_a_project   #############################################
 ## 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it
 #then  download the csv and pdf from this metadata
-get_all_selected_scan_in_a_project ${projectID} ${working_dir}
+#get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 #for each_csv in ${working_dir}/SNI*.csv ;
 #do
 #add_a_column_to_csv ${each_csv} "SESSION_ID" $(basename ${each_csv%.csv})
@@ -405,7 +405,7 @@ pdffilelist_file=${output_directory}/allfilesinprojectoutput.csv
 selectedniftifilelist_file=${output_directory}/${combined_csv_outputfilename}
 allsessionlist_file=${output_directory}/all_sessions.csv
 output_list_csvfile="${output_directory}/${projectID}_${snipr_output_foldername}_ANALYZED_LIST_LABELED${extension_csv}"
-pdffilelist_file_ext="_thres" #${5} #sys.argv[5]
+pdffilelist_file_ext="_thresh" #${5} #sys.argv[5]
 stringtofilterallsessionlist="" #${6} #sys.argv[6]
 create_list_analyzed_session  ${pdffilelist_file} ${selectedniftifilelist_file} ${allsessionlist_file}  ${output_list_csvfile}
 cp ${output_list_csvfile} ${final_output_directory}

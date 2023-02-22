@@ -510,7 +510,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
 
 
 
-                            img_with_line1=cv2.line(slice_3_layer, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
+                            img_with_line1=slice_3_layer #cv2.line(slice_3_layer, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
 
 
                             cv2.imwrite(imagename,img_with_line1)

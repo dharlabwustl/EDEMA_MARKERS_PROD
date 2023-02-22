@@ -89,8 +89,8 @@ echo "ideal_midline_pythonpart successful" >> ${output_directory}/success.txt
 
 echo "RUNNING NWU AND CSF VOLUME CALCULATION "
 
-/software/nwu_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${lower_threshold} ${upper_threshold}
-echo "nwu_csf_volume successful" >> ${output_directory}/success.txt
+/software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${lower_threshold} ${upper_threshold}
+echo "ich_csf_volume successful" >> ${output_directory}/success.txt
 thisfile_basename=$(basename $this_filename)
 # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ; 
 for texfile in  ${output_directory}/*.tex ; 

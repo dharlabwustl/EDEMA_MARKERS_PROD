@@ -257,21 +257,21 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                 this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
 
                 #                this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
-                if os.path.exists(this_npyfile):
-                    calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
-                    x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
-                    y_points2=calculated_midline_points.item().get('y_axis')
+                if 1> 0 :  #os.path.exists(this_npyfile):
+                    # calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                    # x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
+                    # y_points2=calculated_midline_points.item().get('y_axis')
                     #                            slice_3_layer= np.zeros([numpy_image.shape[0],numpy_image.shape[1],3])
-                    x_points2=x_points2[:,0]
-                    y_points2=y_points2[:,0]
+                    # x_points2=x_points2[:,0]
+                    # y_points2=y_points2[:,0]
 
                     #################################################
                     ######################################################################
-                    img_with_line_nonzero_id = np.transpose(np.nonzero(np.copy(numpy_image_mask[:,:,img_idx])))
+                    # img_with_line_nonzero_id = np.transpose(np.nonzero(np.copy(numpy_image_mask[:,:,img_idx])))
 
-                    lineThickness = 2
+                    # lineThickness = 2
                     #                            lineThickness = 2
-                    img_with_line=filename_gray_data_np_1[:,:,img_idx] #np.int8(numpy_image[:,:,img_idx])
+                    # img_with_line=filename_gray_data_np_1[:,:,img_idx] #np.int8(numpy_image[:,:,img_idx])
 
                     # v1=np.array([512,0]) ## point from the image
                     # v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
@@ -345,62 +345,62 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
 
 
                     if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
-                        infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
-                        pixels_num_total_infarct=len(infarct_pixels)
-                        infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-
-
-                        infarct_pixels_flatten=infarct_pixels.flatten()
-
-                        infarct_pixels_flatten_gt_0=infarct_pixels_flatten[np.where(infarct_pixels_flatten>=0)]
-
-                        infarct_pixels_volume1 =infarct_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (infarct_pixels_volume1/1000) > 0.1:
-                            infarct_pixels_gt20 =infarct_pixels[infarct_pixels>=lower_thresh]# infarct_pixels[infarct_pixels>=20]
-                            pixels_num_infarct_below_lowerthresh = pixels_num_total_infarct - len(infarct_pixels_gt20)
-                            temp_len=len(infarct_pixels_gt20)
-
-                            infarct_pixels_gt20_lt80 = infarct_pixels_gt20[infarct_pixels_gt20<=upper_thresh] # infarct_pixels_gt20[infarct_pixels_gt20<=80]
-                            pixels_num_infarct_above_upperthresh = temp_len - len(infarct_pixels_gt20_lt80)
-                            infarct_pixels_gt20_lt80_nonzero = infarct_pixels_gt20_lt80[np.nonzero(infarct_pixels_gt20_lt80)]
-                            infarct_slice_pixel_count=0
-
-                            for intensity in infarct_pixels_gt20_lt80_nonzero:
-
-                                infarct_pixels_list.append(intensity)
-                                infarct_slice_pixel_count = infarct_slice_pixel_count+1
-
-                            overall_infarct_vol=overall_infarct_vol+infarct_pixels_volume/1000
-                            non_infarct_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
-                            non_infarct_pixels=non_infarct_pixels[non_infarct_pixels>np.min(non_infarct_pixels)]
-
-                            pixels_num_total_noninfarct=len(non_infarct_pixels)
-                            non_infarct_pixels_volume =pixels_num_total_noninfarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                            non_infarct_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
-                            non_infarct_pixels_flatten_gt_0=non_infarct_pixels_flatten[np.where(non_infarct_pixels_flatten>0)]
-
-                            non_infarct_pixels_gt20 = non_infarct_pixels[non_infarct_pixels>=lower_thresh_normal]
-                            pixels_num_noninfarct_below_lowerthresh = pixels_num_total_noninfarct - len(non_infarct_pixels_gt20)
-                            temp_len=len(non_infarct_pixels_gt20)
-                            non_infarct_pixels_gt20_lt80 = non_infarct_pixels_gt20[non_infarct_pixels_gt20<=upper_thresh_normal]
-                            pixels_num_noninfarct_above_upperthresh = temp_len - len(non_infarct_pixels_gt20_lt80)
-                            noninfarct_pixels_gt20_lt80_nonzero = non_infarct_pixels_gt20_lt80[np.nonzero(non_infarct_pixels_gt20_lt80)]
-                            noninfarct_slice_pixel_count=0
-                            for intensity in noninfarct_pixels_gt20_lt80_nonzero:
-                                nonfarct_pixels_list.append(intensity)
-                                noninfarct_slice_pixel_count=noninfarct_slice_pixel_count+1
-
-                            overall_non_infarct_vol=overall_non_infarct_vol+non_infarct_pixels_volume/1000
-                            mean_slice_infarct_pixels_gt20_lt80= np.mean(infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_infarct_pixels_gt20_lt80):
-                                mean_slice_infarct_pixels_gt20_lt80=0
-                            mean_slice_non_infarct_pixels_gt20_lt80=np.mean(non_infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_non_infarct_pixels_gt20_lt80):
-                                mean_slice_non_infarct_pixels_gt20_lt80=0
-
-                            infarct_pixel_intensity.append(mean_slice_infarct_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
-                            noninfarct_pixel_intensity.append(mean_slice_non_infarct_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
+                        # infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
+                        # infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
+                        # pixels_num_total_infarct=len(infarct_pixels)
+                        # infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        #
+                        #
+                        # infarct_pixels_flatten=infarct_pixels.flatten()
+                        #
+                        # infarct_pixels_flatten_gt_0=infarct_pixels_flatten[np.where(infarct_pixels_flatten>=0)]
+                        #
+                        # infarct_pixels_volume1 =infarct_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        # if (infarct_pixels_volume1/1000) > 0.1:
+                        #     infarct_pixels_gt20 =infarct_pixels[infarct_pixels>=lower_thresh]# infarct_pixels[infarct_pixels>=20]
+                        #     pixels_num_infarct_below_lowerthresh = pixels_num_total_infarct - len(infarct_pixels_gt20)
+                        #     temp_len=len(infarct_pixels_gt20)
+                        #
+                        #     infarct_pixels_gt20_lt80 = infarct_pixels_gt20[infarct_pixels_gt20<=upper_thresh] # infarct_pixels_gt20[infarct_pixels_gt20<=80]
+                        #     pixels_num_infarct_above_upperthresh = temp_len - len(infarct_pixels_gt20_lt80)
+                        #     infarct_pixels_gt20_lt80_nonzero = infarct_pixels_gt20_lt80[np.nonzero(infarct_pixels_gt20_lt80)]
+                        #     infarct_slice_pixel_count=0
+                        #
+                        #     for intensity in infarct_pixels_gt20_lt80_nonzero:
+                        #
+                        #         infarct_pixels_list.append(intensity)
+                        #         infarct_slice_pixel_count = infarct_slice_pixel_count+1
+                        #
+                        #     overall_infarct_vol=overall_infarct_vol+infarct_pixels_volume/1000
+                        #     non_infarct_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
+                        #     non_infarct_pixels=non_infarct_pixels[non_infarct_pixels>np.min(non_infarct_pixels)]
+                        #
+                        #     pixels_num_total_noninfarct=len(non_infarct_pixels)
+                        #     non_infarct_pixels_volume =pixels_num_total_noninfarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        #     non_infarct_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
+                        #     non_infarct_pixels_flatten_gt_0=non_infarct_pixels_flatten[np.where(non_infarct_pixels_flatten>0)]
+                        #
+                        #     non_infarct_pixels_gt20 = non_infarct_pixels[non_infarct_pixels>=lower_thresh_normal]
+                        #     pixels_num_noninfarct_below_lowerthresh = pixels_num_total_noninfarct - len(non_infarct_pixels_gt20)
+                        #     temp_len=len(non_infarct_pixels_gt20)
+                        #     non_infarct_pixels_gt20_lt80 = non_infarct_pixels_gt20[non_infarct_pixels_gt20<=upper_thresh_normal]
+                        #     pixels_num_noninfarct_above_upperthresh = temp_len - len(non_infarct_pixels_gt20_lt80)
+                        #     noninfarct_pixels_gt20_lt80_nonzero = non_infarct_pixels_gt20_lt80[np.nonzero(non_infarct_pixels_gt20_lt80)]
+                        #     noninfarct_slice_pixel_count=0
+                        #     for intensity in noninfarct_pixels_gt20_lt80_nonzero:
+                        #         nonfarct_pixels_list.append(intensity)
+                        #         noninfarct_slice_pixel_count=noninfarct_slice_pixel_count+1
+                        #
+                        #     overall_non_infarct_vol=overall_non_infarct_vol+non_infarct_pixels_volume/1000
+                        #     mean_slice_infarct_pixels_gt20_lt80= np.mean(infarct_pixels_gt20_lt80)
+                        #     if math.isnan(mean_slice_infarct_pixels_gt20_lt80):
+                        #         mean_slice_infarct_pixels_gt20_lt80=0
+                        #     mean_slice_non_infarct_pixels_gt20_lt80=np.mean(non_infarct_pixels_gt20_lt80)
+                        #     if math.isnan(mean_slice_non_infarct_pixels_gt20_lt80):
+                        #         mean_slice_non_infarct_pixels_gt20_lt80=0
+                        #
+                        #     infarct_pixel_intensity.append(mean_slice_infarct_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
+                        #     noninfarct_pixel_intensity.append(mean_slice_non_infarct_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
                             cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"),I4)
                             I4_img=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"))
                             ################################################################

@@ -331,7 +331,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                     I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
                     cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"),I4)
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))
-                    # img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
+                    img_with_line1=I4_img_1 #cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     slice_number="{0:0=3d}".format(img_idx)
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
                     imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")

@@ -340,6 +340,8 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
 
                     cv2.imwrite(imagename,img_with_line1)
                     cv2.imwrite(image_infarct_details,img_with_line1)
+                    pixels_num_total_infarct=np.count_nonzero(I_t_r_f_rinv_tinv_mask)
+                    pixels_num_total_noninfarct=0
 
 
 
@@ -484,7 +486,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                                 blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + str(current_noninfarct_num/noninfarct_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
                             else:
                                 blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + "Non infarct count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
-
+                            # pixels_num_total_infarct=
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*4), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "Infarct pixel count:" + str(infarct_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*6), font,  fontScale, color, thickness, cv2.LINE_AA)

@@ -896,3 +896,13 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_end(latexfilename)
         remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
 
+def overlay_mask_gray(grayct_mat,maskct_mat_list,color_intensity_list=[[0,0,255]],filenametosave='test.png'):
+    slice_3_layer= np.zeros([grayct_mat.shape[0],grayct_mat.shape[1],3])
+    slice_3_layer[:,:,0]= grayct_mat #imgray1
+    slice_3_layer[:,:,1]= grayct_mat #imgray1
+    slice_3_layer[:,:,2]= grayct_mat# imgray1
+    for maskct_mat_id in range(len(maskct_mat_list)):
+        slice_3_layer[:,:,0][maskct_mat_list[maskct_mat_id]>0]=color_intensity_list[maskct_mat_id][0]
+        slice_3_layer[:,:,1][maskct_mat_list[maskct_mat_id]>0]=color_intensity_list[maskct_mat_id][1]
+        slice_3_layer[:,:,2][maskct_mat_list[maskct_mat_id]>0]=color_intensity_list[maskct_mat_id][2]
+        cv2.imwrite(filenametosave,cv2.flip(slice_3_layer,0))

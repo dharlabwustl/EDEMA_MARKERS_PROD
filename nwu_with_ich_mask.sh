@@ -121,7 +121,7 @@ done
 
 }
 
-nwucalculation_each_scan(){
+ich_calculation_each_scan(){
 
 
 eachfile_basename_noext=''
@@ -135,11 +135,11 @@ originalfile_basename=${eachfile_basename}
 eachfile_basename_noext=${eachfile_basename%.nii*}
  
 
-############## files basename ##################################
+############## files basename ################################## 	ICH_0001_01012017_1028_2_resaved_4DL_normalized_class1.nii.gz  114 KB
 grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
 betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
 csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
-infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
+infarctfilename=${eachfile_basename_noext}_resaved_4DL_normalized_class1.nii.gz #_resaved_infarct_auto_removesmall.nii.gz
 ################################################
 ############## copy those files to the docker image ##################################
 cp ${working_dir}/${betfilename}  ${output_directory}/
@@ -298,10 +298,10 @@ echo output_dirname::${output_dirname}
 copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
 ######################################################################################################################
 ## CALCULATE EDEMA BIOMARKERS
-nwucalculation_each_scan
+ich_calculation_each_scan
 ######################################################################################################################
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="EDEMA_BIOMARKER"
+snipr_output_foldername="ICH_QUANTIFICATION"
 file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do

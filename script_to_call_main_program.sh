@@ -45,3 +45,10 @@ then
 echo ${PROJECT_ID}::$XNAT_USER::$XNAT_PASS::$XNAT_HOST
    /software/analyzed_session_list.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 8 ]] ;
+then
+    PROJECT_ID=${1}
+echo ${PROJECT_ID}::$XNAT_USER::$XNAT_PASS::$XNAT_HOST
+   /software/nwu_with_ich_mask.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

@@ -273,65 +273,65 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                     #                            lineThickness = 2
                     img_with_line=filename_gray_data_np_1[:,:,img_idx] #np.int8(numpy_image[:,:,img_idx])
 
-                    v1=np.array([512,0]) ## point from the image
-                    v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
-                    v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
-                    v2=v2_2-v2_1
-
-                    angle=  angle_bet_two_vector(v1,v2)
-                    angleRad=angle_bet_two_vectorRad(v1,v2)
-                    ## translation:
-                    points=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
-                    mid_point_line=np.mean(points,axis=0)
-                    # delta translation:
-                    image_midpoint=np.array([int(filename_gray_data_np_1[:,:,img_idx].shape[0]/2),int(filename_gray_data_np_1[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
-                    translation_delta=image_midpoint-mid_point_line
-                    M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
-                    I_t_gray =cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]), flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(512,512), flags= cv2.INTER_NEAREST)
-                    I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
-
-                    #########################################################################
-
-
-                    translate_points= points+translation_delta
-                    #                    show_slice_withaline(I_t_mask,translate_points)
-                    points=translate_points
-                    ## translation matrix
-                    p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
-                    p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
-                    points1=np.array([[p1x,p1y],[p2x,p2y]])
-
-                    I_t_r_gray=rotate_image(I_t_gray,(255,255),angle)
-                    #                    show_slice_withaline(I_t_r_gray,points1)
-                    I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
-
-                    I_t_r_f_gray=cv2.flip(I_t_r_gray,0)
-                    I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
-
-                    I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(256,256),-angle)
-                    I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
-                    p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
-                    p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
-                    points1=np.array([[p1x,p1y],[p2x,p2y]])
-                    #show_slice_withaline(I_t_r_f_rinv_gray,points1)
-                    #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
-                    M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
-                    I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
-                    I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
-                    points1=points1-translation_delta
-                    #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
-                    #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)
+                    # v1=np.array([512,0]) ## point from the image
+                    # v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
+                    # v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
+                    # v2=v2_2-v2_1
+                    #
+                    # angle=  angle_bet_two_vector(v1,v2)
+                    # angleRad=angle_bet_two_vectorRad(v1,v2)
+                    # ## translation:
+                    # points=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
+                    # mid_point_line=np.mean(points,axis=0)
+                    # # delta translation:
+                    # image_midpoint=np.array([int(filename_gray_data_np_1[:,:,img_idx].shape[0]/2),int(filename_gray_data_np_1[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
+                    # translation_delta=image_midpoint-mid_point_line
+                    # M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
+                    # I_t_gray =cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]), flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(512,512), flags= cv2.INTER_NEAREST)
+                    # I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
+                    #
+                    # #########################################################################
+                    #
+                    #
+                    # translate_points= points+translation_delta
+                    # #                    show_slice_withaline(I_t_mask,translate_points)
+                    # points=translate_points
+                    # ## translation matrix
+                    # p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
+                    # p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
+                    # points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    #
+                    # I_t_r_gray=rotate_image(I_t_gray,(255,255),angle)
+                    # #                    show_slice_withaline(I_t_r_gray,points1)
+                    # I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
+                    #
+                    # I_t_r_f_gray=cv2.flip(I_t_r_gray,0)
+                    # I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
+                    #
+                    # I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(256,256),-angle)
+                    # I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
+                    # p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
+                    # p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
+                    # points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    # #show_slice_withaline(I_t_r_f_rinv_gray,points1)
+                    # #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
+                    # M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
+                    # I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
+                    I_t_r_f_rinv_tinv_mask = numpy_image_mask[:,:,img_idx] ##-100 ##cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
+                    # points1=points1-translation_delta
+                    # #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
+                    # #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)
                     I4=np.copy(numpy_image[:,:,img_idx])
-                    print("I4 size")
-                    print(I4.shape)
-                    print("I_t_r_f_rinv_tinv_mask")
-                    print(I_t_r_f_rinv_tinv_mask.shape)
-                    I4[I_t_r_f_rinv_tinv_mask>0]=255
+                    # print("I4 size")
+                    # print(I4.shape)
+                    # print("I_t_r_f_rinv_tinv_mask")
+                    # print(I_t_r_f_rinv_tinv_mask.shape)
+                    # I4[I_t_r_f_rinv_tinv_mask>0]=255
                     I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
                     I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
                     cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"),I4)
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))
-                    img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
+                    # img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     slice_number="{0:0=3d}".format(img_idx)
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
                     imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")

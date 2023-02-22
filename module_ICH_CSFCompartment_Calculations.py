@@ -342,6 +342,11 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                     cv2.imwrite(image_infarct_details,img_with_line1)
                     pixels_num_total_infarct=np.count_nonzero(I_t_r_f_rinv_tinv_mask)
                     pixels_num_total_noninfarct=0
+                    pixels_num_infarct_below_lowerthresh=0
+                    pixels_num_infarct_above_upperthresh=0
+                    pixels_num_noninfarct_below_lowerthresh=0
+                    pixels_num_noninfarct_above_upperthresh=0
+                    infarct_slice_pixel_count=pixels_num_total_infarct
 
 
 
@@ -518,9 +523,9 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                             cv2.imwrite(imagename,img_with_line1)
                             cv2.imwrite(image_infarct_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
 
-                            histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)
+                            # histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)
 
-                            ratio_density=(np.mean(infarct_pixels_gt20_lt80_nonzero)/np.mean(noninfarct_pixels_gt20_lt80_nonzero))
+                            ratio_density=0 #(np.mean(infarct_pixels_gt20_lt80_nonzero)/np.mean(noninfarct_pixels_gt20_lt80_nonzero))
                             NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(infarct_pixels_gt20_lt80))/(np.mean(non_infarct_pixels_gt20_lt80)))) * 100
                             this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofInfarctvoxels": infarct_slice_pixel_count, "INFARCT Density":np.mean(infarct_pixels_gt20_lt80_nonzero),"NumberofNONInfarctvoxels": noninfarct_slice_pixel_count , "NONINFARCT Density":np.mean(noninfarct_pixels_gt20_lt80_nonzero) , "INFARCT Volume":infarct_pixels_volume/1000 ,"NONINFARCT Volume":non_infarct_pixels_volume/1000, "ORGINAL_INFARCT_VOLUME":"NA","INFARCTUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
 

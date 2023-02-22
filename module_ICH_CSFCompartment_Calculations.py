@@ -137,7 +137,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     overall_non_infarct_vol="NA"
     infarct_total_voxels_volume="NA"
     # print("I AM HERE1")
-
+    # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
     niftifilename=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/ALLINONE_DATA_FROMJAMAL/WUSTL_798_03292019_Head_3.0_MPR_ax_20190329172552_2.nii" #sys.argv[1]
     niftifilenamedir=os.path.dirname(niftifilename)
     # grayscale_extension=sys.argv[2] #"_levelset.nii.gz"
@@ -356,7 +356,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                         # infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
                         # infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
                         # pixels_num_total_infarct=len(infarct_pixels)
-                        # infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
                         #
                         #
                         # infarct_pixels_flatten=infarct_pixels.flatten()
@@ -528,29 +528,31 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
 
                             ratio_density=0 #(np.mean(infarct_pixels_gt20_lt80_nonzero)/np.mean(noninfarct_pixels_gt20_lt80_nonzero))
                             noninfarct_slice_pixel_count=0
+                            noninfarct_pixels_gt20_lt80_nonzero=0
+                            non_infarct_pixels_volume=0
                             NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(infarct_pixels_gt20_lt80))/(np.mean(non_infarct_pixels_gt20_lt80)))) * 100
                             this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofInfarctvoxels": infarct_slice_pixel_count, "INFARCT Density":np.mean(infarct_pixels_gt20_lt80_nonzero),"NumberofNONInfarctvoxels": noninfarct_slice_pixel_count , "NONINFARCT Density":np.mean(noninfarct_pixels_gt20_lt80_nonzero) , "INFARCT Volume":infarct_pixels_volume/1000 ,"NONINFARCT Volume":non_infarct_pixels_volume/1000, "ORGINAL_INFARCT_VOLUME":"NA","INFARCTUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
 
 
                             dict_for_csv.append(this_dict)
-    ratio_overall_density = (np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
-    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
-
-    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofInfarctvoxels": np.array(infarct_pixels_list).shape[0],"INFARCT Density":np.mean(np.array(infarct_pixels_list)) , "NumberofNONInfarctvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONINFARCT Density":np.mean(np.array(nonfarct_pixels_list)), "INFARCT Volume":overall_infarct_vol ,"NONINFARCT Volume":overall_non_infarct_vol,"ORGINAL_INFARCT_VOLUME":infarct_total_voxels_volume ,"INFARCTUSED_VOL_RATIO":overall_infarct_vol/infarct_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_infarct_vol/infarct_total_voxels_volume}
-    dict_for_csv.append(this_dict)
-
-    date_time = time.strftime("_%m_%d_%Y",now)
-    grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
-    thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
-    # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
-    csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
-    csv_columns=['Slice','NWU','NumberofInfarctvoxels','INFARCT Density','NumberofNONInfarctvoxels','NONINFARCT Density','INFARCT Volume','NONINFARCT Volume','ORGINAL_INFARCT_VOLUME','INFARCTUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
-    write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
-
-    infarct_pixels_number=np.array(infarct_pixels_list).shape[0]
-    infarct_pixels_density=np.mean(np.array(infarct_pixels_list))
-    nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
-    noninfarct_pixels_density=np.mean(np.array(nonfarct_pixels_list))
+    # ratio_overall_density = 0 #(np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
+    # NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
+    #
+    # this_dict=[] #{"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofInfarctvoxels": np.array(infarct_pixels_list).shape[0],"INFARCT Density":np.mean(np.array(infarct_pixels_list)) , "NumberofNONInfarctvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONINFARCT Density":np.mean(np.array(nonfarct_pixels_list)), "INFARCT Volume":overall_infarct_vol ,"NONINFARCT Volume":overall_non_infarct_vol,"ORGINAL_INFARCT_VOLUME":infarct_total_voxels_volume ,"INFARCTUSED_VOL_RATIO":overall_infarct_vol/infarct_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_infarct_vol/infarct_total_voxels_volume}
+    # dict_for_csv.append(this_dict)
+    #
+    # date_time = time.strftime("_%m_%d_%Y",now)
+    # grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
+    # thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
+    # # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
+    # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
+    # csv_columns=['Slice','NWU','NumberofInfarctvoxels','INFARCT Density','NumberofNONInfarctvoxels','NONINFARCT Density','INFARCT Volume','NONINFARCT Volume','ORGINAL_INFARCT_VOLUME','INFARCTUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
+    # write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
+    #
+    # infarct_pixels_number=np.array(infarct_pixels_list).shape[0]
+    # infarct_pixels_density=np.mean(np.array(infarct_pixels_list))
+    # nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
+    # noninfarct_pixels_density=np.mean(np.array(nonfarct_pixels_list))
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):

@@ -137,8 +137,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     overall_non_infarct_vol="NA"
     infarct_total_voxels_volume="NA"
     # print("I AM HERE1")
-    lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, \
-    infarct_side="UNKNOWN"
+    lower_thresh=0; upper_thresh=0;lower_thresh_normal=0;upper_thresh_normal=0; infarct_total_voxels_volume=0; infarct_side="UNKNOWN"
     NWU=0
     infarct_pixels_number=0; infarct_pixels_density=0; nonfarct_pixels_number=0; noninfarct_pixels_density=0; overall_infarct_vol=0; overall_non_infarct_vol=0
     niftifilename=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/ALLINONE_DATA_FROMJAMAL/WUSTL_798_03292019_Head_3.0_MPR_ax_20190329172552_2.nii" #sys.argv[1]

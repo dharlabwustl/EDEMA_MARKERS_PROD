@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="3rd commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nwu_with_ich_mask.sh" beforeDir="false" afterPath="$PROJECT_DIR$/nwu_with_ich_mask.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script_to_call_main_program.sh" beforeDir="false" afterPath="$PROJECT_DIR$/script_to_call_main_program.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,20 +48,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00085" summary="3rd commit">
-      <created>1675111629109</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1675111629110</updated>
-    </task>
-    <task id="LOCAL-00086" summary="3rd commit">
-      <created>1675181289442</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1675181289442</updated>
     </task>
     <task id="LOCAL-00087" summary="3rd commit">
       <created>1675187893002</created>
@@ -394,7 +378,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676916145432</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="3rd commit">
+      <created>1677088460894</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1677088460894</updated>
+    </task>
+    <task id="LOCAL-00135" summary="3rd commit">
+      <created>1677088588764</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1677088588764</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

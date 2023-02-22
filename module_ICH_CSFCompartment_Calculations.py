@@ -367,7 +367,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
                         # infarct_pixels_flatten_gt_0=infarct_pixels_flatten[np.where(infarct_pixels_flatten>=0)]
                         #
                         # infarct_pixels_volume1 =infarct_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        # if (infarct_pixels_volume1/1000) > 0.1:
+                        if 1>0: #(infarct_pixels_volume1/1000) > 0.1:
                         #     infarct_pixels_gt20 =infarct_pixels[infarct_pixels>=lower_thresh]# infarct_pixels[infarct_pixels>=20]
                         #     pixels_num_infarct_below_lowerthresh = pixels_num_total_infarct - len(infarct_pixels_gt20)
                         #     temp_len=len(infarct_pixels_gt20)

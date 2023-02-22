@@ -162,10 +162,10 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
     SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
     BET_OUTPUT_DIRECTORY=os.path.dirname(sys.argv[2])
     # BET_file_extension=sys.argv[9]
-    lower_thresh=0 #int(float(sys.argv[7])) #20 #0 # 20 #
-    upper_thresh=40 #int(float(sys.argv[8])) #80 # 40 # 80 #
-    lower_thresh_normal=20 #int(float(sys.argv[7]))
-    upper_thresh_normal=80 #int(float(sys.argv[8]))
+    # lower_thresh=0 #int(float(sys.argv[7])) #20 #0 # 20 #
+    # upper_thresh=40 #int(float(sys.argv[8])) #80 # 40 # 80 #
+    # lower_thresh_normal=20 #int(float(sys.argv[7]))
+    # upper_thresh_normal=80 #int(float(sys.argv[8]))
     left_pixels_num=0
     right_pixels_num=0
     # print("infarct_mask_directory")
@@ -227,6 +227,10 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
             CSF_Mask_filename_data_np=CSF_Mask_filename_data_np[:,:,:,0]
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
+        lower_thresh=np.min(filename_gray_data_np) #0 #int(float(sys.argv[7])) #20 #0 # 20 #
+        upper_thresh=np.max(filename_gray_data_np) #40 #int(float(sys.argv[8])) #80 # 40 # 80 #
+        lower_thresh_normal=np.min(filename_gray_data_np) #20 #int(float(sys.argv[7]))
+        upper_thresh_normal=np.max(filename_gray_data_np) #80 #int(float(sys.argv[8]))
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
         file_gray=niftifilename
         csf_seg_np=resizeinto_512by512(nib.load(csf_seg_maskbasename_path).get_fdata()) #nib.load(csf_seg_maskbasename_path).get_fdata() #

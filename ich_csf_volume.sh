@@ -8,12 +8,13 @@ output_directory=$(dirname ${betimage})
 npyfiledirectory=${output_directory} #/output #/SMOOTH_IML_OUTPUT
 output_directory=${output_directory} #/output #/CSF_RL_VOL_OUTPUT #/outputdirectory #$(realpath -- $2) #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/LEARNING/dockermount/BRAIN_EXTRACTION_OUTPUT"
 # mkdir -p $output_directory
-lower_threshold=${5}
-upper_threshold=${6}
+infarctmaskimage1=${5}
+#lower_threshold=${5}
+#upper_threshold=${6}
 python3 -c "
 import sys ;
 print('I AM HERE')
 sys.path.append('/software');
-from module_ICH_CSFCompartment_Calculations  import * ;    measure_compartments_with_reg_round5_one_file_sh_v1()"  $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  ${npyfiledirectory}     ${output_directory}  ${lower_threshold} ${upper_threshold}  #$gray_bet_extension $yashengfolder $infarct_mask_ext $lower_threshold $upper_threshold  ${levelsetfile_directory}  #$method_type  $method_type_name #$static_template_image $new_image $backslicenumber #$single_slice_filename
+from module_ICH_CSFCompartment_Calculations  import * ;    measure_compartments_with_reg_round5_one_file_sh_v1()"  $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  ${npyfiledirectory}     ${output_directory}  ${infarctmaskimage1}  #${upper_threshold}  #$gray_bet_extension $yashengfolder $infarct_mask_ext $lower_threshold $upper_threshold  ${levelsetfile_directory}  #$method_type  $method_type_name #$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 

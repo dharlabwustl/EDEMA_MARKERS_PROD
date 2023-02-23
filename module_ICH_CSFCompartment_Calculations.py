@@ -191,6 +191,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     # print("I am here CSF_Mask_filename")
 
     CSF_Mask_filename=sys.argv[4] #CSF_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    # HemMask2
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     CSF_Mask_filename_part1, CSF_Mask_filename_part2 = os.path.splitext(CSF_Mask_filename)
 
@@ -246,7 +247,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
         # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
-        infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
+        # infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
         numpy_image_mask=CSF_Mask_filename_data_np
         for x in range(numpy_image_mask.shape[2]):
             maskct_mat_list=[]

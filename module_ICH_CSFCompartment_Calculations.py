@@ -732,7 +732,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                     this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
                     #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
                     #                        print(this_npyfile)
-
+                    print(" I AM HERE!!!!!!!!!!!!!!!!!!")
                     if os.path.exists(this_npyfile):
                         print("YES FOUND BOTH FILES")
                         print('latexfilename')
@@ -781,7 +781,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                         #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                         cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
-                        print(" I AM HERE!!!!!!!!!!!!!!!!!!")
+                        # print(" I AM HERE!!!!!!!!!!!!!!!!!!")
         #                 for non_zero_pixel in img_with_line_nonzero_id:
         #                     xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
         #                     if xx>0: ## RIGHT

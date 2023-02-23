@@ -213,6 +213,7 @@ mask_on_template=midlinecssfResampled1.nii.gz
 x=$grayimage
 bet_mask_filename=${output_directory}/${betfilename}
 infarct_mask_filename=${output_directory}/${infarctfilename}
+infarct_mask_filename1=${output_directory}/${infarctfilename1}
 csf_mask_filename=${output_directory}/${csffilename}
 echo  " FILENMAES:: $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}"
 #run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}

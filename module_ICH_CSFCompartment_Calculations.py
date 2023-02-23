@@ -264,7 +264,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
             grayct_mat=filename_gray_data_np_1[:,:,x]
             slice_number="{0:0=3d}".format(x)
             imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
-            filenametosave=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ich_class1.png")
+            filenametosave=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ich_classes.png")
             overlay_mask_gray(grayct_mat,maskct_mat_list,color_intensity_list=color_intensity_list,filenametosave=filenametosave)
 
         ### overlap the masks on the gray scale image:

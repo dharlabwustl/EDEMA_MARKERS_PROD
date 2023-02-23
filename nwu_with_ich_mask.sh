@@ -141,11 +141,13 @@ grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
 betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
 csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
 infarctfilename=${eachfile_basename_noext}_resaved_4DL_normalized_class1.nii.gz #_resaved_infarct_auto_removesmall.nii.gz
+infarctfilename1=${eachfile_basename_noext}_resaved_4DL_normalized_class2.nii.gz #_resaved_infarct_auto_removesmall.nii.gz
 ################################################
 ############## copy those files to the docker image ##################################
 cp ${working_dir}/${betfilename}  ${output_directory}/
 cp ${working_dir}/${csffilename}  ${output_directory}/
 cp ${working_dir}/${infarctfilename}  ${output_directory}/
+cp ${working_dir}/${infarctfilename1}  ${output_directory}/
 ####################################################################################
 source /software/bash_functions_forhost.sh
 
@@ -166,6 +168,16 @@ import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}"  "${levelset_infarct_mask_file}"  "${output_directory}"
 
+####################################################################
+levelset_infarct_mask_file1=${output_directory}/${infarctfilename1}
+echo "levelset_infarct_mask_file:${levelset_infarct_mask_file1}"
+## preprocessing infarct mask:
+python3 -c "
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}"  "${levelset_infarct_mask_file1}"  "${output_directory}"
+
+######################################################################
 
 ## preprocessing bet mask:
 levelset_bet_mask_file=${output_directory}/${betfilename}
@@ -197,7 +209,7 @@ x=$grayimage
 bet_mask_filename=${output_directory}/${betfilename}
 infarct_mask_filename=${output_directory}/${infarctfilename}
 csf_mask_filename=${output_directory}/${csffilename}
-run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  
+run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}
 
 
 done

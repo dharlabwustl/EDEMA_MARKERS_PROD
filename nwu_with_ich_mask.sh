@@ -104,7 +104,7 @@ do
 pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} $texfile  ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 rm ${output_directory}/*.aux
 rm ${output_directory}/*.log
-#done
+done
 #
 #for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz ;
 #do

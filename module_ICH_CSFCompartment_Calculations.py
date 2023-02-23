@@ -623,7 +623,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             print(sys.argv[4])
 
             if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
-                lower_thresh=int(float(sys.argv[7]))
+                lower_thresh=0 #int(float(sys.argv[7]))
                 # upper_thresh=int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
                 # measure_ICH_Feb22_2023()

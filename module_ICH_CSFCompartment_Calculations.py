@@ -732,7 +732,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                     this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
                     #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
                     #                        print(this_npyfile)
-                    print(" I AM HERE!")
+                    print(" I AM HERE!!!!!!!!!!!!!!!!!!")
         #             if os.path.exists(this_npyfile):
         #                 print("YES FOUND BOTH FILES")
         #                 print('latexfilename')

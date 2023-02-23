@@ -70,6 +70,11 @@ this_betfilename=${2}
 this_csfmaskfilename=${3}
 this_infarctmaskfilename=${4}
 this_infarctmask1filename=${5}
+echo "this_filename=${1}
+      this_betfilename=${2}
+      this_csfmaskfilename=${3}
+      this_infarctmaskfilename=${4}
+      this_infarctmask1filename=${5}"
 echo "BET USING LEVELSET MASK"
  
 #/software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
@@ -209,6 +214,7 @@ x=$grayimage
 bet_mask_filename=${output_directory}/${betfilename}
 infarct_mask_filename=${output_directory}/${infarctfilename}
 csf_mask_filename=${output_directory}/${csffilename}
+echo  " FILENMAES:: $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}"
 run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}
 
 

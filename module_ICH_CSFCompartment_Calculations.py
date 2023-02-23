@@ -124,7 +124,33 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
 
     return (point_todecide[0]-line_pointA[0])*(line_pointB[1]-line_pointA[1])  -  (point_todecide[1]-line_pointA[1])*(line_pointB[0]-line_pointA[0])
 
+def get_correct_mask_file(niftifilename,class1_Mask_filename,class1_Mask_filename_part2):
+    if 'hdr' in class1_Mask_filename_part2:
+        class1_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(class1_Mask_filename).get_fdata()) #nib.load(class1_Mask_filename).get_fdata()
+        niftifilename_data=nib.load(niftifilename).get_fdata()
+        if niftifilename_data.shape[2] > class1_Mask_filename_data_np.shape[2]:
+            difference_slices=niftifilename_data.shape[2] - class1_Mask_filename_data_np.shape[2]
+            for slice_num in range(difference_slices):
+                class1_Mask_filename_data_np[:,:,class1_Mask_filename_data_np.shape[2]+slice_num]=class1_Mask_filename_data_np[:,:,0]
+        #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
+    if 'gz' in class1_Mask_filename_part2:
+        class1_Mask_filename_data_np=resizeinto_512by512(nib.load(class1_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
+
+        niftifilename_data=nib.load(niftifilename).get_fdata()
+        if niftifilename_data.shape[2] > class1_Mask_filename_data_np.shape[2]:
+            difference_slices=niftifilename_data.shape[2] - class1_Mask_filename_data_np.shape[2]
+            for slice_num in range(difference_slices):
+                class1_Mask_filename_data_np[:,:,class1_Mask_filename_data_np.shape[2]+slice_num]=class1_Mask_filename_data_np[:,:,0]
+                #             filename_gray_data_np_copy=np.copy(niftifilename_data)
+
+            ## volume of the infarct mask:
+            infarct_total_voxels = class1_Mask_filename_data_np[class1_Mask_filename_data_np>np.min(class1_Mask_filename_data_np)]
+            infarct_total_voxels_count=infarct_total_voxels.shape[0]
+            infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+            infarct_total_voxels_volume=infarct_total_voxels_volume/1000
+
+    return class1_Mask_filename_data_np,infarct_total_voxels,infarct_total_voxels_volume
 
 def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     infarct_side="NA"
@@ -195,46 +221,21 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     # HemMask2
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     class1_Mask_filename_part1, class1_Mask_filename_part2 = os.path.splitext(class1_Mask_filename)
+    class2_Mask_filename_part1, class2_Mask_filename_part2 = os.path.splitext(class2_Mask_filename)
 
     infarct_side="NONE"
 
-    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(class1_Mask_filename) and os.path.exists(niftifilename):
+    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(class1_Mask_filename) and os.path.exists(class2_Mask_filename)  and os.path.exists(niftifilename):
 
-
-        if 'hdr' in class1_Mask_filename_part2:
-            class1_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(class1_Mask_filename).get_fdata()) #nib.load(class1_Mask_filename).get_fdata()
-            niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > class1_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - class1_Mask_filename_data_np.shape[2]
-                for slice_num in range(difference_slices):
-                    class1_Mask_filename_data_np[:,:,class1_Mask_filename_data_np.shape[2]+slice_num]=class1_Mask_filename_data_np[:,:,0]
-        #             filename_gray_data_np_copy=np.copy(niftifilename_data)
-
-        if 'gz' in class1_Mask_filename_part2:
-            class1_Mask_filename_data_np=resizeinto_512by512(nib.load(class1_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
-
-            niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > class1_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - class1_Mask_filename_data_np.shape[2]
-                for slice_num in range(difference_slices):
-                    class1_Mask_filename_data_np[:,:,class1_Mask_filename_data_np.shape[2]+slice_num]=class1_Mask_filename_data_np[:,:,0]
-
-            #             filename_gray_data_np_copy=np.copy(niftifilename_data)
-
-            ## volume of the infarct mask:
-            infarct_total_voxels = class1_Mask_filename_data_np[class1_Mask_filename_data_np>np.min(class1_Mask_filename_data_np)]
-            infarct_total_voxels_count=infarct_total_voxels.shape[0]
-            infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-            infarct_total_voxels_volume=infarct_total_voxels_volume/1000
+        class1_Mask_filename_data_np,infarct_total_voxels_class1,infarct_total_voxels_volume_class1=get_correct_mask_file(niftifilename,class1_Mask_filename,class1_Mask_filename_part2)
+        class2_Mask_filename_data_np,infarct_total_voxels_class2,infarct_total_voxels_volume_class2=get_correct_mask_file(niftifilename,class2_Mask_filename,class2_Mask_filename_part2)
 
         if len(class1_Mask_filename_data_np.shape) == 4:
             class1_Mask_filename_data_np=class1_Mask_filename_data_np[:,:,:,0]
+        if len(class2_Mask_filename_data_np.shape) == 4:
+            class2_Mask_filename_data_np=class1_Mask_filename_data_np[:,:,:,0]
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
-        lower_thresh=np.min(filename_gray_data_np) #0 #int(float(sys.argv[7])) #20 #0 # 20 #
-        upper_thresh=np.max(filename_gray_data_np) #40 #int(float(sys.argv[8])) #80 # 40 # 80 #
-        lower_thresh_normal=np.min(filename_gray_data_np) #20 #int(float(sys.argv[7]))
-        upper_thresh_normal=np.max(filename_gray_data_np) #80 #int(float(sys.argv[8]))
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
         file_gray=niftifilename
         csf_seg_np=resizeinto_512by512(nib.load(csf_seg_maskbasename_path).get_fdata()) #nib.load(csf_seg_maskbasename_path).get_fdata() #
@@ -247,14 +248,19 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
+        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         # infarct_side,class1_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,class1_Mask_filename_data_np)
+        numpy_image_mask_list=[]
         numpy_image_mask=class1_Mask_filename_data_np
+        numpy_image_mask_list.append(class1_Mask_filename_data_np)
+        numpy_image_mask_list.append(class2_Mask_filename_data_np)
         for x in range(numpy_image_mask.shape[2]):
             maskct_mat_list=[]
-            maskct_mat_list.append(numpy_image_mask[:,:,x])
+            maskct_mat_list.append(class1_Mask_filename_data_np[:,:,x])
+            maskct_mat_list.append(class2_Mask_filename_data_np[:,:,x])
             color_intensity_list=[]
             color_intensity_list.append([0,0,255])
+            color_intensity_list.append([0,255,0])
             grayct_mat=filename_gray_data_np_1[:,:,x]
             slice_number="{0:0=3d}".format(x)
             imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)

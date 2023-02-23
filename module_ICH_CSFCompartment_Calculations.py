@@ -734,7 +734,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                     #                        print(this_npyfile)
 
                     if os.path.exists(this_npyfile):
-                        print(" I AM HERE!!!!!!!!!!!!!!!!!!")
+
                         print("YES FOUND BOTH FILES")
                         print('latexfilename')
                         print(latexfilename)
@@ -783,82 +783,83 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                         cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
                         # print(" I AM HERE!!!!!!!!!!!!!!!!!!")
-        #                 for non_zero_pixel in img_with_line_nonzero_id:
-        #                     xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
-        #                     if xx>0: ## RIGHT
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=255
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=0
-        #                         current_right_num = current_right_num + 1
-        #                     if xx<0: ## LEFT
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
-        #                         slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=255
-        #                         current_left_num = current_left_num + 1
-        #                 brainarea_with_nonzero_id = np.transpose(np.nonzero(filename_brain_data_np_minus_CSF[:,:,img_idx]))
+                        for non_zero_pixel in img_with_line_nonzero_id:
+                            xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                            if xx>0: ## RIGHT
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                                current_right_num = current_right_num + 1
+                            if xx<0: ## LEFT
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                                slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                                current_left_num = current_left_num + 1
+                        brainarea_with_nonzero_id = np.transpose(np.nonzero(filename_brain_data_np_minus_CSF[:,:,img_idx]))
+
+                        left_brain_voxel_count=0
+                        right_brain_voxel_count=0
+                        for non_zero_pixel in brainarea_with_nonzero_id:
+                            xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                            if xx>0: ## RIGHT
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                                right_brain_voxel_count = right_brain_voxel_count + 1
+                            if xx<0: ## LEFT
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                                slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                                left_brain_voxel_count = left_brain_voxel_count + 1
+
+
+                        lineThickness = 2
+
+                        this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                        this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+
+                        this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                        this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                        this_slice_gray_left_volume=this_slice_gray_left_volume/1000
+                        this_slice_gray_right_volume=this_slice_gray_right_volume/1000
+
+                        img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+
+                        img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+                        slice_number="{0:0=3d}".format(img_idx)
+
+
+                        imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
+                        # imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+                        imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ich_classes.png")
+                        # image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
+                        # image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+                        image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
         #
-        #                 left_brain_voxel_count=0
-        #                 right_brain_voxel_count=0
-        #                 for non_zero_pixel in brainarea_with_nonzero_id:
-        #                     xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
-        #                     if xx>0: ## RIGHT
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=255
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=0
-        #                         right_brain_voxel_count = right_brain_voxel_count + 1
-        #                     if xx<0: ## LEFT
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=0
-        #                         slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=255
-        #                         left_brain_voxel_count = left_brain_voxel_count + 1
         #
-        #
-        #                 lineThickness = 2
-        #
-        #                 this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-        #                 this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-        #
-        #                 this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-        #                 this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-        #                 this_slice_gray_left_volume=this_slice_gray_left_volume/1000
-        #                 this_slice_gray_right_volume=this_slice_gray_right_volume/1000
-        #
-        #                 img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-        #
-        #                 img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-        #                 slice_number="{0:0=3d}".format(img_idx)
-        #
-        #
-        #                 imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
-        #                 # imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
-        #                 imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ich_classes.png")
-        #                 # image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
-        #                 # image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
-        #                 image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
-        # #
-        # #
-        # #                 cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
-        #                 cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
-        #                 nect_file_basename_forimagename=imagefilename
-        #
-        #                 ## get the mask image:
-        #                 this_slice_left_volume=this_slice_left_volume/1000
-        #                 this_slice_right_volume=this_slice_right_volume/1000
-        #
-        #                 ################################
-        #                 # upper_slice_num=0
-        #                 # lower_slice_num=0
-        #                 # found_lower_slice=0
-        #                 # for slice_num_csf in range(class1_Mask_filename_data_np.shape[2]):
-        #
-        #                 #     if found_lower_slice==0 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0:
-        #                 #         lower_slice_num=slice_num_csf
-        #                 #         found_lower_slice=1
-        #                 #     if found_lower_slice==1 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
-        #                 #         upper_slice_num=slice_num_csf
-        #                 ##########################
-        #
-        #                 image_list=[]
+        #                 cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
+                        cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
+                        nect_file_basename_forimagename=imagefilename
+
+                        ## get the mask image:
+                        this_slice_left_volume=this_slice_left_volume/1000
+                        this_slice_right_volume=this_slice_right_volume/1000
+
+                        ################################
+                        # upper_slice_num=0
+                        # lower_slice_num=0
+                        # found_lower_slice=0
+                        # for slice_num_csf in range(class1_Mask_filename_data_np.shape[2]):
+
+                        #     if found_lower_slice==0 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                        #         lower_slice_num=slice_num_csf
+                        #         found_lower_slice=1
+                        #     if found_lower_slice==1 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                        #         upper_slice_num=slice_num_csf
+                        ##########################
+
+                        image_list=[]
+                        print(" I AM HERE!!!!!!!!!!!!!!!!!!")
         #
         #                 print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
         #                 if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :

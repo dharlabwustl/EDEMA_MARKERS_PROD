@@ -215,7 +215,7 @@ bet_mask_filename=${output_directory}/${betfilename}
 infarct_mask_filename=${output_directory}/${infarctfilename}
 csf_mask_filename=${output_directory}/${csffilename}
 echo  " FILENMAES:: $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}"
-run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}
+#run_IML_NWU_CSF_CALC  $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}  ${infarct_mask_filename1}
 
 
 done

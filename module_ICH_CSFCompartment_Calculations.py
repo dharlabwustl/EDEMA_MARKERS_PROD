@@ -886,7 +886,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             print("image_array MINIMUM")
             print(np.min(image_array))
             BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
-            CSF_RATIO=left_pixels_num/right_pixels_num
+            CSF_RATIO=left_pixels_num/(right_pixels_num+0.001)
             if left_pixels_num > right_pixels_num :
                 CSF_RATIO=right_pixels_num/left_pixels_num
         #         # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]

@@ -145,10 +145,10 @@ def get_correct_mask_file(niftifilename,class1_Mask_filename,class1_Mask_filenam
                 #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
             ## volume of the infarct mask:
-            infarct_total_voxels = class1_Mask_filename_data_np[class1_Mask_filename_data_np>np.min(class1_Mask_filename_data_np)]
-            infarct_total_voxels_count=infarct_total_voxels.shape[0]
-            infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-            infarct_total_voxels_volume=infarct_total_voxels_volume/1000
+    infarct_total_voxels = class1_Mask_filename_data_np[class1_Mask_filename_data_np>np.min(class1_Mask_filename_data_np)]
+    infarct_total_voxels_count=infarct_total_voxels.shape[0]
+    infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+    infarct_total_voxels_volume=infarct_total_voxels_volume/1000
 
     return class1_Mask_filename_data_np,infarct_total_voxels,infarct_total_voxels_volume
 

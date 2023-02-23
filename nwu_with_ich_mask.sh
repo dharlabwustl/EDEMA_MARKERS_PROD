@@ -299,13 +299,13 @@ copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
 ######################################################################################################################
 ## CALCULATE EDEMA BIOMARKERS
 ich_calculation_each_scan
-######################################################################################################################
-## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="ICH_QUANTIFICATION"
-file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-for file_suffix in ${file_suffixes[@]}
-do
-    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}  
-done
-######################################################################################################################
+#######################################################################################################################
+### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+#snipr_output_foldername="ICH_QUANTIFICATION"
+#file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}
+#do
+#    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
+#done
+#######################################################################################################################
 

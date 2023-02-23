@@ -680,25 +680,25 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             print('niftifilename')
             print(niftifilename)
 
-        #
-        #
-        #     class1_Mask_filename_data_np=resizeinto_512by512(nib.load(class1_Mask_filename).get_fdata()) #nib.load(class1_Mask_filename).get_fdata() #
-        #     class1_Mask_filename_data_np[class1_Mask_filename_data_np>1]=0
-        #
-        #     ######################### added on July 15 2022 ##################################
-        #     #             print("56code added on July 15 2022")
-        #     if os.path.exists(sys.argv[4]):
-        #         infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
-        #         #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
-        #         print('Filename:{}'.format(os.path.basename(niftifilename)))
-        #         print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
-        #
-        #         class1_Mask_filename_data_np[infarct_image_data_1>0]=0
-        #         print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
-        #
-        #         print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
-        #     #                 print("58code added on July 15 2022")
-        #     ##################################################################################
+
+
+            class1_Mask_filename_data_np=resizeinto_512by512(nib.load(class1_Mask_filename).get_fdata()) #nib.load(class1_Mask_filename).get_fdata() #
+            class1_Mask_filename_data_np[class1_Mask_filename_data_np>1]=0
+
+            ######################### added on July 15 2022 ##################################
+            #             print("56code added on July 15 2022")
+            if os.path.exists(sys.argv[4]):
+                infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
+                #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
+                print('Filename:{}'.format(os.path.basename(niftifilename)))
+                print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
+
+                class1_Mask_filename_data_np[infarct_image_data_1>0]=0
+                print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
+
+                print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
+            #                 print("58code added on July 15 2022")
+            ##################################################################################
         #
         #     #                print(np.max(class1_Mask_filename_data_np))
         #     filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #

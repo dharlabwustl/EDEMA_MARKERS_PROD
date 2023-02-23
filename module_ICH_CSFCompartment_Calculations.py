@@ -864,7 +864,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
                         if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
                             latex_start_tableNc_noboundary(latexfilename,5)
-
+                            print(" I AM HERE!!!!!!!!!!!!!!!!!!")
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
                             image_list.append(image_left_right_brain)
                             image_list.append(imagefilename_infarct)

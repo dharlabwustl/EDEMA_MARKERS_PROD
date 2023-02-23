@@ -626,60 +626,60 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 # lower_thresh=int(float(sys.argv[7]))
                 # upper_thresh=int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
-                measure_ICH_Feb22_2023()
+                # measure_ICH_Feb22_2023()
     #             # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Feb22_2023()
     #
 
         niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")
         # bet_filename=niftifilename_basename_split_nii+BET_file_extension
         bet_filename_path=sys.argv[2] #os.path.join(BET_OUTPUT_DIRECTORY,bet_filename)
-        # # now=time.localtime()
-        # date_time = time.strftime("_%m_%d_%Y",now)
-        # grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
-        # thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
-        # # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0] + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL.csv")
-        # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL" +Version_Date+date_time + ".csv")
-        #
-        #
-        #
-        # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) + Version_Date + date_time+".tex")
-        # # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0]+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +".tex")
-        #
-        #
-        # latex_start(latexfilename)
-        # latex_begin_document(latexfilename)
-        # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        # col_names=np.copy(np.array(row))
-        #
-        #
-        # with open(csvfile_with_vol_total, 'w') as f:
-        #     writer = csv.writer(f)
-        #     writer.writerow(row)
-        #
-        # npyfileextension="REGISMethodOriginalRF_midline.npy"
-        #
-        # class1_Mask_filename=sys.argv[3] #os.path.join(csf_mask_directory,mask_basename)
-        # print('class1_Mask_filename')
-        # print(class1_Mask_filename)
-        # print('niftifilename')
-        # print(niftifilename)
-        #
-        # left_pixels_num=0
-        # right_pixels_num=0
-        #
-        # infarct_mask_basename_path=sys.argv[4] #infarct_mask_basename_path_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
-        #
-        #
-        #
-        #
-        # if os.path.exists(class1_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
-        #     print("BOTH FILE EXISTS")
-        #
-        #     print('class1_Mask_filename')
-        #     print(class1_Mask_filename)
-        #     print('niftifilename')
-        #     print(niftifilename)
-        #
+        # now=time.localtime()
+        date_time = time.strftime("_%m_%d_%Y",now)
+        grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
+        thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
+        # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0] + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL.csv")
+        csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL" +Version_Date+date_time + ".csv")
+
+
+
+        latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) + Version_Date + date_time+".tex")
+        # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0]+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +".tex")
+
+
+        latex_start(latexfilename)
+        latex_begin_document(latexfilename)
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        col_names=np.copy(np.array(row))
+
+
+        with open(csvfile_with_vol_total, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(row)
+
+        npyfileextension="REGISMethodOriginalRF_midline.npy"
+
+        class1_Mask_filename=sys.argv[3] #os.path.join(csf_mask_directory,mask_basename)
+        print('class1_Mask_filename')
+        print(class1_Mask_filename)
+        print('niftifilename')
+        print(niftifilename)
+
+        left_pixels_num=0
+        right_pixels_num=0
+
+        infarct_mask_basename_path=sys.argv[4] #infarct_mask_basename_path_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+
+
+
+
+        if os.path.exists(class1_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
+            print("BOTH FILE EXISTS")
+
+            print('class1_Mask_filename')
+            print(class1_Mask_filename)
+            print('niftifilename')
+            print(niftifilename)
+
         #
         #
         #     class1_Mask_filename_data_np=resizeinto_512by512(nib.load(class1_Mask_filename).get_fdata()) #nib.load(class1_Mask_filename).get_fdata() #

@@ -587,8 +587,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             print(sys.argv[4])
 
             if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
-                lower_thresh=int(float(sys.argv[7]))
-                upper_thresh=int(float(sys.argv[8]))
+                lower_thresh=-1024 #"NA" #int(float(sys.argv[7]))
+                upper_thresh=1024 #int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
                 lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_NWU_after_subt_csf_Oct_5_2020()
 

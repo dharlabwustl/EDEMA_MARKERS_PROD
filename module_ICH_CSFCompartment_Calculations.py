@@ -191,7 +191,7 @@ def measure_ICH_Feb22_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     # print("I am here class1_Mask_filename")
 
     class1_Mask_filename=sys.argv[4] #class1_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
-    class2_Mask_filename=sys.argv[7] #class1_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    # class2_Mask_filename=sys.argv[7] #class1_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     # HemMask2
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     class1_Mask_filename_part1, class1_Mask_filename_part2 = os.path.splitext(class1_Mask_filename)

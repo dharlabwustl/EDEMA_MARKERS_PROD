@@ -732,55 +732,56 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                     this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
                     #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
                     #                        print(this_npyfile)
-                    print(" I AM HERE!!!!!!!!!!!!!!!!!!")
-        #             if os.path.exists(this_npyfile):
-        #                 print("YES FOUND BOTH FILES")
-        #                 print('latexfilename')
-        #                 print(latexfilename)
-        #                 calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
-        #                 x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
-        #                 # print(x_points2)
-        #                 y_points2=calculated_midline_points.item().get('y_axis')
-        #                 slice_3_layer= np.zeros([numpy_image.shape[0],numpy_image.shape[1],3])
-        #                 x_points2=x_points2[:,0]
-        #                 y_points2=y_points2[:,0]
-        #                 # print(this_npyfile)
-        #
-        #                 img_with_line=class1_Mask_filename_data_np[:,:,img_idx]
-        #                 # print(np.max(img_with_line))
-        #                 img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
-        #                 thisimage=filename_gray_data_np_1[:,:,img_idx]
-        #                 current_left_num=0
-        #                 current_right_num=0
-        #                 slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
-        #                 slice_3_layer[:,:,0]= thisimage #imgray1
-        #                 slice_3_layer[:,:,1]= thisimage #imgray1
-        #                 slice_3_layer[:,:,2]= thisimage# imgray1
-        #
-        #
-        #                 slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
-        #                 slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
-        #                 slice_3_layer_brain[:,:,1]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
-        #                 slice_3_layer_brain[:,:,2]= filename_brain_data_np_minus_CSF[:,:,img_idx] # imgray1
-        #                 # font
-        #                 font = cv2.FONT_HERSHEY_SIMPLEX
-        #
-        #                 # org
-        #                 org = (50, 50)
-        #
-        #                 # fontScale
-        #                 fontScale = 1
-        #
-        #                 # Blue color in BGR
-        #                 color = (0, 0, 255)
-        #
-        #                 # Line thickness of 2 px
-        #                 thickness = 2
-        #
-        #                 imagefilename_gray=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)+"gray"
-        #                 slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-        #                 #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-        #                 cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
+
+                    if os.path.exists(this_npyfile):
+                        print("YES FOUND BOTH FILES")
+                        print('latexfilename')
+                        print(latexfilename)
+                        calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                        x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
+                        # print(x_points2)
+                        y_points2=calculated_midline_points.item().get('y_axis')
+                        slice_3_layer= np.zeros([numpy_image.shape[0],numpy_image.shape[1],3])
+                        x_points2=x_points2[:,0]
+                        y_points2=y_points2[:,0]
+                        # print(this_npyfile)
+
+                        img_with_line=class1_Mask_filename_data_np[:,:,img_idx]
+                        # print(np.max(img_with_line))
+                        img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
+                        thisimage=filename_gray_data_np_1[:,:,img_idx]
+                        current_left_num=0
+                        current_right_num=0
+                        slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                        slice_3_layer[:,:,0]= thisimage #imgray1
+                        slice_3_layer[:,:,1]= thisimage #imgray1
+                        slice_3_layer[:,:,2]= thisimage# imgray1
+
+
+                        slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                        slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                        slice_3_layer_brain[:,:,1]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                        slice_3_layer_brain[:,:,2]= filename_brain_data_np_minus_CSF[:,:,img_idx] # imgray1
+                        # font
+                        font = cv2.FONT_HERSHEY_SIMPLEX
+
+                        # org
+                        org = (50, 50)
+
+                        # fontScale
+                        fontScale = 1
+
+                        # Blue color in BGR
+                        color = (0, 0, 255)
+
+                        # Line thickness of 2 px
+                        thickness = 2
+
+                        imagefilename_gray=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)+"gray"
+                        slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                        #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                        cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
+                        print(" I AM HERE!!!!!!!!!!!!!!!!!!")
         #                 for non_zero_pixel in img_with_line_nonzero_id:
         #                     xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
         #                     if xx>0: ## RIGHT

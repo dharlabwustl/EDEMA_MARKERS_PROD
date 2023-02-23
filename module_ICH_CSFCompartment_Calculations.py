@@ -904,49 +904,49 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
 
             values_in_col=np.array(row2)
-            print(" I AM HERE!!!!!!!!!!!!!!!!!!")
-        #
-        #
-        #     with open(csvfile_with_vol_total, 'a') as f1:
-        #         writer = csv.writer(f1)
-        #         writer.writerow(row2)
-        #     this_nii_filename_list=[]
-        #     # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
-        #     this_nii_filename_list.append(thisfilebasename)
-        #     this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
-        #     this_nii_filename_df.columns=['FILENAME']
-        #
-        #     latex_start_tableNc_noboundary(latexfilename,1)
-        #     latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
-        #     latex_end_table2c(latexfilename)
-        #
-        #     #             latex_insert_line_nodek(latexfilename,"\\newpage")
-        #     #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
-        #
-        #     values_in_table=[]
-        #
-        #     #             text1=[]
-        #     #             text1.append(" Regions ")
-        #     #             text1.append("Volume  (ml)")
-        #     #             latex_start_tableNc(latexfilename,2)
-        #     #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-        #
-        #     for x in range(0,col_names.shape[0]):
-        #         #                 text1=[]
-        #         values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
-        #     #                 text1.append((str(col_names[x])).replace("_"," "))
-        #     #                 text1.append((str(values_in_col[x])).replace("_",""))
-        #
-        #     #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-        #     #             latex_end_table2c(latexfilename)
-        #     values_in_table.pop(0)
-        #     values_in_table_df=pd.DataFrame(values_in_table)
-        #     values_in_table_df.columns=[" Regions ","Volume  (ml)"]
-        #     latex_start_tableNc_noboundary(latexfilename,1)
-        #     latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
-        #     latex_end_table2c(latexfilename)
-        # latex_end(latexfilename)
-        # # # remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+
+
+
+            with open(csvfile_with_vol_total, 'a') as f1:
+                writer = csv.writer(f1)
+                writer.writerow(row2)
+            this_nii_filename_list=[]
+            # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
+            this_nii_filename_list.append(thisfilebasename)
+            this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
+            this_nii_filename_df.columns=['FILENAME']
+
+            latex_start_tableNc_noboundary(latexfilename,1)
+            latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
+            latex_end_table2c(latexfilename)
+
+            #             latex_insert_line_nodek(latexfilename,"\\newpage")
+            #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
+
+            values_in_table=[]
+
+            #             text1=[]
+            #             text1.append(" Regions ")
+            #             text1.append("Volume  (ml)")
+            #             latex_start_tableNc(latexfilename,2)
+            #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+
+            for x in range(0,col_names.shape[0]):
+                #                 text1=[]
+                values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
+            #                 text1.append((str(col_names[x])).replace("_"," "))
+            #                 text1.append((str(values_in_col[x])).replace("_",""))
+
+            #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+            #             latex_end_table2c(latexfilename)
+            values_in_table.pop(0)
+            values_in_table_df=pd.DataFrame(values_in_table)
+            values_in_table_df.columns=[" Regions ","Volume  (ml)"]
+            latex_start_tableNc_noboundary(latexfilename,1)
+            latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+            latex_end_table2c(latexfilename)
+        latex_end(latexfilename)
+        # # remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
 
 def overlay_mask_gray(grayct_mat,maskct_mat_list,color_intensity_list=[[0,0,255]],filenametosave='test.png'):
     slice_3_layer= np.zeros([grayct_mat.shape[0],grayct_mat.shape[1],3])

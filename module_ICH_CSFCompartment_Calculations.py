@@ -689,29 +689,31 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #             print("56code added on July 15 2022")
             if os.path.exists(sys.argv[4]):
                 infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
+                infarct_image_data_2=resizeinto_512by512(nib.load(sys.argv[7]).get_fdata())
                 #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
                 print('Filename:{}'.format(os.path.basename(niftifilename)))
                 print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
 
                 class1_Mask_filename_data_np[infarct_image_data_1>0]=0
+                class1_Mask_filename_data_np[infarct_image_data_2>0]=0
                 print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
 
                 print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(class1_Mask_filename_data_np[class1_Mask_filename_data_np>0])))
             #                 print("58code added on July 15 2022")
             ##################################################################################
-        #
-        #     #                print(np.max(class1_Mask_filename_data_np))
-        #     filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
-        #     filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
-        #     filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
-        #     filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
-        #     numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
-        #     filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
-        #     #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
-        #     filename_brain_data_np_minus_CSF[class1_Mask_filename_data_np>=np.max(class1_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
-        #     upper_slice_num=0
-        #     lower_slice_num=0
-        #     found_lower_slice=0
+
+            #                print(np.max(class1_Mask_filename_data_np))
+            filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
+            filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
+            filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
+            filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
+            numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
+            filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
+            #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+            filename_brain_data_np_minus_CSF[class1_Mask_filename_data_np>=np.max(class1_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+            upper_slice_num=0
+            lower_slice_num=0
+            found_lower_slice=0
         #     for slice_num_csf in range(class1_Mask_filename_data_np.shape[2]):
         #
         #         if found_lower_slice==0 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0:

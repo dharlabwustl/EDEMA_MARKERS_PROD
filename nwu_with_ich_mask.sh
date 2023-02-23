@@ -69,6 +69,7 @@ this_filename=${1}
 this_betfilename=${2}
 this_csfmaskfilename=${3}
 this_infarctmaskfilename=${4}
+this_infarctmask1filename=${5}
 echo "BET USING LEVELSET MASK"
  
 #/software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
@@ -89,7 +90,7 @@ echo "BET USING LEVELSET MASK"
 #
 #echo "RUNNING NWU AND CSF VOLUME CALCULATION "
 
-/software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${lower_threshold} ${upper_threshold}
+/software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${this_infarctmask1filename}  #${upper_threshold}
 echo "ich_csf_volume successful" >> ${output_directory}/success.txt
 #thisfile_basename=$(basename $this_filename)
 ## for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;

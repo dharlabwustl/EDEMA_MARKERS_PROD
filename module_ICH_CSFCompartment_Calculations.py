@@ -888,7 +888,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
             CSF_RATIO=left_pixels_num/(right_pixels_num+0.001)
             if left_pixels_num > right_pixels_num :
-                CSF_RATIO=right_pixels_num/left_pixels_num
+                CSF_RATIO=right_pixels_num/(left_pixels_num+0.001)
         #         # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
         #     # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), "infarct_side","NWU", "infarct_pixels_number", "infarct_pixels_density", "nonfarct_pixels_number","noninfarct_pixels_density","overall_infarct_vol","overall_non_infarct_vol",str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]

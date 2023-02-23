@@ -91,33 +91,33 @@ echo "BET USING LEVELSET MASK"
 
 /software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${lower_threshold} ${upper_threshold}
 echo "ich_csf_volume successful" >> ${output_directory}/success.txt
-thisfile_basename=$(basename $this_filename)
-# for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ; 
-for texfile in  ${output_directory}/*.tex ; 
-do 
-pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} $texfile  ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-rm ${output_directory}/*.aux
-rm ${output_directory}/*.log
-done 
-
-for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz ; 
-do 
-cp ${filetocopy} ${final_output_directory}/
-done 
-
-for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat ; 
-do 
-cp ${filetocopy} ${final_output_directory}/
-done 
-
-for filetocopy in ${output_directory}/*.pdf ; 
-do 
-cp ${filetocopy} ${final_output_directory}/
-done 
-for filetocopy in  ${output_directory}/*.csv ; 
-do 
-cp ${filetocopy} ${final_output_directory}/
-done 
+#thisfile_basename=$(basename $this_filename)
+## for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
+#for texfile in  ${output_directory}/*.tex ;
+#do
+#pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} $texfile  ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+#rm ${output_directory}/*.aux
+#rm ${output_directory}/*.log
+#done
+#
+#for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz ;
+#do
+#cp ${filetocopy} ${final_output_directory}/
+#done
+#
+#for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat ;
+#do
+#cp ${filetocopy} ${final_output_directory}/
+#done
+#
+#for filetocopy in ${output_directory}/*.pdf ;
+#do
+#cp ${filetocopy} ${final_output_directory}/
+#done
+#for filetocopy in  ${output_directory}/*.csv ;
+#do
+#cp ${filetocopy} ${final_output_directory}/
+#done
 
 }
 

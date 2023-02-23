@@ -714,24 +714,25 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             upper_slice_num=0
             lower_slice_num=0
             found_lower_slice=0
-        #     for slice_num_csf in range(class1_Mask_filename_data_np.shape[2]):
-        #
-        #         if found_lower_slice==0 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0:
-        #             lower_slice_num=slice_num_csf
-        #             found_lower_slice=1
-        #         if found_lower_slice==1 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
-        #             upper_slice_num=slice_num_csf
-        #     this_slice_left_volume=0
-        #     this_slice_right_volume=0
-        #     for img_idx in range(numpy_image.shape[2]):
-        #         if img_idx>0 and img_idx < numpy_image.shape[2]:
-        #
-        #             method_name="REGIS"
-        #             slice_number="{0:0=3d}".format(img_idx)
-        #             filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
-        #             this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
-        #             #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
-        #             #                        print(this_npyfile)
+            for slice_num_csf in range(class1_Mask_filename_data_np.shape[2]):
+
+                if found_lower_slice==0 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                    lower_slice_num=slice_num_csf
+                    found_lower_slice=1
+                if found_lower_slice==1 and np.sum(class1_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                    upper_slice_num=slice_num_csf
+            this_slice_left_volume=0
+            this_slice_right_volume=0
+            for img_idx in range(numpy_image.shape[2]):
+                if img_idx>0 and img_idx < numpy_image.shape[2]:
+
+                    method_name="REGIS"
+                    slice_number="{0:0=3d}".format(img_idx)
+                    filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
+                    this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+                    #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
+                    #                        print(this_npyfile)
+                    print(" I AM HERE!")
         #             if os.path.exists(this_npyfile):
         #                 print("YES FOUND BOTH FILES")
         #                 print('latexfilename')

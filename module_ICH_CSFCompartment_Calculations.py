@@ -607,20 +607,22 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     right_brain_volume=0
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
     bet_image_data=nib.load(sys.argv[2]).get_fdata()
+    ich_class1_image_data=nib.load(sys.argv[4]).get_fdata()
+    ich_class2_image_data=nib.load(sys.argv[7]).get_fdata()
     csf_image_data=nib.load(sys.argv[3]).get_fdata()
-    if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
-
-        if os.path.exists(sys.argv[4]):
-            infarct_image_data=nib.load(sys.argv[4]).get_fdata()
-            print(sys.argv[4])
-
-            if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
-                # lower_thresh=int(float(sys.argv[7]))
-                # upper_thresh=int(float(sys.argv[8]))
-                ## check if infarct file exists: sys.argv[4]
-                measure_ICH_Feb22_2023()
-                # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Feb22_2023()
-
+    # if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
+    #
+    #     if os.path.exists(sys.argv[4]):
+    #         infarct_image_data=nib.load(sys.argv[4]).get_fdata()
+    #         print(sys.argv[4])
+    #
+    #         if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
+    #             # lower_thresh=int(float(sys.argv[7]))
+    #             # upper_thresh=int(float(sys.argv[8]))
+    #             ## check if infarct file exists: sys.argv[4]
+    #             measure_ICH_Feb22_2023()
+    #             # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Feb22_2023()
+    #
 
         # niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")
         # # bet_filename=niftifilename_basename_split_nii+BET_file_extension

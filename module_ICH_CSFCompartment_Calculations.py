@@ -1247,8 +1247,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
                             image_list.append(image_left_right_brain)
-                            image_list.append(imagefilename_infarct)
-                            # image_list.append(imagename_class2)
+                            # image_list.append(imagefilename_infarct)
+                            image_list.append(imagename_class2)
                             # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
                             latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)

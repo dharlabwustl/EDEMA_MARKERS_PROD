@@ -973,7 +973,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
     print("code added on July 15 2022")
     niftifilename=sys.argv[1] ## THis is the  gray file:
-    ICH_Class2_Mask_filename=sys.argv[7]
+    ICH_Class2_Mask_filename=sys.argv[4]
 
     niftifilenamedir=os.path.dirname(niftifilename) #sys.argv[3] #"/inputdirectory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
 

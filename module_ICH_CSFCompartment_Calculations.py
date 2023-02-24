@@ -1016,7 +1016,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 upper_thresh=1024 #int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
                 lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Class1_Feb24_2023()
-                # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_CLASS2_Feb_24_2023()
+                lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_CLASS2_Feb_24_2023()
 
 
         niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")
@@ -1247,12 +1247,13 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         image_list=[]
                         print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
                         if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
-                            latex_start_tableNc_noboundary(latexfilename,5)
+                            latex_start_tableNc_noboundary(latexfilename,6)
 
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
                             image_list.append(image_left_right_brain)
                             # image_list.append(imagefilename_infarct)
                             image_list.append(imagename_class2)
+                            image_list.append(imagename_class1)
                             # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
                             latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)

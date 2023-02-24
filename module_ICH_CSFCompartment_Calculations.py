@@ -973,6 +973,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
     print("code added on July 15 2022")
     niftifilename=sys.argv[1] ## THis is the  gray file:
+    ICH_Class2_Mask_filename=sys.argv[7]
 
     niftifilenamedir=os.path.dirname(niftifilename) #sys.argv[3] #"/inputdirectory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
 
@@ -1005,6 +1006,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
     bet_image_data=nib.load(sys.argv[2]).get_fdata()
     csf_image_data=nib.load(sys.argv[3]).get_fdata()
+    ICH_Class2_Mask_filename_data=nib.load(ICH_Class2_Mask_filename).get_fdata()
+    csf_image_data[ICH_Class2_Mask_filename_data>0]=np.min(csf_image_data)
     if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
 
         if os.path.exists(sys.argv[4]):

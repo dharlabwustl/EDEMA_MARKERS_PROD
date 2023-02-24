@@ -314,7 +314,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
                     M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
                     I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
-                    I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
+                    I_t_r_f_rinv_tinv_mask = numpy_image[:,:,img_idx] #cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
                     points1=points1-translation_delta
                     #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
                     #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)
@@ -736,7 +736,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
                     M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
                     I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
-                    I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
+                    I_t_r_f_rinv_tinv_mask = numpy_image[:,:,img_idx] #cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
                     points1=points1-translation_delta
                     #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
                     #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)

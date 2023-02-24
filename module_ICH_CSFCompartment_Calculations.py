@@ -1256,7 +1256,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                             image_list.append(imagename_class1)
                             # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
-                            latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)
+                            latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.15, angle=90,space=0.51)
                             latex_end_table2c(latexfilename)
 
                         elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :

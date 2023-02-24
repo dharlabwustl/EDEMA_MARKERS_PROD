@@ -1073,8 +1073,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             print(niftifilename)
 
 
-
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
+            CSF_Mask_filename_data_minus_edema=nib.load(CSF_Mask_filename).get_fdata()
+            CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
+            CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_data_minus_edema) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
             CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
 
             ######################### added on July 15 2022 ##################################

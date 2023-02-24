@@ -186,7 +186,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     npyfileextension="REGISMethodOriginalRF_midline.npy"
     # print("I am here CSF_Mask_filename")
 
-    CSF_Mask_filename=sys.argv[4] #CSF_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    CSF_Mask_filename=sys.argv[7] #CSF_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     CSF_Mask_filename_part1, CSF_Mask_filename_part2 = os.path.splitext(CSF_Mask_filename)
 

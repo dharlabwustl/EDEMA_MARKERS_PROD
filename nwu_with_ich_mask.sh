@@ -93,7 +93,7 @@ echo "BET USING LEVELSET MASK"
 #/software/ideal_midline_pythonpart.sh  ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
 #echo "ideal_midline_pythonpart successful" >> ${output_directory}/success.txt
 #
-#echo "RUNNING NWU AND CSF VOLUME CALCULATION "
+#echo "RUNNING ICH volume calculation for class 2 Mask"
 
 /software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${this_infarctmask1filename}  #${upper_threshold}
 echo "ich_csf_volume successful" >> ${output_directory}/success.txt

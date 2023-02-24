@@ -1008,7 +1008,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     csf_image_data=nib.load(sys.argv[3]).get_fdata()
     ICH_Class2_Mask_filename_data=nib.load(ICH_Class2_Mask_filename).get_fdata()
     ICH_Class1_Mask_filename_data=nib.load(ICH_Class1_Mask_filename).get_fdata()
-    csf_image_data[ICH_Class2_Mask_filename_data>0]=np.min(csf_image_data)
+    # csf_image_data[ICH_Class2_Mask_filename_data>0]=np.min(csf_image_data)
     csf_image_data[ICH_Class1_Mask_filename_data>0]=np.min(csf_image_data)
     if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
 
@@ -1076,7 +1076,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
             CSF_Mask_filename_data_minus_edema=nib.load(CSF_Mask_filename).get_fdata()
-            CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
+            # CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
             CSF_Mask_filename_data_minus_edema[ICH_Class1_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
             CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_data_minus_edema) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
             CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0

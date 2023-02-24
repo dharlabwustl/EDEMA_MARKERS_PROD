@@ -345,7 +345,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
                     if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
                         infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
+                        # infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
                         pixels_num_total_infarct=len(infarct_pixels)
                         infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
 
@@ -767,7 +767,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
                     if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
                         infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
+                        # infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
                         pixels_num_total_infarct=len(infarct_pixels)
                         infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
 

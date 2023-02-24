@@ -456,9 +456,9 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                             for non_zero_pixel in img_with_noninfarct_nonzero_id:
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
                                     current_noninfarct_num = current_noninfarct_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100 #0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200 #100
                                     noninfarct_pixel_counter=noninfarct_pixel_counter+1
                             ##################################################################
 
@@ -871,9 +871,9 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
                                     current_infarct_num = current_infarct_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100 #0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0 ##100
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100 ##200
                                     infarct_pixel_counter=infarct_pixel_counter+1
                             for non_zero_pixel in img_with_noninfarct_nonzero_id:
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :

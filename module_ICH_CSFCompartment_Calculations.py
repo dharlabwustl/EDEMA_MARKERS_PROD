@@ -513,6 +513,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
 
                             cv2.imwrite(imagename,img_with_line1)
+                            cv2.imwrite(imagename_class2,img_with_line1)
                             cv2.imwrite(image_infarct_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
 
                             histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)

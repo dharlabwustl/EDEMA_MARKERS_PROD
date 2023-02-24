@@ -184,45 +184,45 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     grayfilename=niftifilename #os.path.join(levelset_file_directory,grayfilename) #os.path.join(niftifilenamedir,grayfilename)
 
     npyfileextension="REGISMethodOriginalRF_midline.npy"
-    # print("I am here CSF_Mask_filename")
+    # print("I am here ICH_Mask_filename")
 
-    CSF_Mask_filename=sys.argv[7] #CSF_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    ICH_Mask_filename=sys.argv[7] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
-    CSF_Mask_filename_part1, CSF_Mask_filename_part2 = os.path.splitext(CSF_Mask_filename)
+    ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
     infarct_side="NONE"
 
-    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename):
+    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename):
 
 
-        if 'hdr' in CSF_Mask_filename_part2:
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata()
+        if 'hdr' in ICH_Mask_filename_part2:
+            ICH_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(ICH_Mask_filename).get_fdata()) #nib.load(ICH_Mask_filename).get_fdata()
             niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > CSF_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - CSF_Mask_filename_data_np.shape[2]
+            if niftifilename_data.shape[2] > ICH_Mask_filename_data_np.shape[2]:
+                difference_slices=niftifilename_data.shape[2] - ICH_Mask_filename_data_np.shape[2]
                 for slice_num in range(difference_slices):
-                    CSF_Mask_filename_data_np[:,:,CSF_Mask_filename_data_np.shape[2]+slice_num]=CSF_Mask_filename_data_np[:,:,0]
+                    ICH_Mask_filename_data_np[:,:,ICH_Mask_filename_data_np.shape[2]+slice_num]=ICH_Mask_filename_data_np[:,:,0]
         #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
-        if 'gz' in CSF_Mask_filename_part2:
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.load(CSF_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
+        if 'gz' in ICH_Mask_filename_part2:
+            ICH_Mask_filename_data_np=resizeinto_512by512(nib.load(ICH_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
 
             niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > CSF_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - CSF_Mask_filename_data_np.shape[2]
+            if niftifilename_data.shape[2] > ICH_Mask_filename_data_np.shape[2]:
+                difference_slices=niftifilename_data.shape[2] - ICH_Mask_filename_data_np.shape[2]
                 for slice_num in range(difference_slices):
-                    CSF_Mask_filename_data_np[:,:,CSF_Mask_filename_data_np.shape[2]+slice_num]=CSF_Mask_filename_data_np[:,:,0]
+                    ICH_Mask_filename_data_np[:,:,ICH_Mask_filename_data_np.shape[2]+slice_num]=ICH_Mask_filename_data_np[:,:,0]
 
             #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
             ## volume of the infarct mask:
-            infarct_total_voxels = CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>np.min(CSF_Mask_filename_data_np)]
+            infarct_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
             infarct_total_voxels_count=infarct_total_voxels.shape[0]
             infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
             infarct_total_voxels_volume=infarct_total_voxels_volume/1000
 
-        if len(CSF_Mask_filename_data_np.shape) == 4:
-            CSF_Mask_filename_data_np=CSF_Mask_filename_data_np[:,:,:,0]
+        if len(ICH_Mask_filename_data_np.shape) == 4:
+            ICH_Mask_filename_data_np=ICH_Mask_filename_data_np[:,:,:,0]
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
@@ -238,8 +238,8 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
-        infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
-        numpy_image_mask=CSF_Mask_filename_data_np
+        infarct_side,ICH_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
+        numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
         lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
@@ -606,45 +606,45 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     grayfilename=niftifilename #os.path.join(levelset_file_directory,grayfilename) #os.path.join(niftifilenamedir,grayfilename)
 
     npyfileextension="REGISMethodOriginalRF_midline.npy"
-    # print("I am here CSF_Mask_filename")
+    # print("I am here ICH_Mask_filename")
 
-    CSF_Mask_filename=sys.argv[4] #CSF_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    ICH_Mask_filename=sys.argv[4] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
-    CSF_Mask_filename_part1, CSF_Mask_filename_part2 = os.path.splitext(CSF_Mask_filename)
+    ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
     infarct_side="NONE"
 
-    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename):
+    if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename):
 
 
-        if 'hdr' in CSF_Mask_filename_part2:
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata()
+        if 'hdr' in ICH_Mask_filename_part2:
+            ICH_Mask_filename_data_np=resizeinto_512by512(nib.AnalyzeImage.from_filename(ICH_Mask_filename).get_fdata()) #nib.load(ICH_Mask_filename).get_fdata()
             niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > CSF_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - CSF_Mask_filename_data_np.shape[2]
+            if niftifilename_data.shape[2] > ICH_Mask_filename_data_np.shape[2]:
+                difference_slices=niftifilename_data.shape[2] - ICH_Mask_filename_data_np.shape[2]
                 for slice_num in range(difference_slices):
-                    CSF_Mask_filename_data_np[:,:,CSF_Mask_filename_data_np.shape[2]+slice_num]=CSF_Mask_filename_data_np[:,:,0]
+                    ICH_Mask_filename_data_np[:,:,ICH_Mask_filename_data_np.shape[2]+slice_num]=ICH_Mask_filename_data_np[:,:,0]
         #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
-        if 'gz' in CSF_Mask_filename_part2:
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.load(CSF_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
+        if 'gz' in ICH_Mask_filename_part2:
+            ICH_Mask_filename_data_np=resizeinto_512by512(nib.load(ICH_Mask_filename).get_fdata()) #resizeinto_512by512(image_nib_nii_file_data)
 
             niftifilename_data=nib.load(niftifilename).get_fdata()
-            if niftifilename_data.shape[2] > CSF_Mask_filename_data_np.shape[2]:
-                difference_slices=niftifilename_data.shape[2] - CSF_Mask_filename_data_np.shape[2]
+            if niftifilename_data.shape[2] > ICH_Mask_filename_data_np.shape[2]:
+                difference_slices=niftifilename_data.shape[2] - ICH_Mask_filename_data_np.shape[2]
                 for slice_num in range(difference_slices):
-                    CSF_Mask_filename_data_np[:,:,CSF_Mask_filename_data_np.shape[2]+slice_num]=CSF_Mask_filename_data_np[:,:,0]
+                    ICH_Mask_filename_data_np[:,:,ICH_Mask_filename_data_np.shape[2]+slice_num]=ICH_Mask_filename_data_np[:,:,0]
 
             #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
             ## volume of the infarct mask:
-            infarct_total_voxels = CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>np.min(CSF_Mask_filename_data_np)]
+            infarct_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
             infarct_total_voxels_count=infarct_total_voxels.shape[0]
             infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
             infarct_total_voxels_volume=infarct_total_voxels_volume/1000
 
-        if len(CSF_Mask_filename_data_np.shape) == 4:
-            CSF_Mask_filename_data_np=CSF_Mask_filename_data_np[:,:,:,0]
+        if len(ICH_Mask_filename_data_np.shape) == 4:
+            ICH_Mask_filename_data_np=ICH_Mask_filename_data_np[:,:,:,0]
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
@@ -660,8 +660,8 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
-        infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
-        numpy_image_mask=CSF_Mask_filename_data_np
+        infarct_side,ICH_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
+        numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
         lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
@@ -1047,9 +1047,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
         npyfileextension="REGISMethodOriginalRF_midline.npy"
 
-        CSF_Mask_filename=sys.argv[3] #os.path.join(csf_mask_directory,mask_basename)
-        print('CSF_Mask_filename')
-        print(CSF_Mask_filename)
+        ICH_Mask_filename=sys.argv[3] #os.path.join(csf_mask_directory,mask_basename)
+        print('ICH_Mask_filename')
+        print(ICH_Mask_filename)
         print('niftifilename')
         print(niftifilename)
 
@@ -1061,18 +1061,18 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
 
-        if os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
+        if os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
             print("BOTH FILE EXISTS")
 
-            print('CSF_Mask_filename')
-            print(CSF_Mask_filename)
+            print('ICH_Mask_filename')
+            print(ICH_Mask_filename)
             print('niftifilename')
             print(niftifilename)
 
 
 
-            CSF_Mask_filename_data_np=resizeinto_512by512(nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
-            CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
+            ICH_Mask_filename_data_np=resizeinto_512by512(nib.load(ICH_Mask_filename).get_fdata()) #nib.load(ICH_Mask_filename).get_fdata() #
+            ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>1]=0
 
             ######################### added on July 15 2022 ##################################
             #             print("56code added on July 15 2022")
@@ -1080,16 +1080,16 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
                 #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
                 print('Filename:{}'.format(os.path.basename(niftifilename)))
-                print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+                print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>0])))
 
-                CSF_Mask_filename_data_np[infarct_image_data_1>0]=0
+                ICH_Mask_filename_data_np[infarct_image_data_1>0]=0
                 print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
 
-                print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+                print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>0])))
             #                 print("58code added on July 15 2022")
             ##################################################################################
 
-            #                print(np.max(CSF_Mask_filename_data_np))
+            #                print(np.max(ICH_Mask_filename_data_np))
             filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
             filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
             filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
@@ -1097,16 +1097,16 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
             filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
             #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
-            filename_brain_data_np_minus_CSF[CSF_Mask_filename_data_np>=np.max(CSF_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+            filename_brain_data_np_minus_CSF[ICH_Mask_filename_data_np>=np.max(ICH_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
             upper_slice_num=0
             lower_slice_num=0
             found_lower_slice=0
-            for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+            for slice_num_csf in range(ICH_Mask_filename_data_np.shape[2]):
 
-                if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                if found_lower_slice==0 and np.sum(ICH_Mask_filename_data_np[:,:,slice_num_csf]) >0:
                     lower_slice_num=slice_num_csf
                     found_lower_slice=1
-                if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                if found_lower_slice==1 and np.sum(ICH_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
                     upper_slice_num=slice_num_csf
             this_slice_left_volume=0
             this_slice_right_volume=0
@@ -1132,7 +1132,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         y_points2=y_points2[:,0]
                         # print(this_npyfile)
 
-                        img_with_line=CSF_Mask_filename_data_np[:,:,img_idx]
+                        img_with_line=ICH_Mask_filename_data_np[:,:,img_idx]
                         # print(np.max(img_with_line))
                         img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
                         thisimage=filename_gray_data_np_1[:,:,img_idx]
@@ -1235,12 +1235,12 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         # upper_slice_num=0
                         # lower_slice_num=0
                         # found_lower_slice=0
-                        # for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+                        # for slice_num_csf in range(ICH_Mask_filename_data_np.shape[2]):
 
-                        #     if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                        #     if found_lower_slice==0 and np.sum(ICH_Mask_filename_data_np[:,:,slice_num_csf]) >0:
                         #         lower_slice_num=slice_num_csf
                         #         found_lower_slice=1
-                        #     if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                        #     if found_lower_slice==1 and np.sum(ICH_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
                         #         upper_slice_num=slice_num_csf
                         ##########################
 

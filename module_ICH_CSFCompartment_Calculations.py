@@ -117,7 +117,7 @@ def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,
 
 
 def call_nwu_csfcompartment():
-    measure_NWU_after_subt_csf_Oct_5_2020()
+    measure_ICH_Class1_Feb24_2023()
     measure_compartments_with_reg_round5_one_file_sh_v1()
 
 def whichsideofline(line_pointA,line_pointB,point_todecide):
@@ -546,7 +546,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
 
 
-def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,niftifilenamedir):
+def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     infarct_side="NA"
     NWU="NA"
     infarct_pixels_number="NA"
@@ -1014,7 +1014,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 lower_thresh=-1024 #"NA" #int(float(sys.argv[7]))
                 upper_thresh=1024 #int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
-                # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_NWU_after_subt_csf_Oct_5_2020()
+                # lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Class1_Feb24_2023()
                 lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_CLASS2_Feb_24_2023()
 
 

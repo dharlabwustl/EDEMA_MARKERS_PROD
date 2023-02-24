@@ -754,12 +754,12 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_number="{0:0=3d}".format(img_idx)
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
                     imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
-                    imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
+                    imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
                     image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
                     image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
 
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class2,img_with_line1)
+                    cv2.imwrite(imagename_class1,img_with_line1)
                     cv2.imwrite(image_infarct_details,img_with_line1)
 
 
@@ -935,6 +935,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
 
                             cv2.imwrite(imagename,img_with_line1)
+                            cv2.imwrite(imagename_class1,img_with_line1)
                             cv2.imwrite(image_infarct_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
 
                             histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)
@@ -1213,8 +1214,10 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
                         imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
+
                         imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
                         imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
+                        imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
                         image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
                         image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
                         image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")

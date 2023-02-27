@@ -1298,10 +1298,12 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
             values_in_col=np.array(row2)
 
+            values_in_col_1=np.array(row2_1)
 
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
+                writer.writerow(row2_1)
             this_nii_filename_list=[]
             # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
             this_nii_filename_list.append(thisfilebasename)
@@ -1331,13 +1333,13 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
             #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
             #             latex_end_table2c(latexfilename)
-            values_in_table.pop(0)
-            values_in_table.pop(10)
-            values_in_table.pop(14)
-            values_in_table.pop(14)
-            for a in range(5):
-                values_in_table.pop(4)
+            # values_in_table.pop(0)
+            # values_in_table.pop(10)
+            # values_in_table.pop(14)
+            # values_in_table.pop(14)
             # for a in range(5):
+            #     values_in_table.pop(4)
+            # # for a in range(5):
 
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]

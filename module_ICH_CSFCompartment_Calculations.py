@@ -1021,7 +1021,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 upper_thresh=1024 #int(float(sys.argv[8]))
                 ## check if ICH file exists: sys.argv[4]
                 lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume,ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol= measure_ICH_Class1_Feb24_2023()
+                print("CLASS1::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}".format(lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume,ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol))
                 lower_thresh_class2,upper_thresh_class2,lower_thresh_normal_class2,upper_thresh_normal_class2, ICH_total_voxels_volume_class2,ICH_side_class2,NWU_class2,ICH_pixels_number_class2,ICH_pixels_density_class2,nonfarct_pixels_number_class2,nonICH_pixels_density_class2, overall_ICH_vol_class2,overall_non_ICH_vol_class2= measure_ICH_CLASS2_Feb_24_2023()
+                print("CLASS2::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}::{}".format(lower_thresh_class2,upper_thresh_class2,lower_thresh_normal_class2,upper_thresh_normal_class2, ICH_total_voxels_volume_class2,ICH_side_class2,NWU_class2,ICH_pixels_number_class2,ICH_pixels_density_class2,nonfarct_pixels_number_class2,nonICH_pixels_density_class2, overall_ICH_vol_class2,overall_non_ICH_vol_class2))
 
 
         niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")

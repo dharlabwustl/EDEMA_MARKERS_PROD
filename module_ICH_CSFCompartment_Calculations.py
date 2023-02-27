@@ -186,7 +186,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     npyfileextension="REGISMethodOriginalRF_midline.npy"
     # print("I am here ICH_Mask_filename")
 
-    ICH_Mask_filename=sys.argv[4] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    ICH_Mask_filename=sys.argv[7] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
@@ -608,7 +608,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     npyfileextension="REGISMethodOriginalRF_midline.npy"
     # print("I am here ICH_Mask_filename")
 
-    ICH_Mask_filename=sys.argv[7] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+    ICH_Mask_filename=sys.argv[4] #ICH_Mask_filename_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
@@ -1021,7 +1021,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 upper_thresh=1024 #int(float(sys.argv[8]))
                 ## check if infarct file exists: sys.argv[4]
                 lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Class1_Feb24_2023()
-                lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_CLASS2_Feb_24_2023()
+                lower_thresh_class2,upper_thresh_class2,lower_thresh_normal_class2,upper_thresh_normal_class2, infarct_total_voxels_volume_class2,infarct_side_class2,NWU_class2,infarct_pixels_number_class2,infarct_pixels_density_class2,nonfarct_pixels_number_class2,noninfarct_pixels_density_class2, overall_infarct_vol_class2,overall_non_infarct_vol_class2= measure_ICH_CLASS2_Feb_24_2023()
 
 
         niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")

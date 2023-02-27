@@ -48,8 +48,8 @@ def remove_few_columns(csvfilename,columnstoremove):
 
 
 
-def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,numpy_image_mask):
-    infarct_side='NONE'
+def determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,numpy_image_mask):
+    ICH_side='NONE'
     left_ids=[]
     right_ids=[]
     left_side_ones=0
@@ -83,7 +83,7 @@ def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,
                 #                    slice_3_layer[:,:,1]= I_t_gray #imgray1
                 #                    slice_3_layer[:,:,2]= I_t_gray# imgray1
 
-                #                     infarct_side="NO INFARCT"
+                #                     ICH_side="NO ICH"
 
                 for non_zero_pixel in img_with_line_nonzero_id:
                     xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
@@ -102,18 +102,18 @@ def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,
                         left_ids.append([non_zero_pixel[0],non_zero_pixel[1],img_idx])
 
     if (left_side_ones > right_side_ones):
-        infarct_side="LEFT"
+        ICH_side="LEFT"
         for right_id in right_ids:
             #             print("I am Left")
             numpy_image_mask[right_id[0],right_id[1],right_id[2]]=np.min(numpy_image_mask)
 
 
     if (right_side_ones > left_side_ones):
-        infarct_side="RIGHT"
+        ICH_side="RIGHT"
         for left_id in left_ids:
             #             print("I am Right")
             numpy_image_mask[left_id[0],left_id[1],left_id[2]]=np.min(numpy_image_mask)
-    return infarct_side,numpy_image_mask
+    return ICH_side,numpy_image_mask
 
 
 def call_nwu_csfcompartment():
@@ -125,24 +125,24 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
     return (point_todecide[0]-line_pointA[0])*(line_pointB[1]-line_pointA[1])  -  (point_todecide[1]-line_pointA[1])*(line_pointB[0]-line_pointA[0])
 
 def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
-    infarct_side="NA"
+    ICH_side="NA"
     NWU="NA"
-    infarct_pixels_number="NA"
-    infarct_pixels_density="NA"
+    ICH_pixels_number="NA"
+    ICH_pixels_density="NA"
     nonfarct_pixels_number="NA"
-    noninfarct_pixels_density="NA"
-    overall_infarct_vol="NA"
-    overall_non_infarct_vol="NA"
-    infarct_total_voxels_volume="NA"
+    nonICH_pixels_density="NA"
+    overall_ICH_vol="NA"
+    overall_non_ICH_vol="NA"
+    ICH_total_voxels_volume="NA"
     # print("I AM HERE1")
 
     niftifilename=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/ALLINONE_DATA_FROMJAMAL/WUSTL_798_03292019_Head_3.0_MPR_ax_20190329172552_2.nii" #sys.argv[1]
     niftifilenamedir=os.path.dirname(niftifilename)
     # grayscale_extension=sys.argv[2] #"_levelset.nii.gz"
-    #    mask_extension=sys.argv[3] #"_final_seg.nii.gz" ## infarct mask extension
+    #    mask_extension=sys.argv[3] #"_final_seg.nii.gz" ## ICH mask extension
     npyfiledirectory=sys.argv[5]
-    overall_infarct_vol=0
-    overall_non_infarct_vol=0
+    overall_ICH_vol=0
+    overall_non_ICH_vol=0
     # SLICE_OUTPUT_DIRECTORY=sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/RESULTS/IMAGES" #sys.argv[5]
 
     # csf_mask_extension=sys.argv[3]
@@ -154,7 +154,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     #    niftifilenamedir=sys.argv[5] #"/inputdirectory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
 
     csf_mask_directory=os.path.dirname(sys.argv[3]) #"/inputdirectory_csfmask"
-    infarct_mask_directory=os.path.dirname(sys.argv[7])
+    ICH_mask_directory=os.path.dirname(sys.argv[7])
     #    print('sys.argv')
     print(sys.argv)
     SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
@@ -166,17 +166,17 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     # upper_thresh_normal=80 #int(float(sys.argv[8]))
     left_pixels_num=0
     right_pixels_num=0
-    # print("infarct_mask_directory")
-    # print(infarct_mask_directory)
+    # print("ICH_mask_directory")
+    # print(ICH_mask_directory)
 
     subject_name=os.path.basename(niftifilename).split(".nii")[0] #_gray")[0]
     count = 0
     dict_for_csv = []
-    infarct_pixels_list=[]
+    ICH_pixels_list=[]
     nonfarct_pixels_list=[]
-    infarct_pixel_intensity=[]
+    ICH_pixel_intensity=[]
 
-    noninfarct_pixel_intensity=[]
+    nonICH_pixel_intensity=[]
     # print("I AM HERE2")
 
     grayfilename_base=os.path.basename(niftifilename) #mask_basename+"levelset.nii.gz"
@@ -190,7 +190,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
-    infarct_side="NONE"
+    ICH_side="NONE"
 
     if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename):
 
@@ -215,11 +215,11 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
             #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
-            ## volume of the infarct mask:
-            infarct_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
-            infarct_total_voxels_count=infarct_total_voxels.shape[0]
-            infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-            infarct_total_voxels_volume=infarct_total_voxels_volume/1000
+            ## volume of the ICH mask:
+            ICH_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
+            ICH_total_voxels_count=ICH_total_voxels.shape[0]
+            ICH_total_voxels_volume = ICH_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+            ICH_total_voxels_volume=ICH_total_voxels_volume/1000
 
         if len(ICH_Mask_filename_data_np.shape) == 4:
             ICH_Mask_filename_data_np=ICH_Mask_filename_data_np[:,:,:,0]
@@ -238,7 +238,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
-        infarct_side,ICH_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
+        ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
@@ -331,75 +331,75 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     slice_number="{0:0=3d}".format(img_idx)
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
-                    imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+                    imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
-                    image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
-                    image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+                    image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
+                    image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
                     cv2.imwrite(imagename_class2,img_with_line1)
                     cv2.imwrite(imagename,img_with_line1) #
 
-                    cv2.imwrite(image_infarct_details,img_with_line1)
+                    cv2.imwrite(image_ICH_details,img_with_line1)
 
 
 
 
                     if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
-                        infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
-                        pixels_num_total_infarct=len(infarct_pixels)
-                        infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
+                        ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
+                        pixels_num_total_ICH=len(ICH_pixels)
+                        ICH_pixels_volume =pixels_num_total_ICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
 
 
-                        infarct_pixels_flatten=infarct_pixels.flatten()
+                        ICH_pixels_flatten=ICH_pixels.flatten()
 
-                        infarct_pixels_flatten_gt_0=infarct_pixels_flatten[np.where(infarct_pixels_flatten>=0)]
+                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
 
-                        infarct_pixels_volume1 =infarct_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (infarct_pixels_volume1/1000) > 0.1:
-                            infarct_pixels_gt20 =infarct_pixels[infarct_pixels>=lower_thresh]# infarct_pixels[infarct_pixels>=20]
-                            pixels_num_infarct_below_lowerthresh = pixels_num_total_infarct - len(infarct_pixels_gt20)
-                            temp_len=len(infarct_pixels_gt20)
+                        ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        if (ICH_pixels_volume1/1000) > 0.1:
+                            ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
+                            pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
+                            temp_len=len(ICH_pixels_gt20)
 
-                            infarct_pixels_gt20_lt80 = infarct_pixels_gt20[infarct_pixels_gt20<=upper_thresh] # infarct_pixels_gt20[infarct_pixels_gt20<=80]
-                            pixels_num_infarct_above_upperthresh = temp_len - len(infarct_pixels_gt20_lt80)
-                            infarct_pixels_gt20_lt80_nonzero = infarct_pixels_gt20_lt80[np.nonzero(infarct_pixels_gt20_lt80)]
-                            infarct_slice_pixel_count=0
+                            ICH_pixels_gt20_lt80 = ICH_pixels_gt20[ICH_pixels_gt20<=upper_thresh] # ICH_pixels_gt20[ICH_pixels_gt20<=80]
+                            pixels_num_ICH_above_upperthresh = temp_len - len(ICH_pixels_gt20_lt80)
+                            ICH_pixels_gt20_lt80_nonzero = ICH_pixels_gt20_lt80[np.nonzero(ICH_pixels_gt20_lt80)]
+                            ICH_slice_pixel_count=0
 
-                            for intensity in infarct_pixels_gt20_lt80_nonzero:
+                            for intensity in ICH_pixels_gt20_lt80_nonzero:
 
-                                infarct_pixels_list.append(intensity)
-                                infarct_slice_pixel_count = infarct_slice_pixel_count+1
+                                ICH_pixels_list.append(intensity)
+                                ICH_slice_pixel_count = ICH_slice_pixel_count+1
 
-                            overall_infarct_vol=overall_infarct_vol+infarct_pixels_volume/1000
-                            non_infarct_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
-                            non_infarct_pixels=non_infarct_pixels[non_infarct_pixels>np.min(non_infarct_pixels)]
+                            overall_ICH_vol=overall_ICH_vol+ICH_pixels_volume/1000
+                            non_ICH_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
+                            non_ICH_pixels=non_ICH_pixels[non_ICH_pixels>np.min(non_ICH_pixels)]
 
-                            pixels_num_total_noninfarct=len(non_infarct_pixels)
-                            non_infarct_pixels_volume =pixels_num_total_noninfarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                            non_infarct_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
-                            non_infarct_pixels_flatten_gt_0=non_infarct_pixels_flatten[np.where(non_infarct_pixels_flatten>0)]
+                            pixels_num_total_nonICH=len(non_ICH_pixels)
+                            non_ICH_pixels_volume =pixels_num_total_nonICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                            non_ICH_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
+                            non_ICH_pixels_flatten_gt_0=non_ICH_pixels_flatten[np.where(non_ICH_pixels_flatten>0)]
 
-                            non_infarct_pixels_gt20 = non_infarct_pixels[non_infarct_pixels>=lower_thresh_normal]
-                            pixels_num_noninfarct_below_lowerthresh = pixels_num_total_noninfarct - len(non_infarct_pixels_gt20)
-                            temp_len=len(non_infarct_pixels_gt20)
-                            non_infarct_pixels_gt20_lt80 = non_infarct_pixels_gt20[non_infarct_pixels_gt20<=upper_thresh_normal]
-                            pixels_num_noninfarct_above_upperthresh = temp_len - len(non_infarct_pixels_gt20_lt80)
-                            noninfarct_pixels_gt20_lt80_nonzero = non_infarct_pixels_gt20_lt80[np.nonzero(non_infarct_pixels_gt20_lt80)]
-                            noninfarct_slice_pixel_count=0
-                            for intensity in noninfarct_pixels_gt20_lt80_nonzero:
+                            non_ICH_pixels_gt20 = non_ICH_pixels[non_ICH_pixels>=lower_thresh_normal]
+                            pixels_num_nonICH_below_lowerthresh = pixels_num_total_nonICH - len(non_ICH_pixels_gt20)
+                            temp_len=len(non_ICH_pixels_gt20)
+                            non_ICH_pixels_gt20_lt80 = non_ICH_pixels_gt20[non_ICH_pixels_gt20<=upper_thresh_normal]
+                            pixels_num_nonICH_above_upperthresh = temp_len - len(non_ICH_pixels_gt20_lt80)
+                            nonICH_pixels_gt20_lt80_nonzero = non_ICH_pixels_gt20_lt80[np.nonzero(non_ICH_pixels_gt20_lt80)]
+                            nonICH_slice_pixel_count=0
+                            for intensity in nonICH_pixels_gt20_lt80_nonzero:
                                 nonfarct_pixels_list.append(intensity)
-                                noninfarct_slice_pixel_count=noninfarct_slice_pixel_count+1
+                                nonICH_slice_pixel_count=nonICH_slice_pixel_count+1
 
-                            overall_non_infarct_vol=overall_non_infarct_vol+non_infarct_pixels_volume/1000
-                            mean_slice_infarct_pixels_gt20_lt80= np.mean(infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_infarct_pixels_gt20_lt80):
-                                mean_slice_infarct_pixels_gt20_lt80=0
-                            mean_slice_non_infarct_pixels_gt20_lt80=np.mean(non_infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_non_infarct_pixels_gt20_lt80):
-                                mean_slice_non_infarct_pixels_gt20_lt80=0
+                            overall_non_ICH_vol=overall_non_ICH_vol+non_ICH_pixels_volume/1000
+                            mean_slice_ICH_pixels_gt20_lt80= np.mean(ICH_pixels_gt20_lt80)
+                            if math.isnan(mean_slice_ICH_pixels_gt20_lt80):
+                                mean_slice_ICH_pixels_gt20_lt80=0
+                            mean_slice_non_ICH_pixels_gt20_lt80=np.mean(non_ICH_pixels_gt20_lt80)
+                            if math.isnan(mean_slice_non_ICH_pixels_gt20_lt80):
+                                mean_slice_non_ICH_pixels_gt20_lt80=0
 
-                            infarct_pixel_intensity.append(mean_slice_infarct_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
-                            noninfarct_pixel_intensity.append(mean_slice_non_infarct_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
+                            ICH_pixel_intensity.append(mean_slice_ICH_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
+                            nonICH_pixel_intensity.append(mean_slice_non_ICH_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
                             cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"),I4)
                             I4_img=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"))
                             ################################################################
@@ -414,98 +414,98 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                             # Line thickness of 2 px
                             thickness = 1
                             img_with_line_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            current_infarct_num=0
-                            current_noninfarct_num=0
+                            current_ICH_num=0
+                            current_nonICH_num=0
 
                             slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer[blank_3_layer>0]=0
 
-                            img_with_infarct_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            img_with_noninfarct_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
-                            infarct_pixel_counter=0
-                            noninfarct_pixel_counter=0
-                            csf_in_infarct_counter=0
-                            csf_in_noninfarct_counter=0
+                            img_with_ICH_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
+                            img_with_nonICH_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
+                            ICH_pixel_counter=0
+                            nonICH_pixel_counter=0
+                            csf_in_ICH_counter=0
+                            csf_in_nonICH_counter=0
                             ### non-zero pixels in csf:
                             csf_seg_np_nonzero_id = np.transpose(np.nonzero(csf_seg_np[:,:,img_idx]))
                             csf_values=np.unique(csf_seg_np[:,:,img_idx].flatten())
 
-                            csf_in_infarct=0
-                            csf_in_noinfarct=0
-                            for non_zero_pixel in img_with_infarct_nonzero_id:
+                            csf_in_ICH=0
+                            csf_in_noICH=0
+                            for non_zero_pixel in img_with_ICH_nonzero_id:
                                 matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
                                 if len(matching[0]>0):
-                                    csf_in_infarct=csf_in_infarct+1
-                            for non_zero_pixel in img_with_noninfarct_nonzero_id:
+                                    csf_in_ICH=csf_in_ICH+1
+                            for non_zero_pixel in img_with_nonICH_nonzero_id:
                                 matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
                                 if len(matching[0]>0):
-                                    csf_in_noinfarct=csf_in_noinfarct+1
+                                    csf_in_noICH=csf_in_noICH+1
 
 
 
-                            for non_zero_pixel in img_with_infarct_nonzero_id:
+                            for non_zero_pixel in img_with_ICH_nonzero_id:
 
 
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
-                                    current_infarct_num = current_infarct_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
+                                    current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200
-                                    infarct_pixel_counter=infarct_pixel_counter+1
-                            for non_zero_pixel in img_with_noninfarct_nonzero_id:
+                                    ICH_pixel_counter=ICH_pixel_counter+1
+                            for non_zero_pixel in img_with_nonICH_nonzero_id:
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
-                                    current_noninfarct_num = current_noninfarct_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
+                                    current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100 #0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200 #100
-                                    noninfarct_pixel_counter=noninfarct_pixel_counter+1
+                                    nonICH_pixel_counter=nonICH_pixel_counter+1
                             ##################################################################
 
 
-                            print("current_infarct_num")
-                            print(current_infarct_num)
+                            print("current_ICH_num")
+                            print(current_ICH_num)
                             print("filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]")
                             print(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx])
                             text_space=15
-                            blank_3_layer = cv2.putText(blank_3_layer, "INFARCT SIDE (Orange):  " + infarct_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "ICH SIDE (Orange):  " + ICH_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-                            #                            if infarct_pixel_counter != 0 :
-                            if infarct_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer, "Infarct density:" + str(current_infarct_num/infarct_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            #                            if ICH_pixel_counter != 0 :
+                            if ICH_pixel_counter != 0 :
+                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + str(current_ICH_num/ICH_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
                             else:
-                                blank_3_layer = cv2.putText(blank_3_layer, "Infarct density:" + "Infarct count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + "ICH count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
 
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*2), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            if noninfarct_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + str(current_noninfarct_num/noninfarct_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            if nonICH_pixel_counter != 0 :
+                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + str(current_nonICH_num/nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
                             else:
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + "Non infarct count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
+                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + "Non ICH count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*4), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Infarct pixel count:" + str(infarct_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "ICH pixel count:" + str(ICH_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*6), font,  fontScale, color, thickness, cv2.LINE_AA)
 
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct pixel count:" + str(noninfarct_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH pixel count:" + str(nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*8), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel infarct:" + str(pixels_num_total_infarct) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel ICH:" + str(pixels_num_total_ICH) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*10), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-infarct:" + str(pixels_num_total_noninfarct) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-ICH:" + str(pixels_num_total_nonICH) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*12), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in infarct:" + str(pixels_num_infarct_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in ICH:" + str(pixels_num_ICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*14), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in infarct:" + str(pixels_num_infarct_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in ICH:" + str(pixels_num_ICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*16), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in noninfarct:" + str(pixels_num_noninfarct_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in nonICH:" + str(pixels_num_nonICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*18), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in noninfarct:" + str(pixels_num_noninfarct_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in nonICH:" + str(pixels_num_nonICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*20), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in infarct:" + str(csf_in_infarct) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in ICH:" + str(csf_in_ICH) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*22), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-infarct:" + str(csf_in_noinfarct) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-ICH:" + str(csf_in_noICH) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
 
 
 
@@ -514,20 +514,20 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
                             cv2.imwrite(imagename,img_with_line1)
                             cv2.imwrite(imagename_class2,img_with_line1)
-                            cv2.imwrite(image_infarct_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
+                            cv2.imwrite(image_ICH_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
 
-                            histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)
+                            histogram_sidebyside(ICH_pixels_gt20_lt80_nonzero,nonICH_pixels_gt20_lt80_nonzero,image_ICH_nonICH_histogram)
 
-                            ratio_density=(np.mean(infarct_pixels_gt20_lt80_nonzero)/np.mean(noninfarct_pixels_gt20_lt80_nonzero))
-                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(infarct_pixels_gt20_lt80))/(np.mean(non_infarct_pixels_gt20_lt80)))) * 100
-                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofInfarctvoxels": infarct_slice_pixel_count, "INFARCT Density":np.mean(infarct_pixels_gt20_lt80_nonzero),"NumberofNONInfarctvoxels": noninfarct_slice_pixel_count , "NONINFARCT Density":np.mean(noninfarct_pixels_gt20_lt80_nonzero) , "INFARCT Volume":infarct_pixels_volume/1000 ,"NONINFARCT Volume":non_infarct_pixels_volume/1000, "ORGINAL_INFARCT_VOLUME":"NA","INFARCTUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
+                            ratio_density=(np.mean(ICH_pixels_gt20_lt80_nonzero)/np.mean(nonICH_pixels_gt20_lt80_nonzero))
+                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(ICH_pixels_gt20_lt80))/(np.mean(non_ICH_pixels_gt20_lt80)))) * 100
+                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofICHvoxels": ICH_slice_pixel_count, "ICH Density":np.mean(ICH_pixels_gt20_lt80_nonzero),"NumberofNONICHvoxels": nonICH_slice_pixel_count , "NONICH Density":np.mean(nonICH_pixels_gt20_lt80_nonzero) , "ICH Volume":ICH_pixels_volume/1000 ,"NONICH Volume":non_ICH_pixels_volume/1000, "ORGINAL_ICH_VOLUME":"NA","ICHUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
 
 
                             dict_for_csv.append(this_dict)
-    ratio_overall_density = (np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
-    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
+    ratio_overall_density = (np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
+    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
 
-    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofInfarctvoxels": np.array(infarct_pixels_list).shape[0],"INFARCT Density":np.mean(np.array(infarct_pixels_list)) , "NumberofNONInfarctvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONINFARCT Density":np.mean(np.array(nonfarct_pixels_list)), "INFARCT Volume":overall_infarct_vol ,"NONINFARCT Volume":overall_non_infarct_vol,"ORGINAL_INFARCT_VOLUME":infarct_total_voxels_volume ,"INFARCTUSED_VOL_RATIO":overall_infarct_vol/infarct_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_infarct_vol/infarct_total_voxels_volume}
+    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofICHvoxels": np.array(ICH_pixels_list).shape[0],"ICH Density":np.mean(np.array(ICH_pixels_list)) , "NumberofNONICHvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONICH Density":np.mean(np.array(nonfarct_pixels_list)), "ICH Volume":overall_ICH_vol ,"NONICH Volume":overall_non_ICH_vol,"ORGINAL_ICH_VOLUME":ICH_total_voxels_volume ,"ICHUSED_VOL_RATIO":overall_ICH_vol/ICH_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_ICH_vol/ICH_total_voxels_volume}
     dict_for_csv.append(this_dict)
 
     date_time = time.strftime("_%m_%d_%Y",now)
@@ -535,36 +535,36 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
     # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
     csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
-    csv_columns=['Slice','NWU','NumberofInfarctvoxels','INFARCT Density','NumberofNONInfarctvoxels','NONINFARCT Density','INFARCT Volume','NONINFARCT Volume','ORGINAL_INFARCT_VOLUME','INFARCTUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
+    csv_columns=['Slice','NWU','NumberofICHvoxels','ICH Density','NumberofNONICHvoxels','NONICH Density','ICH Volume','NONICH Volume','ORGINAL_ICH_VOLUME','ICHUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
     write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
 
-    infarct_pixels_number=np.array(infarct_pixels_list).shape[0]
-    infarct_pixels_density=np.mean(np.array(infarct_pixels_list))
+    ICH_pixels_number=np.array(ICH_pixels_list).shape[0]
+    ICH_pixels_density=np.mean(np.array(ICH_pixels_list))
     nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
-    noninfarct_pixels_density=np.mean(np.array(nonfarct_pixels_list))
-    return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
+    nonICH_pixels_density=np.mean(np.array(nonfarct_pixels_list))
+    return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 
 
 
 def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
-    infarct_side="NA"
+    ICH_side="NA"
     NWU="NA"
-    infarct_pixels_number="NA"
-    infarct_pixels_density="NA"
+    ICH_pixels_number="NA"
+    ICH_pixels_density="NA"
     nonfarct_pixels_number="NA"
-    noninfarct_pixels_density="NA"
-    overall_infarct_vol="NA"
-    overall_non_infarct_vol="NA"
-    infarct_total_voxels_volume="NA"
+    nonICH_pixels_density="NA"
+    overall_ICH_vol="NA"
+    overall_non_ICH_vol="NA"
+    ICH_total_voxels_volume="NA"
     # print("I AM HERE1")
 
     niftifilename=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/ALLINONE_DATA_FROMJAMAL/WUSTL_798_03292019_Head_3.0_MPR_ax_20190329172552_2.nii" #sys.argv[1]
     niftifilenamedir=os.path.dirname(niftifilename)
     # grayscale_extension=sys.argv[2] #"_levelset.nii.gz"
-    #    mask_extension=sys.argv[3] #"_final_seg.nii.gz" ## infarct mask extension
+    #    mask_extension=sys.argv[3] #"_final_seg.nii.gz" ## ICH mask extension
     npyfiledirectory=sys.argv[5]
-    overall_infarct_vol=0
-    overall_non_infarct_vol=0
+    overall_ICH_vol=0
+    overall_non_ICH_vol=0
     # SLICE_OUTPUT_DIRECTORY=sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/RESULTS/IMAGES" #sys.argv[5]
 
     # csf_mask_extension=sys.argv[3]
@@ -576,7 +576,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     #    niftifilenamedir=sys.argv[5] #"/inputdirectory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
 
     csf_mask_directory=os.path.dirname(sys.argv[3]) #"/inputdirectory_csfmask"
-    infarct_mask_directory=os.path.dirname(sys.argv[4])
+    ICH_mask_directory=os.path.dirname(sys.argv[4])
     #    print('sys.argv')
     print(sys.argv)
     SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
@@ -588,17 +588,17 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     # upper_thresh_normal=80 #int(float(sys.argv[8]))
     left_pixels_num=0
     right_pixels_num=0
-    # print("infarct_mask_directory")
-    # print(infarct_mask_directory)
+    # print("ICH_mask_directory")
+    # print(ICH_mask_directory)
 
     subject_name=os.path.basename(niftifilename).split(".nii")[0] #_gray")[0]
     count = 0
     dict_for_csv = []
-    infarct_pixels_list=[]
+    ICH_pixels_list=[]
     nonfarct_pixels_list=[]
-    infarct_pixel_intensity=[]
+    ICH_pixel_intensity=[]
 
-    noninfarct_pixel_intensity=[]
+    nonICH_pixel_intensity=[]
     # print("I AM HERE2")
 
     grayfilename_base=os.path.basename(niftifilename) #mask_basename+"levelset.nii.gz"
@@ -612,7 +612,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     csf_seg_maskbasename_path=sys.argv[3] #csf_seg_maskbasename_path_list[0] #os.path.join(niftifilenamedir,"Masks",csf_seg_maskbasename)
     ICH_Mask_filename_part1, ICH_Mask_filename_part2 = os.path.splitext(ICH_Mask_filename)
 
-    infarct_side="NONE"
+    ICH_side="NONE"
 
     if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename):
 
@@ -637,11 +637,11 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
             #             filename_gray_data_np_copy=np.copy(niftifilename_data)
 
-            ## volume of the infarct mask:
-            infarct_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
-            infarct_total_voxels_count=infarct_total_voxels.shape[0]
-            infarct_total_voxels_volume = infarct_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-            infarct_total_voxels_volume=infarct_total_voxels_volume/1000
+            ## volume of the ICH mask:
+            ICH_total_voxels = ICH_Mask_filename_data_np[ICH_Mask_filename_data_np>np.min(ICH_Mask_filename_data_np)]
+            ICH_total_voxels_count=ICH_total_voxels.shape[0]
+            ICH_total_voxels_volume = ICH_total_voxels.shape[0]*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+            ICH_total_voxels_volume=ICH_total_voxels_volume/1000
 
         if len(ICH_Mask_filename_data_np.shape) == 4:
             ICH_Mask_filename_data_np=ICH_Mask_filename_data_np[:,:,:,0]
@@ -660,7 +660,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
-        infarct_side,ICH_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
+        ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
@@ -753,75 +753,75 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     slice_number="{0:0=3d}".format(img_idx)
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
-                    imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+                    imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
                     imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
-                    image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
-                    image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+                    image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
+                    image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
 
                     cv2.imwrite(imagename,img_with_line1)
                     cv2.imwrite(imagename_class1,img_with_line1)
-                    cv2.imwrite(image_infarct_details,img_with_line1)
+                    cv2.imwrite(image_ICH_details,img_with_line1)
 
 
 
 
                     if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
-                        infarct_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        infarct_pixels=infarct_pixels[infarct_pixels>np.min(infarct_pixels)]
-                        pixels_num_total_infarct=len(infarct_pixels)
-                        infarct_pixels_volume =pixels_num_total_infarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
+                        ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
+                        pixels_num_total_ICH=len(ICH_pixels)
+                        ICH_pixels_volume =pixels_num_total_ICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
 
 
-                        infarct_pixels_flatten=infarct_pixels.flatten()
+                        ICH_pixels_flatten=ICH_pixels.flatten()
 
-                        infarct_pixels_flatten_gt_0=infarct_pixels_flatten[np.where(infarct_pixels_flatten>=0)]
+                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
 
-                        infarct_pixels_volume1 =infarct_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (infarct_pixels_volume1/1000) > 0.1:
-                            infarct_pixels_gt20 =infarct_pixels[infarct_pixels>=lower_thresh]# infarct_pixels[infarct_pixels>=20]
-                            pixels_num_infarct_below_lowerthresh = pixels_num_total_infarct - len(infarct_pixels_gt20)
-                            temp_len=len(infarct_pixels_gt20)
+                        ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                        if (ICH_pixels_volume1/1000) > 0.1:
+                            ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
+                            pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
+                            temp_len=len(ICH_pixels_gt20)
 
-                            infarct_pixels_gt20_lt80 = infarct_pixels_gt20[infarct_pixels_gt20<=upper_thresh] # infarct_pixels_gt20[infarct_pixels_gt20<=80]
-                            pixels_num_infarct_above_upperthresh = temp_len - len(infarct_pixels_gt20_lt80)
-                            infarct_pixels_gt20_lt80_nonzero = infarct_pixels_gt20_lt80[np.nonzero(infarct_pixels_gt20_lt80)]
-                            infarct_slice_pixel_count=0
+                            ICH_pixels_gt20_lt80 = ICH_pixels_gt20[ICH_pixels_gt20<=upper_thresh] # ICH_pixels_gt20[ICH_pixels_gt20<=80]
+                            pixels_num_ICH_above_upperthresh = temp_len - len(ICH_pixels_gt20_lt80)
+                            ICH_pixels_gt20_lt80_nonzero = ICH_pixels_gt20_lt80[np.nonzero(ICH_pixels_gt20_lt80)]
+                            ICH_slice_pixel_count=0
 
-                            for intensity in infarct_pixels_gt20_lt80_nonzero:
+                            for intensity in ICH_pixels_gt20_lt80_nonzero:
 
-                                infarct_pixels_list.append(intensity)
-                                infarct_slice_pixel_count = infarct_slice_pixel_count+1
+                                ICH_pixels_list.append(intensity)
+                                ICH_slice_pixel_count = ICH_slice_pixel_count+1
 
-                            overall_infarct_vol=overall_infarct_vol+infarct_pixels_volume/1000
-                            non_infarct_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
-                            non_infarct_pixels=non_infarct_pixels[non_infarct_pixels>np.min(non_infarct_pixels)]
+                            overall_ICH_vol=overall_ICH_vol+ICH_pixels_volume/1000
+                            non_ICH_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
+                            non_ICH_pixels=non_ICH_pixels[non_ICH_pixels>np.min(non_ICH_pixels)]
 
-                            pixels_num_total_noninfarct=len(non_infarct_pixels)
-                            non_infarct_pixels_volume =pixels_num_total_noninfarct*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                            non_infarct_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
-                            non_infarct_pixels_flatten_gt_0=non_infarct_pixels_flatten[np.where(non_infarct_pixels_flatten>0)]
+                            pixels_num_total_nonICH=len(non_ICH_pixels)
+                            non_ICH_pixels_volume =pixels_num_total_nonICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
+                            non_ICH_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
+                            non_ICH_pixels_flatten_gt_0=non_ICH_pixels_flatten[np.where(non_ICH_pixels_flatten>0)]
 
-                            non_infarct_pixels_gt20 = non_infarct_pixels[non_infarct_pixels>=lower_thresh_normal]
-                            pixels_num_noninfarct_below_lowerthresh = pixels_num_total_noninfarct - len(non_infarct_pixels_gt20)
-                            temp_len=len(non_infarct_pixels_gt20)
-                            non_infarct_pixels_gt20_lt80 = non_infarct_pixels_gt20[non_infarct_pixels_gt20<=upper_thresh_normal]
-                            pixels_num_noninfarct_above_upperthresh = temp_len - len(non_infarct_pixels_gt20_lt80)
-                            noninfarct_pixels_gt20_lt80_nonzero = non_infarct_pixels_gt20_lt80[np.nonzero(non_infarct_pixels_gt20_lt80)]
-                            noninfarct_slice_pixel_count=0
-                            for intensity in noninfarct_pixels_gt20_lt80_nonzero:
+                            non_ICH_pixels_gt20 = non_ICH_pixels[non_ICH_pixels>=lower_thresh_normal]
+                            pixels_num_nonICH_below_lowerthresh = pixels_num_total_nonICH - len(non_ICH_pixels_gt20)
+                            temp_len=len(non_ICH_pixels_gt20)
+                            non_ICH_pixels_gt20_lt80 = non_ICH_pixels_gt20[non_ICH_pixels_gt20<=upper_thresh_normal]
+                            pixels_num_nonICH_above_upperthresh = temp_len - len(non_ICH_pixels_gt20_lt80)
+                            nonICH_pixels_gt20_lt80_nonzero = non_ICH_pixels_gt20_lt80[np.nonzero(non_ICH_pixels_gt20_lt80)]
+                            nonICH_slice_pixel_count=0
+                            for intensity in nonICH_pixels_gt20_lt80_nonzero:
                                 nonfarct_pixels_list.append(intensity)
-                                noninfarct_slice_pixel_count=noninfarct_slice_pixel_count+1
+                                nonICH_slice_pixel_count=nonICH_slice_pixel_count+1
 
-                            overall_non_infarct_vol=overall_non_infarct_vol+non_infarct_pixels_volume/1000
-                            mean_slice_infarct_pixels_gt20_lt80= np.mean(infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_infarct_pixels_gt20_lt80):
-                                mean_slice_infarct_pixels_gt20_lt80=0
-                            mean_slice_non_infarct_pixels_gt20_lt80=np.mean(non_infarct_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_non_infarct_pixels_gt20_lt80):
-                                mean_slice_non_infarct_pixels_gt20_lt80=0
+                            overall_non_ICH_vol=overall_non_ICH_vol+non_ICH_pixels_volume/1000
+                            mean_slice_ICH_pixels_gt20_lt80= np.mean(ICH_pixels_gt20_lt80)
+                            if math.isnan(mean_slice_ICH_pixels_gt20_lt80):
+                                mean_slice_ICH_pixels_gt20_lt80=0
+                            mean_slice_non_ICH_pixels_gt20_lt80=np.mean(non_ICH_pixels_gt20_lt80)
+                            if math.isnan(mean_slice_non_ICH_pixels_gt20_lt80):
+                                mean_slice_non_ICH_pixels_gt20_lt80=0
 
-                            infarct_pixel_intensity.append(mean_slice_infarct_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
-                            noninfarct_pixel_intensity.append(mean_slice_non_infarct_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
+                            ICH_pixel_intensity.append(mean_slice_ICH_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
+                            nonICH_pixel_intensity.append(mean_slice_non_ICH_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
                             cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"),I4)
                             I4_img=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"))
                             ################################################################
@@ -836,98 +836,98 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                             # Line thickness of 2 px
                             thickness = 1
                             img_with_line_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            current_infarct_num=0
-                            current_noninfarct_num=0
+                            current_ICH_num=0
+                            current_nonICH_num=0
 
                             slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer[blank_3_layer>0]=0
 
-                            img_with_infarct_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            img_with_noninfarct_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
-                            infarct_pixel_counter=0
-                            noninfarct_pixel_counter=0
-                            csf_in_infarct_counter=0
-                            csf_in_noninfarct_counter=0
+                            img_with_ICH_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
+                            img_with_nonICH_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
+                            ICH_pixel_counter=0
+                            nonICH_pixel_counter=0
+                            csf_in_ICH_counter=0
+                            csf_in_nonICH_counter=0
                             ### non-zero pixels in csf:
                             csf_seg_np_nonzero_id = np.transpose(np.nonzero(csf_seg_np[:,:,img_idx]))
                             csf_values=np.unique(csf_seg_np[:,:,img_idx].flatten())
 
-                            csf_in_infarct=0
-                            csf_in_noinfarct=0
-                            for non_zero_pixel in img_with_infarct_nonzero_id:
+                            csf_in_ICH=0
+                            csf_in_noICH=0
+                            for non_zero_pixel in img_with_ICH_nonzero_id:
                                 matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
                                 if len(matching[0]>0):
-                                    csf_in_infarct=csf_in_infarct+1
-                            for non_zero_pixel in img_with_noninfarct_nonzero_id:
+                                    csf_in_ICH=csf_in_ICH+1
+                            for non_zero_pixel in img_with_nonICH_nonzero_id:
                                 matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
                                 if len(matching[0]>0):
-                                    csf_in_noinfarct=csf_in_noinfarct+1
+                                    csf_in_noICH=csf_in_noICH+1
 
 
 
-                            for non_zero_pixel in img_with_infarct_nonzero_id:
+                            for non_zero_pixel in img_with_ICH_nonzero_id:
 
 
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
-                                    current_infarct_num = current_infarct_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
+                                    current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100 #0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0 ##100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100 ##200
-                                    infarct_pixel_counter=infarct_pixel_counter+1
-                            for non_zero_pixel in img_with_noninfarct_nonzero_id:
+                                    ICH_pixel_counter=ICH_pixel_counter+1
+                            for non_zero_pixel in img_with_nonICH_nonzero_id:
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
-                                    current_noninfarct_num = current_noninfarct_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
+                                    current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100
-                                    noninfarct_pixel_counter=noninfarct_pixel_counter+1
+                                    nonICH_pixel_counter=nonICH_pixel_counter+1
                             ##################################################################
 
 
-                            print("current_infarct_num")
-                            print(current_infarct_num)
+                            print("current_ICH_num")
+                            print(current_ICH_num)
                             print("filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]")
                             print(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx])
                             text_space=15
-                            blank_3_layer = cv2.putText(blank_3_layer, "INFARCT SIDE (Orange):  " + infarct_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "ICH SIDE (Orange):  " + ICH_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-                            #                            if infarct_pixel_counter != 0 :
-                            if infarct_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer, "Infarct density:" + str(current_infarct_num/infarct_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            #                            if ICH_pixel_counter != 0 :
+                            if ICH_pixel_counter != 0 :
+                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + str(current_ICH_num/ICH_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
                             else:
-                                blank_3_layer = cv2.putText(blank_3_layer, "Infarct density:" + "Infarct count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + "ICH count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
 
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*2), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            if noninfarct_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + str(current_noninfarct_num/noninfarct_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            if nonICH_pixel_counter != 0 :
+                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + str(current_nonICH_num/nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
                             else:
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct density:" + "Non infarct count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
+                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + "Non ICH count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*4), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Infarct pixel count:" + str(infarct_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "ICH pixel count:" + str(ICH_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*6), font,  fontScale, color, thickness, cv2.LINE_AA)
 
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Non infarct pixel count:" + str(noninfarct_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH pixel count:" + str(nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*8), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel infarct:" + str(pixels_num_total_infarct) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel ICH:" + str(pixels_num_total_ICH) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*10), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-infarct:" + str(pixels_num_total_noninfarct) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-ICH:" + str(pixels_num_total_nonICH) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*12), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in infarct:" + str(pixels_num_infarct_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in ICH:" + str(pixels_num_ICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*14), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in infarct:" + str(pixels_num_infarct_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in ICH:" + str(pixels_num_ICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*16), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in noninfarct:" + str(pixels_num_noninfarct_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in nonICH:" + str(pixels_num_nonICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*18), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in noninfarct:" + str(pixels_num_noninfarct_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in nonICH:" + str(pixels_num_nonICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
 
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*20), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in infarct:" + str(csf_in_infarct) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in ICH:" + str(csf_in_ICH) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
                             blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*22), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-infarct:" + str(csf_in_noinfarct) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
+                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-ICH:" + str(csf_in_noICH) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
 
 
 
@@ -936,20 +936,20 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
                             cv2.imwrite(imagename,img_with_line1)
                             cv2.imwrite(imagename_class1,img_with_line1)
-                            cv2.imwrite(image_infarct_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
+                            cv2.imwrite(image_ICH_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
 
-                            histogram_sidebyside(infarct_pixels_gt20_lt80_nonzero,noninfarct_pixels_gt20_lt80_nonzero,image_infarct_noninfarct_histogram)
+                            histogram_sidebyside(ICH_pixels_gt20_lt80_nonzero,nonICH_pixels_gt20_lt80_nonzero,image_ICH_nonICH_histogram)
 
-                            ratio_density=(np.mean(infarct_pixels_gt20_lt80_nonzero)/np.mean(noninfarct_pixels_gt20_lt80_nonzero))
-                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(infarct_pixels_gt20_lt80))/(np.mean(non_infarct_pixels_gt20_lt80)))) * 100
-                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofInfarctvoxels": infarct_slice_pixel_count, "INFARCT Density":np.mean(infarct_pixels_gt20_lt80_nonzero),"NumberofNONInfarctvoxels": noninfarct_slice_pixel_count , "NONINFARCT Density":np.mean(noninfarct_pixels_gt20_lt80_nonzero) , "INFARCT Volume":infarct_pixels_volume/1000 ,"NONINFARCT Volume":non_infarct_pixels_volume/1000, "ORGINAL_INFARCT_VOLUME":"NA","INFARCTUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
+                            ratio_density=(np.mean(ICH_pixels_gt20_lt80_nonzero)/np.mean(nonICH_pixels_gt20_lt80_nonzero))
+                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(ICH_pixels_gt20_lt80))/(np.mean(non_ICH_pixels_gt20_lt80)))) * 100
+                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofICHvoxels": ICH_slice_pixel_count, "ICH Density":np.mean(ICH_pixels_gt20_lt80_nonzero),"NumberofNONICHvoxels": nonICH_slice_pixel_count , "NONICH Density":np.mean(nonICH_pixels_gt20_lt80_nonzero) , "ICH Volume":ICH_pixels_volume/1000 ,"NONICH Volume":non_ICH_pixels_volume/1000, "ORGINAL_ICH_VOLUME":"NA","ICHUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
 
 
                             dict_for_csv.append(this_dict)
-    ratio_overall_density = (np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
-    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(infarct_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
+    ratio_overall_density = (np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
+    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
 
-    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofInfarctvoxels": np.array(infarct_pixels_list).shape[0],"INFARCT Density":np.mean(np.array(infarct_pixels_list)) , "NumberofNONInfarctvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONINFARCT Density":np.mean(np.array(nonfarct_pixels_list)), "INFARCT Volume":overall_infarct_vol ,"NONINFARCT Volume":overall_non_infarct_vol,"ORGINAL_INFARCT_VOLUME":infarct_total_voxels_volume ,"INFARCTUSED_VOL_RATIO":overall_infarct_vol/infarct_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_infarct_vol/infarct_total_voxels_volume}
+    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofICHvoxels": np.array(ICH_pixels_list).shape[0],"ICH Density":np.mean(np.array(ICH_pixels_list)) , "NumberofNONICHvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONICH Density":np.mean(np.array(nonfarct_pixels_list)), "ICH Volume":overall_ICH_vol ,"NONICH Volume":overall_non_ICH_vol,"ORGINAL_ICH_VOLUME":ICH_total_voxels_volume ,"ICHUSED_VOL_RATIO":overall_ICH_vol/ICH_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_ICH_vol/ICH_total_voxels_volume}
     dict_for_csv.append(this_dict)
 
     date_time = time.strftime("_%m_%d_%Y",now)
@@ -957,19 +957,19 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
     # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
     csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
-    csv_columns=['Slice','NWU','NumberofInfarctvoxels','INFARCT Density','NumberofNONInfarctvoxels','NONINFARCT Density','INFARCT Volume','NONINFARCT Volume','ORGINAL_INFARCT_VOLUME','INFARCTUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
+    csv_columns=['Slice','NWU','NumberofICHvoxels','ICH Density','NumberofNONICHvoxels','NONICH Density','ICH Volume','NONICH Volume','ORGINAL_ICH_VOLUME','ICHUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
     write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
 
-    infarct_pixels_number=np.array(infarct_pixels_list).shape[0]
-    infarct_pixels_density=np.mean(np.array(infarct_pixels_list))
+    ICH_pixels_number=np.array(ICH_pixels_list).shape[0]
+    ICH_pixels_density=np.mean(np.array(ICH_pixels_list))
     nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
-    noninfarct_pixels_density=np.mean(np.array(nonfarct_pixels_list))
-    return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
+    nonICH_pixels_density=np.mean(np.array(nonfarct_pixels_list))
+    return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 
 
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
-    # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
+    # $grayimage $betimage  $csfmaskimage ${ICHmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
     print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
     print("code added on July 15 2022")
     niftifilename=sys.argv[1] ## THis is the  gray file:
@@ -991,16 +991,16 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     print(niftifilename)
     print("sys.argv[2]")
     print(sys.argv[2])
-    infarct_side="NA"
+    ICH_side="NA"
     NWU="NA"
-    infarct_pixels_number="NA"
-    infarct_pixels_density="NA"
+    ICH_pixels_number="NA"
+    ICH_pixels_density="NA"
     nonfarct_pixels_number="NA"
-    noninfarct_pixels_density="NA"
-    overall_infarct_vol="NA"
-    overall_non_infarct_vol="NA"
-    infarct_total_voxels_volume="NA"
-    infarct_side="NONE"
+    nonICH_pixels_density="NA"
+    overall_ICH_vol="NA"
+    overall_non_ICH_vol="NA"
+    ICH_total_voxels_volume="NA"
+    ICH_side="NONE"
     left_brain_volume=0
     right_brain_volume=0
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
@@ -1013,15 +1013,15 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
 
         if os.path.exists(sys.argv[4]):
-            infarct_image_data=nib.load(sys.argv[4]).get_fdata()
+            ICH_image_data=nib.load(sys.argv[4]).get_fdata()
             print(sys.argv[4])
 
-            if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
+            if  gray_image_data.shape[1]  ==  ICH_image_data.shape[1] and  gray_image_data.shape[0] == ICH_image_data.shape[0]    and gray_image_data.shape[2] == ICH_image_data.shape[2]:
                 lower_thresh=-1024 #"NA" #int(float(sys.argv[7]))
                 upper_thresh=1024 #int(float(sys.argv[8]))
-                ## check if infarct file exists: sys.argv[4]
-                lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_ICH_Class1_Feb24_2023()
-                lower_thresh_class2,upper_thresh_class2,lower_thresh_normal_class2,upper_thresh_normal_class2, infarct_total_voxels_volume_class2,infarct_side_class2,NWU_class2,infarct_pixels_number_class2,infarct_pixels_density_class2,nonfarct_pixels_number_class2,noninfarct_pixels_density_class2, overall_infarct_vol_class2,overall_non_infarct_vol_class2= measure_ICH_CLASS2_Feb_24_2023()
+                ## check if ICH file exists: sys.argv[4]
+                lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume,ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol= measure_ICH_Class1_Feb24_2023()
+                lower_thresh_class2,upper_thresh_class2,lower_thresh_normal_class2,upper_thresh_normal_class2, ICH_total_voxels_volume_class2,ICH_side_class2,NWU_class2,ICH_pixels_number_class2,ICH_pixels_density_class2,nonfarct_pixels_number_class2,nonICH_pixels_density_class2, overall_ICH_vol_class2,overall_non_ICH_vol_class2= measure_ICH_CLASS2_Feb_24_2023()
 
 
         niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")
@@ -1042,7 +1042,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
         latex_start(latexfilename)
         latex_begin_document(latexfilename)
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
         col_names=np.copy(np.array(row))
 
 
@@ -1061,12 +1061,12 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         left_pixels_num=0
         right_pixels_num=0
 
-        infarct_mask_basename_path=sys.argv[4] #infarct_mask_basename_path_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+        ICH_mask_basename_path=sys.argv[4] #ICH_mask_basename_path_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
 
 
 
 
-        if os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
+        if os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(ICH_mask_basename_path) :
             print("BOTH FILE EXISTS")
 
             print('CSF_Mask_filename')
@@ -1084,15 +1084,15 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             ######################### added on July 15 2022 ##################################
             #             print("56code added on July 15 2022")
             if os.path.exists(sys.argv[4]):
-                infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
-                #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
+                ICH_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
+                #                 print('np.max(ICH_image_data_1):{}'.format(np.max(ICH_image_data_1)))
                 print('Filename:{}'.format(os.path.basename(niftifilename)))
-                print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+                print('Number of voxels in CSF mask before ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
 
-                CSF_Mask_filename_data_np[infarct_image_data_1>0]=0
-                print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
+                CSF_Mask_filename_data_np[ICH_image_data_1>0]=0
+                print("code for subtraction:{}".format('CSF_Mask_data[ICH_data>0]=0'))
 
-                print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+                print('Number of voxels in CSF mask after ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
             #                 print("58code added on July 15 2022")
             ##################################################################################
 
@@ -1222,11 +1222,11 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
                         imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
 
-                        imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+                        imagefilename_ICH=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
                         imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                         imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
-                        image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
-                        image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+                        image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
+                        image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
                         image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
 
 
@@ -1258,10 +1258,10 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
                             image_list.append(image_left_right_brain)
-                            # image_list.append(imagefilename_infarct)
+                            # image_list.append(imagefilename_ICH)
                             image_list.append(imagename_class2)
                             image_list.append(imagename_class1)
-                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
                             latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=.17, angle=90,space=0.51)
                             latex_end_table2c(latexfilename)
@@ -1270,8 +1270,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                             latex_start_tableNc_noboundary(latexfilename,2)
 
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
-                            # image_list.append(imagefilename_infarct)
-                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+                            # image_list.append(imagefilename_ICH)
+                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
                             image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
                             latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
 
@@ -1290,9 +1290,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             if left_pixels_num > right_pixels_num :
                 CSF_RATIO=right_pixels_num/left_pixels_num
                 # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
-            # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number_class2, infarct_pixels_density_class2, nonfarct_pixels_number_class2,noninfarct_pixels_density_class2,overall_infarct_vol_class2,overall_non_infarct_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
 
             values_in_col=np.array(row2)
 
@@ -1344,5 +1344,5 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
             latex_end_table2c(latexfilename)
         latex_end(latexfilename)
-        remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+        remove_few_columns(csvfile_with_vol_total,["ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS"])
 

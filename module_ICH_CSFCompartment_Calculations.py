@@ -839,7 +839,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                             current_ICH_num=0
                             current_nonICH_num=0
 
-                            slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
+                            slice_3_layer= filename_gray_data_np_copy[:,:,img_idx] ## #I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer[blank_3_layer>0]=0
 

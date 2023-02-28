@@ -1301,7 +1301,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             values_in_col=np.array(row2)
 
             # values_in_col_1=np.array(row2_1)
-
+            latexfilename1=latexfilename.split('.tex')[0]+'smaller_table.tex'
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
@@ -1312,9 +1312,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
             this_nii_filename_df.columns=['FILENAME']
 
-            latex_start_tableNc_noboundary(latexfilename,1)
-            latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
-            latex_end_table2c(latexfilename)
+            latex_start_tableNc_noboundary(latexfilename1,1)
+            latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
+            latex_end_table2c(latexfilename1)
 
             #             latex_insert_line_nodek(latexfilename,"\\newpage")
             #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
@@ -1348,10 +1348,10 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]
-            latex_start_tableNc_noboundary(latexfilename,1)
+            latex_start_tableNc_noboundary(latexfilename1,1)
             # values_in_table_df=values_in_table_df.drop([4, 5,6,7,8,10,15,16])
-            latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
-            latex_end_table2c(latexfilename)
+            latex_insert_line_nodek(latexfilename1,text=values_in_table_df.to_latex(index=False))
+            latex_end_table2c(latexfilename1)
         latex_end(latexfilename)
         remove_few_columns(csvfile_with_vol_total,["ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS"])
 

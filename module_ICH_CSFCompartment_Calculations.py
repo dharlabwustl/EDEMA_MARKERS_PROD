@@ -1354,7 +1354,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_start_tableNc_noboundary(latexfilename1,1)
             # values_in_table_df=values_in_table_df.drop([4, 5,6,7,8,10,15,16])
             print("values_in_table_df::{}".format(values_in_table_df))
-            values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9])
+            values_in_table_df=values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9])
             print("values_in_table_df_rearranged::{}".format(values_in_table_df))
             latex_insert_line_nodek(latexfilename1,text=values_in_table_df.to_latex(index=False))
             latex_end_table2c(latexfilename1)

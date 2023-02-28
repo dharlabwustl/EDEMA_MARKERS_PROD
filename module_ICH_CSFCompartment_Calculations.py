@@ -1044,7 +1044,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
         latex_start(latexfilename)
         latex_begin_document(latexfilename)
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
+        # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH CORE VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+
         col_names=np.copy(np.array(row))
 
 
@@ -1293,17 +1295,17 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 CSF_RATIO=right_pixels_num/left_pixels_num
                 # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
             # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-
+            # row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            # row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume)]
             values_in_col=np.array(row2)
 
-            values_in_col_1=np.array(row2_1)
+            # values_in_col_1=np.array(row2_1)
 
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
-                writer.writerow(row2_1)
+                # writer.writerow(row2_1)
             this_nii_filename_list=[]
             # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
             this_nii_filename_list.append(thisfilebasename)
@@ -1328,6 +1330,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             for x in range(0,col_names.shape[0]):
                 #                 text1=[]
                 values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
+            # for x in range(0,col_names.shape[0]):
+            # #                 text1=[]
+            #     values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
             #                 text1.append((str(col_names[x])).replace("_"," "))
             #                 text1.append((str(values_in_col[x])).replace("_",""))
 

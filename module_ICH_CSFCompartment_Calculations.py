@@ -1047,7 +1047,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_begin_document(latexfilename)
         latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
         # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH CORE VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
 
         col_names=np.copy(np.array(row))
 

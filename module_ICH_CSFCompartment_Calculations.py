@@ -838,8 +838,11 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                             img_with_line_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
                             current_ICH_num=0
                             current_nonICH_num=0
-
-                            slice_3_layer= filename_gray_data_np_copy[:,:,img_idx] ## #I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
+                            slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                            slice_3_layer[:,:,0]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                            slice_3_layer[:,:,1]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                            slice_3_layer[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
+                            # slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer[blank_3_layer>0]=0
 

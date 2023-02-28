@@ -1338,7 +1338,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
             #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
             #             latex_end_table2c(latexfilename)
-            # values_in_table.pop(0)
+            values_in_table.pop(0)
             # values_in_table.pop(10)
             # values_in_table.pop(14)
             # values_in_table.pop(14)

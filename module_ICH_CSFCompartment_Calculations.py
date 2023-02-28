@@ -1039,11 +1039,13 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
         latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) + Version_Date + date_time+".tex")
+        latexfilename1=os.path.join(os.path.dirname(latexfilename),'table.tex')
         # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0]+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +".tex")
 
 
         latex_start(latexfilename)
         latex_begin_document(latexfilename)
+        latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
         # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
         row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH CORE VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
 
@@ -1301,7 +1303,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             values_in_col=np.array(row2)
 
             # values_in_col_1=np.array(row2_1)
-            latexfilename1=latexfilename.split('.tex')[0]+'smaller_table.tex'
+
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)

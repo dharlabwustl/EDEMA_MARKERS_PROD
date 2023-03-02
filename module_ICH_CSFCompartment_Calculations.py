@@ -104,15 +104,17 @@ def determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyf
     if (left_side_ones > right_side_ones):
         ICH_side="LEFT"
         for right_id in right_ids:
+            pass
             #             print("I am Left")
-            numpy_image_mask[right_id[0],right_id[1],right_id[2]]=np.min(numpy_image_mask)
+            # numpy_image_mask[right_id[0],right_id[1],right_id[2]]=np.min(numpy_image_mask)
 
 
     if (right_side_ones > left_side_ones):
         ICH_side="RIGHT"
         for left_id in left_ids:
+            pass
             #             print("I am Right")
-            numpy_image_mask[left_id[0],left_id[1],left_id[2]]=np.min(numpy_image_mask)
+            # numpy_image_mask[left_id[0],left_id[1],left_id[2]]=np.min(numpy_image_mask)
     return ICH_side,numpy_image_mask
 
 

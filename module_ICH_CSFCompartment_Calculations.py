@@ -233,13 +233,13 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         min_val=np.min(csf_seg_np)
         filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
         filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255 #np.uint8(filename_gray_data_np*255) contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255  #c
-        filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
+        # filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
         numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
 
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
+        # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
@@ -419,7 +419,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                             current_ICH_num=0
                             current_nonICH_num=0
 
-                            slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
+                            slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3]) #I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
                             blank_3_layer[blank_3_layer>0]=0
 
@@ -655,13 +655,13 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
         min_val=np.min(csf_seg_np)
         filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
         filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255 #np.uint8(filename_gray_data_np*255) contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255  #c
-        filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
+        # filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
         numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
 
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
+        # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #

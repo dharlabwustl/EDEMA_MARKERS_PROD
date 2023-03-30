@@ -244,10 +244,10 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         filename_gray_data_np_copy=normalizeimage0to1(filename_gray_data_np_copy)*255
         numpy_image_mask=ICH_Mask_filename_data_np
-        lower_thresh=-99999999 #np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
-        upper_thresh=99999999 #np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
-        lower_thresh_normal=-99999999 #np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
-        upper_thresh_normal=99999999 #np.max(filename_gray_data_np_copy) #int(float(sys.argv[8]))
+        lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
+        upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
+        lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
+        upper_thresh_normal=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8]))
         for img_idx in range(numpy_image.shape[2]):
             #             print("I AM HERE 4")
             if img_idx>0 and img_idx < numpy_image.shape[2] and  filename_gray_data_np_copy.shape==csf_seg_np.shape:

@@ -239,10 +239,10 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)+5 ##255
+        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy) ##255
 
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
-        filename_gray_data_np_copy=normalizeimage0to1(filename_gray_data_np_copy)*255
+        # filename_gray_data_np_copy=normalizeimage0to1(filename_gray_data_np_copy)*255
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
@@ -662,7 +662,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy) + 5 #255
+        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy) #255
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
         numpy_image_mask=ICH_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #

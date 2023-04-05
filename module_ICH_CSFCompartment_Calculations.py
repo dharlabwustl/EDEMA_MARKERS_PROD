@@ -327,8 +327,8 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     print(I4.shape)
                     print("I_t_r_f_rinv_tinv_mask")
                     print(I_t_r_f_rinv_tinv_mask.shape)
-                    # I4[I_t_r_f_rinv_tinv_mask>0]=255
-                    # I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
+                    I4[I_t_r_f_rinv_tinv_mask>0]=255
+                    I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
                     I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
                     cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"),I4)
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))
@@ -748,8 +748,8 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     print(I4.shape)
                     print("I_t_r_f_rinv_tinv_mask")
                     print(I_t_r_f_rinv_tinv_mask.shape)
-                    # I4[I_t_r_f_rinv_tinv_mask>0]=255
-                    # I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
+                    I4[I_t_r_f_rinv_tinv_mask>0]=255
+                    I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
                     I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
                     cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"),I4)
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))

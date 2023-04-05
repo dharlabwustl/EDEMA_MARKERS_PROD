@@ -334,12 +334,19 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))
                     img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     slice_number="{0:0=3d}".format(img_idx)
+                    slice_3_layer1= np.zeros([filename_gray_data_np_copy[:,:,img_idx].shape[0],filename_gray_data_np_copy[:,:,img_idx].shape[1],3])
+                    slice_3_layer1[:,:,0]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                    slice_3_layer1[:,:,0][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
+                    slice_3_layer1[:,:,1]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                    slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
+                    slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
+                    slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
                     imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
-                    cv2.imwrite(imagename_class2,img_with_line1)
+                    cv2.imwrite(imagename_class2,slice_3_layer1) #img_with_line1)
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
@@ -760,9 +767,16 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
+                    slice_3_layer1= np.zeros([filename_gray_data_np_copy[:,:,img_idx].shape[0],filename_gray_data_np_copy[:,:,img_idx].shape[1],3])
+                    slice_3_layer1[:,:,0]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                    slice_3_layer1[:,:,0][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
+                    slice_3_layer1[:,:,1]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
+                    slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
+                    slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
+                    slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
 
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class1,img_with_line1)
+                    cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1)
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 

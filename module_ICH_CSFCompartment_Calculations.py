@@ -336,11 +336,11 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     slice_number="{0:0=3d}".format(img_idx)
                     slice_3_layer1= np.zeros([filename_gray_data_np_copy[:,:,img_idx].shape[0],filename_gray_data_np_copy[:,:,img_idx].shape[1],3])
                     slice_3_layer1[:,:,0]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
-                    slice_3_layer1[:,:,0][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
+                    slice_3_layer1[:,:,0][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
                     slice_3_layer1[:,:,1]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
-                    slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
+                    slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
                     slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
-                    slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
+                    slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=200
                     imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
                     imagename=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")

@@ -346,14 +346,14 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
-                    cv2.imwrite(imagename_class2,slice_3_layer1) #img_with_line1)
+                    # cv2.imwrite(imagename_class2,slice_3_layer1) #img_with_line1)
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 
 
 
-                    if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
+                    if 1>0 : #np.sum(I_t_r_f_rinv_tinv_mask)>0 :
                         ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
                         ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
                         pixels_num_total_ICH=len(ICH_pixels)
@@ -362,10 +362,10 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 
                         ICH_pixels_flatten=ICH_pixels.flatten()
 
-                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
+                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=-99990)]
 
                         ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (ICH_pixels_volume1/1000) > 0.1:
+                        if 1> 0 : #(ICH_pixels_volume1/1000) > 0.1:
                             ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
                             pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
                             temp_len=len(ICH_pixels_gt20)
@@ -457,14 +457,14 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                             for non_zero_pixel in img_with_ICH_nonzero_id:
 
 
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
+                                if 1>0 : ##(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
                                     current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200
                                     ICH_pixel_counter=ICH_pixel_counter+1
                             for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
+                                if 1>0 : ##(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
                                     current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100 #0
@@ -776,13 +776,13 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
 
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1)
+                    # cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1)
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 
 
 
-                    if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
+                    if 1>0 : #np.sum(I_t_r_f_rinv_tinv_mask)>0 :
                         ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
                         ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
                         pixels_num_total_ICH=len(ICH_pixels)
@@ -794,7 +794,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                         ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
 
                         ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (ICH_pixels_volume1/1000) > 0.1:
+                        if 1>0 : #(ICH_pixels_volume1/1000) > 0.1:
                             ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
                             pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
                             temp_len=len(ICH_pixels_gt20)
@@ -889,14 +889,14 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                             for non_zero_pixel in img_with_ICH_nonzero_id:
 
 
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
+                                if 1>0 : #(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
                                     current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100 #0
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0 ##100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100 ##200
                                     ICH_pixel_counter=ICH_pixel_counter+1
                             for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
+                                if 1>0 : #(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
                                     current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100
                                     slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0

@@ -233,7 +233,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
         min_val=np.min(csf_seg_np)
         filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
         filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255 #np.uint8(filename_gray_data_np*255) contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255  #c
-        # filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
+        filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
         numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
 
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
@@ -346,7 +346,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
-                    cv2.imwrite(imagename_class2,img_with_line1) ##slice_3_layer1) #
+                    cv2.imwrite(imagename_class2,img_with_line1) #slice_3_layer1) #
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
@@ -663,7 +663,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
         min_val=np.min(csf_seg_np)
         filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
         filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255 #np.uint8(filename_gray_data_np*255) contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255  #c
-        # filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
+        filename_gray_data_np[csf_seg_np>min_val]=np.min(filename_gray_data_np)#255
         numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
 
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
@@ -776,7 +776,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
 
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class1,img_with_line1) #slice_3_layer1) #
+                    cv2.imwrite(imagename_class1,img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 

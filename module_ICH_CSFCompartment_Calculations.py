@@ -808,9 +808,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer[:,:,2]= thisimage# imgray1
 
                         ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
-                        slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
-                        slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
-                        slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
+
 
                         slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
                         slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
@@ -880,7 +878,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
                         slice_number="{0:0=3d}".format(img_idx)
 
-
+                        slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
+                        slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
+                        slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
                         imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
 
                         imagefilename_ICH=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")

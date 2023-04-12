@@ -129,7 +129,7 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
 def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     ICH_side="NA"
     NWU="NA"
-    ICH_pixels_number="NA"
+    ICH_pixels_number=0 #"NA"
     ICH_pixels_density="NA"
     nonfarct_pixels_number="NA"
     nonICH_pixels_density="NA"
@@ -346,10 +346,24 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
+                    numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
+                    ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
-
+    # lower_thresh=0
+    # upper_thresh=0
+    # lower_thresh_normal=0
+    # upper_thresh_normal=0
+    ICH_total_voxels_volume=ICH_pixels_number*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+    # ICH_side='AA'
+    NWU=0
+    # ICH_pixels_number=0
+    # ICH_pixels_density=0
+    nonfarct_pixels_number=0
+    nonICH_pixels_density=0
+    overall_ICH_vol=ICH_total_voxels_volume #0
+    overall_non_ICH_vol=0
 
 
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
@@ -359,8 +373,8 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     ICH_side="NA"
     NWU="NA"
-    ICH_pixels_number="NA"
-    ICH_pixels_density="NA"
+    ICH_pixels_number=0 #"NA"
+    ICH_pixels_density=0 #"NA"
     nonfarct_pixels_number="NA"
     nonICH_pixels_density="NA"
     overall_ICH_vol="NA"
@@ -574,7 +588,8 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
                     slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
-
+                    numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
+                    ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename,img_with_line1)
                     cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
@@ -583,18 +598,18 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
 
 
-    lower_thresh=0
-    upper_thresh=0
-    lower_thresh_normal=0
-    upper_thresh_normal=0
-    ICH_total_voxels_volume=0
-    ICH_side='AA'
+    # lower_thresh=0
+    # upper_thresh=0
+    # lower_thresh_normal=0
+    # upper_thresh_normal=0
+    ICH_total_voxels_volume=ICH_pixels_number*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+    # ICH_side='AA'
     NWU=0
-    ICH_pixels_number=0
-    ICH_pixels_density=0
+    # ICH_pixels_number=0
+    # ICH_pixels_density=0
     nonfarct_pixels_number=0
     nonICH_pixels_density=0
-    overall_ICH_vol=0
+    overall_ICH_vol=ICH_total_voxels_volume #0
     overall_non_ICH_vol=0
 
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol

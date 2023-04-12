@@ -346,6 +346,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
+                    slice_3_layer1=cv2.line(slice_3_layer1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
                     ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
@@ -588,6 +589,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
                     slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
+                    slice_3_layer1=cv2.line(slice_3_layer1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
                     ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename,img_with_line1)

@@ -362,7 +362,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     # ICH_pixels_density=0
     nonfarct_pixels_number=0
     nonICH_pixels_density=0
-    overall_ICH_vol=ICH_total_voxels_volume #0
+    overall_ICH_vol=ICH_total_voxels_volume/1000 #0
     overall_non_ICH_vol=0
 
 
@@ -609,7 +609,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
     # ICH_pixels_density=0
     nonfarct_pixels_number=0
     nonICH_pixels_density=0
-    overall_ICH_vol=ICH_total_voxels_volume #0
+    overall_ICH_vol=ICH_total_voxels_volume/1000 #0
     overall_non_ICH_vol=0
 
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol

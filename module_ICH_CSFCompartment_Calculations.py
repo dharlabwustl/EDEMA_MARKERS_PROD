@@ -346,7 +346,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
-                    cv2.imwrite(imagename_class2,img_with_line1) #slice_3_layer1) #
+                    cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
@@ -576,7 +576,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
 
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class1,img_with_line1) ##slice_3_layer1) #
+                    cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 

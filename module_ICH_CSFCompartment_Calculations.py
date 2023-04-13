@@ -745,7 +745,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 print('Filename:{}'.format(os.path.basename(niftifilename)))
                 print('Number of voxels in CSF mask before ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
 
-                CSF_Mask_filename_data_np[ICH_image_data_1>0]=0
+                # CSF_Mask_filename_data_np[ICH_image_data_1>0]=0
                 print("code for subtraction:{}".format('CSF_Mask_data[ICH_data>0]=0'))
 
                 print('Number of voxels in CSF mask after ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
@@ -805,8 +805,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
                         slice_3_layer[:,:,0]= thisimage #imgray1
                         slice_3_layer[:,:,1]= thisimage #imgray1
-                        slice_3_layer[:,:,2]= thisimage# imgray1
-
+                        slice_3_layer[:,:,2]= thisimage  # imgray1
                         ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
                         # ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]<1]=np.min(ICH_Class2_Mask_filename_data_512)
 

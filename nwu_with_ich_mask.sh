@@ -77,23 +77,23 @@ echo "this_filename=${1}
       this_infarctmask1filename=${5}"
 echo "BET USING LEVELSET MASK"
  
-#/software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
-#
-#echo "bet_withlevelset successful" > ${output_directory}/success.txt
-#this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
-## cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
-#echo "LINEAR REGISTRATION TO TEMPLATE"
-#/software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-#echo "linear_rigid_registration successful" >> ${output_directory}/success.txt
-#echo "RUNNING IML FSL PART"
-#/software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
-#echo "ideal_midline_fslpart successful" >> ${output_directory}/success.txt
-#echo "RUNNING IML PYTHON PART"
-#
-#/software/ideal_midline_pythonpart.sh  ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
-#echo "ideal_midline_pythonpart successful" >> ${output_directory}/success.txt
-#
-#echo "RUNNING ICH volume calculation for class 2 Mask"
+/software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
+
+echo "bet_withlevelset successful" > ${output_directory}/success.txt
+this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
+# cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
+echo "LINEAR REGISTRATION TO TEMPLATE"
+/software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+echo "linear_rigid_registration successful" >> ${output_directory}/success.txt
+echo "RUNNING IML FSL PART"
+/software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
+echo "ideal_midline_fslpart successful" >> ${output_directory}/success.txt
+echo "RUNNING IML PYTHON PART"
+
+/software/ideal_midline_pythonpart.sh  ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+echo "ideal_midline_pythonpart successful" >> ${output_directory}/success.txt
+
+echo "RUNNING ICH volume calculation for class 2 Mask"
 
 /software/ich_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${this_infarctmask1filename}  #${upper_threshold}
 echo "ich_csf_volume successful" >> ${output_directory}/success.txt

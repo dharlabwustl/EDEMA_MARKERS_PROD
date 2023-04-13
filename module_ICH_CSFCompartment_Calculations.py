@@ -651,6 +651,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     overall_non_ICH_vol="NA"
     ICH_total_voxels_volume="NA"
     ICH_side="NONE"
+    EDEMA_VOXELS_IN_CSF=0
     left_brain_volume=0
     right_brain_volume=0
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
@@ -697,7 +698,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_begin_document(latexfilename)
         latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
         # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","CSFVOXEL_NUM_OVERLAP_EDEMA","CSFVOXEL_VOL_OVERLAP_EDEMA"]
 
         col_names=np.copy(np.array(row))
 
@@ -809,6 +810,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
                         print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
                         ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(ICH_Class2_Mask_filename_data_512)
+                        ICH_Class2_Mask_filename_data_512_idx_flatten=ICH_Class2_Mask_filename_data_512_idx.flatten()
+                        EDEMA_VOXELS_IN_CSF=EDEMA_VOXELS_IN_CSF+np.count_nonzero(ICH_Class2_Mask_filename_data_512_idx_flatten)
 
 
                         slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
@@ -948,6 +951,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             image_array=np.asarray(filename_bet_gray_data_np)
             print("image_array MINIMUM")
             print(np.min(image_array))
+            EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
             BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
             CSF_RATIO=left_pixels_num/right_pixels_num
             if left_pixels_num > right_pixels_num :
@@ -956,7 +960,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume)]
+            row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),EDEMA_VOXELS_IN_CSF,EDEMA_VOXELS_IN_CSF_TOTAL_VOL]
             values_in_col=np.array(row2)
 
             # values_in_col_1=np.array(row2_1)
@@ -1010,7 +1014,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_start_tableNc_noboundary(latexfilename1,1)
             # values_in_table_df=values_in_table_df.drop([4, 5,6,7,8,10,15,16])
             print("values_in_table_df::{}".format(values_in_table_df))
-            values_in_table_df=values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9])
+            values_in_table_df=values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9,10,11])
             print("values_in_table_df_rearranged::{}".format(values_in_table_df))
             latex_insert_line_nodek(latexfilename1,text=values_in_table_df.to_latex(index=False))
             latex_end_table2c(latexfilename1)

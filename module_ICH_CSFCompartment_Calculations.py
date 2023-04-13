@@ -808,7 +808,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer[:,:,2]= thisimage  # imgray1
                         ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
                         print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
-                        ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(ICH_Class2_Mask_filename_data_512)]=np.min(ICH_Class2_Mask_filename_data_512)
+                        ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(ICH_Class2_Mask_filename_data_512)
 
 
                         slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])

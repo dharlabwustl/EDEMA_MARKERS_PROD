@@ -625,8 +625,9 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
     filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
     ICH_Class2_Mask_filename_data_512=resizeinto_512by512(ICH_Class2_Mask_filename_data)
-    filename_gray_data_np[ICH_Class2_Mask_filename_data_512>np.min(ICH_Class2_Mask_filename_data_512)]=np.min(filename_gray_data_np)
-    filename_gray_data_np_1[ICH_Class2_Mask_filename_data_512>np.min(ICH_Class2_Mask_filename_data_512)]=np.min(filename_gray_data_np_1)
+    # filename_gray_data_np[ICH_Class2_Mask_filename_data_512>np.min(ICH_Class2_Mask_filename_data_512)]=np.min(filename_gray_data_np)
+    # filename_gray_data_np_1[ICH_Class2_Mask_filename_data_512>np.min(ICH_Class2_Mask_filename_data_512)]=np.min(filename_gray_data_np_1)
+    CSF_Mask_filename_data_np[ICH_Class2_Mask_filename_data_512>np.min(ICH_Class2_Mask_filename_data_512)]=np.min(CSF_Mask_filename_data_np)
     numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
     filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
     #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)

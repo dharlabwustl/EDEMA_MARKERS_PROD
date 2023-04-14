@@ -812,8 +812,8 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
                 left_pixels_num=left_pixels_num+this_slice_left_volume
                 right_pixels_num=right_pixels_num+this_slice_right_volume
 
-                left_brain_volume=left_brain_volume + this_slice_gray_left_volume
-                right_brain_volume=right_brain_volume + this_slice_gray_right_volume
+                # left_brain_volume=left_brain_volume + this_slice_gray_left_volume
+                # right_brain_volume=right_brain_volume + this_slice_gray_right_volume
     image_array=np.asarray(filename_bet_gray_data_np)
     print("image_array MINIMUM")
     print(np.min(image_array))

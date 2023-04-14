@@ -783,31 +783,31 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
                 ##########################
 
                 image_list=[]
-                print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
-                if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
-                    latex_start_tableNc_noboundary(latexfilename,6)
-
-                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
-                    image_list.append(image_left_right_brain)
-                    # image_list.append(imagefilename_ICH)
-                    image_list.append(imagename_class1)
-                    image_list.append(imagename_class2)
-
-                    # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
-                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
-                    latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=.2, angle=90,space=0.51)
-                    latex_end_table2c(latexfilename)
-
-                elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
-                    latex_start_tableNc_noboundary(latexfilename,2)
-
-                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
-                    # image_list.append(imagefilename_ICH)
-                    # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
-                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
-                    latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
-
-                    latex_end_table2c(latexfilename)
+                # print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
+                # if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                #     latex_start_tableNc_noboundary(latexfilename,6)
+                #
+                #     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                #     image_list.append(image_left_right_brain)
+                #     # image_list.append(imagefilename_ICH)
+                #     image_list.append(imagename_class1)
+                #     image_list.append(imagename_class2)
+                #
+                #     # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
+                #     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                #     latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=.2, angle=90,space=0.51)
+                #     latex_end_table2c(latexfilename)
+                #
+                # elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                #     latex_start_tableNc_noboundary(latexfilename,2)
+                #
+                #     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                #     # image_list.append(imagefilename_ICH)
+                #     # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
+                #     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                #     latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
+                #
+                #     latex_end_table2c(latexfilename)
 
                 left_pixels_num=left_pixels_num+this_slice_left_volume
                 right_pixels_num=right_pixels_num+this_slice_right_volume
@@ -817,8 +817,8 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
     image_array=np.asarray(filename_bet_gray_data_np)
     print("image_array MINIMUM")
     print(np.min(image_array))
-    EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
-    BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+    # EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+    # BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
     CSF_RATIO=left_pixels_num/right_pixels_num
     if left_pixels_num > right_pixels_num :
         CSF_RATIO=right_pixels_num/left_pixels_num

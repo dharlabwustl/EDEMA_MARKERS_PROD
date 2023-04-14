@@ -618,6 +618,8 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,ICH_Class2_Mask_filename_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0
+    left_pixels_num=0
+    right_pixels_num=0
     filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
     filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
     filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))

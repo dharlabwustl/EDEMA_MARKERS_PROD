@@ -129,7 +129,7 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
 def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     ICH_side="NA"
     NWU="NA"
-    ICH_pixels_number="NA"
+    ICH_pixels_number=0 #"NA"
     ICH_pixels_density="NA"
     nonfarct_pixels_number="NA"
     nonICH_pixels_density="NA"
@@ -346,212 +346,27 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
                     image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
                     image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
-                    cv2.imwrite(imagename_class2,img_with_line1) #slice_3_layer1) #
+                    slice_3_layer1=cv2.line(slice_3_layer1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
+                    numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
+                    ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
+                    cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
+    # lower_thresh=0
+    # upper_thresh=0
+    # lower_thresh_normal=0
+    # upper_thresh_normal=0
+    ICH_total_voxels_volume=ICH_pixels_number*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+    # ICH_side='AA'
+    NWU=0
+    # ICH_pixels_number=0
+    # ICH_pixels_density=0
+    nonfarct_pixels_number=0
+    nonICH_pixels_density=0
+    overall_ICH_vol=ICH_total_voxels_volume/1000 #0
+    overall_non_ICH_vol=0
 
 
-
-
-                    if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
-                        ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
-                        pixels_num_total_ICH=len(ICH_pixels)
-                        ICH_pixels_volume =pixels_num_total_ICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-
-
-                        ICH_pixels_flatten=ICH_pixels.flatten()
-
-                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
-
-                        ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (ICH_pixels_volume1/1000) > 0.1:
-                            ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
-                            pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
-                            temp_len=len(ICH_pixels_gt20)
-
-                            ICH_pixels_gt20_lt80 = ICH_pixels_gt20[ICH_pixels_gt20<=upper_thresh] # ICH_pixels_gt20[ICH_pixels_gt20<=80]
-                            pixels_num_ICH_above_upperthresh = temp_len - len(ICH_pixels_gt20_lt80)
-                            ICH_pixels_gt20_lt80_nonzero = ICH_pixels_gt20_lt80[np.nonzero(ICH_pixels_gt20_lt80)]
-                            ICH_slice_pixel_count=0
-
-                            for intensity in ICH_pixels_gt20_lt80_nonzero:
-
-                                ICH_pixels_list.append(intensity)
-                                ICH_slice_pixel_count = ICH_slice_pixel_count+1
-
-                            overall_ICH_vol=overall_ICH_vol+ICH_pixels_volume/1000
-                            non_ICH_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
-                            non_ICH_pixels=non_ICH_pixels[non_ICH_pixels>np.min(non_ICH_pixels)]
-
-                            pixels_num_total_nonICH=len(non_ICH_pixels)
-                            non_ICH_pixels_volume =pixels_num_total_nonICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                            non_ICH_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
-                            non_ICH_pixels_flatten_gt_0=non_ICH_pixels_flatten[np.where(non_ICH_pixels_flatten>0)]
-
-                            non_ICH_pixels_gt20 = non_ICH_pixels[non_ICH_pixels>=lower_thresh_normal]
-                            pixels_num_nonICH_below_lowerthresh = pixels_num_total_nonICH - len(non_ICH_pixels_gt20)
-                            temp_len=len(non_ICH_pixels_gt20)
-                            non_ICH_pixels_gt20_lt80 = non_ICH_pixels_gt20[non_ICH_pixels_gt20<=upper_thresh_normal]
-                            pixels_num_nonICH_above_upperthresh = temp_len - len(non_ICH_pixels_gt20_lt80)
-                            nonICH_pixels_gt20_lt80_nonzero = non_ICH_pixels_gt20_lt80[np.nonzero(non_ICH_pixels_gt20_lt80)]
-                            nonICH_slice_pixel_count=0
-                            for intensity in nonICH_pixels_gt20_lt80_nonzero:
-                                nonfarct_pixels_list.append(intensity)
-                                nonICH_slice_pixel_count=nonICH_slice_pixel_count+1
-
-                            overall_non_ICH_vol=overall_non_ICH_vol+non_ICH_pixels_volume/1000
-                            mean_slice_ICH_pixels_gt20_lt80= np.mean(ICH_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_ICH_pixels_gt20_lt80):
-                                mean_slice_ICH_pixels_gt20_lt80=0
-                            mean_slice_non_ICH_pixels_gt20_lt80=np.mean(non_ICH_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_non_ICH_pixels_gt20_lt80):
-                                mean_slice_non_ICH_pixels_gt20_lt80=0
-
-                            ICH_pixel_intensity.append(mean_slice_ICH_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
-                            nonICH_pixel_intensity.append(mean_slice_non_ICH_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
-                            cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"),I4)
-                            I4_img=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"))
-                            ################################################################
-                            # font
-                            font = cv2.FONT_HERSHEY_SIMPLEX
-                            # org
-                            org = (20, 20)
-                            # fontScale
-                            fontScale = 0.5
-                            # Blue color in BGR
-                            color = (0, 255, 255)
-                            # Line thickness of 2 px
-                            thickness = 1
-                            img_with_line_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            current_ICH_num=0
-                            current_nonICH_num=0
-
-                            slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3]) #I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
-                            blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
-                            blank_3_layer[blank_3_layer>0]=0
-
-                            img_with_ICH_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            img_with_nonICH_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
-                            ICH_pixel_counter=0
-                            nonICH_pixel_counter=0
-                            csf_in_ICH_counter=0
-                            csf_in_nonICH_counter=0
-                            ### non-zero pixels in csf:
-                            csf_seg_np_nonzero_id = np.transpose(np.nonzero(csf_seg_np[:,:,img_idx]))
-                            csf_values=np.unique(csf_seg_np[:,:,img_idx].flatten())
-
-                            csf_in_ICH=0
-                            csf_in_noICH=0
-                            for non_zero_pixel in img_with_ICH_nonzero_id:
-                                matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
-                                if len(matching[0]>0):
-                                    csf_in_ICH=csf_in_ICH+1
-                            for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
-                                if len(matching[0]>0):
-                                    csf_in_noICH=csf_in_noICH+1
-
-
-
-                            for non_zero_pixel in img_with_ICH_nonzero_id:
-
-
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
-                                    current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200
-                                    ICH_pixel_counter=ICH_pixel_counter+1
-                            for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
-                                    current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=100 #0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=200 #100
-                                    nonICH_pixel_counter=nonICH_pixel_counter+1
-                            ##################################################################
-
-
-                            print("current_ICH_num")
-                            print(current_ICH_num)
-                            print("filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]")
-                            print(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx])
-                            text_space=15
-                            blank_3_layer = cv2.putText(blank_3_layer, "ICH SIDE (Orange):  " + ICH_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-                            #                            if ICH_pixel_counter != 0 :
-                            if ICH_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + str(current_ICH_num/ICH_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            else:
-                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + "ICH count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*2), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            if nonICH_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + str(current_nonICH_num/nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            else:
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + "Non ICH count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*4), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "ICH pixel count:" + str(ICH_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*6), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH pixel count:" + str(nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*8), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel ICH:" + str(pixels_num_total_ICH) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*10), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-ICH:" + str(pixels_num_total_nonICH) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*12), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in ICH:" + str(pixels_num_ICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*14), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in ICH:" + str(pixels_num_ICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*16), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in nonICH:" + str(pixels_num_nonICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*18), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in nonICH:" + str(pixels_num_nonICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*20), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in ICH:" + str(csf_in_ICH) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*22), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-ICH:" + str(csf_in_noICH) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-
-
-                            img_with_line1=cv2.line(slice_3_layer, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
-
-
-                            cv2.imwrite(imagename,img_with_line1)
-                            cv2.imwrite(imagename_class2,img_with_line1)
-                            cv2.imwrite(image_ICH_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
-
-                            histogram_sidebyside(ICH_pixels_gt20_lt80_nonzero,nonICH_pixels_gt20_lt80_nonzero,image_ICH_nonICH_histogram)
-
-                            ratio_density=(np.mean(ICH_pixels_gt20_lt80_nonzero)/np.mean(nonICH_pixels_gt20_lt80_nonzero))
-                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(ICH_pixels_gt20_lt80))/(np.mean(non_ICH_pixels_gt20_lt80)))) * 100
-                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofICHvoxels": ICH_slice_pixel_count, "ICH Density":np.mean(ICH_pixels_gt20_lt80_nonzero),"NumberofNONICHvoxels": nonICH_slice_pixel_count , "NONICH Density":np.mean(nonICH_pixels_gt20_lt80_nonzero) , "ICH Volume":ICH_pixels_volume/1000 ,"NONICH Volume":non_ICH_pixels_volume/1000, "ORGINAL_ICH_VOLUME":"NA","ICHUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
-
-
-                            dict_for_csv.append(this_dict)
-    ratio_overall_density = (np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
-    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
-
-    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofICHvoxels": np.array(ICH_pixels_list).shape[0],"ICH Density":np.mean(np.array(ICH_pixels_list)) , "NumberofNONICHvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONICH Density":np.mean(np.array(nonfarct_pixels_list)), "ICH Volume":overall_ICH_vol ,"NONICH Volume":overall_non_ICH_vol,"ORGINAL_ICH_VOLUME":ICH_total_voxels_volume ,"ICHUSED_VOL_RATIO":overall_ICH_vol/ICH_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_ICH_vol/ICH_total_voxels_volume}
-    dict_for_csv.append(this_dict)
-
-    date_time = time.strftime("_%m_%d_%Y",now)
-    grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
-    thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
-    # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
-    csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
-    csv_columns=['Slice','NWU','NumberofICHvoxels','ICH Density','NumberofNONICHvoxels','NONICH Density','ICH Volume','NONICH Volume','ORGINAL_ICH_VOLUME','ICHUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
-    write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
-
-    ICH_pixels_number=np.array(ICH_pixels_list).shape[0]
-    ICH_pixels_density=np.mean(np.array(ICH_pixels_list))
-    nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
-    nonICH_pixels_density=np.mean(np.array(nonfarct_pixels_list))
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 
 
@@ -559,8 +374,8 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilenamedir):
     ICH_side="NA"
     NWU="NA"
-    ICH_pixels_number="NA"
-    ICH_pixels_density="NA"
+    ICH_pixels_number=0 #"NA"
+    ICH_pixels_density=0 #"NA"
     nonfarct_pixels_number="NA"
     nonICH_pixels_density="NA"
     overall_ICH_vol="NA"
@@ -702,62 +517,62 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     #                            lineThickness = 2
                     img_with_line=filename_gray_data_np_1[:,:,img_idx] #np.int8(numpy_image[:,:,img_idx])
 
-                    v1=np.array([512,0]) ## point from the image
-                    v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
-                    v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
-                    v2=v2_2-v2_1
-
-                    angle=  angle_bet_two_vector(v1,v2)
-                    angleRad=angle_bet_two_vectorRad(v1,v2)
-                    ## translation:
-                    points=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
-                    mid_point_line=np.mean(points,axis=0)
-                    # delta translation:
-                    image_midpoint=np.array([int(filename_gray_data_np_1[:,:,img_idx].shape[0]/2),int(filename_gray_data_np_1[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
-                    translation_delta=image_midpoint-mid_point_line
-                    M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
-                    I_t_gray =cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]), flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(512,512), flags= cv2.INTER_NEAREST)
-                    I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
-
-                    #########################################################################
-
-
-                    translate_points= points+translation_delta
-                    #                    show_slice_withaline(I_t_mask,translate_points)
-                    points=translate_points
-                    ## translation matrix
-                    p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
-                    p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
-                    points1=np.array([[p1x,p1y],[p2x,p2y]])
-
-                    I_t_r_gray=rotate_image(I_t_gray,(255,255),angle)
-                    #                    show_slice_withaline(I_t_r_gray,points1)
-                    I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
-
-                    I_t_r_f_gray=cv2.flip(I_t_r_gray,0)
-                    I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
-
-                    I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(256,256),-angle)
-                    I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
-                    p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
-                    p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
-                    points1=np.array([[p1x,p1y],[p2x,p2y]])
-                    #show_slice_withaline(I_t_r_f_rinv_gray,points1)
-                    #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
-                    M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
-                    I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
-                    I_t_r_f_rinv_tinv_mask = numpy_image_mask[:,:,img_idx] #cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
-                    points1=points1-translation_delta
-                    #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
-                    #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)
+                    # v1=np.array([512,0]) ## point from the image
+                    # v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
+                    # v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
+                    # v2=v2_2-v2_1
+                    #
+                    # angle=  angle_bet_two_vector(v1,v2)
+                    # angleRad=angle_bet_two_vectorRad(v1,v2)
+                    # ## translation:
+                    points1=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
+                    # mid_point_line=np.mean(points,axis=0)
+                    # # delta translation:
+                    # image_midpoint=np.array([int(filename_gray_data_np_1[:,:,img_idx].shape[0]/2),int(filename_gray_data_np_1[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
+                    # translation_delta=image_midpoint-mid_point_line
+                    # M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
+                    # I_t_gray =cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]), flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image[:,:,img_idx]),M,(512,512), flags= cv2.INTER_NEAREST)
+                    # I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(filename_gray_data_np_1[:,:,img_idx].shape[0],filename_gray_data_np_1[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
+                    #
+                    # #########################################################################
+                    #
+                    #
+                    # translate_points= points+translation_delta
+                    # #                    show_slice_withaline(I_t_mask,translate_points)
+                    # points=translate_points
+                    # ## translation matrix
+                    # p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
+                    # p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
+                    # points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    #
+                    # I_t_r_gray=rotate_image(I_t_gray,(255,255),angle)
+                    # #                    show_slice_withaline(I_t_r_gray,points1)
+                    # I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
+                    #
+                    # I_t_r_f_gray=cv2.flip(I_t_r_gray,0)
+                    # I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
+                    #
+                    # I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(256,256),-angle)
+                    # I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
+                    # p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
+                    # p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
+                    # points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    # #show_slice_withaline(I_t_r_f_rinv_gray,points1)
+                    # #                    show_slice_withaline(I_t_r_f_rinv_mask,points1)
+                    # M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
+                    # I_t_r_f_rinv_tinv_gray = cv2.warpAffine(I_t_r_f_rinv_gray,M,(512,512) , flags= cv2.INTER_NEAREST)
+                    # I_t_r_f_rinv_tinv_mask = numpy_image_mask[:,:,img_idx] #cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
+                    # points1=points1-translation_delta
+                    # #show_slice_withaline(I_t_r_f_rinv_tinv_gray,points1)
+                    # #                    show_slice_withaline(I_t_r_f_rinv_tinv_mask,points1)
                     I4=np.copy(numpy_image[:,:,img_idx])
-                    print("I4 size")
-                    print(I4.shape)
-                    print("I_t_r_f_rinv_tinv_mask")
-                    print(I_t_r_f_rinv_tinv_mask.shape)
-                    I4[I_t_r_f_rinv_tinv_mask>0]=255
+                    # print("I4 size")
+                    # print(I4.shape)
+                    # print("I_t_r_f_rinv_tinv_mask")
+                    # print(I_t_r_f_rinv_tinv_mask.shape)
+                    # # I4[I_t_r_f_rinv_tinv_mask>0]=255
                     I4[np.copy(numpy_image_mask[:,:,img_idx])>0]=255
-                    I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
+                    # I5=np.copy(filename_gray_data_np_copy[:,:,img_idx])
                     cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"),I4)
                     I4_img_1=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + "_1.jpg"))
                     img_with_line1=cv2.line(I4_img_1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
@@ -774,216 +589,31 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     slice_3_layer1[:,:,1][np.copy(numpy_image_mask[:,:,img_idx])>0]=0
                     slice_3_layer1[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
                     slice_3_layer1[:,:,2][np.copy(numpy_image_mask[:,:,img_idx])>0]=100
-
+                    slice_3_layer1=cv2.line(slice_3_layer1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
+                    numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
+                    ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename,img_with_line1)
-                    cv2.imwrite(imagename_class1,img_with_line1) ##slice_3_layer1) #
+                    cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 
 
 
 
-                    if np.sum(I_t_r_f_rinv_tinv_mask)>0 :
-                        ICH_pixels=I5[numpy_image_mask[:,:,img_idx]>0]
-                        ICH_pixels=ICH_pixels[ICH_pixels>np.min(ICH_pixels)]
-                        pixels_num_total_ICH=len(ICH_pixels)
-                        ICH_pixels_volume =pixels_num_total_ICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
 
+    # lower_thresh=0
+    # upper_thresh=0
+    # lower_thresh_normal=0
+    # upper_thresh_normal=0
+    ICH_total_voxels_volume=ICH_pixels_number*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+    # ICH_side='AA'
+    NWU=0
+    # ICH_pixels_number=0
+    # ICH_pixels_density=0
+    nonfarct_pixels_number=0
+    nonICH_pixels_density=0
+    overall_ICH_vol=ICH_total_voxels_volume/1000 #0
+    overall_non_ICH_vol=0
 
-                        ICH_pixels_flatten=ICH_pixels.flatten()
-
-                        ICH_pixels_flatten_gt_0=ICH_pixels_flatten[np.where(ICH_pixels_flatten>=0)]
-
-                        ICH_pixels_volume1 =ICH_pixels_flatten_gt_0.size*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                        if (ICH_pixels_volume1/1000) > 0.1:
-                            ICH_pixels_gt20 =ICH_pixels[ICH_pixels>=lower_thresh]# ICH_pixels[ICH_pixels>=20]
-                            pixels_num_ICH_below_lowerthresh = pixels_num_total_ICH - len(ICH_pixels_gt20)
-                            temp_len=len(ICH_pixels_gt20)
-
-                            ICH_pixels_gt20_lt80 = ICH_pixels_gt20[ICH_pixels_gt20<=upper_thresh] # ICH_pixels_gt20[ICH_pixels_gt20<=80]
-                            pixels_num_ICH_above_upperthresh = temp_len - len(ICH_pixels_gt20_lt80)
-                            ICH_pixels_gt20_lt80_nonzero = ICH_pixels_gt20_lt80[np.nonzero(ICH_pixels_gt20_lt80)]
-                            ICH_slice_pixel_count=0
-
-                            for intensity in ICH_pixels_gt20_lt80_nonzero:
-
-                                ICH_pixels_list.append(intensity)
-                                ICH_slice_pixel_count = ICH_slice_pixel_count+1
-
-                            overall_ICH_vol=overall_ICH_vol+ICH_pixels_volume/1000
-                            non_ICH_pixels=I5[I_t_r_f_rinv_tinv_mask>0]
-                            non_ICH_pixels=non_ICH_pixels[non_ICH_pixels>np.min(non_ICH_pixels)]
-
-                            pixels_num_total_nonICH=len(non_ICH_pixels)
-                            non_ICH_pixels_volume =pixels_num_total_nonICH*np.prod(np.array(nib.load(file_gray).header["pixdim"][1:4]))
-                            non_ICH_pixels_flatten=I_t_r_f_rinv_tinv_mask.flatten()
-                            non_ICH_pixels_flatten_gt_0=non_ICH_pixels_flatten[np.where(non_ICH_pixels_flatten>0)]
-
-                            non_ICH_pixels_gt20 = non_ICH_pixels[non_ICH_pixels>=lower_thresh_normal]
-                            pixels_num_nonICH_below_lowerthresh = pixels_num_total_nonICH - len(non_ICH_pixels_gt20)
-                            temp_len=len(non_ICH_pixels_gt20)
-                            non_ICH_pixels_gt20_lt80 = non_ICH_pixels_gt20[non_ICH_pixels_gt20<=upper_thresh_normal]
-                            pixels_num_nonICH_above_upperthresh = temp_len - len(non_ICH_pixels_gt20_lt80)
-                            nonICH_pixels_gt20_lt80_nonzero = non_ICH_pixels_gt20_lt80[np.nonzero(non_ICH_pixels_gt20_lt80)]
-                            nonICH_slice_pixel_count=0
-                            for intensity in nonICH_pixels_gt20_lt80_nonzero:
-                                nonfarct_pixels_list.append(intensity)
-                                nonICH_slice_pixel_count=nonICH_slice_pixel_count+1
-
-                            overall_non_ICH_vol=overall_non_ICH_vol+non_ICH_pixels_volume/1000
-                            mean_slice_ICH_pixels_gt20_lt80= np.mean(ICH_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_ICH_pixels_gt20_lt80):
-                                mean_slice_ICH_pixels_gt20_lt80=0
-                            mean_slice_non_ICH_pixels_gt20_lt80=np.mean(non_ICH_pixels_gt20_lt80)
-                            if math.isnan(mean_slice_non_ICH_pixels_gt20_lt80):
-                                mean_slice_non_ICH_pixels_gt20_lt80=0
-
-                            ICH_pixel_intensity.append(mean_slice_ICH_pixels_gt20_lt80) #I5[numpy_image_mask[:,:,img_idx]>0]))
-                            nonICH_pixel_intensity.append(mean_slice_non_ICH_pixels_gt20_lt80)#I5[I_t_r_f_rinv_tinv_mask>0]))
-                            cv2.imwrite(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"),I4)
-                            I4_img=cv2.imread(os.path.join(niftifilenamedir,"I4_img" +grayfilename_base + ".jpg"))
-                            ################################################################
-                            # font
-                            font = cv2.FONT_HERSHEY_SIMPLEX
-                            # org
-                            org = (20, 20)
-                            # fontScale
-                            fontScale = 0.5
-                            # Blue color in BGR
-                            color = (0, 255, 255)
-                            # Line thickness of 2 px
-                            thickness = 1
-                            img_with_line_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            current_ICH_num=0
-                            current_nonICH_num=0
-                            slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
-                            slice_3_layer[:,:,0]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
-                            slice_3_layer[:,:,1]= filename_gray_data_np_copy[:,:,img_idx] #imgray1
-                            slice_3_layer[:,:,2]= filename_gray_data_np_copy[:,:,img_idx]# imgray1
-                            # slice_3_layer= I4_img # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
-                            blank_3_layer= np.copy(I4_img) # np.zeros([thisimage.shape[0],thisimage.shape[1],3])
-                            blank_3_layer[blank_3_layer>0]=0
-
-                            img_with_ICH_nonzero_id = np.transpose(np.nonzero(numpy_image_mask[:,:,img_idx]))
-                            img_with_nonICH_nonzero_id = np.transpose(np.nonzero(I_t_r_f_rinv_tinv_mask))
-                            ICH_pixel_counter=0
-                            nonICH_pixel_counter=0
-                            csf_in_ICH_counter=0
-                            csf_in_nonICH_counter=0
-                            ### non-zero pixels in csf:
-                            csf_seg_np_nonzero_id = np.transpose(np.nonzero(csf_seg_np[:,:,img_idx]))
-                            csf_values=np.unique(csf_seg_np[:,:,img_idx].flatten())
-
-                            csf_in_ICH=0
-                            csf_in_noICH=0
-                            for non_zero_pixel in img_with_ICH_nonzero_id:
-                                matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
-                                if len(matching[0]>0):
-                                    csf_in_ICH=csf_in_ICH+1
-                            for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                matching=np.where((csf_seg_np_nonzero_id == non_zero_pixel).all(axis=1))
-                                if len(matching[0]>0):
-                                    csf_in_noICH=csf_in_noICH+1
-
-
-
-                            for non_zero_pixel in img_with_ICH_nonzero_id:
-
-
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh) :
-                                    current_ICH_num = current_ICH_num + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100 #0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0 ##100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100 ##200
-                                    ICH_pixel_counter=ICH_pixel_counter+1
-                            for non_zero_pixel in img_with_nonICH_nonzero_id:
-                                if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
-                                    current_nonICH_num = current_nonICH_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100
-                                    nonICH_pixel_counter=nonICH_pixel_counter+1
-                            ##################################################################
-
-
-                            print("current_ICH_num")
-                            print(current_ICH_num)
-                            print("filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]")
-                            print(filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx])
-                            text_space=15
-                            blank_3_layer = cv2.putText(blank_3_layer, "ICH SIDE (Orange):  " + ICH_side  + "  Slice number:" +str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , org, font,  fontScale, color, thickness, cv2.LINE_AA)
-                            #                            if ICH_pixel_counter != 0 :
-                            if ICH_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + str(current_ICH_num/ICH_pixel_counter) , (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            else:
-                                blank_3_layer = cv2.putText(blank_3_layer, "ICH density:" + "ICH count=0", (org[0],org[1]+ 50 +text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*2), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            if nonICH_pixel_counter != 0 :
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + str(current_nonICH_num/nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            else:
-                                blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH density:" + "Non ICH count=0" , (org[0],org[1]+ 50+text_space*3), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*4), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "ICH pixel count:" + str(ICH_pixel_counter) , (org[0],org[1]+ 50+text_space*5), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*6), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Non ICH pixel count:" + str(nonICH_pixel_counter) , (org[0],org[1]+ 50+text_space*7), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*8), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Total pixel ICH:" + str(pixels_num_total_ICH) , (org[0],org[1]+ 50+text_space*9), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*10), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Total pixel non-ICH:" + str(pixels_num_total_nonICH) , (org[0],org[1]+ 50+text_space*11), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*12), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in ICH:" + str(pixels_num_ICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*13), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*14), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in ICH:" + str(pixels_num_ICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*text_space), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*16), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "Pixels lower than lower thresh in nonICH:" + str(pixels_num_nonICH_below_lowerthresh) , (org[0],org[1]+ 50+text_space*17), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*18), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "Pixels higher than upper thresh in nonICH:" + str(pixels_num_nonICH_above_upperthresh) , (org[0],org[1]+ 50+text_space*19), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*20), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "CSF Pixels in ICH:" + str(csf_in_ICH) , (org[0],org[1]+ 50+text_space*21), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer, "   "  , (org[0],org[1]+ 50 +text_space*22), font,  fontScale, color, thickness, cv2.LINE_AA)
-                            blank_3_layer = cv2.putText(blank_3_layer,  "CSF Pixels  in non-ICH:" + str(csf_in_noICH) , (org[0],org[1]+ 50+text_space*23), font,  fontScale, color, thickness, cv2.LINE_AA)
-
-
-
-                            img_with_line1=cv2.line(slice_3_layer, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
-
-
-                            cv2.imwrite(imagename,img_with_line1)
-                            cv2.imwrite(imagename_class1,img_with_line1)
-                            cv2.imwrite(image_ICH_details,rotate_image(blank_3_layer,center1=[255,255],angle=-90))
-
-                            histogram_sidebyside(ICH_pixels_gt20_lt80_nonzero,nonICH_pixels_gt20_lt80_nonzero,image_ICH_nonICH_histogram)
-
-                            ratio_density=(np.mean(ICH_pixels_gt20_lt80_nonzero)/np.mean(nonICH_pixels_gt20_lt80_nonzero))
-                            NWU_slice=(1-ratio_density) * 100  #(1- ((np.mean(ICH_pixels_gt20_lt80))/(np.mean(non_ICH_pixels_gt20_lt80)))) * 100
-                            this_dict={"Slice":subject_name.split('_resaved')[0]+"_" +str(img_idx),"NWU":NWU_slice,"NumberofICHvoxels": ICH_slice_pixel_count, "ICH Density":np.mean(ICH_pixels_gt20_lt80_nonzero),"NumberofNONICHvoxels": nonICH_slice_pixel_count , "NONICH Density":np.mean(nonICH_pixels_gt20_lt80_nonzero) , "ICH Volume":ICH_pixels_volume/1000 ,"NONICH Volume":non_ICH_pixels_volume/1000, "ORGINAL_ICH_VOLUME":"NA","ICHUSED_VOL_RATIO":"NA","NONINFACRTUSED_VOL_RATIO":"NA" } #,"Ventricles_Vol":ventricle_vol,"Sulci_VolL":leftcountsul,"Sulci_VolR":rightcountsul,"Ventricles_VolL":leftcountven,"Ventricles_VolR":rightcountven,"sulci_vol_above_vent": sulci_vol_above_vent,"sulci_vol_below_vent" :sulci_vol_below_vent,"sulci_vol_at_vent":sulci_vol_at_vent}
-
-
-                            dict_for_csv.append(this_dict)
-    ratio_overall_density = (np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list)))
-    NWU   = (1-ratio_overall_density) * 100 #(1- (((np.mean(np.array(ICH_pixels_list)))/(np.mean(np.array(nonfarct_pixels_list))))) ) * 100
-
-    this_dict={"Slice":subject_name.split('_resaved')[0] + "_TOTAL","NWU":NWU,"NumberofICHvoxels": np.array(ICH_pixels_list).shape[0],"ICH Density":np.mean(np.array(ICH_pixels_list)) , "NumberofNONICHvoxels": np.array(nonfarct_pixels_list).shape[0] , "NONICH Density":np.mean(np.array(nonfarct_pixels_list)), "ICH Volume":overall_ICH_vol ,"NONICH Volume":overall_non_ICH_vol,"ORGINAL_ICH_VOLUME":ICH_total_voxels_volume ,"ICHUSED_VOL_RATIO":overall_ICH_vol/ICH_total_voxels_volume,"NONINFACRTUSED_VOL_RATIO":overall_non_ICH_vol/ICH_total_voxels_volume}
-    dict_for_csv.append(this_dict)
-
-    date_time = time.strftime("_%m_%d_%Y",now)
-    grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
-    thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
-    # csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,''.join(e for e in os.path.basename(sys.argv[1]).split(".nii")[0] if e.isalnum())+"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU.csv')
-    csvfile_with_vol=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename +"_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) +'_NWU'+Version_Date+date_time +'.csv')
-    csv_columns=['Slice','NWU','NumberofICHvoxels','ICH Density','NumberofNONICHvoxels','NONICH Density','ICH Volume','NONICH Volume','ORGINAL_ICH_VOLUME','ICHUSED_VOL_RATIO','NONINFACRTUSED_VOL_RATIO'] #,'Ventricles_Vol','Sulci_VolL','Sulci_VolR','Ventricles_VolL','Ventricles_VolR','sulci_vol_above_vent','sulci_vol_below_vent','sulci_vol_at_vent']
-    write_csv(csvfile_with_vol,csv_columns,dict_for_csv)
-
-    ICH_pixels_number=np.array(ICH_pixels_list).shape[0]
-    ICH_pixels_density=np.mean(np.array(ICH_pixels_list))
-    nonfarct_pixels_number=np.array(nonfarct_pixels_list).shape[0]
-    nonICH_pixels_density=np.mean(np.array(nonfarct_pixels_list))
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 
 
@@ -1021,6 +651,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     overall_non_ICH_vol="NA"
     ICH_total_voxels_volume="NA"
     ICH_side="NONE"
+    EDEMA_VOXELS_IN_CSF=0
     left_brain_volume=0
     right_brain_volume=0
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
@@ -1067,7 +698,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_begin_document(latexfilename)
         latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
         # row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","NWU", "ICH VOX_NUMBERS", "ICH DENSITY", "NON ICH VOX_NUMBERS", "NON ICH DENSITY","ICH VOLUME","ICH REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","ICH THRESH RANGE","NORMAL THRESH RANGE"]
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "ICH SIDE","ICH VOLUME","ICH EDEMA VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","CSFVOXEL_NUM_OVERLAP_EDEMA","CSFVOXEL_VOL_OVERLAP_EDEMA"]
 
         col_names=np.copy(np.array(row))
 
@@ -1103,7 +734,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
             CSF_Mask_filename_data_minus_edema=nib.load(CSF_Mask_filename).get_fdata()
             # CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
-            CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
+            # CSF_Mask_filename_data_minus_edema[ICH_Class2_Mask_filename_data>0]=np.min(CSF_Mask_filename_data_minus_edema)
             CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_data_minus_edema) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
             CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
 
@@ -1115,7 +746,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 print('Filename:{}'.format(os.path.basename(niftifilename)))
                 print('Number of voxels in CSF mask before ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
 
-                CSF_Mask_filename_data_np[ICH_image_data_1>0]=0
+                # CSF_Mask_filename_data_np[ICH_image_data_1>0]=0
                 print("code for subtraction:{}".format('CSF_Mask_data[ICH_data>0]=0'))
 
                 print('Number of voxels in CSF mask after ICH subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
@@ -1127,6 +758,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
             filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
             filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
+            ICH_Class2_Mask_filename_data_512=resizeinto_512by512(ICH_Class2_Mask_filename_data)
             numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
             filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
             #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
@@ -1174,7 +806,12 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
                         slice_3_layer[:,:,0]= thisimage #imgray1
                         slice_3_layer[:,:,1]= thisimage #imgray1
-                        slice_3_layer[:,:,2]= thisimage# imgray1
+                        slice_3_layer[:,:,2]= thisimage  # imgray1
+                        ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
+                        print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
+                        ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(ICH_Class2_Mask_filename_data_512)
+                        ICH_Class2_Mask_filename_data_512_idx_flatten=ICH_Class2_Mask_filename_data_512_idx.flatten()
+                        EDEMA_VOXELS_IN_CSF=EDEMA_VOXELS_IN_CSF+np.count_nonzero(ICH_Class2_Mask_filename_data_512_idx_flatten)
 
 
                         slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
@@ -1245,7 +882,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
                         slice_number="{0:0=3d}".format(img_idx)
 
-
+                        slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
+                        slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
+                        slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
                         imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
 
                         imagefilename_ICH=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
@@ -1312,6 +951,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             image_array=np.asarray(filename_bet_gray_data_np)
             print("image_array MINIMUM")
             print(np.min(image_array))
+            EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
             BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
             CSF_RATIO=left_pixels_num/right_pixels_num
             if left_pixels_num > right_pixels_num :
@@ -1320,7 +960,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume)]
+            row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),EDEMA_VOXELS_IN_CSF,EDEMA_VOXELS_IN_CSF_TOTAL_VOL]
             values_in_col=np.array(row2)
 
             # values_in_col_1=np.array(row2_1)
@@ -1374,7 +1014,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_start_tableNc_noboundary(latexfilename1,1)
             # values_in_table_df=values_in_table_df.drop([4, 5,6,7,8,10,15,16])
             print("values_in_table_df::{}".format(values_in_table_df))
-            values_in_table_df=values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9])
+            values_in_table_df=values_in_table_df.reindex([3,4,5,2,1,0,7,6,8,9,10,11])
             print("values_in_table_df_rearranged::{}".format(values_in_table_df))
             latex_insert_line_nodek(latexfilename1,text=values_in_table_df.to_latex(index=False))
             latex_end_table2c(latexfilename1)

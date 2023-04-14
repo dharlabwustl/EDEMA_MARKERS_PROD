@@ -616,7 +616,211 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
 
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 
+def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,ICH_Class2_Mask_filename_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
+    EDEMA_VOXELS_IN_CSF=0
+    filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
+    filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
+    filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
+    filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
+    ICH_Class2_Mask_filename_data_512=resizeinto_512by512(ICH_Class2_Mask_filename_data)
+    numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
+    filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
+    #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+    filename_brain_data_np_minus_CSF[CSF_Mask_filename_data_np>=np.max(CSF_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+    upper_slice_num=0
+    lower_slice_num=0
+    found_lower_slice=0
+    for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
 
+        if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+            lower_slice_num=slice_num_csf
+            found_lower_slice=1
+        if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+            upper_slice_num=slice_num_csf
+    this_slice_left_volume=0
+    this_slice_right_volume=0
+    for img_idx in range(numpy_image.shape[2]):
+        if img_idx>0 and img_idx < numpy_image.shape[2]:
+
+            method_name="REGIS"
+            slice_number="{0:0=3d}".format(img_idx)
+            filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
+            this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+            #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
+            #                        print(this_npyfile)
+            if os.path.exists(this_npyfile):
+                print("YES FOUND BOTH FILES")
+                print('latexfilename')
+                print(latexfilename)
+                calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
+                # print(x_points2)
+                y_points2=calculated_midline_points.item().get('y_axis')
+                slice_3_layer= np.zeros([numpy_image.shape[0],numpy_image.shape[1],3])
+                x_points2=x_points2[:,0]
+                y_points2=y_points2[:,0]
+                # print(this_npyfile)
+
+                img_with_line=CSF_Mask_filename_data_np[:,:,img_idx]
+                # print(np.max(img_with_line))
+                img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
+                thisimage=filename_gray_data_np_1[:,:,img_idx]
+                current_left_num=0
+                current_right_num=0
+                slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                slice_3_layer[:,:,0]= thisimage #imgray1
+                slice_3_layer[:,:,1]= thisimage #imgray1
+                slice_3_layer[:,:,2]= thisimage  # imgray1
+                ICH_Class2_Mask_filename_data_512_idx  = ICH_Class2_Mask_filename_data_512[:,:,img_idx]
+                print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
+                ICH_Class2_Mask_filename_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(ICH_Class2_Mask_filename_data_512)
+                ICH_Class2_Mask_filename_data_512_idx_flatten=ICH_Class2_Mask_filename_data_512_idx.flatten()
+                EDEMA_VOXELS_IN_CSF=EDEMA_VOXELS_IN_CSF+np.count_nonzero(ICH_Class2_Mask_filename_data_512_idx_flatten)
+
+
+                slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                slice_3_layer_brain[:,:,1]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                slice_3_layer_brain[:,:,2]= filename_brain_data_np_minus_CSF[:,:,img_idx] # imgray1
+                # font
+                font = cv2.FONT_HERSHEY_SIMPLEX
+
+                # org
+                org = (50, 50)
+
+                # fontScale
+                fontScale = 1
+
+                # Blue color in BGR
+                color = (0, 0, 255)
+
+                # Line thickness of 2 px
+                thickness = 2
+
+                imagefilename_gray=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)+"gray"
+                slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                # cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
+                for non_zero_pixel in img_with_line_nonzero_id:
+                    xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                    if xx>0: ## RIGHT
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                        current_right_num = current_right_num + 1
+                    if xx<0: ## LEFT
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                        slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                        current_left_num = current_left_num + 1
+                brainarea_with_nonzero_id = np.transpose(np.nonzero(filename_brain_data_np_minus_CSF[:,:,img_idx]))
+
+                left_brain_voxel_count=0
+                right_brain_voxel_count=0
+                for non_zero_pixel in brainarea_with_nonzero_id:
+                    xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                    if xx>0: ## RIGHT
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                        right_brain_voxel_count = right_brain_voxel_count + 1
+                    if xx<0: ## LEFT
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                        slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                        left_brain_voxel_count = left_brain_voxel_count + 1
+
+
+                lineThickness = 2
+
+                this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+
+                this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                this_slice_gray_left_volume=this_slice_gray_left_volume/1000
+                this_slice_gray_right_volume=this_slice_gray_right_volume/1000
+
+                img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+
+                img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+                slice_number="{0:0=3d}".format(img_idx)
+
+                slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
+                slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
+                slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
+                imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
+
+                imagefilename_ICH=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")
+                imagename_class2=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class2.png")
+                imagename_class1=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_class1.png")
+                image_ICH_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_details.png")
+                image_ICH_nonICH_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH_nonICH_histogram.png")
+                image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
+
+
+                # cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
+                # cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
+                nect_file_basename_forimagename=imagefilename
+
+                ## get the mask image:
+                this_slice_left_volume=this_slice_left_volume/1000
+                this_slice_right_volume=this_slice_right_volume/1000
+
+                ################################
+                # upper_slice_num=0
+                # lower_slice_num=0
+                # found_lower_slice=0
+                # for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+
+                #     if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                #         lower_slice_num=slice_num_csf
+                #         found_lower_slice=1
+                #     if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                #         upper_slice_num=slice_num_csf
+                ##########################
+
+                image_list=[]
+                print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
+                if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                    latex_start_tableNc_noboundary(latexfilename,6)
+
+                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                    image_list.append(image_left_right_brain)
+                    # image_list.append(imagefilename_ICH)
+                    image_list.append(imagename_class1)
+                    image_list.append(imagename_class2)
+
+                    # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
+                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                    latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=.2, angle=90,space=0.51)
+                    latex_end_table2c(latexfilename)
+
+                elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                    latex_start_tableNc_noboundary(latexfilename,2)
+
+                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                    # image_list.append(imagefilename_ICH)
+                    # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_ICH_details))
+                    image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                    latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
+
+                    latex_end_table2c(latexfilename)
+
+                left_pixels_num=left_pixels_num+this_slice_left_volume
+                right_pixels_num=right_pixels_num+this_slice_right_volume
+
+                left_brain_volume=left_brain_volume + this_slice_gray_left_volume
+                right_brain_volume=right_brain_volume + this_slice_gray_right_volume
+    image_array=np.asarray(filename_bet_gray_data_np)
+    print("image_array MINIMUM")
+    print(np.min(image_array))
+    EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+    BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+    CSF_RATIO=left_pixels_num/right_pixels_num
+    if left_pixels_num > right_pixels_num :
+        CSF_RATIO=right_pixels_num/left_pixels_num
+    return left_pixels_num,right_pixels_num,CSF_RATIO
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     # $grayimage $betimage  $csfmaskimage ${ICHmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
@@ -960,6 +1164,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number, ICH_pixels_density, nonfarct_pixels_number,nonICH_pixels_density,overall_ICH_vol,overall_non_ICH_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
             # row2_1 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,NWU, ICH_pixels_number_class2, ICH_pixels_density_class2, nonfarct_pixels_number_class2,nonICH_pixels_density_class2,overall_ICH_vol_class2,overall_non_ICH_vol_class2,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,ICH_Class2_Mask_filename_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
             row2 = [thisfilebasename ,str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), ICH_side,overall_ICH_vol,overall_ICH_vol_class2, str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),EDEMA_VOXELS_IN_CSF,EDEMA_VOXELS_IN_CSF_TOTAL_VOL]
             values_in_col=np.array(row2)
 

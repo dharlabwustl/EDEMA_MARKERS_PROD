@@ -298,17 +298,18 @@ call_get_all_selected_scan_in_a_project()" ${projectID}  ${working_directory}
 }
 #get_all_selected_scan_in_a_project BJH ${working_dir}
 
-get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan()
+get_all_BIOMARKER_csvfiles_of_allselectedscan()
 {
 # def get_maskfile_scan_metadata():
-working_directory=${1} #sys.argv[1]   
+working_directory=${1} #sys.argv[1]
+resource_dirname=${2}
 
 
 python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
-call_get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan()"  ${working_directory}
+call_get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan()"  ${working_directory} ${resource_dirname}
 }
 
 combine_all_csvfiles_of_edema_biomarker()
@@ -362,10 +363,11 @@ projectID=${1}
 #then  download the csv and pdf from this metadata
 get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################
-get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}
+csv_resource_dirname="ICH_QUANTIFICATION"
+get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}
 
 ############################## combine_all_csvfiles_of_edema_biomarker   #############################################
-extension_csv="columndropped.csv" #"0_40TOTAL.csv"
+extension_csv=".csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 output_directory="/workingoutput"
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
@@ -377,7 +379,7 @@ done < <( tail -n +2 "${combinedfilename}" )
 ######################################################################################################################
 ## COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername="EDEMA_BIOMARKER"
+snipr_output_foldername=${csv_resource_dirname} #"EDEMA_BIOMARKER"
 file_suffixes=( COMBINED_columndropped.csv ) #sys.argv[5] .mat
 for file_suffix in ${file_suffixes[@]}
 do
@@ -389,7 +391,7 @@ done
 ######################################################################################################################
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername="EDEMA_BIOMARKER"
+snipr_output_foldername=${csv_resource_dirname} #"EDEMA_BIOMARKER"
 file_suffixes=(  .pdf COMBINED_columndropped.csv ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do

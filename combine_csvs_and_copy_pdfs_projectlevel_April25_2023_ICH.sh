@@ -309,7 +309,7 @@ python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
-call_get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan()"  ${working_directory} ${resource_dirname}
+call_get_all_BIOMARKER_csvfiles_of_allselectedscan()"  ${working_directory} ${resource_dirname}
 }
 
 combine_all_csvfiles_of_edema_biomarker()

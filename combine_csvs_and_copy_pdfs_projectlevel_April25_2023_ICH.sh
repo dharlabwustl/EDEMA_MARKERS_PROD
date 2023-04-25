@@ -361,7 +361,7 @@ projectID=${1}
 ############################## get_all_selected_scan_in_a_project   #############################################
 ## 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it
 #then  download the csv and pdf from this metadata
-get_all_selected_scan_in_a_project ${projectID} ${working_dir}
+#get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################
 csv_resource_dirname="ICH_QUANTIFICATION"
 get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}

@@ -371,7 +371,7 @@ get_all_BIOMARKER_csvfiles_of_allselectedscan ${output_directory}  ${csv_resourc
 extension_csv=".csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 
-combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
+combine_all_csvfiles_of_edema_biomarker  ${output_directory} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 
 combinedfilename=$(find ${output_directory} -name *COMBINED_columndropped.csv)
 while IFS=',' read -ra array; do

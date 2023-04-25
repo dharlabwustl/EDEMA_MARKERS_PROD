@@ -52,3 +52,10 @@ then
 echo ${PROJECT_ID}::$XNAT_USER::$XNAT_PASS::$XNAT_HOST
    /software/nwu_with_ich_mask.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+
+if [[ ${TYPE_OF_PROGRAM} == 9 ]] ;
+then
+  PROJECT_ID=${1}
+    /software/combine_csvs_and_copy_pdfs_projectlevel_April25_2023_ICH.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

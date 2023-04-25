@@ -1,0 +1,115 @@
+{
+  "name": "combinecsvsNcopypdf_ICH",
+  "description": "ATUL : Launch combinecsvsNcopypdf_ICH containers on a batch of subjects",
+  "version": "1.0",
+  "schema-version": "1.0",
+  "image": "registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/fsl502py369withpacksnltx:latest",
+  "type": "docker",
+  "command-line": "/callfromgithub/downloadcodefromgithub.sh #PROJECT#  $XNAT_USER $XNAT_PASS https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git 9  https://snipr.wustl.edu  ",
+  "override-entrypoint": true,
+  "mounts": [
+    {
+      "name": "out",
+      "writable": true,
+      "path": "/output"
+    },
+    {
+      "name": "in",
+      "writable": false,
+      "path": "/input"
+    },
+    {
+      "name": "ZIPFILEDIR",
+      "writable": true,
+      "path": "/ZIPFILEDIR"
+    },
+    {
+      "name": "software",
+      "writable": true,
+      "path": "/software"
+    },
+    {
+      "name": "NIFTIFILEDIR",
+      "writable": true,
+      "path": "/NIFTIFILEDIR"
+    },
+    {
+      "name": "DICOMFILEDIR",
+      "writable": true,
+      "path": "/DICOMFILEDIR"
+    },
+    {
+      "name": "working",
+      "writable": true,
+      "path": "/working"
+    },
+    {
+      "name": "workinginput",
+      "writable": true,
+      "path": "/workinginput"
+    },
+    {
+      "name": "workingoutput",
+      "writable": true,
+      "path": "/workingoutput"
+    },
+    {
+      "name": "outputinsidedocker",
+      "writable": true,
+      "path": "/outputinsidedocker"
+    },
+    {
+      "name": "workingdir",
+      "writable": true,
+      "path": "/workingdir"
+    }
+  ],
+  "environment-variables": {},
+  "ports": {},
+  "inputs": [
+    {
+      "name": "PROJECT",
+      "type": "string",
+      "required": true,
+      "select-values": []
+    }
+  ],
+  "outputs": [],
+  "xnat": [
+    {
+      "name": "combinecsvsNcopypdf_ICH",
+      "label": "combinecsvsNcopypdf_ICH batch",
+      "description": "ATUL : Launch combinecsvsNcopypdf_ICH-sessions-batch-subject on all subjects in a project",
+      "contexts": [
+        "xnat:projectData"
+      ],
+      "external-inputs": [
+        {
+          "name": "project",
+          "description": "Input project",
+          "type": "Project",
+          "required": true,
+          "load-children": false
+        }
+      ],
+      "derived-inputs": [
+        {
+          "name": "project-id",
+          "type": "string",
+          "required": true,
+          "provides-value-for-command-input": "PROJECT",
+          "user-settable": false,
+          "load-children": true,
+          "derived-from-wrapper-input": "project",
+          "derived-from-xnat-object-property": "id",
+          "multiple": false
+        }
+      ],
+      "output-handlers": []
+    }
+  ],
+  "container-labels": {},
+  "generic-resources": {},
+  "ulimits": {},
+  "secrets": []
+}

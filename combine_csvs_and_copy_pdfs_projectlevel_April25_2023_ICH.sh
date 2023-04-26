@@ -375,6 +375,7 @@ combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${ex
 
 combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
 while IFS=',' read -ra array; do
+echo "${array[0]}"
 copy_latest_pdfs ${array[0]} ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${combinedfilename}" )
 ######################################################################################################################
@@ -396,6 +397,7 @@ snipr_output_foldername=${csv_resource_dirname} #"EDEMA_BIOMARKER"
 file_suffixes=(  .pdf COMBINED_.csv ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
+  #echo "${array[0]}"
 #    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
      copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
 done

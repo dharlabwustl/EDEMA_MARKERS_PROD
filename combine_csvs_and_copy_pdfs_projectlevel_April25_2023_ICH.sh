@@ -370,7 +370,7 @@ csv_resource_dirname="ICH_QUANTIFICATION"
 extension_csv=".csv" #"0_40TOTAL.csv"
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 output_directory="/workingoutput"
-mv ${working_dir}/SNIPR*.csv ${output_directory}
+mv ${working_dir}/SNIPR*.csv ${output_directory}/
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 
 combinedfilename=$(find ${output_directory} -name *COMBINED_columndropped.csv)

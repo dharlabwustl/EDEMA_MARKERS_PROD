@@ -400,6 +400,7 @@ do
   #echo "${array[0]}"
 #    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
      copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
+
 done
 
 ######################################################################################################################

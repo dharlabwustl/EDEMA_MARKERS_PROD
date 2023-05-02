@@ -187,13 +187,16 @@ def deleteafile(filename):
 def get_all_selected_scan_in_a_project(projectId,dir_to_receive_the_data):
     sessions_list=get_allsessionlist_in_a_project(projectId)
     sessions_list_df=pd.DataFrame(sessions_list)
+    counter=0
     for item_id, each_session in sessions_list_df.iterrows():
-        sessionId=each_session['ID']
-        output_csvfile=os.path.join(dir_to_receive_the_data,sessionId+'.csv')
-        try:
-            decision_which_nifti(sessionId,dir_to_receive_the_data,output_csvfile)
-        except:
-            pass
+        if counter < 5:
+            sessionId=each_session['ID']
+            output_csvfile=os.path.join(dir_to_receive_the_data,sessionId+'.csv')
+            try:
+                decision_which_nifti(sessionId,dir_to_receive_the_data,output_csvfile)
+                counter=counter+1
+            except:
+                pass
 def get_allsessionlist_in_a_project(projectId):
     # projectId="BJH" #sys.argv[1]   
     url = ("/data/projects/%s/experiments/?format=json" %    (projectId))

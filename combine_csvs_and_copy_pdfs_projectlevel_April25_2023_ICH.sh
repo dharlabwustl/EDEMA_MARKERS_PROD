@@ -381,7 +381,7 @@ done < <( tail -n +2 "${combinedfilename}" )
 ######################################################################################################################
 ## COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername=${csv_resource_dirname}CSV#_1 #"EDEMA_BIOMARKER"
+snipr_output_foldername=${csv_resource_dirname}PDF #"EDEMA_BIOMARKER"
 file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
 for file_suffix in ${file_suffixes[@]}
 do
@@ -393,7 +393,7 @@ done
 ######################################################################################################################
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername=${csv_resource_dirname}PDF#_1 #"EDEMA_BIOMARKER"
+snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
 file_suffixes=(  .pdf COMBINED_.csv )PDF #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do

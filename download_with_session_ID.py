@@ -187,9 +187,9 @@ def deleteafile(filename):
 def get_all_selected_scan_in_a_project(projectId,dir_to_receive_the_data):
     sessions_list=get_allsessionlist_in_a_project(projectId)
     sessions_list_df=pd.DataFrame(sessions_list)
-    counter=20
+    counter=0
     for item_id, each_session in sessions_list_df.iterrows():
-        if counter < 5:
+        if counter < 20:
             sessionId=each_session['ID']
             output_csvfile=os.path.join(dir_to_receive_the_data,sessionId+'.csv')
             try:

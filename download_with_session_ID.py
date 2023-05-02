@@ -195,10 +195,12 @@ def get_all_selected_scan_in_a_project(projectId,dir_to_receive_the_data):
             try:
                 decision_which_nifti(sessionId,dir_to_receive_the_data,output_csvfile)
                 counter=counter+1
+                if counter > 20:
+                    break
             except:
                 pass
-        else:
-            break
+        # else:
+        #     break
 def get_allsessionlist_in_a_project(projectId):
     # projectId="BJH" #sys.argv[1]   
     url = ("/data/projects/%s/experiments/?format=json" %    (projectId))

@@ -383,17 +383,17 @@ done < <( tail -n +2 "${combinedfilename}" )
 
 snipr_output_foldername=${csv_resource_dirname}CSV#_1 #"EDEMA_BIOMARKER"
 file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
-#for file_suffix in ${file_suffixes[@]}
-#do
-#    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
-#done
+for file_suffix in ${file_suffixes[@]}
+do
+    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
+done
 
 ######################################################################################################################
 
 ######################################################################################################################
 ## COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 
-snipr_output_foldername=${csv_resource_dirname}#_1 #"EDEMA_BIOMARKER"
+snipr_output_foldername=${csv_resource_dirname}PDF#_1 #"EDEMA_BIOMARKER"
 file_suffixes=(  .pdf COMBINED_.csv )PDF #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do

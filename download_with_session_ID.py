@@ -7,6 +7,7 @@ import re
 import requests
 import pandas as pd
 import nibabel as nib
+import numpy as np
 # import pydicom as dicom
 import pathlib
 from xnatSession import XnatSession
@@ -18,11 +19,16 @@ XNAT_PASS =os.environ['XNAT_PASS'] #
 def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     # extension = 'csv'
-    all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
+    pdffilesuffix='.csv'
+    pdffiledirectory=inputdirectory
+    all_filenames = get_latest_filesequence(pdffilesuffix,pdffiledirectory)
+    # all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
 #    os.chdir(inputdirectory)
     #combine all files in the list
     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
     combined_csv = combined_csv.drop_duplicates()
+    combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
+    combined_csv.dropna(subset=['FileName_slice'], inplace=True)
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
@@ -44,7 +50,31 @@ def copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory):
         filetocopy=allfileswithprefix[0]
         command = 'cp ' + filetocopy +'  ' + destinationdirectory
         subprocess.call(command,shell=True)
-
+def get_latest_filesequence(pdffilesuffix,pdffiledirectory):
+    latest_file_list=[]
+    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,'*'+pdffilesuffix))
+    if len(allfileswithprefix1)>0:
+        allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+        filetocopy=allfileswithprefix[0]
+        latest_file_list.append(filetocopy)
+        # command = 'cp ' + filetocopy +'  ' + destinationdirectory
+        # subprocess.call(command,shell=True)
+    return latest_file_list
+def call_copy_latest_csvfile():
+    pdffileprefix=sys.argv[1]
+    pdffiledirectory=sys.argv[2]
+    destinationdirectory=sys.argv[3]
+    try:
+        copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory)
+    except:
+        pass
+def copy_latest_csvfile(pdffileprefix,pdffiledirectory,destinationdirectory):
+    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,pdffileprefix+'*'))
+    if len(allfileswithprefix1)>0:
+        allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+        filetocopy=allfileswithprefix[0]
+        command = 'cp ' + filetocopy +'  ' + destinationdirectory
+        subprocess.call(command,shell=True)
 def call_copy_latest_pdffile():
     pdffileprefix=sys.argv[1]
     pdffiledirectory=sys.argv[2]

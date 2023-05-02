@@ -340,6 +340,19 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 call_copy_latest_pdffile()"  ${pdffileprefix} ${pdffiledirectory} ${destinationdirectory}
 }
+copy_latest_csvs()
+{
+pdffileprefix=${1}
+pdffiledirectory=${2}
+destinationdirectory=${3}
+
+
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_copy_latest_csvfile()"  ${pdffileprefix} ${pdffiledirectory} ${destinationdirectory}
+}
 
 create_list_analyzed_session()
 {
@@ -366,12 +379,12 @@ projectID=${1}
 csv_resource_dirname="ICH_QUANTIFICATION"
 get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}
 
-############################### combine_all_csvfiles_of_edema_biomarker   #############################################
-#extension_csv=".csv" #"0_40TOTAL.csv"
-#combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
-#output_directory="/workingoutput"
-#mv ${working_dir}/SNIPR*.csv ${output_directory}/
-#combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
+############################## combine_all_csvfiles_of_edema_biomarker   #############################################
+extension_csv=".csv" #"0_40TOTAL.csv"
+combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
+output_directory="/workingoutput"
+mv ${working_dir}/SNIPR*.csv ${output_directory}/
+combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 #
 #combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
 #while IFS=',' read -ra array; do

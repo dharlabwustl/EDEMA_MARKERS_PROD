@@ -243,9 +243,9 @@ get_nifti_scan_uri(){
 sessionID=$1
 working_dir=${2}
 output_csvfile=${3}
-rm -r ${working_dir}/*
+#rm -r ${working_dir}/*
 output_dir=$(dirname ${output_csvfile})
-rm -r ${output_dir}/*
+#rm -r ${output_dir}/*
 # scanID=$2
 python3 -c "
 import sys

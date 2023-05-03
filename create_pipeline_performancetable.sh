@@ -43,10 +43,10 @@ downloadfiletolocaldir()" ${sessionID}  ${scanID}  ${resource_dirname}  ${output
 }
 
 call_get_resourcefiles_metadata_saveascsv(){
-    URI=sys.argv[1]
-    resource_dir=sys.argv[2]
-    dir_to_receive_the_data=sys.argv[3]
-    output_csvfile=sys.argv[4]
+    URI=${1}
+    resource_dir=${2}
+    dir_to_receive_the_data=${3}
+    output_csvfile=${4}
 python3 -c "
 import sys
 sys.path.append('/software');
@@ -349,8 +349,7 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
     done < <( tail -n +2 "${niftifile_csvfilename}" )
-    echo working_dir::${working_dir}
-    echo output_dirname::${output_dirname}
+
     ###################
 
     counter=$((counter+1))

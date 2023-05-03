@@ -305,7 +305,7 @@ echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
-    echo "$niftifile_csvfilename" exists."
+    echo "$niftifile_csvfilename exists."
     cp ${niftifile_csvfilename} ${final_output_directory}
 fi
 

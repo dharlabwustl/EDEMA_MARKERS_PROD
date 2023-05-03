@@ -18,6 +18,19 @@ XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 
 
+
+def merge_csvs(csvfileslist,columntomatchlist,outputfilename):
+    df1=pd.read_csv(csvfileslist[0])
+    left_on=columntomatchlist[0]
+    for x in range(len(csvfileslist)):
+        if x > 0:
+            df2=pd.read_csv(csvfileslist[x])
+            df_cd = pd.merge(df1, df2, how='inner', left_on = 'Id', right_on = 'Id')
+
+            df2.rename(columns={csvfileslist[x]:left_on}, inplace=True)
+            df1 = df1.merge(df2, left_on = left_on, right_on = columntomatchlist[x])
+            left_on=columntomatchlist[x]
+
 def combinecsvs_general(inputdirectory,outputdirectory,outputfilename,extension):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'

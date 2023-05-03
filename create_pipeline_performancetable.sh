@@ -304,7 +304,12 @@ sessionID_1="${array[1]}"
 echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
-cp ${niftifile_csvfilename} ${final_output_directory}
+if [ -f ${niftifile_csvfilename} ]; then
+    echo "$niftifile_csvfilename" exists."
+    cp ${niftifile_csvfilename} ${final_output_directory}
+fi
+
+
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
 #################################################

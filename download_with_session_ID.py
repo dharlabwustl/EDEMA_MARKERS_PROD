@@ -16,22 +16,50 @@ XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] # 
+# def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
+#     outputfilepath=os.path.join(outputdirectory,outputfilename)
+#     # extension = 'csv'
+#     pdffilesuffix='.csv'
+#     pdffiledirectory=inputdirectory
+#     all_filenames = get_latest_filesequence(pdffilesuffix,pdffiledirectory)
+#     # all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
+# #    os.chdir(inputdirectory)
+#     #combine all files in the list
+#     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+#     combined_csv = combined_csv.drop_duplicates()
+#     combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
+#     combined_csv.dropna(subset=['FileName_slice'], inplace=True)
+#     #export to csv
+#     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
-    # extension = 'csv'
+    extension = 'csv'
     pdffilesuffix='.csv'
     pdffiledirectory=inputdirectory
     all_filenames = get_latest_filesequence(pdffilesuffix,pdffiledirectory)
+
+    # print([f for f in all_filenames ])
     # all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
-#    os.chdir(inputdirectory)
+    # print(all_filenames)
+    #    os.chdir(inputdirectory)
     #combine all files in the list
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    combined_csv=pd.read_csv(all_filenames[0])
+
+    for x in all_filenames:
+        try:
+            x_df=pd.read_csv(x)
+
+            # print(x_df.shape)
+            combined_csv=pd.concat([combined_csv,pd.read_csv(x)])
+        except:
+            pass
+
+    # combined_csv = pd.concat([pd.read_csv(all_filenames[0]),pd.read_csv(all_filenames[0])],axis=0) ##[pd.read_csv(f) for f in all_filenames ],axis=0)
     combined_csv = combined_csv.drop_duplicates()
     combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
     combined_csv.dropna(subset=['FileName_slice'], inplace=True)
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
-
 def combinecsvs_withprefix(inputdirectory,outputdirectory,outputfilename,prefix):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'

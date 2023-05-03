@@ -300,6 +300,7 @@ curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID
 niftifile_csvfilename=${working_dir}/${sessionID}'this_session_final_ct.csv'
 while IFS=',' read -ra array; do
 echo "${array[0]}"
+sessionID="${array[1]}"
 echo final_output_directory::${final_output_directory}
 get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}

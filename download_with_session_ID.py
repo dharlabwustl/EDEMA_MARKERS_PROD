@@ -18,7 +18,7 @@ XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 
 
-def combinecsvs_general(inputdirectory,outputdirectory,outputfilename):
+def combinecsvs_general(inputdirectory,outputdirectory,outputfilename,extension):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'
     # pdffilesuffix='.csv'

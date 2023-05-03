@@ -42,6 +42,17 @@ downloadfiletolocaldir()" ${sessionID}  ${scanID}  ${resource_dirname}  ${output
 
 }
 
+call_get_resourcefiles_metadata_saveascsv(){
+    URI=sys.argv[1]
+    resource_dir=sys.argv[2]
+    dir_to_receive_the_data=sys.argv[3]
+    output_csvfile=sys.argv[4]
+    python3 -c "
+    import sys
+    sys.path.append('/software');
+    from download_with_session_ID import *;
+    call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+    }
 copy_scan_data() {
 		echo " I AM IN copy_scan_data "
 # rm -r /ZIPFILEDIR/*
@@ -322,6 +333,19 @@ get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."
     cp ${niftifile_csvfilename} ${final_output_directory}
+    #############
+    resource_dirname='MASKS'
+    output_dirname=${final_output_directory}
+    while IFS=',' read -ra array; do
+    scanID=${array[2]}
+    echo sessionId::${sessionID}
+    echo scanId::${scanID}
+    #call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+    done < <( tail -n +2 "${niftifile_csvfilename}" )
+    echo working_dir::${working_dir}
+    echo output_dirname::${output_dirname}
+    ###################
+
     counter=$((counter+1))
 fi
 if [[ $counter -gt 2 ]] ; then
@@ -347,16 +371,17 @@ done < <( tail -n +2 "${listofsession}" )
 ### GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 #
 ######################################################################################
-resource_dirname='MASKS'
-output_dirname=${working_dir}
-while IFS=',' read -ra array; do
-scanID=${array[2]}
-echo sessionId::${sessionID}
-echo scanId::${scanID}
-done < <( tail -n +2 "${niftifile_csvfilename}" )
-echo working_dir::${working_dir}
-echo output_dirname::${output_dirname}
-copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
+#resource_dirname='MASKS'
+#output_dirname=${working_dir}
+#while IFS=',' read -ra array; do
+#scanID=${array[2]}
+#echo sessionId::${sessionID}
+#echo scanId::${scanID}
+##call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#done < <( tail -n +2 "${niftifile_csvfilename}" )
+#echo working_dir::${working_dir}
+#echo output_dirname::${output_dirname}
+#copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
 #######################################################################################################################
 ### CALCULATE EDEMA BIOMARKERS
 #ich_calculation_each_scan

@@ -618,11 +618,11 @@ def get_resourcefiles_metadata(URI,resource_dir):
 def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile):
 
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
-    print(url)
-    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    # xnatSession.renew_httpsession()
-    # response = xnatSession.httpsess.get(xnatSession.host + url)
-    # xnatSession.close_httpsession()
+    print("url::{}".format(url))
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    response = xnatSession.httpsess.get(xnatSession.host + url)
+    xnatSession.close_httpsession()
     # metadata_masks=response.json()['ResultSet']['Result']
     # df_scan = pd.read_json(metadata_masks)
     # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)

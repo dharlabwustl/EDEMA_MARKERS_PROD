@@ -3,6 +3,7 @@ export XNAT_USER=${2}
 export XNAT_PASS=${3} 
 export XNAT_HOST=${4} 
 sessionID=${1}
+project_ID=${1}
 working_dir=/workinginput 
 output_directory=/workingoutput
 
@@ -308,7 +309,7 @@ call_combine_all_csvfiles_general()"  ${working_directory} ${working_directory_t
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 listofsession='sessions.csv'
-project_ID="COLI"
+#project_ID="COLI"
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
 
 counter=0
@@ -331,7 +332,7 @@ fi
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
 extension_csv='csv'
-combined_csv_outputfilename=${final_output_directory}/${sessionID}"_NIFTILIST_COMBINED.csv"
+combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
 combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
 #################################################
 #

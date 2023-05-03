@@ -243,9 +243,9 @@ get_nifti_scan_uri(){
 sessionID=$1
 working_dir=${2}
 output_csvfile=${3}
-#rm -r ${working_dir}/*
+rm -r ${working_dir}/*
 output_dir=$(dirname ${output_csvfile})
-#rm -r ${output_dir}/*
+rm -r ${output_dir}/*
 # scanID=$2
 python3 -c "
 import sys
@@ -297,12 +297,13 @@ get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${
 listofsession='sessions.csv'
 project_ID="COLI"
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
-niftifile_csvfilename=${final_output_directory}/${sessionID}'this_session_final_ct.csv'
+niftifile_csvfilename=${working_dir}/${sessionID}'this_session_final_ct.csv'
 while IFS=',' read -ra array; do
 echo "${array[0]}"
 sessionID="${array[1]}"
 echo final_output_directory::${final_output_directory}
-get_nifti_scan_uri ${sessionID}  ${final_output_directory} ${niftifile_csvfilename}
+get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+cp ${niftifile_csvfilename} ${final_output_directory}
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
 #################################################

@@ -55,6 +55,8 @@ def get_latest_filesequence(pdffilesuffix,pdffiledirectory):
     allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,'*'+pdffilesuffix))
     allfileswithprefix1_df = pd.DataFrame(allfileswithprefix1)
     allfileswithprefix1_df.columns=["FILENAME"]
+    # print(allfileswithprefix1_df)
+    allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.FILENAME.str.contains("_thresh")]
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILENAME']
     allfileswithprefix1_df['PREFIX']=allfileswithprefix1_df['FILENAME']
     # allfileswithprefix1_df[['FILENAME', 'EXT']] = allfileswithprefix1_df['FILENAME'].str.split('.pdf', 1, expand=True) _thres
@@ -80,8 +82,8 @@ def get_latest_filesequence(pdffilesuffix,pdffiledirectory):
         #     allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
         filetocopy=x_df['FILENAME'][0]
         # print(len(x_df['DATE'][0]))
-        if len(x_df['DATE'][0])==8:
-            latest_file_list.append(filetocopy)
+        # if len(x_df['DATE'][0])==8:
+        latest_file_list.append(filetocopy)
     #     # command = 'cp ' + filetocopy +'  ' + destinationdirectory
     #     # subprocess.call(command,shell=True)
     return latest_file_list

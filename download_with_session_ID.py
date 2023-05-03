@@ -15,22 +15,41 @@ catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
-XNAT_PASS =os.environ['XNAT_PASS'] # 
-# def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
-#     outputfilepath=os.path.join(outputdirectory,outputfilename)
-#     # extension = 'csv'
-#     pdffilesuffix='.csv'
-#     pdffiledirectory=inputdirectory
-#     all_filenames = get_latest_filesequence(pdffilesuffix,pdffiledirectory)
-#     # all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
-# #    os.chdir(inputdirectory)
-#     #combine all files in the list
-#     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-#     combined_csv = combined_csv.drop_duplicates()
-#     combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
-#     combined_csv.dropna(subset=['FileName_slice'], inplace=True)
-#     #export to csv
-#     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
+XNAT_PASS =os.environ['XNAT_PASS'] #
+
+
+def combinecsvs_general(inputdirectory,outputdirectory,outputfilename):
+    outputfilepath=os.path.join(outputdirectory,outputfilename)
+    extension = 'csv'
+    # pdffilesuffix='.csv'
+    # pdffiledirectory=inputdirectory
+    # all_filenames = get_latest_filesequence(pdffilesuffix,pdffiledirectory)
+    all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(extension)))]
+#    os.chdir(inputdirectory)
+    #combine all files in the list
+    combined_csv=pd.read_csv(all_filenames[0])
+
+    for x in all_filenames:
+        try:
+            x_df=pd.read_csv(x)
+
+            # print(x_df.shape)
+            combined_csv=pd.concat([combined_csv,pd.read_csv(x)])
+        except:
+            pass
+
+    # combined_csv = pd.concat([pd.read_csv(all_filenames[0]),pd.read_csv(all_filenames[0])],axis=0) ##[pd.read_csv(f) for f in all_filenames ],axis=0)
+    combined_csv = combined_csv.drop_duplicates()
+    # combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
+    # combined_csv.dropna(subset=['FileName_slice'], inplace=True)
+    #export to csv
+    combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
+    # combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    # combined_csv = combined_csv.drop_duplicates()
+    # combined_csv['FileName_slice'].replace('', np.nan, inplace=True)
+    # combined_csv.dropna(subset=['FileName_slice'], inplace=True)
+    # #export to csv
+    # combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'
@@ -147,6 +166,12 @@ def call_combine_all_csvfiles_of_edema_biomarker():
     extension=sys.argv[3]
     outputfilename=sys.argv[4]
     combinecsvs(working_directory,working_directory_tocombinecsv,outputfilename,extension)
+def call_combine_all_csvfiles_general():
+    working_directory=sys.argv[1]
+    working_directory_tocombinecsv=sys.argv[2]
+    extension=sys.argv[3]
+    outputfilename=sys.argv[4]
+    combinecsvs_general(working_directory,working_directory_tocombinecsv,outputfilename,extension)
 def call_combine_all_csvfiles_of_edema_biomarker_withprefix():
     working_directory=sys.argv[1]
     working_directory_tocombinecsv=sys.argv[2]

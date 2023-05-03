@@ -308,7 +308,7 @@ call_combine_all_csvfiles_general()"  ${working_directory} ${working_directory_t
 }
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-listofsession='sessions.csv'
+listofsession=${final_output_directory}/'sessions.csv'
 #project_ID="COLI"
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
 

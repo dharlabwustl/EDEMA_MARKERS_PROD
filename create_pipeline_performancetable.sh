@@ -297,12 +297,12 @@ get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${
 listofsession='sessions.csv'
 project_ID="COLI"
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
-niftifile_csvfilename=${output_directory}/${sessionID}'this_session_final_ct.csv'
+niftifile_csvfilename=${final_output_directory}/${sessionID}'this_session_final_ct.csv'
 while IFS=',' read -ra array; do
 echo "${array[0]}"
 sessionID="${array[1]}"
 echo final_output_directory::${final_output_directory}
-get_nifti_scan_uri ${sessionID}  ${output_directory} ${niftifile_csvfilename}
+get_nifti_scan_uri ${sessionID}  ${final_output_directory} ${niftifile_csvfilename}
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
 #################################################

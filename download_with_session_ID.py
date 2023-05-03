@@ -623,7 +623,7 @@ def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_dat
     xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     xnatSession.close_httpsession()
-    # metadata_masks=response.json()['ResultSet']['Result']
+    metadata_masks=response.json()['ResultSet']['Result']
     # df_scan = pd.read_json(metadata_masks)
     # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
     # return metadata_masks

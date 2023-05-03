@@ -62,6 +62,6 @@ fi
 
 if [[ ${TYPE_OF_PROGRAM} == 10 ]] ;
 then
-  PROJECT_ID=COLI #${1}
+  PROJECT_ID=${1}
     /software/create_pipeline_performancetable.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

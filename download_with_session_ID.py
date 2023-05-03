@@ -619,14 +619,14 @@ def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_dat
 
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
     print(url)
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
-    response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
-    metadata_masks=response.json()['ResultSet']['Result']
-    df_scan = pd.read_json(metadata_masks)
-    pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-    return metadata_masks
+    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    # xnatSession.renew_httpsession()
+    # response = xnatSession.httpsess.get(xnatSession.host + url)
+    # xnatSession.close_httpsession()
+    # metadata_masks=response.json()['ResultSet']['Result']
+    # df_scan = pd.read_json(metadata_masks)
+    # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+    # return metadata_masks
 def call_get_resourcefiles_metadata_saveascsv():
     URI=sys.argv[1]
     # print("URI::{}".format(URI))

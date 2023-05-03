@@ -331,9 +331,9 @@ fi
 
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
-extension_csv='csv'
-combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
-combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
+#extension_csv='csv'
+#combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
+#combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
 #################################################
 #
 ##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

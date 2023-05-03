@@ -324,7 +324,7 @@ if [ -f ${niftifile_csvfilename} ]; then
     cp ${niftifile_csvfilename} ${final_output_directory}
     counter=$((counter+1))
 fi
-if [[ $counter -gt 5 ]] ; then
+if [[ $counter -gt 2 ]] ; then
   break
 fi
 

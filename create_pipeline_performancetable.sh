@@ -340,7 +340,7 @@ if [ -f ${niftifile_csvfilename} ]; then
     scanID=${array[2]}
     echo sessionId::${sessionID}
     echo scanId::${scanID}
-        output_csvfile=${array[4]}
+        output_csvfile=${array[1]}
         output_csvfile=${output_csvfile%.nii*}.csv
     echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
     URI=${array[0]}
@@ -355,7 +355,7 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     counter=$((counter+1))
 fi
-if [[ $counter -gt 2 ]] ; then
+if [[ $counter -gt 1 ]] ; then
   break
 fi
 

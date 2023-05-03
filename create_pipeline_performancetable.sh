@@ -47,11 +47,11 @@ call_get_resourcefiles_metadata_saveascsv(){
     resource_dir=sys.argv[2]
     dir_to_receive_the_data=sys.argv[3]
     output_csvfile=sys.argv[4]
-    python3 -c "
-    import sys
-    sys.path.append('/software');
-    from download_with_session_ID import *;
-    call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
     }
 copy_scan_data() {
 		echo " I AM IN copy_scan_data "
@@ -340,8 +340,8 @@ if [ -f ${niftifile_csvfilename} ]; then
     scanID=${array[2]}
     echo sessionId::${sessionID}
     echo scanId::${scanID}
-        output_csvfile=${array[1]}
-        output_csvfile=${output_csvfile%.nii*}.csv
+      output_csvfile=${array[1]}
+      output_csvfile=${output_csvfile%.nii*}.csv
     echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
     URI=${array[0]}
     resource_dir=${resource_dirname}

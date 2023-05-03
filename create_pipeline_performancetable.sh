@@ -311,6 +311,7 @@ listofsession='sessions.csv'
 project_ID="COLI"
 curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
 
+counter=0
 while IFS=',' read -ra array; do
 echo "${array[0]}"
 sessionID_1="${array[1]}"
@@ -320,6 +321,10 @@ get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."
     cp ${niftifile_csvfilename} ${final_output_directory}
+    counter=$((counter+1))
+fi
+if [[ $counter -gt 5 ]] ; then
+  break
 fi
 
 

@@ -395,27 +395,27 @@ copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 #######################################################################################################################
 ### COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 #
-#snipr_output_foldername=${csv_resource_dirname}PDF #"EDEMA_BIOMARKER"
-#file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
-#for file_suffix in ${file_suffixes[@]}
-#do
-#    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
-#done
+snipr_output_foldername=${csv_resource_dirname}PDF #"EDEMA_BIOMARKER"
+file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
+for file_suffix in ${file_suffixes[@]}
+do
+    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
+done
 #
 #######################################################################################################################
 #
 #######################################################################################################################
 ### COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 #
-#snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
-#file_suffixes=(  .pdf COMBINED_.csv )PDF #sys.argv[5]
-#for file_suffix in ${file_suffixes[@]}
-#do
-#  #echo "${array[0]}"
-##    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
-#     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
-#
-#done
+snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
+file_suffixes=(  .pdf COMBINED_.csv )PDF #sys.argv[5]
+for file_suffix in ${file_suffixes[@]}
+do
+  #echo "${array[0]}"
+#    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
+     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
+
+done
 #
 #######################################################################################################################
 ### for one project:

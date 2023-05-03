@@ -79,7 +79,9 @@ def get_latest_filesequence(pdffilesuffix,pdffiledirectory):
         # if len(allfileswithprefix1)>0:
         #     allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
         filetocopy=x_df['FILENAME'][0]
-        latest_file_list.append(filetocopy)
+        # print(len(x_df['DATE'][0]))
+        if len(x_df['DATE'][0])==8:
+            latest_file_list.append(filetocopy)
     #     # command = 'cp ' + filetocopy +'  ' + destinationdirectory
     #     # subprocess.call(command,shell=True)
     return latest_file_list

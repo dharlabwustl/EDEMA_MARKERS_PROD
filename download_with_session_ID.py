@@ -626,7 +626,7 @@ def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_dat
     metadata_masks=response.json()['ResultSet']['Result']
     print("metadata_masks::{}".format(metadata_masks))
     df_scan = json.dumps(metadata_masks)
-    # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+    pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
     # return metadata_masks
 def call_get_resourcefiles_metadata_saveascsv():
     URI=sys.argv[1]

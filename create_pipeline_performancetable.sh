@@ -347,16 +347,16 @@ done < <( tail -n +2 "${listofsession}" )
 ### GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 #
 ######################################################################################
-#resource_dirname='MASKS'
-#output_dirname=${working_dir}
-#while IFS=',' read -ra array; do
-#scanID=${array[2]}
-#echo sessionId::${sessionID}
-#echo scanId::${scanID}
-#done < <( tail -n +2 "${niftifile_csvfilename}" )
-#echo working_dir::${working_dir}
-#echo output_dirname::${output_dirname}
-#copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
+resource_dirname='MASKS'
+output_dirname=${working_dir}
+while IFS=',' read -ra array; do
+scanID=${array[2]}
+echo sessionId::${sessionID}
+echo scanId::${scanID}
+done < <( tail -n +2 "${niftifile_csvfilename}" )
+echo working_dir::${working_dir}
+echo output_dirname::${output_dirname}
+copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
 #######################################################################################################################
 ### CALCULATE EDEMA BIOMARKERS
 #ich_calculation_each_scan

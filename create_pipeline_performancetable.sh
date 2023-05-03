@@ -291,7 +291,20 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
+combine_all_csvfiles_general()
+{
+working_directory=${1}
+working_directory_tocombinecsv=${2}
+extension=${3}
+outputfilename=${4}
 
+
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_combine_all_csvfiles_general()"  ${working_directory} ${working_directory_tocombinecsv} ${extension} ${outputfilename}
+}
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 listofsession='sessions.csv'
@@ -312,6 +325,8 @@ fi
 
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
+
+combine_all_niftifile_csvfilename  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 #################################################
 #
 ##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

@@ -386,11 +386,11 @@ output_directory="/workingoutput"
 #mv ${working_dir}/SNIPR*.csv ${output_directory}/
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
 #
-#combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
-#while IFS=',' read -ra array; do
-#echo "${array[0]}"
-#copy_latest_pdfs ${array[0]} ${working_dir} ${final_output_directory}
-#done < <( tail -n +2 "${combinedfilename}" )
+combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
+while IFS=',' read -ra array; do
+echo "${array[0]}"
+copy_latest_pdfs ${array[0]} ${working_dir} ${final_output_directory}
+done < <( tail -n +2 "${combinedfilename}" )
 #######################################################################################################################
 ### COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 #

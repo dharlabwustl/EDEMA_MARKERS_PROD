@@ -632,10 +632,10 @@ def call_get_resourcefiles_metadata_saveascsv():
     # print("URI::{}".format(URI))
     URI=URI.split('/resources')[0]
     print("URI::{}".format(URI))
-    # resource_dir=sys.argv[2]
-    # dir_to_receive_the_data=sys.argv[3]
-    # output_csvfile=sys.argv[4]
-    # get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+    resource_dir=sys.argv[2]
+    dir_to_receive_the_data=sys.argv[3]
+    output_csvfile=sys.argv[4]
+    get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
 
 def findthetargetscan():
      target_scan=""

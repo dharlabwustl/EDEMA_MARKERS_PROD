@@ -72,12 +72,14 @@ def combinecsvs_withprefix(inputdirectory,outputdirectory,outputfilename,prefix)
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
 def copy_latest_pdffile(pdffileprefix,pdffiledirectory,destinationdirectory):
-    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,pdffileprefix+'*'))
+    pdffilesuffix='.pdf'
+    allfileswithprefix1=get_latest_filesequence(pdffilesuffix,pdffiledirectory) #glob.glob(os.path.join(pdffiledirectory,pdffileprefix+'*'))
     if len(allfileswithprefix1)>0:
-        allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
-        filetocopy=allfileswithprefix[0]
-        command = 'cp ' + filetocopy +'  ' + destinationdirectory
-        subprocess.call(command,shell=True)
+        # allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+        # filetocopy=allfileswithprefix[0]
+        for filetocopy in allfileswithprefix1:
+            command = 'cp ' + filetocopy +'  ' + destinationdirectory
+            subprocess.call(command,shell=True)
 def get_latest_filesequence(pdffilesuffix,pdffiledirectory):
     latest_file_list=[]
     allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,'*'+pdffilesuffix))

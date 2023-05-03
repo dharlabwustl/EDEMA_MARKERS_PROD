@@ -408,7 +408,7 @@ done
 ### COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 #
 snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
-file_suffixes=(  .pdf COMBINED_.csv )PDF #sys.argv[5]
+file_suffixes=(  .pdf  ) #PDF #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}
 do
   #echo "${array[0]}"

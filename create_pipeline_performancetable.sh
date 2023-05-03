@@ -340,6 +340,7 @@ if [ -f ${niftifile_csvfilename} ]; then
     scanID=${array[2]}
     echo sessionId::${sessionID}
     echo scanId::${scanID}
+    echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}
     #call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
     done < <( tail -n +2 "${niftifile_csvfilename}" )
     echo working_dir::${working_dir}

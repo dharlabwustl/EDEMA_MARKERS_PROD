@@ -629,8 +629,9 @@ def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_dat
     return metadata_masks
 def call_get_resourcefiles_metadata_saveascsv():
     URI=sys.argv[1]
+    # print("URI::{}".format(URI))
+    URI=URI.split('/resources')[0]
     print("URI::{}".format(URI))
-    # URI=URI.split('/resources')[0]
     # resource_dir=sys.argv[2]
     # dir_to_receive_the_data=sys.argv[3]
     # output_csvfile=sys.argv[4]

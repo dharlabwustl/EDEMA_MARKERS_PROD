@@ -349,15 +349,15 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 
-    resource_dir="EDEMA_BIOMARKER"
-    output_csvfile=${array[1]}
-    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-
-    resource_dir="ICH_QUANTIFICATION"
-    output_csvfile=${array[1]}
-    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#    resource_dir="EDEMA_BIOMARKER"
+#    output_csvfile=${array[1]}
+#    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#
+#    resource_dir="ICH_QUANTIFICATION"
+#    output_csvfile=${array[1]}
+#    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
     done < <( tail -n +2 "${niftifile_csvfilename}" )
 
     ###################

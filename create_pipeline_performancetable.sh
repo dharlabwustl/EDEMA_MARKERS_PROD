@@ -350,11 +350,13 @@ if [ -f ${niftifile_csvfilename} ]; then
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 
     resource_dirname="EDEMA_BIOMARKER"
+    resource_dir=${resource_dirname}
     output_csvfile=${array[1]}
     output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 
     resource_dirname="ICH_QUANTIFICATION"
+    resource_dir=${resource_dirname}
     output_csvfile=${array[1]}
     output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}

@@ -341,12 +341,22 @@ if [ -f ${niftifile_csvfilename} ]; then
     echo sessionId::${sessionID}
     echo scanId::${scanID}
       output_csvfile=${array[1]}
-      output_csvfile=${output_csvfile%.nii*}.csv
+      output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
     echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
     URI=${array[0]}
     resource_dir=${resource_dirname}
     dir_to_receive_the_data=${final_output_directory}
 
+    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+
+    resource_dir="EDEMA_BIOMARKER"
+    output_csvfile=${array[1]}
+    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+
+    resource_dir="ICH_QUANTIFICATION"
+    output_csvfile=${array[1]}
+    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
     call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
     done < <( tail -n +2 "${niftifile_csvfilename}" )
 

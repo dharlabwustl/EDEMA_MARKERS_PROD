@@ -43,7 +43,7 @@ scanID=$2
 resource_dirname=$4 #"MASKS" #sys.argv[4]
 file_name=$5
 output_dir=$3
-echo " I AM IN copyoutput_to_snipr "
+echo " I AM IN copysinglefile_to_snipr "
 python3 -c "
 import sys
 sys.path.append('/software');
@@ -411,7 +411,7 @@ directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave}
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="ICH_QUANTIFICATION"
+snipr_output_foldername="SNIPR_ANALYTICS"
 file_name=${filenametosave}
 #file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}

@@ -366,9 +366,9 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     counter=$((counter+1))
 fi
-#if [[ $counter -gt 5 ]] ; then
-#  break
-#fi
+if [[ $counter -gt 5 ]] ; then
+  break
+fi
 
 
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}

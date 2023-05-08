@@ -9,6 +9,19 @@ output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
 
+fillmaster_session_list(){
+session_csvfile=$1
+dir_csv=$2
+# typeofmask=$3 #"MASKS" #sys.argv[4]
+filenametosave=$3
+directorytosave=$4
+echo " I AM IN fillmaster_session_list "
+python3 -c "
+import sys
+from fillmaster_session_list import *;
+call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
 copyoutput_to_snipr(){
 sessionID=$1
 scanID=$2
@@ -21,6 +34,21 @@ import sys
 sys.path.append('/software');
 from download_with_session_ID import *; 
 uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_suffix}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
+
+copysinglefile_to_snipr(){
+sessionID=$1
+scanID=$2
+resource_dirname=$4 #"MASKS" #sys.argv[4]
+file_name=$5
+output_dir=$3
+echo " I AM IN copyoutput_to_snipr "
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_name}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
 
@@ -373,6 +401,26 @@ fi
 
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <( tail -n +2 "${listofsession}" )
+
+
+session_csvfile='sessions.csv' #$1
+dir_csv=$final_output_directory
+# typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
+filenametosave=${project_ID}_CTSESSIONS.csv #4
+directorytosave=$final_output_directory
+fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave}
+
+## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+snipr_output_foldername="ICH_QUANTIFICATION"
+file_name=${filenametosave}
+#file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}
+#do
+copysinglefile_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+#done
+######################################################################################################################
+
+
 #extension_csv='csv'
 #combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
 #combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}

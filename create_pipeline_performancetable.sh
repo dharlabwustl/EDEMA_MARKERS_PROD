@@ -43,7 +43,7 @@ projectID=$1
 resource_dirname=$3 #"MASKS" #sys.argv[4]
 file_name=$4
 output_dir=$2
-echo " I AM IN copysinglefile_to_snipr "
+echo " I AM IN copysinglefile_to_sniprproject "
 python3 -c "
 import sys
 sys.path.append('/software');
@@ -416,7 +416,7 @@ file_name=${filenametosave}
 #file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}
 #do
-copysinglefile_to_sniprproject  ${projectID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
 #done
 ######################################################################################################################
 

@@ -707,7 +707,30 @@ def uploadfile_projectlevel():
     except Exception as e:
         print(e)
         return False
-
+def uploadsinglefile_projectlevel():
+    try:
+        projectId=str(sys.argv[1])
+        input_dirname=str(sys.argv[2])
+        resource_dirname=str(sys.argv[3])
+        file_name=str(sys.argv[4])
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        url = (("/data/projects/%s/resources/"+resource_dirname+"/files/") % (projectId))
+        # allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
+        eachniftifile=os.path.join(input_dirname,file_name)
+        files={'file':open(eachniftifile,'rb')}
+        # for eachniftifile in allniftifiles:
+        #     files={'file':open(eachniftifile,'rb')}
+        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        print(response)
+        xnatSession.close_httpsession()
+        # for eachniftifile in allniftifiles:
+        #     command= 'rm  ' + eachniftifile
+        #     subprocess.call(command,shell=True)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 def downloadandcopyfile():
     sessionId=sys.argv[1]
     scanId=sys.argv[2]

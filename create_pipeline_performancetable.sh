@@ -37,18 +37,18 @@ uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_su
 
 }
 
-copysinglefile_to_snipr(){
-sessionID=$1
-scanID=$2
-resource_dirname=$4 #"MASKS" #sys.argv[4]
-file_name=$5
-output_dir=$3
+copysinglefile_to_sniprproject(){
+projectID=$1
+#scanID=$2
+resource_dirname=$3 #"MASKS" #sys.argv[4]
+file_name=$4
+output_dir=$2
 echo " I AM IN copysinglefile_to_snipr "
 python3 -c "
 import sys
 sys.path.append('/software');
 from download_with_session_ID import *;
-uploadsinglefile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_name}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+uploadsinglefile_projectlevel()" ${projectID}  ${output_dir} ${resource_dirname} ${file_name}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
 
@@ -416,7 +416,7 @@ file_name=${filenametosave}
 #file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}
 #do
-copysinglefile_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+copysinglefile_to_sniprproject  ${projectID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
 #done
 ######################################################################################################################
 

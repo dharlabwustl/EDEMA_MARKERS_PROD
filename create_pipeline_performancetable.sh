@@ -421,7 +421,7 @@ file_name=${filenametosave}
 #file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}
 #do
-pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} filename_latex_tosave
+pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} ${directorytosave}/${filename_latex_tosave}
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
 #done

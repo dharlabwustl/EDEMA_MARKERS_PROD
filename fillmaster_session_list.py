@@ -7,6 +7,9 @@
 import pandas as pd
 import numpy as np
 import os,sys,glob
+import datetime
+sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
+from utilities_simple import *
 def get_latest_csvfile_singlefilename(df1,extens='.csv'):
     ## get all the rows with csv in the name:
     allfileswithprefix1_df = df1[df1['Name'].str.contains(extens)]
@@ -257,7 +260,60 @@ def call_insertavailablefilenames():
     filenametosave=sys.argv[3]
     directorytosave=sys.argv[4]
     insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
+    masterfilename=os.path.join(directorytosave,filenametosave)
+    pdffromanalytics(masterfilename)
 
+
+### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
+def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):
+    # masterfilename="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/TESTING_EDEMA_BIOMARKER/COLI_CTSESSIONS.csv"
+    # filenamefornotanalyzeddata =masterfilename.split('.csv')[0]+'notanalyzedinround1.csv'
+    # filenamefornotanalyzeddatafigure =masterfilename.split('.csv')[0]+'notanalyzedinround1.png'
+    masterfilename_df=pd.read_csv(masterfilename)
+    xx=masterfilename_df.columns
+    masterfilename_df_niftifileavailable=masterfilename_df[masterfilename_df['NIFTIFILE_AVAILABLE']==1]
+    masterfilename_df_analysisnotdone=masterfilename_df_niftifileavailable[masterfilename_df[xx[-1]]!=1]
+    masterfilename_df_analysisnotdone.shape
+    masterfilename_df_analysisdone=masterfilename_df_niftifileavailable[masterfilename_df[xx[-1]]==1]
+    masterfilename_df_analysisdone.shape
+    print(masterfilename_df_niftifileavailable.shape)
+    print(masterfilename_df_analysisdone.shape)
+    print(masterfilename_df_analysisnotdone.shape)
+    print(masterfilename_df_analysisdone.shape[0]+ masterfilename_df_analysisnotdone.shape[0])
+    # afterroundfilename=filenamefornotanalyzeddata #masterfilename.split('.csv')[0]+'notanalyzedinround1.csv'
+    masterfilename_df_analysisnotdone.to_csv(filenamefornotanalyzeddata,index=False)
+    # print(masterfilename_df_analysisdone.shape[1]+ masterfilename_df_analysisnotdone.shape[1])
+    available_columns=[item for item in masterfilename_df.columns if 'AVAILABLE' in item]
+    print([item for item in masterfilename_df.columns if 'AVAILABLE' in item])
+    masterfilename_df_analytics = masterfilename_df[available_columns]
+    masterfilename_df_analytics
+    df2 = pd.DataFrame(masterfilename_df_analytics.sum(axis=0)).T
+    df2['TOTAL_NUMBER_OF_SESSIONS']=masterfilename_df.shape[0]
+    df2 = df2.drop('LEVELSETFILE_AVAILABLE', axis=1)
+    print(df2)
+    ax=df2.T.plot.bar(legend=False ,figsize=(19, 19))
+    for p in ax.patches:
+        ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
+    ax.get_figure().savefig(filenamefornotanalyzeddatafigure)
+def makepdfwithimages(latexfilename,imagelist,caption="",imagescale=1, angle=0,space=1):
+    latex_start(latexfilename)
+    latex_begin_document(latexfilename)
+    latex_start_tableNc_noboundary(latexfilename,len(imagelist))
+    latex_insertimage_tableNc(latexfilename,imagelist,len(imagelist), caption=caption,imagescale=imagescale, angle=angle,space=space)
+    latex_end_table2c(latexfilename)
+    latex_end(latexfilename)
+
+def pdffromanalytics(masterfilename):
+    # masterfilename="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/TESTING_EDEMA_BIOMARKER/COLI_CTSESSIONS.csv"
+    filenamefornotanalyzeddata =masterfilename.split('.csv')[0]+'notanalyzedinround1.csv'
+    filenamefornotanalyzeddatafigure =masterfilename.split('.csv')[0]+'notanalyzedinround1.png'
+    snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure)
+
+    now=datetime.datetime.now()
+    date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+    latexfilename =masterfilename.split('.csv')[0]+'notanalyzedinround1'+date_time+'.tex'
+    imagelist=[filenamefornotanalyzeddatafigure]
+    makepdfwithimages(latexfilename,imagelist)
 
 # In[ ]:
 

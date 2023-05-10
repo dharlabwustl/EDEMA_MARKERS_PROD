@@ -393,7 +393,7 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     ###################
 
-#    counter=$((counter+1))
+    counter=$((counter+1))
 fi
 if [[ $counter -gt 5 ]] ; then
   break

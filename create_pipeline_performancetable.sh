@@ -15,11 +15,12 @@ dir_csv=$2
 # typeofmask=$3 #"MASKS" #sys.argv[4]
 filenametosave=$3
 directorytosave=$4
+filename_latex_tosave=${5}
 echo " I AM IN fillmaster_session_list "
 python3 -c "
 import sys
 from fillmaster_session_list import *;
-call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
 copyoutput_to_snipr(){
@@ -394,9 +395,9 @@ if [ -f ${niftifile_csvfilename} ]; then
 
 #    counter=$((counter+1))
 fi
-#if [[ $counter -gt 5 ]] ; then
-#  break
-#fi
+if [[ $counter -gt 5 ]] ; then
+  break
+fi
 
 
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
@@ -408,8 +409,9 @@ dir_csv=$final_output_directory
 # typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
 time_now=$(date -dnow +%Y%m%d%H%M)
 filenametosave=${project_ID}_CTSESSIONS_${time_now}.csv #4
+filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex
 directorytosave=$final_output_directory
-fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave}
+fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 snipr_output_foldername="SNIPR_ANALYTICS"
@@ -419,6 +421,7 @@ file_name=${filenametosave}
 #for file_suffix in ${file_suffixes[@]}
 #do
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_latex_tosave}
 #done
 ######################################################################################################################
 

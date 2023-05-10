@@ -259,10 +259,10 @@ def call_insertavailablefilenames():
     # typeofmask=sys.argv[3]
     filenametosave=sys.argv[3]
     directorytosave=sys.argv[4]
+    latexfilename=os.path.join(directorytosave,sys.argv[5])
     insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
     masterfilename=os.path.join(directorytosave,filenametosave)
-    pdffromanalytics(masterfilename)
-
+    pdffromanalytics(masterfilename,latexfilename)
 
 ### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
 def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):
@@ -303,17 +303,18 @@ def makepdfwithimages(latexfilename,imagelist,caption="",imagescale=1, angle=0,s
     latex_end_table2c(latexfilename)
     latex_end(latexfilename)
 
-def pdffromanalytics(masterfilename):
+def pdffromanalytics(masterfilename,latexfilename):
     # masterfilename="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/TESTING_EDEMA_BIOMARKER/COLI_CTSESSIONS.csv"
     filenamefornotanalyzeddata =masterfilename.split('.csv')[0]+'notanalyzedinround1.csv'
     filenamefornotanalyzeddatafigure =masterfilename.split('.csv')[0]+'notanalyzedinround1.png'
     snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure)
-
-    now=datetime.datetime.now()
-    date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
-    latexfilename =masterfilename.split('.csv')[0]+'notanalyzedinround1'+date_time+'.tex'
+    # import datetime
+    # now=datetime.datetime.now()
+    # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+    # latexfilename =masterfilename.split('.csv')[0]+'notanalyzedinround1'+date_time+'.tex'
     imagelist=[filenamefornotanalyzeddatafigure]
     makepdfwithimages(latexfilename,imagelist)
+
 
 # In[ ]:
 

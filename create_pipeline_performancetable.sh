@@ -410,6 +410,7 @@ dir_csv=$final_output_directory
 time_now=$(date -dnow +%Y%m%d%H%M)
 filenametosave=${project_ID}_CTSESSIONS_${time_now}.csv #4
 filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex
+filename_pdf_tosave=${project_ID}_CTSESSIONS_${time_now}.pdf
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
@@ -420,8 +421,9 @@ file_name=${filenametosave}
 #file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}
 #do
+pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${output_directory} filename_latex_tosave
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_latex_tosave}
+copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
 #done
 ######################################################################################################################
 

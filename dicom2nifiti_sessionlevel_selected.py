@@ -191,6 +191,8 @@ if __name__ == '__main__':
                     command="echo " + message_text +"  >>  logmessage.txt"
                     subprocess.call(command,shell=True)
                 xnatSession.close_httpsession()
+            else:
+                print("This was not axial brain image::{}".format(URI))
 
         else:
             print("FILES PRESENT")

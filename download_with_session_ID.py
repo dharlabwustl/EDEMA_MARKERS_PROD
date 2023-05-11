@@ -995,7 +995,11 @@ def print_hosts():
     print(XNAT_HOST)
     print(XNAT_USER)
     print(XNAT_PASS)
-    URI="/data/experiments/SNIPR01_E00131/scans/13"
+    URI="/data/experiments/SNIPR01_E00131/scans/3"
     resource_dir="MASKS"
     extension_to_find_list=["levelset"]
-    print(check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list))
+    num_files_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+    if num_files_present < len(extension_to_find_list):
+        print("REQUIRED NUMBER OF FILES NOT PRESENT")
+    else:
+        print("FILES PRESENT")

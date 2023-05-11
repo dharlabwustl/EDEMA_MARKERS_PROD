@@ -838,12 +838,12 @@ def decide_image_conversion(metadata_session,scanId):
 
 
 
-result = response.json()['ResultSet']['Result']
-# print(result[0]) #['absolutePath'])
-nDicomFiles = len(result)
-# print(nDicomFiles)
-if nDicomFiles == 0:
-    raise Exception("No DICOM files for %s stored in XNAT" % scanId)
+# result = response.json()['ResultSet']['Result']
+# # print(result[0]) #['absolutePath'])
+# nDicomFiles = len(result)
+# # print(nDicomFiles)
+# if nDicomFiles == 0:
+#     raise Exception("No DICOM files for %s stored in XNAT" % scanId)
 
 
 def get_nifti_using_xnat(sessionId, scanId):

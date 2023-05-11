@@ -8,6 +8,7 @@ import requests
 import pydicom as dicom
 
 from xnatSession import XnatSession
+from download_with_session_ID import *;
 import DecompressDCM
 # import label_probability
 
@@ -165,27 +166,32 @@ if __name__ == '__main__':
         command="rm -r /output/*"
         subprocess.call(command,shell=True)
         scanId=x['ID']
-        decision=decide_image_conversion(metadata_session,scanId)
-        message_text="Before decision scanId: " + scanId
-        command="echo " + message_text +"  >>  logmessage.txt"
-        subprocess.call(command,shell=True)
-        if decision==True:
-            xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-            xnatSession.renew_httpsession()
-            outcome=get_dicom_using_xnat(sessionId, scanId)
-            message_text="If true decision: scanId: " + scanId
+        URI=x['URI']
+        resource_dir="NIFTI"
+        extension_to_find_list=[".nii"]
+        file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+        if file_present < len(extension_to_find_list):
+            decision=decide_image_conversion(metadata_session,scanId)
+            message_text="Before decision scanId: " + scanId
             command="echo " + message_text +"  >>  logmessage.txt"
             subprocess.call(command,shell=True)
-            if outcome==False:
-                print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
-                message_text="If false decision: scanId: " + scanId
+            if decision==True:
+                xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+                xnatSession.renew_httpsession()
+                outcome=get_dicom_using_xnat(sessionId, scanId)
+                message_text="If true decision: scanId: " + scanId
                 command="echo " + message_text +"  >>  logmessage.txt"
                 subprocess.call(command,shell=True)
-            xnatSession.close_httpsession()
-    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    # xnatSession.renew_httpsession()
-    # url = ("/data/experiments/%s/resources/TEST/files/" % (sessionId, scanId))
-    # files={'file':open('logmessage.txt','rb')}
-    # response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
-    # xnatSession.close_httpsession()
-    # print(response)
+                if outcome==False:
+                    print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
+                    message_text="If false decision: scanId: " + scanId
+                    command="echo " + message_text +"  >>  logmessage.txt"
+                    subprocess.call(command,shell=True)
+                xnatSession.close_httpsession()
+        # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        # xnatSession.renew_httpsession()
+        # url = ("/data/experiments/%s/resources/TEST/files/" % (sessionId, scanId))
+        # files={'file':open('logmessage.txt','rb')}
+        # response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        # xnatSession.close_httpsession()
+        # print(response)

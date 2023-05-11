@@ -167,6 +167,7 @@ if __name__ == '__main__':
         subprocess.call(command,shell=True)
         scanId=x['ID']
         URI=x['URI']
+        print("URI::{}".format(URI))
         resource_dir="NIFTI"
         extension_to_find_list=[".nii"]
         file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)

@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dicom2nifiti_sessionlevel_selected.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom2nifiti_sessionlevel_selected.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,20 +51,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00416" summary="Commit Feb 23 2023">
-      <created>1683146977460</created>
-      <option name="number" value="00416" />
-      <option name="presentableId" value="LOCAL-00416" />
-      <option name="project" value="LOCAL" />
-      <updated>1683146977461</updated>
-    </task>
-    <task id="LOCAL-00417" summary="Commit Feb 23 2023">
-      <created>1683147033630</created>
-      <option name="number" value="00417" />
-      <option name="presentableId" value="LOCAL-00417" />
-      <option name="project" value="LOCAL" />
-      <updated>1683147033630</updated>
     </task>
     <task id="LOCAL-00418" summary="Commit Feb 23 2023">
       <created>1683147134663</created>
@@ -396,7 +381,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683833835700</updated>
     </task>
-    <option name="localTasksCounter" value="465" />
+    <task id="LOCAL-00465" summary="Commit Feb 23 2023">
+      <created>1683833939051</created>
+      <option name="number" value="00465" />
+      <option name="presentableId" value="LOCAL-00465" />
+      <option name="project" value="LOCAL" />
+      <updated>1683833939051</updated>
+    </task>
+    <task id="LOCAL-00466" summary="Commit Feb 23 2023">
+      <created>1683834143558</created>
+      <option name="number" value="00466" />
+      <option name="presentableId" value="LOCAL-00466" />
+      <option name="project" value="LOCAL" />
+      <updated>1683834143558</updated>
+    </task>
+    <option name="localTasksCounter" value="467" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

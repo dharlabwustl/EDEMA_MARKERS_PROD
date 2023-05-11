@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import os,sys,glob
 import datetime
-sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
+# sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 def get_latest_csvfile_singlefilename(df1,extens='.csv'):
     ## get all the rows with csv in the name:

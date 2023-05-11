@@ -972,7 +972,7 @@ def call_list_analyzed_session():
     list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsessionlist_file,output_list_csvfile,pdffilelist_file_ext,stringtofilterallsessionlist)
 
 
-def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find):
+def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list):
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
     print("url::{}".format(url))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
@@ -984,16 +984,17 @@ def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find):
     metadata_masks=response.json()['ResultSet']['Result']
     print("metadata_masks::{}".format(metadata_masks))
     df_scan = pd.read_json(json.dumps(metadata_masks))
-    for x in range(df_scan.shape[0]):
-        print(df_scan.loc[x,'Name'])
-        if extension_to_find in df_scan.loc[x,'Name']:
-            return 1
+    for extension_to_find in extension_to_find_list:
+        for x in range(df_scan.shape[0]):
+            print(df_scan.loc[x,'Name'])
+            if extension_to_find in df_scan.loc[x,'Name']:
+                return 1
     return 0
 def print_hosts():
     print(XNAT_HOST)
     print(XNAT_USER)
     print(XNAT_PASS)
-    URI="/data/experiments/SNIPR01_E00131/scans/3"
+    URI="/data/experiments/SNIPR01_E00131/scans/13"
     resource_dir="MASKS"
-    extension_to_find="levelset"
-    print(check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find))
+    extension_to_find_list=["levelset"]
+    print(check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list))

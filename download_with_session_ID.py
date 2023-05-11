@@ -985,8 +985,8 @@ def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find):
     print("metadata_masks::{}".format(metadata_masks))
     df_scan = pd.read_json(json.dumps(metadata_masks))
     for x in range(df_scan.shape[0]):
-        print(df_scan[x]['Name'])
-        if extension_to_find in df_scan[x]['Name']:
+        print(df_scan.loc[x,'Name'])
+        if extension_to_find in df_scan.loc[x,'Name']:
             return 1
     return 0
 def print_hosts():

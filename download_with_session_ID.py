@@ -974,7 +974,7 @@ def call_list_analyzed_session():
 
 def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list):
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
-    print("url::{}".format(url))
+    # print("url::{}".format(url))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
@@ -983,7 +983,7 @@ def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list):
         xnatSession.close_httpsession()
         return num_files_present
     metadata_masks=response.json()['ResultSet']['Result']
-    print("metadata_masks::{}".format(metadata_masks))
+    # print("metadata_masks::{}".format(metadata_masks))
     df_scan = pd.read_json(json.dumps(metadata_masks))
     for extension_to_find in extension_to_find_list:
         for x in range(df_scan.shape[0]):

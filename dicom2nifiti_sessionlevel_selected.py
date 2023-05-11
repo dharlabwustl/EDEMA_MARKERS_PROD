@@ -177,6 +177,7 @@ if __name__ == '__main__':
             message_text="Before decision scanId: " + scanId
             command="echo " + message_text +"  >>  logmessage.txt"
             subprocess.call(command,shell=True)
+            print("Decision::{}".format(decision))
             if decision==True:
                 xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
                 xnatSession.renew_httpsession()

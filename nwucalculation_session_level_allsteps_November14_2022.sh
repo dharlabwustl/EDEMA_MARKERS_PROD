@@ -282,7 +282,7 @@ while IFS=',' read -ra array; do
 scanID=${array[2]}
 echo sessionId::${sessionID}
 echo scanId::${scanID}
-resource_foldername="PREPROCESS_SEGM"
+resource_foldername="EDEMA_BIOMARKER"
 ### check if the file exists:
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID}  ${scanID}  ${resource_foldername} _resaved.nii.gz _normalized.nii.gz _levelset.nii.gz _levelset_bet.nii.gz _4DL_seg.nii.gz)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}" )

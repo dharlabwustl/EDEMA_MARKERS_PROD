@@ -10,6 +10,7 @@ import nibabel as nib
 import numpy as np
 # import pydicom as dicom
 import pathlib
+import argparse
 from xnatSession import XnatSession
 catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL='https://snipr.wustl.edu'
@@ -1003,3 +1004,31 @@ def print_hosts():
         print("REQUIRED NUMBER OF FILES NOT PRESENT")
     else:
         print("FILES PRESENT")
+def call_check_if_a_file_exist_in_snipr( args):
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('stuff', nargs='+')
+    # args = parser.parse_args()
+    # print (args.stuff)
+    sessionID=args.stuff[1]
+    scanID=args.stuff[2]
+    resource_dir=args.stuff[3]
+    URI="/data/experiments/"+sessionID+"/scans/"+scanID
+    extension_to_find_list=args.stuff[4:]
+    file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+    if file_present < len(extension_to_find_list):
+        return 0
+    return 1
+def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('stuff', nargs='+')
+    args = parser.parse_args()
+    name_of_the_function=args.stuff[0]
+    return_value=0
+    if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
+        return_value=call_check_if_a_file_exist_in_snipr(args)
+        # print(return_value)
+        # return
+    print(return_value)
+if __name__ == '__main__':
+    main()

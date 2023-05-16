@@ -69,7 +69,7 @@ def writetomastersession(sessioncsv_df,filename,filename_available,row,xx):
     sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], filename_available] = 1 ##df1['URI'][0]
     if filename=='NIFTIFILENAME':
         sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], 'NUMBEROFSLICES'] = row['NUMBEROFSLICES'] #[0]
-        sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], 'NIFTIFILE_BASENAME'] = os.path.basename(row['URI']) ##row['NUMBEROFSLICES'] #[0]
+        sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], 'NIFTIFILE_BASENAME'] = row['Name'] ##row['NUMBEROFSLICES'] #[0]
         # sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], filename_available] = 1 ##df1['URI'][0]
         
     return sessioncsv_df

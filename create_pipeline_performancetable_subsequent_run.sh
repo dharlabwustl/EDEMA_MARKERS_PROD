@@ -374,7 +374,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resour
 echo ${outputfiles_present}
 session_csvfile=$(ls $directorytosave/*.csv)
 listofsession=${final_output_directory}/'sessions.csv'
-mv $session_csvfile $listofsession
+#mv $session_csvfile $listofsession
 #counter=0
 #while IFS=',' read -ra array; do
 #echo "${array[0]}"

@@ -1066,8 +1066,8 @@ def call_project_resource_latest_file(args):
         dir_to_save=args.stuff[4]
         df_listfile=listoffile_witha_URI_as_df(URI)
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-        print(df_listfile['URI'])
-        # latest_filename=get_latest_file(df_listfile)
+        latest_filename=get_latest_file(df_listfile)
+        print(latest_filename['URI'])
         # download_a_singlefile_with_URLROW(latest_filename['URI'],dir_to_save)
         return 1
     except:

@@ -1031,7 +1031,7 @@ def get_latest_file(df_listfile):
     # allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
     # allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
     # x_df=allfileswithprefix1_df[0]
-    return x_df
+    return allfileswithprefix1_df
 def download_a_singlefile_with_URLROW(url,dir_to_save):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()

@@ -1023,6 +1023,7 @@ def call_check_if_a_file_exist_in_snipr( args):
 def get_latest_file(df_listfile):
     allfileswithprefix1_df=df_listfile
     allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
+    print(allfileswithprefix1_df["FILE_BASENAME"])
     # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
     allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]

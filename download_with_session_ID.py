@@ -1037,13 +1037,13 @@ def get_latest_file(df_listfile):
 def download_a_singlefile_with_URLROW(url,dir_to_save):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
-    response = xnatSession.httpsess.get(xnatSession.host + url['URI'])
-    zipfilename=os.path.join(dir_to_save,url['Name']) #sessionId+scanId+'.zip'
-    with open(zipfilename, "wb") as f:
-        for chunk in response.iter_content(chunk_size=512):
-            if chunk:  # filter out keep-alive new chunks
-                f.write(chunk)
-    xnatSession.close_httpsession()
+    # response = xnatSession.httpsess.get(xnatSession.host + url['URI'])
+    # zipfilename=os.path.join(dir_to_save,url['Name']) #sessionId+scanId+'.zip'
+    # with open(zipfilename, "wb") as f:
+    #     for chunk in response.iter_content(chunk_size=512):
+    #         if chunk:  # filter out keep-alive new chunks
+    #             f.write(chunk)
+    # xnatSession.close_httpsession()
 def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()

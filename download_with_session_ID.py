@@ -1067,7 +1067,7 @@ def call_concatenate_csv_list(args):
     df = pd.concat((pd.read_csv(f) for f in all_files), ignore_index=True)
     df.to_csv(outputfilename,index=False)
 
-def call_project_resource_latest_file(args):
+def call_project_resource_latest_analytic_file(args):
     try:
         projectID=args.stuff[1]
         # scanID=args.stuff[2]
@@ -1113,8 +1113,8 @@ def main():
     return_value=0
     if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
         return_value=call_check_if_a_file_exist_in_snipr(args)
-    if name_of_the_function == "call_project_resource_latest_file":
-        return_value=call_project_resource_latest_file(args)
+    if name_of_the_function == "call_project_resource_latest_analytic_file":
+        return_value=call_project_resource_latest_analytic_file(args)
     if name_of_the_function == "call_concatenate_csv_list":
         return_value=call_concatenate_csv_list(args)
         # print(return_value)

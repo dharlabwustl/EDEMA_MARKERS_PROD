@@ -1041,7 +1041,7 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
     subprocess.call(command,shell=True)
     response = xnatSession.httpsess.get(xnatSession.host +url.loc[0,"URI"]) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
     #                                                       # "/data/experiments/SNIPR02_E03548/scans/1-CT1/resources/147851/files/ICH_0001_01022017_0414_1-CT1_threshold-1024.0_22121.0TOTAL_VersionDate-11302022_04_22_2023.csv") ## url['URI'])
-    zipfilename=os.path.join(dir_to_save,os.path.basename(url.loc[0,"URI"]) ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
+    zipfilename=os.path.join(dir_to_save,os.path.basename(url.loc[0,"Name"]) ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks

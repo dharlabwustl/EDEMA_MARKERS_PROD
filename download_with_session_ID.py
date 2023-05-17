@@ -1083,7 +1083,7 @@ def call_project_resource_latest_file(args):
         filename_saved_df=pd.read_csv(filename_saved)
         required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]
         print("required_col:{}".format(required_col[0]))
-        # filename_saved_df=filename_saved_df[filename_saved_df[required_col[0]]!=1]
+        filename_saved_df=filename_saved_df[filename_saved_df[required_col[0]]!=1]
         filename_saved_df.to_csv(filename_saved,index=False)
         return 1
     except:

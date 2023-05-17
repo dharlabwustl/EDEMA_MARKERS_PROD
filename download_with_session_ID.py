@@ -1073,6 +1073,8 @@ def call_project_resource_latest_file(args):
         print("\n")
         print(dir_to_save)
         print("\n")
+        command=latest_filename['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
+        subprocess.call(command,shell=True)
         download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
         return 1
     except:

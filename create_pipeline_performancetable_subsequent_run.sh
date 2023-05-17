@@ -352,61 +352,61 @@ call_combine_all_csvfiles_general()"  ${working_directory} ${working_directory_t
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 listofsession=${final_output_directory}/'sessions.csv'
 #project_ID="COLI"
-curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
+#curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
 
-counter=0
-while IFS=',' read -ra array; do
-echo "${array[0]}"
-sessionID_1="${array[1]}"
-echo final_output_directory::${final_output_directory}
-niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
-get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
-if [ -f ${niftifile_csvfilename} ]; then
-    echo "$niftifile_csvfilename exists."
-    cp ${niftifile_csvfilename} ${final_output_directory}
-    #############
-    resource_dirname='MASKS'
-    output_dirname=${final_output_directory}
-    while IFS=',' read -ra array; do
-    scanID=${array[2]}
-    echo sessionId::${sessionID}
-    echo scanId::${scanID}
-      output_csvfile=${array[1]}
-      output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-    echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
-    URI=${array[0]}
-    resource_dir=${resource_dirname}
-    dir_to_receive_the_data=${final_output_directory}
-
-    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-
-    resource_dirname="EDEMA_BIOMARKER"
-    resource_dir=${resource_dirname}
-    output_csvfile=${array[1]}
-    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-
-    resource_dirname="ICH_QUANTIFICATION"
-    resource_dir=${resource_dirname}
-    output_csvfile=${array[1]}
-    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-    done < <( tail -n +2 "${niftifile_csvfilename}" )
-
-    ###################
-
-#    counter=$((counter+1))
-fi
-#if [[ $counter -gt 5 ]] ; then
-#  break
+#counter=0
+#while IFS=',' read -ra array; do
+#echo "${array[0]}"
+#sessionID_1="${array[1]}"
+#echo final_output_directory::${final_output_directory}
+#niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
+#get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
+#if [ -f ${niftifile_csvfilename} ]; then
+#    echo "$niftifile_csvfilename exists."
+#    cp ${niftifile_csvfilename} ${final_output_directory}
+#    #############
+#    resource_dirname='MASKS'
+#    output_dirname=${final_output_directory}
+#    while IFS=',' read -ra array; do
+#    scanID=${array[2]}
+#    echo sessionId::${sessionID}
+#    echo scanId::${scanID}
+#      output_csvfile=${array[1]}
+#      output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#    echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
+#    URI=${array[0]}
+#    resource_dir=${resource_dirname}
+#    dir_to_receive_the_data=${final_output_directory}
+#
+#    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#
+#    resource_dirname="EDEMA_BIOMARKER"
+#    resource_dir=${resource_dirname}
+#    output_csvfile=${array[1]}
+#    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#
+#    resource_dirname="ICH_QUANTIFICATION"
+#    resource_dir=${resource_dirname}
+#    output_csvfile=${array[1]}
+#    output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#    call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#    done < <( tail -n +2 "${niftifile_csvfilename}" )
+#
+#    ###################
+#
+##    counter=$((counter+1))
 #fi
+##if [[ $counter -gt 5 ]] ; then
+##  break
+##fi
+#
+#
+##copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
+#done < <( tail -n +2 "${listofsession}" )
 
 
-#copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
-done < <( tail -n +2 "${listofsession}" )
-
-
-session_csvfile='sessions.csv' #$1
+#session_csvfile='sessions.csv' #$1
 dir_csv=$final_output_directory
 # typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
 time_now=$(date -dnow +%Y%m%d%H%M)

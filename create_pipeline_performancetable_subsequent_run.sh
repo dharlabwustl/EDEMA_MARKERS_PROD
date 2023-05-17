@@ -450,7 +450,8 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytic
 ##for file_suffix in ${file_suffixes[@]}
 ##do
 filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
-pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${directorytosave}/${filename_latex_tosave}
+
+pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${filename_latex_tosave}
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
 #

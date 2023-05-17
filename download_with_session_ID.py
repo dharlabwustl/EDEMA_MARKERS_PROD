@@ -1073,7 +1073,7 @@ def call_project_resource_latest_file(args):
         print("\n")
         print(dir_to_save)
         print("\n")
-        download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        # download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
         return 1
     except:
         return 0

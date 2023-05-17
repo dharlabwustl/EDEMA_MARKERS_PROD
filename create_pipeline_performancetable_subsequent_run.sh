@@ -420,6 +420,7 @@ directorytosave=$final_output_directory
 snipr_output_foldername="SNIPR_ANALYTICS"
 call_project_resource_latest_file_arguments=('call_project_resource_latest_file' ${project_ID}   ${snipr_output_foldername} .csv $directorytosave )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_file_arguments[@]}" )
+echo ${outputfiles_present}
 #
 #file_name=${filenametosave}
 ##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]

@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import os,sys,glob
 import datetime
+import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 def get_latest_csvfile_singlefilename(df1,extens='.csv'):
@@ -316,6 +317,24 @@ def pdffromanalytics(masterfilename,latexfilename):
     # latexfilename =masterfilename.split('.csv')[0]+'notanalyzedinround1'+date_time+'.tex'
     imagelist=[filenamefornotanalyzeddatafigure]
     makepdfwithimages(latexfilename,imagelist)
+def call_pdffromanalytics(args):
+    masterfilename=args.stuff[1]
+    latexfilename=args.stuff[2]
+    pdffromanalytics(masterfilename,latexfilename)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('stuff', nargs='+')
+    args = parser.parse_args()
+    name_of_the_function=args.stuff[0]
+    return_value=0
+    if name_of_the_function == "call_pdffromanalytics":
+        return_value=call_pdffromanalytics(args)
+
+
+if __name__ == '__main__':
+    main()
 
 
 # In[ ]:

@@ -23,6 +23,21 @@ from fillmaster_session_list import *;
 call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
+
+fillmaster_session_list_subsequent_run(){
+session_csvfile=$1
+dir_csv=$2
+# typeofmask=$3 #"MASKS" #sys.argv[4]
+filenametosave=$3
+directorytosave=$4
+filename_latex_tosave=${5}
+echo " I AM IN fillmaster_session_list "
+python3 -c "
+import sys
+from fillmaster_session_list import *;
+call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
 copyoutput_to_snipr(){
 sessionID=$1
 scanID=$2

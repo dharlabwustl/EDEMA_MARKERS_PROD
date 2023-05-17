@@ -1020,44 +1020,61 @@ def call_check_if_a_file_exist_in_snipr( args):
     return 1
 
 
-def get_latest_file(pdffilesuffix,pdffiledirectory):
-    latest_file_list=[]
-    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,'*'+pdffilesuffix))
-    allfileswithprefix1_df = pd.DataFrame(allfileswithprefix1)
-    allfileswithprefix1_df.columns=["FILENAME"]
-    # print(allfileswithprefix1_df)
-    # allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.FILENAME.str.contains("_thresh")]
-    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILENAME']
-    allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
-    # allfileswithprefix1_df[['FILENAME', 'EXT']] = allfileswithprefix1_df['FILENAME'].str.split('.pdf', 1, expand=True) _thres
-    # allfileswithprefix1_df[['PREFIX', 'EXT']] = allfileswithprefix1_df['PREFIX'].str.split('_thresh', 1, expand=True)
-    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-14:-4]
-    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str.replace('_', '')
-    allfileswithprefix1_df["PREFIX"]=allfileswithprefix1_df["PREFIX"].apply(lambda x: os.path.splitext(os.path.basename(x))[0])
-    # print(allfileswithprefix1_df['PREFIX']) #[0])
-    # print(np.unique(allfileswithprefix1_df['PREFIX']).shape)
-    # print(allfileswithprefix1_df['PREFIX'].shape)
-    unique_session_name=np.unique(allfileswithprefix1_df['PREFIX'])
+def get_latest_file(df_listfile):
+    allfileswithprefix1_df=df_listfile
+    allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
+    # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
     allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
-    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%m%d%Y', errors='coerce')
-    # print(allfileswithprefix1_df['DATETIME'])
-    # print(unique_session_name)
-    for x in range(unique_session_name.shape[0]):
-        # print(unique_session_name[x])
-        x_df=allfileswithprefix1_df.loc[allfileswithprefix1_df['PREFIX'] == unique_session_name[x]]
-        x_df = x_df.sort_values(by=['DATETIME'], ascending=False)
-        x_df=x_df.reset_index(drop=True)
-        # print(x_df)
-        # if len(allfileswithprefix1)>0:
-        #     allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
-        filetocopy=x_df['FILENAME'][0]
-        # print(len(x_df['DATE'][0]))
-        # if len(x_df['DATE'][0])==8:
-        latest_file_list.append(filetocopy)
-    #     # command = 'cp ' + filetocopy +'  ' + destinationdirectory
-    #     # subprocess.call(command,shell=True)
-    return latest_file_list
-
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
+    allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+    allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
+    x_df=allfileswithprefix1_df[0]
+    return x_df
+def download_a_singlefile_with_URLROW(url,dir_to_save):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    response = xnatSession.httpsess.get(xnatSession.host + url['URI'])
+    zipfilename=os.path.join(dir_to_save,url['Name']) #sessionId+scanId+'.zip'
+    with open(zipfilename, "wb") as f:
+        for chunk in response.iter_content(chunk_size=512):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+    xnatSession.close_httpsession()
+def listoffile_witha_URI_as_df(URI):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    response = xnatSession.httpsess.get(xnatSession.host + URI)
+    num_files_present=0
+    df_scan=[]
+    if response.status_code != 200:
+        xnatSession.close_httpsession()
+        return num_files_present
+    metadata_masks=response.json()['ResultSet']['Result']
+    df_listfile = pd.read_json(json.dumps(metadata_masks))
+    xnatSession.close_httpsession()
+    return df_listfile
+def call_project_resource_latest_file(args):
+    try:
+        projectID=args.stuff[1]
+        # scanID=args.stuff[2]
+        resource_dir=args.stuff[2]
+        URI="/data/projects/"+projectID #+"/scans/"+scanID
+        URI = (URI+'/resources/' + resource_dir +'/files?format=json')
+        extension_to_find_list=args.stuff[3]
+        dir_to_save=args.stuff[4]
+        df_listfile=listoffile_witha_URI_as_df(URI)
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        latest_filename=get_latest_file(df_listfile)
+        download_a_singlefile_with_URLROW(latest_filename['URI'],dir_to_save)
+        return 1
+    except:
+        return 0
+    #
+    # file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+    # if file_present < len(extension_to_find_list):
+    #     return
 def main():
 
     parser = argparse.ArgumentParser()
@@ -1067,6 +1084,8 @@ def main():
     return_value=0
     if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
         return_value=call_check_if_a_file_exist_in_snipr(args)
+    if name_of_the_function == "call_project_resource_latest_file":
+        return_value=call_project_resource_latest_file(args)
         # print(return_value)
         # return
     print(return_value)

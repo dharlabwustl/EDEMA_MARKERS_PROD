@@ -1018,6 +1018,46 @@ def call_check_if_a_file_exist_in_snipr( args):
     if file_present < len(extension_to_find_list):
         return 0
     return 1
+
+
+def get_latest_file(pdffilesuffix,pdffiledirectory):
+    latest_file_list=[]
+    allfileswithprefix1=glob.glob(os.path.join(pdffiledirectory,'*'+pdffilesuffix))
+    allfileswithprefix1_df = pd.DataFrame(allfileswithprefix1)
+    allfileswithprefix1_df.columns=["FILENAME"]
+    # print(allfileswithprefix1_df)
+    # allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.FILENAME.str.contains("_thresh")]
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILENAME']
+    allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
+    # allfileswithprefix1_df[['FILENAME', 'EXT']] = allfileswithprefix1_df['FILENAME'].str.split('.pdf', 1, expand=True) _thres
+    # allfileswithprefix1_df[['PREFIX', 'EXT']] = allfileswithprefix1_df['PREFIX'].str.split('_thresh', 1, expand=True)
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-14:-4]
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str.replace('_', '')
+    allfileswithprefix1_df["PREFIX"]=allfileswithprefix1_df["PREFIX"].apply(lambda x: os.path.splitext(os.path.basename(x))[0])
+    # print(allfileswithprefix1_df['PREFIX']) #[0])
+    # print(np.unique(allfileswithprefix1_df['PREFIX']).shape)
+    # print(allfileswithprefix1_df['PREFIX'].shape)
+    unique_session_name=np.unique(allfileswithprefix1_df['PREFIX'])
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%m%d%Y', errors='coerce')
+    # print(allfileswithprefix1_df['DATETIME'])
+    # print(unique_session_name)
+    for x in range(unique_session_name.shape[0]):
+        # print(unique_session_name[x])
+        x_df=allfileswithprefix1_df.loc[allfileswithprefix1_df['PREFIX'] == unique_session_name[x]]
+        x_df = x_df.sort_values(by=['DATETIME'], ascending=False)
+        x_df=x_df.reset_index(drop=True)
+        # print(x_df)
+        # if len(allfileswithprefix1)>0:
+        #     allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+        filetocopy=x_df['FILENAME'][0]
+        # print(len(x_df['DATE'][0]))
+        # if len(x_df['DATE'][0])==8:
+        latest_file_list.append(filetocopy)
+    #     # command = 'cp ' + filetocopy +'  ' + destinationdirectory
+    #     # subprocess.call(command,shell=True)
+    return latest_file_list
+
 def main():
 
     parser = argparse.ArgumentParser()

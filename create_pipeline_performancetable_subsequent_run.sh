@@ -445,7 +445,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytic
 ### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 #snipr_output_foldername="SNIPR_ANALYTICS"
 #
-#file_name=${filenametosave}
+file_name=${filenametosave}
 ##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 ##for file_suffix in ${file_suffixes[@]}
 ##do

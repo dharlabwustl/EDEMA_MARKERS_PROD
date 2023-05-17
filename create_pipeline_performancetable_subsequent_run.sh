@@ -372,13 +372,16 @@ snipr_output_foldername="SNIPR_ANALYTICS"
 call_project_resource_latest_file_arguments=('call_project_resource_latest_file' ${project_ID}   ${snipr_output_foldername} .csv $directorytosave )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_file_arguments[@]}" )
 echo ${outputfiles_present}
+session_csvfile=$(ls $directorytosave/*.csv)
+listofsession=${final_output_directory}/'sessions.csv'
+mv $session_csvfile $listofsession
 counter=0
 while IFS=',' read -ra array; do
 echo "${array[0]}"
 sessionID_1="${array[1]}"
 echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
-#get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
+get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."
     cp ${niftifile_csvfilename} ${final_output_directory}

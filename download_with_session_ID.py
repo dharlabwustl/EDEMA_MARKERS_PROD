@@ -1028,7 +1028,7 @@ def get_latest_file(df_listfile):
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
     allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
     allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
-    # allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
     # allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
     # allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
     # x_df=allfileswithprefix1_df[0]
@@ -1068,7 +1068,7 @@ def call_project_resource_latest_file(args):
         df_listfile=listoffile_witha_URI_as_df(URI)
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         latest_filename=get_latest_file(df_listfile)
-        print(latest_filename['URI'])
+        # print(latest_filename['URI'])
         # download_a_singlefile_with_URLROW(latest_filename['URI'],dir_to_save)
         return 1
     except:

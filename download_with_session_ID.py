@@ -1047,6 +1047,7 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
     xnatSession.close_httpsession()
+    return zipfilename
 def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
@@ -1077,7 +1078,12 @@ def call_project_resource_latest_file(args):
         print(dir_to_save)
         print("\n")
 
-        download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        # if len(filename_saved) >0 :
+        filename_saved_df=pd.read_csv(filename_saved)
+        required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]
+        filename_saved_df=filename_saved_df[filename_saved_df[required_col[0]]==0]
+        filename_saved_df.to_csv(filename_saved,index=False)
         return 1
     except:
         return 0
@@ -1085,6 +1091,8 @@ def call_project_resource_latest_file(args):
     # file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
     # if file_present < len(extension_to_find_list):
     #     return
+# def get_file_for_second_round():
+
 def main():
 
     parser = argparse.ArgumentParser()

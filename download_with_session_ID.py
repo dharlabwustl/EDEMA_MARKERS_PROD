@@ -1057,13 +1057,13 @@ def listoffile_witha_URI_as_df(URI):
     return df_listfile
 def call_project_resource_latest_file(args):
     try:
-        # projectID=args.stuff[1]
-        # # scanID=args.stuff[2]
-        # resource_dir=args.stuff[2]
-        # URI="/data/projects/"+projectID #+"/scans/"+scanID
-        # URI = (URI+'/resources/' + resource_dir +'/files?format=json')
-        # extension_to_find_list=args.stuff[3]
-        # dir_to_save=args.stuff[4]
+        projectID=args.stuff[1]
+        # scanID=args.stuff[2]
+        resource_dir=args.stuff[2]
+        URI="/data/projects/"+projectID #+"/scans/"+scanID
+        URI = (URI+'/resources/' + resource_dir +'/files?format=json')
+        extension_to_find_list=args.stuff[3]
+        dir_to_save=args.stuff[4]
         # df_listfile=listoffile_witha_URI_as_df(URI)
         # df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         # latest_filename=get_latest_file(df_listfile)

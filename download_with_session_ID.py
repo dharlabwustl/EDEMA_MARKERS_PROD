@@ -1061,6 +1061,12 @@ def listoffile_witha_URI_as_df(URI):
     df_listfile = pd.read_json(json.dumps(metadata_masks))
     xnatSession.close_httpsession()
     return df_listfile
+def call_concatenate_csv_list(args):
+    all_files=args.stuff[2:]
+    outputfilename=args.stuff[1]
+    df = pd.concat((pd.read_csv(f) for f in all_files), ignore_index=True)
+    df.to_csv(outputfilename,index=False)
+
 def call_project_resource_latest_file(args):
     try:
         projectID=args.stuff[1]
@@ -1109,8 +1115,10 @@ def main():
         return_value=call_check_if_a_file_exist_in_snipr(args)
     if name_of_the_function == "call_project_resource_latest_file":
         return_value=call_project_resource_latest_file(args)
+    if name_of_the_function == "call_concatenate_csv_list":
+        return_value=call_concatenate_csv_list(args)
         # print(return_value)
-        # return
+        # return  call_concatenate_twocsv_list
     print(return_value)
 if __name__ == '__main__':
     main()

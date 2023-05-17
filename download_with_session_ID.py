@@ -1025,7 +1025,7 @@ def get_latest_file(df_listfile):
     allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
     # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
-    # allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
     # allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
     # allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
     # allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)

@@ -185,6 +185,17 @@ if __name__ == '__main__':
                 message_text="If true decision: scanId: " + scanId
                 command="echo " + message_text +"  >>  logmessage.txt"
                 subprocess.call(command,shell=True)
+                ####
+                resource_dirname="NIFTI"
+                URI = "/data/experiments/"+sessionId+"/scans/"+scanId #%s")  %
+                URI = (URI+'/resources/' + resource_dirname +'/files?format=json')
+                df_listfile=listoffile_witha_URI_as_df(URI)
+                niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+".csv")
+                df_listfile.to_csv(niftifile_location,index=False)
+                resource_dirname="NIFTI_LOCATION"
+                url = (("/data/experiments/%s") % (sessionId))
+                uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+                ####
                 if outcome==False:
                     print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
                     message_text="If false decision: scanId: " + scanId

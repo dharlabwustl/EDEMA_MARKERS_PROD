@@ -418,7 +418,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     break
         if len(final_ct_file)> 1: 
             pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-            niftifile_location=os.path.join("/output",each_scan['Name'].split(".nii")[0]+".csv")
+            niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+".csv")
             pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
             ####################################################
 

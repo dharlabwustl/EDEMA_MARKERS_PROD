@@ -71,3 +71,8 @@ then
   PROJECT_ID=${1}
     /software/create_pipeline_performancetable_subsequent_run.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 12 ]] ;
+then
+    /software/scan_selection_May18_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi

@@ -418,6 +418,20 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     break
         if len(final_ct_file)> 1: 
             pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+            niftifile_location=os.path.join("/output",each_scan['Name'].split(".nii")[0]+".csv")
+            pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+            ####################################################
+
+            # now=time.localtime()
+            # date_time = time.strftime("_%m_%d_%Y",now)
+            # niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
+            # df_listfile.to_csv(niftifile_location,index=False)
+            resource_dirname="NIFTI_LOCATION"
+            url = (("/data/experiments/%s") % (sessionId))
+            uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+
+            ########################################################
+
             return True
         return False
     else:

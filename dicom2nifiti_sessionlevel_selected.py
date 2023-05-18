@@ -198,6 +198,7 @@ if __name__ == '__main__':
                     uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
                     print('File:{}:: uploaded successfully',format(niftifile_location))
                 except:
+                    print("FILE COULD NOT BE UPLOADED")
                     pass
                 ####
                 if outcome==False:

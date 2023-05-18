@@ -1065,6 +1065,7 @@ def call_concatenate_csv_list(args):
     all_files=args.stuff[2:]
     outputfilename=args.stuff[1]
     df = pd.concat((pd.read_csv(f) for f in all_files), ignore_index=True)
+    # df=df.unique()
     df.to_csv(outputfilename,index=False)
 
 def call_project_resource_latest_analytic_file(args):

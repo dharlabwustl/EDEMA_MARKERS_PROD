@@ -170,7 +170,7 @@ if __name__ == '__main__':
         print("URI::{}".format(URI))
         resource_dir="NIFTI"
         extension_to_find_list=[".nii"]
-        file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+        # file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
         if 1>0 : #file_present < len(extension_to_find_list):
             print("REQUIRED NUMBER OF FILES NOT PRESENT, SO , WORKING ON IT")
             decision=decide_image_conversion(metadata_session,scanId)

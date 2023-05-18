@@ -188,17 +188,17 @@ if __name__ == '__main__':
                 ####
                 try:
                     resource_dirname="NIFTI"
-                    URI = "/data/experiments/"+sessionId+"/scans/"+scanId #%s")  %
-                    URI = (URI+'/resources/' + resource_dirname +'/files?format=json')
-                    df_listfile=listoffile_witha_URI_as_df(URI)
-                    now=time.localtime()
-                    date_time = time.strftime("_%m_%d_%Y",now)
-                    niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
-                    df_listfile.to_csv(niftifile_location,index=False)
-                    resource_dirname="NIFTI_LOCATION"
-                    url = (("/data/experiments/%s") % (sessionId))
-                    uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
-                    print('File:{}:: uploaded successfully',format(niftifile_location))
+                    # URI = "/data/experiments/"+sessionId+"/scans/"+scanId #%s")  %
+                    # URI = (URI+'/resources/' + resource_dirname +'/files?format=json')
+                    # df_listfile=listoffile_witha_URI_as_df(URI)
+                    # now=time.localtime()
+                    # date_time = time.strftime("_%m_%d_%Y",now)
+                    # niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
+                    # df_listfile.to_csv(niftifile_location,index=False)
+                    # resource_dirname="NIFTI_LOCATION"
+                    # url = (("/data/experiments/%s") % (sessionId))
+                    # # uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+                    # print('File:{}:: uploaded successfully',format(niftifile_location))
                 except:
                     print("FILE COULD NOT BE UPLOADED")
                     pass

@@ -193,7 +193,7 @@ if __name__ == '__main__':
                     df_listfile=listoffile_witha_URI_as_df(URI)
                     now=time.localtime()
                     date_time = time.strftime("_%m_%d_%Y",now)
-                    niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+"_"+date_time+".csv")
+                    niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
                     df_listfile.to_csv(niftifile_location,index=False)
                     resource_dirname="NIFTI_LOCATION"
                     url = (("/data/experiments/%s") % (sessionId))

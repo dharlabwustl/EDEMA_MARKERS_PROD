@@ -3,7 +3,7 @@
 import os, sys, errno, shutil, uuid,subprocess
 import math
 import glob
-import re
+import re,time
 import requests
 import pydicom as dicom
 
@@ -191,7 +191,9 @@ if __name__ == '__main__':
                     URI = "/data/experiments/"+sessionId+"/scans/"+scanId #%s")  %
                     URI = (URI+'/resources/' + resource_dirname +'/files?format=json')
                     df_listfile=listoffile_witha_URI_as_df(URI)
-                    niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+".csv")
+                    now=time.localtime()
+                    date_time = time.strftime("_%m_%d_%Y",now)
+                    niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+"_"+date_time+".csv")
                     df_listfile.to_csv(niftifile_location,index=False)
                     resource_dirname="NIFTI_LOCATION"
                     url = (("/data/experiments/%s") % (sessionId))

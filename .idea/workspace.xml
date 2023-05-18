@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom2nifiti_sessionlevel_selected.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom2nifiti_sessionlevel_selected.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/download_with_session_ID.py" beforeDir="false" afterPath="$PROJECT_DIR$/download_with_session_ID.py" afterDir="false" />
-    </list>
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,20 +49,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00509" summary="Commit Feb 23 2023">
-      <created>1684347282662</created>
-      <option name="number" value="00509" />
-      <option name="presentableId" value="LOCAL-00509" />
-      <option name="project" value="LOCAL" />
-      <updated>1684347282662</updated>
-    </task>
-    <task id="LOCAL-00510" summary="Commit Feb 23 2023">
-      <created>1684347307440</created>
-      <option name="number" value="00510" />
-      <option name="presentableId" value="LOCAL-00510" />
-      <option name="project" value="LOCAL" />
-      <updated>1684347307440</updated>
     </task>
     <task id="LOCAL-00511" summary="Commit Feb 23 2023">
       <created>1684347343184</created>
@@ -397,7 +379,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684425833584</updated>
     </task>
-    <option name="localTasksCounter" value="558" />
+    <task id="LOCAL-00558" summary="Commit Feb 23 2023">
+      <created>1684427607034</created>
+      <option name="number" value="00558" />
+      <option name="presentableId" value="LOCAL-00558" />
+      <option name="project" value="LOCAL" />
+      <updated>1684427607034</updated>
+    </task>
+    <task id="LOCAL-00559" summary="Commit Feb 23 2023">
+      <created>1684427743546</created>
+      <option name="number" value="00559" />
+      <option name="presentableId" value="LOCAL-00559" />
+      <option name="project" value="LOCAL" />
+      <updated>1684427743546</updated>
+    </task>
+    <option name="localTasksCounter" value="560" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

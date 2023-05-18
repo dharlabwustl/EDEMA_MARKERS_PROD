@@ -3,7 +3,7 @@
 import os, sys, errno, shutil, uuid,subprocess,csv,json
 import math
 import glob
-import re
+import re,time
 import requests
 import pandas as pd
 import nibabel as nib
@@ -418,7 +418,9 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     break
         if len(final_ct_file)> 1: 
             pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-            niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+".csv")
+            now=time.localtime()
+            date_time = time.strftime("_%m_%d_%Y",now)
+            niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+date_time+".csv")
             pd.DataFrame(final_ct_file).T.to_csv(niftifile_location,index=False)
             ####################################################
 

@@ -1105,9 +1105,10 @@ def call_download_files_in_a_resource_in_a_session(args):
     dir_to_save=args.stuff[3]
     URI = (("/data/experiments/%s/resources/" + resource_dirname+ "/files?format=json")  %
         (sessionId))
-    print("I AM IN :: call_download_files_in_a_resource_in_a_session::URI::{}".format(URI))
+
     try:
         download_files_in_a_resource(URI,dir_to_save)
+        print("I AM IN :: call_download_files_in_a_resource_in_a_session::URI::{}".format(URI))
         return 1
     except:
         return 0

@@ -1096,6 +1096,7 @@ def download_files_in_a_resource(URI,dir_to_save):
         df_listfile=listoffile_witha_URI_as_df(URI)
         print("df_listfile::{}".format(df_listfile))
         for index, row in df_listfile.iterrows():
+            print("row::{}".format(row))
             download_a_singlefile_with_URLROW(row,dir_to_save)
             print("DOWNLOADED ::{}".format(row['Name']))
     except:

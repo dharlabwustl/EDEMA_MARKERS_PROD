@@ -279,7 +279,7 @@ get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${
 call_check_if_a_file_exist_in_snipr_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID}  "NIFTI_LOCATION" ${working_dir} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}" )
 ########################################
-for niftifile_csvfilename in ${working_dir}/*NIFTI_LOCATION.csv ; do
+for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv ; do
 outputfiles_present=0
 while IFS=',' read -ra array; do
 scanID=${array[2]}

@@ -420,7 +420,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
             pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
             # now=time.localtime()
             # date_time = time.strftime("_%m_%d_%Y",now)
-            niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+".csv")
+            niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
             pd.DataFrame(final_ct_file).T.to_csv(niftifile_location,index=False)
             ####################################################
 
@@ -1075,6 +1075,7 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
                 f.write(chunk)
     xnatSession.close_httpsession()
     return zipfilename
+
 def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
@@ -1088,6 +1089,28 @@ def listoffile_witha_URI_as_df(URI):
     df_listfile = pd.read_json(json.dumps(metadata_masks))
     xnatSession.close_httpsession()
     return df_listfile
+def download_files_in_a_resource(URI,dir_to_save):
+    try:
+        df_listfile=listoffile_witha_URI_as_df(URI)
+        for index, row in df_listfile.iterrows():
+            download_a_singlefile_with_URLROW(row,dir_to_save)
+            print("DOWNLOADED ::{}".format(row['Name']))
+    except:
+        print("FAILED AT ::{}".format("download_files_in_a_resource"))
+        pass
+def call_download_files_in_a_resource_in_a_session(args):
+    sessionId=args.stuff[1]
+    # scanId=args.stuff[2]
+    resource_dirname=args.stuff[2]
+    dir_to_save=args.stuff[3]
+    URI = (("/data/experiments/%s/resources/" + resource_dirname+ "/files?format=json")  %
+        (sessionId))
+    try:
+        download_files_in_a_resource(URI,dir_to_save)
+        return 1
+    except:
+        return 0
+    # URI,dir_to_save
 def call_concatenate_csv_list(args):
     all_files=args.stuff[2:]
     outputfilename=args.stuff[1]
@@ -1145,6 +1168,8 @@ def main():
         return_value=call_project_resource_latest_analytic_file(args)
     if name_of_the_function == "call_concatenate_csv_list":
         return_value=call_concatenate_csv_list(args)
+    if name_of_the_function == "call_download_files_in_a_resource_in_a_session":
+        return_value=call_download_files_in_a_resource_in_a_session(args)
         # print(return_value)
         # return  call_concatenate_twocsv_list
     print(return_value)

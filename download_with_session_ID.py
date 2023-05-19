@@ -1080,6 +1080,7 @@ def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + URI)
+    print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     num_files_present=0
     df_scan=[]
     if response.status_code != 200:

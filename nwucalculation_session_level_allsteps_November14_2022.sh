@@ -251,7 +251,7 @@ call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_i
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
-#for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
+for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #  outputfiles_present=0
 #  echo $niftifile_csvfilename
 #  while IFS=',' read -ra array; do
@@ -307,4 +307,4 @@ echo '$outputfiles_present'::$outputfiles_present
 ##  ######################################################################################################################
 #  fi
 #
-#done
+done

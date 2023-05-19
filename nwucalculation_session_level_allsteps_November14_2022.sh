@@ -251,7 +251,7 @@ call_check_if_a_file_exist_in_snipr_arguments=('call_download_files_in_a_resourc
 outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-#  outputfiles_present=0
+  outputfiles_present=0
 #  while IFS=',' read -ra array; do
 #    scanID=${array[2]}
 #    echo sessionId::${sessionID}

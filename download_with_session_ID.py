@@ -1075,7 +1075,20 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
                 f.write(chunk)
     xnatSession.close_httpsession()
     return zipfilename
-
+def download_a_singlefile_with_URIString(url,filename,dir_to_save):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
+    # subprocess.call(command,shell=True)
+    response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
+    #                                                       # "/data/experiments/SNIPR02_E03548/scans/1-CT1/resources/147851/files/ICH_0001_01022017_0414_1-CT1_threshold-1024.0_22121.0TOTAL_VersionDate-11302022_04_22_2023.csv") ## url['URI'])
+    zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
+    with open(zipfilename, "wb") as f:
+        for chunk in response.iter_content(chunk_size=512):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+    xnatSession.close_httpsession()
+    return zipfilename
 def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
@@ -1098,7 +1111,8 @@ def download_files_in_a_resource(URI,dir_to_save):
         # download_a_singlefile_with_URLROW(df_listfile,dir_to_save)
         for item_id, row in df_listfile.iterrows():
             # print("row::{}".format(row))
-            download_a_singlefile_with_URLROW(row,dir_to_save)
+            # download_a_singlefile_with_URLROW(row,dir_to_save)
+            download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
             print("DOWNLOADED ::{}".format(row))
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))

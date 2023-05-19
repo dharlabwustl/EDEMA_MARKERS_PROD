@@ -274,8 +274,10 @@ get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${
 
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
-get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+#niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
+#get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+call_check_if_a_file_exist_in_snipr_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID}  "NIFTI_LOCATION" ${working_dir} )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}" )
 ########################################
 outputfiles_present=0
 while IFS=',' read -ra array; do

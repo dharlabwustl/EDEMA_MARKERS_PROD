@@ -253,28 +253,28 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_fil
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
   outputfiles_present=0
   echo $niftifile_csvfilename
-#  while IFS=',' read -ra array; do
-#    scanID=${array[2]}
-#    echo sessionId::${sessionID}
-#    echo scanId::${scanID}
-#    snipr_output_foldername="EDEMA_BIOMARKER"
-#    ### check if the file exists:
-#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-#  done < <(tail -n +2 "${niftifile_csvfilename}")
-#  ################################################
-#  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#  #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
-#  if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
-#    echo " I AM THE ONE"
-#  fi
-#  if [[ "${outputfiles_present: -1}" -eq 0 ]]; then
-#
-#    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#
-#    copy_scan_data ${niftifile_csvfilename} ${working_dir}
-#
-#    ###############################################################################################################
+  while IFS=',' read -ra array; do
+    scanID=${array[2]}
+    echo sessionId::${sessionID}
+    echo scanId::${scanID}
+    snipr_output_foldername="EDEMA_BIOMARKER"
+    ### check if the file exists:
+    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
+    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+  done < <(tail -n +2 "${niftifile_csvfilename}")
+  ################################################
+  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+  #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
+  if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
+    echo " I AM THE ONE"
+  fi
+  if [[ "${outputfiles_present: -1}" -eq 0 ]]; then
+
+    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+
+    copy_scan_data ${niftifile_csvfilename} ${working_dir}
+
+    ###############################################################################################################
 #
 #    ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 #
@@ -304,6 +304,6 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #  else
 #    echo " FILES ARE PRESENT "
 #  ######################################################################################################################
-#  fi
+  fi
 
 done

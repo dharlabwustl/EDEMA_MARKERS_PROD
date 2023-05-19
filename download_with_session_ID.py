@@ -1099,7 +1099,7 @@ def download_files_in_a_resource(URI,dir_to_save):
         for item_id, row in df_listfile.iterrows():
             # print("row::{}".format(row))
             # download_a_singlefile_with_URLROW(df_listfile.iloc[[x]],dir_to_save)
-            print("DOWNLOADED ::{}".format(row)
+            print("DOWNLOADED ::{}".format(row))
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass

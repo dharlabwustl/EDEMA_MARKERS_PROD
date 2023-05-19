@@ -252,6 +252,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_fil
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
   outputfiles_present=0
+  echo $niftifile_csvfilename
 #  while IFS=',' read -ra array; do
 #    scanID=${array[2]}
 #    echo sessionId::${sessionID}

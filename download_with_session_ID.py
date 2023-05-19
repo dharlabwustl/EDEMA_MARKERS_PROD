@@ -1095,10 +1095,11 @@ def download_files_in_a_resource(URI,dir_to_save):
     try:
         df_listfile=listoffile_witha_URI_as_df(URI)
         print("df_listfile::{}".format(df_listfile))
-        for index, row in df_listfile.iterrows():
-            print("row::{}".format(row))
-            download_a_singlefile_with_URLROW(row,dir_to_save)
-            print("DOWNLOADED ::{}".format(row['Name']))
+        download_a_singlefile_with_URLROW(df_listfile,dir_to_save)
+        # for index, row in df_listfile.iterrows():
+        #     print("row::{}".format(row))
+        #     download_a_singlefile_with_URLROW(df_listfile,dir_to_save)
+        #     print("DOWNLOADED ::{}".format(row['Name']))
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass

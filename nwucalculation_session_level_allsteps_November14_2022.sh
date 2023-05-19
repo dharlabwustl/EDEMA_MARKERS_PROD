@@ -252,7 +252,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-#  outputfiles_present=0
+  outputfiles_present=0
 #  echo $niftifile_csvfilename
 #  while IFS=',' read -ra array; do
 #    scanID=${array[2]}

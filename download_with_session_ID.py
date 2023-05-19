@@ -1081,7 +1081,7 @@ def listoffile_witha_URI_as_df(URI):
     xnatSession.renew_httpsession()
     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     response = xnatSession.httpsess.get(xnatSession.host + URI)
-    print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
+    # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     num_files_present=0
     df_scan=[]
     if response.status_code != 200:
@@ -1094,6 +1094,7 @@ def listoffile_witha_URI_as_df(URI):
 def download_files_in_a_resource(URI,dir_to_save):
     try:
         df_listfile=listoffile_witha_URI_as_df(URI)
+        print("df_listfile::{}".format(df_listfile))
         for index, row in df_listfile.iterrows():
             download_a_singlefile_with_URLROW(row,dir_to_save)
             print("DOWNLOADED ::{}".format(row['Name']))

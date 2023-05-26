@@ -336,7 +336,20 @@ def call_decision_which_nifti():
     dir_to_receive_the_data=sys.argv[2]
     output_csvfile=sys.argv[3]
     decision_which_nifti(sessionId,dir_to_receive_the_data,output_csvfile)
-    
+def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",output_csvfile=""):
+    this_session_metadata=get_metadata_session(sessionId)
+    jsonStr = json.dumps(this_session_metadata)
+    # print(jsonStr)
+    df = pd.read_json(jsonStr)
+    # # df = pd.read_csv(sessionId+'_scans.csv')
+    # sorted_df = df.sort_values(by=['type'], ascending=False)
+    # # sorted_df.to_csv('scan_sorted.csv', index=False)
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable') | (df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    # df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    # print(df_axial)
+    list_of_usables=[]
+    list_of_usables_withsize=[]
+    return
 def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     # sessionId=sys.argv[1]
     # dir_to_receive_the_data="./NIFTIFILEDIR" #sys.argv[2]

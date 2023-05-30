@@ -76,3 +76,9 @@ if [[ ${TYPE_OF_PROGRAM} == 12 ]] ;
 then
     /software/scan_selection_May18_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
+
+
+if [[ ${TYPE_OF_PROGRAM} == 13 ]] ;
+then
+    /software/scan_selection_multiple_May25_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi

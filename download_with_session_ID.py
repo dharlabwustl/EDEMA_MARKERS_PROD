@@ -790,7 +790,7 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
 
         xnatSession.close_httpsession()
     except:
-        print("I AM AT uploadsinglefile_with_URI")
+        print("I FAILED AT uploadsinglefile_with_URI")
         pass
 
 

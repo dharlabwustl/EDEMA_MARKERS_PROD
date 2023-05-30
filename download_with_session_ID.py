@@ -787,6 +787,7 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
         xnatSession.renew_httpsession()
         files={'file':open(file_name,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        print("response::{}".format(response))
 
         xnatSession.close_httpsession()
         print("I UPLOADED FILE WITH  uploadsinglefile_with_URI")

@@ -789,6 +789,7 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
 
         xnatSession.close_httpsession()
+        print("I UPLOADED FILE WITH  uploadsinglefile_with_URI")
     except:
         print("I FAILED AT uploadsinglefile_with_URI")
         pass

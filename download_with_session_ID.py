@@ -336,6 +336,12 @@ def call_decision_which_nifti():
     dir_to_receive_the_data=sys.argv[2]
     output_csvfile=sys.argv[3]
     decision_which_nifti(sessionId,dir_to_receive_the_data,output_csvfile)
+
+def call_decision_which_nifti_multiplescans():
+    sessionId=sys.argv[1]
+    dir_to_receive_the_data=sys.argv[2]
+    output_csvfile=sys.argv[3]
+    decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data,output_csvfile)
 def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     this_session_metadata=get_metadata_session(sessionId)
     jsonStr = json.dumps(this_session_metadata)
@@ -349,6 +355,47 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
+    if len(df_axial)>0:
+        selectedFile=""
+    # print(len(df_axial))
+    # print("df_axial:{}".format(len(df_axial['URI'])))
+    for item_id, each_axial in df_axial.iterrows():
+        print(each_axial['URI'])
+        URI=each_axial['URI']
+        resource_dir='NIFTI'
+        nifti_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_dir)) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
+        df_scan = pd.read_json(nifti_metadata)
+
+        for each_item_id,each_nifti in df_scan.iterrows():
+            print(each_nifti['URI'])
+            if '.nii' in each_nifti['Name'] or '.nii.gz' in each_nifti['Name']:
+                # list_of_usables.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID']])
+                x=[each_nifti['URI'],each_nifti['Name'],each_axial['ID']]
+                # pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+                # now=time.localtime()
+                # date_time = time.strftime("_%m_%d_%Y",now)
+                niftifile_location=os.path.join(dir_to_receive_the_data,each_nifti['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
+                # pd.DataFrame(final_ct_file).T.to_csv(niftifile_location,index=False)
+                # downloadniftiwithuri(x,dir_to_receive_the_data)
+                number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
+                # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
+                list_of_usables_withsize=[]
+                list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
+                jsonStr = json.dumps(list_of_usables_withsize)
+                # print(jsonStr)
+                df = pd.read_json(jsonStr)
+                df.columns=['URI','Name','ID','NUMBEROFSLICES']
+                pd.DataFrame(df).T.to_csv(niftifile_location,index=False)
+                resource_dirname="NIFTI_LOCATION"
+                url = (("/data/experiments/%s") % (sessionId))
+                uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+                # deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
+    # if len(final_ct_file)> 1:
+    #     pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+    # # now=time.localtime()
+    # # date_time = time.strftime("_%m_%d_%Y",now)
+    # niftifile_location=os.path.join(dir_to_receive_the_data,each_scan['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
+    # pd.DataFrame(final_ct_file).T.to_csv(niftifile_location,index=False)
     return
 def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     # sessionId=sys.argv[1]

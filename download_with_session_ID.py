@@ -780,14 +780,18 @@ def uploadfile_projectlevel():
         print(e)
         return False
 def uploadsinglefile_with_URI(url,file_name,resource_dirname):
+    try:
 
-    url = url+"/resources/"+resource_dirname+"/files/"
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
-    files={'file':open(file_name,'rb')}
-    response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        url = url+"/resources/"+resource_dirname+"/files/"
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        files={'file':open(file_name,'rb')}
+        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
 
-    xnatSession.close_httpsession()
+        xnatSession.close_httpsession()
+    except:
+        print("I AM AT uploadsinglefile_with_URI")
+        pass
 
 
 def uploadsinglefile_projectlevel():

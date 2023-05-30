@@ -235,6 +235,27 @@ call_decision_which_nifti()" ${sessionID}  ${working_dir} ${output_csvfile}
 
 }
 
+get_nifti_multiple_scan_uri(){
+# csvfilename=sys.argv[1]
+# dir_to_save=sys.argv[2]
+# echo " I AM IN copy_scan_data "
+# rm -r /ZIPFILEDIR/*
+
+sessionID=$1
+working_dir=${2}
+output_csvfile=${3}
+rm -r ${working_dir}/*
+output_dir=$(dirname ${output_csvfile})
+rm -r ${output_dir}/*
+# scanID=$2
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_decision_which_nifti_multiplescans()" ${sessionID}  ${working_dir} ${output_csvfile}
+
+}
+
 
 
 
@@ -275,7 +296,7 @@ get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
-get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+get_nifti_multiple_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 
 #########################################
 #outputfiles_present=0

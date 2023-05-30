@@ -385,8 +385,8 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                 jsonStr = json.dumps(list_of_usables_withsize)
                 # print(jsonStr)
                 df = pd.read_json(jsonStr)
-                pd.DataFrame(df).T.to_csv(niftifile_location,index=False)
                 df.columns=['URI','Name','ID','NUMBEROFSLICES']
+                pd.DataFrame(df).T.to_csv(niftifile_location,index=False)
                 resource_dirname="NIFTI_LOCATION"
                 url = (("/data/experiments/%s") % (sessionId))
                 uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)

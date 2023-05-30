@@ -376,7 +376,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                 # # now=time.localtime()
                 # # date_time = time.strftime("_%m_%d_%Y",now)
                 niftifile_location=os.path.join(dir_to_receive_the_data,each_nifti['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
-                # pd.DataFrame(final_ct_file).T.to_csv(niftifile_location,index=False)
+
                 downloadniftiwithuri(x,dir_to_receive_the_data)
                 number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                 # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
@@ -385,8 +385,8 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                 jsonStr = json.dumps(list_of_usables_withsize)
                 # print(jsonStr)
                 df = pd.read_json(jsonStr)
-                df.columns=['URI','Name','ID','NUMBEROFSLICES']
                 pd.DataFrame(df).T.to_csv(niftifile_location,index=False)
+                df.columns=['URI','Name','ID','NUMBEROFSLICES']
                 resource_dirname="NIFTI_LOCATION"
                 url = (("/data/experiments/%s") % (sessionId))
                 uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)

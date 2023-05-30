@@ -381,7 +381,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                 number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                 # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
                 list_of_usables_withsize=[]
-                list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
+                # list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
                 # jsonStr = json.dumps(list_of_usables_withsize)
                 # # print(jsonStr)
                 # df = pd.read_json(jsonStr)

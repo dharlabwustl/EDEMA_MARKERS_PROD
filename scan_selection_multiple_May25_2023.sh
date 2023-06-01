@@ -252,6 +252,7 @@ python3 -c "
 import sys
 sys.path.append('/software');
 from download_with_session_ID import *;
+print("{}".format("I am at get_nifti_multiple_scan_uri"))
 call_decision_which_nifti_multiplescans()" ${sessionID}  ${working_dir} ${output_csvfile}
 
 }

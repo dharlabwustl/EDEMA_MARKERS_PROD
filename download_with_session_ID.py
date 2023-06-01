@@ -355,6 +355,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
+    print("I found df_axial ::{}".format(df_axial))
     if len(df_axial)>0:
         selectedFile=""
     # print(len(df_axial))

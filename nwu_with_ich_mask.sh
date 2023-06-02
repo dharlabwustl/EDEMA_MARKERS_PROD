@@ -329,4 +329,5 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     echo " FILES ARE PRESENT "
   ######################################################################################################################
   fi
+  rm ${final_output_directory}/*.*
 done

@@ -355,7 +355,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
-
+    file_uploaded_flag=0
     if len(df_axial)>0:
         selectedFile=""
     # print(len(df_axial))
@@ -392,7 +392,8 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                         resource_dirname="NIFTI_LOCATION"
                         url = (("/data/experiments/%s") % (sessionId))
                         uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
-    elif len(df_thin)>0 :
+                        file_uploaded_flag=1
+    elif len(df_thin)>0 and file_uploaded_flag==0:
         selectedFile=""
         # print(len(df_axial))
         # print("df_axial:{}".format(len(df_axial['URI'])))

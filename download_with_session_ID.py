@@ -499,7 +499,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                 resource_dirname="NIFTI_LOCATION"
                 url = (("/data/experiments/%s") % (sessionId))
                 uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
-                print("final_ct_file_df::{}".format(final_ct_file_df))
+                print("final_ct_file_df::{}".format(final_ct_file_df.T))
 
             ########################################################
 

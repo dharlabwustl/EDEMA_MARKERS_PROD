@@ -431,7 +431,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                         url = (("/data/experiments/%s") % (sessionId))
                         uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
 
-    return
+        return
 def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     # sessionId=sys.argv[1]
     # dir_to_receive_the_data="./NIFTIFILEDIR" #sys.argv[2]

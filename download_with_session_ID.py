@@ -478,21 +478,23 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
             final_ct_file_df.T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
             # now=time.localtime()
             # date_time = time.strftime("_%m_%d_%Y",now)
-            print("final_ct_file_df::{}".format(final_ct_file_df.T['Name']))
-            niftifile_location='test.csv' #os.path.join(dir_to_receive_the_data,final_ct_file_df.T['Name'].str.split(".nii")[0]+"_NIFTILOCATION.csv")
-            # pd.DataFrame(final_ct_file)
-            final_ct_file_df.T.to_csv(niftifile_location,index=False)
-            ####################################################
 
-            # now=time.localtime()
-            # date_time = time.strftime("_%m_%d_%Y",now)
-            # niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
-            # df_listfile.to_csv(niftifile_location,index=False)
-            resource_dirname="NIFTI_LOCATION"
-            url = (("/data/experiments/%s") % (sessionId))
-            # uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+            for final_ct_file_df_item_id, final_ct_file_df_each_scan in final_ct_file_df.T.iterrows():
+                print("final_ct_file_df::{}".format(final_ct_file_df_each_scan['Name']))
+                niftifile_location='test.csv' #os.path.join(dir_to_receive_the_data,final_ct_file_df.T['Name'].str.split(".nii")[0]+"_NIFTILOCATION.csv")
+                # pd.DataFrame(final_ct_file)
+                final_ct_file_df.T.to_csv(niftifile_location,index=False)
+                ####################################################
 
-            ########################################################
+                # now=time.localtime()
+                # date_time = time.strftime("_%m_%d_%Y",now)
+                # niftifile_location=os.path.join("/output","NIFTIFILE_LOCATION"+"_" +sessionId+"_" +scanId+date_time+".csv")
+                # df_listfile.to_csv(niftifile_location,index=False)
+                resource_dirname="NIFTI_LOCATION"
+                url = (("/data/experiments/%s") % (sessionId))
+                # uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+
+                ########################################################
 
             return True
         return False

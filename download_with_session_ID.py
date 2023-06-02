@@ -393,7 +393,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                         url = (("/data/experiments/%s") % (sessionId))
                         uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
                         file_uploaded_flag=1
-    elif len(df_thin)>0 and file_uploaded_flag==0:
+    if len(df_thin)>0 and file_uploaded_flag==0:
         selectedFile=""
         # print(len(df_axial))
         # print("df_axial:{}".format(len(df_axial['URI'])))

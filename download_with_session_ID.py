@@ -465,7 +465,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         df.columns=['URI','Name','ID','NUMBEROFSLICES']
         # df_maxes = df[df['NUMBEROFSLICES']>=20 & df['NUMBEROFSLICES']<=65]
         df_maxes=df[df.eval("NUMBEROFSLICES >=20 & (NUMBEROFSLICES <=65)" )]
-        print("df_maxes::{}".format(df_maxes))
+        # print("df_maxes::{}".format(df_maxes))
         df_maxes = df_maxes[df_maxes['NUMBEROFSLICES']==df_maxes['NUMBEROFSLICES'].max()]
 
         # return df_maxes
@@ -499,6 +499,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                 resource_dirname="NIFTI_LOCATION"
                 url = (("/data/experiments/%s") % (sessionId))
                 uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+                print("final_ct_file_df::{}".format(final_ct_file_df))
 
             ########################################################
 

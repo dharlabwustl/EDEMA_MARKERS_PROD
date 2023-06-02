@@ -427,8 +427,10 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     x=[each_nifti['URI'],each_nifti['Name'],each_axial['ID']]
                     downloadniftiwithuri(x,dir_to_receive_the_data)
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
-                    list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
-                    deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
+                    if number_slice>=20 and number_slice <=70:
+                    # df_maxes=df[df.eval("NUMBEROFSLICES >=20 & (NUMBEROFSLICES <=70)" )]
+                        list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
+                    # deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
   
                     
                     
@@ -452,8 +454,9 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     x=[each_nifti['URI'],each_nifti['Name'],each_thin['ID']]
                     downloadniftiwithuri(x,dir_to_receive_the_data)
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
-                    list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_thin['ID'],number_slice])
-                    deleteafile(os.path.join(dir_to_receive_the_data,x[1]))                    
+                    if  number_slice <=120:
+                        list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_thin['ID'],number_slice])
+                    # deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
   
             # break
     # dir_to_receive_the_data="./NIFTIFILEDIR"
@@ -464,9 +467,9 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         df = pd.read_json(jsonStr)
         df.columns=['URI','Name','ID','NUMBEROFSLICES']
         # df_maxes = df[df['NUMBEROFSLICES']>=20 & df['NUMBEROFSLICES']<=65]
-        df_maxes=df[df.eval("NUMBEROFSLICES >=20 & (NUMBEROFSLICES <=70)" )]
+
         # print("df_maxes::{}".format(df_maxes))
-        df_maxes = df_maxes[df_maxes['NUMBEROFSLICES']==df_maxes['NUMBEROFSLICES'].max()]
+        df_maxes = df[df['NUMBEROFSLICES']==df['NUMBEROFSLICES'].max()]
 
         # return df_maxes
         final_ct_file=''

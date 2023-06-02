@@ -481,7 +481,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
 
             for final_ct_file_df_item_id, final_ct_file_df_each_scan in final_ct_file_df.T.iterrows():
                 print("final_ct_file_df::{}".format(final_ct_file_df_each_scan['Name']))
-                niftifile_location='test.csv' #os.path.join(dir_to_receive_the_data,final_ct_file_df.T['Name'].str.split(".nii")[0]+"_NIFTILOCATION.csv")
+                niftifile_location=os.path.join(dir_to_receive_the_data,final_ct_file_df_each_scan.T['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
                 # pd.DataFrame(final_ct_file)
                 final_ct_file_df.T.to_csv(niftifile_location,index=False)
                 ####################################################

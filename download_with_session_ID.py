@@ -457,6 +457,8 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                     if  number_slice <=120:
                         list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_thin['ID'],number_slice])
+                        print("number_slice:{}".format(number_slice))
+
                     # deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
   
             # break
@@ -468,7 +470,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         df = pd.read_json(jsonStr)
         df.columns=['URI','Name','ID','NUMBEROFSLICES']
         # df_maxes = df[df['NUMBEROFSLICES']>=20 & df['NUMBEROFSLICES']<=65]
-
+        # df=df[df.eval("NUMBEROFSLICES >=20 & (NUMBEROFSLICES <=70)" )]
         # print("df_maxes::{}".format(df_maxes))
         df_maxes = df[df['NUMBEROFSLICES']==df['NUMBEROFSLICES'].max()]
 

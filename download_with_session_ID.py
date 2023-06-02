@@ -463,7 +463,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         # print(jsonStr)
         df = pd.read_json(jsonStr)
         df.columns=['URI','Name','ID','NUMBEROFSLICES']
-        df_maxes = df[df['NUMBEROFSLICES']>=20 and df['NUMBEROFSLICES']<=65]
+        df_maxes = df[df['NUMBEROFSLICES']>=20 & df['NUMBEROFSLICES']<=65]
         df_maxes = df_maxes[df_maxes['NUMBEROFSLICES']==df_maxes['NUMBEROFSLICES'].max()]
         # return df_maxes
         final_ct_file=''

@@ -492,7 +492,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                 # df_listfile.to_csv(niftifile_location,index=False)
                 resource_dirname="NIFTI_LOCATION"
                 url = (("/data/experiments/%s") % (sessionId))
-                # uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+                uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
 
                 ########################################################
 

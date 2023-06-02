@@ -350,8 +350,8 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
     # # df = pd.read_csv(sessionId+'_scans.csv')
     # sorted_df = df.sort_values(by=['type'], ascending=False)
     # # sorted_df.to_csv('scan_sorted.csv', index=False)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable') | (df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
-    # df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] # | (df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
@@ -382,7 +382,45 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                     # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
                     list_of_usables_withsize=[]
-                    if number_slice >=20 and number_slice <=200:
+                    if number_slice >=20 and number_slice <=100:
+                        list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
+                        jsonStr = json.dumps(list_of_usables_withsize)
+                        # print(jsonStr)
+                        df = pd.read_json(jsonStr)
+                        df.columns=['URI','Name','ID','NUMBEROFSLICES']
+                        df.to_csv(niftifile_location,index=False)
+                        resource_dirname="NIFTI_LOCATION"
+                        url = (("/data/experiments/%s") % (sessionId))
+                        uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+    elif len(df_thin)>0 :
+            selectedFile=""
+        # print(len(df_axial))
+        # print("df_axial:{}".format(len(df_axial['URI'])))
+        df_axial=df_thin
+
+        for item_id, each_axial in df_axial.iterrows():
+            print(each_axial['URI'])
+            URI=each_axial['URI']
+            resource_dir='NIFTI'
+            nifti_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_dir)) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
+            df_scan = pd.read_json(nifti_metadata)
+
+            for each_item_id,each_nifti in df_scan.iterrows():
+                print(each_nifti['URI'])
+                if '.nii' in each_nifti['Name'] or '.nii.gz' in each_nifti['Name']:
+                    # list_of_usables.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID']])
+                    x=[each_nifti['URI'],each_nifti['Name'],each_axial['ID']]
+                    print("X::{}".format(x))
+                    # # pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+                    # # now=time.localtime()
+                    # # date_time = time.strftime("_%m_%d_%Y",now)
+                    niftifile_location=os.path.join(dir_to_receive_the_data,each_nifti['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
+
+                    downloadniftiwithuri(x,dir_to_receive_the_data)
+                    number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
+                    # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
+                    list_of_usables_withsize=[]
+                    if number_slice <=200:
                         list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
                         jsonStr = json.dumps(list_of_usables_withsize)
                         # print(jsonStr)

@@ -479,7 +479,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
             # now=time.localtime()
             # date_time = time.strftime("_%m_%d_%Y",now)
             # print("final_ct_file_df::{}".format(final_ct_file_df.T['Name']))
-            niftifile_location=os.path.join(dir_to_receive_the_data,final_ct_file_df.T['Name'][0].split(".nii")[0]+"_NIFTILOCATION.csv")
+            niftifile_location=os.path.join(dir_to_receive_the_data,final_ct_file_df.T['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
             # pd.DataFrame(final_ct_file)
             final_ct_file_df.T.to_csv(niftifile_location,index=False)
             ####################################################

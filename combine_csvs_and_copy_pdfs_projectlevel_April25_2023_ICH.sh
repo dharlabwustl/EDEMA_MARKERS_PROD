@@ -381,7 +381,8 @@ get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dir
 
 ############################## combine_all_csvfiles_of_edema_biomarker   #############################################
 extension_csv=".csv" #"0_40TOTAL.csv"
-combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
+today_date=$(date +'%Y_%m_%d')
+combined_csv_outputfilename=${projectID}${today_date}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
 output_directory="/workingoutput"
 #mv ${working_dir}/SNIPR*.csv ${output_directory}/
 combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}

@@ -377,7 +377,7 @@ projectID=${1}
 get_all_selected_scan_in_a_project ${projectID} ${working_dir}
 ############################## get_all_EDEMA_BIOMARKER_csvfiles_of_allselectedscan   #############################################
 csv_resource_dirname="ICH_QUANTIFICATION"
-get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}
+#get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}
 
 ############################## combine_all_csvfiles_of_edema_biomarker   #############################################
 extension_csv=".csv" #"0_40TOTAL.csv"

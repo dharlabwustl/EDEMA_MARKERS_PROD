@@ -383,90 +383,91 @@ get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dir
 extension_csv=".csv" #"0_40TOTAL.csv"
 today_date=$(date +'%Y_%m_%d')
 combined_csv_outputfilename=${projectID}${today_date}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
-output_directory="/workingoutput"
-#mv ${working_dir}/SNIPR*.csv ${output_directory}/
-combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
+echo ${combined_csv_outputfilename}
+#output_directory="/workingoutput"
+##mv ${working_dir}/SNIPR*.csv ${output_directory}/
+#combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
+##
+##combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
+##while IFS=',' read -ra array; do
+##echo "${array[0]}"
+#echo final_output_directory::${final_output_directory}
+#copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
+##done < <( tail -n +2 "${combinedfilename}" )
+########################################################################################################################
+#### COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
+##
+#snipr_output_foldername=${csv_resource_dirname}PDF #"EDEMA_BIOMARKER"
+#file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
+#for file_suffix in ${file_suffixes[@]}
+#do
+#    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
+#done
+##
+########################################################################################################################
+##
+########################################################################################################################
+#### COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
+##
+#snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
+#file_suffixes=(  .pdf  ) #PDF #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}
+#do
+#  #echo "${array[0]}"
+##    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
+#     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
 #
-#combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
-#while IFS=',' read -ra array; do
-#echo "${array[0]}"
-echo final_output_directory::${final_output_directory}
-copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
-#done < <( tail -n +2 "${combinedfilename}" )
-#######################################################################################################################
-### COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
-#
-snipr_output_foldername=${csv_resource_dirname}PDF #"EDEMA_BIOMARKER"
-file_suffixes=( COMBINED_.csv ) #sys.argv[5] .mat
-for file_suffix in ${file_suffixes[@]}
-do
-    copyoutput_to_snipr_projectlevel  ${projectID} ${output_directory} "${snipr_output_foldername}"   ${file_suffix}
-done
-#
-#######################################################################################################################
-#
-#######################################################################################################################
-### COPY PDFs TO THE SNIPR RESPECTIVE PROJECT RESOURCES
-#
-snipr_output_foldername=${csv_resource_dirname}PDF  #_1 #"EDEMA_BIOMARKER"
-file_suffixes=(  .pdf  ) #PDF #sys.argv[5]
-for file_suffix in ${file_suffixes[@]}
-do
-  #echo "${array[0]}"
-#    copyoutput_to_snipr_projectlevel  ${projectID} ${working_dir} "${snipr_output_foldername}"   ${file_suffix}
-     copyoutput_to_snipr_projectlevel  ${projectID} ${final_output_directory} "${snipr_output_foldername}"   ${file_suffix}
-
-done
-#
-#######################################################################################################################
-### for one project:
-#
-### find all the scans with the selections criteria to rung segmentation
-#
-### download csv files from the EDEMA_BIOMARKER directory:
-#
-#
-### combine all the csv files
-#
-### upload the combined csv files to the project directory level
-#
-#
-###
-#
-##########################################################################
-### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-## niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
-## get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
-## copy_scan_data ${niftifile_csvfilename} ${working_dir}
-#
-#
-#
-#
-## ###############################################################################################################
-#
-## ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#
-## #####################################################################################
-## resource_dirname='MASKS'
-## output_dirname=${working_dir}
-## while IFS=',' read -ra array; do
-## scanID=${array[2]}
-## echo sessionId::${sessionID}
-## echo scanId::${scanID}
-## done < <( tail -n +2 "${niftifile_csvfilename}" )
-## echo working_dir::${working_dir}
-## echo output_dirname::${output_dirname}
-## copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
-## ######################################################################################################################
-## ## CALCULATE EDEMA BIOMARKERS
-## nwucalculation_each_scan
-## ######################################################################################################################
-## ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-## snipr_output_foldername="EDEMA_BIOMARKER"
-## file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-## for file_suffix in ${file_suffixes[@]}
-## do
-##     copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
-## done
-## ######################################################################################################################
-#
+#done
+##
+########################################################################################################################
+#### for one project:
+##
+#### find all the scans with the selections criteria to rung segmentation
+##
+#### download csv files from the EDEMA_BIOMARKER directory:
+##
+##
+#### combine all the csv files
+##
+#### upload the combined csv files to the project directory level
+##
+##
+####
+##
+###########################################################################
+#### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+### niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
+### get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+### copy_scan_data ${niftifile_csvfilename} ${working_dir}
+##
+##
+##
+##
+### ###############################################################################################################
+##
+### ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+##
+### #####################################################################################
+### resource_dirname='MASKS'
+### output_dirname=${working_dir}
+### while IFS=',' read -ra array; do
+### scanID=${array[2]}
+### echo sessionId::${sessionID}
+### echo scanId::${scanID}
+### done < <( tail -n +2 "${niftifile_csvfilename}" )
+### echo working_dir::${working_dir}
+### echo output_dirname::${output_dirname}
+### copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
+### ######################################################################################################################
+### ## CALCULATE EDEMA BIOMARKERS
+### nwucalculation_each_scan
+### ######################################################################################################################
+### ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+### snipr_output_foldername="EDEMA_BIOMARKER"
+### file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+### for file_suffix in ${file_suffixes[@]}
+### do
+###     copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
+### done
+### ######################################################################################################################
+##

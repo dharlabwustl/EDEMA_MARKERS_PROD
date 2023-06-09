@@ -398,6 +398,9 @@ echo "outputfiles_present_begin:: "${csvfileslist}"::outputfiles_present_end"
 #echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 directorytosave=${output_directory}
 masktype="INFARCT"
+if [ ${project_ID} == "ICH" ] ; then
+  masktype="ICH"
+fi
 call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${csvfileslist}   ${directorytosave} ${masktype} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_all_csv_files_givena_URIdf_arguments[@]}" )
 echo "$outputfiles_present"

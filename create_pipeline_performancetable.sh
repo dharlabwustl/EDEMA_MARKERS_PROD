@@ -413,58 +413,58 @@ filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex
 filename_pdf_tosave=${project_ID}_CTSESSIONS_${time_now}.pdf
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
-
-## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="SNIPR_ANALYTICS"
-
-file_name=${filenametosave}
-#file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-#for file_suffix in ${file_suffixes[@]}
-#do
-pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${directorytosave}/${filename_latex_tosave}
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
-#done
-######################################################################################################################
-
-
-#extension_csv='csv'
-#combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
-#combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
-#################################################
 #
-##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
-##copy_scan_data ${niftifile_csvfilename} ${working_dir}
-#
-#
-#
-#
-################################################################################################################
-#
-### GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#
-######################################################################################
-#resource_dirname='MASKS'
-#output_dirname=${working_dir}
-#while IFS=',' read -ra array; do
-#scanID=${array[2]}
-#echo sessionId::${sessionID}
-#echo scanId::${scanID}
-##call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-#done < <( tail -n +2 "${niftifile_csvfilename}" )
-#echo working_dir::${working_dir}
-#echo output_dirname::${output_dirname}
-#copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
-#######################################################################################################################
-### CALCULATE EDEMA BIOMARKERS
-#ich_calculation_each_scan
-#######################################################################################################################
 ### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-#snipr_output_foldername="ICH_QUANTIFICATION"
-#file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-#for file_suffix in ${file_suffixes[@]}
-#do
-#    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
-#done
+#snipr_output_foldername="SNIPR_ANALYTICS"
+#
+#file_name=${filenametosave}
+##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+##for file_suffix in ${file_suffixes[@]}
+##do
+#pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${directorytosave}/${filename_latex_tosave}
+#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
+##done
 #######################################################################################################################
 #
+#
+##extension_csv='csv'
+##combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
+##combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
+##################################################
+##
+###get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+###copy_scan_data ${niftifile_csvfilename} ${working_dir}
+##
+##
+##
+##
+#################################################################################################################
+##
+#### GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+##
+#######################################################################################
+##resource_dirname='MASKS'
+##output_dirname=${working_dir}
+##while IFS=',' read -ra array; do
+##scanID=${array[2]}
+##echo sessionId::${sessionID}
+##echo scanId::${scanID}
+###call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+##done < <( tail -n +2 "${niftifile_csvfilename}" )
+##echo working_dir::${working_dir}
+##echo output_dirname::${output_dirname}
+##copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
+########################################################################################################################
+#### CALCULATE EDEMA BIOMARKERS
+##ich_calculation_each_scan
+########################################################################################################################
+#### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+##snipr_output_foldername="ICH_QUANTIFICATION"
+##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+##for file_suffix in ${file_suffixes[@]}
+##do
+##    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
+##done
+########################################################################################################################
+##

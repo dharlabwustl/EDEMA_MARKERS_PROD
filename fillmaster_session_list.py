@@ -11,6 +11,7 @@ import datetime
 import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
+from download_with_session_ID import *
 def get_latest_csvfile_singlefilename(df1,extens='.csv'):
     ## get all the rows with csv in the name:
     allfileswithprefix1_df = df1[df1['Name'].str.contains(extens)]
@@ -155,7 +156,9 @@ def insertniftifilename(sessioncsv_df,dir_csv):
 
 
                 xx=row['URI'].split('/') #.str.split('/', expand=True)
-
+                sessionId=xx[2]
+                scanId=xx[4]
+                print("sessionId::{} and scanId::{}".format(sessionId,scanId))
                 sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
                 filename=''
                 filename_available=''
@@ -323,6 +326,16 @@ def call_pdffromanalytics(args):
     pdffromanalytics(masterfilename,latexfilename)
 
 
+def get_scan_description(sessionId,scanId):
+    # for a given sessionID and scanID
+    this_session_metadata=get_metadata_session(sessionId)
+    jsonStr = json.dumps(this_session_metadata)
+    df = pd.read_json(jsonStr)
+    print("this_session_metadata_df:{}".format(df))
+
+
+
+    return
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')

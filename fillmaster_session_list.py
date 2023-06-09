@@ -333,7 +333,7 @@ def get_scan_description(sessionId,scanId):
     jsonStr = json.dumps(this_session_metadata)
     df = pd.read_json(jsonStr)
     this_session_metadata_df_scanid=df[df['ID'] == scanId]
-    print("scanId::{}this_session_metadata_df_scanid:{}".format(scanId,this_session_metadata_df_scanid))
+    print("df={}::scanId::{}this_session_metadata_df_scanid:{}".format(df,scanId,this_session_metadata_df_scanid))
 
 
 

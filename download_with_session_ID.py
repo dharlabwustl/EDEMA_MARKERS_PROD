@@ -1307,6 +1307,7 @@ def main():
     if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
         return_value=call_check_if_a_file_exist_in_snipr(args)
     if name_of_the_function == "call_project_resource_latest_analytic_file":
+        print("WO ZAI ::{}".format(call_project_resource_latest_analytic_file))
         return_value=call_project_resource_latest_analytic_file(args)
     if name_of_the_function == "call_concatenate_csv_list":
         return_value=call_concatenate_csv_list(args)

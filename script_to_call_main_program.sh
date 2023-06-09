@@ -82,3 +82,9 @@ if [[ ${TYPE_OF_PROGRAM} == 13 ]] ;
 then
     /software/scan_selection_multiple_May25_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 14 ]] ;
+then
+  PROJECT_ID=${1}
+    /software/combine_csvs_and_copy_pdfs_projectlevel_May262023_ICH.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

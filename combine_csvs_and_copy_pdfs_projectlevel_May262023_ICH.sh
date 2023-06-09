@@ -399,6 +399,7 @@ echo "outputfiles_present_begin:: "${csvfileslist}"::outputfiles_present_end"
 directorytosave=${output_directory}
 call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${csvfileslist}   ${snipr_output_foldername}  .csv   $directorytosave )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_all_csv_files_givena_URIdf_arguments[@]}" )
+echo "$outputfiles_present"
 #
 ############################### get_all_selected_scan_in_a_project   #############################################
 ### 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it

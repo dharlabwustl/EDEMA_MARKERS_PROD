@@ -1259,7 +1259,7 @@ def call_concatenate_csv_list(args):
     # df=df.unique()
     df.to_csv(outputfilename,index=False)
 
-def call_project_resource_latest_analytic_file(args):
+def project_resource_latest_analytic_file(args):
     try:
         print("WO ZAI call_project_resource_latest_analytic_file try")
         projectID=args.stuff[1]
@@ -1308,9 +1308,9 @@ def main():
     return_value=0
     if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
         return_value=call_check_if_a_file_exist_in_snipr(args)
-    if name_of_the_function == "call_project_resource_latest_analytic_file":
+    if name_of_the_function == "project_resource_latest_analytic_file":
         print("WO ZAI ::{}".format(name_of_the_function))
-        return_value=call_project_resource_latest_analytic_file(args)
+        return_value=project_resource_latest_analytic_file(args)
     if name_of_the_function == "call_concatenate_csv_list":
         return_value=call_concatenate_csv_list(args)
     if name_of_the_function == "call_download_files_in_a_resource_in_a_session":

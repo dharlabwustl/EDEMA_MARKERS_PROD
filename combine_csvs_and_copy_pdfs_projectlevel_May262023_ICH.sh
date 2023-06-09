@@ -414,19 +414,19 @@ echo "$outputfiles_present"
 #csv_resource_dirname="ICH_QUANTIFICATION"
 #get_all_BIOMARKER_csvfiles_of_allselectedscan ${working_dir}  ${csv_resource_dirname}
 #
-############################### combine_all_csvfiles_of_edema_biomarker   #############################################
-#extension_csv=".csv" #"0_40TOTAL.csv"
-#combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
-#output_directory="/workingoutput"
-##mv ${working_dir}/SNIPR*.csv ${output_directory}/
-#combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
-##
-##combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
-##while IFS=',' read -ra array; do
-##echo "${array[0]}"
+############################## combine_all_csvfiles_of_edema_biomarker   #############################################
+extension_csv=".csv" #"0_40TOTAL.csv"
+combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${extension_csv}
+output_directory="/workingoutput"
+#mv ${working_dir}/SNIPR*.csv ${output_directory}/
+combine_all_csvfiles_of_edema_biomarker  ${working_dir} ${output_directory} ${extension_csv} ${combined_csv_outputfilename}
+#
+#combinedfilename=$(find ${output_directory} -name *COMBINED_.csv)
+#while IFS=',' read -ra array; do
+#echo "${array[0]}"
 #echo final_output_directory::${final_output_directory}
 #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
-##done < <( tail -n +2 "${combinedfilename}" )
+#done < <( tail -n +2 "${combinedfilename}" )
 ########################################################################################################################
 #### COPY IT TO THE SNIPR RESPECTIVE PROJECT RESOURCES
 ##

@@ -1275,6 +1275,7 @@ def call_project_resource_latest_analytic_file(args):
         print("\n")
         print(dir_to_save)
         print("\n")
+        print("WO ZAI ::{}".format(call_project_resource_latest_analytic_file))
 
         # filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
         # # if len(filename_saved) >0 :

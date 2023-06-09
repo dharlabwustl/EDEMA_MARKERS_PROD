@@ -17,7 +17,7 @@ filenametosave=$3
 directorytosave=$4
 filename_latex_tosave=${5}
 echo " I AM IN fillmaster_session_list "
-python3 -c "
+python3 -W ignore -c "
 import sys
 from fillmaster_session_list import *;
 call_insertavailablefilenames()" ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}  # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename

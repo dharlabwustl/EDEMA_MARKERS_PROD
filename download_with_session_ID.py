@@ -1276,17 +1276,17 @@ def call_project_resource_latest_analytic_file(args):
         print(dir_to_save)
         print("\n")
 
-        filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
-        # if len(filename_saved) >0 :
-        filename_saved_df=pd.read_csv(filename_saved)
-        required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]
-        print("required_col:{}".format(required_col[0]))
-        filename_saved_df_notdone=filename_saved_df[filename_saved_df[required_col[0]]!=1]
-        filename_saved_df_done=filename_saved_df[filename_saved_df[required_col[0]]==1]
-        filename_notdone=os.path.join(dir_to_save,"sessions.csv")
-        filename_done=os.path.join(dir_to_save,"sessions_done.csv")
-        filename_saved_df_notdone.to_csv(filename_notdone,index=False)
-        filename_saved_df_done.to_csv(filename_done,index=False)
+        # filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        # # if len(filename_saved) >0 :
+        # filename_saved_df=pd.read_csv(filename_saved)
+        # required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]
+        # print("required_col:{}".format(required_col[0]))
+        # filename_saved_df_notdone=filename_saved_df[filename_saved_df[required_col[0]]!=1]
+        # filename_saved_df_done=filename_saved_df[filename_saved_df[required_col[0]]==1]
+        # filename_notdone=os.path.join(dir_to_save,"sessions.csv")
+        # filename_done=os.path.join(dir_to_save,"sessions_done.csv")
+        # filename_saved_df_notdone.to_csv(filename_notdone,index=False)
+        # filename_saved_df_done.to_csv(filename_done,index=False)
         return 1
     except:
         return 0

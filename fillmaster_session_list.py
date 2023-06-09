@@ -156,8 +156,8 @@ def insertniftifilename(sessioncsv_df,dir_csv):
 
 
                 xx=row['URI'].split('/') #.str.split('/', expand=True)
-                sessionId=xx[2]
-                scanId=xx[4]
+                sessionId=xx[3]
+                scanId=xx[5]
                 print("sessionId::{} and scanId::{}".format(sessionId,scanId))
                 sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
                 filename=''

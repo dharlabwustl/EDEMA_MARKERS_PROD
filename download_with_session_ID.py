@@ -1260,11 +1260,11 @@ def call_concatenate_csv_list(args):
     # df=df.unique()
     df.to_csv(outputfilename,index=False)
 
-def download_all_csv_files_givena_URIdf(URI_DF,dir_to_save):
+def download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save):
     URI_DF_WITH_CSVFILES=URI_DF[URI_DF['ICH_CSVFILE_AVAILABLE']==1]
     print("URI_DF_WITH_CSVFILESshape::{}".format(URI_DF_WITH_CSVFILES.shape))
     for item_id1, each_selected_scan in URI_DF_WITH_CSVFILES.iterrows():
-        download_a_singlefile_with_URIString(each_selected_scan['ICH_CSVFILENAME'],os.path.basename(each_selected_scan['ICH_CSVFILENAME']),dir_to_save)
+        download_a_singlefile_with_URIString(each_selected_scan[projectname+'_CSVFILENAME'],os.path.basename(each_selected_scan[projectname+'_CSVFILENAME']),dir_to_save)
 
         # pass
     return
@@ -1273,7 +1273,8 @@ def call_download_all_csv_files_givena_URIdf(args):
         URI_DF=pd.read_csv(args.stuff[1])
         # scanID=args.stuff[2]
         dir_to_save=args.stuff[2]
-        print("URI_DF::{}:::dir_to_save::{}".format(URI_DF.shape,dir_to_save))
+        projectname=args.stuff[3]
+        print("URI_DF::{}:::dir_to_save::{}".format(URI_DF.shape,projectname,dir_to_save))
         download_all_csv_files_givena_URIdf(URI_DF,dir_to_save)
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
     except:

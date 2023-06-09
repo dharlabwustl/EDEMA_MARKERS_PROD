@@ -1262,8 +1262,8 @@ def call_concatenate_csv_list(args):
 def download_all_csv_files_givena_URIdf(URI_DF,dir_to_save):
     URI_DF_WITH_CSVFILES=URI_DF[URI_DF['CSFFILE_AVAILABLE']==1]
     print("URI_DF_WITH_CSVFILESshape::{}".format(URI_DF_WITH_CSVFILES.shape))
-    # for item_id1, each_selected_scan in URI_DF_WITH_CSVFILES.iterrows():
-    #     download_a_singlefile_with_URLROW(each_selected_scan,dir_to_save)
+    for item_id1, each_selected_scan in URI_DF_WITH_CSVFILES.iterrows():
+        download_a_singlefile_with_URLROW(each_selected_scan,dir_to_save)
         # pass
     return
 def call_download_all_csv_files_givena_URIdf(args):

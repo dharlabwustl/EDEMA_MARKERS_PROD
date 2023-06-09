@@ -1298,7 +1298,7 @@ def call_project_resource_latest_analytic_file(args):
 # def get_file_for_second_round():
 
 def main():
-
+    print("WO ZAI ::{}".format("main"))
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')
     args = parser.parse_args()

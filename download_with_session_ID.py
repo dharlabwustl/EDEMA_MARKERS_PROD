@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import os, sys, errno, shutil, uuid,subprocess,csv,json
-import math
+import math,inspect
 import glob
 import re,time
 import requests
@@ -1259,6 +1259,22 @@ def call_concatenate_csv_list(args):
     # df=df.unique()
     df.to_csv(outputfilename,index=False)
 
+def download_all_csv_files_givena_URIdf(URI_DF,dir_to_save):
+    URI_DF_WITH_CSVFILES=URI_DF[URI_DF['NIFTIFILE_AVAILABLE']==1]
+    for item_id1, each_selected_scan in URI_DF_WITH_CSVFILES.iterrows():
+        filename_saved=download_a_singlefile_with_URLROW(each_selected_scan,dir_to_save)
+        # pass
+    return
+def call_download_all_csv_files_givena_URIdf(args):
+    try:
+        URI_DF=pd.read_csv(args.stuff[1])
+        # scanID=args.stuff[2]
+        dir_to_save=args.stuff[2]
+        download_all_csv_files_givena_URIdf(URI_DF,dir_to_save)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
 def project_resource_latest_analytic_file(args):
     try:
         print("WO ZAI call_project_resource_latest_analytic_file try")
@@ -1290,7 +1306,7 @@ def project_resource_latest_analytic_file(args):
         # filename_done=os.path.join(dir_to_save,"sessions_done.csv")
         # filename_saved_df_notdone.to_csv(filename_notdone,index=False)
         # filename_saved_df_done.to_csv(filename_done,index=False)
-        return 1
+        return "CSVMASTERFILE::"+filename_saved
     except:
         return 0
     #
@@ -1315,6 +1331,9 @@ def main():
         return_value=call_concatenate_csv_list(args)
     if name_of_the_function == "call_download_files_in_a_resource_in_a_session":
         return_value=call_download_files_in_a_resource_in_a_session(args)
+    if name_of_the_function == "call_download_all_csv_files_givena_URIdf":
+        return_value=call_download_all_csv_files_givena_URIdf(args)
+
         # print(return_value)
         # return  call_concatenate_twocsv_list
     print(return_value)

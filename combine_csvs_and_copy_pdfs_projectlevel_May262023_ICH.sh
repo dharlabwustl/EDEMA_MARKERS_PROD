@@ -389,7 +389,8 @@ directorytosave=$final_output_directory
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 snipr_output_foldername="SNIPR_ANALYTICS"
-call_project_resource_latest_analytic_file_arguments=('call_project_resource_latest_analytic_file' ${project_ID}   ${snipr_output_foldername} .csv $directorytosave )
+call_project_resource_latest_analytic_file_arguments=('call_project_resource_latest_analytic_file'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
+echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}" )
 echo "WO ZAI ZE-LIIIIIIIIIIIIIII${outputfiles_present}"
 

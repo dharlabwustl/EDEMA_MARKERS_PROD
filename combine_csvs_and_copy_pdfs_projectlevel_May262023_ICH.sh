@@ -391,6 +391,7 @@ directorytosave=$final_output_directory
 snipr_output_foldername="SNIPR_ANALYTICS"
 call_project_resource_latest_analytic_file_arguments=('call_project_resource_latest_analytic_file' ${project_ID}   ${snipr_output_foldername} .csv $directorytosave )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}" )
+echo "WO ZAI ZE-LI"
 
 #
 ############################### get_all_selected_scan_in_a_project   #############################################

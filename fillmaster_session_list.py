@@ -335,7 +335,7 @@ def get_scan_description(sessionId,scanId1):
     print("scanId1type::{}".format(type(scanId1)))
     this_session_metadata_df_scanid=pd.DataFrame(df1.loc[df1['ID'] == int(scanId1)])
     this_session_metadata_df_scanid.reset_index(inplace=True)
-    print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid['type']))
+    print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid.iloc[0,'type']))
 
 
 

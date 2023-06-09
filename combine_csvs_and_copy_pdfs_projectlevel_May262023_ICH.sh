@@ -393,7 +393,8 @@ project_resource_latest_analytic_file_arguments=('project_resource_latest_analyt
 echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
 outputfiles_present=$(python3 download_with_session_ID.py "${project_resource_latest_analytic_file_arguments[@]}" )
 echo "WO ZAI ZE-LIIIIIIIIIIIIIII${outputfiles_present}"
-
+#echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+echo "outputfiles_present:: "${outputfiles_present%CSVMASTERFILE::*}"::outputfiles_present"
 #call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
 #echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
 #

@@ -1303,7 +1303,7 @@ def main():
     parser.add_argument('stuff', nargs='+')
     args = parser.parse_args()
     name_of_the_function=args.stuff[0]
-    return_value=5 #0
+    return_value=0
     if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
         return_value=call_check_if_a_file_exist_in_snipr(args)
     if name_of_the_function == "call_project_resource_latest_analytic_file":

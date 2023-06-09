@@ -392,13 +392,13 @@ snipr_output_foldername="SNIPR_ANALYTICS"
 project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
 echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
 outputfiles_present=$(python3 download_with_session_ID.py "${project_resource_latest_analytic_file_arguments[@]}" )
-xxxx=${outputfiles_present##*CSVMASTERFILE::}
-echo "outputfiles_present_begin:: "${xxxx}"::outputfiles_present_end"
+csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
+echo "outputfiles_present_begin:: "${csvfileslist}"::outputfiles_present_end"
 #echo "WO ZAI ZE-LIIIIIIIIIIIIIII${outputfiles_present}"
 #echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-
-#call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
-#echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
+directorytosave=${output_directory}
+call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${csvfileslist}   ${snipr_output_foldername}  .csv   $directorytosave )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_all_csv_files_givena_URIdf_arguments[@]}" )
 #
 ############################### get_all_selected_scan_in_a_project   #############################################
 ### 1. download all the sessions list. 2. For each session download its metadata. 3. if it has type == z-axial get its metadata 4. If the scan metadata URI has 'EDEMA_BIOMARKERS' in it

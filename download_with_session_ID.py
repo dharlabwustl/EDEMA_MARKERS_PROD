@@ -1279,7 +1279,7 @@ def call_project_resource_latest_analytic_file(args):
         print("\n")
         print("WO ZAI ::{}".format("call_project_resource_latest_analytic_file"))
 
-        # filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
         # # if len(filename_saved) >0 :
         # filename_saved_df=pd.read_csv(filename_saved)
         # required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]

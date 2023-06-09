@@ -1196,6 +1196,7 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
     xnatSession.close_httpsession()
     return zipfilename
 def download_a_singlefile_with_URIString(url,filename,dir_to_save):
+    print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")

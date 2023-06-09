@@ -1278,8 +1278,8 @@ def call_download_all_csv_files_givena_URIdf(args):
         # scanID=args.stuff[2]
         dir_to_save=args.stuff[2]
         projectname=args.stuff[3]
-        print("URI_DF::{}:::dir_to_save::{}".format(URI_DF.shape,projectname,dir_to_save))
-        download_all_csv_files_givena_URIdf(URI_DF,dir_to_save)
+        print("URI_DF::{}::projectname::{}::dir_to_save::{}".format(URI_DF.shape,projectname,dir_to_save))
+        download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save)
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

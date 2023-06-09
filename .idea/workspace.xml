@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,41 +51,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00659" summary="Commit Feb 23 2023">
-      <created>1685724161077</created>
-      <option name="number" value="00659" />
-      <option name="presentableId" value="LOCAL-00659" />
-      <option name="project" value="LOCAL" />
-      <updated>1685724161077</updated>
-    </task>
-    <task id="LOCAL-00660" summary="Commit Feb 23 2023">
-      <created>1685724222959</created>
-      <option name="number" value="00660" />
-      <option name="presentableId" value="LOCAL-00660" />
-      <option name="project" value="LOCAL" />
-      <updated>1685724222959</updated>
-    </task>
-    <task id="LOCAL-00661" summary="Commit Feb 23 2023">
-      <created>1685724262122</created>
-      <option name="number" value="00661" />
-      <option name="presentableId" value="LOCAL-00661" />
-      <option name="project" value="LOCAL" />
-      <updated>1685724262122</updated>
-    </task>
-    <task id="LOCAL-00662" summary="Commit Feb 23 2023">
-      <created>1685724271187</created>
-      <option name="number" value="00662" />
-      <option name="presentableId" value="LOCAL-00662" />
-      <option name="project" value="LOCAL" />
-      <updated>1685724271187</updated>
-    </task>
-    <task id="LOCAL-00663" summary="Commit Feb 23 2023">
-      <created>1685724345696</created>
-      <option name="number" value="00663" />
-      <option name="presentableId" value="LOCAL-00663" />
-      <option name="project" value="LOCAL" />
-      <updated>1685724345696</updated>
     </task>
     <task id="LOCAL-00664" summary="Commit Feb 23 2023">
       <created>1685724380792</created>
@@ -396,7 +360,42 @@
       <option name="project" value="LOCAL" />
       <updated>1686326736563</updated>
     </task>
-    <option name="localTasksCounter" value="708" />
+    <task id="LOCAL-00708" summary="Commit Feb 23 2023">
+      <created>1686326857931</created>
+      <option name="number" value="00708" />
+      <option name="presentableId" value="LOCAL-00708" />
+      <option name="project" value="LOCAL" />
+      <updated>1686326857931</updated>
+    </task>
+    <task id="LOCAL-00709" summary="Commit Feb 23 2023">
+      <created>1686326912881</created>
+      <option name="number" value="00709" />
+      <option name="presentableId" value="LOCAL-00709" />
+      <option name="project" value="LOCAL" />
+      <updated>1686326912881</updated>
+    </task>
+    <task id="LOCAL-00710" summary="Commit Feb 23 2023">
+      <created>1686326968823</created>
+      <option name="number" value="00710" />
+      <option name="presentableId" value="LOCAL-00710" />
+      <option name="project" value="LOCAL" />
+      <updated>1686326968823</updated>
+    </task>
+    <task id="LOCAL-00711" summary="Commit Feb 23 2023">
+      <created>1686327013624</created>
+      <option name="number" value="00711" />
+      <option name="presentableId" value="LOCAL-00711" />
+      <option name="project" value="LOCAL" />
+      <updated>1686327013624</updated>
+    </task>
+    <task id="LOCAL-00712" summary="Commit Feb 23 2023">
+      <created>1686327126960</created>
+      <option name="number" value="00712" />
+      <option name="presentableId" value="LOCAL-00712" />
+      <option name="project" value="LOCAL" />
+      <updated>1686327126960</updated>
+    </task>
+    <option name="localTasksCounter" value="713" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

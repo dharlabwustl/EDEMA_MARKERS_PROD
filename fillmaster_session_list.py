@@ -334,11 +334,11 @@ def get_scan_description(sessionId,scanId1):
     df1 = pd.read_json(jsonStr)
     print("scanId1type::{}".format(type(scanId1)))
     this_session_metadata_df_scanid=df1.loc[df1['ID'] == int(scanId1)].reset_index(inplace=True)
-    print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1.iloc[0,'series_description'],this_session_metadata_df_scanid))
+    # print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1.iloc[0,'series_description'],this_session_metadata_df_scanid))
 
 
 
-    return
+    return #scanId1.iloc[0,'series_description']
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')

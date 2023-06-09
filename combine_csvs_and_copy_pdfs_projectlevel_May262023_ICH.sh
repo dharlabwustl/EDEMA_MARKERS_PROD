@@ -378,20 +378,20 @@ project_ID=${projectID}
 
 
 #session_csvfile='sessions.csv' #$1
-dir_csv=$final_output_directory
+#dir_csv=$final_output_directory
 # typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
 #time_now=$(date -dnow +%Y%m%d%H%M)
 #filenametosave=${project_ID}_CTSESSIONS_${time_now}.csv #4
 #filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex
 #filename_pdf_tosave=${project_ID}_CTSESSIONS_${time_now}.pdf
-directorytosave=$final_output_directory
+directorytosave=${working_dir}
 #fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 snipr_output_foldername="SNIPR_ANALYTICS"
-call_project_resource_latest_analytic_file_arguments=('call_project_resource_latest_analytic_file'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
+project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file'  ${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave )
 echo '${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave'::"${project_ID}   ${snipr_output_foldername}  .csv   $directorytosave"
-outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}" )
+outputfiles_present=$(python3 download_with_session_ID.py "${project_resource_latest_analytic_file_arguments[@]}" )
 echo "WO ZAI ZE-LIIIIIIIIIIIIIII${outputfiles_present}"
 
 #

@@ -75,7 +75,9 @@ def writetomastersession(sessioncsv_df,filename,filename_available,row,xx):
         # sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], filename_available] = 1 ##df1['URI'][0]
         
     return sessioncsv_df
-
+def write_scantype_tomastersession(sessioncsv_df,scan_type,xx):
+    sessioncsv_df.loc[sessioncsv_df['ID'] ==xx[3], 'SCAN_TYPE'] = scan_type #row['NUMBEROFSLICES'] #[0]
+    return sessioncsv_df
 
 # In[3]:
 
@@ -159,8 +161,10 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 sessionId=xx[3]
                 scanId=xx[5]
                 print("sessionId::{} and scanId::{}".format(sessionId,scanId))
-                description=get_scan_description(sessionId,scanId)
+                scan_type=get_scan_type(sessionId,scanId)
+
                 sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
+                sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
                 filename=''
                 filename_available=''
         except:
@@ -327,7 +331,7 @@ def call_pdffromanalytics(args):
     pdffromanalytics(masterfilename,latexfilename)
 
 
-def get_scan_description(sessionId,scanId1):
+def get_scan_type(sessionId,scanId1):
     # for a given sessionID and scanID
     this_session_metadata=get_metadata_session(sessionId)
     jsonStr = json.dumps(this_session_metadata)
@@ -339,7 +343,7 @@ def get_scan_description(sessionId,scanId1):
 
 
 
-    return #this_session_metadata_df_scanid[0,'series_description']
+    return this_session_metadata_df_scanid.loc[0,'type']
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')

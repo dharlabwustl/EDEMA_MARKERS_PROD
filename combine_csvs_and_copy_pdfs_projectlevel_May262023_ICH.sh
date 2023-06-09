@@ -371,7 +371,7 @@ call_list_analyzed_session()"  ${pdffilelist_file} ${selectedniftifilelist_file}
 
 projectID=${1}
 #listofsession=${final_output_directory}/'sessions.csv'
-#project_ID="COLI"
+project_ID=${projectID}
 #curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
 
 

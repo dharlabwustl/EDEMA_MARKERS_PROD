@@ -397,7 +397,8 @@ echo "outputfiles_present_begin:: "${csvfileslist}"::outputfiles_present_end"
 #echo "WO ZAI ZE-LIIIIIIIIIIIIIII${outputfiles_present}"
 #echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 directorytosave=${output_directory}
-call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${csvfileslist}   ${directorytosave} ${project_ID} )
+masktype="INFARCT"
+call_download_all_csv_files_givena_URIdf_arguments=('call_download_all_csv_files_givena_URIdf'  ${csvfileslist}   ${directorytosave} ${masktype} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_all_csv_files_givena_URIdf_arguments[@]}" )
 echo "$outputfiles_present"
 #

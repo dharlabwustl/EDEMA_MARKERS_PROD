@@ -15,6 +15,7 @@ from download_with_session_ID import *
 def get_latest_csvfile_singlefilename(df1,extens='.csv'):
     ## get all the rows with csv in the name:
     allfileswithprefix1_df = df1[df1['Name'].str.contains(extens)]
+    allfileswithprefix1_df = allfileswithprefix1_df[allfileswithprefix1_df['Name'].str.contains('TOTAL')]
     allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df['Name']
     # 
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['Name']

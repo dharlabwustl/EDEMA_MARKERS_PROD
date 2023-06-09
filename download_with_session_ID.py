@@ -1261,14 +1261,15 @@ def call_concatenate_csv_list(args):
 
 def call_project_resource_latest_analytic_file(args):
     try:
-        projectID=args.stuff[1]
-        # scanID=args.stuff[2]
-        resource_dir=args.stuff[2]
-        URI="/data/projects/"+projectID #+"/scans/"+scanID
-        URI = (URI+'/resources/' + resource_dir +'/files?format=json')
-        extension_to_find_list=args.stuff[3]
-        dir_to_save=args.stuff[4]
-        print("projectID::{}::URI::{}::extension_to_find_list::{}::dir_to_save::{}")
+        print("WO ZAI call_project_resource_latest_analytic_file try")
+        # projectID=args.stuff[1]
+        # # scanID=args.stuff[2]
+        # resource_dir=args.stuff[2]
+        # URI="/data/projects/"+projectID #+"/scans/"+scanID
+        # URI = (URI+'/resources/' + resource_dir +'/files?format=json')
+        # extension_to_find_list=args.stuff[3]
+        # dir_to_save=args.stuff[4]
+        # print("projectID::{}::URI::{}::extension_to_find_list::{}::dir_to_save::{}")
         # df_listfile=listoffile_witha_URI_as_df(URI)
         # df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         # latest_filename=get_latest_file(df_listfile)

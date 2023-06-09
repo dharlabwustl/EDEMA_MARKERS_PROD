@@ -1262,9 +1262,9 @@ def call_concatenate_csv_list(args):
 def call_project_resource_latest_analytic_file(args):
     try:
         print("WO ZAI call_project_resource_latest_analytic_file try")
-        # projectID=args.stuff[1]
-        # # scanID=args.stuff[2]
-        # resource_dir=args.stuff[2]
+        projectID=args.stuff[1]
+        # scanID=args.stuff[2]
+        resource_dir=args.stuff[2]
         # URI="/data/projects/"+projectID #+"/scans/"+scanID
         # URI = (URI+'/resources/' + resource_dir +'/files?format=json')
         # extension_to_find_list=args.stuff[3]

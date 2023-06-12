@@ -44,6 +44,40 @@ def get_latest_csvfile_singlefilename(df1,extens='.csv'):
     filetocopy=x_df['URI'][0]
     # print(filetocopy)
     return filetocopy
+def get_latest_csvfile_singlefilename_infarct(df1,extens='columndropped.csv'):
+    ## get all the rows with csv in the name:
+    allfileswithprefix1_df = df1[df1['Name'].str.contains(extens)]
+    # allfileswithprefix1_df = allfileswithprefix1_df[allfileswithprefix1_df['Name'].str.contains('TOTAL')]
+    allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df['Name']
+    #
+    # allfileswithprefix1_df['DATE']=allfileswithprefix1_df['Name']
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['Name'].str.split("columndropped.csv").str[0]+'.csv'
+
+    allfileswithprefix1_df['PREFIX']=allfileswithprefix1_df['Name']
+    allfileswithprefix1_df[['PREFIX', 'EXT']] = allfileswithprefix1_df['PREFIX'].str.split('_thresh', 1, expand=True)
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-14:-4]
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str.replace('_', '')
+    allfileswithprefix1_df["PREFIX"]=allfileswithprefix1_df["PREFIX"].apply(lambda x: os.path.splitext(os.path.basename(x))[0])
+    # print(allfileswithprefix1_df['PREFIX']) #[0])
+    # print(np.unique(allfileswithprefix1_df['PREFIX']).shape)
+    # print(allfileswithprefix1_df['PREFIX'].shape)
+    unique_session_name=np.unique(allfileswithprefix1_df['PREFIX'])
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%m%d%Y', errors='coerce')
+    # print(allfileswithprefix1_df['DATETIME'])
+    # print(unique_session_name)
+    # for x in range(unique_session_name.shape[0]):
+    x=0
+    # print(unique_session_name[x])
+    x_df=allfileswithprefix1_df.loc[allfileswithprefix1_df['PREFIX'] == unique_session_name[x]]
+    x_df = x_df.sort_values(by=['DATETIME'], ascending=False)
+    x_df=x_df.reset_index(drop=True)
+    # print(x_df)
+    # if len(allfileswithprefix1)>0:
+    #     allfileswithprefix=sorted(allfileswithprefix1, key=os.path.getmtime)
+    filetocopy=x_df['URI'][0]
+    # print(filetocopy)
+    return filetocopy
 def create_sessionid(csvfilename):
     df1 = pd.read_csv(csvfilename)
     if not('SESSIONID' in df1.columns):
@@ -185,7 +219,7 @@ def insertedemabiomarkerfilename(sessioncsv_df,dir_csv):
 
             try:
                 df1 = pd.read_csv(x) #, delim_whitespace=False)
-                csvfile=get_latest_csvfile_singlefilename(df1,'.csv')
+                csvfile=get_latest_csvfile_singlefilename_infarct(df1,'.csv')
                 # # if len(csvfile)>4:
                 #     # print(csvfile)
                 pdffile=get_latest_csvfile_singlefilename(df1,'.pdf')

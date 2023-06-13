@@ -382,6 +382,7 @@ sessionID_1="${array[1]}"
 echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
+if  [ $counter -lt 5 ] ; then # $counter
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."
     cp ${niftifile_csvfilename} ${final_output_directory}
@@ -416,7 +417,8 @@ if [ -f ${niftifile_csvfilename} ]; then
 
     ###################
 
-#    counter=$((counter+1))
+    counter=$((counter+1))
+fi
 fi
 #if [[ $counter -gt 2 ]] ; then
 #  break

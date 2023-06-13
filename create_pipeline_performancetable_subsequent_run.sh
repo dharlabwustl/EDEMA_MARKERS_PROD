@@ -438,12 +438,12 @@ filename_pdf_tosave=temp.pdf ##${project_ID}_CTSESSIONS_${time_now}.pdf
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
-#filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
-#call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv $directorytosave/sessions_done.csv )
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
-#filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
-#call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave}  )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )
+filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
+call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv $directorytosave/sessions_done.csv )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
+filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
+call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave}  )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )
 echo ${outputfiles_present}
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 snipr_output_foldername="SNIPR_ANALYTICS"

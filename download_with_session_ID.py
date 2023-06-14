@@ -1331,7 +1331,7 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
             this_filename_df['SESSION_LABEL']=""
             if os.path.exists(listofsession_current):
-                this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row['Label'][0]
+                this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row.iloc[0,'label']
             # this_filename_df['FILEPATH'+filetype]=each_selected_scan[masktype+'_'+filetype+'FILENAME'] #.split('/')[3]
             this_filename_df.to_csv(this_filename,index=False)
             files_local_location.append(this_filename)

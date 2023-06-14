@@ -1328,16 +1328,18 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             this_filename_df=pd.read_csv(this_filename)
             this_filename_df['SESSION_ID']=each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]
             this_filename_df['SESSION_LABEL']=""
+
             if os.path.exists(listofsession_current):
-                master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
-                master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
-
-
-                this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row.iloc[0,'label']
+                print("I SUCCEEDED AT ::{}os.path.exists".format(inspect.stack()[0][3]))
+            #     master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
+            #     master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
+            #
+            #
+            #     this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row.iloc[0,'label']
             # this_filename_df['FILEPATH'+filetype]=each_selected_scan[masktype+'_'+filetype+'FILENAME'] #.split('/')[3]
             this_filename_df.to_csv(this_filename,index=False)
             files_local_location.append(this_filename)
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         return files_local_location
 
             # pass

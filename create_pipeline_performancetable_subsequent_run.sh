@@ -474,7 +474,7 @@ filetype="CSV" #args.stuff[3]
 dir_to_save=${directorytosave} #args.stuff[4]
 #upload_flag=0 #args.stuff[5]
 localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
-call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} )
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
 echo ${outputfiles_present}
 

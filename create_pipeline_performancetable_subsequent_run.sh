@@ -452,7 +452,7 @@ file_name=${filenametosave}
 ##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
 ##for file_suffix in ${file_suffixes[@]}
 ##do
-filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
+#filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
 
 pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${filename_latex_tosave}
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${file_name})

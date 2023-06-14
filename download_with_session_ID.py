@@ -1314,9 +1314,8 @@ def download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return
-def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save,listofsession_current=""):
+def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save):
     try:
-
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
         print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df))
@@ -1327,20 +1326,10 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILENAME'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILENAME']),dir_to_save)
             this_filename_df=pd.read_csv(this_filename)
             this_filename_df['SESSION_ID']=each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]
-            this_filename_df['SESSION_LABEL']=""
-
-            if os.path.exists(listofsession_current):
-                master_sessionlist=pd.read_csv(listofsession_current)
-                print("I SUCCEEDED AT ::{}os.path.exists".format(inspect.stack()[0][3]))
-            #     master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
-            #     master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
-            #
-            #
-            #     this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row.iloc[0,'label']
             # this_filename_df['FILEPATH'+filetype]=each_selected_scan[masktype+'_'+filetype+'FILENAME'] #.split('/')[3]
             this_filename_df.to_csv(this_filename,index=False)
             files_local_location.append(this_filename)
-        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         return files_local_location
 
             # pass
@@ -1355,9 +1344,8 @@ def call_download_files_with_mastersessionlist(args):
         filetype=args.stuff[3]
         dir_to_save=args.stuff[4]
         localfilelist_csv=args.stuff[5]
-        listofsession_current=args.stuff[6]
 
-        files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save,listofsession_current=listofsession_current)
+        files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save)
         files_local_location_df=pd.DataFrame(files_local_location)
         files_local_location_df.columns=['LOCAL_FILENAME']
         files_local_location_df.to_csv(localfilelist_csv,index=False)

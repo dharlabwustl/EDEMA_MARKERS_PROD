@@ -1285,7 +1285,7 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
-        print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df.shape))
+        print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df))
         files_local_location=[]
         # for item_id1, each_selected_scan in sessionlist_filename_df.iterrows():
         #     download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE']),dir_to_save)

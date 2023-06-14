@@ -1316,7 +1316,7 @@ def download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save):
     return
 def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save,listofsession_current=""):
     try:
-        master_sessionlist=pd.read_csv(listofsession_current)
+
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
         print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df))
@@ -1330,6 +1330,7 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             this_filename_df['SESSION_LABEL']=""
 
             if os.path.exists(listofsession_current):
+                master_sessionlist=pd.read_csv(listofsession_current)
                 print("I SUCCEEDED AT ::{}os.path.exists".format(inspect.stack()[0][3]))
             #     master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
             #     master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()

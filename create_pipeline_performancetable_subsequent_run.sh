@@ -479,11 +479,12 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 echo ${outputfiles_present}
 localfilelist_csv=${localfilelist_csv}
 outputdirectory=${final_output_directory}
+listofsession_current=${listofsession_current}
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
-call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
+call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  ${listofsession_current})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
 snipr_output_foldername1="EDEMA_BIOMARKER"
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
+#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
 
 ####
 ####file_name=${filenametosave}

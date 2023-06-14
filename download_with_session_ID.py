@@ -1314,8 +1314,10 @@ def download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return
-def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save):
+def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save,listofsession_current=""):
     try:
+        if os.path.exists(listofsession_current):
+            listofsession_current_df=pd.read_csv(listofsession_current)
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
         print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df))
@@ -1344,8 +1346,8 @@ def call_download_files_with_mastersessionlist(args):
         filetype=args.stuff[3]
         dir_to_save=args.stuff[4]
         localfilelist_csv=args.stuff[5]
-
-        files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save)
+        listofsession_current=args.stuff[6]
+        files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save,listofsession_current=listofsession_current)
         files_local_location_df=pd.DataFrame(files_local_location)
         files_local_location_df.columns=['LOCAL_FILENAME']
         files_local_location_df.to_csv(localfilelist_csv,index=False)

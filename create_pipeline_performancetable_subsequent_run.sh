@@ -499,6 +499,12 @@ listofsession_current=${listofsession_current}
 call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
 
+urllistfilename=${localfilelist_csv}
+X_level="projects"
+projectId="${project_ID}"
+resource_dirname="EDEMA_BIOMARKER" #args.stuff[4]
+call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
 ####
 ####file_name=${filenametosave}
 #####file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]

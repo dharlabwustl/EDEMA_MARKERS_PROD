@@ -896,7 +896,19 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
         print("I FAILED AT uploadsinglefile_with_URI")
         pass
 
+def uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname):
+    urllistfilename_df=pd.read_csv(urllistfilename)
+    for item_id, row in urllistfilename_df.iterrows():
+        eachniftifile=row['LOCAL_FILENAME']
+        uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname)
+    return
 
+def call_uploadfilesfromlistinacsv(args):
+    urllistfilename=args.stuff[1]
+    X_level=args.stuff[2]
+    projectId=args.stuff[3]
+    resource_dirname=args.stuff[4]
+    uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname)
 def uploadsinglefile_projectlevel():
     try:
         projectId=str(sys.argv[1])
@@ -1468,6 +1480,9 @@ def main():
         return_value=call_download_files_with_mastersessionlist(args)
     if name_of_the_function=="call_combinecsvs_inafileoflist":
         return_value=call_combinecsvs_inafileoflist(args)
+
+    if name_of_the_function=="call_uploadfilesfromlistinacsv":
+        return_value=call_uploadfilesfromlistinacsv(args)
 
 
         # print(return_value)

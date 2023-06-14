@@ -405,7 +405,7 @@ sessionID_1="${array[1]}"
 echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 
-if  [ $counter -lt 1 ] ; then # $counter
+if  [ $counter -lt 2 ] ; then # $counter
 get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."
@@ -505,7 +505,7 @@ outputdirectory=${final_output_directory}
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
 call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
-snipr_output_foldername1="EDEMA_BIOMARKER_TEST"
+#snipr_output_foldername1="EDEMA_BIOMARKER_V1"
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
 
 
@@ -513,6 +513,9 @@ copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${sn
 
 sessionlist_filename=${filenametosave} #args.stuff[1]
 masktype="INFARCT" ##args.stuff[2]
+if [ ${project_ID} == "ICH" ] ; then
+  masktype="ICH"
+fi
 filetype="PDF" #args.stuff[3]
 dir_to_save=${directorytosave} #args.stuff[4]
 #upload_flag=0 #args.stuff[5]

@@ -1308,8 +1308,8 @@ def call_download_files_with_mastersessionlist(args):
 
         files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save)
         files_local_location_df=pd.DataFrame(files_local_location)
-        files_local_location_df.columns=['LOCALFILENAME']
-        files_local_location_df.to_csv(localfilelist_csv,index=False)
+        # files_local_location_df.columns=['LOCALFILENAME']
+        # files_local_location_df.to_csv(localfilelist_csv,index=False)
         # if upload_flag==1:
         #     projectId=args.stuff[6]
         #     resource_dirname=args.stuff[7]

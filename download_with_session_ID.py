@@ -897,11 +897,18 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
         pass
 
 def uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname):
-    urllistfilename_df=pd.read_csv(urllistfilename)
-    for item_id, row in urllistfilename_df.iterrows():
-        eachniftifile=row['LOCAL_FILENAME']
-        uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname)
-    return
+    try:
+        urllistfilename_df=pd.read_csv(urllistfilename)
+        for item_id, row in urllistfilename_df.iterrows():
+            # eachniftifile=row['LOCAL_FILENAME']
+            print("eachniftifile_ROW::{}".format(row))
+            # uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname)
+            print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return 0
 
 def call_uploadfilesfromlistinacsv(args):
     urllistfilename=args.stuff[1]

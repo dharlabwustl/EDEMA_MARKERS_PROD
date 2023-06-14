@@ -373,7 +373,7 @@ call_project_resource_latest_analytic_file_arguments=('project_resource_latest_a
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}" )
 echo ${outputfiles_present}
 session_csvfile=$(ls $directorytosave/*.csv)
-listofsession=${final_output_directory}/'sessions.csv'
+listofsession=${final_output_directory}/'sessions_done.csv'
 mv $session_csvfile $listofsession
 counter=0
 while IFS=',' read -ra array; do

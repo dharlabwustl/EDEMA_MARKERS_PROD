@@ -1318,6 +1318,7 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
     try:
         if os.path.exists(listofsession_current):
             listofsession_current_df=pd.read_csv(listofsession_current)
+            print("listofsession_current exists::{}".format(listofsession_current))
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
         print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df))

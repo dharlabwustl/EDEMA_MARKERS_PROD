@@ -432,31 +432,31 @@ session_csvfile='sessions.csv' #$1
 dir_csv=$final_output_directory
 # typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
 time_now=$(date -dnow +%Y%m%d%H%M)
-filenametosave=${project_ID}_CTSESSIONS_${time_now}.csv #4 temp.csv #
-filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex #temp.tex #
-filename_pdf_tosave=${project_ID}_CTSESSIONS_${time_now}.pdf ##temp.pdf ##
+filenametosave=temp.csv # ${project_ID}_CTSESSIONS_${time_now}.csv #4
+filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
+filename_pdf_tosave=temp.pdf ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 #filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
 call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv $directorytosave/sessions_done.csv )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
-#filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
-call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave}  )
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )
-echo ${outputfiles_present}
-## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="SNIPR_ANALYTICS"
-
-file_name=${filenametosave}
-##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-##for file_suffix in ${file_suffixes[@]}
-##do
-#filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
-
-pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${filename_latex_tosave}
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${file_name})
-copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filename_pdf_tosave})
+##filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
+#call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave}  )
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )
+#echo ${outputfiles_present}
+### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+#snipr_output_foldername="SNIPR_ANALYTICS"
+#
+#file_name=${filenametosave}
+###file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+###for file_suffix in ${file_suffixes[@]}
+###do
+##filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
+#
+#pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${filename_latex_tosave}
+#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${file_name})
+#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filename_pdf_tosave})
 
 ##
 ##file_name=${filenametosave}

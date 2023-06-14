@@ -1284,9 +1284,14 @@ def call_download_all_csv_files_givena_URIdf(args):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
-def divide_sessionlist_done_vs_undone(sessionlist_file):
+def divide_sessionlist_done_vs_undone(sessionlist_file,masktype):
     try:
         print("THIS FILENAME IS : {}".format(sessionlist_file))
+        sessionlist_file_df=pd.read_csv(sessionlist_file)
+        sessionlist_file_df_done=sessionlist_file_df[sessionlist_file_df[masktype+'_PDFFILE_AVAILABLE']==1]
+        sessionlist_file_df_notdone=sessionlist_file_df[sessionlist_file_df[masktype+'_PDFFILE_AVAILABLE']!=1]
+        sessionlist_file_df_done.to_csv(sessionlist_file.split('.csv')[0]+'_done.csv' ,index=False)
+        sessionlist_file_df_notdone.to_csv(sessionlist_file.split('.csv')[0]+'_not_done.csv' ,index=False)
         return 1
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
@@ -1295,7 +1300,8 @@ def divide_sessionlist_done_vs_undone(sessionlist_file):
 def call_divide_sessionlist_done_vs_undone(args):
     try:
         sessionlist_file=args.stuff[1]
-        divide_sessionlist_done_vs_undone(sessionlist_file)
+        masktype=args.stuff[2]
+        divide_sessionlist_done_vs_undone(sessionlist_file,masktype)
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
         return 1
     except:

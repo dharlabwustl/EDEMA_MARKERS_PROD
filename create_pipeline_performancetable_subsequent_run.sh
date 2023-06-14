@@ -483,7 +483,7 @@ outputdirectory=${final_output_directory}
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
 call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
-snipr_output_foldername1="EDEMA_BIOMARKER"
+snipr_output_foldername1="EDEMA_BIOMARKER_TEST"
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
 
 
@@ -502,7 +502,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 urllistfilename=${localfilelist_csv}
 X_level="projects"
 projectId="${project_ID}"
-resource_dirname="EDEMA_BIOMARKER" #args.stuff[4]
+resource_dirname=${snipr_output_foldername1}
 call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
 ####

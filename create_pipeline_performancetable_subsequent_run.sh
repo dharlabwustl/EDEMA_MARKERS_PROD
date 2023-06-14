@@ -505,6 +505,7 @@ projectId="${project_ID}"
 resource_dirname=${snipr_output_foldername1}
 call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
+echo ${outputfiles_present}
 ####
 ####file_name=${filenametosave}
 #####file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]

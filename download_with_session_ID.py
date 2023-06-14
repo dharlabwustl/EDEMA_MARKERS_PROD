@@ -1327,10 +1327,12 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILENAME'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILENAME']),dir_to_save)
             this_filename_df=pd.read_csv(this_filename)
             this_filename_df['SESSION_ID']=each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]
-            master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
-            master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
             this_filename_df['SESSION_LABEL']=""
             if os.path.exists(listofsession_current):
+                master_sessionlist_thisscan_row=master_sessionlist[master_sessionlist['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
+                master_sessionlist_thisscan_row=master_sessionlist_thisscan_row.reset_index()
+
+
                 this_filename_df['SESSION_LABEL']=master_sessionlist_thisscan_row.iloc[0,'label']
             # this_filename_df['FILEPATH'+filetype]=each_selected_scan[masktype+'_'+filetype+'FILENAME'] #.split('/')[3]
             this_filename_df.to_csv(this_filename,index=False)

@@ -528,12 +528,12 @@ urllistfilename=${localfilelist_csv}
 X_level="projects"
 projectId="${project_ID}"
 resource_dirname=${snipr_output_foldername1}
-call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
-outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
-echo "  "
-echo "  "
-echo "  "
-echo ${outputfiles_present}
+#call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
+#echo "  "
+#echo "  "
+#echo "  "
+#echo ${outputfiles_present}
 echo "END"
 #####
 #####file_name=${filenametosave}

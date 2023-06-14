@@ -467,7 +467,7 @@ pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_out
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filenametosave})
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filename_pdf_tosave})
 
-##### UPLOAD TO PROJECT LEVEL:
+##### FOR COMBINED CSV
 sessionlist_filename=${filenametosave} #args.stuff[1]
 masktype="INFARCT" ##args.stuff[2]
 filetype="CSV" #args.stuff[3]
@@ -485,6 +485,19 @@ call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${loc
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
 snipr_output_foldername1="EDEMA_BIOMARKER"
 #copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
+
+
+##############FOR PDFs
+
+sessionlist_filename=${filenametosave} #args.stuff[1]
+masktype="INFARCT" ##args.stuff[2]
+filetype="PDF" #args.stuff[3]
+dir_to_save=${directorytosave} #args.stuff[4]
+#upload_flag=0 #args.stuff[5]
+localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
+listofsession_current=${listofsession_current}
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
 
 ####
 ####file_name=${filenametosave}

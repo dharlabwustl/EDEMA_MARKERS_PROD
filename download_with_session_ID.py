@@ -1287,9 +1287,9 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
         print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df.shape))
         files_local_location=[]
-        for item_id1, each_selected_scan in sessionlist_filename_df.iterrows():
-            download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE']),dir_to_save)
-            files_local_location.append(os.path.join(dir_to_save,os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'])))
+        # for item_id1, each_selected_scan in sessionlist_filename_df.iterrows():
+        #     download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE']),dir_to_save)
+        #     files_local_location.append(os.path.join(dir_to_save,os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'])))
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         return files_local_location
 

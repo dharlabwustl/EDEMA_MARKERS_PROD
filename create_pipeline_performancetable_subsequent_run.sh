@@ -509,6 +509,7 @@ echo "  "
 echo "  "
 echo "  "
 echo ${outputfiles_present}
+echo "END"
 ####
 ####file_name=${filenametosave}
 #####file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]

@@ -516,24 +516,24 @@ masktype="INFARCT" ##args.stuff[2]
 if [ ${project_ID} == "ICH" ] ; then
   masktype="ICH"
 fi
-#filetype="PDF" #args.stuff[3]
-#dir_to_save=${directorytosave} #args.stuff[4]
-##upload_flag=0 #args.stuff[5]
-#localfilelist_pdf=${directorytosave}/pdffilestodownload.csv #args.stuff[5]
-#listofsession_current=${listofsession_current}
-#call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_pdf} ${listofsession_current})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
-#
-#urllistfilename=${localfilelist_pdf}
-#X_level="projects"
-#projectId="${project_ID}"
-#resource_dirname=${snipr_output_foldername1}
-#call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
-#echo "  "
-#echo "  "
-#echo "  "
-#echo ${outputfiles_present}
+filetype="PDF" #args.stuff[3]
+dir_to_save=${directorytosave} #args.stuff[4]
+#upload_flag=0 #args.stuff[5]
+localfilelist_pdf=${directorytosave}/pdffilestodownload.csv #args.stuff[5]
+listofsession_current=${listofsession_current}
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_pdf} ${listofsession_current})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
+
+urllistfilename=${localfilelist_pdf}
+X_level="projects"
+projectId="${project_ID}"
+resource_dirname=${snipr_output_foldername1}
+call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
+echo "  "
+echo "  "
+echo "  "
+echo ${outputfiles_present}
 echo "END"
 #####
 #####file_name=${filenametosave}

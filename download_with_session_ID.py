@@ -900,8 +900,8 @@ def uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname
     try:
         urllistfilename_df=pd.read_csv(urllistfilename)
         for item_id, row in urllistfilename_df.iterrows():
-            # eachniftifile=row['LOCAL_FILENAME']
-            print("eachniftifile_ROW::{}".format(row))
+            eachniftifile=row['LOCAL_FILENAME']
+            # print("eachniftifile_ROW::{}".format(row))
             # uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname)
             print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
         return print("ROW::{}".format(row['LOCAL_FILENAME'])) #print("X_level::{}::projectId::{}::eachniftifile::{}::resource_dirname::{}".format(X_level,projectId,eachniftifile,resource_dirname))

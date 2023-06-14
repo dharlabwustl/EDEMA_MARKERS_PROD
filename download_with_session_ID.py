@@ -904,7 +904,7 @@ def uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname
             print("eachniftifile_ROW::{}".format(row))
             # uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname)
             print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
-        return print("ROW::{}".format(row)) #print("X_level::{}::projectId::{}::eachniftifile::{}::resource_dirname::{}".format(X_level,projectId,eachniftifile,resource_dirname))
+        return print("ROW::{}".format(row['LOCAL_FILENAME'])) #print("X_level::{}::projectId::{}::eachniftifile::{}::resource_dirname::{}".format(X_level,projectId,eachniftifile,resource_dirname))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass

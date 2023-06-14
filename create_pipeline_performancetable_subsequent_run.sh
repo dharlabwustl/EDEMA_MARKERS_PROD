@@ -382,6 +382,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resour
  curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${csvfileslist}
  listofsession_current=${csvfileslist} #${csvfileslist%.csv}_not_done.csv
  else
+   echo " I am subsequent run!"
    csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
    masktype="INFARCT"
    call_divide_sessionlist_done_vs_undone_arguments=('call_divide_sessionlist_done_vs_undone' ${csvfileslist} ${masktype})

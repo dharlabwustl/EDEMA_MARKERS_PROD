@@ -816,6 +816,15 @@ def uploadsinglefile():
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
     return True
+def uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    url = (("/data/"+X_level+"/%s/resources/"+resource_dirname+"/files/") % (projectId))
+    files={'file':open(eachniftifile,'rb')}
+    response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+    print(response)
+    xnatSession.close_httpsession()
+
 def uploadfile_projectlevel():
     try:
         projectId=str(sys.argv[1])
@@ -1266,12 +1275,53 @@ def download_all_csv_files_givena_URIdf(URI_DF,projectname,dir_to_save):
         print("URI_DF_WITH_CSVFILESshape::{}".format(URI_DF_WITH_CSVFILES.shape))
         for item_id1, each_selected_scan in URI_DF_WITH_CSVFILES.iterrows():
             download_a_singlefile_with_URIString(each_selected_scan[projectname+'_CSVFILENAME'],os.path.basename(each_selected_scan[projectname+'_CSVFILENAME']),dir_to_save)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+            # pass
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return
+def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save):
+    try:
+        sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df[masktype+'_'+filetype+'FILE_AVAILABLE']==1]
+        print("URI_DF_WITH_CSVFILESshape::{}".format(sessionlist_filename_df.shape))
+        files_local_location=[]
+        for item_id1, each_selected_scan in sessionlist_filename_df.iterrows():
+            download_a_singlefile_with_URIString(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'],os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE']),dir_to_save)
+            files_local_location.append(os.path.join(dir_to_save,os.path.basename(each_selected_scan[masktype+'_'+filetype+'FILE_AVAILABLE'])))
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        return files_local_location
 
             # pass
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return
+def call_download_files_with_mastersessionlist(args):
+    try:
+        sessionlist_filename=args.stuff[1]
+        masktype=args.stuff[2]
+        filetype=args.stuff[3]
+        dir_to_save=args.stuff[4]
+        localfilelist_csv=args.stuff[5]
+
+        files_local_location=download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype,dir_to_save)
+        files_local_location_df=pd.DataFrame(files_local_location)
+        files_local_location_df.columns=['LOCALFILENAME']
+        files_local_location_df.to_csv(localfilelist_csv,index=False)
+        # if upload_flag==1:
+        #     projectId=args.stuff[6]
+        #     resource_dirname=args.stuff[7]
+        #     for each_file in files_local_location:
+        #         uploadsinglefile_X_level('projects',projectId,each_file,resource_dirname)
+
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
 def call_download_all_csv_files_givena_URIdf(args):
     try:
         URI_DF=pd.read_csv(args.stuff[1])
@@ -1368,6 +1418,10 @@ def main():
         return_value=call_download_all_csv_files_givena_URIdf(args)
     if name_of_the_function == "call_divide_sessionlist_done_vs_undone":
         return_value=call_divide_sessionlist_done_vs_undone(args)
+
+    if name_of_the_function == "call_download_files_with_mastersessionlist":
+        return_value=call_download_files_with_mastersessionlist(args)
+
 
         # print(return_value)
         # return  call_concatenate_twocsv_list

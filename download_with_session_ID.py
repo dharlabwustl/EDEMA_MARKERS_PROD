@@ -93,6 +93,39 @@ def combinecsvs(inputdirectory,outputdirectory,outputfilename,extension):
     combined_csv.dropna(subset=['FileName_slice'], inplace=True)
     #export to csv
     combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
+def combinecsvs_inafileoflist(listofcsvfiles_filename,outputdirectory,outputfilename):
+    try:
+        listofcsvfiles_filename_df=pd.read_csv(listofcsvfiles_filename)
+        listofcsvfiles_filename_df_list=list(listofcsvfiles_filename_df['LOCAL_FILENAME'])
+        outputfilepath=os.path.join(outputdirectory,outputfilename)
+        all_filenames = [i for i in listofcsvfiles_filename_df_list]
+        combined_csv=pd.read_csv(all_filenames[0])
+        for x in all_filenames:
+            try:
+                combined_csv=pd.concat([combined_csv,pd.read_csv(x)])
+            except:
+                pass
+        combined_csv = combined_csv.drop_duplicates()
+        combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
+
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
+def call_combinecsvs_inafileoflist(args):
+    try:
+        listofcsvfiles_filename=args.stuff[1]
+        outputdirectory=args.stuff[2]
+        outputfilename=args.stuff[3]
+        combinecsvs_inafileoflist(listofcsvfiles_filename,outputdirectory,outputfilename)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
 def combinecsvs_withprefix(inputdirectory,outputdirectory,outputfilename,prefix):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'
@@ -1422,6 +1455,8 @@ def main():
 
     if name_of_the_function == "call_download_files_with_mastersessionlist":
         return_value=call_download_files_with_mastersessionlist(args)
+    if name_of_the_function=="call_combinecsvs_inafileoflist":
+        return_value=call_combinecsvs_inafileoflist(args)
 
 
         # print(return_value)

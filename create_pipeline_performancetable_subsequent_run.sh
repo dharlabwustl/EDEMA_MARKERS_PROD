@@ -477,7 +477,11 @@ localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
 call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
 echo ${outputfiles_present}
-
+localfilelist_csv=${localfilelist_csv}
+outputdirectory=${final_output_directory}
+combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
+call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
 
 ##
 ####

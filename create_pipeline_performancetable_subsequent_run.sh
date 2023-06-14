@@ -466,6 +466,19 @@ filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
 pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${filename_latex_tosave}
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filenametosave})
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  $(basename ${filename_pdf_tosave})
+
+##### UPLOAD TO PROJECT LEVEL:
+sessionlist_filename=${filenametosave} #args.stuff[1]
+masktype="INFARCT" ##args.stuff[2]
+filetype="CSV" #args.stuff[3]
+dir_to_save=${directorytosave} #args.stuff[4]
+#upload_flag=0 #args.stuff[5]
+localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
+echo ${outputfiles_present}
+
+
 ##
 ####
 ####file_name=${filenametosave}

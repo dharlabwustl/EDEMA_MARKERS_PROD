@@ -1330,8 +1330,8 @@ def download_files_with_mastersessionlist(sessionlist_filename,masktype,filetype
             this_filename_df=pd.read_csv(this_filename)
             this_filename_df['SESSION_ID']=each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]
             # this_filename_df['FILEPATH'+filetype]=each_selected_scan[masktype+'_'+filetype+'FILENAME'] #.split('/')[3]
-            listofsession_current_df_row=listofsession_current_df[listofsession_current_df['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
-            print("listofsession_current exists::{}".format(listofsession_current_df_row  ))
+            # listofsession_current_df_row=listofsession_current_df[listofsession_current_df['SESSION_ID']==each_selected_scan[masktype+'_'+filetype+'FILENAME'].split('/')[3]]
+            # print("listofsession_current exists::{}".format(listofsession_current_df_row  ))
             this_filename_df.to_csv(this_filename,index=False)
             files_local_location.append(this_filename)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

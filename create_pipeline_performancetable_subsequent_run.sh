@@ -462,7 +462,7 @@ directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
- if [ "${previous_list_present}" -eq 0 ] ; then
+ if [ "${previous_list_present}" == "0" ] ; then
 
 
   call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv )

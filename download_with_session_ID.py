@@ -1284,6 +1284,24 @@ def call_download_all_csv_files_givena_URIdf(args):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
+def divide_sessionlist_done_vs_undone(sessionlist_file):
+    try:
+        print("THIS FILENAME IS : {}".format(sessionlist_file))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
+def call_divide_sessionlist_done_vs_undone(args):
+    try:
+        sessionlist_file=args.stuff[1]
+        divide_sessionlist_done_vs_undone(sessionlist_file)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
 def project_resource_latest_analytic_file(args):
     try:
         print("WO ZAI call_project_resource_latest_analytic_file try")
@@ -1342,6 +1360,8 @@ def main():
         return_value=call_download_files_in_a_resource_in_a_session(args)
     if name_of_the_function == "call_download_all_csv_files_givena_URIdf":
         return_value=call_download_all_csv_files_givena_URIdf(args)
+    if name_of_the_function == "call_divide_sessionlist_done_vs_undone":
+        return_value=call_divide_sessionlist_done_vs_undone(args)
 
         # print(return_value)
         # return  call_concatenate_twocsv_list

@@ -374,6 +374,8 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resour
 echo ${outputfiles_present}
 csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
 echo ${csvfileslist}
+call_divide_sessionlist_done_vs_undone_arguments=('call_divide_sessionlist_done_vs_undone' ${csvfileslist} )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_sessionlist_done_vs_undone_arguments[@]}" )
 #session_csvfile=$(ls $directorytosave/*.csv)
 #listofsession=${final_output_directory}/'sessions.csv'
 #mv $session_csvfile $listofsession

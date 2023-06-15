@@ -1460,7 +1460,7 @@ def project_resource_latest_analytic_file(args):
         # filename_done=os.path.join(dir_to_save,"sessions_done.csv")
         # filename_saved_df_notdone.to_csv(filename_notdone,index=False)
         # filename_saved_df_done.to_csv(filename_done,index=False)
-        return "CSVMASTERFILE::"+filename_saved+"1"
+        return "CSVMASTERFILE::"+filename_saved #+"1"
     except:
         return 0
     #

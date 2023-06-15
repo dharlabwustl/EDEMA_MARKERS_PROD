@@ -509,6 +509,9 @@ combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.c
 call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
 snipr_output_foldername1="EDEMA_BIOMARKER_V1"
+if [ ${project_ID} == "ICH" ] ; then
+snipr_output_foldername1="ICH_BIOMARKER_V1"
+fi
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
 
 

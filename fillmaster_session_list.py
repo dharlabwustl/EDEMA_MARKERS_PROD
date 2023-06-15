@@ -212,7 +212,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
 
 # In[5]:
 def insertniftifilename_V1(sessioncsv_df,dir_csv):
-    for x in glob.glob(os.path.join(dir_csv,"*this_session_final_ct.csv")):
+    for x in glob.glob(os.path.join(dir_csv,"*_NIFTILOCATION.csv")):
         # if 'sessions.csv' != os.path.basename(x):
 
         try:

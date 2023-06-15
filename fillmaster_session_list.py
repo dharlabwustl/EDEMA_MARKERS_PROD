@@ -308,8 +308,8 @@ def call_insertavailablefilenames():
         directorytosave=sys.argv[4]
         latexfilename=os.path.join(directorytosave,sys.argv[5])
         insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
-        masterfilename=os.path.join(directorytosave,filenametosave)
-        pdffromanalytics(masterfilename,latexfilename)
+        # masterfilename=os.path.join(directorytosave,filenametosave)
+        # pdffromanalytics(masterfilename,latexfilename)
     except:
         print("I FAILED AT call_insertavailablefilenames")
 

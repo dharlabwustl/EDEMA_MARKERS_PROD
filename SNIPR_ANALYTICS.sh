@@ -357,35 +357,36 @@ else
 #  cat ${listofsession_current}
 fi
 
-
-
 echo ${csvfileslist}
 
 echo ${listofsession_current}
 #session_csvfile=$(ls $directorytosave/*.csv)
 #listofsession=${final_output_directory}/'sessions.csv'
 #mv $session_csvfile $listofsession
-counter=0
-while IFS=',' read -ra array; do
-  echo "${array[0]}"
-  sessionID_1="${array[1]}"
-  echo final_output_directory::${final_output_directory}
-  niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
-
-  if [ $counter -lt 2 ]; then # $counter
-    ################ CHECK SCAN SELECTION STEP ################################################### if it could find either z-axial or axial-thin or not?
-    get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
+#counter=0
+#while IFS=',' read -ra array; do
+#  echo "${array[0]}"
+#  sessionID_1="${array[1]}"
+#  echo final_output_directory::${final_output_directory}
+#  niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
+#
+#  if [ $counter -lt 2 ]; then # $counter
+#    ################ CHECK SCAN SELECTION STEP ################################################### if it could find either z-axial or axial-thin or not?
+#    get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
+#    # insert in the master file:
 #    if [ -f ${niftifile_csvfilename} ]; then
 #      echo "$niftifile_csvfilename exists."
 #      cp ${niftifile_csvfilename} ${final_output_directory}
 #      #############
-#      resource_dirname='MASKS'
-#      output_dirname=${final_output_directory}
+#
 #      while IFS=',' read -ra array; do
 #        scanID=${array[2]}
 #        echo sessionId::${sessionID}
 #        echo scanId::${scanID}
 #        output_csvfile=${array[1]}
+#        ####################################################################
+#        resource_dirname='MASKS'
+#        output_dirname=${final_output_directory}
 #        output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
 #        echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
 #        URI=${array[0]}
@@ -410,36 +411,36 @@ while IFS=',' read -ra array; do
 #      done < <(tail -n +2 "${niftifile_csvfilename}")
 #
 #      ###################
-
-      counter=$((counter + 1))
+#
+#      counter=$((counter + 1))
 #    fi
-  fi
-  #if [[ $counter -gt 2 ]] ; then
-  #  break
-  #fi
+#  fi
+#  #if [[ $counter -gt 2 ]] ; then
+#  #  break
+#  #fi
+#
+#  #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
+#done < <(tail -n +2 "${listofsession_current}")
+session_csvfile=${listofsession_current} #'sessions.csv' #$1
+dir_csv=$final_output_directory
+# typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
+time_now=$(date -dnow +%Y%m%d%H%M)
+filenametosave=temp.csv        # ${project_ID}_CTSESSIONS_${time_now}.csv #4
+filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
+filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
+directorytosave=$final_output_directory
+fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
-  #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
-done < <(tail -n +2 "${listofsession_current}")
-#session_csvfile=${listofsession_current} #'sessions.csv' #$1
-#dir_csv=$final_output_directory
-## typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
-#time_now=$(date -dnow +%Y%m%d%H%M)
-#filenametosave=temp.csv        # ${project_ID}_CTSESSIONS_${time_now}.csv #4
-#filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
-#filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
-#directorytosave=$final_output_directory
-#fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
-#
-#filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
-#if [ "${previous_list_present}" == "0" ]; then
-#
-#  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv)
-#  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
-#else
-#  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${listofsession_previous} ${directorytosave}/temp.csv)
-#  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
-#fi
-#
+filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
+if [ "${previous_list_present}" == "0" ]; then
+
+  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv)
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
+else
+  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${listofsession_previous} ${directorytosave}/temp.csv)
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
+fi
+
 #filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
 #call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}")

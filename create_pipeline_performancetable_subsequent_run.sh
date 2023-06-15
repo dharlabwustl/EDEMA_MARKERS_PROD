@@ -399,14 +399,14 @@ echo ${listofsession_current}
 #session_csvfile=$(ls $directorytosave/*.csv)
 #listofsession=${final_output_directory}/'sessions.csv'
 #mv $session_csvfile $listofsession
-counter=0
+counter=1000
 while IFS=',' read -ra array; do
 echo "${array[0]}"
 sessionID_1="${array[1]}"
 echo final_output_directory::${final_output_directory}
 niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 
-if  [ $counter -lt 2 ] ; then # $counter
+if  [ $counter -gt 2 ] ; then # $counter
 get_nifti_scan_uri ${sessionID_1}  ${working_dir} ${niftifile_csvfilename}
 if [ -f ${niftifile_csvfilename} ]; then
     echo "$niftifile_csvfilename exists."

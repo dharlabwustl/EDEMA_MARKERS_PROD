@@ -106,7 +106,6 @@ def combinecsvs_inafileoflist(listofcsvfiles_filename,outputdirectory,outputfile
             except:
                 pass
         combined_csv = combined_csv.drop_duplicates()
-        columnsname=combined_csv.columns
         combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
@@ -586,9 +585,6 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         return False
     else:
         return False
-
-
-
 def nifti_number_slice(niftifilename):
     return nib.load(niftifilename).shape[2]
 
@@ -1460,7 +1456,7 @@ def project_resource_latest_analytic_file(args):
         # filename_done=os.path.join(dir_to_save,"sessions_done.csv")
         # filename_saved_df_notdone.to_csv(filename_notdone,index=False)
         # filename_saved_df_done.to_csv(filename_done,index=False)
-        return "CSVMASTERFILE::"+filename_saved #+"1"
+        return "CSVMASTERFILE::"+filename_saved
     except:
         return 0
     #

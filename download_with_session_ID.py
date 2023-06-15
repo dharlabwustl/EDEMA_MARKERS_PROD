@@ -106,6 +106,7 @@ def combinecsvs_inafileoflist(listofcsvfiles_filename,outputdirectory,outputfile
             except:
                 pass
         combined_csv = combined_csv.drop_duplicates()
+        columnsname=combined_csv.columns
         combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))

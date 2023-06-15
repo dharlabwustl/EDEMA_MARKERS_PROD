@@ -368,7 +368,7 @@ directorytosave=$final_output_directory
 #fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="SNIPR_ANALYTICS"
+snipr_output_foldername="SNIPR_ANALYTICS_V1"
 call_project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file' ${project_ID}   ${snipr_output_foldername} .csv $directorytosave )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}" )
 #echo ${outputfiles_present}
@@ -480,7 +480,7 @@ call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${fil
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )
 echo ${outputfiles_present}
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="SNIPR_ANALYTICS"
+#snipr_output_foldername="SNIPR_ANALYTICS"
 
 #file_name=${filenametosave}
 ##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]

@@ -378,6 +378,7 @@ while IFS=',' read -ra array; do
   if [ ${sessionID_1} == "SNIPR_E03515" ] ; then
     echo "SESSIONID::${sessionID_1}"
     get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
+    break
 #    if [ -f ${niftifile_csvfilename} ]; then
 #      echo "$niftifile_csvfilename exists."
 #      cp ${niftifile_csvfilename} ${final_output_directory}

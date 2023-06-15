@@ -289,7 +289,7 @@ def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytos
     try:
         sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
         sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
-        # sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
+        sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
         # sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
         # # if "ICH" in typeofmask:
         # sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)

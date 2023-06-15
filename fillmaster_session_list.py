@@ -308,7 +308,7 @@ def call_insertavailablefilenames():
     latexfilename=os.path.join(directorytosave,sys.argv[5])
     insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
     masterfilename=os.path.join(directorytosave,filenametosave)
-    pdffromanalytics(masterfilename,latexfilename)
+    # pdffromanalytics(masterfilename,latexfilename)
 
 ### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
 def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):

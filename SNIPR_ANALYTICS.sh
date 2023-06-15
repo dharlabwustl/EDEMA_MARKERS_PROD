@@ -377,38 +377,38 @@ while IFS=',' read -ra array; do
 #  if [ $counter -lt 2 ]; then # $counter
   if [ ${sessionID_1} == "SNIPR_E03515" ] ; then
     get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
-    if [ -f ${niftifile_csvfilename} ]; then
-      echo "$niftifile_csvfilename exists."
-      cp ${niftifile_csvfilename} ${final_output_directory}
-      #############
-      resource_dirname='MASKS'
-      output_dirname=${final_output_directory}
-      while IFS=',' read -ra array; do
-        scanID=${array[2]}
-        echo sessionId::${sessionID}
-        echo scanId::${scanID}
-        output_csvfile=${array[1]}
-        output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-        echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
-        URI=${array[0]}
-        resource_dir=${resource_dirname}
-        dir_to_receive_the_data=${final_output_directory}
-
-        call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-
-        if [ ${project_ID} == "ICH" ]; then
-          resource_dirname="ICH_QUANTIFICATION"
-          resource_dir=${resource_dirname}
-          output_csvfile=${array[1]}
-          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-        else
-          resource_dirname="EDEMA_BIOMARKER"
-          resource_dir=${resource_dirname}
-          output_csvfile=${array[1]}
-          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-        fi
+#    if [ -f ${niftifile_csvfilename} ]; then
+#      echo "$niftifile_csvfilename exists."
+#      cp ${niftifile_csvfilename} ${final_output_directory}
+#      #############
+#      resource_dirname='MASKS'
+#      output_dirname=${final_output_directory}
+#      while IFS=',' read -ra array; do
+#        scanID=${array[2]}
+#        echo sessionId::${sessionID}
+#        echo scanId::${scanID}
+#        output_csvfile=${array[1]}
+#        output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#        echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
+#        URI=${array[0]}
+#        resource_dir=${resource_dirname}
+#        dir_to_receive_the_data=${final_output_directory}
+#
+#        call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#
+#        if [ ${project_ID} == "ICH" ]; then
+#          resource_dirname="ICH_QUANTIFICATION"
+#          resource_dir=${resource_dirname}
+#          output_csvfile=${array[1]}
+#          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#        else
+#          resource_dirname="EDEMA_BIOMARKER"
+#          resource_dir=${resource_dirname}
+#          output_csvfile=${array[1]}
+#          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#        fi
       done < <(tail -n +2 "${niftifile_csvfilename}")
 
       ###################

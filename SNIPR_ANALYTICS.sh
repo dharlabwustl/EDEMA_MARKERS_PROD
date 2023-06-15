@@ -337,22 +337,23 @@ echo "previous_list_present_flag::${previous_list_present_flag}"
 csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
 csvfileslist=${csvfileslist:0:-1}
 echo csvfileslist::"${csvfileslist}"
-#if [ "${previous_list_present_flag}" == "0" ]; then
-#
-#  csvfileslist=${final_output_directory}/'sessions.csv'
-#  #project_ID="COLI"
-#  curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${csvfileslist}
-#  listofsession_current=${csvfileslist} #${csvfileslist%.csv}_not_done.csv
-#else
-#  echo " I am subsequent run!"
-#  csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
-#  masktype="INFARCT"
-#  call_divide_sessionlist_done_vs_undone_arguments=('call_divide_sessionlist_done_vs_undone' ${csvfileslist} ${masktype})
-#  outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_sessionlist_done_vs_undone_arguments[@]}")
-#  echo ${outputfiles_present}
-#  listofsession_previous=${csvfileslist%.csv}_done.csv
-#  listofsession_current=${csvfileslist%.csv}_not_done.csv
-#fi
+if [ "${previous_list_present_flag}" == "0" ]; then
+
+  csvfileslist=${final_output_directory}/'sessions.csv'
+  #project_ID="COLI"
+  curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${csvfileslist}
+  listofsession_current=${csvfileslist} #${csvfileslist%.csv}_not_done.csv
+else
+  echo " I am subsequent run!"
+  csvfileslist=${outputfiles_present##*CSVMASTERFILE::}
+  csvfileslist=${csvfileslist:0:-1}
+  masktype="INFARCT"
+  call_divide_sessionlist_done_vs_undone_arguments=('call_divide_sessionlist_done_vs_undone' ${csvfileslist} ${masktype})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_sessionlist_done_vs_undone_arguments[@]}")
+  echo ${outputfiles_present}
+  listofsession_previous=${csvfileslist%.csv}_done.csv
+  listofsession_current=${csvfileslist%.csv}_not_done.csv
+fi
 
 #echo ${csvfileslist}
 #

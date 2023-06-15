@@ -1229,34 +1229,34 @@ XNAT_PASS =os.environ['XNAT_PASS'] #
 #     return 1
 #
 #
-# def get_latest_file(df_listfile):
-#     allfileswithprefix1_df=df_listfile
-#     allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
-#
-#     # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
-#     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
-#     allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
-#     allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
-#     allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
-#     allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
-#     # print(allfileswithprefix1_df["DATETIME"])
-#     allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
-#     x_df=allfileswithprefix1_df.iloc[[0]]
-#     return x_df
-# def download_a_singlefile_with_URLROW(url,dir_to_save):
-#     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-#     xnatSession.renew_httpsession()
-#     # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
-#     # subprocess.call(command,shell=True)
-#     response = xnatSession.httpsess.get(xnatSession.host +url.loc[0,"URI"]) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
-#     #                                                       # "/data/experiments/SNIPR02_E03548/scans/1-CT1/resources/147851/files/ICH_0001_01022017_0414_1-CT1_threshold-1024.0_22121.0TOTAL_VersionDate-11302022_04_22_2023.csv") ## url['URI'])
-#     zipfilename=os.path.join(dir_to_save,os.path.basename(url.loc[0,"Name"]) ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
-#     with open(zipfilename, "wb") as f:
-#         for chunk in response.iter_content(chunk_size=512):
-#             if chunk:  # filter out keep-alive new chunks
-#                 f.write(chunk)
-#     xnatSession.close_httpsession()
-#     return zipfilename
+def get_latest_file(df_listfile):
+    allfileswithprefix1_df=df_listfile
+    allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
+
+    # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
+    allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+    # print(allfileswithprefix1_df["DATETIME"])
+    allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
+    x_df=allfileswithprefix1_df.iloc[[0]]
+    return x_df
+def download_a_singlefile_with_URLROW(url,dir_to_save):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
+    # subprocess.call(command,shell=True)
+    response = xnatSession.httpsess.get(xnatSession.host +url.loc[0,"URI"]) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
+    #                                                       # "/data/experiments/SNIPR02_E03548/scans/1-CT1/resources/147851/files/ICH_0001_01022017_0414_1-CT1_threshold-1024.0_22121.0TOTAL_VersionDate-11302022_04_22_2023.csv") ## url['URI'])
+    zipfilename=os.path.join(dir_to_save,os.path.basename(url.loc[0,"Name"]) ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
+    with open(zipfilename, "wb") as f:
+        for chunk in response.iter_content(chunk_size=512):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+    xnatSession.close_httpsession()
+    return zipfilename
 # def download_a_singlefile_with_URIString(url,filename,dir_to_save):
 #     print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
 #     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
@@ -1272,21 +1272,21 @@ XNAT_PASS =os.environ['XNAT_PASS'] #
 #                 f.write(chunk)
 #     xnatSession.close_httpsession()
 #     return zipfilename
-# def listoffile_witha_URI_as_df(URI):
-#     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-#     xnatSession.renew_httpsession()
-#     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
-#     response = xnatSession.httpsess.get(xnatSession.host + URI)
-#     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
-#     num_files_present=0
-#     df_scan=[]
-#     if response.status_code != 200:
-#         xnatSession.close_httpsession()
-#         return num_files_present
-#     metadata_masks=response.json()['ResultSet']['Result']
-#     df_listfile = pd.read_json(json.dumps(metadata_masks))
-#     xnatSession.close_httpsession()
-#     return df_listfile
+def listoffile_witha_URI_as_df(URI):
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
+    response = xnatSession.httpsess.get(xnatSession.host + URI)
+    # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
+    num_files_present=0
+    df_scan=[]
+    if response.status_code != 200:
+        xnatSession.close_httpsession()
+        return num_files_present
+    metadata_masks=response.json()['ResultSet']['Result']
+    df_listfile = pd.read_json(json.dumps(metadata_masks))
+    xnatSession.close_httpsession()
+    return df_listfile
 # def download_files_in_a_resource(URI,dir_to_save):
 #     try:
 #         df_listfile=listoffile_witha_URI_as_df(URI)
@@ -1426,45 +1426,31 @@ XNAT_PASS =os.environ['XNAT_PASS'] #
 #         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 #         pass
 #         return 0
-# def project_resource_latest_analytic_file(args):
-#     try:
-#         print("WO ZAI call_project_resource_latest_analytic_file try")
-#         projectID=args.stuff[1]
-#         # scanID=args.stuff[2]
-#         resource_dir=args.stuff[2]
-#         URI="/data/projects/"+projectID #+"/scans/"+scanID
-#         URI = (URI+'/resources/' + resource_dir +'/files?format=json')
-#         extension_to_find_list=args.stuff[3]
-#         dir_to_save=args.stuff[4]
-#         print("projectID::{}::resource_dir::{}::URI::{}::extension_to_find_list::{}::dir_to_save::{}".format(projectID,resource_dir,URI,extension_to_find_list,dir_to_save))
-#         df_listfile=listoffile_witha_URI_as_df(URI)
-#         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-#         latest_filename=get_latest_file(df_listfile)
-#         print(latest_filename['URI'])
-#         print("\n")
-#         print(dir_to_save)
-#         print("\n")
-#         print("WO ZAI ::{}".format("call_project_resource_latest_analytic_file"))
-#
-#         filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
-#         # # if len(filename_saved) >0 :
-#         # filename_saved_df=pd.read_csv(filename_saved)
-#         # required_col = filename_saved_df.columns[filename_saved_df.columns.str.contains(pat = 'PDFFILE_AVAILABLE')]
-#         # print("required_col:{}".format(required_col[0]))
-#         # filename_saved_df_notdone=filename_saved_df[filename_saved_df[required_col[0]]!=1]
-#         # filename_saved_df_done=filename_saved_df[filename_saved_df[required_col[0]]==1]
-#         # filename_notdone=os.path.join(dir_to_save,"sessions.csv")
-#         # filename_done=os.path.join(dir_to_save,"sessions_done.csv")
-#         # filename_saved_df_notdone.to_csv(filename_notdone,index=False)
-#         # filename_saved_df_done.to_csv(filename_done,index=False)
-#         return "CSVMASTERFILE::"+filename_saved
-#     except:
-#         return 0
-#     #
-#     # file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
-#     # if file_present < len(extension_to_find_list):
-#     #     return
-# # def get_file_for_second_round():
+def project_resource_latest_analytic_file(args):
+    try:
+        print("WO ZAI call_project_resource_latest_analytic_file try")
+        projectID=args.stuff[1]
+        # scanID=args.stuff[2]
+        resource_dir=args.stuff[2]
+        URI="/data/projects/"+projectID #+"/scans/"+scanID
+        URI = (URI+'/resources/' + resource_dir +'/files?format=json')
+        extension_to_find_list=args.stuff[3]
+        dir_to_save=args.stuff[4]
+        print("projectID::{}::resource_dir::{}::URI::{}::extension_to_find_list::{}::dir_to_save::{}".format(projectID,resource_dir,URI,extension_to_find_list,dir_to_save))
+        df_listfile=listoffile_witha_URI_as_df(URI)
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        latest_filename=get_latest_file(df_listfile)
+        print(latest_filename['URI'])
+        print("\n")
+        print(dir_to_save)
+        print("\n")
+        print("WO ZAI ::{}".format("call_project_resource_latest_analytic_file"))
+
+        filename_saved=download_a_singlefile_with_URLROW(latest_filename,dir_to_save)
+        return "CSVMASTERFILE::"+filename_saved+'1'
+    except:
+        return 0
+
 
 def main():
     print("WO ZAI ::{}".format("main"))
@@ -1475,9 +1461,9 @@ def main():
     return_value=0
     # if name_of_the_function == "call_check_if_a_file_exist_in_snipr":
     #     return_value=call_check_if_a_file_exist_in_snipr(args)
-    # if name_of_the_function == "project_resource_latest_analytic_file":
-    #     print("WO ZAI ::{}".format(name_of_the_function))
-    #     return_value=project_resource_latest_analytic_file(args)
+    if name_of_the_function == "project_resource_latest_analytic_file":
+        print("WO ZAI ::{}".format(name_of_the_function))
+        return_value=project_resource_latest_analytic_file(args)
     # if name_of_the_function == "call_concatenate_csv_list":
     #     return_value=call_concatenate_csv_list(args)
     # if name_of_the_function == "call_download_files_in_a_resource_in_a_session":

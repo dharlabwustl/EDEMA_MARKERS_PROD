@@ -586,6 +586,9 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         return False
     else:
         return False
+
+
+
 def nifti_number_slice(niftifilename):
     return nib.load(niftifilename).shape[2]
 

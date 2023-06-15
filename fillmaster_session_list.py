@@ -211,7 +211,38 @@ def insertniftifilename(sessioncsv_df,dir_csv):
 
 
 # In[5]:
+def insertniftifilename_V1(sessioncsv_df,dir_csv):
+    for x in glob.glob(os.path.join(dir_csv,"*this_session_final_ct.csv")):
+        # if 'sessions.csv' != os.path.basename(x):
 
+        try:
+            df1 = pd.read_csv(x) #, delim_whitespace=False)
+
+
+
+            for index, row in df1.iterrows():
+                # get file extension:
+                extens=row['Name'].split('.')
+                if 'nii' in extens[-1]:
+
+                    filename='NIFTIFILENAME'
+                    filename_available='NIFTIFILE_AVAILABLE'
+                    # elif 'csv' in extens[-1]:
+
+
+                xx=row['URI'].split('/') #.str.split('/', expand=True)
+                sessionId=xx[3]
+                scanId=xx[5]
+                print("sessionId::{} and scanId::{}".format(sessionId,scanId))
+                scan_type=get_scan_type(sessionId,scanId)
+
+                sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
+                sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
+                filename=''
+                filename_available=''
+        except:
+            continue
+    return sessioncsv_df
 
 def insertedemabiomarkerfilename(sessioncsv_df,dir_csv):
     for x in glob.glob(os.path.join(dir_csv,"*EDEMA_BIOMARKER.csv")):

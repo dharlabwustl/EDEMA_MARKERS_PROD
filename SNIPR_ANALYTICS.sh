@@ -333,6 +333,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resour
 #echo ${outputfiles_present}
 echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 previous_list_present="${outputfiles_present: -1}"
+echo "previous_list_present::${previous_list_present}"
 #if [ "${previous_list_present}" == "0" ]; then
 #
 #  csvfileslist=${final_output_directory}/'sessions.csv'

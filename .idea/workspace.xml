@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,13 +54,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-00889" summary="Commit Feb 23 2023">
-      <created>1686778291141</created>
-      <option name="number" value="00889" />
-      <option name="presentableId" value="LOCAL-00889" />
-      <option name="project" value="LOCAL" />
-      <updated>1686778291141</updated>
     </task>
     <task id="LOCAL-00890" summary="Commit Feb 23 2023">
       <created>1686778709032</created>
@@ -399,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686861922100</updated>
     </task>
-    <option name="localTasksCounter" value="938" />
+    <task id="LOCAL-00938" summary="Commit Feb 23 2023">
+      <created>1686861944483</created>
+      <option name="number" value="00938" />
+      <option name="presentableId" value="LOCAL-00938" />
+      <option name="project" value="LOCAL" />
+      <updated>1686861944483</updated>
+    </task>
+    <option name="localTasksCounter" value="939" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

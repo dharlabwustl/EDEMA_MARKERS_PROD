@@ -321,23 +321,12 @@ call_combine_all_csvfiles_general()" ${working_directory} ${working_directory_to
 ####################################################################################################################################################
 ####################################################PART 1: SNIPR_ANALYTICS ########################################################################################
 ####################################################################################################################################################
-#########################################################################
-## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#listofsession=${final_output_directory}/'sessions.csv'
-#project_ID="COLI"
-#curl  -u   $XNAT_USER:$XNAT_PASS  -X GET   $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv  > ${listofsession}
+#########################################################################Part 1a: Download existing analytic file if available otherwise create a new one ################
 
-#session_csvfile='sessions.csv' #$1
 dir_csv=$final_output_directory
-# typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
-#time_now=$(date -dnow +%Y%m%d%H%M)
-#filenametosave=${project_ID}_CTSESSIONS_${time_now}.csv #4
-#filename_latex_tosave=${project_ID}_CTSESSIONS_${time_now}.tex
-#filename_pdf_tosave=${project_ID}_CTSESSIONS_${time_now}.pdf
-directorytosave=$final_output_directory
-#fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
-## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+directorytosave=$final_output_directory
+
 snipr_output_foldername="SNIPR_ANALYTICS_V1"
 call_project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file' ${project_ID} ${snipr_output_foldername} .csv $directorytosave)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}")

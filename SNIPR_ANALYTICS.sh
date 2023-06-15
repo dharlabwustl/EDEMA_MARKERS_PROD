@@ -353,6 +353,8 @@ else
   echo ${outputfiles_present}
   listofsession_previous=${csvfileslist%.csv}_done.csv
   listofsession_current=${csvfileslist%.csv}_not_done.csv
+  cat ${listofsession_previous}
+  cat ${listofsession_current}
 fi
 
 #echo ${csvfileslist}

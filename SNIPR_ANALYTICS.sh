@@ -329,7 +329,7 @@ directorytosave=$final_output_directory
 
 snipr_output_foldername="SNIPR_ANALYTICS_V1"
 call_project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file' ${project_ID} ${snipr_output_foldername} .csv $directorytosave)
-outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}")
+outputfiles_present=$(python3 download_with_session_ID_v1.py "${call_project_resource_latest_analytic_file_arguments[@]}")
 #echo ${outputfiles_present}
 echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 previous_list_present="${outputfiles_present: -1}"

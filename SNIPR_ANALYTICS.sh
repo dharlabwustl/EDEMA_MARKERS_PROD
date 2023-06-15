@@ -369,9 +369,9 @@ echo ${listofsession_current}
 #mv $session_csvfile $listofsession
 counter=0
 while IFS=',' read -ra array; do
-  echo "${array[0]}"
+#  echo "${array[0]}"
   sessionID_1="${array[1]}"
-  echo final_output_directory::${final_output_directory}
+#  echo final_output_directory::${final_output_directory}
   niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 
 #  if [ $counter -lt 2 ]; then # $counter

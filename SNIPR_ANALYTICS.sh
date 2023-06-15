@@ -430,16 +430,16 @@ filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
 filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
-
-filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
-if [ "${previous_list_present}" == "0" ]; then
-
-  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv)
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
-else
-  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${listofsession_previous} ${directorytosave}/temp.csv)
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
-fi
+#
+#filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
+#if [ "${previous_list_present}" == "0" ]; then
+#
+#  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv)
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
+#else
+#  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${listofsession_previous} ${directorytosave}/temp.csv)
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}")
+#fi
 
 #filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
 #call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave})

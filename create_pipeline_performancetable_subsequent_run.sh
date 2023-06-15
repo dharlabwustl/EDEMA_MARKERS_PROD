@@ -467,12 +467,14 @@ filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
 
 
   call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${directorytosave}/temp.csv )
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
  else
  call_concatenate_csv_list_arguments=('call_concatenate_csv_list' ${filenametosave} ${directorytosave}/temp.csv ${listofsession_previous} )
+ outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
  fi
 
 
-outputfiles_present=$(python3 download_with_session_ID.py "${call_concatenate_csv_list_arguments[@]}" )
+
 filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
 call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave}  )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}" )

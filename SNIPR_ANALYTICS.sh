@@ -374,7 +374,7 @@ while IFS=',' read -ra array; do
   echo final_output_directory::${final_output_directory}
   niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 
-  if [ $counter -lt 2 ]; then # $counter
+  if [ ${sessionID_1} == "SNIPR_E03515" ]; then # $counter
     get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
     if [ -f ${niftifile_csvfilename} ]; then
       echo "$niftifile_csvfilename exists."
@@ -457,107 +457,107 @@ filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${final_output_directory} ${filename_latex_tosave}
 copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filenametosave})
 copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filename_pdf_tosave})
-#####################################################################################################################################################
-#####################################################PART 2: COMBINE CSVs and upload PDFs ########################################################################################
-#####################################################################################################################################################
-###### FOR COMBINED CSV
-#sessionlist_filename=${filenametosave} #args.stuff[1]
-#masktype="INFARCT" ##args.stuff[2]
-#filetype="CSV" #args.stuff[3]
-#dir_to_save=${directorytosave} #args.stuff[4]
-##upload_flag=0 #args.stuff[5]
-#localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
-#listofsession_current=${listofsession_current}
-#call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
-#echo ${outputfiles_present}
-#localfilelist_csv=${localfilelist_csv}
-#outputdirectory=${final_output_directory}
-#combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
-#call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
-#snipr_output_foldername1="EDEMA_BIOMARKER_V1"
-#if [ ${project_ID} == "ICH" ] ; then
-#snipr_output_foldername1="ICH_BIOMARKER_V1"
-#fi
-#copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
-#
-#
-###############FOR PDFs
-#
-#sessionlist_filename=${filenametosave} #args.stuff[1]
-#masktype="INFARCT" ##args.stuff[2]
-#if [ ${project_ID} == "ICH" ] ; then
-#  masktype="ICH"
-#fi
-#filetype="PDF" #args.stuff[3]
-#dir_to_save=${directorytosave} #args.stuff[4]
-##upload_flag=0 #args.stuff[5]
-#localfilelist_pdf=${directorytosave}/pdffilestodownload.csv #args.stuff[5]
-#listofsession_current=${listofsession_current}
-#call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_pdf} ${listofsession_current})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
-#
-#urllistfilename=${localfilelist_pdf}
-#X_level="projects"
-#projectId="${project_ID}"
-#resource_dirname=${snipr_output_foldername1}
-#call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
-#echo "  "
-#echo "  "
-#echo "  "
-#echo ${outputfiles_present}
-#echo "END"
+####################################################################################################################################################
+####################################################PART 2: COMBINE CSVs and upload PDFs ########################################################################################
+####################################################################################################################################################
+##### FOR COMBINED CSV
+sessionlist_filename=${filenametosave} #args.stuff[1]
+masktype="INFARCT" ##args.stuff[2]
+filetype="CSV" #args.stuff[3]
+dir_to_save=${directorytosave} #args.stuff[4]
+#upload_flag=0 #args.stuff[5]
+localfilelist_csv=${directorytosave}/csvfileslisttocombine.csv #args.stuff[5]
+listofsession_current=${listofsession_current}
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_csv} ${listofsession_current})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
+echo ${outputfiles_present}
+localfilelist_csv=${localfilelist_csv}
+outputdirectory=${final_output_directory}
+combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
+call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
+snipr_output_foldername1="EDEMA_BIOMARKER_V1"
+if [ ${project_ID} == "ICH" ] ; then
+snipr_output_foldername1="ICH_BIOMARKER_V1"
+fi
+copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
+
+
+##############FOR PDFs
+
+sessionlist_filename=${filenametosave} #args.stuff[1]
+masktype="INFARCT" ##args.stuff[2]
+if [ ${project_ID} == "ICH" ] ; then
+  masktype="ICH"
+fi
+filetype="PDF" #args.stuff[3]
+dir_to_save=${directorytosave} #args.stuff[4]
+#upload_flag=0 #args.stuff[5]
+localfilelist_pdf=${directorytosave}/pdffilestodownload.csv #args.stuff[5]
+listofsession_current=${listofsession_current}
+call_download_files_with_mastersessionlist_arguments=('call_download_files_with_mastersessionlist' ${sessionlist_filename} ${masktype} ${filetype} ${dir_to_save} ${localfilelist_pdf} ${listofsession_current})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_with_mastersessionlist_arguments[@]}" )
+
+urllistfilename=${localfilelist_pdf}
+X_level="projects"
+projectId="${project_ID}"
+resource_dirname=${snipr_output_foldername1}
+call_uploadfilesfromlistinacsv_arguments=('call_uploadfilesfromlistinacsv' ${urllistfilename} ${X_level} ${projectId} ${resource_dirname} )
+outputfiles_present=$(python3 download_with_session_ID.py "${call_uploadfilesfromlistinacsv_arguments[@]}" )
+echo "  "
+echo "  "
+echo "  "
+echo ${outputfiles_present}
+echo "END"
+#####
+#####file_name=${filenametosave}
+######file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+######for file_suffix in ${file_suffixes[@]}
+######do
+#####pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${directorytosave}/${filename_latex_tosave}
+#####copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
+#####copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
+######done
+###########################################################################################################################
+#####
+#####
+######extension_csv='csv'
+######combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
+######combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
+######################################################
 ######
-######file_name=${filenametosave}
-#######file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-#######for file_suffix in ${file_suffixes[@]}
-#######do
-######pdflatex -halt-on-error -interaction=nonstopmode   -output-directory=${final_output_directory} ${directorytosave}/${filename_latex_tosave}
-######copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${file_name}
-######copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername}  ${filename_pdf_tosave}
-#######done
+#######get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+#######copy_scan_data ${niftifile_csvfilename} ${working_dir}
+######
+######
+######
+######
+#####################################################################################################################
+######
+######## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+######
+###########################################################################################
+######resource_dirname='MASKS'
+######output_dirname=${working_dir}
+######while IFS=',' read -ra array; do
+######scanID=${array[2]}
+######echo sessionId::${sessionID}
+######echo scanId::${scanID}
+#######call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+######done < <( tail -n +2 "${niftifile_csvfilename}" )
+######echo working_dir::${working_dir}
+######echo output_dirname::${output_dirname}
+######copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
+############################################################################################################################
+######## CALCULATE EDEMA BIOMARKERS
+######ich_calculation_each_scan
+############################################################################################################################
+######## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+######snipr_output_foldername="ICH_QUANTIFICATION"
+######file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+######for file_suffix in ${file_suffixes[@]}
+######do
+######    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
+######done
 ############################################################################################################################
 ######
-######
-#######extension_csv='csv'
-#######combined_csv_outputfilename=${final_output_directory}/${project_ID}"_NIFTILIST_COMBINED.csv"
-#######combine_all_csvfiles_general  ${final_output_directory} ${final_output_directory} ${extension_csv} ${combined_csv_outputfilename}
-#######################################################
-#######
-########get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
-########copy_scan_data ${niftifile_csvfilename} ${working_dir}
-#######
-#######
-#######
-#######
-######################################################################################################################
-#######
-######### GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#######
-############################################################################################
-#######resource_dirname='MASKS'
-#######output_dirname=${working_dir}
-#######while IFS=',' read -ra array; do
-#######scanID=${array[2]}
-#######echo sessionId::${sessionID}
-#######echo scanId::${scanID}
-########call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-#######done < <( tail -n +2 "${niftifile_csvfilename}" )
-#######echo working_dir::${working_dir}
-#######echo output_dirname::${output_dirname}
-#######copy_masks_data   ${sessionID}  ${scanID} ${resource_dirname} ${output_dirname}
-#############################################################################################################################
-######### CALCULATE EDEMA BIOMARKERS
-#######ich_calculation_each_scan
-#############################################################################################################################
-######### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-#######snipr_output_foldername="ICH_QUANTIFICATION"
-#######file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-#######for file_suffix in ${file_suffixes[@]}
-#######do
-#######    copyoutput_to_snipr  ${sessionID} ${scanID} "${final_output_directory}"  ${snipr_output_foldername}  ${file_suffix}
-#######done
-#############################################################################################################################
-#######

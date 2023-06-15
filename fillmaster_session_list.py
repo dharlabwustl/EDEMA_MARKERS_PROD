@@ -300,15 +300,18 @@ def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytos
     
     
 def call_insertavailablefilenames():
-    session_csvfile=sys.argv[1]
-    dir_csv=sys.argv[2]
-    # typeofmask=sys.argv[3]
-    filenametosave=sys.argv[3]
-    directorytosave=sys.argv[4]
-    latexfilename=os.path.join(directorytosave,sys.argv[5])
-    insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
-    masterfilename=os.path.join(directorytosave,filenametosave)
-    pdffromanalytics(masterfilename,latexfilename)
+    try:
+        session_csvfile=sys.argv[1]
+        dir_csv=sys.argv[2]
+        # typeofmask=sys.argv[3]
+        filenametosave=sys.argv[3]
+        directorytosave=sys.argv[4]
+        latexfilename=os.path.join(directorytosave,sys.argv[5])
+        insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
+        masterfilename=os.path.join(directorytosave,filenametosave)
+        pdffromanalytics(masterfilename,latexfilename)
+    except:
+        print("I FAILED AT call_insertavailablefilenames")
 
 ### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
 def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):

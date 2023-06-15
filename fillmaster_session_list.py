@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import os,sys,glob
 import datetime
-import argparse,inspect
+import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
@@ -211,38 +211,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
 
 
 # In[5]:
-def insertniftifilename_V1(sessioncsv_df,dir_csv):
-    for x in glob.glob(os.path.join(dir_csv,"*_NIFTILOCATION.csv")):
-        # if 'sessions.csv' != os.path.basename(x):
 
-        try:
-            df1 = pd.read_csv(x) #, delim_whitespace=False)
-
-
-
-            for index, row in df1.iterrows():
-                # get file extension:
-                extens=row['Name'].split('.')
-                if 'nii' in extens[-1]:
-
-                    filename='NIFTIFILENAME'
-                    filename_available='NIFTIFILE_AVAILABLE'
-                    # elif 'csv' in extens[-1]:
-
-
-                xx=row['URI'].split('/') #.str.split('/', expand=True)
-                sessionId=xx[3]
-                scanId=xx[5]
-                print("sessionId::{} and scanId::{}".format(sessionId,scanId))
-                scan_type=get_scan_type(sessionId,scanId)
-
-                sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
-                sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
-                filename=''
-                filename_available=''
-        except:
-            continue
-    return sessioncsv_df
 
 def insertedemabiomarkerfilename(sessioncsv_df,dir_csv):
     for x in glob.glob(os.path.join(dir_csv,"*EDEMA_BIOMARKER.csv")):
@@ -317,38 +286,29 @@ def insertichquantificationfilename(sessioncsv_df,dir_csv):
 #     dir_csv=sys.argv[1]
 #     insertniftifilename(dir_csv)
 def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave):
-    try:
-        sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
-        sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
-        sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
-        # sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
-        # # if "ICH" in typeofmask:
-        # sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)
-        # # if "INFARCT" in typeofmask:
-        # sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
+    sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
+    sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
+    sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
+    sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
+    # if "ICH" in typeofmask:
+    sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)
+    # if "INFARCT" in typeofmask:
+    sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
 
-        sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
-
-        print("I SUCCEEDED AT ::{}::{}".format(inspect.stack()[0][3],os.path.join(directorytosave,filenametosave)))
-    except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+    sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
 
     
     
 def call_insertavailablefilenames():
-    try:
-        session_csvfile=sys.argv[1]
-        dir_csv=sys.argv[2]
-        # typeofmask=sys.argv[3]
-        filenametosave=sys.argv[3]
-        directorytosave=sys.argv[4]
-        latexfilename=os.path.join(directorytosave,sys.argv[5])
-        insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
-        # masterfilename=os.path.join(directorytosave,filenametosave)
-        # pdffromanalytics(masterfilename,latexfilename)
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-    except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+    session_csvfile=sys.argv[1]
+    dir_csv=sys.argv[2]
+    # typeofmask=sys.argv[3]
+    filenametosave=sys.argv[3]
+    directorytosave=sys.argv[4]
+    latexfilename=os.path.join(directorytosave,sys.argv[5])
+    insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
+    masterfilename=os.path.join(directorytosave,filenametosave)
+    pdffromanalytics(masterfilename,latexfilename)
 
 ### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
 def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):

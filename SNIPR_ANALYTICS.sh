@@ -409,12 +409,12 @@ while IFS=',' read -ra array; do
 #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
 #          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 #        fi
-      done < <(tail -n +2 "${niftifile_csvfilename}")
+#      done < <(tail -n +2 "${niftifile_csvfilename}")
 
       ###################
 
       counter=$((counter + 1))
-    fi
+#    fi
   fi
   #if [[ $counter -gt 2 ]] ; then
   #  break

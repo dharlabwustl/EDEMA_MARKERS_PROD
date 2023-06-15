@@ -297,7 +297,8 @@ def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytos
         # sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
 
         sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+
+        print("I SUCCEEDED AT ::{}::{}".format(inspect.stack()[0][3],os.path.join(directorytosave,filenametosave)))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 

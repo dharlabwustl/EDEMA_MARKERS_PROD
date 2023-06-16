@@ -402,7 +402,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
 
             for each_item_id,each_nifti in df_scan.iterrows():
                 print(each_nifti['URI'])
-                if '.nii' in each_nifti['Name'] or '.nii.gz' in each_nifti['Name']:
+                if '.nii' in each_nifti['Name']: ## or '.nii.gz' in each_nifti['Name']:
                     # list_of_usables.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID']])
                     x=[each_nifti['URI'],each_nifti['Name'],each_axial['ID']]
                     print("X::{}".format(x))

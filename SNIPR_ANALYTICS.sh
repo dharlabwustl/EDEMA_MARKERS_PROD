@@ -424,15 +424,15 @@ while IFS=',' read -ra array; do
 
   #copy_latest_pdfs "ICH" ${working_dir} ${final_output_directory}
 done < <(tail -n +2 "${listofsession_current}")
-#session_csvfile=${listofsession_current} #'sessions.csv' #$1
-#dir_csv=$final_output_directory
-## typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
-#time_now=$(date -dnow +%Y%m%d%H%M)
-#filenametosave=temp.csv        # ${project_ID}_CTSESSIONS_${time_now}.csv #4
-#filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
-#filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
-#directorytosave=$final_output_directory
-#fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
+session_csvfile=${listofsession_current} #'sessions.csv' #$1
+dir_csv=$final_output_directory
+# typeofmask="ICH" #$3 #"MASKS" #sys.argv[4]
+time_now=$(date -dnow +%Y%m%d%H%M)
+filenametosave=temp.csv        # ${project_ID}_CTSESSIONS_${time_now}.csv #4
+filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
+filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
+directorytosave=$final_output_directory
+fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 # echo ' ${filenametosave}'::${filenametosave}
 #
 #filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4

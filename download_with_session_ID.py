@@ -520,7 +520,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
             df_scan = pd.read_json(nifti_metadata)
 
             for each_item_id,each_nifti in df_scan.iterrows():
-                print(each_nifti['URI'])
+                # print(each_nifti['URI'])
                 if '.nii' in each_nifti['Name'] or '.nii.gz' in each_nifti['Name']:
                     x=[each_nifti['URI'],each_nifti['Name'],each_thin['ID']]
                     list_of_usables.append([each_nifti['URI'],each_nifti['Name'],each_thin['ID']])
@@ -529,7 +529,7 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                     # if  number_slice <=200:
                     list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_thin['ID'],number_slice])
-                    print("number_slice:{}".format(number_slice))
+                    # print("number_slice:{}".format(number_slice))
 
                     # deleteafile(os.path.join(dir_to_receive_the_data,x[1]))
   

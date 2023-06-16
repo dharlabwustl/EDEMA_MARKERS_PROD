@@ -433,7 +433,7 @@ filename_latex_tosave=temp.tex # ${project_ID}_CTSESSIONS_${time_now}.tex #
 filename_pdf_tosave=temp.pdf   ## ${project_ID}_CTSESSIONS_${time_now}.pdf ##
 directorytosave=$final_output_directory
 fillmaster_session_list ${session_csvfile} ${dir_csv} ${filenametosave} ${directorytosave} ${filename_latex_tosave}
-# echo ' ${filenametosave}'::${filenametosave}
+ echo ' ${filenametosave}'::${filenametosave}
 #
 #filenametosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.csv #4
 #if [ "${previous_list_present}" == "0" ]; then

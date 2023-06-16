@@ -176,7 +176,7 @@ def insertmaskfilesname(sessioncsv_df,dir_csv):
 def insertniftifilename(sessioncsv_df,dir_csv):
     for x in glob.glob(os.path.join(dir_csv,"*this_session_final_ct.csv")):
         # if 'sessions.csv' != os.path.basename(x):
-
+        print(" I AM AT::{}".format(inspect.stack()[0][3]))
         try:
             df1 = pd.read_csv(x) #, delim_whitespace=False)
 

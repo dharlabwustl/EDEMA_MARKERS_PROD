@@ -195,7 +195,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 xx=row['URI'].split('/') #.str.split('/', expand=True)
                 sessionId=xx[3]
                 scanId=xx[5]
-                subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(type(scanId)) ,shell=True )
+                subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(scanId) ,shell=True )
                 # print("sessionId::{} and scanId::{}".format(sessionId,scanId))
                 scan_type=get_scan_type(sessionId,scanId)
 

@@ -185,7 +185,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
             for index, row in df1.iterrows():
                             # get file extension:
                 extens=row['Name'].split('.')
-                if 'nii' in extens[-1]: ## or 'nii' in 'nii' in extens[-2]:
+                if 'nii' in extens[-1] or 'nii' in 'nii' in extens[-2]:
 
                     filename='NIFTIFILENAME'
                     filename_available='NIFTIFILE_AVAILABLE'    

@@ -196,7 +196,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 sessionId=xx[3]
                 scanId=xx[5]
                 # print("sessionId::{} and scanId::{}".format(sessionId,scanId))
-                scan_type="AA" #get_scan_type(sessionId,scanId)
+                scan_type=get_scan_type(sessionId,scanId)
 
                 sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
                 sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
@@ -376,13 +376,18 @@ def call_pdffromanalytics(args):
 
 def get_scan_type(sessionId,scanId1):
     # for a given sessionID and scanID
-    this_session_metadata=get_metadata_session(sessionId)
-    jsonStr = json.dumps(this_session_metadata)
-    df1 = pd.read_json(jsonStr)
-    print("scanId1type::{}".format(type(scanId1)))
-    this_session_metadata_df_scanid=pd.DataFrame(df1.loc[df1['ID'] == int(scanId1)])
-    this_session_metadata_df_scanid.reset_index(inplace=True)
-    print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid.loc[0,'type']))
+    try:
+        this_session_metadata=get_metadata_session(sessionId)
+        jsonStr = json.dumps(this_session_metadata)
+        df1 = pd.read_json(jsonStr)
+        print("scanId1type::{}".format(type(scanId1)))
+        this_session_metadata_df_scanid=pd.DataFrame(df1.loc[df1['ID'] == int(scanId1)])
+        this_session_metadata_df_scanid.reset_index(inplace=True)
+        print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid.loc[0,'type']))
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+
 
 
 

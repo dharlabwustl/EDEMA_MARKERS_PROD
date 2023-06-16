@@ -162,7 +162,7 @@ def insertmaskfilesname(sessioncsv_df,dir_csv):
                 filename_available=''
 
         except:
-            continue
+            pass
     return sessioncsv_df
 # def call_insertmaskfilesname():
 #     dir_csv=sys.argv[1]

@@ -446,25 +446,25 @@ else
 fi
  echo ' ${filenametosave}'::${filenametosave}
 #
-#filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
-#call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}")
-#echo ${outputfiles_present}
-### COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-##snipr_output_foldername="SNIPR_ANALYTICS"
-#
-##file_name=${filenametosave}
-###file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
-###for file_suffix in ${file_suffixes[@]}
-###do
-#filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
-#
-#pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${final_output_directory} ${filename_latex_tosave}
-#copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filenametosave})
-#copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filename_pdf_tosave})
+filename_latex_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.tex
+call_pdffromanalytics_arguments=('call_pdffromanalytics' ${filenametosave} ${filename_latex_tosave})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_pdffromanalytics_arguments[@]}")
+echo ${outputfiles_present}
+## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+#snipr_output_foldername="SNIPR_ANALYTICS"
+
+#file_name=${filenametosave}
+##file_suffixes=(  .pdf .mat .csv ) #sys.argv[5]
+##for file_suffix in ${file_suffixes[@]}
+##do
+filename_pdf_tosave=${directorytosave}/${project_ID}_CTSESSIONS_${time_now}.pdf
+
+pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${final_output_directory} ${filename_latex_tosave}
+copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filenametosave})
+copysinglefile_to_sniprproject ${project_ID} "${final_output_directory}" ${snipr_output_foldername} $(basename ${filename_pdf_tosave})
+###################################################################################################################################################
+###################################################PART 2: COMBINE CSVs and upload PDFs ########################################################################################
 ####################################################################################################################################################
-####################################################PART 2: COMBINE CSVs and upload PDFs ########################################################################################
-#####################################################################################################################################################
 ####### FOR COMBINED CSV
 ##sessionlist_filename=${filenametosave} #args.stuff[1]
 ##masktype="INFARCT" ##args.stuff[2]

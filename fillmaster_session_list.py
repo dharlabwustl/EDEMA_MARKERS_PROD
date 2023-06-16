@@ -202,7 +202,11 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
                 filename=''
                 filename_available=''
+            print("I SUCCEEDED AT::{}".format(inspect.stack()[0][3]))
         except:
+    # except:
+            print("I FAILED AT::{}".format(inspect.stack()[0][3]))
+    # pass
             continue
     return sessioncsv_df
 # def call_insertmaskfilesname():
@@ -286,17 +290,21 @@ def insertichquantificationfilename(sessioncsv_df,dir_csv):
 #     dir_csv=sys.argv[1]
 #     insertniftifilename(dir_csv)
 def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave):
-    sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
-    sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
-    sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
-    sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
-    # if "ICH" in typeofmask:
-    sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)
-    # if "INFARCT" in typeofmask:
-    sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
+    try:
+        sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
+        sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
+        sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
+        sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
+        # if "ICH" in typeofmask:
+        sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)
+        # if "INFARCT" in typeofmask:
+        sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
 
-    sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
-
+        sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
+        print("I SUCCEEDED AT::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT::{}".format(inspect.stack()[0][3]))
+        pass
     
     
 def call_insertavailablefilenames():

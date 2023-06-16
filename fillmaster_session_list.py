@@ -198,7 +198,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 # print("sessionId::{} and scanId::{}".format(sessionId,scanId))
                 scan_type=get_scan_type(sessionId,scanId)
 
-                # sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
+                sessioncsv_df=writetomastersession(sessioncsv_df,filename,filename_available,row,xx)
                 sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
                 filename=''
                 filename_available=''

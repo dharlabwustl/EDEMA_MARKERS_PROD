@@ -387,7 +387,7 @@ def get_scan_type(sessionId,scanId1):
         # this_session_metadata_df_scanid.reset_index(inplace=True)
         # print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid.loc[0,'type']))
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "I SUCCEEDED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "I SUCCEEDED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # return this_session_metadata_df_scanid.loc[0,'type']
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

@@ -314,6 +314,7 @@ def call_insertavailablefilenames():
     filenametosave=sys.argv[3]
     directorytosave=sys.argv[4]
     latexfilename=os.path.join(directorytosave,sys.argv[5])
+    subprocess.call("echo I SUCCEEDED AT ::{}  > /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
     masterfilename=os.path.join(directorytosave,filenametosave)
     # pdffromanalytics(masterfilename,latexfilename)

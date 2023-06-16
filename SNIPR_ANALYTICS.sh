@@ -416,7 +416,7 @@ while IFS=',' read -ra array; do
 #    break
       ##################
 
-      counter=$((counter + 1))
+#      counter=$((counter + 1))
     fi
   fi
   #if [[ $counter -gt 2 ]] ; then

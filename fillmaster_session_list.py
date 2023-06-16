@@ -384,10 +384,10 @@ def get_scan_type(sessionId,scanId1):
         df1 = pd.read_json(jsonStr)
         # print("df1::{}".format(df1))
 
-        this_session_metadata_df_scanid=df1[df1['ID'].values.astype('string') == str(scanId1)]
+        this_session_metadata_df_scanid='AA' #df1[df1['ID'].values.astype('string') == str(scanId1)]
         # subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(str(this_session_metadata_df_scanid)) ,shell=True )
         # this_session_metadata_df_scanid.reset_index(inplace=True)
-        # print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1,scanId1,this_session_metadata_df_scanid)) #.loc[0,'type']))
+        print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1,str(scanId1),this_session_metadata_df_scanid)) #.loc[0,'type']))
         #
         # subprocess.call("echo " + "I SUCCEEDED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(this_session_metadata_df_scanid.at[0,'type']) ,shell=True )

@@ -342,7 +342,7 @@ snipr_output_foldername="SNIPR_ANALYTICS_V1"
 call_project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file' ${project_ID} ${snipr_output_foldername} .csv $directorytosave)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}")
 #echo ${outputfiles_present}
-echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+#echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 previous_list_present="${outputfiles_present: -1}"
 if [ "${previous_list_present}" == "0" ]; then
 
@@ -356,14 +356,14 @@ else
   masktype="INFARCT"
   call_divide_sessionlist_done_vs_undone_arguments=('call_divide_sessionlist_done_vs_undone' ${csvfileslist} ${masktype})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_sessionlist_done_vs_undone_arguments[@]}")
-  echo ${outputfiles_present}
+#  echo ${outputfiles_present}
   listofsession_previous=${csvfileslist%.csv}_done.csv
   listofsession_current=${csvfileslist%.csv}_not_done.csv
 fi
 
-echo ${csvfileslist}
-
-echo ${listofsession_current}
+#echo ${csvfileslist}
+#
+#echo ${listofsession_current}
 #session_csvfile=$(ls $directorytosave/*.csv)
 #listofsession=${final_output_directory}/'sessions.csv'
 #mv $session_csvfile $listofsession
@@ -376,22 +376,22 @@ while IFS=',' read -ra array; do
 
 #  if [ $counter -lt 2 ]; then # $counter
   if [ ${sessionID_1} == "SNIPR_E03515" ] ; then
-    echo "SESSIONID::${sessionID_1}"
+#    echo "SESSIONID::${sessionID_1}"
     get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
 
     if [ -f ${niftifile_csvfilename} ]; then
-      echo "$niftifile_csvfilename exists."
+#      echo "$niftifile_csvfilename exists."
       cp ${niftifile_csvfilename} ${final_output_directory}
       #############
       resource_dirname='MASKS'
       output_dirname=${final_output_directory}
       while IFS=',' read -ra array; do
         scanID=${array[2]}
-        echo sessionId::${sessionID}
-        echo scanId::${scanID}
+#        echo sessionId::${sessionID}
+#        echo scanId::${scanID}
         output_csvfile=${array[1]}
         output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-        echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
+#        echo scanId::${array[0]}::${array[1]}::${array[2]}::${array[3]}::${array[4]}::${output_csvfile}
         URI=${array[0]}
         resource_dir=${resource_dirname}
         dir_to_receive_the_data=${final_output_directory}

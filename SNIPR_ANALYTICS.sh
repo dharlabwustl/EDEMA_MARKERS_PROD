@@ -400,11 +400,11 @@ while IFS=',' read -ra array; do
         call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 
         if [ ${project_ID} == "ICH" ]; then
-          resource_dirname="ICH_QUANTIFICATION"
+#          resource_dirname="ICH_QUANTIFICATION"
           resource_dir=${resource_dirname}
-          output_csvfile=${array[1]}
-          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+#          output_csvfile=${array[1]}
+#          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
         else
           resource_dirname="EDEMA_BIOMARKER"
           resource_dir=${resource_dirname}

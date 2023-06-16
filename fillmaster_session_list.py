@@ -138,12 +138,12 @@ def insertmaskfilesname(sessioncsv_df,dir_csv):
                     elif '_csf_unet.nii.gz' in row['Name']:
                         filename='CSFFILENAME'
                         filename_available='CSFFILE_AVAILABLE'
-                    elif '_normalized_class1.nii.gz' in row['Name']:
-                        filename='ICHFILENAME'
-                        filename_available='ICHFILE_AVAILABLE'
-                    elif '_normalized_class2.nii.gz' in row['Name']:
-                        filename='ICHEDEMAFILENAME'
-                        filename_available='ICHEDEMAFILE_AVAILABLE'
+                    # elif '_normalized_class1.nii.gz' in row['Name']:
+                    #     filename='ICHFILENAME'
+                    #     filename_available='ICHFILE_AVAILABLE'
+                    # elif '_normalized_class2.nii.gz' in row['Name']:
+                    #     filename='ICHEDEMAFILENAME'
+                    #     filename_available='ICHEDEMAFILE_AVAILABLE'
                     elif '_levelset.nii.gz' in row['Name']:
                         filename='LEVELSETFILENAME'
                         filename_available='LEVELSETFILE_AVAILABLE'

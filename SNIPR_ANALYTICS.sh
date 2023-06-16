@@ -412,7 +412,7 @@ while IFS=',' read -ra array; do
           call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
         fi
       done < <(tail -n +2 "${niftifile_csvfilename}")
-    break
+#    break
       ##################
 
       counter=$((counter + 1))

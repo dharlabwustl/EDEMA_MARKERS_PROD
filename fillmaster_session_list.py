@@ -360,8 +360,11 @@ def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefor
     masterfilename_df_analytics
     df2 = pd.DataFrame(masterfilename_df_analytics.sum(axis=0)).T
     df2['TOTAL_NUMBER_OF_SESSIONS']=masterfilename_df.shape[0]
-    df2 = df2.drop('LEVELSETFILE_AVAILABLE', axis=1)
-    print(df2)
+    try:
+        df2 = df2.drop('LEVELSETFILE_AVAILABLE', axis=1)
+        print(df2)
+    except:
+        pass
     ax=df2.T.plot.bar(legend=False ,figsize=(19, 19))
     for p in ax.patches:
         ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))

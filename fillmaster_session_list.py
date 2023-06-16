@@ -391,7 +391,7 @@ def get_scan_type(sessionId,scanId1):
         # #
         # # subprocess.call("echo " + "I SUCCEEDED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # # subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(this_session_metadata_df_scanid.at[0,'type']) ,shell=True )
-        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # return this_session_metadata_df_scanid.loc[0,'type']
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

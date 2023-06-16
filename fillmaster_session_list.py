@@ -202,7 +202,7 @@ def insertniftifilename(sessioncsv_df,dir_csv):
                 sessioncsv_df=write_scantype_tomastersession(sessioncsv_df,scan_type,xx)
                 filename=''
                 filename_available=''
-            print("I SUCCEEDED AT::{}".format(inspect.stack()[0][3]))
+            print("I SUCCEEDED AT::{}::sessioncsv_df::{}::filename::{}::filename_available::{}::row::{},xx::{}".format(inspect.stack()[0][3],sessioncsv_df,filename,filename_available,row,xx))
         except:
     # except:
             print("I FAILED AT::{}".format(inspect.stack()[0][3]))

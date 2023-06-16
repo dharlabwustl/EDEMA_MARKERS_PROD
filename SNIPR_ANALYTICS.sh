@@ -374,8 +374,8 @@ while IFS=',' read -ra array; do
 #  echo final_output_directory::${final_output_directory}
   niftifile_csvfilename=${working_dir}/${sessionID_1}'this_session_final_ct.csv'
 
-#  if [ $counter -lt 2 ]; then # $counter
-  if [ ${sessionID_1} == "SNIPR_E03515" ] ; then
+  if [ $counter -lt 2 ]; then # $counter
+#  if [ ${sessionID_1} == "SNIPR_E03515" ] ; then
 #    echo "SESSIONID::${sessionID_1}"
     get_nifti_scan_uri ${sessionID_1} ${working_dir} ${niftifile_csvfilename}
 

@@ -384,8 +384,8 @@ def get_scan_type(sessionId,scanId1):
         df1 = pd.read_json(jsonStr)
         print("scanId1type::{}".format(type(scanId1)))
 
-        this_session_metadata_df_scanid=pd.DataFrame(df1.loc[df1['ID'] == int(scanId1)])
-        subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(str(this_session_metadata_df_scanid)) ,shell=True )
+        this_session_metadata_df_scanid=df1[df1['ID'] == int(scanId1)]
+        # subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(str(this_session_metadata_df_scanid)) ,shell=True )
         # this_session_metadata_df_scanid.reset_index(inplace=True)
         # print("df={}::scanId::{}::this_session_metadata_df_scanid:{}".format(df1['ID'],scanId1,this_session_metadata_df_scanid.loc[0,'type']))
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

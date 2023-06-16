@@ -162,7 +162,7 @@ def insertmaskfilesname(sessioncsv_df,dir_csv):
                 filename_available=''
 
         except:
-            pass
+            continue
     return sessioncsv_df
 # def call_insertmaskfilesname():
 #     dir_csv=sys.argv[1]
@@ -306,8 +306,23 @@ def insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytos
     except:
         print("I FAILED AT::{}".format(inspect.stack()[0][3]))
         pass
-    
-    
+
+def insertavailablefilenames_infarct(session_csvfile,dir_csv,filenametosave,directorytosave):
+    try:
+        sessioncsv_df=pd.read_csv(os.path.join(dir_csv,session_csvfile))
+        sessioncsv_df=sessioncsv_df[sessioncsv_df['xsiType']=='xnat:ctSessionData']
+        sessioncsv_df=insertniftifilename(sessioncsv_df,dir_csv)
+        sessioncsv_df=insertmaskfilesname(sessioncsv_df,dir_csv)
+        # if "ICH" in typeofmask:
+        # sessioncsv_df=insertichquantificationfilename(sessioncsv_df,dir_csv)
+        # if "INFARCT" in typeofmask:
+        sessioncsv_df=insertedemabiomarkerfilename(sessioncsv_df,dir_csv)
+
+        sessioncsv_df.to_csv(os.path.join(directorytosave,filenametosave),index=False)
+        print("I SUCCEEDED AT::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT::{}".format(inspect.stack()[0][3]))
+        pass
 def call_insertavailablefilenames():
     session_csvfile=sys.argv[1]
     dir_csv=sys.argv[2]
@@ -316,9 +331,9 @@ def call_insertavailablefilenames():
     directorytosave=sys.argv[4]
     latexfilename=os.path.join(directorytosave,sys.argv[5])
     subprocess.call("echo " + "I SUCCEEDED AT ::{}  > /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-    insertavailablefilenames(session_csvfile,dir_csv,filenametosave,directorytosave)
+    insertavailablefilenames_infarct(session_csvfile,dir_csv,filenametosave,directorytosave)
     masterfilename=os.path.join(directorytosave,filenametosave)
-    # pdffromanalytics(masterfilename,latexfilename)
+    pdffromanalytics(masterfilename,latexfilename)
 
 ### after downloading the file, which contain the list of analyzed nifti and its corresponding pdf ,from the snipr
 def snipr_analytics_result(masterfilename,filenamefornotanalyzeddata,filenamefornotanalyzeddatafigure):

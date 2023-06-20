@@ -264,6 +264,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
   done < <(tail -n +2 "${niftifile_csvfilename}")
   ################################################
+  outputfiles_present=0
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
   #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
   if [[ "${outputfiles_present: -1}" -eq 1 ]]; then

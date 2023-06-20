@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
+      <change afterPath="$PROJECT_DIR$/module_NWU_CSFCompartment_Calculations_June20_2023.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module_NWU_CSFCompartment_Calculations.py" beforeDir="false" afterPath="$PROJECT_DIR$/module_NWU_CSFCompartment_Calculations.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,13 +56,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-01046" summary="Commit Feb 23 2023">
-      <created>1686885332416</created>
-      <option name="number" value="01046" />
-      <option name="presentableId" value="LOCAL-01046" />
-      <option name="project" value="LOCAL" />
-      <updated>1686885332416</updated>
     </task>
     <task id="LOCAL-01047" summary="Commit Feb 23 2023">
       <created>1686885401977</created>
@@ -399,7 +393,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686918834037</updated>
     </task>
-    <option name="localTasksCounter" value="1095" />
+    <task id="LOCAL-01095" summary="Commit Feb 23 2023">
+      <created>1686962648182</created>
+      <option name="number" value="01095" />
+      <option name="presentableId" value="LOCAL-01095" />
+      <option name="project" value="LOCAL" />
+      <updated>1686962648182</updated>
+    </task>
+    <option name="localTasksCounter" value="1096" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

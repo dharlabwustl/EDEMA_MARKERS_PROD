@@ -721,7 +721,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
                         Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(Infarct_Mask_filename_June20_data_512)
                         Infarct_Mask_filename_June20_data_512_idx_flatten=Infarct_Mask_filename_June20_data_512_idx.flatten()
-                        INFARCT_VOXELS_IN_CSF=INFARCT_VOXELS_IN_CSF+np.count_nonzero(Infarct_Mask_filename_June20_data_512_idx_flatten)
+                        # INFARCT_VOXELS_IN_CSF=INFARCT_VOXELS_IN_CSF+np.count_nonzero(Infarct_Mask_filename_June20_data_512_idx_flatten)
 
                         slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
                         slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1

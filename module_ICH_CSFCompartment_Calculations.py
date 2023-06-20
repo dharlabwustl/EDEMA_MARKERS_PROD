@@ -1086,14 +1086,16 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         this_slice_gray_left_volume=this_slice_gray_left_volume/1000
                         this_slice_gray_right_volume=this_slice_gray_right_volume/1000
 
+                        slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
+                        slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
+                        slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
+
                         img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
 
                         img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
                         slice_number="{0:0=3d}".format(img_idx)
 
-                        slice_3_layer[:,:,0][ICH_Class2_Mask_filename_data_512_idx>0]=255
-                        slice_3_layer[:,:,1][ICH_Class2_Mask_filename_data_512_idx>0]=0
-                        slice_3_layer[:,:,2][ICH_Class2_Mask_filename_data_512_idx>0]=0
+
                         imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
 
                         imagefilename_ICH=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_ICH.png")

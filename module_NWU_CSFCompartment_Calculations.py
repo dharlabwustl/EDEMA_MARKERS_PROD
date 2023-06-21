@@ -224,7 +224,7 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
             infarct_total_voxels_volume=infarct_total_voxels_volume/1000
 
         if len(CSF_Mask_filename_data_np.shape) == 4:
-            CSF_Mask_filename_data_np=CSF_Mask_filename_data_np[:,:,:,0]
+            CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_data_np[:,:,:,0])
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
@@ -241,7 +241,9 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
+
         numpy_image_mask=CSF_Mask_filename_data_np
+
 
         for img_idx in range(numpy_image.shape[2]):
             #             print("I AM HERE 4")

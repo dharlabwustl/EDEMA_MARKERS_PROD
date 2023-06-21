@@ -224,7 +224,7 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
             infarct_total_voxels_volume=infarct_total_voxels_volume/1000
 
         if len(CSF_Mask_filename_data_np.shape) == 4:
-            CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_data_np[:,:,:,0])
+            CSF_Mask_filename_data_np=CSF_Mask_filename_data_np[:,:,:,0]
 
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
         filename_gray_data_np_copy=np.copy(filename_gray_data_np)
@@ -241,9 +241,7 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
 
         filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
-
         numpy_image_mask=CSF_Mask_filename_data_np
-
 
         for img_idx in range(numpy_image.shape[2]):
             #             print("I AM HERE 4")
@@ -722,10 +720,6 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer[:,:,2]= thisimage# imgray1
 
                         Infarct_Mask_filename_June20_data_512_idx  = Infarct_Mask_filename_June20_data_512[:,:,img_idx]
-                        CSF_Mask_filename_data_np_idx=CSF_Mask_filename_data_np[:,:,img_idx]
-                        Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np_idx>0]=255
-                        Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx<255]=0
-
                         print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
                         # Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(Infarct_Mask_filename_June20_data_512)
                         Infarct_Mask_filename_June20_data_512_idx_flatten=Infarct_Mask_filename_June20_data_512_idx.flatten()

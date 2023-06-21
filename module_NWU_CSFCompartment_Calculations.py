@@ -720,6 +720,8 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         slice_3_layer[:,:,2]= thisimage# imgray1
 
                         Infarct_Mask_filename_June20_data_512_idx  = Infarct_Mask_filename_June20_data_512[:,:,img_idx]
+                        Infarct_Mask_filename_June20_data_512_idx[(CSF_Mask_filename_data_np[:,:,img_idx]>0) & (Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]>0) ]=255
+                        Infarct_Mask_filename_June20_data_512_idx[(Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]<255) ]=0
                         print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
                         # Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(Infarct_Mask_filename_June20_data_512)
                         Infarct_Mask_filename_June20_data_512_idx_flatten=Infarct_Mask_filename_June20_data_512_idx.flatten()

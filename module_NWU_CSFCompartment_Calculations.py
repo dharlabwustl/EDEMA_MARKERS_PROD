@@ -646,7 +646,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
             CSF_Mask_filename_fdata=nib.load(CSF_Mask_filename).get_fdata()
-            CSF_Mask_filename_fdata[Infarct_Mask_filename_June20_data>0]=np.min(CSF_Mask_filename_fdata)
+            CSF_Mask_filename_fdata[Infarct_Mask_filename_June20_data>0]=0 #np.min(CSF_Mask_filename_fdata)
             CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_fdata) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
             CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
 

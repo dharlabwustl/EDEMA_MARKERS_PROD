@@ -33,6 +33,7 @@ while IFS=',' read -ra array; do
       call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
       outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
       NIFTIFILE_FLAG=${outputfiles_present: -1}
+      echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
       if [ ${NIFTIFILE_FLAG} -eq 1 ] ; then
         echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
       fi

@@ -20,16 +20,16 @@ from download_with_session_ID import *;
 call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 }
 ## for each session
-function call_get_resourcefiles_metadata_saveascsv_args() {
-   output_csvfile=${4} #{array[1]}
-   output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-   URI=${1}          #{array[0]}
-   resource_dir=${2} #"NIFTI"
-   final_output_directory=${3}
-   call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-   outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-
-}
+#function call_get_resourcefiles_metadata_saveascsv_args() {
+#   output_csvfile=${4} #{array[1]}
+#   output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+#   URI=${1}          #{array[0]}
+#   resource_dir=${2} #"NIFTI"
+#   final_output_directory=${3}
+#   call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+#   outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+#
+#}
 
 sessions_list=${working_dir}/'sessions.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}

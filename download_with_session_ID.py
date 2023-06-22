@@ -1240,15 +1240,25 @@ def call_check_if_a_file_exist_in_snipr( args):
     # parser.add_argument('stuff', nargs='+')
     # args = parser.parse_args()
     # print (args.stuff)
-    sessionID=args.stuff[1]
-    scanID=args.stuff[2]
-    resource_dir=args.stuff[3]
-    URI="/data/experiments/"+sessionID+"/scans/"+scanID
-    extension_to_find_list=args.stuff[4:]
-    file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
-    if file_present < len(extension_to_find_list):
-        return 0
-    return 1
+    returnvalue=0
+    try:
+        sessionID=args.stuff[1]
+        scanID=args.stuff[2]
+        resource_dir=args.stuff[3]
+        URI="/data/experiments/"+sessionID+"/scans/"+scanID
+        extension_to_find_list=args.stuff[4:]
+        file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+        if file_present < len(extension_to_find_list):
+            pass
+        else:
+            returnvalue=1
+        # return 1
+            print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
+
 
 
 def get_latest_file(df_listfile):

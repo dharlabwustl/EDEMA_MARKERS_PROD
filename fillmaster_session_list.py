@@ -459,6 +459,7 @@ def main():
         return_value=call_pdffromanalytics(args)
         
     if name_of_the_function == "call_fill_single_row_each_scan":
+        print(" AM HERE")
         return_value=call_fill_single_row_each_scan(args)
 
 if __name__ == '__main__':

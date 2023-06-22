@@ -69,8 +69,10 @@ while IFS=',' read -ra array; do
           #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
           call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
           resource_dir="MASKS"
           call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 #          resource_dir="EDEMA_BIOMARKER"
 #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile} .pdf
           #          call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})

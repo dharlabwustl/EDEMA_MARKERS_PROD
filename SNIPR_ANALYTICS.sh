@@ -338,7 +338,7 @@ directorytosave=$final_output_directory
 #fillmaster_session_list ${session_csvfile} ${dir_csv}  ${filenametosave} ${directorytosave} ${filename_latex_tosave}
 
 ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-snipr_output_foldername="SNIPR_ANALYTICS" ## _V1"
+snipr_output_foldername="SNIPR_ANALYTICS_V1"
 call_project_resource_latest_analytic_file_arguments=('project_resource_latest_analytic_file' ${project_ID} ${snipr_output_foldername} .csv $directorytosave)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_project_resource_latest_analytic_file_arguments[@]}")
 #echo ${outputfiles_present}
@@ -482,9 +482,9 @@ outputdirectory=${final_output_directory}
 combined_csv_outputfilename=${projectID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
 call_combinecsvs_inafileoflist_arguments=('call_combinecsvs_inafileoflist' ${localfilelist_csv} ${outputdirectory} ${combined_csv_outputfilename}  )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_combinecsvs_inafileoflist_arguments[@]}" )
-snipr_output_foldername1="EDEMA_BIOMARKER" ##_V1"
+snipr_output_foldername1="EDEMA_BIOMARKER_V1"
 if [ ${project_ID} == "ICH" ] ; then
-snipr_output_foldername1="ICH_BIOMARKER" ##_V1"
+snipr_output_foldername1="ICH_BIOMARKER_V1"
 fi
 copysinglefile_to_sniprproject  ${project_ID}  "${final_output_directory}"  ${snipr_output_foldername1}  ${combined_csv_outputfilename}
 

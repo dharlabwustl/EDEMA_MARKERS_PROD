@@ -8,7 +8,7 @@ output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
 ## for each session
-sessions_list=${final_output_directory}/'sessions.csv'
+sessions_list=${working_dir}/'sessions.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 
 ## for each selected scan in the session

@@ -69,7 +69,7 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 11 ]] ;
 then
   PROJECT_ID=${1}
-    /software/SNIPR_ANALYTICS.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+    /software/SNIPR_ANALYTICS_SCANROW.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 12 ]] ;

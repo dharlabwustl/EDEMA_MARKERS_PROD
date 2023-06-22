@@ -793,15 +793,21 @@ def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_dat
     pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
     # return metadata_masks
 def call_get_resourcefiles_metadata_saveascsv():
-    URI=sys.argv[1]
-    # print("URI::{}".format(URI))
-    URI=URI.split('/resources')[0]
-    # print("URI::{}".format(URI))
-    resource_dir=sys.argv[2]
-    dir_to_receive_the_data=sys.argv[3]
-    output_csvfile=sys.argv[4]
-    get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
-
+    try:
+        URI=sys.argv[1]
+        # print("URI::{}".format(URI))
+        URI=URI.split('/resources')[0]
+        # print("URI::{}".format(URI))
+        resource_dir=sys.argv[2]
+        dir_to_receive_the_data=sys.argv[3]
+        output_csvfile=sys.argv[4]
+        get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return 0
 def findthetargetscan():
      target_scan=""
      ## find the list of usable scans
@@ -1493,9 +1499,10 @@ def main():
 
     if name_of_the_function=="call_uploadfilesfromlistinacsv":
         return_value=call_uploadfilesfromlistinacsv(args)
+    if name_of_the_function=="call_get_resourcefiles_metadata_saveascsv":
+        return_value=call_get_resourcefiles_metadata_saveascsv(args)
 
-
-        # print(return_value)
+        # print(return_value) call_get_resourcefiles_metadata_saveascsv
         # return  call_concatenate_twocsv_list
     print(return_value)
 if __name__ == '__main__':

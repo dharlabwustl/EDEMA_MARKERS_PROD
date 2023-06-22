@@ -35,6 +35,7 @@ while IFS=',' read -ra array; do
       NIFTIFILE_FLAG=${outputfiles_present: -1}
       if [ ${NIFTIFILE_FLAG} -eq 1 ] ; then
         echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
+      fi
     done < <(tail -n +2 "${niftifile_csvfilename}")
   done
     ################################################

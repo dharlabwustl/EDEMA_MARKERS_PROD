@@ -15,12 +15,13 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 counter=0
 while IFS=',' read -ra array; do
   sessionID="${array[1]}"
+  if [ ${sessionID} == "SNIPR01_E01115" ] ; then
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
   NIFTI_LOCATION_FLAG=${outputfiles_present: -1}
-#  if [ ${NIFTI_LOCATION_FLAG}]
   counter=$((counter + 1))
+  fi
   if [ ${counter} -gt 1 ]; then
     break
   fi

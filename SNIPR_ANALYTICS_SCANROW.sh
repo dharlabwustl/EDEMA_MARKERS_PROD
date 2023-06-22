@@ -23,7 +23,7 @@ call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_rec
 function call_get_resourcefiles_metadata_saveascsv_args() {
   resource_dir=${2}   #"NIFTI"
   output_csvfile=${4} #{array[1]}
-  output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+  output_csvfile=${output_csvfile%.nii*}${resource_dir}.csv
   URI=${1} #{array[0]}
 
   final_output_directory=${3}

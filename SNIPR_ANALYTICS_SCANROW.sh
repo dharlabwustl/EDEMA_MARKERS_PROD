@@ -19,10 +19,9 @@ while IFS=',' read -ra array; do
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-  NIFTI_LOCATION_FLAG=${outputfiles_present: -1}
   counter=$((counter + 1))
   countfiles=$( ls ${working_dir}/*.csv | wc -l )
-  if [ ${countfiles} -gt 1 ]; then
+  if [ ${countfiles} -gt 3 ]; then
     break
   fi
 done < <(tail -n +2 "${sessions_list}")

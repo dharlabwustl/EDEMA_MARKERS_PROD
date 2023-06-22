@@ -579,7 +579,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     csf_image_data=nib.load(sys.argv[3]).get_fdata()
     Infarct_Mask_filename_June20=sys.argv[4]
     Infarct_Mask_filename_June20_data=nib.load(Infarct_Mask_filename_June20).get_fdata()
-    csf_image_data[Infarct_Mask_filename_June20_data>0]=np.min(csf_image_data)
+    # csf_image_data[Infarct_Mask_filename_June20_data>0]=np.min(csf_image_data)
     Infarct_Mask_filename_June20_data_512=resizeinto_512by512(Infarct_Mask_filename_June20_data)
     if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
 
@@ -646,9 +646,12 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
 
             CSF_Mask_filename_fdata=nib.load(CSF_Mask_filename).get_fdata()
-            CSF_Mask_filename_fdata[Infarct_Mask_filename_June20_data>0]=0 #np.min(CSF_Mask_filename_fdata)
+            CSF_Mask_filename_fdata_June21_2023=nib.load(CSF_Mask_filename).get_fdata()
+            # CSF_Mask_filename_fdata[Infarct_Mask_filename_June20_data>0]=0 #np.min(CSF_Mask_filename_fdata)
+            CSF_Mask_filename_fdata_June21_2023_np=resizeinto_512by512(CSF_Mask_filename_fdata_June21_2023)
             CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_fdata) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
             CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
+            CSF_Mask_filename_fdata_June21_2023_np[CSF_Mask_filename_fdata_June21_2023_np>1]=0
 
             ######################### added on July 15 2022 ##################################
             #             print("56code added on July 15 2022")
@@ -722,7 +725,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         Infarct_Mask_filename_June20_data_512_idx  = Infarct_Mask_filename_June20_data_512[:,:,img_idx]
                         Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx>0]=1
                         Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx<1]=0
-                        CSF_Mask_filename_data_np_idx=CSF_Mask_filename_data_np[:,:,img_idx]
+                        CSF_Mask_filename_data_np_idx=CSF_Mask_filename_fdata_June21_2023_np[:,:,img_idx]
                         CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx>0]=1
                         CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx<1]=0
                         Infarct_Mask_filename_June20_data_512_idx=CSF_Mask_filename_data_np_idx*Infarct_Mask_filename_June20_data_512_idx

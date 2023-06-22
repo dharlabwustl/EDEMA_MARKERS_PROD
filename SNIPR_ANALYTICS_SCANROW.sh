@@ -69,7 +69,7 @@ while IFS=',' read -ra array; do
           echo ${output_csvfile}
           #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
-          call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${output_csvfile} "SESSION_ID" ${sessionID} ${final_output_directory}/csvfilename.csv)
+          call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${URI} "SESSION_ID" ${sessionID} ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
          echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
 #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}

@@ -70,13 +70,13 @@ while IFS=',' read -ra array; do
           URI=${array[0]}
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' identifier columnname columnvalue ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
-          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
-          resource_dir="MASKS"
-          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
-          resource_dir="EDEMA_BIOMARKER"
-          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+#          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
+#          resource_dir="MASKS"
+#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+#          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
+#          resource_dir="EDEMA_BIOMARKER"
+#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
           #          call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
           #          outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
           #          NIFTIFILE_CSV_FLAG=${outputfiles_present: -1}
@@ -90,7 +90,7 @@ while IFS=',' read -ra array; do
   done
   ################################################
 
-  if [ ${countfiles} -gt 2 ]; then
+  if [ ${countfiles} -gt 1 ]; then
     break
   fi
 done < <(tail -n +2 "${sessions_list}")

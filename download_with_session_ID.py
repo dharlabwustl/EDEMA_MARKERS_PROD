@@ -385,7 +385,7 @@ def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
     df_1=df.loc[(df['ID'] == scanId)]
     df_1=df_1.reset_index()
     print(" I AM AT get_single_value_from_metadata_forascan")
-    print(df_1)
+    print(sessionId)
     return  "XX" # df_1[0][metadata_field]
 def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     this_session_metadata=get_metadata_session(sessionId)

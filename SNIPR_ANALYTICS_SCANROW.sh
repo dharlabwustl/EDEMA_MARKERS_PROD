@@ -28,36 +28,39 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 counter=0
 while IFS=',' read -ra array; do
   sessionID="${array[1]}"
-#  if [ ${sessionID} == "SNIPR01_E01115" ] ; then
+  #  if [ ${sessionID} == "SNIPR01_E01115" ] ; then
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
   counter=$((counter + 1))
-  countfiles=$( ls ${working_dir}/*.csv | wc -l )
+  countfiles=$(ls ${working_dir}/*.csv | wc -l)
   for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-    outputfiles_present=0
-    echo $niftifile_csvfilename
-    while IFS=',' read -ra array; do
-      scanID=${array[2]}
-      echo sessionId::${sessionID}
-      echo scanId::${scanID}
-      ## NIFTI present
-      snipr_output_foldername="NIFTI"
-      call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .nii )
-      outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-      NIFTIFILE_FLAG=${outputfiles_present: -1}
-      echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
-      if [ ${NIFTIFILE_FLAG} -eq 1 ] ; then
-        echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
-        resource_dirname="NIFTI"
-        resource_dir=${resource_dirname}
-        output_csvfile=${array[1]}
-        output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-        call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-      fi
-    done < <(tail -n +2 "${niftifile_csvfilename}")
+    if [ -f "${niftifile_csvfilename}" ]; then
+
+      outputfiles_present=0
+      echo $niftifile_csvfilename
+      while IFS=',' read -ra array; do
+        scanID=${array[2]}
+        echo sessionId::${sessionID}
+        echo scanId::${scanID}
+        ## NIFTI present
+        snipr_output_foldername="NIFTI"
+        call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .nii)
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+        NIFTIFILE_FLAG=${outputfiles_present: -1}
+        echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
+        if [ ${NIFTIFILE_FLAG} -eq 1 ]; then
+          echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
+          resource_dirname="NIFTI"
+          resource_dir=${resource_dirname}
+          output_csvfile=${array[1]}
+          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+        fi
+      done < <(tail -n +2 "${niftifile_csvfilename}")
+    fi
   done
-    ################################################
+  ################################################
 
   if [ ${countfiles} -gt 3 ]; then
     break

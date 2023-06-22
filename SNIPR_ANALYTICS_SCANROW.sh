@@ -17,7 +17,7 @@ while IFS=',' read -ra array; do
   sessionID="${array[1]}"
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-  echo '$outputfiles_present'::$outputfiles_present
+  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
   counter=$((counter + 1))
   if [ ${counter} -gt 1 ]; then
     break

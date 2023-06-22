@@ -383,7 +383,7 @@ def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
     # print(jsonStr)
     df = pd.read_json(jsonStr)
     df_1=df.loc[(df['ID'] == scanId)]
-    df_1[metadata_field]
+    df_1=df_1.reset_index()
     return  df_1[metadata_field]
 def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     this_session_metadata=get_metadata_session(sessionId)

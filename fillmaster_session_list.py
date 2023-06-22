@@ -422,8 +422,8 @@ def fill_single_row_each_scan(URL,columnname,columnvalue,csvfilename):
             csvfilename_df=pd.read_csv(csvfilename)
         else:
             columnvalue_flag=0
-            URL_SPLIT=URL.split('/')
-            identifier=URL_SPLIT[3]+"_"+URL_SPLIT[5]
+            # URL_SPLIT=URL.split('/')
+            identifier=URL #URL_SPLIT[3]+"_"+URL_SPLIT[5]
             if len(columnvalue)>3:
                 columnvalue_flag=1
             first_dict={"SCAN_ID":identifier,columnname: columnvalue}

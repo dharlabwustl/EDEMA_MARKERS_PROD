@@ -429,7 +429,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
             first_dict_df.to_csv(csvfilename,index=False)
-            scan_type=get_single_value_from_metadata_forascan(columnvalue,identifier,'type')
+            scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             print("I PASSED AT ::{}::{}".format(inspect.stack()[0][3],scan_type))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

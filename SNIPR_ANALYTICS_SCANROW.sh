@@ -65,13 +65,13 @@ while IFS=',' read -ra array; do
           output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
           resource_dir="NIFTI"
-          #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-          #          resource_dir="MASKS"
-          #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-          call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-          outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-          NIFTIFILE_CSV_FLAG=${outputfiles_present: -1}
-          echo "NIFTIFILE_CSV_FLAG:${NIFTIFILE_CSV_FLAG}"
+          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          resource_dir="MASKS"
+          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          #          call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+          #          outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+          #          NIFTIFILE_CSV_FLAG=${outputfiles_present: -1}
+          #          echo "NIFTIFILE_CSV_FLAG:${NIFTIFILE_CSV_FLAG}"
 
           #          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
         fi
@@ -81,7 +81,7 @@ while IFS=',' read -ra array; do
   done
   ################################################
 
-  if [ ${countfiles} -gt 1 ]; then
+  if [ ${countfiles} -gt 3 ]; then
     break
   fi
 done < <(tail -n +2 "${sessions_list}")

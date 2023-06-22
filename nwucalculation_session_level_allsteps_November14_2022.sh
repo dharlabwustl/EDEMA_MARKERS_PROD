@@ -262,7 +262,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     ### check if the file exists:
     call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-  done < <(tail -n +2 "${niftifile_csvfilename}")
+
   ################################################
   outputfiles_present=0
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
@@ -310,4 +310,5 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
   ##
   rm ${final_output_directory}/*.*
   rm ${output_directory}/*.*
+  done < <(tail -n +2 "${niftifile_csvfilename}")
 done

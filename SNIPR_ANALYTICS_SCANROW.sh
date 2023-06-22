@@ -66,6 +66,7 @@ while IFS=',' read -ra array; do
           echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
           resource_dir="NIFTI"
           output_csvfile=${array[1]}
+          echo ${output_csvfile}
           #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${output_csvfile} "SESSION_ID" ${sessionID} ${final_output_directory}/csvfilename.csv)

@@ -30,7 +30,7 @@ while IFS=',' read -ra array; do
       echo scanId::${scanID}
       ## NIFTI present
       snipr_output_foldername="NIFTI"
-      call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .nii .nii.gz)
+      call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .nii )
       outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
       NIFTIFILE_FLAG=${outputfiles_present: -1}
       echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"

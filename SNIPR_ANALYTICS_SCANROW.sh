@@ -36,6 +36,11 @@ while IFS=',' read -ra array; do
       echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
       if [ ${NIFTIFILE_FLAG} -eq 1 ] ; then
         echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
+        resource_dirname="NIFTI"
+        resource_dir=${resource_dirname}
+        output_csvfile=${array[1]}
+        output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+        call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
       fi
     done < <(tail -n +2 "${niftifile_csvfilename}")
   done

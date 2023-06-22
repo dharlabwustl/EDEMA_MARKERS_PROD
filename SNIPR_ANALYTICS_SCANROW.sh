@@ -21,13 +21,14 @@ call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_rec
 }
 ## for each session
 function call_get_resourcefiles_metadata_saveascsv_args() {
-   output_csvfile=${4} #{array[1]}
-   output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
-   URI=${1}          #{array[0]}
-   resource_dir=${2} #"NIFTI"
-   final_output_directory=${3}
-   call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+  resource_dir=${2}   #"NIFTI"
+  output_csvfile=${4} #{array[1]}
+  output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+  URI=${1} #{array[0]}
+
+  final_output_directory=${3}
+  call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 
 }
 
@@ -63,7 +64,7 @@ while IFS=',' read -ra array; do
           echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
           resource_dir="NIFTI"
           output_csvfile=${array[1]}
-#          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
+          #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
           call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
           resource_dir="MASKS"

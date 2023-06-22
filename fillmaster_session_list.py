@@ -414,8 +414,38 @@ def get_scan_type(sessionId,scanId1):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 
+def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
+    #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
+    returnvalue=0
+    try:
+        if os.path.exists(csvfilename):
+            csvfilename_df=pd.read_csv(csvfilename)
+        else:
+            columnvalue_flag=0
+            if len(columnvalue)>3:
+                columnvalue_flag=1
+            first_dict={"SCAN_ID":identifier,columnname: columnvalue, columnname+"_AVAILABLE": columnvalue_flag}
+            pd.DataFrame([first_dict])
+            pd.to_csv(csvfilename,index=False)
+        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
+def call_fill_single_row_each_scan(args):
 
-
+    returnvalue=0
+    try:
+        identifier=args.stuff[1]
+        columnname=args.stuff[2]
+        columnvalue=args.stuff[3]
+        csvfilename=args.stuff[4]
+        fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename)
+        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
 
 
 def main():
@@ -426,7 +456,9 @@ def main():
     return_value=0
     if name_of_the_function == "call_pdffromanalytics":
         return_value=call_pdffromanalytics(args)
-
+        
+    if name_of_the_function == "call_fill_single_row_each_scan":
+        return_value=call_fill_single_row_each_scan(args)
 
 if __name__ == '__main__':
     main()

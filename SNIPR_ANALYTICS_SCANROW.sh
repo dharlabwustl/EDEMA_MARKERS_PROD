@@ -61,7 +61,7 @@ while IFS=',' read -ra array; do
         call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .nii)
         outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
         NIFTIFILE_FLAG=${outputfiles_present: -1}
-#        echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
+        echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
         if [ ${NIFTIFILE_FLAG} -eq 1 ]; then
           echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
           resource_dir="NIFTI"
@@ -70,7 +70,7 @@ while IFS=',' read -ra array; do
           URI=${array[0]}
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' identifier columnname columnvalue ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
-         echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+         echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
 #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
 #          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
 #          resource_dir="MASKS"

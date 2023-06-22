@@ -7,15 +7,18 @@ working_dir=/workinginput
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
-def call_get_resourcefiles_metadata_saveascsv():
-    URI=sys.argv[1]
-    # print("URI::{}".format(URI))
-    URI=URI.split('/resources')[0]
-    # print("URI::{}".format(URI))
-    resource_dir=sys.argv[2]
-    dir_to_receive_the_data=sys.argv[3]
-    output_csvfile=sys.argv[4]
-    get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+####################
+call_get_resourcefiles_metadata_saveascsv() {
+  URI=${1}
+  resource_dir=${2}
+  dir_to_receive_the_data=${3}
+  output_csvfile=${4}
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+}
 ## for each session
 
 sessions_list=${working_dir}/'sessions.csv'

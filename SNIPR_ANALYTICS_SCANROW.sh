@@ -28,6 +28,7 @@ while IFS=',' read -ra array; do
       scanID=${array[2]}
       echo sessionId::${sessionID}
       echo scanId::${scanID}
+      ## NIFTI present
       snipr_output_foldername="EDEMA_BIOMARKER"
       call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
       outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")

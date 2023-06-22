@@ -62,8 +62,8 @@ while IFS=',' read -ra array; do
           output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
           outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-          NIFTIFILE_FLAG=${outputfiles_present: -1}
-          echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
+          NIFTIFILE_CSV_FLAG=${outputfiles_present: -1}
+          echo "NIFTIFILE_CSV_FLAG:${NIFTIFILE_CSV_FLAG}"
 
           #          call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
         fi

@@ -427,7 +427,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
             first_dict={"SCAN_ID":identifier,columnname: columnvalue, columnname+"_AVAILABLE": columnvalue_flag}
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
-            # pd.to_csv(csvfilename,index=False)
+            first_dict_df.to_csv(csvfilename,index=False)
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

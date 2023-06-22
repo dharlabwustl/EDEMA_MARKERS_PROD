@@ -728,7 +728,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                         CSF_Mask_filename_data_np_idx=CSF_Mask_filename_fdata_June21_2023_np[:,:,img_idx]
                         CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx>0]=1
                         CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx<1]=0
-                        Infarct_Mask_filename_June20_data_512_idx=CSF_Mask_filename_data_np_idx*Infarct_Mask_filename_June20_data_512_idx
+                        # Infarct_Mask_filename_June20_data_512_idx=CSF_Mask_filename_data_np_idx*Infarct_Mask_filename_June20_data_512_idx
                         # Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]>0]=255
                         # Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]<0.5 ]=255
                         # Infarct_Mask_filename_June20_data_512_idx[(Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]<255) ]=0

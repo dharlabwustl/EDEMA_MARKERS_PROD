@@ -414,7 +414,7 @@ def get_scan_type(sessionId,scanId1):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 
-def fill_single_row_each_scan(URL,columnname,columnvalue,csvfilename):
+def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
     #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
     returnvalue=0
     try:
@@ -422,8 +422,7 @@ def fill_single_row_each_scan(URL,columnname,columnvalue,csvfilename):
             csvfilename_df=pd.read_csv(csvfilename)
         else:
             columnvalue_flag=0
-            # URL_SPLIT=URL.split('/')
-            identifier=URL #URL_SPLIT[3]+"_"+URL_SPLIT[5]
+            identifier=identifier
             if len(columnvalue)>3:
                 columnvalue_flag=1
             first_dict={"SCAN_ID":identifier,columnname: columnvalue}

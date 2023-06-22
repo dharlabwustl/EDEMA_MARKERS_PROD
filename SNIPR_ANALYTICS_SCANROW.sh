@@ -81,7 +81,7 @@ while IFS=',' read -ra array; do
   done
   ################################################
 
-  if [ ${countfiles} -gt 3 ]; then
+  if [ ${countfiles} -gt 2 ]; then
     break
   fi
 done < <(tail -n +2 "${sessions_list}")

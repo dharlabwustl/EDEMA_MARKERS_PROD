@@ -32,7 +32,7 @@ while IFS=',' read -ra array; do
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-  counter=$((counter + 1))
+
   countfiles=$(ls ${working_dir}/*.csv | wc -l)
   for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     if [ -f "${niftifile_csvfilename}" ]; then
@@ -57,6 +57,7 @@ while IFS=',' read -ra array; do
           output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           call_get_resourcefiles_metadata_saveascsv ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
         fi
+        counter=$((counter + 1))
       done < <(tail -n +2 "${niftifile_csvfilename}")
     fi
   done

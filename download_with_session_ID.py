@@ -808,6 +808,23 @@ def call_get_resourcefiles_metadata_saveascsv():
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return 0
+
+def call_get_resourcefiles_metadata_saveascsv_args(args):
+    try:
+        URI=args.stuff[1] #sys.argv[1]
+        # print("URI::{}".format(URI))
+        URI=URI.split('/resources')[0]
+        # print("URI::{}".format(URI))
+        resource_dir=args.stuff[2] #sys.argv[2]
+        dir_to_receive_the_data=args.stuff[3] #sys.argv[3]
+        output_csvfile=args.stuff[4] #sys.argv[4]
+        get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return 0
 def findthetargetscan():
      target_scan=""
      ## find the list of usable scans
@@ -1499,8 +1516,8 @@ def main():
 
     if name_of_the_function=="call_uploadfilesfromlistinacsv":
         return_value=call_uploadfilesfromlistinacsv(args)
-    if name_of_the_function=="call_get_resourcefiles_metadata_saveascsv":
-        return_value=call_get_resourcefiles_metadata_saveascsv(args)
+    if name_of_the_function=="call_get_resourcefiles_metadata_saveascsv_args":
+        return_value=call_get_resourcefiles_metadata_saveascsv_args(args)
 
         # print(return_value) call_get_resourcefiles_metadata_saveascsv
         # return  call_concatenate_twocsv_list

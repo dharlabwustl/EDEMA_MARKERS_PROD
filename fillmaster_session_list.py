@@ -424,7 +424,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             print(row['ID'])
             print(row['label'])
             identifier=0 #"NONE"
-            # fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],"SESSION_LABEL",row['label'],csvfilename)
+            fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
             counter=counter+1
             if counter > 10:
                 break

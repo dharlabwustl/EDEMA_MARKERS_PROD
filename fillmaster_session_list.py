@@ -424,7 +424,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         for index, row in sessionlist_filename_df.iterrows():
             count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             counter=counter+1
-            if counter > 10:
+            if counter > 2:
                 break
         #     # print(sessionlist_filename_df.columns)
         #     # print(row['ID'])

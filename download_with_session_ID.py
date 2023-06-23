@@ -375,7 +375,28 @@ def call_decision_which_nifti_multiplescans():
     dir_to_receive_the_data=sys.argv[2]
     output_csvfile=sys.argv[3]
     decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data,output_csvfile)
+def count_brainaxial_or_thin(sessionId):
+    numberof_thin_or_axialscans=0
+    try:
 
+        this_session_metadata=get_metadata_session(sessionId)
+        jsonStr = json.dumps(this_session_metadata)
+        # print(jsonStr)
+        df = pd.read_json(jsonStr)
+        numberof_thin_or_axialscans=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
+        # df['ID']=df['ID'].apply(str)
+        # # this_session_metadata_df_scanid=df1[df1['ID'] == str(scanId1)]
+        # df_1=df.loc[(df['ID'] == str(scanId))]
+        # df_1=df_1.reset_index()
+        # print(" I AM AT get_single_value_from_metadata_forascan")
+        # print(df.columns)
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
+    except Exception:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print("Exception::{}".format(Exception))
+        pass
+    return numberof_thin_or_axialscans
 def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
     returnvalue=""
     try:

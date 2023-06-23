@@ -413,6 +413,8 @@ def get_scan_type(sessionId,scanId1):
         return this_session_metadata_df_scanid.iloc[0]['type']
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+
+
 def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
@@ -437,18 +439,27 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
                 counter_nifti_location=counter_nifti_location+1
+                ### SCAN CLASSIFIER STEP
+            axial_thin_count=count_brainaxial_or_thin(row['ID'])
+            columnname="AXIAL_OR_THIN_NUM"
+            columnvalue=axial_thin_count
+            fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+                ## DICOM TO NIFTI STEP
+
+                ## SCAN SELECTION STEP
             if counter_nifti_location==0:
                 fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
                 columnname="NUMBEROFSELECTEDSCANS"
                 columnvalue=str(0)
                 row_identifier=row['ID']+"_"
                 fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-
             else:
                 columnname="NUMBEROFSELECTEDSCANS"
                 columnvalue=str(counter_nifti_location) #str(0)
                 row_identifier=row['ID']
                 fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+
+            ### DICOM TO NIFTI STEP
 
             counter=counter+1
             if counter > 10:

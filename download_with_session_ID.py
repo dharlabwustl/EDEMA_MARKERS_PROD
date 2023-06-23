@@ -1356,6 +1356,7 @@ def download_files_in_a_resource(URI,dir_to_save):
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass
 def call_download_files_in_a_resource_in_a_session(args):
+    returnvalue=0
     sessionId=args.stuff[1]
     # scanId=args.stuff[2]
     resource_dirname=args.stuff[2]
@@ -1368,7 +1369,8 @@ def call_download_files_in_a_resource_in_a_session(args):
         print("I AM IN :: call_download_files_in_a_resource_in_a_session::URI::{}".format(URI))
         return 1
     except:
-        return 0
+        pass
+    return returnvalue
     # URI,dir_to_save
 def call_concatenate_csv_list(args):
     all_files=args.stuff[2:]

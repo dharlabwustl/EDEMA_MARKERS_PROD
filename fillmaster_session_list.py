@@ -419,8 +419,8 @@ def create_analytics_file(sessionlist_filename):
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         for index, row in sessionlist_filename_df.iterrows():
             print(sessionlist_filename_df.columns)
-            # print(row['xnat:subjectassessordata/id'])
-            # print(row['xnat:subjectassessordata/id'])
+            print(row['ID'])
+            print(row['label'])
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

@@ -377,7 +377,7 @@ def call_decision_which_nifti_multiplescans():
     decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data,output_csvfile)
 
 def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
-    returnvalue="NODATA"
+    returnvalue=""
     try:
 
         this_session_metadata=get_metadata_session(sessionId)

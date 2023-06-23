@@ -431,8 +431,8 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             counter_nifti_location=0
             for each_niftilocationfile in niftilocation_files:
                 print(each_niftilocationfile)
-
-            # fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
+            if counter_nifti_location==0:
+                fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
             counter=counter+1
             if counter > 10:
                 break

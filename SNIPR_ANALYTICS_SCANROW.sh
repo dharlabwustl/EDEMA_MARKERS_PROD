@@ -30,7 +30,7 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
   local final_output_directory=${3}
   local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 
 }
 
@@ -44,7 +44,7 @@ while IFS=',' read -ra array; do
   #  if [ ${sessionID} == "SNIPR01_E01115" ] ; then
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-#  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+  #  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 
   countfiles=$(ls ${working_dir}/*.csv | wc -l)
   for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
@@ -71,14 +71,14 @@ while IFS=',' read -ra array; do
           URI=${array[0]}
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
-         echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
-#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-#          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
-#          resource_dir="MASKS"
-#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
-#          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
-#          resource_dir="EDEMA_BIOMARKER"
-#          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
+          #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          #          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
+          #          resource_dir="MASKS"
+          #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
+          #          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
+          #          resource_dir="EDEMA_BIOMARKER"
+          #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
           #          call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
           #          outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
           #          NIFTIFILE_CSV_FLAG=${outputfiles_present: -1}

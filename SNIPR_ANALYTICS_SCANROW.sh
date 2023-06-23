@@ -41,6 +41,7 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 counter=0
 while IFS=',' read -ra array; do
   sessionID="${array[1]}"
+  sessionLabel=${array[2]}
   #  if [ ${sessionID} == "SNIPR01_E01115" ] ; then
   call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
@@ -52,8 +53,8 @@ while IFS=',' read -ra array; do
 
       outputfiles_present=0
       echo $niftifile_csvfilename
-      while IFS=',' read -ra array; do
-        scanID=${array[2]}
+      while IFS=',' read -ra array1; do
+        scanID=${array1[2]}
         echo sessionId::${sessionID}
         echo scanId::${scanID}
         ## NIFTI present
@@ -69,7 +70,7 @@ while IFS=',' read -ra array; do
           echo ${output_csvfile}
           #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array[0]}
-          call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${final_output_directory}/csvfilename.csv)
+          call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${sessionLabel} ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
           echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
           #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}

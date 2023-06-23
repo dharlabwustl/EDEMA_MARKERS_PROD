@@ -417,12 +417,16 @@ def create_analytics_file(sessionlist_filename):
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        counter=0
         for index, row in sessionlist_filename_df.iterrows():
             # print(sessionlist_filename_df.columns)
             print(row['ID'])
             print(row['label'])
             identifier="NONE"
             fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],"SESSION_LABEL",row['label'])
+            counter=counter+1
+            if counter > 10:
+                break
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

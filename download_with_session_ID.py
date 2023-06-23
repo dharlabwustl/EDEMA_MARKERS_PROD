@@ -1355,6 +1355,21 @@ def download_files_in_a_resource(URI,dir_to_save):
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass
+def download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save):
+    try:
+        URI = (("/data/experiments/%s/resources/" + resource_dirname+ "/files?format=json")  %
+               (sessionId))
+        df_listfile=listoffile_witha_URI_as_df(URI)
+        print("df_listfile::{}".format(df_listfile))
+        # download_a_singlefile_with_URLROW(df_listfile,dir_to_save)
+        for item_id, row in df_listfile.iterrows():
+            # print("row::{}".format(row))
+            # download_a_singlefile_with_URLROW(row,dir_to_save)
+            download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
+            print("DOWNLOADED ::{}".format(row))
+    except:
+        print("FAILED AT ::{}".format("download_files_in_a_resource"))
+        pass
 def call_download_files_in_a_resource_in_a_session(args):
     returnvalue=0
     sessionId=args.stuff[1]

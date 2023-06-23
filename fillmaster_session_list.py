@@ -424,7 +424,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             print(row['ID'])
             print(row['label'])
             identifier=""
-            call_download_files_in_a_resource_in_a_session( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
+            download_files_in_a_resource_withname( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
             # fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
             counter=counter+1
             if counter > 10:

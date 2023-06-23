@@ -437,6 +437,10 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
             if counter_nifti_location==0:
                 fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
+                columnname="NUMBEROFSCANS"
+                columnvalue=0
+                row_identifier=row['ID']+"_"
+                fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
             counter=counter+1
             if counter > 10:
                 break
@@ -460,7 +464,45 @@ def call_create_analytics_file(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilename):
+    returnvalue=0
+    try:
+        if os.path.exists(csvfilename):
+            identifier=identifier
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            # this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            # this_scan_dict_df=pd.DataFrame([this_scan_dict])
+            # print(this_scan_dict)
+            csvfilename_df=pd.read_csv(csvfilename)
+            csvfilename_df_this_row=csvfilename_df[csvfilename_df['ROW_IDENTIFIER']==identifier]
+            csvfilename_df_colname=csvfilename_df.columns
+            if columnname not in csvfilename_df_colname:
+                csvfilename_df[columnname]=""
+            csvfilename_df['ROW_IDENTIFIER'][columnname]=columnvalue
+            # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
+            csvfilename_df.to_csv(csvfilename,index=False)
+            # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
+            # last_row_index=csvfilename_df['ROW_IDENTIFIER'].iget(-1)
+            # csvfilename_df.at[last_row_index+1,
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        else:
+            columnvalue_flag=0
+            # identifier=identifier
+            # if len(columnvalue)>3:
+            #     columnvalue_flag=1
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            # first_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            # print(first_dict)
+            # first_dict_df=pd.DataFrame([first_dict])
+            # first_dict_df.to_csv(csvfilename,index=False)
 
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
 def fill_single_row_each_scan(identifier,columnvalue,columnvalue2,csvfilename):
     #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
     returnvalue=0

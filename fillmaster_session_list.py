@@ -424,8 +424,8 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
             this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue, "SCAN_ID":identifier,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             this_scan_dict_df=pd.DataFrame([this_scan_dict])
             csvfilename_df=pd.read_csv(csvfilename)
-            csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
-            csvfilename_df.to_csv(csvfilename,index=False)
+            # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
+            # csvfilename_df.to_csv(csvfilename,index=False)
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
             # last_row_index=csvfilename_df['ROW_IDENTIFIER'].iget(-1)
             # csvfilename_df.at[last_row_index+1,

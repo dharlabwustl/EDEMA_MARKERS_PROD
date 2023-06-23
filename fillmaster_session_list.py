@@ -425,7 +425,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
             identifier=identifier
             if len(columnvalue)>3:
                 columnvalue_flag=1
-            first_dict={"SCAN_ID":identifier,columnname: columnvalue}
+            first_dict={"SCAN_ID":identifier,columnname:columnvalue}
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
             first_dict_df.to_csv(csvfilename,index=False)

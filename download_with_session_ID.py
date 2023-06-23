@@ -384,13 +384,32 @@ def count_brainaxial_or_thin(sessionId):
         # print(jsonStr)
         df = pd.read_json(jsonStr)
         numberof_thin_or_axialscans=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
-        # df['ID']=df['ID'].apply(str)
-        # # this_session_metadata_df_scanid=df1[df1['ID'] == str(scanId1)]
-        # df_1=df.loc[(df['ID'] == str(scanId))]
-        # df_1=df_1.reset_index()
-        # print(" I AM AT get_single_value_from_metadata_forascan")
-        # print(df.columns)
-        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
+    except Exception:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print("Exception::{}".format(Exception))
+        pass
+    return numberof_thin_or_axialscans
+def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
+    numberof_thin_or_axialscans=0
+    try:
+
+        this_session_metadata=get_metadata_session(sessionId)
+        jsonStr = json.dumps(this_session_metadata)
+        # print(jsonStr)
+        df = pd.read_json(jsonStr)
+        for item_id, each_axial in df.iterrows():
+            URI=each_axial['URI'] #args.stuff[1] #sys.argv[1]
+            # print("URI::{}".format(URI))
+            # URI=URI.split('/resources')[0]
+            # print("URI::{}".format(URI))
+            resource_dir="NIFTI" #args.stuff[2] #sys.argv[2]
+            # dir_to_receive_the_data=args.stuff[3] #sys.argv[3]
+            output_csvfile=os.path.join(dir_to_receive_the_data,sessionId+URI.split("/")[-1]+".csv") #args.stuff[4] #sys.argv[4]
+            get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+
+        #
+        # numberof_thin_or_axialscans=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
         return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
     except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

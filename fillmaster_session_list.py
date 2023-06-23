@@ -422,44 +422,48 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
-            # print(sessionlist_filename_df.columns)
-            # print(row['ID'])
-            # print(row['label'])
-            identifier=""
-
-            command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
-            subprocess.call(command,shell=True)
-            download_files_in_a_resource_withname( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
-            counter_nifti_location=0
-            niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
-            for each_niftilocationfile in niftilocation_files:
-                print(each_niftilocationfile)
-                each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
-                print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
-                SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
-                fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
-                counter_nifti_location=counter_nifti_location+1
-                ### SCAN CLASSIFIER STEP
+            ### SCAN CLASSIFIER STEP
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_OR_THIN_NUM"
             columnvalue=axial_thin_count
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-                ## DICOM TO NIFTI STEP
+            ## DICOM TO NIFTI STEP
 
-                ## SCAN SELECTION STEP
-            if counter_nifti_location==0:
-                fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
-                columnname="NUMBEROFSELECTEDSCANS"
-                columnvalue=str(0)
-                row_identifier=row['ID']+"_"
-                fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-            else:
-                columnname="NUMBEROFSELECTEDSCANS"
-                columnvalue=str(counter_nifti_location) #str(0)
-                row_identifier=row['ID']
-                fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-
-            ### DICOM TO NIFTI STEP
+            #
+            # # print(sessionlist_filename_df.columns)
+            # # print(row['ID'])
+            # # print(row['label'])
+            # identifier=""
+            #
+            # command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
+            # subprocess.call(command,shell=True)
+            # download_files_in_a_resource_withname( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
+            # counter_nifti_location=0
+            # niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
+            # for each_niftilocationfile in niftilocation_files:
+            #     print(each_niftilocationfile)
+            #     each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
+            #     print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
+            #     SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
+            #     fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
+            #     counter_nifti_location=counter_nifti_location+1
+            #
+            #
+            #
+            #     ## SCAN SELECTION STEP
+            # if counter_nifti_location==0:
+            #     fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
+            #     columnname="NUMBEROFSELECTEDSCANS"
+            #     columnvalue=str(0)
+            #     row_identifier=row['ID']+"_"
+            #     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+            # else:
+            #     columnname="NUMBEROFSELECTEDSCANS"
+            #     columnvalue=str(counter_nifti_location) #str(0)
+            #     row_identifier=row['ID']
+            #     fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+            #
+            # ### DICOM TO NIFTI STEP
 
             counter=counter+1
             if counter > 10:

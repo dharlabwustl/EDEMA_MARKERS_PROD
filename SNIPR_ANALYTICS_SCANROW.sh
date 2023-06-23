@@ -95,7 +95,10 @@ while IFS=',' read -ra array; do
       done < <(tail -n +2 "${niftifile_csvfilename}")
     fi
   done
-  echo ${NIFTIFILE_COUNTER}
+
+  if [ ${NIFTIFILE_COUNTER} -eq 0 ] ;then
+      echo ${NIFTIFILE_COUNTER}
+  fi
   ################################################
 
   if [ ${countfiles} -gt 3 ]; then

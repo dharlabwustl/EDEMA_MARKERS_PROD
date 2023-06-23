@@ -403,6 +403,15 @@ def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
             resource_dir="NIFTI" #args.stuff[2] #sys.argv[2]
             output_csvfile=os.path.join(dir_to_receive_the_data,sessionId+URI.split("/")[-1]+".csv") #args.stuff[4] #sys.argv[4]
             get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+
+            try :
+                output_csvfile_df=pd.read_csv(output_csvfile)
+                for item_id1, each_axial1 in output_csvfile_df.iterrows():
+                    if ".nii" in each_axial1['Name']:
+                        numberof_thin_or_axialscans=numberof_thin_or_axialscans+1
+
+            except:
+                pass
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
 
         #

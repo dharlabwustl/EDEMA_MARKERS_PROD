@@ -392,8 +392,9 @@ def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
         print(df.columns)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         return str(df_1.iloc[0][metadata_field])
-    except:
+    except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print("Exception::{}".format(Exception))
         pass
     return returnvalue
 def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",output_csvfile=""):

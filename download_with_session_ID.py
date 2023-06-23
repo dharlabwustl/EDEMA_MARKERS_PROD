@@ -416,7 +416,7 @@ def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
 
         #
         # numberofniftifiles=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
-        print("numberofniftifiles::{}".format(numberofniftifiles))
+        # print("numberofniftifiles::{}".format(numberofniftifiles))
         return  numberofniftifiles #str(df_1.iloc[0][metadata_field])
     except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

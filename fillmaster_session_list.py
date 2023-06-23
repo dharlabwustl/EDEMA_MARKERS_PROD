@@ -426,11 +426,13 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,csvfilename):
             identifier=identifier
             if len(columnvalue)>3:
                 columnvalue_flag=1
-            first_dict={"ROW_IDENTIFIER":identifier+"_"+str(columnvalue), "SCAN_ID":identifier,columnname:columnvalue}
+            scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            first_dict={"ROW_IDENTIFIER":identifier+"_"+str(columnvalue), "SCAN_ID":identifier,columnname:columnvalue,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
             first_dict_df.to_csv(csvfilename,index=False)
-            scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+
             print("I PASSED AT ::{}::{}".format(inspect.stack()[0][3],scan_type))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

@@ -437,7 +437,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
             if counter_nifti_location==0:
                 fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
-                columnname="NUMBEROFSCANS"
+                columnname="NUMBEROFSELECTEDSCANS"
                 columnvalue=0
                 row_identifier=row['ID']+"_"
                 fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)

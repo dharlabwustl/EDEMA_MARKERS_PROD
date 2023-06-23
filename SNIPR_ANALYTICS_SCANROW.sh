@@ -98,6 +98,9 @@ while IFS=',' read -ra array; do
 
   if [ ${NIFTIFILE_COUNTER} -eq 0 ] ;then
       echo ${NIFTIFILE_COUNTER}
+      scanID="NONE"
+      call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${sessionLabel} ${final_output_directory}/csvfilename.csv)
+      outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
   fi
   ################################################
 

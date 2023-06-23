@@ -455,8 +455,8 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csv
     try:
         if os.path.exists(csvfilename):
             identifier=identifier
-            scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
-            scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
             this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":identifier} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             this_scan_dict_df=pd.DataFrame([this_scan_dict])
             print(this_scan_dict)

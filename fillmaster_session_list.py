@@ -418,7 +418,7 @@ def create_analytics_file(sessionlist_filename):
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         for index, row in sessionlist_filename_df.iterrows():
-            print(sessionlist_filename_df.columns)
+            # print(sessionlist_filename_df.columns)
             print(row['ID'])
             print(row['label'])
 

@@ -433,9 +433,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 print(each_niftilocationfile)
                 each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
                 print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
-                fill_single_row_each_scan(str(each_niftilocationfile_df.iloc[0]['ID']),"SESSION_ID",row['ID'],row['label'],csvfilename)
+                fill_single_row_each_scan(str(each_niftilocationfile_df.iloc[0]['ID']),row['ID'],row['label'],csvfilename)
             if counter_nifti_location==0:
-                fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
+                fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
             counter=counter+1
             if counter > 10:
                 break
@@ -460,7 +460,7 @@ def call_create_analytics_file(args):
         pass
     return returnvalue
 
-def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csvfilename):
+def fill_single_row_each_scan(identifier,columnvalue,columnvalue2,csvfilename):
     #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
     returnvalue=0
     try:
@@ -468,7 +468,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csv
             identifier=identifier
             # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
-            this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             this_scan_dict_df=pd.DataFrame([this_scan_dict])
             print(this_scan_dict)
             csvfilename_df=pd.read_csv(csvfilename)
@@ -484,7 +484,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csv
                 columnvalue_flag=1
             scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
-            first_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            first_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
             first_dict_df.to_csv(csvfilename,index=False)
@@ -500,11 +500,11 @@ def call_fill_single_row_each_scan(args):
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
         identifier=args.stuff[1]
-        columnname=args.stuff[2]
-        columnvalue=args.stuff[3]
-        columnvalue2=args.stuff[4]
-        csvfilename=args.stuff[5]
-        fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csvfilename)
+        # columnname=args.stuff[2]
+        columnvalue=args.stuff[2]
+        columnvalue2=args.stuff[3]
+        csvfilename=args.stuff[4]
+        fill_single_row_each_scan(identifier,columnvalue,columnvalue2,csvfilename)
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

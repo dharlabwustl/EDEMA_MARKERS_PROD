@@ -418,13 +418,16 @@ def create_analytics_file(sessionlist_filename):
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         for index, row in sessionlist_filename_df.iterrows():
-            print(row['xnat:subjectassessordata/id'])
+            print(sessionlist_filename_df.columns)
+            # print(row['xnat:subjectassessordata/id'])
+            # print(row['xnat:subjectassessordata/id'])
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
     return returnvalue
 def call_create_analytics_file(args):
     returnvalue=0
@@ -435,6 +438,7 @@ def call_create_analytics_file(args):
         returnvalue=1
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
     return returnvalue
 
 def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csvfilename):

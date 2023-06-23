@@ -421,6 +421,8 @@ def create_analytics_file(sessionlist_filename):
             # print(sessionlist_filename_df.columns)
             print(row['ID'])
             print(row['label'])
+            identifier="NONE"
+            fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],"SESSION_LABEL",row['label'])
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

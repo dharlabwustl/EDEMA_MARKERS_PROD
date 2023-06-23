@@ -465,7 +465,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 columnvalue=str(counter_nifti_location) #str(0)
                 row_identifier=row['ID']
                 fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-                niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
+            niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBEROFNIFTIFILES"
             columnvalue=str(niftifiles_num) #str(0)
             row_identifier=row['ID']

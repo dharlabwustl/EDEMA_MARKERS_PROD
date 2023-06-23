@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
-      <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download_with_session_ID.py" beforeDir="false" afterPath="$PROJECT_DIR$/download_with_session_ID.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -398,7 +398,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="1318" />
+    <option name="localTasksCounter" value="1321" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -419,16 +419,5 @@
     <MESSAGE value="3rd commit" />
     <MESSAGE value="Commit Feb 23 2023" />
     <option name="LAST_COMMIT_MESSAGE" value="Commit Feb 23 2023" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>455</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

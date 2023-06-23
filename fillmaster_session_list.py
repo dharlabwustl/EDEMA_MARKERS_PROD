@@ -475,7 +475,7 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
             # this_scan_dict_df=pd.DataFrame([this_scan_dict])
             # print(this_scan_dict)
             csvfilename_df=pd.read_csv(csvfilename)
-            csvfilename_df_this_row=csvfilename_df[csvfilename_df['ROW_IDENTIFIER']==identifier]
+            # csvfilename_df_this_row=csvfilename_df[csvfilename_df['ROW_IDENTIFIER']==identifier]
             csvfilename_df_colname=csvfilename_df.columns
             if columnname not in csvfilename_df_colname:
                 csvfilename_df[columnname]=""

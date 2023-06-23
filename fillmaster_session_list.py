@@ -413,17 +413,18 @@ def get_scan_type(sessionId,scanId1):
         return this_session_metadata_df_scanid.iloc[0]['type']
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-def create_analytics_file(sessionlist_filename):
+def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         counter=0
+
         for index, row in sessionlist_filename_df.iterrows():
             # print(sessionlist_filename_df.columns)
             print(row['ID'])
             print(row['label'])
             identifier="NONE"
-            fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],"SESSION_LABEL",row['label'])
+            fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],"SESSION_LABEL",row['label'],csvfilename)
             counter=counter+1
             if counter > 10:
                 break
@@ -439,7 +440,8 @@ def call_create_analytics_file(args):
     returnvalue=0
     try:
         sessionlist_filename=args.stuff[1]
-        create_analytics_file(sessionlist_filename)
+        csvfilename=args.stuff[2]
+        create_analytics_file(sessionlist_filename,csvfilename)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:

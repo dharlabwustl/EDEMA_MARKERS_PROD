@@ -468,7 +468,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csv
             identifier=identifier
             # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
-            this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":identifier} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             this_scan_dict_df=pd.DataFrame([this_scan_dict])
             print(this_scan_dict)
             csvfilename_df=pd.read_csv(csvfilename)
@@ -484,7 +484,7 @@ def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csv
                 columnvalue_flag=1
             scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
-            first_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":identifier} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            first_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),columnname:columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
             print(first_dict)
             first_dict_df=pd.DataFrame([first_dict])
             first_dict_df.to_csv(csvfilename,index=False)

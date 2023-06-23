@@ -391,7 +391,7 @@ def count_brainaxial_or_thin(sessionId):
         pass
     return numberof_thin_or_axialscans
 def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
-    numberof_thin_or_axialscans=0
+    numberofniftifiles=0
     try:
 
         this_session_metadata=get_metadata_session(sessionId)
@@ -408,20 +408,21 @@ def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
                 output_csvfile_df=pd.read_csv(output_csvfile)
                 for item_id1, each_axial1 in output_csvfile_df.iterrows():
                     if ".nii" in each_axial1['Name']:
-                        numberof_thin_or_axialscans=numberof_thin_or_axialscans+1
+                        numberofniftifiles=numberofniftifiles+1
 
             except:
                 pass
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
 
         #
-        # numberof_thin_or_axialscans=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
-        return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
+        # numberofniftifiles=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
+        print("numberofniftifiles::{}".format(numberofniftifiles))
+        return  numberofniftifiles #str(df_1.iloc[0][metadata_field])
     except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         print("Exception::{}".format(Exception))
         pass
-    return numberof_thin_or_axialscans
+    return numberofniftifiles
 def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
     returnvalue=""
     try:

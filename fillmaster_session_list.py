@@ -421,12 +421,17 @@ def create_analytics_file(sessionlist_filename,csvfilename):
 
         for index, row in sessionlist_filename_df.iterrows():
             # print(sessionlist_filename_df.columns)
-            print(row['ID'])
-            print(row['label'])
+            # print(row['ID'])
+            # print(row['label'])
             identifier=""
+            niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
             subprocess.call(command,shell=True)
             download_files_in_a_resource_withname( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
+            counter_nifti_location=0
+            for each_niftilocationfile in niftilocation_files:
+                print(each_niftilocationfile)
+
             # fill_single_row_each_scan(identifier,"SESSION_ID",row['ID'],row['label'],csvfilename)
             counter=counter+1
             if counter > 10:

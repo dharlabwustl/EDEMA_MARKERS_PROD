@@ -48,11 +48,13 @@ while IFS=',' read -ra array; do
   #  echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 
   countfiles=$(ls ${working_dir}/*.csv | wc -l)
+  NIFTIFILE_COUNTER=0
   for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     if [ -f "${niftifile_csvfilename}" ]; then
 
       outputfiles_present=0
       echo $niftifile_csvfilename
+
       while IFS=',' read -ra array1; do
         scanID=${array1[2]}
         echo sessionId::${sessionID}
@@ -63,6 +65,7 @@ while IFS=',' read -ra array; do
         outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
         NIFTIFILE_FLAG=${outputfiles_present: -1}
         echo "NIFTIFILE_FLAG:${NIFTIFILE_FLAG}"
+
         if [ ${NIFTIFILE_FLAG} -eq 1 ]; then
           echo "NIFTIFILE PRESET:${NIFTIFILE_FLAG}"
           resource_dir="NIFTI"
@@ -73,6 +76,7 @@ while IFS=',' read -ra array; do
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${sessionLabel} ${final_output_directory}/csvfilename.csv)
           outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
           echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
+          NIFTIFILE_COUNTER=$(( NIFTIFILE_COUNTER + 1 ))
           #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}
           #          echo "call_get_resourcefiles_metadata_saveascsv_args:: "${outputfiles_present: -1}"::outputfiles_present"
           #          resource_dir="MASKS"
@@ -91,6 +95,7 @@ while IFS=',' read -ra array; do
       done < <(tail -n +2 "${niftifile_csvfilename}")
     fi
   done
+  echo ${NIFTIFILE_COUNTER}
   ################################################
 
   if [ ${countfiles} -gt 3 ]; then

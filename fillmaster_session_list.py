@@ -420,8 +420,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         counter=0
-        count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
-        # for index, row in sessionlist_filename_df.iterrows():
+
+        for index, row in sessionlist_filename_df.iterrows():
+            count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
         #     # print(sessionlist_filename_df.columns)
         #     # print(row['ID'])
         #     # print(row['label'])

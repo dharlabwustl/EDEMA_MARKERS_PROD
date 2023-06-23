@@ -413,6 +413,26 @@ def get_scan_type(sessionId,scanId1):
         return this_session_metadata_df_scanid.iloc[0]['type']
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+def create_analytics_file(sessionlist_filename):
+    returnvalue=0
+    try:
+        sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        print(sessionlist_filename_df)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        returnvalue=1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+    return returnvalue
+def call_create_analytics_file(args):
+    returnvalue=0
+    try:
+        sessionlist_filename=args.stuff[1]
+        create_analytics_file(sessionlist_filename)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        returnvalue=1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+    return returnvalue
 
 def fill_single_row_each_scan(identifier,columnname,columnvalue,columnvalue2,csvfilename):
     #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
@@ -476,8 +496,13 @@ def main():
         return_value=call_pdffromanalytics(args)
         
     if name_of_the_function == "call_fill_single_row_each_scan":
-        print(" AM HERE")
+        print(" calling call_fill_single_row_each_scan")
         return_value=call_fill_single_row_each_scan(args)
+
+    if name_of_the_function == "call_create_analytics_file":
+        print(" calling call_create_analytics_file")
+        return_value=call_create_analytics_file(args)
+
 
 if __name__ == '__main__':
     main()

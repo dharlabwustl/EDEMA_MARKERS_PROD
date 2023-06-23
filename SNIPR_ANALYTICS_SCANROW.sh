@@ -74,7 +74,7 @@ while IFS=',' read -ra array; do
           #          output_csvfile=${output_csvfile%.nii*}${resource_dirname}.csv
           URI=${array1[0]}
           call_fill_single_row_each_scan_arguments=('call_fill_single_row_each_scan' ${scanID} "SESSION_ID" ${sessionID} ${sessionLabel} ${final_output_directory}/csvfilename.csv)
-          outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
+#          outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_single_row_each_scan_arguments[@]}")
           echo "outputfiles_present:: "${outputfiles_present}"::outputfiles_present"
           NIFTIFILE_COUNTER=$(( NIFTIFILE_COUNTER + 1 ))
           #          call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile}

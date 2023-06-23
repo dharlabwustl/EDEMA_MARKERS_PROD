@@ -435,6 +435,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
                 SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
+                counter_nifti_location=counter_nifti_location+1
             if counter_nifti_location==0:
                 fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
                 columnname="NUMBEROFSELECTEDSCANS"

@@ -423,6 +423,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
 
         for index, row in sessionlist_filename_df.iterrows():
             count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
+            counter=counter+1
+            if counter > 10:
+                break
         #     # print(sessionlist_filename_df.columns)
         #     # print(row['ID'])
         #     # print(row['label'])
@@ -465,9 +468,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         #
         #     ### DICOM TO NIFTI STEP
 
-            counter=counter+1
-            if counter > 10:
-                break
+            # counter=counter+1
+            # if counter > 10:
+            #     break
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

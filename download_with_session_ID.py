@@ -383,7 +383,15 @@ def count_brainaxial_or_thin(sessionId):
         jsonStr = json.dumps(this_session_metadata)
         # print(jsonStr)
         df = pd.read_json(jsonStr)
-        numberof_thin_or_axialscans=[df['type'].value_counts()['Z-Axial-Brain'] , df['type'].value_counts()['Z-Brain-Thin']]
+        try :
+            numberof_thin_or_axialscans[0]=numberof_thin_or_axialscans[0]+df['type'].value_counts()['Z-Axial-Brain']
+        except:
+            pass
+        try :
+            numberof_thin_or_axialscans[1]=numberof_thin_or_axialscans[1]+df['type'].value_counts()['Z-Brain-Thin']
+        except:
+            pass
+        # numberof_thin_or_axialscans=[df['type'].value_counts()['Z-Axial-Brain'] , df['type'].value_counts()['Z-Brain-Thin']]
         return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
     except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

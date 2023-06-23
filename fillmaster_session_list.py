@@ -484,9 +484,10 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
             csvfilename_df=pd.read_csv(csvfilename)
             # csvfilename_df_this_row=csvfilename_df[csvfilename_df['ROW_IDENTIFIER']==identifier]
             csvfilename_df_colname=csvfilename_df.columns
-            if columnname not in csvfilename_df_colname:
-                csvfilename_df[columnname]=""
-            csvfilename_df.loc['ROW_IDENTIFIER',columnname]=columnvalue #.loc[:, ('one', 'second')]
+            csvfilename_df.loc[csvfilename_df['ROW_IDENTIFIER'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
+            # if columnname not in csvfilename_df_colname:
+            #     csvfilename_df[columnname]=""
+            # csvfilename_df.loc['ROW_IDENTIFIER',columnname]=columnvalue #.loc[:, ('one', 'second')]
             # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
             csvfilename_df.to_csv(csvfilename,index=False)
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
@@ -524,9 +525,10 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
             csvfilename_df=pd.read_csv(csvfilename)
             # csvfilename_df_this_row=csvfilename_df[csvfilename_df['ROW_IDENTIFIER']==identifier]
             csvfilename_df_colname=csvfilename_df.columns
-            if columnname not in csvfilename_df_colname:
-                csvfilename_df[columnname]=""
-            csvfilename_df.loc['SESSION_ID',columnname]=columnvalue #.loc[:, ('one', 'second')]
+            csvfilename_df.loc[csvfilename_df['SESSION_ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
+            # if columnname not in csvfilename_df_colname:
+            #     csvfilename_df[columnname]=""
+            # csvfilename_df.loc['SESSION_ID',columnname]=columnvalue #.loc[:, ('one', 'second')]
             # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
             csvfilename_df.to_csv(csvfilename,index=False)
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}

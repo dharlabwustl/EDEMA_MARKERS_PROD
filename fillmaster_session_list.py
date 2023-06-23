@@ -479,7 +479,7 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
             csvfilename_df_colname=csvfilename_df.columns
             if columnname not in csvfilename_df_colname:
                 csvfilename_df[columnname]=""
-            csvfilename_df['ROW_IDENTIFIER'][columnname]=columnvalue
+            csvfilename_df.loc['ROW_IDENTIFIER',columnname]=columnvalue #.loc[:, ('one', 'second')]
             # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
             csvfilename_df.to_csv(csvfilename,index=False)
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}

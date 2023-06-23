@@ -382,7 +382,9 @@ def get_single_value_from_metadata_forascan(sessionId,scanId,metadata_field):
     jsonStr = json.dumps(this_session_metadata)
     # print(jsonStr)
     df = pd.read_json(jsonStr)
-    df_1=df.loc[(df['ID'] == scanId)]
+    df['ID']=df['ID'].apply(str)
+    # this_session_metadata_df_scanid=df1[df1['ID'] == str(scanId1)]
+    df_1=df.loc[(df['ID'] == str(scanId))]
     df_1=df_1.reset_index()
     print(" I AM AT get_single_value_from_metadata_forascan")
     print(df.columns)

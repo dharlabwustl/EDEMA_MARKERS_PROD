@@ -417,7 +417,10 @@ def create_analytics_file(sessionlist_filename):
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
-        print(sessionlist_filename_df)
+        for index, row in sessionlist_filename_df.iterrows():
+            print(row['xnat:subjectassessordata/id'])
+
+        # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:

@@ -376,14 +376,14 @@ def call_decision_which_nifti_multiplescans():
     output_csvfile=sys.argv[3]
     decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data,output_csvfile)
 def count_brainaxial_or_thin(sessionId):
-    numberof_thin_or_axialscans=0
+    numberof_thin_or_axialscans=[0,0]
     try:
 
         this_session_metadata=get_metadata_session(sessionId)
         jsonStr = json.dumps(this_session_metadata)
         # print(jsonStr)
         df = pd.read_json(jsonStr)
-        numberof_thin_or_axialscans=df['type'].value_counts()['Z-Axial-Brain'] + df['type'].value_counts()['Z-Brain-Thin']
+        numberof_thin_or_axialscans=[df['type'].value_counts()['Z-Axial-Brain'] , df['type'].value_counts()['Z-Brain-Thin']]
         return  numberof_thin_or_axialscans #str(df_1.iloc[0][metadata_field])
     except Exception:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

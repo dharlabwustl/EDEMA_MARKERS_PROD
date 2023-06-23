@@ -441,8 +441,11 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 counter_nifti_location=counter_nifti_location+1
                 ### SCAN CLASSIFIER STEP
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
-            columnname="AXIAL_OR_THIN_NUM"
-            columnvalue=axial_thin_count
+            columnname="AXIAL_SCAN_NUM"
+            columnvalue=axial_thin_count[0]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="THIN_SCAN_NUM"
+            columnvalue=axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
                 ## DICOM TO NIFTI STEP
 

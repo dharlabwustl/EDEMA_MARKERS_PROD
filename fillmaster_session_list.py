@@ -511,6 +511,21 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
 
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+                SCAN_URI=each_session_metadata_df_row["URI"]
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="INFARCT_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    # columnname="INFARCT_FILE_NAME"
+                    # columnvalue=_infarct_auto_removesmall_path
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
             if session_counter>0:
                 break
             session_counter=session_counter+1

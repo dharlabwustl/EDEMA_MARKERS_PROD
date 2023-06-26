@@ -666,7 +666,7 @@ def call_creat_analytics_scanasID(args):
     try:
         sessionlist_filename=args.stuff[1]
         csvfilename=args.stuff[2]
-        create_analytics_file(sessionlist_filename,csvfilename)
+        creat_analytics_scanasID(sessionlist_filename,csvfilename)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:

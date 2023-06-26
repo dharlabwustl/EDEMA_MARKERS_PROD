@@ -659,7 +659,7 @@ def call_create_analytics_file(args):
         pass
     return returnvalue
 
-def creat_analytics_scanasID(args):
+def call_creat_analytics_scanasID(args):
     returnvalue=0
     try:
         sessionlist_filename=args.stuff[1]
@@ -820,8 +820,8 @@ def main():
     if name_of_the_function == "call_create_analytics_file":
         print(" calling call_create_analytics_file")
         return_value=call_create_analytics_file(args)
-    if name_of_the_function=="creat_analytics_scanasID":
-        return_value=creat_analytics_scanasID(args)
+    if name_of_the_function=="call_creat_analytics_scanasID":
+        return_value=call_creat_analytics_scanasID(args)
 
 
 if __name__ == '__main__':

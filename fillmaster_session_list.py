@@ -526,9 +526,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
                 row_identifier=row['ID']+"_"+SCAN_ID
-                columnname="PDF"
+                filetype="PDF"
                 # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename)
                 # if len(_infarct_auto_removesmall_path)>1:
                 #     row_identifier=row['ID']+"_"+SCAN_ID
                 #     columnname="PDF_FILE_AVAILABLE"

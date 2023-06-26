@@ -421,7 +421,7 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         latest_file_df=get_latest_file(df_listfile)
-        latest_file_path=latest_file_df["URI"]
+        latest_file_path=str(latest_file_df["URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

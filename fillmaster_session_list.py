@@ -467,15 +467,18 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
         subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
-def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename):
+def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename):
     try:
         current_file_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
         if len(current_file_path)>1:
             columnvalue=1
+            columnname=filetype+"_FILE_AVAILALE"
             fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+            columnname=filetype+"_FILE_LOCATION"
+            fill_single_datapoint_each_scan(row_identifier,columnname,current_file_path,csvfilename)
         subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(filetype) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
         subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
@@ -485,7 +488,7 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(filetype) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
         subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )

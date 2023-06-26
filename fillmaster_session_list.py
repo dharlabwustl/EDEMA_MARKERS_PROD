@@ -414,7 +414,7 @@ def get_scan_type(sessionId,scanId1):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 
-def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
+def get_a_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
     latest_file_path=""
     try:
         metadata=get_resourcefiles_metadata(URI,resource_dir)
@@ -469,7 +469,7 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
     return latest_file_path
 def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename):
     try:
-        current_file_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+        current_file_path=str(get_a_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
         if len(current_file_path)>1:
             columnvalue=1
             columnname=filetype+"_FILE_AVAILALE"
@@ -530,7 +530,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
                 row_identifier=row['ID']+"_"+SCAN_ID
                 filetype="PDF"
-                # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+                # _infarct_auto_removesmall_path=str(get_a_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
                 check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename)
                 # if len(_infarct_auto_removesmall_path)>1:
                 #     row_identifier=row['ID']+"_"+SCAN_ID

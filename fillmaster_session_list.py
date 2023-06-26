@@ -414,7 +414,7 @@ def get_scan_type(sessionId,scanId1):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 
-def get_a_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
+def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
     latest_file_path=""
     try:
         metadata=get_resourcefiles_metadata(URI,resource_dir)
@@ -467,18 +467,15 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
         subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
-def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename):
+def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename):
     try:
-        current_file_path=str(get_a_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+        current_file_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
         if len(current_file_path)>1:
             columnvalue=1
-            columnname=filetype+"_FILE_AVAILALE"
             fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-            columnname=filetype+"_FILE_LOCATION"
-            fill_single_datapoint_each_scan(row_identifier,columnname,current_file_path,csvfilename)
         subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(filetype) ,shell=True )
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
         subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
@@ -488,7 +485,7 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(filetype) ,shell=True )
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
         subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
@@ -528,26 +525,24 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
-                row_identifier=row['ID']+"_"+SCAN_ID
-                filetype="PDF"
-                # _infarct_auto_removesmall_path=str(get_a_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,filetype,csvfilename)
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     row_identifier=row['ID']+"_"+SCAN_ID
-                #     columnname="PDF_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                #     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
-                # resource_dir="MASKS"
-                # extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-                # _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     row_identifier=row['ID']+"_"+SCAN_ID
-                #     columnname="INFARCT_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                #     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
-                #
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                if len(_infarct_auto_removesmall_path)>1:
+                    row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="PDF_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="INFARCT_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+
 
 
 

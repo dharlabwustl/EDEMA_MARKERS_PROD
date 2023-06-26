@@ -511,6 +511,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
 
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+            if session_counter>5:
+                break
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

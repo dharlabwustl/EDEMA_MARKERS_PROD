@@ -517,6 +517,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
                 # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
@@ -524,6 +525,22 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 if len(_infarct_auto_removesmall_path)>1:
                     # row_identifier=row['ID']+"_"+SCAN_ID
                     columnname="INFARCT_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                resource_dir="NIFTI"
+                extension_to_find_list=".nii"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="NIFTI_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                resource_dir="MASKS"
+                extension_to_find_list="_csf_unet.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="CSF_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
 

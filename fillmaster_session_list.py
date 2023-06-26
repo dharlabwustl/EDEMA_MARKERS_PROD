@@ -539,9 +539,17 @@ def fill_single_datapoint_each_scan_1(URI,columnname,columnvalue,csvfilename):
             csvfilename_df.to_csv(csvfilename,index=False)
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
             returnvalue=1
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        returnvalue=1
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         pass
     return  returnvalue
 

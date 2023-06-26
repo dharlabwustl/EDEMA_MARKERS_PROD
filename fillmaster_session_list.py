@@ -516,6 +516,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
 
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
                 # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
@@ -525,7 +526,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname="INFARCT_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
+
                     # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     # row_identifier=row['ID']+"_"+SCAN_ID
                     # columnname="INFARCT_FILE_NAME"

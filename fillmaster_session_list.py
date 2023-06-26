@@ -439,7 +439,34 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
+def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):
+    latest_file_path=""
+    try:
+        metadata=get_resourcefiles_metadata(URI,resource_dir)
+        df_listfile = pd.read_json(json.dumps(metadata))
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        df_listfile=df_listfile.reset_index(drop=True)
+        x_df=df_listfile.iloc[0]["URI"]
+        # x_df=df_listfile.iloc[[0]]
+        latest_file_path=str(x_df) ##get_latest_file(df_listfile)
 
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print(" NO SUCH FILE PRESENT!!")
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        pass
+    return latest_file_path
 def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
@@ -471,10 +498,20 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 ### PDF  STEP:
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0],resource_dir,extension_to_find_list))
+                SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
                 if len(_infarct_auto_removesmall_path)>1:
                     row_identifier=row['ID']+"_"+SCAN_ID
                     columnname="PDF_FILE_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="INFARCT_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )

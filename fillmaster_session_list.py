@@ -493,6 +493,56 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         pass
 
     return 0
+def creat_analytics_scanasID(sessionlist_filename,csvfilename):
+    returnvalue=0
+    try:
+        sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        counter=0
+        session_counter=0
+        for each_session_index, each_session in sessionlist_filename_df.iterrows():
+            sessionId=each_session['ID']
+            this_session_metadata=get_metadata_session(sessionId)
+            jsonStr = json.dumps(this_session_metadata)
+            # print(jsonStr)
+            each_session_metadata_df = pd.read_json(jsonStr)
+            if session_counter==0:
+                each_session_metadata_df.to_csv(csvfilename,index=False)
+                session_counter=session_counter+1
+
+            for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        returnvalue=1
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+        pass
+    return returnvalue
+
+def fill_single_datapoint_each_scan_1(URI,columnname,columnvalue,csvfilename):
+    returnvalue=0
+    try:
+        if os.path.exists(csvfilename):
+            # identifier=identifier
+            csvfilename_df=pd.read_csv(csvfilename)
+
+            # df_and = csvfilename_df[(csvfilename_df['URI'].str.split("/").str[3]  == session_id) & (csvfilename_df['state'] == scan_id)]
+            csvfilename_df.loc[csvfilename_df['URI'] ==URI, columnname] = columnvalue #row['NUMBEROFSLICES']
+            csvfilename_df.to_csv(csvfilename,index=False)
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+            returnvalue=1
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
+
 def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
@@ -500,6 +550,8 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
+            ## for each scan in the session:
+            ## get metadata of each session:
 
             # counter=counter+1
             # if counter > 2:
@@ -595,6 +647,19 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         pass
     return returnvalue
 def call_create_analytics_file(args):
+    returnvalue=0
+    try:
+        sessionlist_filename=args.stuff[1]
+        csvfilename=args.stuff[2]
+        create_analytics_file(sessionlist_filename,csvfilename)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        returnvalue=1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return returnvalue
+
+def creat_analytics_scanasID(args):
     returnvalue=0
     try:
         sessionlist_filename=args.stuff[1]
@@ -755,6 +820,8 @@ def main():
     if name_of_the_function == "call_create_analytics_file":
         print(" calling call_create_analytics_file")
         return_value=call_create_analytics_file(args)
+    if name_of_the_function=="creat_analytics_scanasID":
+        return_value=creat_analytics_scanasID(args)
 
 
 if __name__ == '__main__':

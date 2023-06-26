@@ -524,8 +524,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
                     # row_identifier=row['ID']+"_"+SCAN_ID
-                    columnname="INFARCT_FILE_AVAILABLE"
+                    columnname="INFARCT_MASK_FILE_AVAILABLE"
                     columnvalue=1
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                    columnname="INFARCT_MASK_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
                 resource_dir="NIFTI"
                 extension_to_find_list=".nii"
@@ -535,21 +538,29 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname="NIFTI_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                    columnname="NIFTI_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
                 resource_dir="MASKS"
                 extension_to_find_list="_csf_unet.nii.gz"
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
                     # row_identifier=row['ID']+"_"+SCAN_ID
-                    columnname="CSF_FILE_AVAILABLE"
+                    columnname="CSF_MASK_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-
+                    columnname="CSF_MASK_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
                 if len(_infarct_auto_removesmall_path)>1:
                     columnname="PDF_FILE_AVAILABLE"
                     columnvalue=1
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                    columnname="PDF_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".csv"
@@ -558,7 +569,10 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname="CSV_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-            if session_counter>6:
+                    columnname="CSV_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+            if session_counter>30:
                 break
             session_counter=session_counter+1
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

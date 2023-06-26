@@ -510,7 +510,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 session_counter=session_counter+1
 
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+                # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
@@ -526,7 +526,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     # columnvalue=_infarct_auto_removesmall_path
                     # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
-            if session_counter>0:
+            if session_counter>6:
                 break
             session_counter=session_counter+1
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

@@ -468,7 +468,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 ### PDF  STEP:
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(each_niftilocationfile_df.iloc[0]['URI'],resource_dir,extension_to_find_list))
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0],resource_dir,extension_to_find_list))
                 if len(_infarct_auto_removesmall_path)>1:
                     row_identifier=row['ID']+"_"+SCAN_ID
                     columnname="PDF_FILE_AVAILABLE"

@@ -414,6 +414,21 @@ def get_scan_type(sessionId,scanId1):
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
 
+def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
+    latest_file_path=""
+    try:
+        metadata=get_resourcefiles_metadata(URI,resource_dir)
+        df_listfile = pd.read_json(json.dumps(metadata))
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        latest_file_path=get_latest_file(df_listfile)
+
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print(" NO SUCH FILE PRESENT!!")
+        pass
+    return latest_file_path
 
 def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
@@ -443,7 +458,18 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
                 counter_nifti_location=counter_nifti_location+1
-                ### SCAN CLASSIFIER STEP
+                ### SEGMENTATION STEP:
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(each_niftilocationfile_df.iloc[0]['URI'],resource_dir,extension_to_find_list))
+                if len(_infarct_auto_removesmall_path)>1:
+                    row_identifier=row['ID']+"_"+SCAN_ID
+                    columnname="INFARCT_MASK_AVAILABLE"
+                    columnvalue=1
+                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+
+
+
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_SCAN_NUM"
             columnvalue=axial_thin_count[0]
@@ -451,6 +477,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnname="THIN_SCAN_NUM"
             columnvalue=axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+
                 ## DICOM TO NIFTI STEP
 
                 ## SCAN SELECTION STEP
@@ -465,13 +492,13 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 columnvalue=str(counter_nifti_location) #str(0)
                 row_identifier=row['ID']
                 fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+            ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
             columnvalue=str(niftifiles_num) #str(0)
             row_identifier=row['ID']
             fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-
-            ### DICOM TO NIFTI STEP
+            ### SEGMENTATION STEP
 
             counter=counter+1
             if counter > 10:

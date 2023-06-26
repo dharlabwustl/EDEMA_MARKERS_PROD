@@ -508,6 +508,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
             if session_counter==0:
                 each_session_metadata_df.to_csv(csvfilename,index=False)
                 session_counter=session_counter+1
+            else:
+                old_session_metadata_df=pd.read_csv(csvfilename)
+                combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
+                combined_session_medata_data.to_csv(csvfilename,index=False)
+
 
             for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
                 # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)

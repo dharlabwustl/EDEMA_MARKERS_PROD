@@ -462,9 +462,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
                 fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
                 counter_nifti_location=counter_nifti_location+1
-                ### SEGMENTATION STEP:
-                resource_dir="MASKS"
-                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                ### PDF  STEP:
+                resource_dir="EDEMA_BIOMARKER"
+                extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(each_niftilocationfile_df.iloc[0]['URI'],resource_dir,extension_to_find_list))
                 if len(_infarct_auto_removesmall_path)>1:
                     row_identifier=row['ID']+"_"+SCAN_ID

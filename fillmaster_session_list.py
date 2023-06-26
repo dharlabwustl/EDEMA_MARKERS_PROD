@@ -423,10 +423,12 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         latest_file_path=get_latest_file(df_listfile)
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         print(" NO SUCH FILE PRESENT!!")
+        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         pass
     return latest_file_path
 

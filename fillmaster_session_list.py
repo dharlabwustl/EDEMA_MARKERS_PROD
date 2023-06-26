@@ -420,8 +420,8 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-        latest_file_path=get_latest_file(df_listfile)
-
+        latest_file_df=get_latest_file(df_listfile)
+        latest_file_path=latest_file_df["URI"]
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -533,8 +533,8 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                     columnvalue=1
                     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     columnname="PDF_FILE_NAME"
-                    columnvalue=_infarct_auto_removesmall_path
-                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # columnvalue=_infarct_auto_removesmall_path
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"

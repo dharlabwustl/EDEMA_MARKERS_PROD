@@ -532,6 +532,9 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                     columnname="PDF_FILE_AVAILABLE"
                     columnvalue=1
                     fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    columnname="PDF_FILE_NAME"
+                    columnvalue=_infarct_auto_removesmall_path
+                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"

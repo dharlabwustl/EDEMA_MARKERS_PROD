@@ -661,16 +661,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
-
-            ## for each scan in the session:
-            ## get metadata of each session:
-
-            # counter=counter+1
-            # if counter > 2:
-            #     break
-            # print(sessionlist_filename_df.columns)
-            # print(row['ID'])
-            # print(row['label'])
             identifier=""
 
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"

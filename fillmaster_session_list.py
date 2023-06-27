@@ -615,7 +615,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        csvfilename_1=csvfilename.split('.csv')+'_session.csv'
+        csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
         create_analytics_file(sessionlist_filename,csvfilename_1)
         returnvalue=1
 

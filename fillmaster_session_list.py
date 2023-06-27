@@ -733,7 +733,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnname="PDF_FILE_NUM"
             columnvalue=pdf_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            columnname="IFARCT_FILE_NUM"
+            columnname="INFARCT_FILE_NUM"
             columnvalue=infarct_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 

@@ -423,20 +423,20 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         latest_file_df=get_latest_file(df_listfile)
         latest_file_path=str(latest_file_df["URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         print(" NO SUCH FILE PRESENT!!")
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):
@@ -451,20 +451,20 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
         latest_file_path=str(x_df) ##get_latest_file(df_listfile)
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         print(" NO SUCH FILE PRESENT!!")
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
 def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename):
@@ -473,23 +473,23 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         if len(current_file_path)>1:
             columnvalue=1
             fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-        subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
+        # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
 
     except:
+        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
-        subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
 
     return 0
@@ -575,15 +575,15 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
             if session_counter>30:
                 break
             session_counter=session_counter+1
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         returnvalue=1
 
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         pass
@@ -601,15 +601,15 @@ def fill_single_datapoint_each_scan_1(URI,columnname,columnvalue,csvfilename):
             csvfilename_df.to_csv(csvfilename,index=False)
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
             returnvalue=1
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         returnvalue=1
 
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         pass

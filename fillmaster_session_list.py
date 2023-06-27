@@ -677,6 +677,11 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             download_files_in_a_resource_withname( row['ID'], "NIFTI_LOCATION", os.path.dirname(csvfilename))
             counter_nifti_location=0
             niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
+            infarct_file_num=0
+            csf_file_num=0
+            pdf_file_num=0
+            csf_file_num=0
+
             for each_niftilocationfile in niftilocation_files:
                 print(each_niftilocationfile)
                 each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
@@ -691,27 +696,29 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
                 check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>1:
-                    row_identifier=row['ID']+"_"+SCAN_ID
-                    columnname="PDF_FILE_AVAILABLE"
-                    columnvalue=1
-                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    columnname="PDF_FILE_NAME"
-                    columnvalue=_infarct_auto_removesmall_path
-                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+                    pdf_file_num=pdf_file_num+1
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    # columnname="PDF_FILE_AVAILABLE"
+                    # columnvalue=1
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # columnname="PDF_FILE_NAME"
+                    # columnvalue=_infarct_auto_removesmall_path
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
-                    row_identifier=row['ID']+"_"+SCAN_ID
-                    columnname="INFARCT_FILE_AVAILABLE"
-                    columnvalue=1
-                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    row_identifier=row['ID']+"_"+SCAN_ID
-                    columnname="INFARCT_FILE_NAME"
-                    columnvalue=_infarct_auto_removesmall_path
-                    fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+                    infarct_file_num=infarct_file_num+1
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    # columnname="INFARCT_FILE_AVAILABLE"
+                    # columnvalue=1
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # row_identifier=row['ID']+"_"+SCAN_ID
+                    # columnname="INFARCT_FILE_NAME"
+                    # columnvalue=_infarct_auto_removesmall_path
+                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                    # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
 
 
 
@@ -722,6 +729,12 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             columnname="THIN_SCAN_NUM"
             columnvalue=axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="PDF_FILE_NUM"
+            columnvalue=pdf_file_num #axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="IFARCT_FILE_NUM"
+            columnvalue=infarct_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
                 ## DICOM TO NIFTI STEP

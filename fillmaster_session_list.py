@@ -572,7 +572,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname="CSV_FILE_NAME"
                     columnvalue=_infarct_auto_removesmall_path
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-            if session_counter>30:
+            if session_counter>6:
                 break
             session_counter=session_counter+1
         # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

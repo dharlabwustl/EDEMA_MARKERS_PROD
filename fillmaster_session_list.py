@@ -661,6 +661,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
+
             ## for each scan in the session:
             ## get metadata of each session:
 
@@ -681,25 +682,25 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             csf_file_num=0
             pdf_file_num=0
             csv_file_num=0
-
+            fill_single_row_each_session(row['ID'],row['label'],csvfilename)
             for each_niftilocationfile in niftilocation_files:
                 print(each_niftilocationfile)
                 each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
                 print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
                 SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
-                fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
+                # fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
                 counter_nifti_location=counter_nifti_location+1
                 ### PDF  STEP:
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>1:
                     pdf_file_num=pdf_file_num+1
                 extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>1:
                     csv_file_num=csv_file_num+1
                     # row_identifier=row['ID']+"_"+SCAN_ID
@@ -742,8 +743,14 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnname="PDF_FILE_NUM"
             columnvalue=pdf_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="CSV_FILE_NUM"
+            columnvalue=csv_file_num #axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             columnname="INFARCT_FILE_NUM"
             columnvalue=infarct_file_num #axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="CSF_FILE_NUM"
+            columnvalue=csf_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
                 ## DICOM TO NIFTI STEP
@@ -879,6 +886,40 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
             # print(first_dict)
             # first_dict_df=pd.DataFrame([first_dict])
             # first_dict_df.to_csv(csvfilename,index=False)
+
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
+def fill_single_row_each_session(columnvalue,columnvalue2,csvfilename):
+    #first example: identifier: scan_id= SESSION_ID+SCAN_ID columnname=NIFTIFILE_NAME columnvalue=NIFTIFILENAME_VALUE columnvalue_flag= 0 or 1
+    returnvalue=0
+    try:
+        if os.path.exists(csvfilename):
+            # identifier=identifier
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            this_scan_dict={"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            this_scan_dict_df=pd.DataFrame([this_scan_dict])
+            print(this_scan_dict)
+            csvfilename_df=pd.read_csv(csvfilename)
+            csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
+            csvfilename_df.to_csv(csvfilename,index=False)
+            # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
+            # last_row_index=csvfilename_df['ROW_IDENTIFIER'].iget(-1)
+            # csvfilename_df.at[last_row_index+1,
+        else:
+            columnvalue_flag=0
+            # identifier=identifier
+            if len(columnvalue)>3:
+                columnvalue_flag=1
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            first_dict={"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            print(first_dict)
+            first_dict_df=pd.DataFrame([first_dict])
+            first_dict_df.to_csv(csvfilename,index=False)
 
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:

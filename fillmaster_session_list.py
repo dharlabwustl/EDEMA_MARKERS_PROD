@@ -710,10 +710,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnvalue=str(niftifiles_num) #str(0)
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
-            columnname="NUMBER_SELECTEDSCANS"
-            columnvalue=str(counter_nifti_location) #str(0)
 
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
 
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
@@ -723,19 +720,23 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnname="THIN_SCAN_NUM"
             columnvalue=axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            columnname="PDF_FILE_NUM"
-            columnvalue=pdf_file_num #axial_thin_count[1]
+            columnname="NUMBER_SELECTEDSCANS"
+            columnvalue=str(counter_nifti_location) #str(0)
+
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            columnname="CSV_FILE_NUM"
-            columnvalue=csv_file_num #axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+
             columnname="INFARCT_FILE_NUM"
             columnvalue=infarct_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             columnname="CSF_FILE_NUM"
             columnvalue=csf_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-
+            columnname="PDF_FILE_NUM"
+            columnvalue=pdf_file_num #axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            columnname="CSV_FILE_NUM"
+            columnvalue=csv_file_num #axial_thin_count[1]
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### SEGMENTATION STEP
 
             counter=counter+1

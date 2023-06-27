@@ -661,7 +661,17 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
-            # identifier=""
+
+            ## for each scan in the session:
+            ## get metadata of each session:
+
+            # counter=counter+1
+            # if counter > 2:
+            #     break
+            # print(sessionlist_filename_df.columns)
+            # print(row['ID'])
+            # print(row['label'])
+            identifier=""
 
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
             subprocess.call(command,shell=True)
@@ -747,22 +757,25 @@ def create_analytics_file(sessionlist_filename,csvfilename):
 
                 ## SCAN SELECTION STEP
             if counter_nifti_location==0:
-                fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
+                # fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
                 columnname="NUMBER_SELECTEDSCANS"
                 columnvalue=str(0)
-                row_identifier=row['ID']+"_"
-                fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                # row_identifier=row['ID'] #+"_"
+                # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+                fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             else:
                 columnname="NUMBER_SELECTEDSCANS"
                 columnvalue=str(counter_nifti_location) #str(0)
-                row_identifier=row['ID']
-                fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+                # row_identifier=row['ID']
+                # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+                fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
             columnvalue=str(niftifiles_num) #str(0)
-            row_identifier=row['ID']
-            fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+            # row_identifier=row['ID']
+            # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### SEGMENTATION STEP
 
             counter=counter+1

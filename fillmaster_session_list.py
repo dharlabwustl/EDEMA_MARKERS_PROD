@@ -704,17 +704,17 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                     csf_file_num=csf_file_num+1
 
 
-
-
-            columnname="NUMBER_SELECTEDSCANS"
-            columnvalue=str(counter_nifti_location) #str(0)
-
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
             columnvalue=str(niftifiles_num) #str(0)
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+
+            columnname="NUMBER_SELECTEDSCANS"
+            columnvalue=str(counter_nifti_location) #str(0)
+
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+
 
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_SCAN_NUM"

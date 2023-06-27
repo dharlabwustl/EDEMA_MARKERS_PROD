@@ -760,7 +760,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             ### SEGMENTATION STEP
 
             counter=counter+1
-            if counter > 5:
+            if counter > 30:
                 break
 
         # print(sessionlist_filename_df)

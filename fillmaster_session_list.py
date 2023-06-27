@@ -680,7 +680,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             infarct_file_num=0
             csf_file_num=0
             pdf_file_num=0
-            csf_file_num=0
+            csv_file_num=0
 
             for each_niftilocationfile in niftilocation_files:
                 print(each_niftilocationfile)
@@ -697,6 +697,11 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>1:
                     pdf_file_num=pdf_file_num+1
+                extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+                check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                if len(_infarct_auto_removesmall_path)>1:
+                    csv_file_num=csv_file_num+1
                     # row_identifier=row['ID']+"_"+SCAN_ID
                     # columnname="PDF_FILE_AVAILABLE"
                     # columnvalue=1
@@ -710,6 +715,10 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
                     infarct_file_num=infarct_file_num+1
+                extension_to_find_list="_csf_unet.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+                if len(_infarct_auto_removesmall_path)>1:
+                    csf_file_num=csf_file_num+1
                     # row_identifier=row['ID']+"_"+SCAN_ID
                     # columnname="INFARCT_FILE_AVAILABLE"
                     # columnvalue=1

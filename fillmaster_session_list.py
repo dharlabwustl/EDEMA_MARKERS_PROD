@@ -493,6 +493,17 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         pass
 
     return 0
+def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
+    # resource_dir="EDEMA_BIOMARKER"
+    # extension_to_find_list="dropped.csv"
+    _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+    if len(_infarct_auto_removesmall_path)>1:
+        columnname=columnname_prefix+"_FILE_AVAILABLE"
+        columnvalue=1
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        columnname=columnname_prefix+"_FILE_NAME"
+        columnvalue=_infarct_auto_removesmall_path
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
 def creat_analytics_scanasID(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
@@ -552,26 +563,32 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname="CSF_MASK_FILE_NAME"
                     columnvalue=_infarct_auto_removesmall_path
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf"
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                if len(_infarct_auto_removesmall_path)>1:
-                    columnname="PDF_FILE_AVAILABLE"
-                    columnvalue=1
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                    columnname="PDF_FILE_NAME"
-                    columnvalue=_infarct_auto_removesmall_path
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                resource_dir="EDEMA_BIOMARKER"
+                columnname_prefix="PDF"
+                fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 extension_to_find_list="dropped.csv"
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                if len(_infarct_auto_removesmall_path)>1:
-                    columnname="CSV_FILE_AVAILABLE"
-                    columnvalue=1
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                    columnname="CSV_FILE_NAME"
-                    columnvalue=_infarct_auto_removesmall_path
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                columnname_prefix="CSV"
+                fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+                # if len(_infarct_auto_removesmall_path)>1:
+                #     columnname="PDF_FILE_AVAILABLE"
+                #     columnvalue=1
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                #     columnname="PDF_FILE_NAME"
+                #     columnvalue=_infarct_auto_removesmall_path
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                # resource_dir="EDEMA_BIOMARKER"
+                # extension_to_find_list="dropped.csv"
+                # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+                # if len(_infarct_auto_removesmall_path)>1:
+                #     columnname="CSV_FILE_AVAILABLE"
+                #     columnvalue=1
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
+                #     columnname="CSV_FILE_NAME"
+                #     columnvalue=_infarct_auto_removesmall_path
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
             if session_counter>6:
                 break
             session_counter=session_counter+1

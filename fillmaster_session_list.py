@@ -563,7 +563,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnvalue=_infarct_auto_removesmall_path
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
                 resource_dir="EDEMA_BIOMARKER"
-                extension_to_find_list=".csv"
+                extension_to_find_list="dropped.csv"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
                 if len(_infarct_auto_removesmall_path)>1:
                     columnname="CSV_FILE_AVAILABLE"

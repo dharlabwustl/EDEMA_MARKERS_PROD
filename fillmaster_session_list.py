@@ -756,19 +756,19 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 ## DICOM TO NIFTI STEP
 
                 ## SCAN SELECTION STEP
-            if counter_nifti_location==0:
-                # fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
-                columnname="NUMBER_SELECTEDSCANS"
-                columnvalue=str(0)
-                # row_identifier=row['ID'] #+"_"
-                # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            else:
-                columnname="NUMBER_SELECTEDSCANS"
-                columnvalue=str(counter_nifti_location) #str(0)
-                # row_identifier=row['ID']
-                # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-                fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            # if counter_nifti_location==0:
+            #     # fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
+            #     columnname="NUMBER_SELECTEDSCANS"
+            #     columnvalue=str(0)
+            #     # row_identifier=row['ID'] #+"_"
+            #     # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
+            #     fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            # else:
+            columnname="NUMBER_SELECTEDSCANS"
+            columnvalue=str(counter_nifti_location) #str(0)
+            # row_identifier=row['ID']
+            # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"

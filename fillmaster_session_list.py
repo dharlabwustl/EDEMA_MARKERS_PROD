@@ -616,10 +616,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
-        for col_name in csvfilename_df_colnames
-            column_to_move = csvfilename_df.pop(col_name)
-        # insert column with insert(location, column_name, column_value)
-            csvfilename_df.insert(-1, col_name, column_to_move)
+        for col_name in csvfilename_df_colnames:
+            if "_FILE_NAME" in col_name:
+                column_to_move = csvfilename_df.pop(col_name)
+            # insert column with insert(location, column_name, column_value)
+                csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
         csvfilename_df.to_csv(csvfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

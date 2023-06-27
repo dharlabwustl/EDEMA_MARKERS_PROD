@@ -661,16 +661,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
-
-            ## for each scan in the session:
-            ## get metadata of each session:
-
-            # counter=counter+1
-            # if counter > 2:
-            #     break
-            # print(sessionlist_filename_df.columns)
-            # print(row['ID'])
-            # print(row['label'])
             identifier=""
 
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
@@ -703,14 +693,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>1:
                     csv_file_num=csv_file_num+1
-                    # row_identifier=row['ID']+"_"+SCAN_ID
-                    # columnname="PDF_FILE_AVAILABLE"
-                    # columnvalue=1
-                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    # columnname="PDF_FILE_NAME"
-                    # columnvalue=_infarct_auto_removesmall_path
-                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
@@ -720,18 +702,19 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
                     csf_file_num=csf_file_num+1
-                    # row_identifier=row['ID']+"_"+SCAN_ID
-                    # columnname="INFARCT_FILE_AVAILABLE"
-                    # columnvalue=1
-                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    # row_identifier=row['ID']+"_"+SCAN_ID
-                    # columnname="INFARCT_FILE_NAME"
-                    # columnvalue=_infarct_auto_removesmall_path
-                    # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-                    # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
 
 
 
+
+            columnname="NUMBER_SELECTEDSCANS"
+            columnvalue=str(counter_nifti_location) #str(0)
+
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            ### DICOM TO NIFTI STEP
+            niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
+            columnname="NUMBER_NIFTIFILES"
+            columnvalue=str(niftifiles_num) #str(0)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_SCAN_NUM"
@@ -753,29 +736,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnvalue=csf_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
-                ## DICOM TO NIFTI STEP
-
-                ## SCAN SELECTION STEP
-            # if counter_nifti_location==0:
-            #     # fill_single_row_each_scan(identifier,row['ID'],row['label'],csvfilename)
-            #     columnname="NUMBER_SELECTEDSCANS"
-            #     columnvalue=str(0)
-            #     # row_identifier=row['ID'] #+"_"
-            #     # fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-            #     fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            # else:
-            columnname="NUMBER_SELECTEDSCANS"
-            columnvalue=str(counter_nifti_location) #str(0)
-            # row_identifier=row['ID']
-            # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-            ### DICOM TO NIFTI STEP
-            niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
-            columnname="NUMBER_NIFTIFILES"
-            columnvalue=str(niftifiles_num) #str(0)
-            # row_identifier=row['ID']
-            # fill_datapoint_each_sessionn(row_identifier,columnname,columnvalue,csvfilename)
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### SEGMENTATION STEP
 
             counter=counter+1

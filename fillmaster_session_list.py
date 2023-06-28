@@ -544,7 +544,9 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
         csv_counter=0
         # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-
+        now=datetime.datetime.now()
+        date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+        combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
         for index, row in masterfile_scans_df.iterrows():
 
             if row['CSV_FILE_AVAILABLE']==1:
@@ -559,14 +561,12 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                         if csv_counter==0:
                             combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
                             combined_df["SESSION_ID"]=row['SESSION_ID']
-                            combined_df.to_csv(os.path.join(dir_to_save,"test.csv"),index=False)
+                            combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
                             csv_counter=csv_counter+1
                             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
                             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
-        #                 # now=datetime.datetime.now()
-        #                 # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
-        #                 # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
+
         #             else:
         #                 # if os.path.exists(os.path.join(dir_to_save,filename)):
         #                 old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))

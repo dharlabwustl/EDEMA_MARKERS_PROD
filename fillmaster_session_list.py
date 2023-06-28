@@ -560,6 +560,8 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                             combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
                             combined_df["SESSION_ID"]=row['SESSION_ID']
                             csv_counter=csv_counter+1
+                            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
                             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
         #                 # now=datetime.datetime.now()
         #                 # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")

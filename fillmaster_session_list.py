@@ -550,14 +550,16 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
                     if csv_counter==0:
-                        combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                        csv_counter=csv_counter+1
+                        if os.path.exists(os.path.join(dir_to_save,filename)):
+                            combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                            csv_counter=csv_counter+1
                         # now=datetime.datetime.now()
                         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
                         # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
                     else:
-                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                        combined_df=pd.concat([combined_df,old_session_metadata_df],ignore_index=True)
+                        if os.path.exists(os.path.join(dir_to_save,filename)):
+                            old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                            combined_df=pd.concat([combined_df,old_session_metadata_df],ignore_index=True)
 
 
 

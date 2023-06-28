@@ -585,6 +585,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
             sessionId=each_session['ID']
+            if sessionId!= "SNIPR01_E00894": #session_counter>1:
+                continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)
             # print(jsonStr)
@@ -623,7 +625,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 columnname_prefix="CSV"
                 fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
             session_counter=session_counter+1
-            if session_counter>1:
+            if sessionId== "SNIPR01_E00894": #session_counter>1:
                 break
 
 

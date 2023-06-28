@@ -630,9 +630,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-        uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
-        uploadsinglefile_X_level(X_level,level_name,csvfilename_1,resource_dirname_at_snipr)
+        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+        # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1
 
     except:

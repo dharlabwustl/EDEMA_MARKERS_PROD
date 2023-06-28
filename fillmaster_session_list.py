@@ -584,69 +584,70 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
             sessionId=each_session['ID']
-            this_session_metadata=get_metadata_session(sessionId)
-            jsonStr = json.dumps(this_session_metadata)
-            # print(jsonStr)
-            each_session_metadata_df = pd.read_json(jsonStr)
-            if session_counter==0:
-                each_session_metadata_df.to_csv(csvfilename,index=False)
-                session_counter=session_counter+1
-            else:
-                old_session_metadata_df=pd.read_csv(csvfilename)
-                combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
-                combined_session_medata_data.to_csv(csvfilename,index=False)
+            if sessionId=="SNIPR01_E00894":
+                this_session_metadata=get_metadata_session(sessionId)
+                jsonStr = json.dumps(this_session_metadata)
+                # print(jsonStr)
+                each_session_metadata_df = pd.read_json(jsonStr)
+                if session_counter==0:
+                    each_session_metadata_df.to_csv(csvfilename,index=False)
+                    session_counter=session_counter+1
+                else:
+                    old_session_metadata_df=pd.read_csv(csvfilename)
+                    combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
+                    combined_session_medata_data.to_csv(csvfilename,index=False)
 
 
-            for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
-                # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
-                SCAN_URI=each_session_metadata_df_row["URI"]
-                resource_dir="NIFTI"
-                extension_to_find_list=".nii"
-                columnname_prefix="NIFTI"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="MASKS"
-                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-                columnname_prefix="INFARCT"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="MASKS"
-                extension_to_find_list="_csf_unet.nii.gz"
-                columnname_prefix="CSF_MASK"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="EDEMA_BIOMARKER"
-                extension_to_find_list=".pdf"
-                columnname_prefix="PDF"
-                returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                extension_to_find_list="dropped.csv"
-                columnname_prefix="CSV"
-                returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                session_counter=session_counter+1
-                if returnvalue==1:
-                    break
+                for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
+                    # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
+                    SCAN_URI=each_session_metadata_df_row["URI"]
+                    resource_dir="NIFTI"
+                    extension_to_find_list=".nii"
+                    columnname_prefix="NIFTI"
+                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    resource_dir="MASKS"
+                    extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                    columnname_prefix="INFARCT"
+                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    resource_dir="MASKS"
+                    extension_to_find_list="_csf_unet.nii.gz"
+                    columnname_prefix="CSF_MASK"
+                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    resource_dir="EDEMA_BIOMARKER"
+                    extension_to_find_list=".pdf"
+                    columnname_prefix="PDF"
+                    returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    extension_to_find_list="dropped.csv"
+                    columnname_prefix="CSV"
+                    returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    session_counter=session_counter+1
+                    if returnvalue==1:
+                        break
 
 
 
-        csvfilename_df=pd.read_csv(csvfilename)
-        csvfilename_df_colnames=csvfilename_df.columns
-        for col_name in csvfilename_df_colnames:
-            if "_FILE_NAME" in col_name:
-                column_to_move = csvfilename_df.pop(col_name)
-                csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+            csvfilename_df=pd.read_csv(csvfilename)
+            csvfilename_df_colnames=csvfilename_df.columns
+            for col_name in csvfilename_df_colnames:
+                if "_FILE_NAME" in col_name:
+                    column_to_move = csvfilename_df.pop(col_name)
+                    csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
-        csvfilename_df.to_csv(csvfilename,index=False)
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
-        # create_analytics_file(sessionlist_filename,csvfilename_1)
-        # X_level="projects"
-        # level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
-        # dir_to_save=os.path.dirname(csvfilename)
-        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-        # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        # download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-        # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
-        returnvalue=1
+            csvfilename_df.to_csv(csvfilename,index=False)
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            # csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
+            # create_analytics_file(sessionlist_filename,csvfilename_1)
+            # X_level="projects"
+            # level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
+            # dir_to_save=os.path.dirname(csvfilename)
+            # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+            # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+            # download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+            # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+            # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
+            returnvalue=1
 
     except:
         # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

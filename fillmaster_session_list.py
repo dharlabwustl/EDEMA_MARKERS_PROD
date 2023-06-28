@@ -538,13 +538,16 @@ def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname
 
     return 0
 
-def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfilename):
+def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfilename,session_list):
     try:
         csv_counter=0
         combined_csv_df=""
+        session_list_df=pd.read_csv(session_list)
         for each_file in listofcsvfiles_filename:
             each_file_df=pd.read_csv(each_file)
             each_file_df.at[0,'SESSION_ID']=os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]
+            this_row_in_session_list_df=session_list_df[session_list_df['ID']==os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]]
+            each_file_df.at[0,'SESSION_LABEL']=this_row_in_session_list_df['label']
             if csv_counter==0:
                 combined_csv_df=each_file_df
             else:
@@ -701,7 +704,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         now=datetime.datetime.now()
         date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         outputfilename=level_name+ "_"+"COMBINED_EDEMA_BIOMARKER_" + date_time+".csv"
-        combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),output_directory,outputfilename)
+
+        combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),output_directory,outputfilename,sessionlist_filename)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1

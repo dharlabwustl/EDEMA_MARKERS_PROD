@@ -482,25 +482,37 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
 
     return 0
 def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
-    _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-    if len(_infarct_auto_removesmall_path)>1:
-        columnname=columnname_prefix+"_FILE_AVAILABLE"
-        columnvalue=1
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-        columnname=columnname_prefix+"_FILE_NAME"
-        columnvalue=_infarct_auto_removesmall_path
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+    returnvalue=["",0]
+    try:
+        _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+        if len(_infarct_auto_removesmall_path)>1:
+            columnname=columnname_prefix+"_FILE_AVAILABLE"
+            columnvalue=1
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            columnname=columnname_prefix+"_FILE_NAME"
+            columnvalue=_infarct_auto_removesmall_path
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            returnvalue=[_infarct_auto_removesmall_path,1]
+    except:
+        pass
+    return returnvalue
 def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
     # resource_dir="NIFTI"
     # extension_to_find_list=".nii"
-    _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-    if len(_infarct_auto_removesmall_path)>1:
-        columnname=columnname_prefix+"_FILE_AVAILABLE"
-        columnvalue=1
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-        columnname=columnname_prefix+"_FILE_NAME"
-        columnvalue=_infarct_auto_removesmall_path
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+    returnvalue=["",0]
+    try:
+        _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+        if len(_infarct_auto_removesmall_path)>1:
+            columnname=columnname_prefix+"_FILE_AVAILABLE"
+            columnvalue=1
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            columnname=columnname_prefix+"_FILE_NAME"
+            columnvalue=_infarct_auto_removesmall_path
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            returnvalue=[_infarct_auto_removesmall_path,1]
+    except:
+        pass
+    return returnvalue
 def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
     try:
         masterfile_scans_df=pd.read_csv(masterfile_scans)

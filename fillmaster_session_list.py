@@ -493,7 +493,9 @@ def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,colum
             columnvalue=_infarct_auto_removesmall_path
             fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
             returnvalue=[_infarct_auto_removesmall_path,1]
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return returnvalue
 def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
@@ -510,7 +512,9 @@ def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,col
             columnvalue=_infarct_auto_removesmall_path
             fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
             returnvalue=[_infarct_auto_removesmall_path,1]
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return returnvalue
 def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):

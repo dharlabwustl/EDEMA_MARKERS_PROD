@@ -623,7 +623,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                     columnname_prefix="CSV"
                     returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                     session_counter=session_counter+1
-                    if returnvalue==1:
+                    if session_counter>0:
                         break
 
 

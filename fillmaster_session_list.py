@@ -555,11 +555,11 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                 filename=row['SESSION_ID'] + "_" + os.path.basename(url)
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
-                    # if os.path.exists(os.path.join(dir_to_save,filename)):
+                    if os.path.exists(os.path.join(dir_to_save,filename)):
                     #     if csv_counter==0:
-                    #         combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                    #         combined_df.at[0,"SESSION_ID"]=row['SESSION_ID']
-                    #         combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
+                        combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        combined_df.at[0,"SESSION_ID"]=row['SESSION_ID']
+                        combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
                     #         csv_counter=csv_counter+1
                     #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
                     #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )

@@ -567,22 +567,25 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
 
                             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
 
-        #             else:
-        #                 # if os.path.exists(os.path.join(dir_to_save,filename)):
-        #                 old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-        #                 old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
-        #                 combined_df=pd.concat([combined_df,old_session_metadata_df])
-        #
-        #
-        #
-        #             # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
+                    else:
+                        # if os.path.exists(os.path.join(dir_to_save,filename)):
+                        combined_df=pd.read_csv(os.path.join(dir_to_save,combined_file_name))
+                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
+                        combined_df=pd.concat([combined_df,old_session_metadata_df])
+                        combined_df = combined_df.drop_duplicates()
+                        combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
+
+
+
+                    # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
                 except:
                     pass
         # now=datetime.datetime.now()
         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         # combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")
         # combined_df.to_csv(combined_file_name,index=False)
-        # uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
+        uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
         # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
@@ -600,8 +603,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
             sessionId=each_session['ID']
-            if sessionId!= "SNIPR01_E00894":  #session_counter>1:
-                continue
+            # if sessionId!= "SNIPR01_E00894":  #session_counter>1:
+            #     continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)
             # print(jsonStr)
@@ -642,7 +645,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            if session_counter>6: #sessionId== "SNIPR01_E00894": #
+            if session_counter>10: #sessionId== "SNIPR01_E00894": #
                 break
 
 

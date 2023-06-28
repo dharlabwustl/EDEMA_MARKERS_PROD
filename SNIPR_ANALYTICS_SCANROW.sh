@@ -37,7 +37,7 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 sessions_list=${working_dir}/'sessions.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 
-call_create_analytics_file_arguments=('call_creat_analytics_scanasID' ${sessions_list} ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv )
+call_create_analytics_file_arguments=('call_creat_analytics_scanasID' ${sessions_list} ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_create_analytics_file_arguments[@]}")
 echo ${outputfiles_present}
 #

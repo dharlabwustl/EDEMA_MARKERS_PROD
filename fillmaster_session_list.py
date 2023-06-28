@@ -473,23 +473,11 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         if len(current_file_path)>1:
             columnvalue=1
             fill_single_datapoint_each_scan(row_identifier,columnname,columnvalue,csvfilename)
-        # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
-        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
-        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
     except:
-        # print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        # subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(row_identifier) ,shell=True )
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
-        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
-        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(SCAN_URI) ,shell=True )
-        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
-        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
 
     return 0
@@ -507,13 +495,35 @@ def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,col
     # extension_to_find_list=".nii"
     _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
     if len(_infarct_auto_removesmall_path)>1:
-        # row_identifier=row['ID']+"_"+SCAN_ID
         columnname=columnname_prefix+"_FILE_AVAILABLE"
         columnvalue=1
         fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
         columnname=columnname_prefix+"_FILE_NAME"
         columnvalue=_infarct_auto_removesmall_path
         fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
+    try:
+        masterfile_scans_df=pd.read_csv(masterfile_scans)
+        masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['PDF_FILE_AVAILABLE']==1]
+        for index, row in masterfile_scans_df.iterrows():
+            if row['PDF_FILE_AVAILABLE']==1:
+                url=row["PDF_FILE_NAME"]
+                filename=row['SESSION_ID'] + "_" + "ID"+"_"+ os.path.basename(url)
+                try:
+                    download_a_singlefile_with_URIString(url,filename,dir_to_save)
+                    uploadsinglefile_X_level(X_level,level_name,filename,resource_dirname_at_snipr)
+                except:
+                    pass
+
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+
+    return 0
 
 def creat_analytics_scanasID(sessionlist_filename,csvfilename):
     returnvalue=0
@@ -626,6 +636,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
         create_analytics_file(sessionlist_filename,csvfilename_1)
+        X_level="projects"
+        level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
+        dir_to_save=os.path.dirname(csvfilename)
+        resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+        upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         returnvalue=1
 
     except:

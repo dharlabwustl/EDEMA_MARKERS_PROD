@@ -543,23 +543,27 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         masterfile_scans_df=pd.read_csv(masterfile_scans)
         masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
         csv_counter=0
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         for index, row in masterfile_scans_df.iterrows():
             if row['CSV_FILE_AVAILABLE']==1:
                 url=row["CSV_FILE_NAME"]
                 filename=row['SESSION_ID'] + "_" + os.path.basename(url)
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
-                    if csv_counter==0:
-                        if os.path.exists(os.path.join(dir_to_save,filename)):
+
+                    if os.path.exists(os.path.join(dir_to_save,filename)):
+                        if csv_counter==0:
                             combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                            combined_df["SESSION_ID"]=row['SESSION_ID']
                             csv_counter=csv_counter+1
                         # now=datetime.datetime.now()
                         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
                         # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
                     else:
-                        if os.path.exists(os.path.join(dir_to_save,filename)):
-                            old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                            combined_df=pd.concat([combined_df,old_session_metadata_df],ignore_index=True)
+                        # if os.path.exists(os.path.join(dir_to_save,filename)):
+                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
+                        combined_df=pd.concat([combined_df,old_session_metadata_df])
 
 
 

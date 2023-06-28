@@ -617,12 +617,12 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf"
                 columnname_prefix="PDF"
-                fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 extension_to_find_list="dropped.csv"
                 columnname_prefix="CSV"
-                fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                returnvalue=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 session_counter=session_counter+1
-                if session_counter>6:
+                if returnvalue==1:
                     break
 
 

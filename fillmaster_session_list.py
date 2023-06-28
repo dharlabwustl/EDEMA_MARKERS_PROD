@@ -544,39 +544,42 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
         csv_counter=0
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         for index, row in masterfile_scans_df.iterrows():
+
             if row['CSV_FILE_AVAILABLE']==1:
-                url=row["CSV_FILE_NAME"]
-                filename=row['SESSION_ID'] + "_" + os.path.basename(url)
-                try:
-                    download_a_singlefile_with_URIString(url,filename,dir_to_save)
-
-                    if os.path.exists(os.path.join(dir_to_save,filename)):
-                        if csv_counter==0:
-                            combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                            combined_df["SESSION_ID"]=row['SESSION_ID']
-                            csv_counter=csv_counter+1
-                        # now=datetime.datetime.now()
-                        # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
-                        # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
-                    else:
-                        # if os.path.exists(os.path.join(dir_to_save,filename)):
-                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                        old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
-                        combined_df=pd.concat([combined_df,old_session_metadata_df])
-
-
-
-                    # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
-                except:
-                    pass
-        now=datetime.datetime.now()
-        date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
-        combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")
-        combined_df.to_csv(combined_file_name,index=False)
-        uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+                subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(row["CSV_FILE_NAME"]) ,shell=True )
+        #         url=row["CSV_FILE_NAME"]
+        #         filename=row['SESSION_ID'] + "_" + os.path.basename(url)
+        #         try:
+        #             download_a_singlefile_with_URIString(url,filename,dir_to_save)
+        #
+        #             if os.path.exists(os.path.join(dir_to_save,filename)):
+        #                 if csv_counter==0:
+        #                     combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+        #                     combined_df["SESSION_ID"]=row['SESSION_ID']
+        #                     csv_counter=csv_counter+1
+        #                 # now=datetime.datetime.now()
+        #                 # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+        #                 # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
+        #             else:
+        #                 # if os.path.exists(os.path.join(dir_to_save,filename)):
+        #                 old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+        #                 old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
+        #                 combined_df=pd.concat([combined_df,old_session_metadata_df])
+        #
+        #
+        #
+        #             # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
+        #         except:
+        #             pass
+        # now=datetime.datetime.now()
+        # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+        # combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")
+        # combined_df.to_csv(combined_file_name,index=False)
+        # uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
     except Exception:
         print("I FAILED AT ::{}::{}".format(inspect.stack()[0][3],Exception))

@@ -525,6 +525,45 @@ def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname
 
     return 0
 
+def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
+    try:
+        masterfile_scans_df=pd.read_csv(masterfile_scans)
+        masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
+        csv_counter=0
+        for index, row in masterfile_scans_df.iterrows():
+            if row['CSV_FILE_AVAILABLE']==1:
+                url=row["CSV_FILE_NAME"]
+                filename=row['SESSION_ID'] + "_" + os.path.basename(url)
+                try:
+                    download_a_singlefile_with_URIString(url,filename,dir_to_save)
+                    if csv_counter==0:
+                        combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        # now=datetime.datetime.now()
+                        # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+                        # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
+                    else:
+                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        combined_df=pd.concat([combined_df,old_session_metadata_df],ignore_index=True)
+
+
+
+                    # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
+                except:
+                    pass
+        now=datetime.datetime.now()
+        date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
+        combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")
+        combined_df.to_csv(combined_file_name,index=False)
+        uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+
+    return 0
 def creat_analytics_scanasID(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
@@ -590,6 +629,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         dir_to_save=os.path.dirname(csvfilename)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         returnvalue=1
 
     except:

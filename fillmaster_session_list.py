@@ -585,7 +585,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
             sessionId=each_session['ID']
-            if sessionId!= "SNIPR01_E00894": #session_counter>1:
+            if sessionId!= "SNIPR01_E00894":  #session_counter>1:
                 continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)

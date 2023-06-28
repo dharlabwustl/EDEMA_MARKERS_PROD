@@ -570,66 +570,15 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 extension_to_find_list="dropped.csv"
                 columnname_prefix="CSV"
                 fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                # _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     # row_identifier=row['ID']+"_"+SCAN_ID
-                #     columnname="INFARCT_MASK_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                #     columnname="INFARCT_MASK_FILE_NAME"
-                #     columnvalue=_infarct_auto_removesmall_path
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-
-                # _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     # row_identifier=row['ID']+"_"+SCAN_ID
-                #     columnname="NIFTI_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                #     columnname="NIFTI_FILE_NAME"
-                #     columnvalue=_infarct_auto_removesmall_path
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-
-                # _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     # row_identifier=row['ID']+"_"+SCAN_ID
-                #     columnname="CSF_MASK_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                #     columnname="CSF_MASK_FILE_NAME"
-                #     columnvalue=_infarct_auto_removesmall_path
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-
-
-                # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     columnname="PDF_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                #     columnname="PDF_FILE_NAME"
-                #     columnvalue=_infarct_auto_removesmall_path
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                # resource_dir="EDEMA_BIOMARKER"
-                # extension_to_find_list="dropped.csv"
-                # _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
-                # if len(_infarct_auto_removesmall_path)>1:
-                #     columnname="CSV_FILE_AVAILABLE"
-                #     columnvalue=1
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
-                #     columnname="CSV_FILE_NAME"
-                #     columnvalue=_infarct_auto_removesmall_path
-                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],columnname,columnvalue,csvfilename)
             if session_counter>6:
                 break
             session_counter=session_counter+1
-        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
         for col_name in csvfilename_df_colnames:
             if "_FILE_NAME" in col_name:
                 column_to_move = csvfilename_df.pop(col_name)
-            # insert column with insert(location, column_name, column_value)
                 csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
         csvfilename_df.to_csv(csvfilename,index=False)

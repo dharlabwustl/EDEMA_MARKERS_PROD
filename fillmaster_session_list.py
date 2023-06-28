@@ -548,7 +548,7 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
             if csv_counter==0:
                 combined_csv_df=each_file_df
             else:
-                each_file_df=pd.concat([combined_csv_df,each_file_df])
+                combined_csv_df=pd.concat([combined_csv_df,each_file_df])
 
         # listofcsvfiles_filename_df=pd.read_csv(listofcsvfiles_filename)
         # listofcsvfiles_filename_df_list=list(listofcsvfiles_filename_df['LOCAL_FILENAME'])
@@ -701,7 +701,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         now=datetime.datetime.now()
         date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         outputfilename=level_name+ "_"+"COMBINED_EDEMA_BIOMARKER_" + date_time+".csv"
-        combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),dir_to_save,output_directory)
+        combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),output_directory,outputfilename)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1

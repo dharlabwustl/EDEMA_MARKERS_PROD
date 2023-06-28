@@ -623,7 +623,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         csvfilename_df.to_csv(csvfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
-        create_analytics_file(sessionlist_filename,csvfilename_1)
+        # create_analytics_file(sessionlist_filename,csvfilename_1)
         X_level="projects"
         level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
         dir_to_save=os.path.dirname(csvfilename)

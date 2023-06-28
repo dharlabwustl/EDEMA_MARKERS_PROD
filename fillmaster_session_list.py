@@ -576,7 +576,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
 
     except Exception:
         print("I FAILED AT ::{}::{}".format(inspect.stack()[0][3],Exception))
-        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
         pass
 
     return 0

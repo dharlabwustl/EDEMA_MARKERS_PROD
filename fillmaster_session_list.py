@@ -609,9 +609,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 extension_to_find_list="dropped.csv"
                 columnname_prefix="CSV"
                 fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-            if session_counter>6:
-                break
-            session_counter=session_counter+1
+                session_counter=session_counter+1
+                if session_counter>6:
+                    break
+
+
 
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
@@ -622,14 +624,14 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
 
         csvfilename_df.to_csv(csvfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
+        # csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
         # create_analytics_file(sessionlist_filename,csvfilename_1)
-        X_level="projects"
-        level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
-        dir_to_save=os.path.dirname(csvfilename)
-        resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-        upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        # X_level="projects"
+        # level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
+        # dir_to_save=os.path.dirname(csvfilename)
+        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+        # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        # download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1

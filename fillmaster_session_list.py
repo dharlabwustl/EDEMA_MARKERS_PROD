@@ -555,25 +555,25 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                 filename=row['SESSION_ID'] + "_" + os.path.basename(url)
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
-                    if os.path.exists(os.path.join(dir_to_save,filename)):
-                        if csv_counter==0:
-                            combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                            combined_df.at[0,"SESSION_ID"]=row['SESSION_ID']
-                            combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
-                            csv_counter=csv_counter+1
-                            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-                            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
-
-                    else:
-                        # if os.path.exists(os.path.join(dir_to_save,filename)):
-                        combined_df=pd.read_csv(os.path.join(dir_to_save,combined_file_name))
-                        old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                        old_session_metadata_df.at[0,"SESSION_ID"]=row['SESSION_ID']
-                        # combined_df=pd.concat([combined_df,old_session_metadata_df])
-                        combined_df = combined_df.drop_duplicates()
-                        old_session_metadata_df=pd.concat([old_session_metadata_df,old_session_metadata_df])
-                        old_session_metadata_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
-
+                    # if os.path.exists(os.path.join(dir_to_save,filename)):
+                    #     if csv_counter==0:
+                    #         combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                    #         combined_df.at[0,"SESSION_ID"]=row['SESSION_ID']
+                    #         combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
+                    #         csv_counter=csv_counter+1
+                    #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+                    #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
+                    #
+                    # else:
+                    #     # if os.path.exists(os.path.join(dir_to_save,filename)):
+                    #     combined_df=pd.read_csv(os.path.join(dir_to_save,combined_file_name))
+                    #     old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                    #     old_session_metadata_df.at[0,"SESSION_ID"]=row['SESSION_ID']
+                    #     # combined_df=pd.concat([combined_df,old_session_metadata_df])
+                    #     combined_df = combined_df.drop_duplicates()
+                    #     old_session_metadata_df=pd.concat([old_session_metadata_df,old_session_metadata_df])
+                    #     old_session_metadata_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
+                    #
 
 
                     # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
@@ -584,7 +584,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         # combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")
         # combined_df.to_csv(combined_file_name,index=False)
-        uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
+        # uploadsinglefile_X_level(X_level,level_name,combined_file_name,resource_dirname_at_snipr)
         # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
@@ -594,7 +594,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         pass
 
     return 0
-def creat_analytics_scanasID(sessionlist_filename,csvfilename):
+def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory):
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
@@ -665,7 +665,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         dir_to_save=os.path.dirname(csvfilename)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        download_csvs_combine_upload(csvfilename,X_level,level_name,output_directory,resource_dirname_at_snipr)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1
@@ -819,7 +819,9 @@ def call_creat_analytics_scanasID(args):
     try:
         sessionlist_filename=args.stuff[1]
         csvfilename=args.stuff[2]
-        creat_analytics_scanasID(sessionlist_filename,csvfilename)
+        projectID=args.stuff[3]
+        output_directory=args.stuff[4]
+        creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:

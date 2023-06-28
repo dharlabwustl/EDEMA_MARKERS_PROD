@@ -551,6 +551,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
                     if csv_counter==0:
                         combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                        csv_counter=csv_counter+1
                         # now=datetime.datetime.now()
                         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
                         # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
@@ -627,7 +628,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            if sessionId== "SNIPR01_E00894": #session_counter>1:
+            if session_counter>6: #sessionId== "SNIPR01_E00894": #
                 break
 
 
@@ -643,13 +644,13 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
         # create_analytics_file(sessionlist_filename,csvfilename_1)
-        # X_level="projects"
-        # level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
-        # dir_to_save=os.path.dirname(csvfilename)
-        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+        X_level="projects"
+        level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
+        dir_to_save=os.path.dirname(csvfilename)
+        resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        # download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
-        # resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+        download_csvs_combine_upload(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
         returnvalue=1
 

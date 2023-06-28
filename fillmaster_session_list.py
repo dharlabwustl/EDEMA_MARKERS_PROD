@@ -572,9 +572,9 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                         combined_df=pd.read_csv(os.path.join(dir_to_save,combined_file_name))
                         old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
                         old_session_metadata_df["SESSION_ID"]=row['SESSION_ID']
-                        combined_df=pd.concat([combined_df,old_session_metadata_df])
+                        # combined_df=pd.concat([combined_df,old_session_metadata_df])
                         combined_df = combined_df.drop_duplicates()
-                        combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
+                        old_session_metadata_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
 
 
 

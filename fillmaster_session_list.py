@@ -548,17 +548,19 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         for index, row in masterfile_scans_df.iterrows():
 
             if row['CSV_FILE_AVAILABLE']==1:
-                subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(row["CSV_FILE_NAME"]) ,shell=True )
-        #         url=row["CSV_FILE_NAME"]
-        #         filename=row['SESSION_ID'] + "_" + os.path.basename(url)
-        #         try:
-        #             download_a_singlefile_with_URIString(url,filename,dir_to_save)
+
+                url=row["CSV_FILE_NAME"]
+                filename=row['SESSION_ID'] + "_" + os.path.basename(url)
+                try:
+                    download_a_singlefile_with_URIString(url,filename,dir_to_save)
+
         #
-        #             if os.path.exists(os.path.join(dir_to_save,filename)):
-        #                 if csv_counter==0:
-        #                     combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-        #                     combined_df["SESSION_ID"]=row['SESSION_ID']
-        #                     csv_counter=csv_counter+1
+                    if os.path.exists(os.path.join(dir_to_save,filename)):
+                        if csv_counter==0:
+                            combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
+                            combined_df["SESSION_ID"]=row['SESSION_ID']
+                            csv_counter=csv_counter+1
+                            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
         #                 # now=datetime.datetime.now()
         #                 # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         #                 # combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
@@ -571,8 +573,8 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         #
         #
         #             # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
-        #         except:
-        #             pass
+                except:
+                    pass
         # now=datetime.datetime.now()
         # date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         # combined_file_name=os.path.joint(dir_to_save,level_name+"_COMBINED_"+date_time+".csv")

@@ -543,7 +543,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         masterfile_scans_df=pd.read_csv(masterfile_scans)
         masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
         csv_counter=0
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         for index, row in masterfile_scans_df.iterrows():
 
@@ -559,6 +559,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                         if csv_counter==0:
                             combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
                             combined_df["SESSION_ID"]=row['SESSION_ID']
+                            combined_df.to_csv(os.path.join(dir_to_save,"test.csv"),index=False)
                             csv_counter=csv_counter+1
                             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 

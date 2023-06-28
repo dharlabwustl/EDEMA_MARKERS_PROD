@@ -590,6 +590,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename):
             sessionId=each_session['ID']
             if sessionId=="SNIPR01_E00894":
                 this_session_metadata=get_metadata_session(sessionId)
+                subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
                 jsonStr = json.dumps(this_session_metadata)
                 # print(jsonStr)
                 each_session_metadata_df = pd.read_json(jsonStr)

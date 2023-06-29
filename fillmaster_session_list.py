@@ -687,8 +687,9 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
             if session_counter>10: #sessionId== "SNIPR01_E00894": #
                 break
 
-
-
+        now=datetime.datetime.now()
+        date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
+        csvfilename_new=csvfilename.split('.csv')+"_"+date_time + '.csv'
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
         for col_name in csvfilename_df_colnames:
@@ -696,8 +697,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 column_to_move = csvfilename_df.pop(col_name)
                 csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
-        csvfilename_df.to_csv(csvfilename,index=False)
-        csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_NO_FILENAME.csv"
+        csvfilename_df.to_csv(csvfilename_new,index=False)
+        csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
         for col_name in csvfilename_df_colnames:
@@ -715,14 +716,19 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         download_csvs_combine_upload(csvfilename,X_level,level_name,output_directory,resource_dirname_at_snipr)
-        now=datetime.datetime.now()
-        date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
+
         outputfilename=level_name+ "_"+"COMBINED_EDEMA_BIOMARKER_" + date_time+".csv"
 
         combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),output_directory,outputfilename,sessionlist_filename)
         resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-        uploadsinglefile_X_level(X_level,level_name,csvfilename,resource_dirname_at_snipr)
-        uploadsinglefile_X_level(X_level,level_name,csvfilename_withoutfilename,resource_dirname_at_snipr)
+        try:
+            uploadsinglefile_X_level(X_level,level_name,csvfilename_new,resource_dirname_at_snipr)
+        except:
+            pass
+        try:
+            uploadsinglefile_X_level(X_level,level_name,csvfilename_withoutfilename,resource_dirname_at_snipr)
+        except:
+            pass
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
         uploadsinglefile_X_level(X_level,level_name,os.path.join(output_directory,outputfilename),resource_dirname_at_snipr)
         returnvalue=1

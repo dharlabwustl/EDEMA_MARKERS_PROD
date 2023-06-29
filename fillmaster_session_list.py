@@ -730,7 +730,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            if sessionId== session_counter>=2: # or   sessionId!= "SNIPR01_E02470" :
+            if session_counter>=2: # or   sessionId!= "SNIPR01_E02470" : sessionId==
                 break
 
         now=datetime.datetime.now()

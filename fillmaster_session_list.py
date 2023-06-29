@@ -465,12 +465,15 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
                 URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
                 # subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],each_file_df.URI,URI_SCAN) ,shell=True )
                 # subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],os.path.join(download_dir,each_file)) ,shell=True )
-                if URI_SCAN_count == 1 :
-                    # URI_SCAN_df=each_file_df[each_file_df['URI']==URI_SCAN]
-                    URI_SCAN_SLICE_COUNT=each_file_df['NUMBEROFSLICES']
-                    returnvalue=[1,URI_SCAN_SLICE_COUNT]
-                    subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],filename) ,shell=True )
-                    return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
+                try:
+                    if URI_SCAN_count == 1 :
+                        # URI_SCAN_df=each_file_df[each_file_df['URI']==URI_SCAN]
+                        URI_SCAN_SLICE_COUNT=each_file_df['NUMBEROFSLICES']
+                        returnvalue=[1,URI_SCAN_SLICE_COUNT]
+                        subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],filename) ,shell=True )
+                        # return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
+                except:
+                    pass
 
             except:
                 pass
@@ -478,6 +481,7 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except Exception :
         subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
+        pass
     return  returnvalue
 
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):

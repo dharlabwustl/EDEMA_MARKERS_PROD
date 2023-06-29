@@ -444,7 +444,6 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
 
     returnvalue=[0,""]
     try:
-
         URI_session=URI_SCAN.split('/scans')[0]
         resource_dir="NIFTI_LOCATION"
         # download_files_in_a_resource_withname( sessionId, "NIFTI_LOCATION", download_dir)
@@ -452,36 +451,25 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         f_listfile = pd.read_json(json.dumps(metadata))
         filenames=[]
         counter=0
-        subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],URI_session) ,shell=True )
         for index1, row in f_listfile.iterrows():
-            filename=URI_session.split('/')[3]+"_"+str(counter)+".csv"
+            filename=URI_session.split('/')[3]+str(counter)+".csv"
             download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
             filenames.append(filename)
             counter=counter+1
-            subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],filename) ,shell=True )
         for each_file in filenames:
-            try:
-                each_file_df=pd.read_csv(os.path.join(download_dir,each_file))
-                URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
-                subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],each_file_df.URI,URI_SCAN) ,shell=True )
-                subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],os.path.join(download_dir,each_file)) ,shell=True )
-                try:
-                    if URI_SCAN_count == 1 :
-                        # URI_SCAN_df=each_file_df[each_file_df['URI']==URI_SCAN]
-                        URI_SCAN_SLICE_COUNT=each_file_df['NUMBEROFSLICES']
-                        returnvalue=[1,URI_SCAN_SLICE_COUNT]
-                        subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],filename) ,shell=True )
-                        # return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
-                except:
-                    pass
+            each_file_df=pd.read_csv(each_file)
+            URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
+            if URI_SCAN_count == 1 :
+                URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
+                URI_SCAN_SLICE_COUNT=URI_SCAN_df['NUMBEROFSLICES']
+                returnvalue=[1,URI_SCAN_SLICE_COUNT]
+                return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 
-            except:
-                pass
+
 
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except Exception :
         subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
-        pass
     return  returnvalue
 
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):
@@ -675,7 +663,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
             command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
             subprocess.call(command,shell=True)
             sessionId=each_session['ID']
-            if sessionId!= "SNIPR01_E02503" or   sessionId!= "SNIPR01_E02470" : ## "SNIPR01_E02503":  #session_counter>1:
+            if sessionId!= "SNIPR01_E02503":  #SNIPR01_E02470 "SNIPR01_E02503":  #session_counter>1:
                 continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)
@@ -730,7 +718,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            if session_counter>=2: # or   sessionId!= "SNIPR01_E02470" : sessionId==
+            if sessionId== "SNIPR01_E02503": # session_counter>6: #
                 break
 
         now=datetime.datetime.now()
@@ -830,7 +818,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         for index, row in sessionlist_filename_df.iterrows():
             identifier=""
             sessionId= row['ID']
-            if sessionId!= "SNIPR01_E02503" or   sessionId!= "SNIPR01_E02470" : ##: # session_counter>6: #
+            if sessionId!= "SNIPR01_E02503": # session_counter>6: #
                 continue
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
             subprocess.call(command,shell=True)
@@ -909,7 +897,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             ### SEGMENTATION STEP
 
             counter=counter+1
-            if counter>=2: # or   sessionId!= "SNIPR01_E02470" :
+            if sessionId== "SNIPR01_E02503": # session_counter>6: #
                 break
             # if counter > 6:
             #     break

@@ -456,6 +456,7 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
             download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
             filenames.append(filename)
             counter=counter+1
+            subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
         for each_file in filenames:
             each_file_df=pd.read_csv(each_file)
             URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()

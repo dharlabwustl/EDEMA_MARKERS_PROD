@@ -689,7 +689,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
 
         now=datetime.datetime.now()
         date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
-        csvfilename_new=csvfilename.split('.csv')+"_"+date_time + '.csv'
+        csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
         for col_name in csvfilename_df_colnames:

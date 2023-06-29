@@ -467,10 +467,12 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
                 if scan_uri_derived==URI_SCAN:
                 # URI_SCAN_count=each_file_df.loc[each_file_df["URI"].str.split("/resources").str[0] == URI_SCAN, 'URI'].count()
                     subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
+                    subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
                 # if URI_SCAN_count == 1 :
                 #     subprocess.call("echo " + "I URI_SCAN_count AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN_count) ,shell=True )
                     # URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
-                    URI_SCAN_SLICE_COUNT=each_file['NUMBEROFSLICES']
+                    subprocess.call("echo " + "I NUMBEROFSLICES AT ::{}  >> /workingoutput/error.txt".format(each_file.at[0,'NUMBEROFSLICES']) ,shell=True )
+                    URI_SCAN_SLICE_COUNT=each_file.at[0,'NUMBEROFSLICES']
                     returnvalue=[1,URI_SCAN_SLICE_COUNT]
                     return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 

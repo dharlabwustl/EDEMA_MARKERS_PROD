@@ -674,16 +674,17 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
     return 0
 def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory):
     returnvalue=0
-    command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
-    subprocess.call(command,shell=True)
+
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
         counter=0
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
+            command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
+            subprocess.call(command,shell=True)
             sessionId=each_session['ID']
-            if sessionId!= "SNIPR01_E02503":  #"SNIPR01_E02503":  #session_counter>1:
+            if sessionId!= "SNIPR01_E02503":  #SNIPR01_E02470 "SNIPR01_E02503":  #session_counter>1:
                 continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)
@@ -707,6 +708,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 # URI_session=SCAN_URI.split('/scans')[0]
 
                 selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
+                subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
                 if selection_flag_slic_num[0]==1:
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)

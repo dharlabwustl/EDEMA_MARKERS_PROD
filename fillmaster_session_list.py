@@ -452,7 +452,7 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         filenames=[]
         counter=0
         for index1, row in f_listfile.iterrows():
-            filename=URI_session.split('/')[3]+str(counter)+".csv"
+            filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
             download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
             filenames.append(filename)
             counter=counter+1

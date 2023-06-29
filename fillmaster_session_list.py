@@ -463,8 +463,8 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
             try:
                 each_file_df=pd.read_csv(os.path.join(download_dir,each_file))
                 URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
-                subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],each_file_df.URI,URI_SCAN) ,shell=True )
-                subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],os.path.join(download_dir,each_file)) ,shell=True )
+                # subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],each_file_df.URI,URI_SCAN) ,shell=True )
+                # subprocess.call("echo " + "I am at NIFTI_LOCATION AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],os.path.join(download_dir,each_file)) ,shell=True )
                 if URI_SCAN_count == 1 :
                     # URI_SCAN_df=each_file_df[each_file_df['URI']==URI_SCAN]
                     URI_SCAN_SLICE_COUNT=each_file_df['NUMBEROFSLICES']

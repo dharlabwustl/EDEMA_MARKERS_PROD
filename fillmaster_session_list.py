@@ -633,28 +633,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
                 filename=row['SESSION_ID'] + "_" + os.path.basename(url)
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
-                    # if os.path.exists(os.path.join(dir_to_save,filename)):
-                    # #     if csv_counter==0:
-                    #     combined_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                    #     combined_df.at[0,"SESSION_ID"]=row['SESSION_ID']
-                    #     combined_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
-                    #         csv_counter=csv_counter+1
-                    #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-                    #         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(combined_df["CSV_FILE_NAME"]) ,shell=True )
-                    #
-                    # else:
-                    #     # if os.path.exists(os.path.join(dir_to_save,filename)):
-                    #     combined_df=pd.read_csv(os.path.join(dir_to_save,combined_file_name))
-                    #     old_session_metadata_df=pd.read_csv(os.path.join(dir_to_save,filename))
-                    #     old_session_metadata_df.at[0,"SESSION_ID"]=row['SESSION_ID']
-                    #     # combined_df=pd.concat([combined_df,old_session_metadata_df])
-                    #     combined_df = combined_df.drop_duplicates()
-                    #     old_session_metadata_df=pd.concat([old_session_metadata_df,old_session_metadata_df])
-                    #     old_session_metadata_df.to_csv(os.path.join(dir_to_save,combined_file_name),index=False)
-                    #
 
-
-                    # uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
                 except:
                     subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
                     pass

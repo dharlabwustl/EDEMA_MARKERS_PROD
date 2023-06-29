@@ -708,7 +708,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
 
         csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
+        csvfilename_1=csvfilename.split('.csv')[0]+'_'+date_time+'_session.csv'
         create_analytics_file(sessionlist_filename,csvfilename_1)
         X_level="projects"
         level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
@@ -723,6 +723,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
         try:
             uploadsinglefile_X_level(X_level,level_name,csvfilename_new,resource_dirname_at_snipr)
+            uploadsinglefile_X_level(X_level,level_name,csvfilename_1,resource_dirname_at_snipr)
         except:
             pass
         try:

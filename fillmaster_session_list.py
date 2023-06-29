@@ -708,13 +708,13 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
 
         csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
-        # create_analytics_file(sessionlist_filename,csvfilename_1)
+        csvfilename_1=csvfilename.split('.csv')[0]+'_session.csv'
+        create_analytics_file(sessionlist_filename,csvfilename_1)
         X_level="projects"
         level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
         dir_to_save=os.path.dirname(csvfilename)
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-        # upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
+        upload_pdfs(csvfilename,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
         download_csvs_combine_upload(csvfilename,X_level,level_name,output_directory,resource_dirname_at_snipr)
 
         outputfilename=level_name+ "_"+"COMBINED_EDEMA_BIOMARKER_" + date_time+".csv"

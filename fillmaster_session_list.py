@@ -440,10 +440,11 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         pass
     return latest_file_path
 
-def scan_selected_flag_slice_num(URI_session,URI_SCAN,download_dir):
+def scan_selected_flag_slice_num(URI_SCAN,download_dir):
 
     returnvalue=[0,""]
     try:
+        URI_session=URI_SCAN.split('/scans')[0]
         resource_dir="NIFTI_LOCATION"
         # download_files_in_a_resource_withname( sessionId, "NIFTI_LOCATION", download_dir)
         metadata=get_resourcefiles_metadata(URI_session,resource_dir)
@@ -701,9 +702,9 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 #####################
-                URI_session=SCAN_URI.split('/scans')[0]
+                # URI_session=SCAN_URI.split('/scans')[0]
 
-                selection_flag_slic_num=scan_selected_flag_slice_num(URI_session,SCAN_URI,resource_dir)
+                selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,resource_dir)
                 # if selection_flag_slic_num[0]==1:
                 #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
                 #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)

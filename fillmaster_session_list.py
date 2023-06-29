@@ -466,7 +466,7 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
                 URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
                 URI_SCAN_SLICE_COUNT=URI_SCAN_df['NUMBEROFSLICES']
                 returnvalue=[1,URI_SCAN_SLICE_COUNT]
-                # return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
+                return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 
 
 

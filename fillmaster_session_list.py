@@ -547,9 +547,11 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
             each_file_df=pd.read_csv(each_file)
             each_file_df.at[0,'SESSION_ID']=os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]
             this_row_in_session_list_df=session_list_df[session_list_df['ID']==os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]]
-            each_file_df.at[0,'SESSION_LABEL']=this_row_in_session_list_df['label']
+            this_row_in_session_list_df=this_row_in_session_list_df.reset_index()
+            each_file_df.at[0,'SESSION_LABEL']=this_row_in_session_list_df.at[0,'label']
             if csv_counter==0:
                 combined_csv_df=each_file_df
+                csv_counter=csv_counter+1
             else:
                 combined_csv_df=pd.concat([combined_csv_df,each_file_df])
 

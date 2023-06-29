@@ -457,17 +457,18 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
             filenames.append(filename)
             counter=counter+1
             subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
-        for each_file in filenames:
-            subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
-            each_file_df=pd.read_csv(each_file)
-            URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
-            subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
-            if URI_SCAN_count == 1 :
-                subprocess.call("echo " + "I URI_SCAN_count AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN_count) ,shell=True )
-                URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
-                URI_SCAN_SLICE_COUNT=URI_SCAN_df['NUMBEROFSLICES']
-                returnvalue=[1,URI_SCAN_SLICE_COUNT]
-                return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
+        if len(filenames)>0:
+            for each_file in filenames:
+                subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
+                each_file_df=pd.read_csv(each_file)
+                URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
+                subprocess.call("echo " + "I URI_SCAN AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN) ,shell=True )
+                if URI_SCAN_count == 1 :
+                    subprocess.call("echo " + "I URI_SCAN_count AT ::{}  >> /workingoutput/error.txt".format(URI_SCAN_count) ,shell=True )
+                    URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
+                    URI_SCAN_SLICE_COUNT=URI_SCAN_df['NUMBEROFSLICES']
+                    returnvalue=[1,URI_SCAN_SLICE_COUNT]
+                    return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 
 
 

@@ -684,8 +684,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            if session_counter>10: #sessionId== "SNIPR01_E00894": #
-                break
+            # if session_counter>10: #sessionId== "SNIPR01_E00894": #
+            #     break
 
         now=datetime.datetime.now()
         date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
@@ -860,8 +860,8 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             ### SEGMENTATION STEP
 
             counter=counter+1
-            if counter > 10:
-                break
+            # if counter > 10:
+            #     break
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

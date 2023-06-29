@@ -674,6 +674,8 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
     return 0
 def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory):
     returnvalue=0
+    command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
+    subprocess.call(command,shell=True)
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']

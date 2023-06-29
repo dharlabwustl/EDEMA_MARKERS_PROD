@@ -701,12 +701,12 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 #####################
-                URI_session=SCAN_URI.split('/scans')
-
-                selection_flag_slic_num=scan_selected_flag_slice_num(URI_session,SCAN_URI,resource_dir)
-                if selection_flag_slic_num[0]==1:
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+                # URI_session=SCAN_URI.split('/scans')
+                #
+                # selection_flag_slic_num=scan_selected_flag_slice_num(URI_session,SCAN_URI,resource_dir)
+                # if selection_flag_slic_num[0]==1:
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
+                #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
 
 
 

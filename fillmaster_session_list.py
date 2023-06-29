@@ -559,7 +559,7 @@ def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname
         for index, row in masterfile_scans_df.iterrows():
             if row['PDF_FILE_AVAILABLE']==1:
                 url=row["PDF_FILE_NAME"]
-                filename=row['SESSION_ID'] + "_" + os.path.basename(url)
+                filename=row['SESSION_LABEL'] + "_" + os.path.basename(url)
                 try:
                     download_a_singlefile_with_URIString(url,filename,dir_to_save)
                     uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)

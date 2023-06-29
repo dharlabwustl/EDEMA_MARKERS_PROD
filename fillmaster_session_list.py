@@ -472,6 +472,7 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except Exception :
         subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
+        pass
     return  returnvalue
 
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):

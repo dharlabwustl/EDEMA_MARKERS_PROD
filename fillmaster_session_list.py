@@ -544,16 +544,19 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
         combined_csv_df=""
         session_list_df=pd.read_csv(session_list)
         for each_file in listofcsvfiles_filename:
-            each_file_df=pd.read_csv(each_file)
-            each_file_df.at[0,'SESSION_ID']=os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]
-            this_row_in_session_list_df=session_list_df[session_list_df['ID']==os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]]
-            this_row_in_session_list_df=this_row_in_session_list_df.reset_index()
-            each_file_df.at[0,'SESSION_LABEL']=this_row_in_session_list_df.at[0,'label']
-            if csv_counter==0:
-                combined_csv_df=each_file_df
-                csv_counter=csv_counter+1
-            else:
-                combined_csv_df=pd.concat([combined_csv_df,each_file_df])
+            try:
+                each_file_df=pd.read_csv(each_file)
+                each_file_df.at[0,'SESSION_ID']=os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]
+                this_row_in_session_list_df=session_list_df[session_list_df['ID']==os.path.basename(each_file).split('_')[0]+"_"+os.path.basename(each_file).split('_')[1]]
+                this_row_in_session_list_df=this_row_in_session_list_df.reset_index()
+                each_file_df.at[0,'SESSION_LABEL']=this_row_in_session_list_df.at[0,'label']
+                if csv_counter==0:
+                    combined_csv_df=each_file_df
+                    csv_counter=csv_counter+1
+                else:
+                    combined_csv_df=pd.concat([combined_csv_df,each_file_df])
+            except:
+                pass
 
         # listofcsvfiles_filename_df=pd.read_csv(listofcsvfiles_filename)
         # listofcsvfiles_filename_df_list=list(listofcsvfiles_filename_df['LOCAL_FILENAME'])

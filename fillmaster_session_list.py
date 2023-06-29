@@ -439,6 +439,38 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list):
         # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
+
+def scan_selected_flag_slice_num(URI_session,URI_SCAN,download_dir):
+
+    returnvalue=[0,""]
+    try:
+        resource_dir="NIFTI_LOCATION"
+        # download_files_in_a_resource_withname( sessionId, "NIFTI_LOCATION", download_dir)
+        metadata=get_resourcefiles_metadata(URI_session,resource_dir)
+        f_listfile = pd.read_json(json.dumps(metadata))
+        filenames=[]
+        counter=0
+        for index1, row in f_listfile.iterrows():
+            filename=URI_session.split('/')[3]+str(counter)+".csv"
+            download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
+            filenames.append(filename)
+            counter=counter+1
+        for each_file in filenames:
+            each_file_df=pd.read_csv(each_file)
+            URI_SCAN_count=each_file_df.loc[each_file_df.URI == URI_SCAN, 'URI'].count()
+            if URI_SCAN_count == 1 :
+                URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
+                URI_SCAN_SLICE_COUNT=URI_SCAN_df['NUMBEROFSLICES']
+                returnvalue=[1,URI_SCAN_SLICE_COUNT]
+                return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
+
+
+
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except Exception :
+        subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
+    return  returnvalue
+
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):
     latest_file_path=""
     try:
@@ -497,7 +529,7 @@ def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,colum
         pass
 
     return returnvalue
-def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
+def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,filebasename_flag=0):
     # resource_dir="NIFTI"
     # extension_to_find_list=".nii"
     returnvalue=["",0]
@@ -510,6 +542,11 @@ def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,col
             columnname=columnname_prefix+"_FILE_NAME"
             columnvalue=_infarct_auto_removesmall_path
             fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            if filebasename_flag==1:
+                columnname=columnname_prefix+"_BASENAME"
+                columnvalue=os.path.basename(_infarct_auto_removesmall_path).split(extension_to_find_list)[0]
+                fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+
             returnvalue=[_infarct_auto_removesmall_path,1]
     except:
         pass
@@ -638,6 +675,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
         counter=0
         session_counter=0
         for each_session_index, each_session in sessionlist_filename_df.iterrows():
@@ -662,6 +700,18 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",each_session['label'],csvfilename)
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",each_session['ID'],csvfilename)
                 SCAN_URI=each_session_metadata_df_row["URI"]
+                #####################
+                URI_session=SCAN_URI.split('/scans')
+
+                selection_flag_slic_num=scan_selected_flag_slice_num(URI_session,SCAN_URI,resource_dir)
+                if selection_flag_slic_num[0]==1:
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+
+
+
+                #########################
+
                 resource_dir="NIFTI"
                 extension_to_find_list=".nii"
                 columnname_prefix="NIFTI"
@@ -684,8 +734,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             session_counter=session_counter+1
-            # if session_counter>10: #sessionId== "SNIPR01_E00894": #
-            #     break
+            if session_counter>6: #sessionId== "SNIPR01_E00894": #
+                break
 
         now=datetime.datetime.now()
         date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
@@ -778,6 +828,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+        sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
         counter=0
 
         for index, row in sessionlist_filename_df.iterrows():
@@ -860,8 +911,8 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             ### SEGMENTATION STEP
 
             counter=counter+1
-            # if counter > 10:
-            #     break
+            if counter > 6:
+                break
 
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

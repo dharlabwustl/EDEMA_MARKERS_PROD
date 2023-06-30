@@ -719,7 +719,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 if selection_flag_slic_num[0]==1:
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
-                    SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2]
+                    SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
 
 
 

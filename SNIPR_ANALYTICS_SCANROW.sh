@@ -53,7 +53,7 @@ counter=$((counter + 1))
 
   break
 fi
-done < <(tail -n +2 "${copy_session}")
+done < <(tail -n +2 "${sessions_list}")
 
 #call_create_analytics_file_arguments=('call_creat_analytics_scanasID' ${sessions_list} ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_create_analytics_file_arguments[@]}")

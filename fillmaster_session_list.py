@@ -684,7 +684,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
             command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
             subprocess.call(command,shell=True)
             sessionId=each_session['ID']
-            if sessionId != "SNIPR01_E02503" or   sessionId != "SNIPR01_E02470" : # "SNIPR01_E02503":  #session_counter>1:
+            if sessionId in ["SNIPR01_E02503","SNIPR01_E02470" ] :
+                #!= "SNIPR01_E02503" or   sessionId != "SNIPR01_E02470" : # "SNIPR01_E02503":  #session_counter>1:
                 continue
             this_session_metadata=get_metadata_session(sessionId)
             jsonStr = json.dumps(this_session_metadata)
@@ -855,7 +856,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         for index, row in sessionlist_filename_df.iterrows():
             identifier=""
             sessionId= row['ID']
-            if sessionId!= "SNIPR01_E02503" or   sessionId != "SNIPR01_E02470" : # : # session_counter>6: #
+            if sessionId  in ["SNIPR01_E02503","SNIPR01_E02470" ] : #!= "SNIPR01_E02503" or   sessionId != "SNIPR01_E02470" : # : # session_counter>6: #
                 continue
             command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
             subprocess.call(command,shell=True)

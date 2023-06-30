@@ -869,7 +869,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             csf_file_num=0
             pdf_file_num=0
             csv_file_num=0
-            fill_single_row_each_session(row['ID'],row['label'],csvfilename)
+            fill_single_row_each_session(row['ID'],row['label'],sessionlist_filename) ##,csvfilename)
             for each_niftilocationfile in niftilocation_files:
                 print(each_niftilocationfile)
                 each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
@@ -904,32 +904,32 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
             columnvalue=str(niftifiles_num[0]) #str(0)
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="NIFTIFILES_PREFIX"
             columnvalue=str(niftifiles_num[1]) #str(0)
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_SCAN_NUM"
             columnvalue=axial_thin_count[0]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="THIN_SCAN_NUM"
             columnvalue=axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="NUMBER_SELECTEDSCANS"
             columnvalue=str(counter_nifti_location) #str(0)
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="INFARCT_FILE_NUM"
             columnvalue=infarct_file_num #axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="CSF_FILE_NUM"
             columnvalue=csf_file_num #axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="PDF_FILE_NUM"
             columnvalue=pdf_file_num #axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             columnname="CSV_FILE_NUM"
             columnvalue=csv_file_num #axial_thin_count[1]
-            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,sessionlist_filename) ##,csvfilename),csvfilename)
             ### SEGMENTATION STEP
             counter=counter+1
             if counter>=10 : #sessionId== "SNIPR01_E02503": # session_counter>6: #

@@ -678,6 +678,33 @@ def call_creat_analytics_onesessionscanasID(args):
     csvfilename=args.stuff[3]
     csvfilename_withoutfilename=args.stuff[4]
     creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
+def call_edit_scan_analytics_file(args):
+    csvfilename=args.stuff[1]
+    csvfilename_withoutfilename=args.stuff[2]
+    edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename)
+    return 1
+def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
+    csvfilename_df=pd.read_csv(csvfilename)
+    subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
+    csvfilename_df_colnames=csvfilename_df.columns
+
+    for col_name in csvfilename_df_colnames:
+
+        if "_FILE_NAME" in col_name:
+            column_to_move = csvfilename_df.pop(col_name)
+            csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+
+    csvfilename_df.to_csv(csvfilename,index=False)
+    # csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df_colnames=csvfilename_df.columns
+    for col_name in csvfilename_df_colnames:
+        if "_FILE_NAME" in col_name:
+            column_to_move = csvfilename_df.pop(col_name)
+            # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+
+    csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
+
 def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename):
     returnvalue=0
 
@@ -755,26 +782,26 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         # now=datetime.datetime.now()
         # date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
         # csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
-        csvfilename_df=pd.read_csv(csvfilename)
-        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
-        csvfilename_df_colnames=csvfilename_df.columns
-
-        for col_name in csvfilename_df_colnames:
-
-            if "_FILE_NAME" in col_name:
-                column_to_move = csvfilename_df.pop(col_name)
-                csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
-
-        csvfilename_df.to_csv(csvfilename,index=False)
-        # csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
-        csvfilename_df=pd.read_csv(csvfilename)
-        csvfilename_df_colnames=csvfilename_df.columns
-        for col_name in csvfilename_df_colnames:
-            if "_FILE_NAME" in col_name:
-                column_to_move = csvfilename_df.pop(col_name)
-                # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
-
-        csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
+        # csvfilename_df=pd.read_csv(csvfilename)
+        # subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
+        # csvfilename_df_colnames=csvfilename_df.columns
+        #
+        # for col_name in csvfilename_df_colnames:
+        #
+        #     if "_FILE_NAME" in col_name:
+        #         column_to_move = csvfilename_df.pop(col_name)
+        #         csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+        #
+        # csvfilename_df.to_csv(csvfilename,index=False)
+        # # csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
+        # csvfilename_df=pd.read_csv(csvfilename)
+        # csvfilename_df_colnames=csvfilename_df.columns
+        # for col_name in csvfilename_df_colnames:
+        #     if "_FILE_NAME" in col_name:
+        #         column_to_move = csvfilename_df.pop(col_name)
+        #         # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+        #
+        # csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
 
 
         returnvalue=1
@@ -1384,6 +1411,9 @@ def main():
 
     if name_of_the_function=="call_creat_analytics_onesessionscanasID":
         return_value=call_creat_analytics_onesessionscanasID(args)
+    call_edit_scan_analytics_file
+    if name_of_the_function=="call_edit_scan_analytics_file":
+        return_value=call_edit_scan_analytics_file(args)
 
 if __name__ == '__main__':
     main()

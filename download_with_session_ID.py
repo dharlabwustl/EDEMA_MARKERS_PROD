@@ -399,7 +399,7 @@ def count_brainaxial_or_thin(sessionId):
         pass
     return numberof_thin_or_axialscans
 def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
-    numberofniftifiles=0
+    numberofniftifiles=[0,""]
     try:
 
         this_session_metadata=get_metadata_session(sessionId)
@@ -416,7 +416,8 @@ def count_niftifiles_insession(sessionId,dir_to_receive_the_data):
                 output_csvfile_df=pd.read_csv(output_csvfile)
                 for item_id1, each_axial1 in output_csvfile_df.iterrows():
                     if ".nii" in each_axial1['Name']:
-                        numberofniftifiles=numberofniftifiles+1
+                        numberofniftifiles[0]=numberofniftifiles[0]+1
+                        numberofniftifiles[1]="_".join(each_axial1['Name'].split("_")[0:len(each_axial1['Name'].split("_"))-1])
 
             except:
                 pass

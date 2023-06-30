@@ -755,7 +755,10 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         csvfilename_1=csvfilename.split('.csv')[0]+'_'+date_time+'_session.csv'
-        create_analytics_file(sessionlist_filename,csvfilename_1)
+        try:
+            create_analytics_file(sessionlist_filename,csvfilename_1)
+        except:
+            pass
         X_level="projects"
         level_name=os.path.basename(csvfilename).split('_SNIPER_ANALYTICS.csv')[0]
         dir_to_save=os.path.dirname(csvfilename)
@@ -782,7 +785,10 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         except:
             pass
         resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-        uploadsinglefile_X_level(X_level,level_name,os.path.join(output_directory,outputfilename),resource_dirname_at_snipr)
+        try:
+            uploadsinglefile_X_level(X_level,level_name,os.path.join(output_directory,outputfilename),resource_dirname_at_snipr)
+        except:
+            pass
         returnvalue=1
 
     except:
@@ -876,9 +882,11 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
-            columnvalue=str(niftifiles_num) #str(0)
+            columnvalue=str(niftifiles_num[0]) #str(0)
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-
+            columnname="NIFTIFILES_PREFIX"
+            columnvalue=str(niftifiles_num[1]) #str(0)
+            fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
 
 
 

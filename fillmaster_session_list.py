@@ -672,6 +672,8 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         pass
 
     return 0
+
+
 def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory):
     returnvalue=0
 
@@ -845,7 +847,94 @@ def fill_single_datapoint_each_scan_1(URI,columnname,columnvalue,csvfilename):
 
         pass
     return  returnvalue
-
+def fill_sniprsession_list(sessionlist_filename,session_id):
+    returnvalue=0
+    try:
+        csvfilename=sessionlist_filename
+        # command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
+        # subprocess.call(command,shell=True)
+        download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
+        counter_nifti_location=0
+        niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
+        infarct_file_num=0
+        csf_file_num=0
+        pdf_file_num=0
+        csv_file_num=0
+        # fill_single_row_each_session(session_id,session_label,csvfilename)
+        # fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+        for each_niftilocationfile in niftilocation_files:
+            print(each_niftilocationfile)
+            each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
+            print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
+            SCAN_ID=str(each_niftilocationfile_df.iloc[0]['ID'])
+            # fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
+            counter_nifti_location=counter_nifti_location+1
+            ### PDF  STEP:
+            resource_dir="EDEMA_BIOMARKER"
+            extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
+            SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+            SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
+            _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+            # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+            if len(_infarct_auto_removesmall_path)>1:
+                pdf_file_num=pdf_file_num+1
+            extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
+            _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+            # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+            if len(_infarct_auto_removesmall_path)>1:
+                csv_file_num=csv_file_num+1
+            resource_dir="MASKS"
+            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+            _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+            if len(_infarct_auto_removesmall_path)>1:
+                infarct_file_num=infarct_file_num+1
+            extension_to_find_list="_csf_unet.nii.gz"
+            _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+            if len(_infarct_auto_removesmall_path)>1:
+                csf_file_num=csf_file_num+1
+        ### DICOM TO NIFTI STEP
+        niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+        columnname="NUMBER_NIFTIFILES"
+        columnvalue=str(niftifiles_num[0]) #str(0)
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="NIFTIFILES_PREFIX"
+        columnvalue=str(niftifiles_num[1]) #str(0)
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        axial_thin_count=count_brainaxial_or_thin(session_id)
+        columnname="AXIAL_SCAN_NUM"
+        columnvalue=axial_thin_count[0]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="THIN_SCAN_NUM"
+        columnvalue=axial_thin_count[1]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="NUMBER_SELECTEDSCANS"
+        columnvalue=str(counter_nifti_location) #str(0)
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="INFARCT_FILE_NUM"
+        columnvalue=infarct_file_num #axial_thin_count[1]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="CSF_FILE_NUM"
+        columnvalue=csf_file_num #axial_thin_count[1]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="PDF_FILE_NUM"
+        columnvalue=pdf_file_num #axial_thin_count[1]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        columnname="CSV_FILE_NUM"
+        columnvalue=csv_file_num #axial_thin_count[1]
+        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        ### SEGMENTATION STEP
+        # counter=counter+1
+        # if counter>=2 : #sessionId== "SNIPR01_E02503": # session_counter>6: #
+        #     break
+        # if counter > 6:
+        #     break
+        # print(sessionlist_filename_df)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        returnvalue=1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return returnvalue
 def create_analytics_file(sessionlist_filename,csvfilename):
     returnvalue=0
     try:

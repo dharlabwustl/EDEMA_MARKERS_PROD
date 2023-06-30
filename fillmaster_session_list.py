@@ -903,32 +903,32 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
         columnname="NUMBER_NIFTIFILES"
         columnvalue=str(niftifiles_num[0]) #str(0)
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NIFTIFILES_PREFIX"
         columnvalue=str(niftifiles_num[1]) #str(0)
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         axial_thin_count=count_brainaxial_or_thin(session_id)
         columnname="AXIAL_SCAN_NUM"
         columnvalue=axial_thin_count[0]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="THIN_SCAN_NUM"
         columnvalue=axial_thin_count[1]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NUMBER_SELECTEDSCANS"
         columnvalue=str(counter_nifti_location) #str(0)
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="INFARCT_FILE_NUM"
         columnvalue=infarct_file_num #axial_thin_count[1]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="CSF_FILE_NUM"
         columnvalue=csf_file_num #axial_thin_count[1]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="PDF_FILE_NUM"
         columnvalue=pdf_file_num #axial_thin_count[1]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="CSV_FILE_NUM"
         columnvalue=csv_file_num #axial_thin_count[1]
-        fill_datapoint_each_sessionn(session_id,columnname,columnvalue,csvfilename)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         ### SEGMENTATION STEP
         # counter=counter+1
         # if counter>=2 : #sessionId== "SNIPR01_E02503": # session_counter>6: #
@@ -1103,7 +1103,26 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return  returnvalue
+def fill_datapoint_each_session_sniprcsv(identifier,columnname,columnvalue,csvfilename):
+    returnvalue=0
+    try:
+        if os.path.exists(csvfilename):
+            identifier=identifier
+            csvfilename_df=pd.read_csv(csvfilename)
 
+            csvfilename_df.loc[csvfilename_df['ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
+
+            csvfilename_df.to_csv(csvfilename,index=False)
+
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        else:
+            columnvalue_flag=0
+
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
 def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     returnvalue=0
     try:

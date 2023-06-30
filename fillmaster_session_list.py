@@ -738,7 +738,9 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
+        csvfilename_df.rename(columns={'FileName_slice':'SCAN_FILE'}, inplace=True)
         for col_name in csvfilename_df_colnames:
+
             if "_FILE_NAME" in col_name:
                 column_to_move = csvfilename_df.pop(col_name)
                 csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)

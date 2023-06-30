@@ -706,6 +706,12 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 SCAN_URI=each_session_metadata_df_row["URI"]
                 #####################
                 # URI_session=SCAN_URI.split('/scans')[0]
+                #########################
+
+                resource_dir="NIFTI"
+                extension_to_find_list=".nii"
+                columnname_prefix="NIFTI"
+                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
 
                 selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
                 subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
@@ -717,13 +723,8 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
 
 
 
-                #########################
 
-                resource_dir="NIFTI"
-                extension_to_find_list=".nii"
-                columnname_prefix="NIFTI"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
+                # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
                     resource_dir="MASKS"
                     extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                     columnname_prefix="INFARCT"

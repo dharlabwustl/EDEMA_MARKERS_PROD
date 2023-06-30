@@ -442,7 +442,7 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
 
 def scan_selected_flag_slice_num(URI_SCAN,download_dir):
 
-    returnvalue=[0,""]
+    returnvalue=[0,"",""]
     try:
         URI_session=URI_SCAN.split('/scans')[0]
         resource_dir="NIFTI_LOCATION"
@@ -473,7 +473,8 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
                     # URI_SCAN_df=f_listfile[f_listfile['URI']==URI_SCAN]
                     subprocess.call("echo " + "I NUMBEROFSLICES AT ::{}  >> /workingoutput/error.txt".format(each_file_df.at[0,'NUMBEROFSLICES']) ,shell=True )
                     URI_SCAN_SLICE_COUNT=each_file_df.at[0,'NUMBEROFSLICES']
-                    returnvalue=[1,URI_SCAN_SLICE_COUNT]
+                    URI_SCAN_SLICE_Name=each_file_df.at[0,'Name']
+                    returnvalue=[1,URI_SCAN_SLICE_COUNT,URI_SCAN_SLICE_Name]
                     return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 
 
@@ -526,10 +527,10 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
         pass
 
     return 0
-def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename):
+def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX=""):
     returnvalue=["",0]
     try:
-        _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list))
+        _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
         if len(_infarct_auto_removesmall_path)>1:
             columnname=columnname_prefix+"_FILE_AVAILABLE"
             columnvalue=1
@@ -708,9 +709,11 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
 
                 selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
                 subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
+                SCAN_URI_NIFTI_FILEPREFIX=""
                 if selection_flag_slic_num[0]==1:
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+                    SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2]
 
 
 
@@ -720,24 +723,29 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
                 extension_to_find_list=".nii"
                 columnname_prefix="NIFTI"
                 fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="MASKS"
-                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-                columnname_prefix="INFARCT"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="MASKS"
-                extension_to_find_list="_csf_unet.nii.gz"
-                columnname_prefix="CSF_MASK"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="EDEMA_BIOMARKER"
-                extension_to_find_list=".pdf"
-                columnname_prefix="PDF"
-                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-                extension_to_find_list="dropped.csv"
-                columnname_prefix="CSV"
-                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-            session_counter=session_counter+1
+                if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
+                    resource_dir="MASKS"
+                    extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                    columnname_prefix="INFARCT"
+                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    resource_dir="MASKS"
+                    extension_to_find_list="_csf_unet.nii.gz"
+                    columnname_prefix="CSF_MASK"
+                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+
+                    resource_dir="EDEMA_BIOMARKER"
+                    extension_to_find_list=".pdf"
+                    columnname_prefix="PDF"
+                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
+
+                    r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                    subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                    extension_to_find_list="dropped.csv"
+                    columnname_prefix="CSV"
+                    r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                    subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                    session_counter=session_counter+1
             if sessionId== "SNIPR01_E02503": # session_counter>6: #
                 break
 

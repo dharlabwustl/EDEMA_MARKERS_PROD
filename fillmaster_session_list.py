@@ -877,8 +877,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
                 if len(_infarct_auto_removesmall_path)>1:
                     csf_file_num=csf_file_num+1
-
-
             ### DICOM TO NIFTI STEP
             niftifiles_num=count_niftifiles_insession(row['ID'],os.path.dirname(sessionlist_filename))
             columnname="NUMBER_NIFTIFILES"
@@ -887,9 +885,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnname="NIFTIFILES_PREFIX"
             columnvalue=str(niftifiles_num[1]) #str(0)
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-
-
-
             axial_thin_count=count_brainaxial_or_thin(row['ID'])
             columnname="AXIAL_SCAN_NUM"
             columnvalue=axial_thin_count[0]
@@ -899,9 +894,7 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             columnname="NUMBER_SELECTEDSCANS"
             columnvalue=str(counter_nifti_location) #str(0)
-
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-
             columnname="INFARCT_FILE_NUM"
             columnvalue=infarct_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
@@ -915,13 +908,11 @@ def create_analytics_file(sessionlist_filename,csvfilename):
             columnvalue=csv_file_num #axial_thin_count[1]
             fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
             ### SEGMENTATION STEP
-
             counter=counter+1
             if sessionId== "SNIPR01_E02503": # session_counter>6: #
                 break
             # if counter > 6:
             #     break
-
         # print(sessionlist_filename_df)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1

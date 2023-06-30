@@ -1340,8 +1340,10 @@ def call_check_if_a_file_exist_in_snipr( args):
 
 
 
-def get_latest_file(df_listfile):
+def get_latest_file(df_listfile,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df=df_listfile
+    if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
+        allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
     allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
 
     # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)

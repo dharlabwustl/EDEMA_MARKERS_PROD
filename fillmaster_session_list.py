@@ -682,11 +682,6 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
     returnvalue=0
 
     try:
-    # sessionlist_filename_df=pd.read_csv(sessionlist_filename)
-    # sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
-    # counter=0
-    # session_counter=0
-    # for each_session_index, each_session in sessionlist_filename_df.iterrows():
         command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
         subprocess.call(command,shell=True)
         # sessionId=each_session['ID']
@@ -783,9 +778,9 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
 
         returnvalue=1
 
-    except:
+    except Exception:
 
-        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
 
         pass
     return returnvalue

@@ -672,7 +672,123 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         pass
 
     return 0
+def call_creat_analytics_onesessionscanasID(args):
+    sessionId=args.stuff[1]
+    sessionLabel=args.stuff[2]
+    csvfilename=args.stuff[3]
+    csvfilename_withoutfilename=args.stuff[4]
+    creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
+def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename):
+    returnvalue=0
 
+    try:
+    # sessionlist_filename_df=pd.read_csv(sessionlist_filename)
+    # sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
+    # counter=0
+    # session_counter=0
+    # for each_session_index, each_session in sessionlist_filename_df.iterrows():
+        command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
+        subprocess.call(command,shell=True)
+        # sessionId=each_session['ID']
+        # if sessionId in ["SNIPR01_E02503","SNIPR01_E02470" ] : #!= "SNIPR01_E02503" or   sessionId != "SNIPR01_E02470" : # "SNIPR01_E02503":  #session_counter>1:
+        #     continue
+        this_session_metadata=get_metadata_session(sessionId)
+        jsonStr = json.dumps(this_session_metadata)
+        # print(jsonStr)
+        each_session_metadata_df = pd.read_json(jsonStr)
+        # if session_counter==0:
+        if not os.path.exists(csvfilename):
+            each_session_metadata_df.to_csv(csvfilename,index=False)
+            # session_counter=session_counter+1
+        else:
+            old_session_metadata_df=pd.read_csv(csvfilename)
+            combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
+            combined_session_medata_data.to_csv(csvfilename,index=False)
+
+
+        for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
+            # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",sessionId,csvfilename)
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",sessionLabel,csvfilename)
+            SCAN_URI=each_session_metadata_df_row["URI"]
+            #####################
+            # URI_session=SCAN_URI.split('/scans')[0]
+            #########################
+
+            resource_dir="NIFTI"
+            extension_to_find_list=".nii"
+            columnname_prefix="NIFTI"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+
+            selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
+            subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
+            SCAN_URI_NIFTI_FILEPREFIX=""
+            if selection_flag_slic_num[0]==1:
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+                SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
+
+
+
+
+                # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                columnname_prefix="INFARCT"
+                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                resource_dir="MASKS"
+                extension_to_find_list="_csf_unet.nii.gz"
+                columnname_prefix="CSF_MASK"
+                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+
+                resource_dir="EDEMA_BIOMARKER"
+                extension_to_find_list=".pdf"
+                columnname_prefix="PDF"
+                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
+
+                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                extension_to_find_list="dropped.csv"
+                columnname_prefix="CSV"
+                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                session_counter=session_counter+1
+        # if session_counter>=2: ##sessionId== "SNIPR01_E02503": # session_counter>6: #
+        #     break
+
+        # now=datetime.datetime.now()
+        # date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
+        # csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_df_colnames=csvfilename_df.columns
+
+        for col_name in csvfilename_df_colnames:
+
+            if "_FILE_NAME" in col_name:
+                column_to_move = csvfilename_df.pop(col_name)
+                csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+
+        csvfilename_df.to_csv(csvfilename,index=False)
+        # csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_df_colnames=csvfilename_df.columns
+        for col_name in csvfilename_df_colnames:
+            if "_FILE_NAME" in col_name:
+                column_to_move = csvfilename_df.pop(col_name)
+                # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+
+        csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+        returnvalue=1
+
+    except:
+
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+        pass
+    return returnvalue
 
 def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_directory):
     returnvalue=0
@@ -1269,6 +1385,9 @@ def main():
         return_value=call_creat_analytics_scanasID(args)
     if name_of_the_function=="call_fill_sniprsession_list":
         return_value=call_fill_sniprsession_list(args)
+
+    if name_of_the_function=="call_creat_analytics_onesessionscanasID":
+        return_value=call_creat_analytics_onesessionscanasID(args)
 
 if __name__ == '__main__':
     main()

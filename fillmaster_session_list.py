@@ -847,6 +847,11 @@ def fill_single_datapoint_each_scan_1(URI,columnname,columnvalue,csvfilename):
 
         pass
     return  returnvalue
+def call_fill_sniprsession_list(args):
+    sessionlist_filename=args.stuff[1]
+    session_id=args.stuff[2]
+    fill_sniprsession_list(sessionlist_filename,session_id)
+
 def fill_sniprsession_list(sessionlist_filename,session_id):
     returnvalue=0
     try:
@@ -1241,7 +1246,8 @@ def main():
         return_value=call_create_analytics_file(args)
     if name_of_the_function=="call_creat_analytics_scanasID":
         return_value=call_creat_analytics_scanasID(args)
-
+    if name_of_the_function=="call_fill_sniprsession_list":
+        return_value=call_fill_sniprsession_list(args)
 
 if __name__ == '__main__':
     main()

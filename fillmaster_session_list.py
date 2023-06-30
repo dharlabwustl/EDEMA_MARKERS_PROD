@@ -776,32 +776,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                 r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
                 subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
                 session_counter=session_counter+1
-        # if session_counter>=2: ##sessionId== "SNIPR01_E02503": # session_counter>6: #
-        #     break
 
-        # now=datetime.datetime.now()
-        # date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
-        # csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
-        # csvfilename_df=pd.read_csv(csvfilename)
-        # subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
-        # csvfilename_df_colnames=csvfilename_df.columns
-        #
-        # for col_name in csvfilename_df_colnames:
-        #
-        #     if "_FILE_NAME" in col_name:
-        #         column_to_move = csvfilename_df.pop(col_name)
-        #         csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
-        #
-        # csvfilename_df.to_csv(csvfilename,index=False)
-        # # csvfilename_withoutfilename=csvfilename.split(".csv")[0]+"_"+date_time+"_NO_FILENAME.csv"
-        # csvfilename_df=pd.read_csv(csvfilename)
-        # csvfilename_df_colnames=csvfilename_df.columns
-        # for col_name in csvfilename_df_colnames:
-        #     if "_FILE_NAME" in col_name:
-        #         column_to_move = csvfilename_df.pop(col_name)
-        #         # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
-        #
-        # csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
 
 
         returnvalue=1

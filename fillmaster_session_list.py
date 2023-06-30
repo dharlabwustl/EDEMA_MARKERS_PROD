@@ -620,6 +620,14 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
         #         pass
 
         combined_csv_df = combined_csv_df.drop_duplicates()
+        # combined_file=os.path.join(output_directory,outputfilename)
+        # combined_file_df=pd.read_csv(combined_file)
+        combined_csv_df.rename(columns={'FileName_slice':'SCAN_FILE'}, inplace=True)
+        column_to_move = combined_csv_df.pop("SESSION_LABEL")
+        combined_csv_df.insert(1, "SESSION_ID", column_to_move)
+        column_to_move = combined_csv_df.pop("SESSION_ID")
+        combined_csv_df.insert(2, "SESSION_ID", column_to_move)
+        # combined_file_df.to_csv(combined_file)
         combined_csv_df.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 
         print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
@@ -738,7 +746,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df_colnames=csvfilename_df.columns
-        csvfilename_df.rename(columns={'FileName_slice':'SCAN_FILE'}, inplace=True)
+
         for col_name in csvfilename_df_colnames:
 
             if "_FILE_NAME" in col_name:
@@ -771,6 +779,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
         outputfilename=level_name+ "_"+"COMBINED_EDEMA_BIOMARKER_" + date_time+".csv"
 
         combinecsvs_inafiles_list(glob.glob(os.path.join(output_directory,"*.csv")),output_directory,outputfilename,sessionlist_filename)
+
         resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
         try:
             uploadsinglefile_X_level(X_level,level_name,csvfilename_new,resource_dirname_at_snipr)

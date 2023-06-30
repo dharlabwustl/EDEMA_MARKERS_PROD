@@ -36,9 +36,9 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
-copy_session=ANALYTICS_${sessions_list%.csv}_ANALYTICS_${time_now}.csv
-scan_analytics=ANALYTICS_${sessions_list%session.csv}_SCAN_ANALYTICS_${time_now}.csv
-scan_analytics_nofilename=ANALYTICS_${sessions_list%session.csv}_SCAN_ANALYTICS_NOFILENAME${time_now}.csv
+copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
+scan_analytics=${sessions_list%session.csv}_SCAN_ANALYTICS_${time_now}.csv
+scan_analytics_nofilename=${sessions_list%session.csv}_SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
 counter=0

@@ -622,7 +622,7 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
         combined_csv_df = combined_csv_df.drop_duplicates()
         # combined_file=os.path.join(output_directory,outputfilename)
         # combined_file_df=pd.read_csv(combined_file)
-        combined_csv_df.rename(columns={'FileName_slice':'SCAN_FILE'}, inplace=True)
+        # combined_csv_df.rename(columns={'FileName_slice':'SCAN_FILE'}, inplace=True)
         column_to_move = combined_csv_df.pop("SESSION_LABEL")
         combined_csv_df.insert(1, "SESSION_ID", column_to_move)
         column_to_move = combined_csv_df.pop("SESSION_ID")

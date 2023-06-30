@@ -565,6 +565,13 @@ def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,col
     except:
         pass
     return returnvalue
+def call_upload_pdfs(args):
+    masterfile_scans=args.stuff[1]
+    X_level=args.stuff[2]
+    level_name=args.stuff[3]
+    dir_to_save=args.stuff[4]
+    resource_dirname_at_snipr=args.stuff[5]
+    upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
 def upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
     try:
         masterfile_scans_df=pd.read_csv(masterfile_scans)

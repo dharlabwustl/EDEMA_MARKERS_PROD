@@ -60,6 +60,9 @@ counter=$((counter + 1))
 fi
 done < <(tail -n +2 "${sessions_list}")
 
+call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_scan_analytics_file_arguments[@]}")
+
 #call_create_analytics_file_arguments=('call_creat_analytics_scanasID' ${sessions_list} ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_create_analytics_file_arguments[@]}")
 #echo ${outputfiles_present} call_fill_sniprsession_list

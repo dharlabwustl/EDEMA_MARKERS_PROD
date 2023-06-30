@@ -799,7 +799,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
             pass
         try:
             # uploadsinglefile_X_level(X_level,level_name,csvfilename_new,resource_dirname_at_snipr)
-            uploadsinglefile_X_level(X_level,level_name,csvfilename_1,resource_dirname_at_snipr)
+            uploadsinglefile_X_level(X_level,level_name,sessionlist_filename,resource_dirname_at_snipr)
         except:
             pass
         try:

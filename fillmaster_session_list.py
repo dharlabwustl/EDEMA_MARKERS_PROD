@@ -832,7 +832,6 @@ def create_analytics_file(sessionlist_filename,csvfilename):
         sessionlist_filename_df=pd.read_csv(sessionlist_filename)
         sessionlist_filename_df=sessionlist_filename_df[sessionlist_filename_df['xsiType']=='xnat:ctSessionData']
         counter=0
-
         for index, row in sessionlist_filename_df.iterrows():
             identifier=""
             sessionId= row['ID']

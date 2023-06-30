@@ -37,6 +37,8 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=ANALYTICS_${sessions_list%.csv}_ANALYTICS_${time_now}.csv
+scan_analytics=ANALYTICS_${sessions_list%session.csv}_SCAN_ANALYTICS_${time_now}.csv
+scan_analytics_nofilename=ANALYTICS_${sessions_list%session.csv}_SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
 counter=0
@@ -48,6 +50,9 @@ if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
 call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${copy_session} ${array[1]} ) ##
 # ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
+call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
+#def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
 counter=$((counter + 1))
 #if [ $counter -eq 7 ] ; then
 

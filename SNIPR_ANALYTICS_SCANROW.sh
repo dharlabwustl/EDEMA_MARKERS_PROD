@@ -44,7 +44,7 @@ call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${sessions_
 # ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
 counter=$((counter + 1))
-if [ $counter -eq 3 ] ; then
+if [ $counter -eq 7 ] ; then
   break
 fi
 done < <(tail -n +2 "${sessions_list}")

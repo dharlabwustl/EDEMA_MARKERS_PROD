@@ -756,6 +756,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         # date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
         # csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
         csvfilename_df=pd.read_csv(csvfilename)
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
         csvfilename_df_colnames=csvfilename_df.columns
 
         for col_name in csvfilename_df_colnames:
@@ -774,7 +775,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                 # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
         csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
 
         returnvalue=1
 

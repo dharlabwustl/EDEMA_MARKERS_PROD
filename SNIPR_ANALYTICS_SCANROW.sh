@@ -40,6 +40,7 @@ counter=0
 while IFS=',' read -ra array; do
 xx=0
 echo "${array[1]}"
+echo "${array[3]}"
 call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${sessions_list} ${array[1]} ) ##
 # ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")

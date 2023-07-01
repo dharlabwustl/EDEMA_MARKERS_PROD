@@ -62,6 +62,13 @@ done < <(tail -n +2 "${sessions_list}")
 
 call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_scan_analytics_file_arguments[@]}")
+X_level="projects"
+level_name=${project_ID}
+dir_to_save=${working_dir}
+resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+call_upload_pdfs_arguments=('call_upload_pdfs'  ${scan_analytics}  ${X_level} ${level_name} ${dir_to_save} ${resource_dirname_at_snipr} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_upload_pdfs_arguments[@]}")
+#upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr)
 
 #call_create_analytics_file_arguments=('call_creat_analytics_scanasID' ${sessions_list} ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_create_analytics_file_arguments[@]}")

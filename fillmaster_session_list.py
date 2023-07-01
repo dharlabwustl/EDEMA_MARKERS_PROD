@@ -1396,6 +1396,8 @@ def main():
     call_edit_scan_analytics_file
     if name_of_the_function=="call_edit_scan_analytics_file":
         return_value=call_edit_scan_analytics_file(args)
+    if name_of_the_function=="call_upload_pdfs":
+        return_value=call_upload_pdfs(args)
 
 if __name__ == '__main__':
     main()

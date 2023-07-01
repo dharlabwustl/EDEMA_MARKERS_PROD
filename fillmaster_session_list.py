@@ -439,8 +439,33 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
         # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
+def list_niftilocation(URI_session,download_dir):
+    resource_dir="NIFTI_LOCATION"
+    returnvalue="SESSION_NOT_SELECTED"
+    try:
+        metadata=get_resourcefiles_metadata(URI_session,resource_dir)
+        f_listfile = pd.read_json(json.dumps(metadata))
+        filenames=[]
+        counter=0
+        for index1, row in f_listfile.iterrows():
+            filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
+            download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
+            filenames.append(os.path.join(download_dir,filename))
+            counter=counter+1
+            subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
+        if len(filenames)==1:
+            returnvalue=pd.read_csv(filenames[0])
+        elif len(filenames) >1:
+            combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
+            returnvalue=combined_csv
+        else:
+            pass
+    except :
+        pass
+    return returnvalue
 
 def scan_selected_flag_slice_num(URI_SCAN,download_dir):
+
 
     returnvalue=[0,"",""]
     try:
@@ -815,7 +840,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         each_session_metadata_df = pd.read_json(jsonStr)
         # if session_counter==0:
         # download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save)
-
+        # nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))
 
 
         for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():

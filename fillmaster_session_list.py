@@ -795,9 +795,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         # print(jsonStr)
         each_session_metadata_df = pd.read_json(jsonStr)
         # if session_counter==0:
-        resource_dirname="NIFTI_LOCATION"
-        dir_to_save=os.path.join(csvfilename)
-        download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save)
+        # download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save)
         if not os.path.exists(csvfilename):
             each_session_metadata_df.to_csv(csvfilename,index=False)
             # session_counter=session_counter+1
@@ -805,61 +803,53 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             old_session_metadata_df=pd.read_csv(csvfilename)
             combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
             combined_session_medata_data.to_csv(csvfilename,index=False)
-        # try:
-            # subprocess.call("echo " + "NIFTI_FILE_SCAN_URI ::{}::{}  >> /workingoutput/error.txt".format(NIFTI_FILE_SCAN_URI,SCAN_URI) ,shell=True )
 
-        for each_NIFTILOCATION_FILE in glob.glob(os.path.join(dir_to_save,"*"+"NIFTILOCATION"+'.csv')):
-            subprocess.call("echo " + "each_NIFTILOCATION_FILE ::{}:: >> /workingoutput/error.txt".format(each_NIFTILOCATION_FILE) ,shell=True )
-            each_NIFTILOCATION_FILE_df=pd.read_csv(each_NIFTILOCATION_FILE)
-            NIFTI_FILE_SCAN_URI=each_NIFTILOCATION_FILE_df[0,'URI'].split('/resources')[0]
-            for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
-                # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",sessionLabel ,csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",sessionId,csvfilename)
-                SCAN_URI=each_session_metadata_df_row["URI"]
-                #####################################################
-                #####################
-                # URI_session=SCAN_URI.split('/scans')[0]
-                #########################
 
-                resource_dir="NIFTI"
-                extension_to_find_list=".nii"
-                columnname_prefix="NIFTI"
+        for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
+            # fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"columnname","columnvalue",csvfilename)
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",sessionLabel ,csvfilename)
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",sessionId,csvfilename)
+            SCAN_URI=each_session_metadata_df_row["URI"]
+            #####################################################
+            #####################
+            # URI_session=SCAN_URI.split('/scans')[0]
+            #########################
+
+            resource_dir="NIFTI"
+            extension_to_find_list=".nii"
+            columnname_prefix="NIFTI"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+
+            selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
+            subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
+            SCAN_URI_NIFTI_FILEPREFIX=""
+            if selection_flag_slic_num[0]==1:
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+                SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
+                # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
+                resource_dir="MASKS"
+                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                columnname_prefix="INFARCT"
                 fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                subprocess.call("echo " + "NIFTI_FILE_SCAN_URI ::{}::{}  >> /workingoutput/error.txt".format(NIFTI_FILE_SCAN_URI,SCAN_URI) ,shell=True )
+                resource_dir="MASKS"
+                extension_to_find_list="_csf_unet.nii.gz"
+                columnname_prefix="CSF_MASK"
+                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
 
-# selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
-                # subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
-                SCAN_URI_NIFTI_FILEPREFIX=""
-                if str(NIFTI_FILE_SCAN_URI) == str(SCAN_URI) : #selection_flag_slic_num[0]==1:
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,csvfilename)
-                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",each_NIFTILOCATION_FILE_df[0,"NUMBEROFSLICES"],csvfilename)
-                    SCAN_URI_NIFTI_FILEPREFIX=each_NIFTILOCATION_FILE_df[0,"Name"].split('.nii')[0]
-                    # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-                    resource_dir="MASKS"
-                    extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-                    columnname_prefix="INFARCT"
-                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                    resource_dir="MASKS"
-                    extension_to_find_list="_csf_unet.nii.gz"
-                    columnname_prefix="CSF_MASK"
-                    fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                resource_dir="EDEMA_BIOMARKER"
+                extension_to_find_list=".pdf"
+                columnname_prefix="PDF"
+                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
 
-                    resource_dir="EDEMA_BIOMARKER"
-                    extension_to_find_list=".pdf"
-                    columnname_prefix="PDF"
-                    # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
-                    # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
-
-                    r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
-                    subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-                    extension_to_find_list="dropped.csv"
-                    columnname_prefix="CSV"
-                    r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
-                    subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-                    # session_counter=session_counter+1
-        # except:
-        #     pass
+                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                extension_to_find_list="dropped.csv"
+                columnname_prefix="CSV"
+                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                # session_counter=session_counter+1
 
 
 

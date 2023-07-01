@@ -824,11 +824,12 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                     extension_to_find_list=".nii"
                     columnname_prefix="NIFTI"
                     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+                    subprocess.call("echo " + "NIFTI_FILE_SCAN_URI ::{}::{}  >> /workingoutput/error.txt".format(NIFTI_FILE_SCAN_URI,SCAN_URI) ,shell=True )
 
-                    # selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
+# selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
                     # subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
                     SCAN_URI_NIFTI_FILEPREFIX=""
-                    if NIFTI_FILE_SCAN_URI == SCAN_URI : #selection_flag_slic_num[0]==1:
+                    if str(NIFTI_FILE_SCAN_URI) == str(SCAN_URI) : #selection_flag_slic_num[0]==1:
                         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,csvfilename)
                         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",each_NIFTILOCATION_FILE_df[0,"NUMBEROFSLICES"],csvfilename)
                         SCAN_URI_NIFTI_FILEPREFIX=each_NIFTILOCATION_FILE_df[0,"Name"].split('.nii')[0]

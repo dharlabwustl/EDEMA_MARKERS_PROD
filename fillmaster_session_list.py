@@ -728,10 +728,11 @@ def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename
     # csvfilename_withoutfilename=csvfilename
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df=csvfilename_df[csvfilename_df['xsiType']=='xnat:ctSessionData']
-    csvfilename_df = csvfilename_df.drop('URI', axis=1)
-    csvfilename_df = csvfilename_df.drop('insert_date', axis=1)
-    csvfilename_df = csvfilename_df.drop('URI', axis=1)
-    csvfilename_df = csvfilename_df.drop('xnat:subjectassessordata/id', axis=1) #xsiType date project
+    csvfilename_df = csvfilename_df.drop(columns=['URI', 'insert_date','xnat:subjectassessordata/id','insert_date'])
+    # csvfilename_df = csvfilename_df.drop('URI', axis=1)
+    # csvfilename_df = csvfilename_df.drop('insert_date', axis=1)
+    # csvfilename_df = csvfilename_df.drop('URI', axis=1)
+    # csvfilename_df = csvfilename_df.drop('xnat:subjectassessordata/id', axis=1) #xsiType date project
     # csvfilename_df = csvfilename_df.drop('xnat:subjectassessordata/id', axis=1)
     csvfilename_df = csvfilename_df.drop('date', axis=1)
     csvfilename_df = csvfilename_df.drop('project', axis=1)

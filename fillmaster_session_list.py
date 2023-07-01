@@ -830,16 +830,16 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
 
     try:
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
-        # subprocess.call(command,shell=True)
-        #
-        # this_session_metadata=get_metadata_session(sessionId)
-        # jsonStr = json.dumps(this_session_metadata)
-        #
-        # each_session_metadata_df = pd.read_json(jsonStr)
-        # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
-        # nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
+        command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
+        subprocess.call(command,shell=True)
 
+        this_session_metadata=get_metadata_session(sessionId)
+        jsonStr = json.dumps(this_session_metadata)
+
+        each_session_metadata_df = pd.read_json(jsonStr)
+        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
+        nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
+        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         #
         # for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
         #     tempfile=os.path.join(os.path.basename(csvfilename),"temp_1.csv")

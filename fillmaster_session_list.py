@@ -477,8 +477,6 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
                     returnvalue=[1,URI_SCAN_SLICE_COUNT,URI_SCAN_SLICE_Name]
                     return  returnvalue #=[1,URI_SCAN_SLICE_COUNT]
 
-
-
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except Exception :
         subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
@@ -529,39 +527,47 @@ def check_available_file_and_document(row_identifier,extension_to_find_list,SCAN
     return 0
 def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX=""):
     returnvalue=["",0]
+    columnvalue=""
     try:
         _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+        columnname=columnname_prefix+"_FILE_AVAILABLE"
         if len(_infarct_auto_removesmall_path)>1:
-            columnname=columnname_prefix+"_FILE_AVAILABLE"
             columnvalue=1
-            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-            columnname=columnname_prefix+"_FILE_NAME"
-            columnvalue=_infarct_auto_removesmall_path
-            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
             returnvalue=[_infarct_auto_removesmall_path,1]
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        columnname=columnname_prefix+"_FILE_NAME"
+        columnvalue=""
+        if len(_infarct_auto_removesmall_path)>1:
+            columnvalue=_infarct_auto_removesmall_path
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
     except:
         pass
 
     return returnvalue
 def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,filebasename_flag=0):
-    # resource_dir="NIFTI"
-    # extension_to_find_list=".nii"
     returnvalue=["",0]
+    columnvalue=""
     try:
         _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+        columnname=columnname_prefix+"_FILE_AVAILABLE"
         if len(_infarct_auto_removesmall_path)>1:
-            columnname=columnname_prefix+"_FILE_AVAILABLE"
             columnvalue=1
-            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-            columnname=columnname_prefix+"_FILE_NAME"
-            columnvalue=_infarct_auto_removesmall_path
-            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-            if filebasename_flag==1:
-                columnname=columnname_prefix+"_BASENAME"
-                columnvalue=os.path.basename(_infarct_auto_removesmall_path).split(extension_to_find_list)[0]
-                fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-
             returnvalue=[_infarct_auto_removesmall_path,1]
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        columnname=columnname_prefix+"_FILE_NAME"
+        columnvalue=""
+        if len(_infarct_auto_removesmall_path)>1:
+            columnvalue=_infarct_auto_removesmall_path
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        columnname=columnname_prefix+"_BASENAME"
+        columnvalue=""
+        if filebasename_flag==1:
+            if len(_infarct_auto_removesmall_path)>1:
+                columnvalue=os.path.basename(_infarct_auto_removesmall_path).split(extension_to_find_list)[0]
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+
+
+
     except:
         pass
     return returnvalue
@@ -780,7 +786,13 @@ def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
             # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
 
     csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
-
+def fill_scan_metadata_matrix():
+    returnvalue=0
+    try:
+        print(returnvalue)
+    except Exception:
+        pass
+    return  returnvalue
 def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename):
     returnvalue=0
 
@@ -828,27 +840,27 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
                 SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-                resource_dir="MASKS"
-                extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-                columnname_prefix="INFARCT"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
-                resource_dir="MASKS"
-                extension_to_find_list="_csf_unet.nii.gz"
-                columnname_prefix="CSF_MASK"
-                fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+            resource_dir="MASKS"
+            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+            columnname_prefix="INFARCT"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
+            resource_dir="MASKS"
+            extension_to_find_list="_csf_unet.nii.gz"
+            columnname_prefix="CSF_MASK"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename)
 
-                resource_dir="EDEMA_BIOMARKER"
-                extension_to_find_list=".pdf"
-                columnname_prefix="PDF"
+            resource_dir="EDEMA_BIOMARKER"
+            extension_to_find_list=".pdf"
+            columnname_prefix="PDF"
                 # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
                 # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
 
-                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
-                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-                extension_to_find_list="dropped.csv"
-                columnname_prefix="CSV"
-                r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
-                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+            extension_to_find_list="dropped.csv"
+            columnname_prefix="CSV"
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
                 # session_counter=session_counter+1
 
 

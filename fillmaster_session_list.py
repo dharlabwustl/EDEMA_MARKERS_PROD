@@ -1428,7 +1428,7 @@ def main():
     if name_of_the_function=="call_upload_pdfs":
         return_value=call_upload_pdfs(args)
     if name_of_the_function=="call_download_csvs_combine_upload_v1":
-        return_value=call_upload_pdfs(args)
+        return_value=call_download_csvs_combine_upload_v1(args)
 if __name__ == '__main__':
     main()
 

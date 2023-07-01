@@ -809,6 +809,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_LABEL",sessionLabel ,csvfilename)
             fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SESSION_ID",sessionId,csvfilename)
             SCAN_URI=each_session_metadata_df_row["URI"]
+            #####################################################
             #####################
             # URI_session=SCAN_URI.split('/scans')[0]
             #########################

@@ -807,7 +807,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             combined_session_medata_data.to_csv(csvfilename,index=False)
         try:
 
-            for each_NIFTILOCATION_FILE in glob,glob(os.path.join(dir_to_save,"*"+resource_dirname+'.csv')):
+            for each_NIFTILOCATION_FILE in glob,glob(os.path.join(dir_to_save,"*"+"NIFTILOCATION"+'.csv')):
                 each_NIFTILOCATION_FILE_df=pd.read_csv(each_NIFTILOCATION_FILE)
                 NIFTI_FILE_SCAN_URI=each_NIFTILOCATION_FILE_df[0,'URI'].split('/resources')[0]
                 for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():

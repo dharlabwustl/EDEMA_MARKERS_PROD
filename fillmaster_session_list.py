@@ -644,6 +644,35 @@ def combinecsvs_inafiles_list(listofcsvfiles_filename,outputdirectory,outputfile
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
         return 0
+
+def call_download_csvs_combine_upload_v1(args):
+    masterfile_scans=args.stuff[1]
+    sessionlist_filename=args.stuff[2]
+    dir_to_save=args.stuff[3]
+    outputfilename=args.stuff[4]
+    download_csvs_combine_v1(masterfile_scans,sessionlist_filename,dir_to_save,outputfilename)
+def download_csvs_combine_v1(masterfile_scans,sessionlist_filename,dir_to_save,outputfilename):
+    try:
+        masterfile_scans_df=pd.read_csv(masterfile_scans)
+        masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
+        list_csvs=[]
+        for index, row in masterfile_scans_df.iterrows():
+            if row['CSV_FILE_AVAILABLE']==1:
+                url=row["CSV_FILE_NAME"]
+                filename=row['SESSION_ID'] + "_" + os.path.basename(url)
+                try:
+                    download_a_singlefile_with_URIString(url,filename,dir_to_save)
+                    list_csvs.append(os.path.join(dir_to_save,filename))
+                except:
+                    subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
+                    pass
+        combinecsvs_inafiles_list(list_csvs,dir_to_save,outputfilename,sessionlist_filename)
+    except Exception:
+        print("I FAILED AT ::{}::{}".format(inspect.stack()[0][3],Exception))
+        subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
+        pass
+
+    return 0
 def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
     try:
         masterfile_scans_df=pd.read_csv(masterfile_scans)
@@ -1398,7 +1427,8 @@ def main():
         return_value=call_edit_scan_analytics_file(args)
     if name_of_the_function=="call_upload_pdfs":
         return_value=call_upload_pdfs(args)
-
+    if name_of_the_function=="call_download_csvs_combine_upload_v1":
+        return_value=call_upload_pdfs(args)
 if __name__ == '__main__':
     main()
 

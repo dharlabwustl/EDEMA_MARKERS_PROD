@@ -72,7 +72,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_upload_pdfs_arg
 outputfilename=${project_ID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
 call_download_csvs_combine_upload_v1_arguments=('call_download_csvs_combine_upload_v1'  ${scan_analytics}  ${sessions_list} ${dir_to_save} ${outputfilename} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_csvs_combine_upload_v1_arguments[@]}")
-resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
+#resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
 copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
 # download_csvs_combine_upload_v1(masterfile_scans,sessionlist_filename,dir_to_save,outputfilename)
 #upload_pdfs(masterfile_scans,X_level,level_name,dir_to_save,resource_dirname_at_snipr)

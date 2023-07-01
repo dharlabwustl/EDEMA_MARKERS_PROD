@@ -837,13 +837,14 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         jsonStr = json.dumps(this_session_metadata)
 
         each_session_metadata_df = pd.read_json(jsonStr)
-        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
+        # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
-        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
+        # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         #
         for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
             tempfile=os.path.join(os.path.basename(csvfilename),"temp_1.csv")
             each_session_metadata_df.to_csv(tempfile,index=False)
+            subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
             # if not os.path.exists(csvfilename):
             #     each_session_metadata_df.to_csv(tempfile,index=False)
 

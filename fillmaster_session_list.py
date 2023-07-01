@@ -723,19 +723,23 @@ def call_edit_session_analytics_file(args):
     csvfilename=args.stuff[1]
     edit_session_analytics_file(csvfilename)
 
+def remove_a_column(csvfilename,columnname,outputfilename):
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df = csvfilename_df.drop(columnname, axis=1)
+    csvfilename_df.to_csv(outputfilename)
 
 def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename):
     # csvfilename_withoutfilename=csvfilename
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df=csvfilename_df[csvfilename_df['xsiType']=='xnat:ctSessionData']
-    csvfilename_df = csvfilename_df.drop(columns=['URI', 'insert_date','xnat:subjectassessordata/id','insert_date'])
+    csvfilename_df = csvfilename_df.drop(columns=['project','date','URI', 'insert_date','xnat:subjectassessordata/id','insert_date'])
     # csvfilename_df = csvfilename_df.drop('URI', axis=1)
     # csvfilename_df = csvfilename_df.drop('insert_date', axis=1)
     # csvfilename_df = csvfilename_df.drop('URI', axis=1)
     # csvfilename_df = csvfilename_df.drop('xnat:subjectassessordata/id', axis=1) #xsiType date project
     # csvfilename_df = csvfilename_df.drop('xnat:subjectassessordata/id', axis=1)
-    csvfilename_df = csvfilename_df.drop('date', axis=1)
-    csvfilename_df = csvfilename_df.drop('project', axis=1)
+    # csvfilename_df = csvfilename_df.drop('date', axis=1)
+    # csvfilename_df = csvfilename_df.drop('project', axis=1)
     subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
     # csvfilename_df_colnames=csvfilename_df.columns
     #

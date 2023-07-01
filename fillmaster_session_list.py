@@ -529,17 +529,24 @@ def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,colum
     returnvalue=["",0]
     columnvalue=""
     try:
-        _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
-        columnname=columnname_prefix+"_FILE_AVAILABLE"
-        if len(_infarct_auto_removesmall_path)>1:
-            columnvalue=1
-            returnvalue=[_infarct_auto_removesmall_path,1]
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
-        columnname=columnname_prefix+"_FILE_NAME"
-        columnvalue=""
-        if len(_infarct_auto_removesmall_path)>1:
-            columnvalue=_infarct_auto_removesmall_path
-        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        if len(SCAN_URI_NIFTI_FILEPREFIX) > 1 :
+            _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+            columnname=columnname_prefix+"_FILE_AVAILABLE"
+            if len(_infarct_auto_removesmall_path)>1:
+                columnvalue=1
+                returnvalue=[_infarct_auto_removesmall_path,1]
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            columnname=columnname_prefix+"_FILE_NAME"
+            columnvalue=""
+            if len(_infarct_auto_removesmall_path)>1:
+                columnvalue=_infarct_auto_removesmall_path
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        else:
+            columnname=columnname_prefix+"_FILE_AVAILABLE"
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+            columnname=columnname_prefix+"_FILE_NAME"
+            fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+
     except:
         pass
 

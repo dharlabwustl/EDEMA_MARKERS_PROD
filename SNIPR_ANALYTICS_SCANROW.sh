@@ -19,6 +19,20 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 }
+copysinglefile_to_sniprproject() {
+  local projectID=$1
+  #scanID=$2
+  local resource_dirname=$3 #"MASKS" #sys.argv[4]
+  local file_name=$4
+  local output_dir=$2
+  echo " I AM IN copysinglefile_to_sniprproject "
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
 ## for each session
 function call_get_resourcefiles_metadata_saveascsv_args() {
   local resource_dir=${2}   #"NIFTI"
@@ -188,20 +202,20 @@ copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirn
 ##
 ##}
 ##
-copysinglefile_to_sniprproject() {
-  projectID=$1
-  #scanID=$2
-  resource_dirname=$3 #"MASKS" #sys.argv[4]
-  file_name=$4
-  output_dir=$2
-  echo " I AM IN copysinglefile_to_sniprproject "
-  python3 -c "
-import sys
-sys.path.append('/software');
-from download_with_session_ID import *;
-uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
-
-}
+#copysinglefile_to_sniprproject() {
+#  projectID=$1
+#  #scanID=$2
+#  resource_dirname=$3 #"MASKS" #sys.argv[4]
+#  file_name=$4
+#  output_dir=$2
+#  echo " I AM IN copysinglefile_to_sniprproject "
+#  python3 -c "
+#import sys
+#sys.path.append('/software');
+#from download_with_session_ID import *;
+#uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+#
+#}
 ##
 ##copy_masks_data() {
 ##  echo " I AM IN copy_masks_data "

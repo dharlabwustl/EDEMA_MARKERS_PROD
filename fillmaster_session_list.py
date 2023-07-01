@@ -808,13 +808,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         each_session_metadata_df = pd.read_json(jsonStr)
         # if session_counter==0:
         # download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save)
-        if not os.path.exists(csvfilename):
-            each_session_metadata_df.to_csv(csvfilename,index=False)
-            # session_counter=session_counter+1
-        else:
-            old_session_metadata_df=pd.read_csv(csvfilename)
-            combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
-            combined_session_medata_data.to_csv(csvfilename,index=False)
+
 
 
         for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():
@@ -834,11 +828,11 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
 
             selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
             subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
-            SCAN_URI_NIFTI_FILEPREFIX=""
-            if selection_flag_slic_num[0]==1:
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
-                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
-                SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
+            # SCAN_URI_NIFTI_FILEPREFIX=""
+            # if selection_flag_slic_num[0]==1:
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",selection_flag_slic_num[0],csvfilename)
+            fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",selection_flag_slic_num[1],csvfilename)
+            SCAN_URI_NIFTI_FILEPREFIX=selection_flag_slic_num[2].split('.nii')[0]
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
             resource_dir="MASKS"
             extension_to_find_list="_infarct_auto_removesmall.nii.gz"
@@ -863,7 +857,13 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
                 # session_counter=session_counter+1
 
-
+        if not os.path.exists(csvfilename):
+            each_session_metadata_df.to_csv(csvfilename,index=False)
+            # session_counter=session_counter+1
+        else:
+            old_session_metadata_df=pd.read_csv(csvfilename)
+            combined_session_medata_data=pd.concat([old_session_metadata_df,each_session_metadata_df],ignore_index=True)
+            combined_session_medata_data.to_csv(csvfilename,index=False)
 
         returnvalue=1
 

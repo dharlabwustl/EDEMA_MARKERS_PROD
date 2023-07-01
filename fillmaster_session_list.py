@@ -723,9 +723,9 @@ def call_edit_session_analytics_file(args):
     csvfilename=args.stuff[1]
     edit_session_analytics_file(csvfilename)
 
-def remove_a_column(csvfilename,columnname,outputfilename):
+def remove_a_column(csvfilename,columnnamelist,outputfilename):
     csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df = csvfilename_df.drop(columnname, axis=1)
+    csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
     csvfilename_df.to_csv(outputfilename)
 
 def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename):

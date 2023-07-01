@@ -829,7 +829,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
     returnvalue=0
 
     try:
-        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
         # command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
         # subprocess.call(command,shell=True)
         #

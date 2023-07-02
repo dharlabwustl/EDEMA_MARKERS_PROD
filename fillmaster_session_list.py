@@ -1112,6 +1112,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         subprocess.call(command,shell=True)
         download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
         counter_nifti_location=0
+        nifti_file_list=list_niftilocation(session_id,os.path.dirname(sessionlist_filename))
         niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
         infarct_file_num=0
         csf_file_num=0
@@ -1156,7 +1157,9 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         columnvalue=str(niftifiles_num[0]) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NIFTIFILES_PREFIX"
-        columnvalue=str(niftifiles_num[1]) #str(0)
+        columnvalue="" #str(niftifiles_num[1]) #str(0)
+        if nifti_file_list.shape[0]>0:
+            columnvalue="_".join(os.path.basename(nifti_file_list.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list.at[0,"URI"]).split("_"))-1])
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         axial_thin_count=count_brainaxial_or_thin(session_id)
         columnname="AXIAL_SCAN_NUM"
@@ -1166,7 +1169,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         columnvalue=axial_thin_count[1]
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NUMBER_SELECTEDSCANS"
-        columnvalue=str(counter_nifti_location) #str(0)
+        columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="INFARCT_FILE_NUM"
         columnvalue=infarct_file_num #axial_thin_count[1]

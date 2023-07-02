@@ -807,7 +807,10 @@ def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
     csvfilename_df_colnames=csvfilename_df.columns
-
+    column_to_move = csvfilename_df.pop("SLICE_COUNT")
+    csvfilename_df.insert(11, "SLICE_COUNT", column_to_move)
+    column_to_move = csvfilename_df.pop("SCAN_SELECTED")
+    csvfilename_df.insert(11, "SCAN_SELECTED", column_to_move)
     for col_name in csvfilename_df_colnames:
 
         if "_FILE_NAME" in col_name:
@@ -884,25 +887,6 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                         subprocess.call("echo  " + "I SCAN_URI niftilocation_row.split AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resource")[0]) ,shell=True )
                         subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
 
-                # print(nifti_file_list)
-
-            #     nifti_file_list["URI_1"]=nifti_file_list["URI"].str.split("/resources").str[0]
-            #     nifti_file_list.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list.csv'),index=False)
-            #     SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI_1"].str == str(SCAN_URI)]
-            #     subprocess.call("echo  " + "I SCAN_SELECTED_DF SCAN_SELECTED_DF AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_SELECTED_DF.shape[0],SCAN_SELECTED_DF.shape[0]) ,shell=True )
-            #     SCAN_SELECTED_DF.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list_1.csv'),index=False)
-            #     if SCAN_SELECTED_DF.shape[0] > 0 :
-            #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,tempfile)
-            #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",SCAN_SELECTED_DF["NUMBEROFSLICES"],tempfile)
-            #         SCAN_URI_NIFTI_FILEPREFIX=SCAN_SELECTED_DF["Name"].split('.nii')[0]
-            #     else:
-            #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
-            #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
-            # else:
-            #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
-            #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
-            # subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
-                # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
             resource_dir="MASKS"
             extension_to_find_list="_infarct_auto_removesmall.nii.gz"
             columnname_prefix="INFARCT"
@@ -915,8 +899,6 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             resource_dir="EDEMA_BIOMARKER"
             extension_to_find_list=".pdf"
             columnname_prefix="PDF"
-                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
 
             r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
             subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
@@ -924,12 +906,10 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             columnname_prefix="CSV"
             r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
             subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-        #         # session_counter=session_counter+1
-        #
+
         if not os.path.exists(csvfilename):
             tempfile_df=pd.read_csv(tempfile)
             tempfile_df.to_csv(csvfilename,index=False)
-            # session_counter=session_counter+1
         else:
             old_session_metadata_df=pd.read_csv(csvfilename)
             tempfile_df=pd.read_csv(tempfile)
@@ -1543,7 +1523,7 @@ def main():
 
     if name_of_the_function=="call_creat_analytics_onesessionscanasID":
         return_value=call_creat_analytics_onesessionscanasID(args)
-    call_edit_scan_analytics_file
+    # call_edit_scan_analytics_file
     if name_of_the_function=="call_edit_scan_analytics_file":
         return_value=call_edit_scan_analytics_file(args)
     if name_of_the_function=="call_upload_pdfs":

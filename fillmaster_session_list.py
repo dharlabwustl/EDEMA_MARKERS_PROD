@@ -877,7 +877,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
 
                 nifti_file_list["URI_1"]=nifti_file_list["URI"].str.split("/resources").str[0]
                 nifti_file_list.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list.csv'),index=False)
-                SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI_1"] == SCAN_URI,"URI_1"]
+                SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI_1"] == SCAN_URI]
                 subprocess.call("echo  " + "I SCAN_SELECTED_DF SCAN_SELECTED_DF AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_SELECTED_DF.shape[0],SCAN_SELECTED_DF[0]) ,shell=True )
 
                 SCAN_SELECTED_DF.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list_1.csv'),index=False)

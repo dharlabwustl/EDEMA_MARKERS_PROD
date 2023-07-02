@@ -829,9 +829,9 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
     returnvalue=0
 
     try:
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
-        subprocess.call(command,shell=True)
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # command="rm " + os.path.dirname(csvfilename) +"/*.pdf"
+        # subprocess.call(command,shell=True)
 
         this_session_metadata=get_metadata_session(sessionId)
         jsonStr = json.dumps(this_session_metadata)
@@ -839,7 +839,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         each_session_metadata_df = pd.read_json(jsonStr)
         # # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         # nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
-        tempfile=os.path.join(os.path.basename(csvfilename),"temp_1.csv")
+        tempfile=os.path.join(os.path.dirname(csvfilename),"temp_1.csv")
         subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(csvfilename,tempfile) ,shell=True )
         each_session_metadata_df.to_csv(tempfile,index=False)
         # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId) ,shell=True )

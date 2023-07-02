@@ -1160,11 +1160,11 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
                     infarct_file_num=infarct_file_num+1
                     subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
         #             subprocess.call("echo " + "infarct_file_num::{}  >> /workingoutput/error.txt".format(infarct_file_num) ,shell=True )
-        #         extension_to_find_list="_csf_unet.nii.gz"
-        #         _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
-        #         if len(_infarct_auto_removesmall_path)>1:
-        #             csf_file_num=csf_file_num+1
-        #             subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                extension_to_find_list="_csf_unet.nii.gz"
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                if len(_infarct_auto_removesmall_path)>1:
+                    csf_file_num=csf_file_num+1
+                    subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
         # ### DICOM TO NIFTI STEP
         # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
         # columnname="NUMBER_NIFTIFILES"

@@ -422,7 +422,7 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
-        latest_file_df=get_latest_file(df_listfile,SCAN_URI_NIFTI_FILEPREFIX)
+        latest_file_df=get_latest_file(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
         latest_file_path=str(latest_file_df.at[0,"URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )

@@ -73,9 +73,9 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics
 #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
 #counter=$((counter + 1))
 fi
-#if [ $counter -eq 7 ] ; then
-#  break
-#fi
+if [ $counter -eq 7 ] ; then
+  break
+fi
 done < <(tail -n +2 "${sessions_list}")
 
 call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})

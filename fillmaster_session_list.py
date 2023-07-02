@@ -1156,8 +1156,8 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         # columnname="NUMBER_NIFTIFILES"
         # columnvalue=str(niftifiles_num[0]) #str(0)
         # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        # columnname="NIFTIFILES_PREFIX"
-        # columnvalue="" #str(niftifiles_num[1]) #str(0)
+        columnname="NIFTIFILES_PREFIX"
+        columnvalue="" #str(niftifiles_num[1]) #str(0)
         if nifti_file_list.shape[0]>0:
             columnvalue="_".join(os.path.basename(nifti_file_list.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list.at[0,"URI"]).split("_"))-1])
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

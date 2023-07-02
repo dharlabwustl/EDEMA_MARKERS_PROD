@@ -1160,49 +1160,49 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
                 if len(_infarct_auto_removesmall_path)>1:
                     csf_file_num=csf_file_num+1
                     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
-        ### DICOM TO NIFTI STEP
-        niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
-        columnname="NUMBER_NIFTIFILES"
-        columnvalue=str(niftifiles_num[0]) #str(0)
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="NIFTIFILES_PREFIX"
-        columnvalue=SCAN_URI_NIFTI_FILEPREFIX #"" #str(niftifiles_num[1]) #str(0)
-        # if nifti_file_list.shape[0]>0:
-        #     for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
-        #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
-        #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
-        #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        axial_thin_count=count_brainaxial_or_thin(session_id)
-        columnname="AXIAL_SCAN_NUM"
-        columnvalue=axial_thin_count[0]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="THIN_SCAN_NUM"
-        columnvalue=axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="NUMBER_SELECTEDSCANS"
-        columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="INFARCT_FILE_NUM"
-        columnvalue=infarct_file_num #axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="CSF_FILE_NUM"
-        columnvalue=csf_file_num #axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="PDF_FILE_NUM"
-        columnvalue=pdf_file_num #axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="CSV_FILE_NUM"
-        columnvalue=csv_file_num #axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        ### SEGMENTATION STEP
-        # counter=counter+1
-        # if counter>=2 : #sessionId== "SNIPR01_E02503": # session_counter>6: #
-        #     break
-        # if counter > 6:
-        #     break
-        # print(sessionlist_filename_df)
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # ### DICOM TO NIFTI STEP
+        # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+        # columnname="NUMBER_NIFTIFILES"
+        # columnvalue=str(niftifiles_num[0]) #str(0)
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="NIFTIFILES_PREFIX"
+        # columnvalue=SCAN_URI_NIFTI_FILEPREFIX #"" #str(niftifiles_num[1]) #str(0)
+        # # if nifti_file_list.shape[0]>0:
+        # #     for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
+        # #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
+        # #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
+        # #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # axial_thin_count=count_brainaxial_or_thin(session_id)
+        # columnname="AXIAL_SCAN_NUM"
+        # columnvalue=axial_thin_count[0]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="THIN_SCAN_NUM"
+        # columnvalue=axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="NUMBER_SELECTEDSCANS"
+        # columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="INFARCT_FILE_NUM"
+        # columnvalue=infarct_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="CSF_FILE_NUM"
+        # columnvalue=csf_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="PDF_FILE_NUM"
+        # columnvalue=pdf_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="CSV_FILE_NUM"
+        # columnvalue=csv_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # ### SEGMENTATION STEP
+        # # counter=counter+1
+        # # if counter>=2 : #sessionId== "SNIPR01_E02503": # session_counter>6: #
+        # #     break
+        # # if counter > 6:
+        # #     break
+        # # print(sessionlist_filename_df)
+        # print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         returnvalue=1
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

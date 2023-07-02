@@ -1113,15 +1113,15 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
         counter_nifti_location=0
         nifti_file_list=list_niftilocation(session_id,os.path.dirname(sessionlist_filename))
-        niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
+        # niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
         infarct_file_num=0
         csf_file_num=0
         pdf_file_num=0
         csv_file_num=0
         # fill_single_row_each_session(session_id,session_label,csvfilename)
         # fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
-        for each_niftilocationfile in niftilocation_files:
-            subprocess.call("echo " + "each_niftilocationfile::{}  >> /workingoutput/error.txt".format(each_niftilocationfile) ,shell=True )
+        # for each_niftilocationfile in niftilocation_files:
+        #     subprocess.call("echo " + "each_niftilocationfile::{}  >> /workingoutput/error.txt".format(each_niftilocationfile) ,shell=True )
         #     print(each_niftilocationfile)
         #     each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
         #     print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))

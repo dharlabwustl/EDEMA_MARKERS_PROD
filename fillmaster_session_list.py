@@ -873,7 +873,8 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             if nifti_file_list.shape[0] > 0 : ###!="SESSION_NOT_SELECTED":
                 for  niftilocation_index , niftilocation_row in nifti_file_list.iterrows():
                     # niftilocation_row["URI"].split("/resources")[0]
-                    subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resource")[0]) ,shell=True )
+                    if SCAN_URI==niftilocation_row["URI"].split("/resources")[0]:
+                        subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resource")[0]) ,shell=True )
 
                 # print(nifti_file_list)
 

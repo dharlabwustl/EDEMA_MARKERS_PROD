@@ -877,7 +877,8 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,tempfile)
                         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",niftilocation_row["NUMBEROFSLICES"],tempfile)
                         SCAN_URI_NIFTI_FILEPREFIX=niftilocation_row["Name"].split('.nii')[0]
-                        subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resource")[0]) ,shell=True )
+                        subprocess.call("echo  " + "I SCAN_URI niftilocation_row.split AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resource")[0]) ,shell=True )
+                        subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
 
                 # print(nifti_file_list)
 

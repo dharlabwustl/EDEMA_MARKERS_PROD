@@ -1160,7 +1160,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         columnvalue="" #str(niftifiles_num[1]) #str(0)
         if nifti_file_list.shape[0]>0:
             for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
-                file_basename_split=os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")
+                file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
                 file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
                 columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

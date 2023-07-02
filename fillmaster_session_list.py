@@ -843,7 +843,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
         # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,nifti_file_list.shape) ,shell=True )
         tempfile=os.path.join(os.path.dirname(csvfilename),"temp_1.csv")
-        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(csvfilename,tempfile) ,shell=True )
+        subprocess.call("echo  " + "I nifti_file_list AT ::{}:{} >> /workingoutput/error.txt".format(csvfilename,tempfile) ,shell=True )
         each_session_metadata_df.to_csv(tempfile,index=False)
         # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId) ,shell=True )
         for each_session_metadata_df_row_index, each_session_metadata_df_row in each_session_metadata_df.iterrows():

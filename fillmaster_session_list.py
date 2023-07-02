@@ -903,29 +903,27 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
             # subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-            # resource_dir="MASKS"
-            # extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-            # columnname_prefix="INFARCT"
-            # fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            # resource_dir="MASKS"
-            # extension_to_find_list="_csf_unet.nii.gz"
-            # columnname_prefix="CSF_MASK"
-            # fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            resource_dir="MASKS"
+            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+            columnname_prefix="INFARCT"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            resource_dir="MASKS"
+            extension_to_find_list="_csf_unet.nii.gz"
+            columnname_prefix="CSF_MASK"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
 
             resource_dir="EDEMA_BIOMARKER"
             extension_to_find_list=".pdf"
             columnname_prefix="PDF"
                 # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
                 # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
-            _infarct_auto_removesmall_path=get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX=SCAN_URI_NIFTI_FILEPREFIX)
-            if len(_infarct_auto_removesmall_path):
-                subprocess.call("echo " + "I _infarct_auto_removesmall_path AT ::{}:{} >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path,_infarct_auto_removesmall_path) ,shell=True )
-            # r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            # subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-            # extension_to_find_list="dropped.csv"
-            # columnname_prefix="CSV"
-            # r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            # subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+            extension_to_find_list="dropped.csv"
+            columnname_prefix="CSV"
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
         #         # session_counter=session_counter+1
         #
         # if not os.path.exists(csvfilename):

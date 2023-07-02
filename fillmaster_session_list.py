@@ -884,7 +884,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             else:
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
-            subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
+            subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
         #     resource_dir="MASKS"
         #     extension_to_find_list="_infarct_auto_removesmall.nii.gz"

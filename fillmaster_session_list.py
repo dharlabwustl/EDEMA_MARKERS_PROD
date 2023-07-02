@@ -1158,8 +1158,8 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
                 if len(_infarct_auto_removesmall_path)>1:
                     infarct_file_num=infarct_file_num+1
-                    subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
-        #             subprocess.call("echo " + "infarct_file_num::{}  >> /workingoutput/error.txt".format(infarct_file_num) ,shell=True )
+                    # subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
+                    subprocess.call("echo " + "infarct_file_num::{}  >> /workingoutput/error.txt".format(infarct_file_num) ,shell=True )
                 extension_to_find_list="_csf_unet.nii.gz"
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
                 if len(_infarct_auto_removesmall_path)>1:

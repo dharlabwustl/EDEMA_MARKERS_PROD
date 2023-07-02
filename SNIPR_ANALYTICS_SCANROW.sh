@@ -71,7 +71,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsessi
 call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
-#counter=$((counter + 1))
+counter=$((counter + 1))
 fi
 if [ $counter -eq 7 ] ; then
   break

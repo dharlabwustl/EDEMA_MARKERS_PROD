@@ -839,6 +839,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         each_session_metadata_df = pd.read_json(jsonStr)
         # # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
+
         tempfile=os.path.join(os.path.dirname(csvfilename),"temp_1.csv")
         subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(csvfilename,tempfile) ,shell=True )
         each_session_metadata_df.to_csv(tempfile,index=False)
@@ -868,6 +869,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             SCAN_URI_NIFTI_FILEPREFIX=""
             # if selection_flag_slic_num[0]==1:
             if nifti_file_list!="SESSION_NOT_SELECTED":
+                nifti_file_list.to_csv('nifti_file_list.csv',index=False)
                 SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI"].str.split("/resources")[0] == SCAN_URI]
                 if SCAN_SELECTED_DF.shape[0] > 0 :
                     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,tempfile)

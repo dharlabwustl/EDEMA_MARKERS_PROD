@@ -919,7 +919,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                 # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
             _infarct_auto_removesmall_path=get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX=SCAN_URI_NIFTI_FILEPREFIX)
             if len(_infarct_auto_removesmall_path):
-                subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path,_infarct_auto_removesmall_path) ,shell=True )
+                subprocess.call("echo " + "I _infarct_auto_removesmall_path AT ::{}:{} >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path,_infarct_auto_removesmall_path) ,shell=True )
             # r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
             # subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
             # extension_to_find_list="dropped.csv"

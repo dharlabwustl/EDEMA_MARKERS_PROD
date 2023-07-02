@@ -54,7 +54,7 @@ copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
 scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
 scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
-#cp ${sessions_list} ${copy_session}
+cp ${sessions_list} ${copy_session}
 counter=0
 while IFS=',' read -ra array; do
 xx=0

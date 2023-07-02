@@ -922,15 +922,15 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
         #         # session_counter=session_counter+1
         #
-        # if not os.path.exists(csvfilename):
-        #     tempfile_df=pd.read_csv(tempfile)
-        #     tempfile_df.to_csv(csvfilename,index=False)
-        #     # session_counter=session_counter+1
-        # else:
-        #     old_session_metadata_df=pd.read_csv(csvfilename)
-        #     tempfile_df=pd.read_csv(tempfile)
-        #     combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
-        #     combined_session_medata_data.to_csv(csvfilename,index=False)
+        if not os.path.exists(csvfilename):
+            tempfile_df=pd.read_csv(tempfile)
+            tempfile_df.to_csv(csvfilename,index=False)
+            # session_counter=session_counter+1
+        else:
+            old_session_metadata_df=pd.read_csv(csvfilename)
+            tempfile_df=pd.read_csv(tempfile)
+            combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
+            combined_session_medata_data.to_csv(csvfilename,index=False)
 
         returnvalue=1
 

@@ -1113,7 +1113,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         # download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
         counter_nifti_location=0
         nifti_file_list=list_niftilocation(session_id,os.path.dirname(sessionlist_filename))
-        subprocess.call("echo " + "nifti_file_list::{}  >> /workingoutput/error.txt".format(nifti_file_list.shape) ,shell=True )
+        subprocess.call("echo " + "nifti_file_list::{}  >> /workingoutput/error.txt".format(nifti_file_list.shape[0]) ,shell=True )
         # niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
         infarct_file_num=0
         csf_file_num=0

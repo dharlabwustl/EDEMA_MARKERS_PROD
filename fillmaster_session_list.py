@@ -1108,8 +1108,8 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
     try:
         csvfilename=sessionlist_filename
         subprocess.call("echo " + "csvfilename::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
-        # command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
-        # subprocess.call(command,shell=True)
+        command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
+        subprocess.call(command,shell=True)
         download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
         counter_nifti_location=0
         niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))

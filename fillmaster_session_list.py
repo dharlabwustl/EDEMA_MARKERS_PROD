@@ -885,38 +885,38 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
                 fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
 
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-            resource_dir="MASKS"
-            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-            columnname_prefix="INFARCT"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
-            resource_dir="MASKS"
-            extension_to_find_list="_csf_unet.nii.gz"
-            columnname_prefix="CSF_MASK"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
-
-            resource_dir="EDEMA_BIOMARKER"
-            extension_to_find_list=".pdf"
-            columnname_prefix="PDF"
-                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
-
-            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-            extension_to_find_list="dropped.csv"
-            columnname_prefix="CSV"
-            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-                # session_counter=session_counter+1
-
-        if not os.path.exists(csvfilename):
-            tempfile_df=pd.read_csv(tempfile)
-            tempfile_df.to_csv(csvfilename,index=False)
-            # session_counter=session_counter+1
-        else:
-            old_session_metadata_df=pd.read_csv(csvfilename)
-            tempfile_df=pd.read_csv(tempfile)
-            combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
-            combined_session_medata_data.to_csv(csvfilename,index=False)
+        #     resource_dir="MASKS"
+        #     extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+        #     columnname_prefix="INFARCT"
+        #     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+        #     resource_dir="MASKS"
+        #     extension_to_find_list="_csf_unet.nii.gz"
+        #     columnname_prefix="CSF_MASK"
+        #     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+        #
+        #     resource_dir="EDEMA_BIOMARKER"
+        #     extension_to_find_list=".pdf"
+        #     columnname_prefix="PDF"
+        #         # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+        #         # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
+        #
+        #     r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+        #     subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+        #     extension_to_find_list="dropped.csv"
+        #     columnname_prefix="CSV"
+        #     r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+        #     subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+        #         # session_counter=session_counter+1
+        #
+        # if not os.path.exists(csvfilename):
+        #     tempfile_df=pd.read_csv(tempfile)
+        #     tempfile_df.to_csv(csvfilename,index=False)
+        #     # session_counter=session_counter+1
+        # else:
+        #     old_session_metadata_df=pd.read_csv(csvfilename)
+        #     tempfile_df=pd.read_csv(tempfile)
+        #     combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
+        #     combined_session_medata_data.to_csv(csvfilename,index=False)
 
         returnvalue=1
 

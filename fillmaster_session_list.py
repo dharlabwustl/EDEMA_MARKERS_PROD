@@ -871,6 +871,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             SCAN_URI_NIFTI_FILEPREFIX=""
             # if selection_flag_slic_num[0]==1:
             if nifti_file_list.shape[0] > 0 : ###!="SESSION_NOT_SELECTED":
+                print(nifti_file_list)
                 nifti_file_list.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list.csv'),index=False)
                 SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI"].str.split("/resources")[0] == SCAN_URI]
                 if SCAN_SELECTED_DF.shape[0] > 0 :

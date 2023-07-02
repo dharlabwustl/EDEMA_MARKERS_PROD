@@ -439,8 +439,9 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
         # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
         pass
     return latest_file_path
-def list_niftilocation(URI_session,download_dir):
+def list_niftilocation(sessionID,download_dir):
     resource_dir="NIFTI_LOCATION"
+    URI_session="/data/experiments/"+sessionID
     returnvalue=pd.DataFrame([]) ##"SESSION_NOT_SELECTED"
     try:
         metadata=get_resourcefiles_metadata(URI_session,resource_dir)

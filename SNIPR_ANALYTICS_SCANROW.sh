@@ -59,10 +59,10 @@ counter=0
 while IFS=',' read -ra array; do
 xx=0
 
-#if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
+if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
 #  echo "${array[1]}"
 #  echo "${array[5]}"
-if [ ${array[4]} == "xnat:ctSessionData" ] ; then
+#if [ ${array[4]} == "xnat:ctSessionData" ] ; then
     echo "${array[1]}"
     echo "${array[5]}"
 call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${copy_session} ${array[1]} ) ##
@@ -72,6 +72,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsessi
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
 counter=$((counter + 1))
+break
 fi
 if [ $counter -eq 7 ] ; then
   break

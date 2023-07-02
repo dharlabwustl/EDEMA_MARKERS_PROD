@@ -420,6 +420,7 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         latest_file_df=get_latest_file(df_listfile,SCAN_URI_NIFTI_FILEPREFIX)
         latest_file_path=str(latest_file_df.at[0,"URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

@@ -864,14 +864,16 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             resource_dir="NIFTI"
             extension_to_find_list=".nii"
             columnname_prefix="NIFTI"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+            # fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
 
             # selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
             # subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
             SCAN_URI_NIFTI_FILEPREFIX=""
             # if selection_flag_slic_num[0]==1:
             if nifti_file_list.shape[0] > 0 : ###!="SESSION_NOT_SELECTED":
-                subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
+                for  niftilocation_index , niftilocation_row in nifti_file_list:
+                    niftilocation_row["URI"].split("/resources")[0]
+                    subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,niftilocation_row["URI"].split("/resources")[0]) ,shell=True )
 
                 # print(nifti_file_list)
 

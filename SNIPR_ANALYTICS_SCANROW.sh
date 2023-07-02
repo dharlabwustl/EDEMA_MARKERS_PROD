@@ -59,13 +59,15 @@ counter=0
 while IFS=',' read -ra array; do
 xx=0
 
-if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
-  echo "${array[1]}"
-  echo "${array[5]}"
-#if [ ${array[4]} == "xnat:ctSessionData" ] ; then
-#call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${copy_session} ${array[1]} ) ##
+#if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
+#  echo "${array[1]}"
+#  echo "${array[5]}"
+if [ ${array[4]} == "xnat:ctSessionData" ] ; then
+    echo "${array[1]}"
+    echo "${array[5]}"
+call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${copy_session} ${array[1]} ) ##
 ## ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
 call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
@@ -89,7 +91,7 @@ outputfilename=${project_ID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
 call_download_csvs_combine_upload_v1_arguments=('call_download_csvs_combine_upload_v1'  ${scan_analytics}  ${sessions_list} ${dir_to_save} ${outputfilename} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_csvs_combine_upload_v1_arguments[@]}")
 
-copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
+#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
 resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
 call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file'   ${copy_session} )
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")

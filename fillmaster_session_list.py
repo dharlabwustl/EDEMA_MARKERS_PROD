@@ -1135,6 +1135,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
+                subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))

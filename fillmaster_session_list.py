@@ -1128,7 +1128,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         SCAN_URI_NIFTI_FILEPREFIX=""
         if nifti_file_list.shape[0]>0:
             for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
-                subprocess.call("echo " + "nifti_file_list_row::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
+                # subprocess.call("echo " + "nifti_file_list_row::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
         # # print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
         # #         SCAN_ID=nifti_file_list_row["ID"] #str(each_niftilocationfile_df.iloc[0]['ID'])
         #         # fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
@@ -1137,9 +1137,10 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
-        #         resource_dir="EDEMA_BIOMARKER"
-        #         extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
-        #         _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                resource_dir="EDEMA_BIOMARKER"
+                extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
         # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
         #         if len(_infarct_auto_removesmall_path)>1:
         #             pdf_file_num=pdf_file_num+1

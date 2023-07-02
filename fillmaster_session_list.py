@@ -443,27 +443,27 @@ def list_niftilocation(sessionID,download_dir):
     resource_dir="NIFTI_LOCATION"
     URI_session="/data/experiments/"+sessionID
     returnvalue=pd.DataFrame([]) ##"SESSION_NOT_SELECTED"
-    # try:
-    #     metadata=get_resourcefiles_metadata(URI_session,resource_dir)
-    #     f_listfile = pd.read_json(json.dumps(metadata))
-    #     filenames=[]
-    #     counter=0
-    #     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-    #     for index1, row in f_listfile.iterrows():
-    #         filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
-    #         download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
-    #         filenames.append(os.path.join(download_dir,filename))
-    #         counter=counter+1
-    #         subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
-    #     if len(filenames)==1:
-    #         returnvalue=pd.read_csv(filenames[0])
-    #     elif len(filenames) >1:
-    #         combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
-    #         returnvalue=combined_csv
-    #     else:
-    #         pass
-    # except :
-    #     pass
+    try:
+        metadata=get_resourcefiles_metadata(URI_session,resource_dir)
+        f_listfile = pd.read_json(json.dumps(metadata))
+        filenames=[]
+        counter=0
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        for index1, row in f_listfile.iterrows():
+            filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
+            download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
+            filenames.append(os.path.join(download_dir,filename))
+            counter=counter+1
+            subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
+        if len(filenames)==1:
+            returnvalue=pd.read_csv(filenames[0])
+        elif len(filenames) >1:
+            combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
+            returnvalue=combined_csv
+        else:
+            pass
+    except :
+        pass
     return returnvalue
 
 def scan_selected_flag_slice_num(URI_SCAN,download_dir):
@@ -864,59 +864,59 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             resource_dir="NIFTI"
             extension_to_find_list=".nii"
             columnname_prefix="NIFTI"
-        #     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
-        #
-        #     # selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
-        #     # subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
-        #     SCAN_URI_NIFTI_FILEPREFIX=""
-        #     # if selection_flag_slic_num[0]==1:
-        #     # if nifti_file_list!="SESSION_NOT_SELECTED":
-        #     #     nifti_file_list.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list.csv'),index=False)
-        #     #     SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI"].str.split("/resources")[0] == SCAN_URI]
-        #     #     if SCAN_SELECTED_DF.shape[0] > 0 :
-        #     #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,tempfile)
-        #     #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",SCAN_SELECTED_DF["NUMBEROFSLICES"],tempfile)
-        #     #         SCAN_URI_NIFTI_FILEPREFIX=SCAN_SELECTED_DF["Name"].split('.nii')[0]
-        #     #     else:
-        #     #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
-        #     #         fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
-        #     # else:
-        #     #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
-        #     #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
-        #
-        #         # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-        #     resource_dir="MASKS"
-        #     extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-        #     columnname_prefix="INFARCT"
-        #     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
-        #     resource_dir="MASKS"
-        #     extension_to_find_list="_csf_unet.nii.gz"
-        #     columnname_prefix="CSF_MASK"
-        #     fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
-        #
-        #     resource_dir="EDEMA_BIOMARKER"
-        #     extension_to_find_list=".pdf"
-        #     columnname_prefix="PDF"
-        #         # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
-        #         # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
-        #
-        #     r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-        #     subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-        #     extension_to_find_list="dropped.csv"
-        #     columnname_prefix="CSV"
-        #     r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-        #     subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
-        #         # session_counter=session_counter+1
-        #
-        # if not os.path.exists(csvfilename):
-        #     tempfile_df=pd.read_csv(tempfile)
-        #     tempfile_df.to_csv(csvfilename,index=False)
-        #     # session_counter=session_counter+1
-        # else:
-        #     old_session_metadata_df=pd.read_csv(csvfilename)
-        #     tempfile_df=pd.read_csv(tempfile)
-        #     combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
-        #     combined_session_medata_data.to_csv(csvfilename,index=False)
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+
+            # selection_flag_slic_num=scan_selected_flag_slice_num(SCAN_URI,os.path.dirname(csvfilename))
+            # subprocess.call("echo " + "selection_flag_slic_num ::{}::{}  >> /workingoutput/error.txt".format(selection_flag_slic_num[0],selection_flag_slic_num[1]) ,shell=True )
+            SCAN_URI_NIFTI_FILEPREFIX=""
+            # if selection_flag_slic_num[0]==1:
+            if nifti_file_list.shape[0] > 0 : ###!="SESSION_NOT_SELECTED":
+                nifti_file_list.to_csv(os.path.join(os.path.dirname(csvfilename),'nifti_file_list.csv'),index=False)
+                SCAN_SELECTED_DF=nifti_file_list[nifti_file_list["URI"].str.split("/resources")[0] == SCAN_URI]
+                if SCAN_SELECTED_DF.shape[0] > 0 :
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",1,tempfile)
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT",SCAN_SELECTED_DF["NUMBEROFSLICES"],tempfile)
+                    SCAN_URI_NIFTI_FILEPREFIX=SCAN_SELECTED_DF["Name"].split('.nii')[0]
+                else:
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
+                    fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
+            else:
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SCAN_SELECTED",0,tempfile)
+                fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
+
+                # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
+            resource_dir="MASKS"
+            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+            columnname_prefix="INFARCT"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+            resource_dir="MASKS"
+            extension_to_find_list="_csf_unet.nii.gz"
+            columnname_prefix="CSF_MASK"
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+
+            resource_dir="EDEMA_BIOMARKER"
+            extension_to_find_list=".pdf"
+            columnname_prefix="PDF"
+                # SCAN_URI=each_niftilocationfile_df.iloc[0]['URI'].split('/resources')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX=each_niftilocationfile_df.iloc[0]['Name'].split('.nii')[0] #.split('/resources')[0]
+
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+            extension_to_find_list="dropped.csv"
+            columnname_prefix="CSV"
+            r_value=fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            subprocess.call("echo " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(r_value[0],r_value[1]) ,shell=True )
+                # session_counter=session_counter+1
+
+        if not os.path.exists(csvfilename):
+            tempfile_df=pd.read_csv(tempfile)
+            tempfile_df.to_csv(csvfilename,index=False)
+            # session_counter=session_counter+1
+        else:
+            old_session_metadata_df=pd.read_csv(csvfilename)
+            tempfile_df=pd.read_csv(tempfile)
+            combined_session_medata_data=pd.concat([old_session_metadata_df,tempfile_df],ignore_index=True)
+            combined_session_medata_data.to_csv(csvfilename,index=False)
 
         returnvalue=1
 

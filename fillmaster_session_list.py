@@ -1140,10 +1140,11 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
-                subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+
         # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
-        #         if len(_infarct_auto_removesmall_path)>1:
-        #             pdf_file_num=pdf_file_num+1
+                if len(_infarct_auto_removesmall_path)>1:
+                    pdf_file_num=pdf_file_num+1
+                    subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
         #             subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
         #         extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
         #         _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))

@@ -1125,7 +1125,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         # subprocess.call("echo " + "each_niftilocationfile::{}  >> /workingoutput/error.txt".format(each_niftilocationfile) ,shell=True )
         # print(each_niftilocationfile)
         # each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
-        SCAN_URI_NIFTI_FILEPREFIX=""
+        SCAN_URI_NIFTI_FILEPREFIX_1=""
         if nifti_file_list.shape[0]>0:
             for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
                 # subprocess.call("echo " + "nifti_file_list_row::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
@@ -1136,6 +1136,8 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -1171,7 +1173,7 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         columnvalue=str(niftifiles_num[0]) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NIFTIFILES_PREFIX"
-        columnvalue=SCAN_URI_NIFTI_FILEPREFIX #"" #str(niftifiles_num[1]) #str(0)
+        columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
         # if nifti_file_list.shape[0]>0:
         #     for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
         #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")

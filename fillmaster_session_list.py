@@ -903,14 +903,14 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             #     fill_single_datapoint_each_scan_1(each_session_metadata_df_row["URI"],"SLICE_COUNT","",tempfile)
             # subprocess.call("echo  " + "I SCAN_URI_NIFTI_FILEPREFIX SCAN_URI AT ::{}:{} >> /workingoutput/error.txt".format(SCAN_URI,SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 # if len(SCAN_URI_NIFTI_FILEPREFIX) > 1:
-            resource_dir="MASKS"
-            extension_to_find_list="_infarct_auto_removesmall.nii.gz"
-            columnname_prefix="INFARCT"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
-            resource_dir="MASKS"
-            extension_to_find_list="_csf_unet.nii.gz"
-            columnname_prefix="CSF_MASK"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            # resource_dir="MASKS"
+            # extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+            # columnname_prefix="INFARCT"
+            # fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
+            # resource_dir="MASKS"
+            # extension_to_find_list="_csf_unet.nii.gz"
+            # columnname_prefix="CSF_MASK"
+            # fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
 
             resource_dir="EDEMA_BIOMARKER"
             extension_to_find_list=".pdf"

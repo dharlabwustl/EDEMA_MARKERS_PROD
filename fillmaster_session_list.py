@@ -441,12 +441,13 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
     return latest_file_path
 def list_niftilocation(URI_session,download_dir):
     resource_dir="NIFTI_LOCATION"
-    returnvalue="SESSION_NOT_SELECTED"
+    returnvalue=pd.DataFrame([]) ##"SESSION_NOT_SELECTED"
     try:
         metadata=get_resourcefiles_metadata(URI_session,resource_dir)
         f_listfile = pd.read_json(json.dumps(metadata))
         filenames=[]
         counter=0
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         for index1, row in f_listfile.iterrows():
             filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
             download_a_singlefile_with_URIString(row['URI'],filename,download_dir)

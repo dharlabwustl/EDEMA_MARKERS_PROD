@@ -443,27 +443,27 @@ def list_niftilocation(sessionID,download_dir):
     resource_dir="NIFTI_LOCATION"
     URI_session="/data/experiments/"+sessionID
     returnvalue=pd.DataFrame([]) ##"SESSION_NOT_SELECTED"
-    try:
-        metadata=get_resourcefiles_metadata(URI_session,resource_dir)
-        f_listfile = pd.read_json(json.dumps(metadata))
-        filenames=[]
-        counter=0
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        for index1, row in f_listfile.iterrows():
-            filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
-            download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
-            filenames.append(os.path.join(download_dir,filename))
-            counter=counter+1
-            subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
-        if len(filenames)==1:
-            returnvalue=pd.read_csv(filenames[0])
-        elif len(filenames) >1:
-            combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
-            returnvalue=combined_csv
-        else:
-            pass
-    except :
-        pass
+    # try:
+    #     metadata=get_resourcefiles_metadata(URI_session,resource_dir)
+    #     f_listfile = pd.read_json(json.dumps(metadata))
+    #     filenames=[]
+    #     counter=0
+    #     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    #     for index1, row in f_listfile.iterrows():
+    #         filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
+    #         download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
+    #         filenames.append(os.path.join(download_dir,filename))
+    #         counter=counter+1
+    #         subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
+    #     if len(filenames)==1:
+    #         returnvalue=pd.read_csv(filenames[0])
+    #     elif len(filenames) >1:
+    #         combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
+    #         returnvalue=combined_csv
+    #     else:
+    #         pass
+    # except :
+    #     pass
     return returnvalue
 
 def scan_selected_flag_slice_num(URI_SCAN,download_dir):
@@ -841,7 +841,7 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
         each_session_metadata_df = pd.read_json(jsonStr)
         # # subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,sessionLabel) ,shell=True )
         nifti_file_list=list_niftilocation(sessionId,os.path.dirname(csvfilename))  #"SESSION_NOT_SELECTED"
-
+        subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(sessionId,nifti_file_list.shape) ,shell=True )
         tempfile=os.path.join(os.path.dirname(csvfilename),"temp_1.csv")
         subprocess.call("echo  " + "I PASSED AT ::{}:{} >> /workingoutput/error.txt".format(csvfilename,tempfile) ,shell=True )
         each_session_metadata_df.to_csv(tempfile,index=False)

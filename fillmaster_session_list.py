@@ -420,7 +420,8 @@ def get_latest_filepath_from_metadata(URI,resource_dir,extension_to_find_list,SC
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-        df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
+        if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
+            df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         latest_file_df=get_latest_file(df_listfile,SCAN_URI_NIFTI_FILEPREFIX)
         latest_file_path=str(latest_file_df.at[0,"URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
@@ -511,12 +512,14 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         pass
     return  returnvalue
 
-def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list):
+def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX):
     latest_file_path=""
     try:
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        if len(SCAN_URI_NIFTI_FILEPREFIX) >0:
+            df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         df_listfile=df_listfile.reset_index(drop=True)
         x_df=df_listfile.iloc[0]["URI"]
         # x_df=df_listfile.iloc[[0]]
@@ -579,11 +582,11 @@ def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,colum
         pass
 
     return returnvalue
-def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,filebasename_flag=0):
+def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX="",filebasename_flag=0):
     returnvalue=["",0]
     columnvalue=""
     try:
-        _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list)
+        _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
         columnname=columnname_prefix+"_FILE_AVAILABLE"
         if len(_infarct_auto_removesmall_path)>1:
             columnvalue=1
@@ -903,11 +906,11 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             resource_dir="MASKS"
             extension_to_find_list="_infarct_auto_removesmall.nii.gz"
             columnname_prefix="INFARCT"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
             resource_dir="MASKS"
             extension_to_find_list="_csf_unet.nii.gz"
             columnname_prefix="CSF_MASK"
-            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+            fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile,SCAN_URI_NIFTI_FILEPREFIX)
 
             resource_dir="EDEMA_BIOMARKER"
             extension_to_find_list=".pdf"

@@ -1413,6 +1413,36 @@ def download_files_in_a_resource(URI,dir_to_save):
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass
+def download_files_in_scans_resources_withname_sh():
+    sessionId=sys.argv[1]
+    scan_id=sys.argv[2]
+    resource_dirname=sys.argv[3]
+    dir_to_save=sys.argv[4]
+    try:
+        URI = (("/data/experiments/%s")  %
+               (sessionId))
+        session_meta_data=get_metadata_session(URI)
+        session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
+        for index, row in session_meta_data_df.iterrows():
+            
+            URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
+               (sessionId))
+            df_listfile=listoffile_witha_URI_as_df(URI)
+            print("df_listfile::{}".format(df_listfile))
+        # download_a_singlefile_with_URLROW(df_listfile,dir_to_save)
+            for item_id, row in df_listfile.iterrows():
+                if str(row["ID"])==str(scan_id):
+                    # print("row::{}".format(row))
+                    # download_a_singlefile_with_URLROW(row,dir_to_save)
+                    download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
+                    print("DOWNLOADED ::{}".format(row))
+                    print("PASSED AT ::{}".format("download_files_in_a_resource"))
+
+    except:
+        print("FAILED AT ::{}".format("download_files_in_a_resource"))
+        pass
+
+   
 def download_files_in_a_resource_withname(sessionId,resource_dirname,dir_to_save):
     try:
         URI = (("/data/experiments/%s/resources/" + resource_dirname+ "/files?format=json")  %

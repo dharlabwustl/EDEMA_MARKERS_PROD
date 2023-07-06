@@ -1370,6 +1370,12 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
                 f.write(chunk)
     xnatSession.close_httpsession()
     return zipfilename
+def call_download_a_singlefile_with_URIString(args):
+    url=args.stuff[1]
+    filename=args.stuff[2]
+    dir_to_save=args.stuff[3]
+    download_a_singlefile_with_URIString(url,filename,dir_to_save)
+    return
 def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)

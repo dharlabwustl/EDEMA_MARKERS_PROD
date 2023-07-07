@@ -982,6 +982,13 @@ def uploadfile_projectlevel():
     except Exception as e:
         print(e)
         return False
+def call_uploadsinglefile_with_URI(args):
+    url=args.stuff[1]
+    file_name=args.stuff[2]
+    resource_dirname=args.stuff[3]
+    # url=args.stuff[1]
+    uploadsinglefile_with_URI(url,file_name,resource_dirname)
+
 def uploadsinglefile_with_URI(url,file_name,resource_dirname):
     try:
 
@@ -1662,7 +1669,8 @@ def main():
         return_value=call_uploadfilesfromlistinacsv(args)
     if name_of_the_function=="call_get_resourcefiles_metadata_saveascsv_args":
         return_value=call_get_resourcefiles_metadata_saveascsv_args(args)
-
+    if name_of_the_function=="call_uploadsinglefile_with_URI":
+        return_value=call_uploadsinglefile_with_URI(args)
         # print(return_value) call_get_resourcefiles_metadata_saveascsv
         # return  call_concatenate_twocsv_list
     print(return_value)

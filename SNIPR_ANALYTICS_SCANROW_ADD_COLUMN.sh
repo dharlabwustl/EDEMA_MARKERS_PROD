@@ -73,6 +73,13 @@ while IFS="," read -ra array; do
 done \
   < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
 
+scan_analytics_filename=${dir_to_save}/${filename}
+while IFS="," read -ra array ; do
+
+  echo ${array[8]}
+done < <(tail -n +2 ${scan_analytics_filename})
+
+
 #done < <(tail -n +2 "${sessions_list}")
 
 #sessions_list=${working_dir}/'sessions.csv'

@@ -894,6 +894,13 @@ def fill_scan_metadata_matrix():
     except Exception:
         pass
     return  returnvalue
+def call_fill_row_intermediate_files_count(args):
+    SCAN_URI=args.stuff[1]
+    resource_dir=args.stuff[2]
+    extension_to_find_list=args.stuff[3]
+    columnname_prefix=args.stuff[4]
+    tempfile=args.stuff[5]
+    fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
 def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename):
     returnvalue=0
 
@@ -1619,7 +1626,9 @@ def main():
     if name_of_the_function=="call_download_csvs_combine_upload_v1":
         return_value=call_download_csvs_combine_upload_v1(args)
     if name_of_the_function=="call_edit_session_analytics_file":
-        return_value=call_edit_session_analytics_file(args)
+        return_value=call_edit_session_analytics_file(args) #
+    if name_of_the_function=="call_fill_row_intermediate_files_count":
+        return_value=call_fill_row_intermediate_files_count(args)
 if __name__ == '__main__':
     main()
 

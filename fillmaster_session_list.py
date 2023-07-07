@@ -518,7 +518,7 @@ def get_filecount_withfileext_from_metadata(URI,resource_dir,extension_to_find_l
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-        if len(SCAN_URI_NIFTI_FILEPREFIX) >0:
+        if len(SCAN_URI_NIFTI_FILEPREFIX) >3:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         df_listfile=df_listfile.reset_index(drop=True)
         file_count=df_listfile.shape[0]
@@ -549,7 +549,7 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
-        if len(SCAN_URI_NIFTI_FILEPREFIX) >0:
+        if len(SCAN_URI_NIFTI_FILEPREFIX) >3:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         df_listfile=df_listfile.reset_index(drop=True)
         x_df=df_listfile.iloc[0]["URI"]
@@ -591,7 +591,7 @@ def fill_row_for_csvpdf_files(SCAN_URI,resource_dir,extension_to_find_list,colum
     returnvalue=["",0]
     columnvalue=""
     try:
-        if len(SCAN_URI_NIFTI_FILEPREFIX) > 1 :
+        if len(SCAN_URI_NIFTI_FILEPREFIX) > 3 :
             _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
             columnname=columnname_prefix+"_FILE_AVAILABLE"
             if len(_infarct_auto_removesmall_path)>1:

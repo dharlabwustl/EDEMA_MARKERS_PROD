@@ -56,7 +56,7 @@ call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefile
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 while IFS="," read -ra array ; do
 
-if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] &  [[ ${array[-1]} != *"NOFILENAME"* ]]; then
+if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] &&  [[ ${array[-1]} != *"NOFILENAME"* ]]; then
 echo ${array[-1]}
 fi
 done < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})

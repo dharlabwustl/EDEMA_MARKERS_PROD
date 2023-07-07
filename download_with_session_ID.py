@@ -1671,6 +1671,8 @@ def main():
         return_value=call_get_resourcefiles_metadata_saveascsv_args(args)
     if name_of_the_function=="call_uploadsinglefile_with_URI":
         return_value=call_uploadsinglefile_with_URI(args)
+    if name_of_the_function=="call_download_a_singlefile_with_URIString":
+        return_value=call_download_a_singlefile_with_URIString(args)
         # print(return_value) call_get_resourcefiles_metadata_saveascsv
         # return  call_concatenate_twocsv_list
     print(return_value)

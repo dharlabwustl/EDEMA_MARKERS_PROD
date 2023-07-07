@@ -52,22 +52,22 @@ URI="/data/projects/"${project_ID}
 resource_dir="SNIPR_ANALYTICS_TEST"
 dir_to_receive_the_data=${working_dir}
 output_csvfile=${project_ID}"_metadata.csv"
-call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data}  ${output_csvfile} )
+call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
-while IFS="," read -ra array ; do
+while IFS="," read -ra array; do
 
-if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] &&  [[ ${array[-1]} != *"NOFILENAME"* ]]; then
-echo ${array[-3]}
+  if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] && [[ ${array[-1]} != *"NOFILENAME"* ]]; then
+    echo ${array[-3]}
     url=${array[-3]}
     filename=${array[-1]}
     dir_to_save=${working_dir}
-    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${URI} ${resource_dir} ${dir_to_receive_the_data}  ${output_csvfile} )
+    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 
+  fi
 
-
-fi
-done < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
+done \
+  < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
 
 #done < <(tail -n +2 "${sessions_list}")
 

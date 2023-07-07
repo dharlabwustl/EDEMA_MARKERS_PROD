@@ -869,6 +869,8 @@ def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df.insert(11, "SLICE_COUNT", column_to_move)
     column_to_move = csvfilename_df.pop("SCAN_SELECTED")
     csvfilename_df.insert(11, "SCAN_SELECTED", column_to_move)
+    column_to_move=csvfilename_df.pop("SESSION_LABEL")
+    csvfilename_df.insert(0, "SCAN_SELECTED", column_to_move)
     for col_name in csvfilename_df_colnames:
 
         if "_FILE_NAME" in col_name:

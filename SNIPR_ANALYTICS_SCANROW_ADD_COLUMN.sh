@@ -126,6 +126,9 @@ columnname="SCAN_SELECTED"
 new_position=11
 call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics_nofilename} ${columnname} ${new_position} ${scan_analytics_nofilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+columnname_substring="_FILE_NAME"
+call_remove_single_column_with_colnmname_substring_arguments=('call_remove_single_column_with_colnmname_substring'  ${scan_analytics_nofilename} ${columnname_substring} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_remove_single_column_with_colnmname_substring_arguments[@]}")
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
 

@@ -874,6 +874,20 @@ def move_one_column(csvfilename,columnname,new_position,csvfilename_edited):
         column_to_move = csvfilename_df.pop(columnname)
         csvfilename_df.insert(new_position, columnname, column_to_move)
     csvfilename_df.to_csv(csvfilename_edited,index=False)
+
+def call_remove_single_column_with_colnmname_substring(args):
+    csvfilename=args.stuff[1]
+    colnmname_substring=args.stuff[2]
+    csvfilename_output=args.stuff[3]
+    remove_single_column_with_colnmname_substring(csvfilename,colnmname_substring,csvfilename_output)
+def remove_single_column_with_colnmname_substring(csvfilename,colnmname_substring,csvfilename_output):
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df_colnames=csvfilename_df.columns
+    for col_name in csvfilename_df_colnames:
+        if colnmname_substring in col_name:
+            column_to_move = csvfilename_df.pop(col_name)
+    csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+
 def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
@@ -1649,7 +1663,9 @@ def main():
     if name_of_the_function=="call_fill_row_intermediate_files_count":
         return_value=call_fill_row_intermediate_files_count(args)
     if name_of_the_function=="call_move_one_column":
-        return_value=call_move_one_column(args)
+        return_value=call_move_one_column(args) #
+    if name_of_the_function=="call_remove_single_column_with_colnmname_substring":
+        return_value=call_remove_single_column_with_colnmname_substring(args)
 if __name__ == '__main__':
     main()
 

@@ -57,7 +57,9 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefi
 while IFS="," read -ra array ; do
 
 if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] &&  [[ ${array[-1]} != *"NOFILENAME"* ]]; then
-echo ${array[-1]}
+echo ${array[-3]}
+#call_download_a_singlefile_with_URIString
+
 fi
 done < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
 

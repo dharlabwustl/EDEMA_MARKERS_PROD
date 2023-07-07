@@ -886,7 +886,7 @@ def remove_single_column_with_colnmname_substring(csvfilename,colnmname_substrin
     for col_name in csvfilename_df_colnames:
         if colnmname_substring in col_name:
             column_to_move = csvfilename_df.pop(col_name)
-    csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
+    csvfilename_df.to_csv(csvfilename_output,index=False)
 
 def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df=pd.read_csv(csvfilename)

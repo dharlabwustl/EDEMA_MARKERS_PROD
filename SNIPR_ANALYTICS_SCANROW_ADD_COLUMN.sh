@@ -57,10 +57,13 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefi
 while IFS="," read -ra array; do
 
   if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] && [[ ${array[-1]} != *"NOFILENAME"* ]]; then
-    echo ${array[-3]}
+
     uri=${array[-3]}
+    echo ${uri}
     filename=${array[-1]}
+    echo ${filename}
     dir_to_save=${working_dir}
+    echo ${dir_to_save}
     call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${uri} ${filename} ${dir_to_save} )
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
     echo ${outputfiles_present}

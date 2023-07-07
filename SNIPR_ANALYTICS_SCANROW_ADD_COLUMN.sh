@@ -55,7 +55,7 @@ output_csvfile=${project_ID}"_metadata.csv"
 call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data}  ${output_csvfile} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
-def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+
 #sessions_list=${working_dir}/'sessions.csv'
 #time_now=$(date -dnow +%Y%m%d%H%M%S)
 #copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv

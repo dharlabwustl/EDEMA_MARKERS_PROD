@@ -58,7 +58,13 @@ while IFS="," read -ra array ; do
 
 if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] &&  [[ ${array[-1]} != *"NOFILENAME"* ]]; then
 echo ${array[-3]}
-#call_download_a_singlefile_with_URIString
+    url=${array[-3]}
+    filename=${array[-1]}
+    dir_to_save=${working_dir}
+    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${URI} ${resource_dir} ${dir_to_receive_the_data}  ${output_csvfile} )
+    outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+
+
 
 fi
 done < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})

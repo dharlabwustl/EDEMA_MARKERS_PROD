@@ -55,8 +55,12 @@ output_csvfile=${project_ID}"_metadata.csv"
 call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data}  ${output_csvfile} )
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 while IFS="," read -ra array ; do
+
+if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]]  ; then
 echo ${array[-1]}
+fi
 done < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
+
 #done < <(tail -n +2 "${sessions_list}")
 
 #sessions_list=${working_dir}/'sessions.csv'

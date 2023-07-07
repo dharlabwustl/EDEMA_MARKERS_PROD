@@ -88,3 +88,9 @@ then
   PROJECT_ID=${1}
     /software/combine_csvs_and_copy_pdfs_projectlevel_May262023_ICH.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 15 ]] ;
+then
+  PROJECT_ID=${1}
+    /software/SNIPR_ANALYTICS_SCANROW_ADD_COLUMN.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

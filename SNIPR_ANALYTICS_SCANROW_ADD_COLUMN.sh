@@ -61,7 +61,7 @@ while IFS="," read -ra array; do
     uri=${array[-3]}
     filename=${array[-1]}
     dir_to_save=${working_dir}
-    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${uri} ${resource_dir} ${dir_to_receive_the_data} ${filename})
+    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${uri} ${filename} ${dir_to_save} )
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
     echo ${outputfiles_present}
 

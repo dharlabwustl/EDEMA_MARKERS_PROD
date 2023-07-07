@@ -76,6 +76,14 @@ done \
 scan_analytics_filename=${dir_to_save}/${filename}
 while IFS="," read -ra array ; do
   echo ${array[6]}
+  SCAN_URI=${array[6]}
+  resource_dir="DICOM"
+  extension_to_find_list=".dcm"
+  columnname_prefix=""
+  tempfile=${scan_analytics_filename}
+#      call_fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+    call_fill_row_intermediate_files_count_arguments=('call_fill_row_intermediate_files_count' ${SCAN_URI} ${resource_dir} ${extension_to_find_list} ${columnname_prefix} ${tempfile} )
+    outputfiles_present=$(python3 download_with_session_ID.py "${call_fill_row_intermediate_files_count_arguments[@]}")
 done < <(tail -n +2 ${scan_analytics_filename})
 
 

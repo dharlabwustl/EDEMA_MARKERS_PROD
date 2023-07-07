@@ -512,7 +512,37 @@ def scan_selected_flag_slice_num(URI_SCAN,download_dir):
         subprocess.call("echo " + "I FAILED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],Exception) ,shell=True )
         pass
     return  returnvalue
+def get_filecount_withfileext_from_metadata(URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX=""):
+    file_count=0
+    try:
+        metadata=get_resourcefiles_metadata(URI,resource_dir)
+        df_listfile = pd.read_json(json.dumps(metadata))
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        if len(SCAN_URI_NIFTI_FILEPREFIX) >0:
+            df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
+        df_listfile=df_listfile.reset_index(drop=True)
+        file_count=df_listfile.shape[0]
+        # x_df=df_listfile.iloc[0]["URI"]
+        # x_df=df_listfile.iloc[[0]]
+        # latest_file_path=str(x_df) ##get_latest_file(df_listfile)
 
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print(" NO SUCH FILE PRESENT!!")
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        pass
+    return file_count
 def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX):
     latest_file_path=""
     try:
@@ -604,6 +634,33 @@ def fill_row_intermediate_files(SCAN_URI,resource_dir,extension_to_find_list,col
             if len(_infarct_auto_removesmall_path)>1:
                 columnvalue=os.path.basename(_infarct_auto_removesmall_path).split(extension_to_find_list)[0]
             fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+
+
+
+    except:
+        pass
+    return returnvalue
+def fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,csvfilename,SCAN_URI_NIFTI_FILEPREFIX="",filebasename_flag=0):
+    returnvalue=["",0]
+    columnvalue=""
+    try:
+        file_count=get_filecount_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+        columnname=columnname_prefix+"_FILE_AVAILABLE"
+        if file_count>1:
+            columnvalue=1
+            returnvalue=[file_count,1]
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        columnname=columnname_prefix+"_FILE_COUNT"
+        columnvalue=""
+        if file_count>1:
+            columnvalue=file_count
+        fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
+        # columnname=columnname_prefix+"_BASENAME"
+        # columnvalue=""
+        # if filebasename_flag==1:
+        #     if len(_infarct_auto_removesmall_path)>1:
+        #         columnvalue=os.path.basename(_infarct_auto_removesmall_path).split(extension_to_find_list)[0]
+        #     fill_single_datapoint_each_scan_1(SCAN_URI,columnname,columnvalue,csvfilename)
 
 
 
@@ -868,6 +925,12 @@ def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfil
             #####################
             # URI_session=SCAN_URI.split('/scans')[0]
             #########################
+            resource_dir="DICOM"
+            extension_to_find_list=".dcm"
+            columnname_prefix="DICOM"
+
+            fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+
 
             resource_dir="NIFTI"
             extension_to_find_list=".nii"

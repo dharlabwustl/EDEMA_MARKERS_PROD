@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023" />
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Commit Feb 23 2023">
+      <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS_SCANROW_ADD_COLUMN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS_SCANROW_ADD_COLUMN.sh" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -396,7 +398,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="1704" />
+    <option name="localTasksCounter" value="1705" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

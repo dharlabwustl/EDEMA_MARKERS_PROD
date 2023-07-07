@@ -85,10 +85,10 @@ while IFS="," read -ra array ; do
 #      call_fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
     call_fill_row_intermediate_files_count_arguments=('call_fill_row_intermediate_files_count' ${SCAN_URI} ${resource_dir} ${extension_to_find_list} ${columnname_prefix} ${tempfile} )
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_row_intermediate_files_count_arguments[@]}")
-    counter=$((counter + 1 ))
-    if [ $counter -gt 20 ] ; then
-      break
-    fi
+#    counter=$((counter + 1 ))
+#    if [ $counter -gt 20 ] ; then
+#      break
+#    fi
 done < <(tail -n +2 ${scan_analytics_filename})
 
 
@@ -129,8 +129,8 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column
 columnname_substring="FILE_NAME"
 call_remove_single_column_with_colnmname_substring_arguments=('call_remove_single_column_with_colnmname_substring'  ${scan_analytics_nofilename} ${columnname_substring} ${scan_analytics_nofilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_remove_single_column_with_colnmname_substring_arguments[@]}")
-#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
-#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
+copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
+copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
 
 #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 #cp ${sessions_list} ${copy_session}

@@ -74,6 +74,7 @@ done \
   < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
 
 scan_analytics_filename=${dir_to_save}/${filename}
+counter=0
 while IFS="," read -ra array ; do
   echo ${array[6]}
   SCAN_URI=${array[6]}
@@ -84,16 +85,50 @@ while IFS="," read -ra array ; do
 #      call_fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
     call_fill_row_intermediate_files_count_arguments=('call_fill_row_intermediate_files_count' ${SCAN_URI} ${resource_dir} ${extension_to_find_list} ${columnname_prefix} ${tempfile} )
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_row_intermediate_files_count_arguments[@]}")
+    counter=$((counter + 1 ))
+    if [ $counter -gt 20 ] ; then
+      break
+    fi
 done < <(tail -n +2 ${scan_analytics_filename})
+
 
 
 #done < <(tail -n +2 "${sessions_list}")
 
 #sessions_list=${working_dir}/'sessions.csv'
-#time_now=$(date -dnow +%Y%m%d%H%M%S)
+time_now=$(date -dnow +%Y%m%d%H%M%S)
 #copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
-#scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
-#scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
+scan_analytics=${dir_to_save}/SCAN_ANALYTICS_${time_now}.csv
+scan_analytics_nofilename=${dir_to_save}/SCAN_ANALYTICS_NOFILENAME${time_now}.csv
+cp ${scan_analytics_filename} ${scan_analytics}
+#move_one_column(csvfilename,columnname,new_position,csvfilename_edited)
+columnname="SESSION_LABEL"
+new_position=0
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="DICOM_FILE_COUNT"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="DICOM_FILE_AVAILABLE"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="SLICE_COUNT"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="SCAN_SELECTED"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics}  ${scan_analytics_nofilename})
+
+#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
+#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
+
 #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 #cp ${sessions_list} ${copy_session}
 #counter=0

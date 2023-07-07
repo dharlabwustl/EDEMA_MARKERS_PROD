@@ -861,6 +861,19 @@ def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename
     #         # csvfilename_df.insert(len(csvfilename_df.columns), col_name, column_to_move)
     #
     # csvfilename_df.to_csv(csvfilename_withoutfilename,index=False)
+def call_move_one_column(args):
+    csvfilename=args.stuff[1]
+    columnname=args.stuff[2]
+    new_position=int(args.stuff[3])
+    csvfilename_edited=args.stuff[4]
+    move_one_column(csvfilename,columnname,new_position,csvfilename_edited)
+
+def move_one_column(csvfilename,columnname,new_position,csvfilename_edited):
+    csvfilename_df=pd.read_csv(csvfilename)
+    if columnname in csvfilename_df.columns:
+        column_to_move = csvfilename_df.pop(columnname)
+        csvfilename_df.insert(new_position, columnname, column_to_move)
+    csvfilename_df.to_csv(csvfilename_edited,index=False)
 def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
@@ -869,8 +882,14 @@ def edit_scan_analytics_file(csvfilename,csvfilename_withoutfilename):
     csvfilename_df.insert(11, "SLICE_COUNT", column_to_move)
     column_to_move = csvfilename_df.pop("SCAN_SELECTED")
     csvfilename_df.insert(11, "SCAN_SELECTED", column_to_move)
+    # if 'SCAN_SELECTED' in csvfilename_df.columns:
     column_to_move=csvfilename_df.pop("SESSION_LABEL")
-    csvfilename_df.insert(0, "SCAN_SELECTED", column_to_move)
+    csvfilename_df.insert(0, "SESSION_LABEL", column_to_move)
+    if 'DICOM_FILE_AVAILABLE' in csvfilename_df.columns:
+        column_to_move=csvfilename_df.pop("DICOM_FILE_COUNT")
+        csvfilename_df.insert(0, "DICOM_FILE_COUNT", column_to_move)
+        column_to_move=csvfilename_df.pop("DICOM_FILE_AVAILABLE")
+        csvfilename_df.insert(0, "DICOM_FILE_AVAILABLE", column_to_move)
     for col_name in csvfilename_df_colnames:
 
         if "_FILE_NAME" in col_name:
@@ -1629,6 +1648,8 @@ def main():
         return_value=call_edit_session_analytics_file(args) #
     if name_of_the_function=="call_fill_row_intermediate_files_count":
         return_value=call_fill_row_intermediate_files_count(args)
+    if name_of_the_function=="call_move_one_column":
+        return_value=call_move_one_column(args)
 if __name__ == '__main__':
     main()
 

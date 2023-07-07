@@ -76,7 +76,7 @@ done \
 scan_analytics_filename=${dir_to_save}/${filename}
 while IFS="," read -ra array ; do
 
-  echo ${array[8]}
+  echo ${array[6]}
 done < <(tail -n +2 ${scan_analytics_filename})
 
 

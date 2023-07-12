@@ -62,7 +62,7 @@ xx=0
 #if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
 #  echo "${array[1]}"
 #  echo "${array[5]}"
-if [ ${array[4]} == "xnat:ctSessionData" ]  && [ ${array[1]} == "SNIPR_E03446"  ]; then
+if [ ${array[4]} == "xnat:ctSessionData" ] ; then  ######### && [ ${array[1]} == "SNIPR_E03446"  ]
     echo "${array[1]}"
     echo "${array[5]}"
 call_fill_sniprsession_list_arguments=('call_fill_sniprsession_list' ${copy_session} ${array[1]} ) ##
@@ -72,7 +72,7 @@ call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesess
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 
 #counter=$((counter + 1))
-break
+#break
 fi
 #if [ $counter -eq 7 ] ; then
 #  break
@@ -94,9 +94,9 @@ done < <(tail -n +2 "${sessions_list}")
 #
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
 #resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-#call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file'   ${copy_session} )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file'   ${copy_session} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
-#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${copy_session} )
+copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${copy_session} )

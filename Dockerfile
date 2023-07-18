@@ -1,7 +1,7 @@
 FROM sharmaatul11/fsl502py369ltx-full:latest
 RUN apt update
-COPY scct_strippedResampled1.nii.gz   /templatenifti/
-COPY  midlinecssfResampled1.nii.gz   /templatemasks/
+#COPY scct_strippedResampled1.nii.gz   /templatenifti/
+#COPY  midlinecssfResampled1.nii.gz   /templatemasks/
 RUN mkdir -p /callfromgithub
 RUN chmod 755 /callfromgithub
 COPY downloadcodefromgithub.sh /callfromgithub/

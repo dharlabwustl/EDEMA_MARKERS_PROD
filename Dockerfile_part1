@@ -13,7 +13,8 @@ RUN apt install -y \
   unzip  \ 
   curl  \ 
   git \
-  tree  
+  tree  \
+  itk
 RUN pip3 install \
   nibabel  \ 
   numpy  \ 

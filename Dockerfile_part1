@@ -26,4 +26,4 @@ RUN pip3 install \
   scipy  \ 
   pypng  \
   PyGithub \
-  itk
+  sitk

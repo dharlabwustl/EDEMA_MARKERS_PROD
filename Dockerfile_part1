@@ -13,8 +13,7 @@ RUN apt install -y \
   unzip  \ 
   curl  \ 
   git \
-  tree  \
-  itk
+  tree
 RUN pip3 install \
   nibabel  \ 
   numpy  \ 
@@ -26,4 +25,5 @@ RUN pip3 install \
   glob2  \ 
   scipy  \ 
   pypng  \
-  PyGithub 
+  PyGithub \
+  itk

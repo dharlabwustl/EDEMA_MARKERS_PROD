@@ -268,6 +268,7 @@ label='Z-Axial-Brain'
 #resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
 call_change_type_of_scan_arguments=('call_change_type_of_scan' ${sessionId} ${scanId} ${label})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_change_type_of_scan_arguments[@]}")
+echo ${outputfiles_present}
 
 ##########################################################################
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR

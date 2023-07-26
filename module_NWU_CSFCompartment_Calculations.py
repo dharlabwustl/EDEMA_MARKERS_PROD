@@ -1134,7 +1134,9 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
     print(np.min(image_array))
     # EDEMA_VOXELS_IN_CSF_TOTAL_VOL=EDEMA_VOXELS_IN_CSF*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
     # BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
-    CSF_RATIO=left_pixels_num/right_pixels_num
-    if left_pixels_num > right_pixels_num :
-        CSF_RATIO=right_pixels_num/left_pixels_num
+    CSF_RATIO="NOT DEFINED"
+    if right_pixels_num != 0 and left_pixels_num !=0:
+        CSF_RATIO=left_pixels_num/right_pixels_num
+        if left_pixels_num > right_pixels_num :
+            CSF_RATIO=right_pixels_num/left_pixels_num
     return left_pixels_num,right_pixels_num,CSF_RATIO

@@ -27,8 +27,12 @@ def change_type_of_scan(sessionId, scanId,label):
         url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&type=%s" % (sessionId, scanId, label))
         xnatSession.renew_httpsession()
         response = xnatSession.httpsess.put(xnatSession.host + url)
-        if response.status_code == 200 or response.status_code == 201:
-            print("Successfully set series_class for %s scan %s to '%s'" % (sessionId, scanId, label))
+        url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&usability=%s" % (sessionId, scanId, 'usable'))
+        xnatSession.renew_httpsession()
+        response1 = xnatSession.httpsess.put(xnatSession.host + url)
+        if response.status_code == 200 or response1.status_code == 200:
+            print("Successfully set type for %s scan %s to '%s'" % (sessionId, scanId, label))
+            print("Successfully set usability for %s scan %s to '%s'" % (sessionId, scanId, 'usable'))
             command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
             subprocess.call(command,shell=True)
             returnvalue=1

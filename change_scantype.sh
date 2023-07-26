@@ -262,12 +262,12 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 #def call_change_type_of_scan(args):
 returnvalue=0
 #try:
-sessionId=args.stuff[1]
-scanId=args.stuff[2]
-label=args.stuff[3]
+#sessionId=args.stuff[1]
+#scanId=args.stuff[2]
+label='Z-Axial-Brain'
 #resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-call_change_type_of_scan_arguments=('call_change_type_of_scan' ${copy_session})
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_change_type_of_scan_arguments[@]}")
+call_change_type_of_scan_arguments=('call_change_type_of_scan' ${sessionId} ${scanId} ${label})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_change_type_of_scan_arguments[@]}")
 
 ##########################################################################
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR

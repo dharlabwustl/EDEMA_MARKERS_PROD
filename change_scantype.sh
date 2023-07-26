@@ -264,7 +264,7 @@ returnvalue=0
 #try:
 sessionId=${sessionID}
 scanId=1 #args.stuff[2]
-label='Z-Axial-Brain'
+label='None-Z-Axial-Brain'
 #resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
 call_change_type_of_scan_arguments=('call_change_type_of_scan' ${sessionId} ${scanId} ${label})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_change_type_of_scan_arguments[@]}")

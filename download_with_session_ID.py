@@ -27,7 +27,7 @@ def change_type_of_scan(sessionId, scanId,label):
         url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&type=%s" % (sessionId, scanId, label))
         xnatSession.renew_httpsession()
         response = xnatSession.httpsess.put(xnatSession.host + url)
-        url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&usability=%s" % (sessionId, scanId, 'usable'))
+        url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&quality=%s" % (sessionId, scanId, 'usable'))
         xnatSession.renew_httpsession()
         response1 = xnatSession.httpsess.put(xnatSession.host + url)
         if response.status_code == 200 or response1.status_code == 200:

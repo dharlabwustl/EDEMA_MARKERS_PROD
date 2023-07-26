@@ -4,6 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
+working_dir_1=/input
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -116,7 +117,8 @@ nwucalculation_each_scan() {
   eachfile_basename_noext=''
   originalfile_basename=''
   original_ct_file=''
-  for eachfile in ${working_dir}/*.nii*; do
+#  for eachfile in ${working_dir}/*.nii*; do
+  for eachfile in ${working_dir_1}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
@@ -274,7 +276,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 
     echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 
-    copy_scan_data ${niftifile_csvfilename} ${working_dir}
+    copy_scan_data ${niftifile_csvfilename} ${working_dir_1}  #${working_dir}
 
     ##############################################################################################################
 

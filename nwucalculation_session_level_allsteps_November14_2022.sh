@@ -126,6 +126,9 @@ nwucalculation_each_scan() {
 
     ############## files basename ##################################
     grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
+    if [[ "$eachfile_basename" == *".nii.gz"* ]] ; then  #"$STR" == *"$SUB"*
+      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
+    fi
     betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
     csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
     infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz

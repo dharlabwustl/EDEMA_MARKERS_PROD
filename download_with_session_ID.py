@@ -20,27 +20,43 @@ XNAT_PASS =os.environ['XNAT_PASS'] #
 
 
 def change_type_of_scan(sessionId, scanId,label):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&type=%s" % (sessionId, scanId, label))
-    xnatSession.renew_httpsession()
-    response = xnatSession.httpsess.put(xnatSession.host + url)
-    if response.status_code == 200 or response.status_code == 201:
-        print("Successfully set series_class for %s scan %s to '%s'" % (sessionId, scanId, label))
-        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+    returnvalue=0
+    try:
+
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&type=%s" % (sessionId, scanId, label))
+        xnatSession.renew_httpsession()
+        response = xnatSession.httpsess.put(xnatSession.host + url)
+        if response.status_code == 200 or response.status_code == 201:
+            print("Successfully set series_class for %s scan %s to '%s'" % (sessionId, scanId, label))
+            command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+            subprocess.call(command,shell=True)
+            returnvalue=1
+        # else:
+        #     errStr = "ERROR"
+        #     if response.status_code == 403 or response.status_code == 404:
+        #         errStr = "PERMISSION DENIED"
+        #     raise Exception("%s attempting to set series_class for %s %s to '%s': %s" %
+        #                     (errStr, sessionId, scanId, label, response.text))
+    except Exception:
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
         subprocess.call(command,shell=True)
-    else:
-        errStr = "ERROR"
-        if response.status_code == 403 or response.status_code == 404:
-            errStr = "PERMISSION DENIED"
-        raise Exception("%s attempting to set series_class for %s %s to '%s': %s" %
-                        (errStr, sessionId, scanId, label, response.text))
+        pass
+    return  returnvalue
+
 
 def call_change_type_of_scan(args):
-    sessionId=args.stuff[1]
-    scanId=args.stuff[2]
-    label=args.stuff[3]
-    change_type_of_scan(sessionId, scanId,label)
-
+    returnvalue=0
+    try:
+        sessionId=args.stuff[1]
+        scanId=args.stuff[2]
+        label=args.stuff[3]
+        change_type_of_scan(sessionId, scanId,label)
+    except Exception:
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+        pass
+    return  returnvalue
 def merge_csvs(csvfileslist,columntomatchlist,outputfilename):
     df1=pd.read_csv(csvfileslist[0])
     left_on=columntomatchlist[0]

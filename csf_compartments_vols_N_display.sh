@@ -170,7 +170,7 @@ midlineonly_each_scan() {
   originalfile_basename=''
   original_ct_file=''
   #  for eachfile in ${working_dir}/*.nii*; do
-  for eachfile in ${working_dir_1}/*${niftifilename_ext}; do
+  for eachfile in ${working_dir}/*${niftifilename_ext}; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
@@ -253,7 +253,7 @@ nwucalculation_each_scan() {
   originalfile_basename=''
   original_ct_file=''
   #  for eachfile in ${working_dir}/*.nii*; do
-  for eachfile in ${working_dir}/*.nii*; do
+  for eachfile in ${working_dir_1}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}

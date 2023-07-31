@@ -248,6 +248,21 @@ from download_with_session_ID import *;
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
 
+function call_get_resourcefiles_metadata_saveascsv_args() {
+
+  local resource_dir=${2}   #"NIFTI"
+  local output_csvfile=${4} #{array[1]}
+
+  local URI=${1} #{array[0]}
+  #  local file_ext=${5}
+  #  local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
+
+  local final_output_directory=${3}
+  local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+  echo " I AM AT call_get_resourcefiles_metadata_saveascsv_args"
+
+}
 echo " I AM RUNNING "
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory

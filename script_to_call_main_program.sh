@@ -114,3 +114,8 @@ if [[ ${TYPE_OF_PROGRAM} == 19 ]] ;
 then
     /software/change_scantype_from_projectlevel.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 20 ]] ;
+then
+    /software/csf_compartments_vols_N_display.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

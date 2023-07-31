@@ -630,9 +630,10 @@ while IFS=',' read -ra array; do
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-#midlineonly_each_scan ${filename_nifti}
+
 registrationonly_each_scan  ${filename_nifti}
-for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/filename_nifti)*.mat; do
+#midlineonly_each_scan ${filename_nifti}
+for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
   #      cp ${filetocopy} ${final_output_directory}/
   URI_1=${url1%/resources*}
   resource_dirname="MASKS"

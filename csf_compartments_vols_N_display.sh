@@ -255,191 +255,191 @@ URI=/data/experiments/${sessionID}
 resource_dir="NIFTI_LOCATION"
 output_csvfile=${sessionID}_SCANSELECTION_METADATA.csv
 call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
-dir_to_save=${working_dir}
-greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
-betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
-csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
-while IFS=',' read -ra array; do
-  #xx=0
-  #
-  ##if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
-  #  echo "${array[6]}"
-  url=${array[6]}
-  filename=$(basename ${url})
-
-  #def call_download_a_singlefile_with_URIString(args):
-  #    url=args.stuff[1]
-  #    filename=args.stuff[2]
-  #    dir_to_save=args.stuff[3]
-  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-  while IFS=',' read -ra array1; do
-    #      echo "${array1[0]}"
-    url1=${array1[0]}
-    #      URI=/data/experiments/${sessionID}
-    resource_dir="MASKS"
-    output_csvfile_1=${sessionID}_MASK_METADATA.csv
-    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
-    #      filename1=$(basename ${url1})
-    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
-    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
-      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
-      fi
-      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        betfile=${dir_to_save}/${filename2}
-        echo "${betfile}"
-      fi
-      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
-
-  done < <(tail -n +2 "${dir_to_save}/${filename}")
-
-done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-
-#if [[ -f "${greyfile}" ]] && [[ -f "${betfile}" ]] && [[ -f "${csffile}" ]]; then
-#  call_csf_compartments_arguments=('call_csf_compartments' ${greyfile} ${csffile} ${betfile})
-#  outputfiles_present=$(python3 /software/CSF_COMPARTMENT_GITHUB_July212023.py "${call_csf_compartments_arguments[@]}")
-##  echo ${outputfiles_present}
-#fi
-#echo ${outputfiles_present}
-#URI_1=${url2%/resource*}
-#resource_dirname="MASKS"
-#for file_name in ${dir_to_save}/*.nii.gz; do
-#  echo ${file_name}
-#  if [[ ${file_name} == *"ventricle"* ]] || [[ ${file_name} == *"sulci"* ]]; then
-#    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${file_name} ${resource_dirname})
-#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    echo ${outputfiles_present}
+#dir_to_save=${working_dir}
+#greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
+#betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
+#csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
+#while IFS=',' read -ra array; do
+#  #xx=0
+#  #
+#  ##if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
+#  #  echo "${array[6]}"
+#  url=${array[6]}
+#  filename=$(basename ${url})
 #
-#  fi
-#done
-## single filename NECT, its CSF mask and other relevant files
-#rm /media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/error.txt
-#greyfile='/workinginput/SAH_1_01052014_2003_2_resaved_levelset.nii.gz'
-### '/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
-#betfile='/workinginput/SAH_1_01052014_2003_2_resaved_levelset_bet.nii.gz'
-##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
-#csffile='/workinginput/SAH_1_01052014_2003_2_resaved_csf_unet.nii.gz'
-##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
+#  #def call_download_a_singlefile_with_URIString(args):
+#  #    url=args.stuff[1]
+#  #    filename=args.stuff[2]
+#  #    dir_to_save=args.stuff[3]
+#  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 #
-#call_csf_compartments_arguments=('call_csf_compartments' ${greyfile} ${csffile} ${betfile} )
-#outputfiles_present=$(python3 /software/CSF_COMPARTMENT_GITHUB_July212023.py "${call_csf_compartments_arguments[@]}" )
-#echo ${outputfiles_present}
-###python /media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/CSFCOMPARTMENT/CSF_COMPARTMENT_v1_part2_July18_2023.py
+#  while IFS=',' read -ra array1; do
+#    #      echo "${array1[0]}"
+#    url1=${array1[0]}
+#    #      URI=/data/experiments/${sessionID}
+#    resource_dir="MASKS"
+#    output_csvfile_1=${sessionID}_MASK_METADATA.csv
+#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+#    #      filename1=$(basename ${url1})
+#    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
+#    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#
+#    while IFS=',' read -ra array2; do
+#
+#      url2=${array2[6]}
+#      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        greyfile=${dir_to_save}/${filename2}
+#        echo "${greyfile}"
+#      fi
+#      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        betfile=${dir_to_save}/${filename2}
+#        echo "${betfile}"
+#      fi
+#      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+#
+#  done < <(tail -n +2 "${dir_to_save}/${filename}")
+#
+#done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+#
+##if [[ -f "${greyfile}" ]] && [[ -f "${betfile}" ]] && [[ -f "${csffile}" ]]; then
+##  call_csf_compartments_arguments=('call_csf_compartments' ${greyfile} ${csffile} ${betfile})
+##  outputfiles_present=$(python3 /software/CSF_COMPARTMENT_GITHUB_July212023.py "${call_csf_compartments_arguments[@]}")
+###  echo ${outputfiles_present}
+##fi
+##echo ${outputfiles_present}
+##URI_1=${url2%/resource*}
+##resource_dirname="MASKS"
+##for file_name in ${dir_to_save}/*.nii.gz; do
+##  echo ${file_name}
+##  if [[ ${file_name} == *"ventricle"* ]] || [[ ${file_name} == *"sulci"* ]]; then
+##    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${file_name} ${resource_dirname})
+##    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+##    echo ${outputfiles_present}
 ##
-###pdflatex /media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/SAH_N_CSF_Compartment/RESULTS/test.tex
-
+##  fi
+##done
+### single filename NECT, its CSF mask and other relevant files
+##rm /media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/error.txt
+##greyfile='/workinginput/SAH_1_01052014_2003_2_resaved_levelset.nii.gz'
+#### '/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
+##betfile='/workinginput/SAH_1_01052014_2003_2_resaved_levelset_bet.nii.gz'
+###'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
+##csffile='/workinginput/SAH_1_01052014_2003_2_resaved_csf_unet.nii.gz'
+###'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
+##
+##call_csf_compartments_arguments=('call_csf_compartments' ${greyfile} ${csffile} ${betfile} )
+##outputfiles_present=$(python3 /software/CSF_COMPARTMENT_GITHUB_July212023.py "${call_csf_compartments_arguments[@]}" )
+##echo ${outputfiles_present}
+####python /media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/CSFCOMPARTMENT/CSF_COMPARTMENT_v1_part2_July18_2023.py
+###
+####pdflatex /media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/SAH_N_CSF_Compartment/RESULTS/test.tex
 #
-##########################################################################
-### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-##niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
-##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
-#call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-#echo '$outputfiles_present'::$outputfiles_present
-#########################################
-#for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-#  rm ${final_output_directory}/*.*
-#  rm ${output_directory}/*.*
-#  outputfiles_present=0
-#  echo $niftifile_csvfilename
-#  while IFS=',' read -ra array; do
-#    scanID=${array[2]}
-#    echo sessionId::${sessionID}
-#    echo scanId::${scanID}
-#    snipr_output_foldername="EDEMA_BIOMARKER"
-#    ### check if the file exists:
-#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-#
-#    ################################################
-#    outputfiles_present=0
-#    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#    #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
-#    if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
-#      echo " I AM THE ONE"
-#    fi
-#    if [[ "${outputfiles_present: -1}" -eq 0 ]]; then ##[[ 1 -gt 0 ]]  ; then #
-#
-#      echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#
-#      copy_scan_data ${niftifile_csvfilename} ${working_dir_1} #${working_dir}
-#
-#      ##############################################################################################################
-#
-#      ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#
-#      #####################################################################################
-#      resource_dirname='MASKS'
-#      output_dirname=${working_dir}
-#      while IFS=',' read -ra array; do
-#        scanID=${array[2]}
-#        echo sessionId::${sessionID}
-#        echo scanId::${scanID}
-#      done < <(tail -n +2 "${niftifile_csvfilename}")
-#      echo working_dir::${working_dir}
-#      echo output_dirname::${output_dirname}
-#      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-#      ######################################################################################################################
-#      ## CALCULATE EDEMA BIOMARKERS
-#      nwucalculation_each_scan
-#      ######################################################################################################################
-#      ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-#      snipr_output_foldername="EDEMA_BIOMARKER"
-#      file_suffixes=(.pdf .mat .csv) #sys.argv[5]
-#      for file_suffix in ${file_suffixes[@]}; do
-#        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
-#      done
-#      ######################################################################################################################
-#      echo " FILES NOT PRESENT I AM WORKING ON IT"
-#    else
-#      echo " FILES ARE PRESENT "
-#    ######################################################################################################################
-#    fi
-#    ##
-#
-#  done < <(tail -n +2 "${niftifile_csvfilename}")
-#done
+##
+###########################################################################
+#### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+###niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
+###get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+##call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
+##outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+##echo '$outputfiles_present'::$outputfiles_present
+##########################################
+##for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
+##  rm ${final_output_directory}/*.*
+##  rm ${output_directory}/*.*
+##  outputfiles_present=0
+##  echo $niftifile_csvfilename
+##  while IFS=',' read -ra array; do
+##    scanID=${array[2]}
+##    echo sessionId::${sessionID}
+##    echo scanId::${scanID}
+##    snipr_output_foldername="EDEMA_BIOMARKER"
+##    ### check if the file exists:
+##    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
+##    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+##
+##    ################################################
+##    outputfiles_present=0
+##    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+##    #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
+##    if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
+##      echo " I AM THE ONE"
+##    fi
+##    if [[ "${outputfiles_present: -1}" -eq 0 ]]; then ##[[ 1 -gt 0 ]]  ; then #
+##
+##      echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+##
+##      copy_scan_data ${niftifile_csvfilename} ${working_dir_1} #${working_dir}
+##
+##      ##############################################################################################################
+##
+##      ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+##
+##      #####################################################################################
+##      resource_dirname='MASKS'
+##      output_dirname=${working_dir}
+##      while IFS=',' read -ra array; do
+##        scanID=${array[2]}
+##        echo sessionId::${sessionID}
+##        echo scanId::${scanID}
+##      done < <(tail -n +2 "${niftifile_csvfilename}")
+##      echo working_dir::${working_dir}
+##      echo output_dirname::${output_dirname}
+##      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+##      ######################################################################################################################
+##      ## CALCULATE EDEMA BIOMARKERS
+##      nwucalculation_each_scan
+##      ######################################################################################################################
+##      ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+##      snipr_output_foldername="EDEMA_BIOMARKER"
+##      file_suffixes=(.pdf .mat .csv) #sys.argv[5]
+##      for file_suffix in ${file_suffixes[@]}; do
+##        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
+##      done
+##      ######################################################################################################################
+##      echo " FILES NOT PRESENT I AM WORKING ON IT"
+##    else
+##      echo " FILES ARE PRESENT "
+##    ######################################################################################################################
+##    fi
+##    ##
+##
+##  done < <(tail -n +2 "${niftifile_csvfilename}")
+##done

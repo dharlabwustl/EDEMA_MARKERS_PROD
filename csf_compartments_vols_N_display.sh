@@ -253,7 +253,7 @@ nwucalculation_each_scan() {
   originalfile_basename=''
   original_ct_file=''
   #  for eachfile in ${working_dir}/*.nii*; do
-  for eachfile in ${working_dir_1}/*.nii*; do
+  for eachfile in ${working_dir}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
@@ -405,7 +405,7 @@ URI=/data/experiments/${sessionID}
 resource_dir="NIFTI_LOCATION"
 output_csvfile=${sessionID}_SCANSELECTION_METADATA.csv
 call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
-dir_to_save=${output_directory}
+dir_to_save=${working_dir}
 greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
 betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
 csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'

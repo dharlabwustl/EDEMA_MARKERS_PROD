@@ -170,7 +170,7 @@ midlineonly_each_scan() {
   originalfile_basename=''
   original_ct_file=''
   #  for eachfile in ${working_dir}/*.nii*; do
-  for eachfile in ${working_dir}/*${niftifilename_ext}; do
+  for eachfile in ${working_dir_1}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
@@ -428,7 +428,7 @@ while IFS=',' read -ra array; do
     #      echo "${array1[0]}"
     url1=${array1[0]}
     filename_nifti=$(basename ${url1})
-    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${dir_to_save})
+    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${working_dir_1})
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
     #      URI=/data/experiments/${sessionID}
     resource_dir="MASKS"
@@ -491,7 +491,7 @@ while IFS=',' read -ra array; do
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-midlineonly_each_scan  ${dir_to_save}/${filename_nifti}
+midlineonly_each_scan  ${filename_nifti}
 #for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #  rm ${final_output_directory}/*.*
 #  rm ${output_directory}/*.*

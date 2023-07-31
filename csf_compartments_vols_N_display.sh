@@ -209,6 +209,90 @@ run_IML_NWU_CSF_CALC() {
   done
 
 }
+registrationonly_each_scan() {
+  local niftifilename_ext=${1}
+
+  eachfile_basename_noext=''
+  originalfile_basename=''
+  original_ct_file=''
+  #  for eachfile in ${working_dir}/*.nii*; do
+  for eachfile in ${working_dir_1}/*.nii*; do
+    original_ct_file=${eachfile}
+    eachfile_basename=$(basename ${eachfile})
+    originalfile_basename=${eachfile_basename}
+    eachfile_basename_noext=${eachfile_basename%.nii*}
+
+    ############## files basename ##################################
+    grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
+    if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
+      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
+    fi
+    betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
+    #    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
+    #    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
+    ################################################
+    ############## copy those files to the docker image ##################################
+    cp ${working_dir}/${betfilename} ${output_directory}/
+    #    cp ${working_dir}/${csffilename} ${output_directory}/
+    #    cp ${working_dir}/${infarctfilename} ${output_directory}/
+    ####################################################################################
+    source /software/bash_functions_forhost.sh
+
+    cp ${original_ct_file} ${output_directory}/${grayfilename}
+    grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
+    ###########################################################################
+
+    #    #### originalfiel: .nii
+    #    #### betfile: *bet.nii.gz
+    #
+    #    # original_ct_file=$original_CT_directory_names/
+    #    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
+    #    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
+    #    ## preprocessing infarct mask:
+    #    python3 -c "
+    #import sys ;
+    #sys.path.append('/software/') ;
+    #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
+
+    ## preprocessing bet mask:
+    levelset_bet_mask_file=${output_directory}/${betfilename}
+    echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
+    python3 -c "
+
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
+
+    #    #### preprocessing csf mask:
+    #    levelset_csf_mask_file=${output_directory}/${csffilename}
+    #    echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
+    #    python3 -c "
+    #import sys ;
+    #sys.path.append('/software/') ;
+    #from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
+
+    #    lower_threshold=0
+    #    upper_threshold=20
+    #    templatefilename=scct_strippedResampled1.nii.gz
+    #    mask_on_template=midlinecssfResampled1.nii.gz
+
+    x=$grayimage
+    bet_mask_filename=${output_directory}/${betfilename}
+    #    infarct_mask_filename=${output_directory}/${infarctfilename}
+    #    csf_mask_filename=${output_directory}/${csffilename}
+    run_Registration $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
+
+  done
+
+  # for f in ${output_directory}/*; do
+  #     # if [ -d "$f" ]; then
+  #         # $f is a directory
+  #         rm -r $f
+  #     # fi
+  # done
+
+}
+
 midlineonly_each_scan() {
   local niftifilename_ext=${1}
 
@@ -537,8 +621,8 @@ while IFS=',' read -ra array; do
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-midlineonly_each_scan ${filename_nifti}
-
+#midlineonly_each_scan ${filename_nifti}
+registrationonly_each_scan  ${filename_nifti}
 for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${working_dir}/filename_nifti)*.mat; do
   #      cp ${filetocopy} ${final_output_directory}/
   URI_1=${url1%/resources*}

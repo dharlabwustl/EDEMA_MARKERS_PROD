@@ -121,7 +121,12 @@ run_IML() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
+  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
+  if [[ "${mat_file}" == "2" ]] ; then
+    echo "MAT FILES PRESENT"
+  else
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+  fi
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   echo "RUNNING IML FSL PART"
   /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
@@ -631,8 +636,8 @@ while IFS=',' read -ra array; do
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
-registrationonly_each_scan  ${filename_nifti}
-#midlineonly_each_scan ${filename_nifti}
+#registrationonly_each_scan  ${filename_nifti}
+midlineonly_each_scan ${filename_nifti}
 for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
   #      cp ${filetocopy} ${final_output_directory}/
   URI_1=${url1%/resources*}

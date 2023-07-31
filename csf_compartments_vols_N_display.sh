@@ -315,7 +315,7 @@ while IFS=',' read -ra array; do
         csffile=${dir_to_save}/${filename2}
         echo "${csffile}"
       fi
-      if [[ ${url2} == *"_sulci_"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
         echo "${array2[6]}"
         filename2=$(basename ${url2})
@@ -324,7 +324,7 @@ while IFS=',' read -ra array; do
         csffile=${dir_to_save}/${filename2}
         echo "${csffile}"
       fi
-      if [[ ${url2} == *"_ventricle_"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
         echo "${array2[6]}"
         filename2=$(basename ${url2})

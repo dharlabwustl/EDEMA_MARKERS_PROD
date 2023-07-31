@@ -99,9 +99,7 @@ run_IML() {
   #    cp ${filetocopy} ${final_output_directory}/
   #  done
   #
-  #  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
-  #    cp ${filetocopy} ${final_output_directory}/
-  #  done
+
   #
   #  for filetocopy in ${output_directory}/*.pdf; do
   #    cp ${filetocopy} ${final_output_directory}/
@@ -491,7 +489,16 @@ while IFS=',' read -ra array; do
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-midlineonly_each_scan  ${filename_nifti}
+midlineonly_each_scan ${filename_nifti}
+
+for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${working_dir}/filename_nifti)*.mat; do
+  #      cp ${filetocopy} ${final_output_directory}/
+  URI_1=${url1%/resources*}
+  resource_dirname="SAH_COMPARTMENTS_RATIO"
+  call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
+  outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+  echo ${outputfiles_present}
+done
 #for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #  rm ${final_output_directory}/*.*
 #  rm ${output_directory}/*.*

@@ -122,15 +122,20 @@ run_IML() {
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
-  if [[ "${mat_file_num}" == "2" ]] ; then
+  if [[ ${mat_file_num} -gt 1 ]] ; then
     echo "MAT FILES PRESENT"
   else
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-  fi
+
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  fi
+    if [[ ${mat_file_num} -gt 2 ]] ; then
+      echo "MAT FILES PRESENT"
+    else
   echo "RUNNING IML FSL PART"
   /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
   echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
+  fi
   echo "RUNNING IML PYTHON PART"
 
   /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}

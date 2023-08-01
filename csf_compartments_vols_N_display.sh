@@ -192,7 +192,7 @@ run_CSF_COMPARTMENTS_CALC() {
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION "
 
-  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
+  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  0 1000 #${lower_threshold} ${upper_threshold}
   echo "nwu_csf_volume successful" >>${output_directory}/success.txt
   thisfile_basename=$(basename $this_filename)
 #  # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;

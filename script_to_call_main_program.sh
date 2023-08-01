@@ -112,7 +112,8 @@ then
 fi
 if [[ ${TYPE_OF_PROGRAM} == 19 ]] ;
 then
-    /software/change_scantype_from_projectlevel.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+    PROJECT_ID=${1}
+    /software/change_scantype_from_projectlevel.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 20 ]] ;

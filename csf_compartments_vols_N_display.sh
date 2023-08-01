@@ -509,7 +509,7 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
     infarct_mask_filename=${output_directory}/${csffilename}
     csf_mask_filename=${output_directory}/${csffilename}
 #    run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
-    run_CSF_COMPARTMENTS_CALC $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
+    run_CSF_COMPARTMENTS_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
 
   done
 

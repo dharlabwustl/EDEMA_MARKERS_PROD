@@ -130,13 +130,11 @@ run_IML() {
 
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   fi
-    if [[ ${mat_file_num} -gt 5 ]] ; then
-      echo "MAT FILES PRESENT"
-    else
+
   echo "RUNNING IML FSL PART"
   /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
   echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
-  fi
+
   echo "RUNNING IML PYTHON PART"
 
   /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}

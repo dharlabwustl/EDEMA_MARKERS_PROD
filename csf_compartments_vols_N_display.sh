@@ -457,10 +457,10 @@ split_masks_into_two_halves() {
     #### preprocessing csf mask:
     levelset_csf_mask_file=${output_directory}/${csffilename}
     echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
-    python3 -c "
-    import sys ;
-    sys.path.append('/software/') ;
-    from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
+python3 -c "
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
 
     lower_threshold=0
     upper_threshold=20

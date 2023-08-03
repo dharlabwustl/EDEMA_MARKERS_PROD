@@ -191,10 +191,12 @@ run_CSF_COMPARTMENTS_CALC() {
 #  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION "
+  call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${url2} ${filename2} ${output_directory})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
 
-  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  0 1000 #${lower_threshold} ${upper_threshold}
-  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
-  thisfile_basename=$(basename $this_filename)
+#  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  0 1000 #${lower_threshold} ${upper_threshold}
+#  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
+#  thisfile_basename=$(basename $this_filename)
 #  # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
 #  for texfile in ${output_directory}/*.tex; do
 #    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex

@@ -48,7 +48,7 @@ def divide_a_mask_into_left_right_submasks():
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return  returnvalue
-def call_divide_a_mask_into_left_right_submasks():
+def call_divide_a_mask_into_left_right_submasks(args):
     returnvalue=0
     try:
         returnvalue=1

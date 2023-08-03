@@ -442,59 +442,18 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
   # done
 
 }
-csf_compartment_cal_each_scan() {
+split_masks_into_two_halves() {
 
   eachfile_basename_noext=''
   originalfile_basename=''
   original_ct_file=''
-  #  for eachfile in ${working_dir}/*.nii*; do
   for eachfile in ${working_dir_1}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
     eachfile_basename_noext=${eachfile_basename%.nii*}
-
-    ############## files basename ##################################
-    grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
-    if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
-      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
-    fi
-    betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
     csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
-    #    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
-    ################################################
-    ############## copy those files to the docker image ##################################
-    cp ${working_dir}/${betfilename} ${output_directory}/
     cp ${working_dir}/${csffilename} ${output_directory}/
-    #    cp ${working_dir}/${infarctfilename} ${output_directory}/
-    ####################################################################################
-    source /software/bash_functions_forhost.sh
-
-    cp ${original_ct_file} ${output_directory}/${grayfilename}
-    grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
-    ###########################################################################
-
-    #### originalfiel: .nii
-    #### betfile: *bet.nii.gz
-
-    #    # original_ct_file=$original_CT_directory_names/
-    #    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
-    #    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
-    #    ## preprocessing infarct mask:
-    #    python3 -c "
-    #import sys ;
-    #sys.path.append('/software/') ;
-    #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
-
-    #    ## preprocessing bet mask:
-    #    levelset_bet_mask_file=${output_directory}/${betfilename}
-    #    echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-    #    python3 -c "
-    #
-    #import sys ;
-    #sys.path.append('/software/') ;
-    #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
-
     #### preprocessing csf mask:
     levelset_csf_mask_file=${output_directory}/${csffilename}
     echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
@@ -509,21 +468,10 @@ csf_compartment_cal_each_scan() {
     mask_on_template=midlinecssfResampled1.nii.gz
 
     x=$grayimage
-    #    bet_mask_filename=${output_directory}/${betfilename}
-    #    infarct_mask_filename=${output_directory}/${csffilename}
     csf_mask_filename=${output_directory}/${csffilename}
-    #    run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
-    #    run_CSF_COMPARTMENTS_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
     run_divide_mask_into_left_right ${csf_mask_filename}
 
   done
-
-  # for f in ${output_directory}/*; do
-  #     # if [ -d "$f" ]; then
-  #         # $f is a directory
-  #         rm -r $f
-  #     # fi
-  # done
 
 }
 nwucalculation_each_scan() {
@@ -780,79 +728,14 @@ while IFS=',' read -ra array; do
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
-#registrationonly_each_scan  ${filename_nifti}
 midlineonly_each_scan ${filename_nifti}
-#csf_compartment_cal_each_scan
+split_masks_into_two_halves
 
-for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
-  #      cp ${filetocopy} ${final_output_directory}/
-  URI_1=${url1%/resources*}
-  resource_dirname="MASKS"
-  call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
-  outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-  echo ${outputfiles_present}
-done
-#for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-#  rm ${final_output_directory}/*.*
-#  rm ${output_directory}/*.*
-#  outputfiles_present=0
-#  echo $niftifile_csvfilename
-#  while IFS=',' read -ra array; do
-#    scanID=${array[2]}
-#    echo sessionId::${sessionID}
-#    echo scanId::${scanID}
-#    snipr_output_foldername="EDEMA_BIOMARKER"
-#    ### check if the file exists:
-#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-#
-#    ################################################
-#    outputfiles_present=0
-#    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#    #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
-#    if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
-#      echo " I AM THE ONE"
-#    fi
-#    if [[ "${outputfiles_present: -1}" -eq 0 ]]; then ##[[ 1 -gt 0 ]]  ; then #
-#
-#      echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-#
-#      copy_scan_data ${niftifile_csvfilename} ${working_dir_1} #${working_dir}
-#
-#      ##############################################################################################################
-#
-#      ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#
-#      #####################################################################################
-#      resource_dirname='MASKS'
-#      output_dirname=${working_dir}
-#      while IFS=',' read -ra array; do
-#        scanID=${array[2]}
-#        echo sessionId::${sessionID}
-#        echo scanId::${scanID}
-#      done < <(tail -n +2 "${niftifile_csvfilename}")
-#      echo working_dir::${working_dir}
-#      echo output_dirname::${output_dirname}
-#      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-#      ######################################################################################################################
-#      ## CALCULATE EDEMA BIOMARKERS
-#      #      nwucalculation_each_scan
-#      midlineonly_each_scan
-#      #########################
-#      # ############################################################################################
-#      ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-#      snipr_output_foldername="EDEMA_BIOMARKER"
-#      file_suffixes=(.pdf .mat .csv) #sys.argv[5]
-#      for file_suffix in ${file_suffixes[@]}; do
-#        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
-#      done
-#      ######################################################################################################################
-#      echo " FILES NOT PRESENT I AM WORKING ON IT"
-#    else
-#      echo " FILES ARE PRESENT "
-#    ######################################################################################################################
-#    fi
-#    ##
-#
-#  done < <(tail -n +2 "${niftifile_csvfilename}")
+#for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
+#  #      cp ${filetocopy} ${final_output_directory}/
+#  URI_1=${url1%/resources*}
+#  resource_dirname="MASKS"
+#  call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
+#  outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#  echo ${outputfiles_present}
 #done

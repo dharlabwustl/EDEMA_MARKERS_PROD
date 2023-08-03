@@ -52,7 +52,7 @@ def call_divide_a_mask_into_left_right_submasks():
     returnvalue=0
     try:
         returnvalue=1
-        command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3]) #                subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(scanId) ,shell=True )
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])

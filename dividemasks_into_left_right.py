@@ -47,8 +47,8 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
         Mask_filename_data_np[Mask_filename_data_np>1]=0
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
         numpy_image=filename_gray_data_np
-        left_half_filename=Mask_filename.split('.nii')[0]+'_left_half.nii.gz'
-        right_half_filename=Mask_filename.split('.nii')[0]+'_right_half.nii.gz'
+        left_half_filename=Mask_filename.split('.nii')[0]+'_left_half_originalRF.nii.gz'
+        right_half_filename=Mask_filename.split('.nii')[0]+'_right_half_originalRF.nii.gz'
         lefthalf_mask_np_3d= np.zeros([numpy_image.shape[0],numpy_image.shape[1],numpy_image.shape[2]])
         righthalf_mask_np_3d= np.zeros([numpy_image.shape[0],numpy_image.shape[1],numpy_image.shape[2]])
         for img_idx in range(numpy_image.shape[2]):

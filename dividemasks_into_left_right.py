@@ -14,6 +14,7 @@ Created on Thu Sep  5 10:26:44 2019
 @author: atul
 """
 from skimage import exposure
+import argparse,inspect
 import glob,os,csv,sys
 import nibabel as nib
 import numpy as np
@@ -37,17 +38,31 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 now=time.localtime()
 
+def divide_a_mask_into_left_right_submasks():
+    returnvalue=0
+    try:
+        returnvalue=1
+        command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return  returnvalue
+def call_divide_a_mask_into_left_right_submasks():
+    returnvalue=0
+    try:
+        returnvalue=1
+        command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return  returnvalue
 
 def remove_few_columns(csvfilename,columnstoremove):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df.drop(columnstoremove, axis=1, inplace=True)
     csvfilename_df.to_csv(csvfilename.split('.csv')[0]+'columndropped.csv',index=False)
-
-
-
-
-
-
 def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,numpy_image_mask):
     infarct_side='NONE'
     left_ids=[]
@@ -1140,3 +1155,15 @@ def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfile
         if left_pixels_num > right_pixels_num :
             CSF_RATIO=right_pixels_num/left_pixels_num
     return left_pixels_num,right_pixels_num,CSF_RATIO
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('stuff', nargs='+')
+    args = parser.parse_args()
+    name_of_the_function=args.stuff[0]
+    return_value=0
+    if name_of_the_function == "call_divide_a_mask_into_left_right_submasks":
+        return_value=call_divide_a_mask_into_left_right_submasks(args)
+
+    return return_value
+if __name__ == '__main__':
+    main()

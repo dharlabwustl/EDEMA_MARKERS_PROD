@@ -192,7 +192,7 @@ run_CSF_COMPARTMENTS_CALC() {
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${url2} ${filename2} ${output_directory})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
 
 #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  0 1000 #${lower_threshold} ${upper_threshold}
 #  echo "nwu_csf_volume successful" >>${output_directory}/success.txt

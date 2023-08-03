@@ -450,6 +450,7 @@ split_masks_into_two_halves() {
   eachfile_basename_noext=''
   originalfile_basename=''
   original_ct_file=''
+  maskfile_extension=${1}
   for eachfile in ${working_dir_1}/*.nii*; do
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
@@ -459,7 +460,7 @@ split_masks_into_two_halves() {
     if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
       grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
     fi
-    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
+    csffilename=${eachfile_basename_noext}${maskfile_extension} #_resaved_csf_unet.nii.gz
     cp ${working_dir}/${csffilename} ${output_directory}/
     ####################################################################################
     source /software/bash_functions_forhost.sh
@@ -736,7 +737,8 @@ while IFS=',' read -ra array; do
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
 midlineonly_each_scan ${filename_nifti}
-split_masks_into_two_halves
+
+split_masks_into_two_halves  "_resaved_csf_unet.nii.gz"
 
 #for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
 #  #      cp ${filetocopy} ${final_output_directory}/

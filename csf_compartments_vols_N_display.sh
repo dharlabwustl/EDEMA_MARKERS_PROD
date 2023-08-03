@@ -73,14 +73,14 @@ run_Registration() {
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-#  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
-#  echo "RUNNING IML FSL PART"
-#  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
-#  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
-#  echo "RUNNING IML PYTHON PART"
-#
-#  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
-#  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
+  #  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  #  echo "RUNNING IML FSL PART"
+  #  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
+  #  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
+  #  echo "RUNNING IML PYTHON PART"
+  #
+  #  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+  #  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
 
   #  echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
@@ -122,13 +122,13 @@ run_IML() {
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
-  if [[ ${mat_file_num} -gt 1 ]] ; then
+  if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
-#    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
+    #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
   else
-  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+    /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 
-  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+    echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   fi
 
   echo "RUNNING IML FSL PART"
@@ -140,7 +140,7 @@ run_IML() {
   /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
 
-#    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
+  #    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
   #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
   #  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
@@ -166,40 +166,61 @@ run_IML() {
   #  done
 
 }
+run_divide_mask_into_left_right() {
+  local this_mask_filename=${1}
+  call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${this_mask_filename})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+}
 
 run_CSF_COMPARTMENTS_CALC() {
   this_filename=${1}
   this_betfilename=${2}
   this_csfmaskfilename=${3}
   this_infarctmaskfilename=${4}
-  echo "RUNNING NWU AND CSF VOLUME CALCULATION "
-  call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${url2} ${filename2} ${output_directory})
-  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+  #  echo "BET USING LEVELSET MASK"
+  #
+  #  /software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
+  #
+  #  echo "bet_withlevelset successful" >${output_directory}/success.txt
+  #  this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
+  #  # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
+  #  echo "LINEAR REGISTRATION TO TEMPLATE"
+  #  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+  #  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  #  echo "RUNNING IML FSL PART"
+  #  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
+  #  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
+  #  echo "RUNNING IML PYTHON PART"
+  #
+  #  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+  #  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
 
-#  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  0 1000 #${lower_threshold} ${upper_threshold}
-#  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
-#  thisfile_basename=$(basename $this_filename)
-#  # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
-#  for texfile in ${output_directory}/*.tex; do
-#    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-#    rm ${output_directory}/*.aux
-#    rm ${output_directory}/*.log
-#  done
-#
-#  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz; do
-#    cp ${filetocopy} ${final_output_directory}/
-#  done
-#
-#  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
-#    cp ${filetocopy} ${final_output_directory}/
-#  done
-#
-#  for filetocopy in ${output_directory}/*.pdf; do
-#    cp ${filetocopy} ${final_output_directory}/
-#  done
-#  for filetocopy in ${output_directory}/*.csv; do
-#    cp ${filetocopy} ${final_output_directory}/
-#  done
+  echo "RUNNING NWU AND CSF VOLUME CALCULATION "
+
+  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} 0 1000 #${lower_threshold} ${upper_threshold}
+  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
+  thisfile_basename=$(basename $this_filename)
+  #  # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
+  #  for texfile in ${output_directory}/*.tex; do
+  #    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+  #    rm ${output_directory}/*.aux
+  #    rm ${output_directory}/*.log
+  #  done
+  #
+  #  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz; do
+  #    cp ${filetocopy} ${final_output_directory}/
+  #  done
+  #
+  #  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
+  #    cp ${filetocopy} ${final_output_directory}/
+  #  done
+  #
+  #  for filetocopy in ${output_directory}/*.pdf; do
+  #    cp ${filetocopy} ${final_output_directory}/
+  #  done
+  #  for filetocopy in ${output_directory}/*.csv; do
+  #    cp ${filetocopy} ${final_output_directory}/
+  #  done
 
 }
 
@@ -411,7 +432,6 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
     #    csf_mask_filename=${output_directory}/${csffilename}
     run_IML $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
 
-
   done
 
   # for f in ${output_directory}/*; do
@@ -441,12 +461,12 @@ csf_compartment_cal_each_scan() {
     fi
     betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
     csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
-#    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
+    #    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
     ################################################
     ############## copy those files to the docker image ##################################
     cp ${working_dir}/${betfilename} ${output_directory}/
     cp ${working_dir}/${csffilename} ${output_directory}/
-#    cp ${working_dir}/${infarctfilename} ${output_directory}/
+    #    cp ${working_dir}/${infarctfilename} ${output_directory}/
     ####################################################################################
     source /software/bash_functions_forhost.sh
 
@@ -457,31 +477,31 @@ csf_compartment_cal_each_scan() {
     #### originalfiel: .nii
     #### betfile: *bet.nii.gz
 
-#    # original_ct_file=$original_CT_directory_names/
-#    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
-#    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
-#    ## preprocessing infarct mask:
-#    python3 -c "
-#import sys ;
-#sys.path.append('/software/') ;
-#from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
+    #    # original_ct_file=$original_CT_directory_names/
+    #    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
+    #    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
+    #    ## preprocessing infarct mask:
+    #    python3 -c "
+    #import sys ;
+    #sys.path.append('/software/') ;
+    #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
 
-    ## preprocessing bet mask:
-    levelset_bet_mask_file=${output_directory}/${betfilename}
-    echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-    python3 -c "
-
-import sys ;
-sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
+    #    ## preprocessing bet mask:
+    #    levelset_bet_mask_file=${output_directory}/${betfilename}
+    #    echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
+    #    python3 -c "
+    #
+    #import sys ;
+    #sys.path.append('/software/') ;
+    #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
 
     #### preprocessing csf mask:
     levelset_csf_mask_file=${output_directory}/${csffilename}
     echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
     python3 -c "
-import sys ;
-sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
+    import sys ;
+    sys.path.append('/software/') ;
+    from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
 
     lower_threshold=0
     upper_threshold=20
@@ -489,11 +509,12 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
     mask_on_template=midlinecssfResampled1.nii.gz
 
     x=$grayimage
-    bet_mask_filename=${output_directory}/${betfilename}
-    infarct_mask_filename=${output_directory}/${csffilename}
+    #    bet_mask_filename=${output_directory}/${betfilename}
+    #    infarct_mask_filename=${output_directory}/${csffilename}
     csf_mask_filename=${output_directory}/${csffilename}
-#    run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
-    run_CSF_COMPARTMENTS_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
+    #    run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
+    #    run_CSF_COMPARTMENTS_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
+    run_divide_mask_into_left_right ${csf_mask_filename}
 
   done
 
@@ -744,15 +765,15 @@ while IFS=',' read -ra array; do
         csffile=${dir_to_save}/${filename2}
         echo "${csffile}"
       fi
-            if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-              echo "It's there!"
-              echo "${array2[6]}"
-              filename2=$(basename ${url2})
-              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-              csffile=${dir_to_save}/${filename2}
-              echo "${csffile}"
-            fi
+      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        csffile=${dir_to_save}/${filename2}
+        echo "${csffile}"
+      fi
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 
   done < <(tail -n +2 "${dir_to_save}/${filename}")
@@ -761,7 +782,8 @@ done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
 #registrationonly_each_scan  ${filename_nifti}
 midlineonly_each_scan ${filename_nifti}
-csf_compartment_cal_each_scan
+#csf_compartment_cal_each_scan
+
 for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
   #      cp ${filetocopy} ${final_output_directory}/
   URI_1=${url1%/resources*}

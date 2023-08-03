@@ -38,11 +38,11 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 now=time.localtime()
 
-def divide_a_mask_into_left_right_submasks():
+def divide_a_mask_into_left_right_submasks(maskfilename):
     returnvalue=0
     try:
         returnvalue=1
-        command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],maskfilename)
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
@@ -51,6 +51,8 @@ def divide_a_mask_into_left_right_submasks():
 def call_divide_a_mask_into_left_right_submasks(args):
     returnvalue=0
     try:
+        maskfilename=args.stuff[1]
+        divide_a_mask_into_left_right_submasks(maskfilename)
         returnvalue=1
         command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3]) #                subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(scanId) ,shell=True )
         subprocess.call(command,shell=True)

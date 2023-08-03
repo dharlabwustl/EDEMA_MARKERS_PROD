@@ -167,8 +167,11 @@ run_IML() {
 
 }
 run_divide_mask_into_left_right() {
-  local this_mask_filename=${1}
-  call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${this_mask_filename})
+  local grayimage=${1}
+  local csf_mask_filename=${2}
+  local output_directory=${3}
+  local working_dir=${4}
+  call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${grayimage}  ${csf_mask_filename} ${output_directory} ${working_dir})
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
 }
 
@@ -452,24 +455,28 @@ split_masks_into_two_halves() {
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
     eachfile_basename_noext=${eachfile_basename%.nii*}
+    grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
+    if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
+      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
+    fi
     csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
     cp ${working_dir}/${csffilename} ${output_directory}/
+    ####################################################################################
+    source /software/bash_functions_forhost.sh
+
+    cp ${original_ct_file} ${output_directory}/${grayfilename}
+    grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
     #### preprocessing csf mask:
     levelset_csf_mask_file=${output_directory}/${csffilename}
     echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
-python3 -c "
+    python3 -c "
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
-
-    lower_threshold=0
-    upper_threshold=20
     templatefilename=scct_strippedResampled1.nii.gz
     mask_on_template=midlinecssfResampled1.nii.gz
-
-    x=$grayimage
     csf_mask_filename=${output_directory}/${csffilename}
-    run_divide_mask_into_left_right ${csf_mask_filename}
+    run_divide_mask_into_left_right ${grayimage}  ${csf_mask_filename} ${output_directory} ${working_dir}
 
   done
 

@@ -21,7 +21,7 @@ import numpy as np
 import cv2 , re,subprocess,time,math
 sys.path.append("/software")
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
-from utilities_simple import *
+from utilities_simple_trimmed import *
 from github import Github
 #############################################################
 from dateutil.parser import parse
@@ -37,10 +37,53 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-
-def divide_a_mask_into_left_right_submasks(maskfilename):
+def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :
     returnvalue=0
     try:
+        Mask_filename_fdata=nib.load(Mask_filename).get_fdata()
+        Mask_filename_fdata_June21_2023=nib.load(Mask_filename).get_fdata()
+        Mask_filename_fdata_June21_2023_np=resizeinto_512by512(Mask_filename_fdata_June21_2023)
+        Mask_filename_data_np=resizeinto_512by512(Mask_filename_fdata)
+        Mask_filename_data_np[Mask_filename_data_np>1]=0
+        filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
+        numpy_image=filename_gray_data_np
+        left_half_filename=Mask_filename.split('.nii')[0]+'_left_half.nii.gz'
+        right_half_filename=Mask_filename.split('.nii')[0]+'_right_half.nii.gz'
+        lefthalf_mask_np_3d= np.zeros([numpy_image.shape[0],numpy_image.shape[1],numpy_image.shape[2]])
+        righthalf_mask_np_3d= np.zeros([numpy_image.shape[0],numpy_image.shape[1],numpy_image.shape[2]])
+        for img_idx in range(numpy_image.shape[2]):
+            if img_idx>0 and img_idx < numpy_image.shape[2]:
+                method_name="REGIS"
+                slice_number="{0:0=3d}".format(img_idx)
+                filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
+                this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+                if os.path.exists(this_npyfile):
+                    calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                    x_points2=calculated_midline_points.item().get('x_axis')
+                    y_points2=calculated_midline_points.item().get('y_axis')
+                    x_points2=x_points2[:,0]
+                    y_points2=y_points2[:,0]
+                    img_with_line=Mask_filename_data_np[:,:,img_idx]
+                    img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
+                    Mask_filename_data_np_idx=Mask_filename_fdata_June21_2023_np[:,:,img_idx]
+                    Mask_filename_data_np_idx[Mask_filename_data_np_idx>0]=1
+                    Mask_filename_data_np_idx[Mask_filename_data_np_idx<1]=0
+                    for non_zero_pixel in img_with_line_nonzero_id:
+                        xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                        if xx>0: ## RIGHT
+                            righthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
+                        if xx<0: ## LEFT
+                            lefthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
+        if numpy_image.shape[1] == 512 :
+            whenOFsize512x512_new_flip_np(lefthalf_mask_np_3d,niftifilename,left_half_filename,OUTPUT_DIRECTORY)
+            whenOFsize512x512_new_flip_np(righthalf_mask_np_3d,niftifilename,right_half_filename,OUTPUT_DIRECTORY)
+        else:
+            whenOFsize512x5xx_new_flip_np(niftifilename,lefthalf_mask_np_3d,left_half_filename,OUTPUT_DIRECTORY)
+            whenOFsize512x5xx_new_flip_np(niftifilename,righthalf_mask_np_3d,right_half_filename,OUTPUT_DIRECTORY)
+        # array_img_left = nib.Nifti1Image(lefthalf_mask_np_3d,affine=target_nii.affine, header=new_header)
+        # nib.save(array_img, os.path.join(output_directoryname,target_save))
+        # levelset2originalRF_new_flip_with_params(original_file,levelset_file,OUTPUT_DIRECTORY)
+
         returnvalue=1
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],maskfilename)
         subprocess.call(command,shell=True)
@@ -48,11 +91,25 @@ def divide_a_mask_into_left_right_submasks(maskfilename):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return  returnvalue
+
+# def divide_a_mask_into_left_right_submasks(maskfilename):
+#     returnvalue=0
+#     try:
+#         returnvalue=1
+#         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],maskfilename)
+#         subprocess.call(command,shell=True)
+#     except:
+#         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+#         subprocess.call(command,shell=True)
+#     return  returnvalue
 def call_divide_a_mask_into_left_right_submasks(args):
     returnvalue=0
     try:
-        maskfilename=args.stuff[1]
-        divide_a_mask_into_left_right_submasks(maskfilename)
+        niftifilename=args.stuff[1]
+        Mask_filename=args.stuff[2]
+        npyfiledirectory=args.stuff[3]
+        OUTPUT_DIRECTORY=args.stuff[4]
+        divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY)
         returnvalue=1
         command="echo successful at :: {} >> /software/error.txt".format(inspect.stack()[0][3]) #                subprocess.call("echo " + "scanId1type::{}  >> /workingoutput/error.txt".format(scanId) ,shell=True )
         subprocess.call(command,shell=True)

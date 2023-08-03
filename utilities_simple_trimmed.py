@@ -81,8 +81,8 @@ def whenOFsize512x512_new_flip_np(image_levelset_data1,original_file,levelset_fi
     original_file_nib=nib.load(original_file)
     # image_levelset_nib=nib.load(levelset_file)
     # image_levelset_data1=image_levelset_nib.dataobj.get_unscaled()
-    for x in range(image_levelset_data1.shape[2]):
-        image_levelset_data1[:,:,x]=cv2.flip(image_levelset_data1[:,:,x],0)
+    # for x in range(image_levelset_data1.shape[2]):
+    #     image_levelset_data1[:,:,x]=cv2.flip(image_levelset_data1[:,:,x],0)
     #         flipped_mask=np.copy(image_levelset_data)
     #         for idx in range(image_levelset_data.shape[2]):
     #             flipped_mask[:,:,idx]=cv2.flip(image_levelset_data[:,:,idx],0)
@@ -248,8 +248,8 @@ def whenOFsize512x5xx_new_flip_np(original_file,image_levelset_data,levelset_fil
             temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y-1,0:temp_array.shape[2]]
 
 
-    for x in range(temp_array.shape[2]):
-        temp_array[:,:,x]=cv2.flip(temp_array[:,:,x],0)
+    # for x in range(temp_array.shape[2]):
+    #     temp_array[:,:,x]=cv2.flip(temp_array[:,:,x],0)
     image_levelset_data1=temp_array
     array_mask = nib.Nifti1Image(image_levelset_data1, affine=image_nib_nii_file.affine, header=image_nib_nii_file.header)
     niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")

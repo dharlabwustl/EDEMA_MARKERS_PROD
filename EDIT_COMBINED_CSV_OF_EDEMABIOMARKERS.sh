@@ -52,8 +52,8 @@ URI=/data/projects/${project_ID}
 resource_dir='EDEMA_BIOMARKER_TEST'
 final_output_directory=${working_dir}
 output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
-local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
 
 ## downlaod scan level analytics data

@@ -48,18 +48,17 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
 }
 ## Download combined csv file directory metadata
-download_latest_file()
-{
-  local URI=/data/projects/${project_ID}
-  local resource_dir='EDEMA_BIOMARKER_TEST'
+download_latest_file() {
+  local URI=${1}          #/data/projects/${project_ID}
+  local resource_dir=${2} #'EDEMA_BIOMARKER_TEST'
   #final_output_directory=${working_dir}
   local output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
   local call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
   local outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
   local metadata_filename=${working_dir}/${output_csvfile}
-  local column_name='URI'
-  local file_ext='.csv'
+  local column_name=${3} #'URI'
+  local file_ext=${4}    #'.csv'
   local outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
   local call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
   local outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
@@ -80,7 +79,11 @@ download_latest_file()
   done < <(tail -n +2 "${outputfile_with_latestfilename}")
 
 }
-download_latest_file
+URI=/data/projects/${project_ID}
+resource_dir='EDEMA_BIOMARKER_TEST'
+column_name='URI'
+file_ext='.csv'
+download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext}
 #
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'

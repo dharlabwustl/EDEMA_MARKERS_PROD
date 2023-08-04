@@ -157,15 +157,15 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column
 
 
 
-#csvfilename=${csvtobefilled_output}
-columnname='UNIQUE_IDENTIFIER'
-new_position=0
-#csvfilename_edited=${csvtobefilled_output}
-call_move_one_column_arguments=('call_move_one_column'  ${csvtobefilled_output} ${columnname} ${new_position} ${csvtobefilled_output} )
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+##csvfilename=${csvtobefilled_output}
+#columnname='UNIQUE_IDENTIFIER'
+#new_position=0
+##csvfilename_edited=${csvtobefilled_output}
+#call_move_one_column_arguments=('call_move_one_column'  ${csvtobefilled_output} ${columnname} ${new_position} ${csvtobefilled_output} )
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 
 #csvfilename=${csvtobefilled_output}
-columnname=SLICE_COUNT
+columnname='SLICE_COUNT'
 new_position=0
 #csvfilename_edited=${csvtobefilled_output}
 call_move_one_column_arguments=('call_move_one_column'  ${csvtobefilled_output} ${columnname} ${new_position} ${csvtobefilled_output} )

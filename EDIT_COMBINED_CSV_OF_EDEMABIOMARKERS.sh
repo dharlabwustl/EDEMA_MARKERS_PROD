@@ -59,7 +59,7 @@ metadata_filename=${working_dir}/${output_csvfile}
 column_name='URI'
 file_ext='.csv'
 outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
-call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename} )
+call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 filename_to_download=${outputfiles_present#}
@@ -68,9 +68,15 @@ filename_to_download=${outputfiles_present#}
 while IFS=',' read -ra array; do
   echo ${array[0]}
 
+  url=${array[0]}
+  filename=$(basename ${url})
+  dir_to_save=${working_dir}
+  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
+  outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+
 done < <(tail -n +2 "${outputfile_with_latestfilename}")
 ## add columns with the values:
-
 
 #
 #sessions_list=${working_dir}/'sessions.csv'

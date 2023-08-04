@@ -48,34 +48,68 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
 }
 ## Download combined csv file directory metadata
-URI=/data/projects/${project_ID}
-resource_dir='EDEMA_BIOMARKER_TEST'
-#final_output_directory=${working_dir}
-output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
-call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+download_latest_file()
+{
+  local URI=/data/projects/${project_ID}
+  local resource_dir='EDEMA_BIOMARKER_TEST'
+  #final_output_directory=${working_dir}
+  local output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
+  local call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
+  local outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
-metadata_filename=${working_dir}/${output_csvfile}
-column_name='URI'
-file_ext='.csv'
-outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
-call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
-echo outputfiles_present::${outputfiles_present}
-filename_to_download=${outputfiles_present#}
+  local metadata_filename=${working_dir}/${output_csvfile}
+  local column_name='URI'
+  local file_ext='.csv'
+  local outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
+  local call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
+  local outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+  local filename_to_download=${outputfiles_present#}
 
-## downlaod scan level analytics data
-while IFS=',' read -ra array; do
-  echo ${array[0]}
+  ## downlaod scan level analytics data
+  while IFS=',' read -ra array; do
+    echo ${array[0]}
 
-  url=${array[0]}
-  filename=$(basename ${url})
-  dir_to_save=${working_dir}
-  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}::${url}::${filename}::${dir_to_save}
+    local url=${array[0]}
+    local filename=$(basename ${url})
+    local dir_to_save=${working_dir}
+    local call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
+    local outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+    echo outputfiles_present::${outputfiles_present}::${url}::${filename}::${dir_to_save}
 
-done < <(tail -n +2 "${outputfile_with_latestfilename}")
+  done < <(tail -n +2 "${outputfile_with_latestfilename}")
+
+}
+download_latest_file
+#
+#URI=/data/projects/${project_ID}
+#resource_dir='EDEMA_BIOMARKER_TEST'
+##final_output_directory=${working_dir}
+#output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
+#call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+#
+#metadata_filename=${working_dir}/${output_csvfile}
+#column_name='URI'
+#file_ext='.csv'
+#outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
+#call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
+#echo outputfiles_present::${outputfiles_present}
+#filename_to_download=${outputfiles_present#}
+#
+### downlaod scan level analytics data
+#while IFS=',' read -ra array; do
+#  echo ${array[0]}
+#
+#  url=${array[0]}
+#  filename=$(basename ${url})
+#  dir_to_save=${working_dir}
+#  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#  echo outputfiles_present::${outputfiles_present}::${url}::${filename}::${dir_to_save}
+#
+#done < <(tail -n +2 "${outputfile_with_latestfilename}")
 ## add columns with the values:
 
 #

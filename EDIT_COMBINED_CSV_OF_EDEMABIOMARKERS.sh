@@ -123,6 +123,14 @@ output_column_name="UNIQUE_IDENTIFIER"
 
 call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_identifier_column_arguments[@]}")
+
+csvfilename_input=${BIOMARKERS_COMBINED_FILE}
+csvfilename_output=${BIOMARKERS_COMBINED_FILE}
+output_column_name="UNIQUE_IDENTIFIER"
+#columns_list_tocombine=args.stuff[4:]
+
+call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_identifier_column_arguments[@]}")
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

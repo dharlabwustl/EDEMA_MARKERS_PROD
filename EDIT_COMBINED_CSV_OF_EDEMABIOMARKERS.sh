@@ -55,6 +55,9 @@ output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
 call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
+call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
+echo outputfiles_present::${outputfiles_present}
 
 ## downlaod scan level analytics data
 

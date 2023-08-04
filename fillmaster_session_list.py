@@ -96,6 +96,7 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext):
         filetocopy=x_df['URI'][0]
         returnvalue= "FILE_TO_DOWNLOAD::"+filetocopy+"::FILE_TO_DOWNLOAD"
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        print(returnvalue)
         # return returnvalue
     except:
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

@@ -112,7 +112,7 @@ def make_a_column_with_substring_from_othercolumn(csvfilename_input,csvfilename_
     try:
 
         csvfilename_input_df=pd.read_csv(csvfilename_input)
-        csvfilename_input_df[new_column_name]=csvfilename_input_df[column_name_forstring].str.split(splitter).str[splitter_idx]
+        csvfilename_input_df[new_column_name]=csvfilename_input_df[column_name_forstring].str.split(splitter).str[int(splitter_idx)]
         csvfilename_input_df.to_csv(csvfilename_output,index=False)
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         returnvalue=1

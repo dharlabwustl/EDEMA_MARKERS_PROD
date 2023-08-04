@@ -133,7 +133,7 @@ def make_identifier_column(csvfilename_input,csvfilename_output,columns_list_toc
     except:
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return returnvalue
-def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetched,commonidentifier):
+def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,csvtobefilled_output,columntobefetched,commonidentifier):
     returnvalue=0
     try:
 
@@ -141,29 +141,11 @@ def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobef
         csvtofetchdata_df=pd.read_csv(csvtofetchdata)
         for indexx ,rows in csvtobefilled_df.iterrows():
 
-            csvtobefilled_df.loc[csvtobefilled_df[commonidentifier] ==rows[commonidentifier],columntobefetched] =csvtofetchdata_df.loc[csvtofetchdata_df[commonidentifier] ==rows[commonidentifier]]
-            # csvtofetchdata_df.loc[csvtofetchdata_df[commonidentifier]]
-            # csvtobefilled_df['COMMON_IDENTIFIER']=csvtobefilled_df['SESSION_ID'].astype(str) + '_' + csvtobefilled_df['SESSION_LABEL'].astype(str)+ '_' + csvtobefilled_df['SCAN_NUMBER'].astype(str)
-            # csvtobefilled_df['COMMON_IDENTIFIER']=csvtofetchdata_df['SESSION_ID'].astype(str) + '_' + csvtofetchdata_df['SESSION_LABEL'].astype(str)+ '_' + csvtofetchdata_df['SCAN_NUMBER'].astype(str)
-
-        # ## get all the rows with csv in the name:
-        # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
-        # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_prefix)]
-        # allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
-        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]
-        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.split("_").str[-1]
-        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.extract('(\d+)').astype(int)
-        # # allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
-        # allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M%S', errors='coerce')
-        # x_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
-        # x_df=x_df.reset_index(drop=True)
-        # filetocopy=x_df['URI'][0]
-        # filetocopy_df=pd.DataFrame([filetocopy])
-        # filetocopy_df.columns=['FILENAME']
-        # filetocopy_df.to_csv(outputfile_with_latestfilename,index=False)
-        # returnvalue= "FILE_TO_DOWNLOAD_BEGIN::"+filetocopy+"::FILE_TO_DOWNLOAD_END"
+            csvtobefilled_df.loc[csvtobefilled_df[commonidentifier] ==rows[commonidentifier],columntobefetched] = csvtofetchdata_df.loc[csvtofetchdata_df[commonidentifier] ==rows[commonidentifier]][columntobefetched].values[0]
+        csvtobefilled_df.to_csv(csvtobefilled_output,index=False)
+        returnvalue=1
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        print(returnvalue)
+        # print(returnvalue)
         # return returnvalue
     except:
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -206,10 +188,11 @@ def call_fill_onecsv_with_data_from_othercsv(args):
     try:
         csvtobefilled=args.stuff[1]
         csvtofetchdata=args.stuff[2]
-        columntobefetched=args.stuff[3]
-        commonidentifier=args.stuff[4]
+        csvtobefilled_output=args.stuff[3]
+        columntobefetched=args.stuff[4]
+        commonidentifier=args.stuff[5]
         # file_prefix=args.stuff[5]
-        filetocopy=fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetched,commonidentifier)
+        filetocopy=fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,csvtobefilled_output,columntobefetched,commonidentifier)
         returnvalue=filetocopy
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
@@ -1835,6 +1818,8 @@ def main():
         return_value=call_make_a_column_with_substring_from_othercolumn(args) #
     if name_of_the_function=="call_make_identifier_column":
         return_value=call_make_identifier_column(args)
+    if name_of_the_function=="call_fill_onecsv_with_data_from_othercsv":
+        return_value=call_fill_onecsv_with_data_from_othercsv(args)
     return return_value
 if __name__ == '__main__':
     main()

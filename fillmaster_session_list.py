@@ -107,10 +107,41 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputf
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return  returnvalue
 
-def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetch,commonidentifier):
+def make_a_column_with_substring_from_othercolumn(csvfilename_input,csvfilename_output,column_name_forstring,new_column_name,splitter,splitter_idx):
     returnvalue=0
     try:
-        # df1=pd.read_csv(metadata_filename)
+
+        csvfilename_input_df=pd.read_csv(csvfilename_input)
+        csvfilename_input_df[new_column_name]=csvfilename_input_df[column_name_forstring].str.split(splitter).str[splitter_idx]
+        csvfilename_input_df.to_csv(csvfilename_output,index=False)
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        returnvalue=1
+    except:
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    return returnvalue
+def make_identifier_column(csvfilename_input,csvfilename_output,columns_list_tocombine,output_column_name):
+    returnvalue=0
+    try:
+        csvfilename_input_df=pd.read_csv(csvfilename_input)
+        csvfilename_input_df[output_column_name]=csvfilename_input_df[columns_list_tocombine[0]].astype(str)
+        for x in len(columns_list_tocombine):
+            if x>0:
+                csvfilename_input_df[output_column_name]=csvfilename_input_df[output_column_name].astype(str) + csvfilename_input_df[columns_list_tocombine[x]].astype(str)
+        csvfilename_input_df.to_csv(csvfilename_output,index=False)
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        returnvalue=1
+    except:
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    return returnvalue
+def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetched,commonidentifier):
+    returnvalue=0
+    try:
+        csvtobefilled_df=pd.read_csv(csvtobefilled)
+        csvtofetchdata_df=pd.read_csv(csvtofetchdata)
+
+        csvtobefilled_df['COMMON_IDENTIFIER']=csvtobefilled_df['SESSION_ID'].astype(str) + '_' + csvtobefilled_df['SESSION_LABEL'].astype(str)+ '_' + csvtobefilled_df['SCAN_NUMBER'].astype(str)
+        csvtobefilled_df['COMMON_IDENTIFIER']=csvtofetchdata_df['SESSION_ID'].astype(str) + '_' + csvtofetchdata_df['SESSION_LABEL'].astype(str)+ '_' + csvtofetchdata_df['SCAN_NUMBER'].astype(str)
+
         # ## get all the rows with csv in the name:
         # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
         # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_prefix)]
@@ -133,16 +164,47 @@ def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobef
     except:
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return  returnvalue
+def call_make_identifier_column(args):
+    returnvalue=0
+    try:
+        csvfilename_input=args.stuff[1]
+        csvfilename_output=args.stuff[2]
+        columns_list_tocombine=args.stuff[3]
+        output_column_name=args.stuff[4]
+        make_identifier_column(csvfilename_input,csvfilename_output,columns_list_tocombine,output_column_name)
+        returnvalue=1
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
+
+    return returnvalue
+def call_make_a_column_with_substring_from_othercolumn(args):
+    returnvalue=0
+    try:
+        csvfilename_input=args.stuff[1]
+        csvfilename_output=args.stuff[2]
+        column_name_forstring=args.stuff[3]
+        new_column_name=args.stuff[4]
+        splitter=args.stuff[5]
+        splitter_idx=args.stuff[6]
+        filetocopy=make_a_column_with_substring_from_othercolumn(csvfilename_input,csvfilename_output,column_name_forstring,new_column_name,splitter,splitter_idx)
+        returnvalue=filetocopy
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+
+    return returnvalue
 def call_fill_onecsv_with_data_from_othercsv(args):
     returnvalue=0
     try:
         csvtobefilled=args.stuff[1]
         csvtofetchdata=args.stuff[2]
-        columntobefetch=args.stuff[3]
+        columntobefetched=args.stuff[3]
         commonidentifier=args.stuff[4]
         # file_prefix=args.stuff[5]
-        filetocopy=fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetch,commonidentifier)
+        filetocopy=fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetched,commonidentifier)
         returnvalue=filetocopy
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
@@ -1763,7 +1825,9 @@ def main():
         return_value=call_remove_single_column_with_colnmname_substring(args)
 
     if name_of_the_function=="call_get_latest_file_from_metadata":
-        return_value=call_get_latest_file_from_metadata(args)
+        return_value=call_get_latest_file_from_metadata(args) #
+    if name_of_the_function=="call_make_a_column_with_substring_from_othercolumn":
+        return_value=call_make_a_column_with_substring_from_othercolumn(args)
     return return_value
 if __name__ == '__main__':
     main()

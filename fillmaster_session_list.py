@@ -90,6 +90,7 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputf
         allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
         allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]
         allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.split("_").str[-1]
+        allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.extract('(\d+)').astype(int)
         # allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
         allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M%S', errors='coerce')
         x_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)

@@ -92,8 +92,8 @@ column_name='URI'
 file_ext='.csv'
 file_prefix="SCAN_ANALYTICS_NOFILENAME"
 download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext} ${file_prefix}
-BIOMARKERS_COMBINED_FILE=$(ls ${dir_to_save}/*BIOMARKERS_COMBINED*)
-SCAN_ANALYTICS_NOFILENAME_FILE=$(ls ${dir_to_save}/*SCAN_ANALYTICS_NOFILENAME*)
+BIOMARKERS_COMBINED_FILE=$(ls ${working_dir}/*BIOMARKERS_COMBINED*)
+SCAN_ANALYTICS_NOFILENAME_FILE=$(ls ${working_dir}/*SCAN_ANALYTICS_NOFILENAME*)
 
 ## modify the EDEMA_BIOMARKER FILE by adding scan description and slice count.
 

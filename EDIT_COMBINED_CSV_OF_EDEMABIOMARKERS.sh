@@ -149,11 +149,11 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_onecsv_wit
 resource_dirname_at_snipr=EDEMA_BIOMARKER_TEST
 
 #csvfilename=${csvtobefilled_output}
-columnname='series_description'
-new_position=0
-#csvfilename_edited=${csvtobefilled_output}
-call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled_output} ${columnname} ${new_position} ${csvtobefilled_output} )
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+#columnname='series_description'
+#new_position=0
+##csvfilename_edited=${csvtobefilled_output}
+#call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled_output} ${columnname} ${new_position} ${csvtobefilled_output} )
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 
 
 

@@ -80,7 +80,7 @@ def get_latest_csvfile_singlefilename_infarct(df1,extens='columndropped.csv'):
     # print(filetocopy)
     return filetocopy
 
-def get_latest_file_from_metadata(metadata_filename,column_name,file_ext):
+def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename):
     returnvalue=0
     try:
         df1=pd.read_csv(metadata_filename)
@@ -96,7 +96,7 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext):
         filetocopy=x_df['URI'][0]
         filetocopy_df=pd.DataFrame([filetocopy])
         filetocopy_df.columns=['FILENAME']
-        filetocopy_df.to_csv(os.path.join(os.path.dirname(metadata_filename),os.path.basename(metadata_filename).split('.csv')[0]+"_latest_"+file_ext.split('.')[1]+'.csv'),index=False)
+        filetocopy_df.to_csv(outputfile_with_latestfilename,index=False)
         returnvalue= "FILE_TO_DOWNLOAD_BEGIN::"+filetocopy+"::FILE_TO_DOWNLOAD_END"
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         print(returnvalue)
@@ -110,7 +110,8 @@ def call_get_latest_file_from_metadata(args):
         metadata_filename=args.stuff[1]
         column_name=args.stuff[2]
         file_ext=args.stuff[3]
-        filetocopy=get_latest_file_from_metadata(metadata_filename,column_name,file_ext)
+        outputfile_with_latestfilename=args.stuff[4]
+        filetocopy=get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename)
         returnvalue=filetocopy
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

@@ -126,7 +126,7 @@ def make_identifier_column(csvfilename_input,csvfilename_output,columns_list_toc
         csvfilename_input_df[output_column_name]=csvfilename_input_df[columns_list_tocombine[0]].astype(str)
         for x in range(len(columns_list_tocombine)):
             if x>0:
-                csvfilename_input_df[output_column_name]=csvfilename_input_df[output_column_name].astype(str) + csvfilename_input_df[columns_list_tocombine[x]].astype(str)
+                csvfilename_input_df[output_column_name]=csvfilename_input_df[output_column_name].astype(str) + "_"+ csvfilename_input_df[columns_list_tocombine[x]].astype(str)
         csvfilename_input_df.to_csv(csvfilename_output,index=False)
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         returnvalue=1

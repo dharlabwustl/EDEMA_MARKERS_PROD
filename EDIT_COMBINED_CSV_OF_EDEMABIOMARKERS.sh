@@ -72,8 +72,8 @@ while IFS=',' read -ra array; do
   filename=$(basename ${url})
   dir_to_save=${working_dir}
   call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
-  outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}::${url}::${filename}::${dir_to_save}
 
 done < <(tail -n +2 "${outputfile_with_latestfilename}")
 ## add columns with the values:

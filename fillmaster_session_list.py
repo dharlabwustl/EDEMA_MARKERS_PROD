@@ -124,7 +124,7 @@ def make_identifier_column(csvfilename_input,csvfilename_output,columns_list_toc
     try:
         csvfilename_input_df=pd.read_csv(csvfilename_input)
         csvfilename_input_df[output_column_name]=csvfilename_input_df[columns_list_tocombine[0]].astype(str)
-        for x in len(columns_list_tocombine):
+        for x in range(len(columns_list_tocombine)):
             if x>0:
                 csvfilename_input_df[output_column_name]=csvfilename_input_df[output_column_name].astype(str) + csvfilename_input_df[columns_list_tocombine[x]].astype(str)
         csvfilename_input_df.to_csv(csvfilename_output,index=False)

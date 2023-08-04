@@ -99,8 +99,8 @@ def call_get_latest_file_from_metadata(args):
         metadata_filename=args.stuff[1]
         column_name=args.stuff[2]
         file_ext=args.stuff[3]
-        get_latest_file_from_metadata(metadata_filename,column_name,file_ext)
-        returnvalue=1
+        filetocopy=get_latest_file_from_metadata(metadata_filename,column_name,file_ext)
+        returnvalue=filetocopy
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

@@ -59,8 +59,9 @@ download_latest_file() {
   local metadata_filename=${working_dir}/${output_csvfile}
   local column_name=${3} #'URI'
   local file_ext=${4}    #'.csv'
+  local file_prefix=${5}
   local outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
-  local call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename})
+  local call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename} ${file_prefix})
   local outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
   local filename_to_download=${outputfiles_present#}
@@ -79,6 +80,12 @@ download_latest_file() {
   done < <(tail -n +2 "${outputfile_with_latestfilename}")
 
 }
+URI=/data/projects/${project_ID}
+resource_dir='EDEMA_BIOMARKER_TEST'
+column_name='URI'
+file_ext='.csv'
+file_prefix="SCAN_ANALYTICS_NOFILENAME"
+download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext} ${file_prefix}
 URI=/data/projects/${project_ID}
 resource_dir='EDEMA_BIOMARKER_TEST'
 column_name='URI'

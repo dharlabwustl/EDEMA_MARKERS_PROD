@@ -150,20 +150,20 @@ resource_dirname_at_snipr=EDEMA_BIOMARKER_TEST
 
 csvfilename=${csvtobefilled_output}
 columnname='series_description'
-new_position=0
+new_position=1
 csvfilename_edited=${csvtobefilled_output}
 call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 
 csvfilename=${csvtobefilled_output}
 columnname='SLICE_COUNT'
-new_position=0
+new_position=1
 csvfilename_edited=${csvtobefilled_output}
 call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
 
 csvfilename=${csvtobefilled_output}
 columnname='UNIQUE_IDENTIFIER'
-new_position=0
+new_position=1
 csvfilename_edited=${csvtobefilled_output}
 call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")

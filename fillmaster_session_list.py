@@ -106,6 +106,50 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputf
     except:
         subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return  returnvalue
+
+def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetch,commonidentifier):
+    returnvalue=0
+    try:
+        # df1=pd.read_csv(metadata_filename)
+        # ## get all the rows with csv in the name:
+        # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
+        # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_prefix)]
+        # allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
+        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]
+        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.split("_").str[-1]
+        # allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.extract('(\d+)').astype(int)
+        # # allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+        # allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M%S', errors='coerce')
+        # x_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+        # x_df=x_df.reset_index(drop=True)
+        # filetocopy=x_df['URI'][0]
+        # filetocopy_df=pd.DataFrame([filetocopy])
+        # filetocopy_df.columns=['FILENAME']
+        # filetocopy_df.to_csv(outputfile_with_latestfilename,index=False)
+        # returnvalue= "FILE_TO_DOWNLOAD_BEGIN::"+filetocopy+"::FILE_TO_DOWNLOAD_END"
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        print(returnvalue)
+        # return returnvalue
+    except:
+        subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    return  returnvalue
+
+def call_fill_onecsv_with_data_from_othercsv(args):
+    returnvalue=0
+    try:
+        csvtobefilled=args.stuff[1]
+        csvtofetchdata=args.stuff[2]
+        columntobefetch=args.stuff[3]
+        commonidentifier=args.stuff[4]
+        # file_prefix=args.stuff[5]
+        filetocopy=fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetch,commonidentifier)
+        returnvalue=filetocopy
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+
+    return returnvalue
 def call_get_latest_file_from_metadata(args):
     returnvalue=0
     try:

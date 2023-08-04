@@ -92,6 +92,8 @@ column_name='URI'
 file_ext='.csv'
 file_prefix="SCAN_ANALYTICS_NOFILENAME"
 download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext} ${file_prefix}
+
+## modify the EDEMA_BIOMARKER FILE by adding scan description and slice count.
 #
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'

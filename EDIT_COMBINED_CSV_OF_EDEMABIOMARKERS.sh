@@ -92,9 +92,19 @@ column_name='URI'
 file_ext='.csv'
 file_prefix="SCAN_ANALYTICS_NOFILENAME"
 download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext} ${file_prefix}
+BIOMARKERS_COMBINED_FILE=$(ls ${dir_to_save}/*BIOMARKERS_COMBINED*)
+SCAN_ANALYTICS_NOFILENAME_FILE=$(ls ${dir_to_save}/*SCAN_ANALYTICS_NOFILENAME*)
 
 ## modify the EDEMA_BIOMARKER FILE by adding scan description and slice count.
-#
+
+csvfilename_input=${BIOMARKERS_COMBINED_FILE}
+csvfilename_output=${BIOMARKERS_COMBINED_FILE}
+column_name_forstring='FileName_NIFTI'
+new_column_name='SCAN_NUMBER'
+splitter='_'
+splitter_idx='-1'
+call_make_a_column_with_substring_from_othercolumn_arguments=('call_make_a_column_with_substring_from_othercolumn' ${csvfilename_input} ${csvfilename_output} ${column_name_forstring} ${new_column_name} ${splitter} ${splitter_idx})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_a_column_with_substring_from_othercolumn_arguments[@]}")
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

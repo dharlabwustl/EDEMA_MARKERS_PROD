@@ -167,7 +167,7 @@ new_position=1
 csvfilename_edited=${csvtobefilled_output}
 call_move_one_column_arguments=('call_move_one_column'  ${csvfilename} ${columnname} ${new_position} ${csvfilename_edited} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
-copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  ${csvtobefilled_output}
+#copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  ${csvtobefilled_output}
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

@@ -139,6 +139,15 @@ columntobefetched='series_description'
 commonidentifier="UNIQUE_IDENTIFIER"
 call_fill_onecsv_with_data_from_othercsv_arguments=('call_fill_onecsv_with_data_from_othercsv' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_onecsv_with_data_from_othercsv_arguments[@]}")
+csvtobefilled=${csvtobefilled_output}
+csvtofetchdata=${SCAN_ANALYTICS_NOFILENAME_FILE}
+csvtobefilled_output=${csvtobefilled_output}
+columntobefetched='DICOM_FILE_COUNT'
+commonidentifier="UNIQUE_IDENTIFIER"
+call_fill_onecsv_with_data_from_othercsv_arguments=('call_fill_onecsv_with_data_from_othercsv' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_onecsv_with_data_from_othercsv_arguments[@]}")
+resource_dirname_at_snipr=EDEMA_BIOMARKER_TEST
+copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  ${csvtobefilled_output}
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

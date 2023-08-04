@@ -84,12 +84,13 @@ URI=/data/projects/${project_ID}
 resource_dir='EDEMA_BIOMARKER_TEST'
 column_name='URI'
 file_ext='.csv'
-file_prefix="SCAN_ANALYTICS_NOFILENAME"
+file_prefix=${project_ID}
 download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext} ${file_prefix}
 URI=/data/projects/${project_ID}
-resource_dir='EDEMA_BIOMARKER_TEST'
+resource_dir='SNIPR_ANALYTICS_TEST'
 column_name='URI'
 file_ext='.csv'
+file_prefix="SCAN_ANALYTICS_NOFILENAME"
 download_latest_file ${URI} ${resource_dir} ${column_name} ${file_ext}
 #
 #URI=/data/projects/${project_ID}

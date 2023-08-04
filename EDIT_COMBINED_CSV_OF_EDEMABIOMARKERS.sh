@@ -58,7 +58,8 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefi
 metadata_filename=${working_dir}/${output_csvfile}
 column_name='URI'
 file_ext='.csv'
-call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} )
+outputfile_with_latestfilename=${working_dir}/${output_csvfile%.csv*}_latest_csvfile.csv
+call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} ${outputfile_with_latestfilename} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 filename_to_download=${outputfiles_present#}

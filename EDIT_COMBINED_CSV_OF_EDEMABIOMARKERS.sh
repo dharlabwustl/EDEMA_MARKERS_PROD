@@ -150,22 +150,22 @@ resource_dirname_at_snipr=EDEMA_BIOMARKER_TEST
 
 csvfilename=${csvtobefilled_output}
 columnname='series_description'
-new_position=1
+new_position=0
 csvfilename_edited=${csvtobefilled_output}
-call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+call_move_one_column_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position} ${csvfilename_edited} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 
 csvfilename=${csvtobefilled_output}
 columnname='SLICE_COUNT'
 new_position=1
 csvfilename_edited=${csvtobefilled_output}
-call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+call_move_one_column_arguments=('call_move_one_column'  ${csvfilename} ${columnname} ${new_position} ${csvfilename_edited} )
 
 csvfilename=${csvtobefilled_output}
 columnname='UNIQUE_IDENTIFIER'
 new_position=1
 csvfilename_edited=${csvtobefilled_output}
-call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+call_move_one_column_arguments=('call_move_one_column'  ${csvfilename} ${columnname} ${new_position} ${csvfilename_edited} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  ${csvtobefilled_output}
 #URI=/data/projects/${project_ID}

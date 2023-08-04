@@ -136,11 +136,15 @@ def make_identifier_column(csvfilename_input,csvfilename_output,columns_list_toc
 def fill_onecsv_with_data_from_othercsv(csvtobefilled,csvtofetchdata,columntobefetched,commonidentifier):
     returnvalue=0
     try:
+
         csvtobefilled_df=pd.read_csv(csvtobefilled)
         csvtofetchdata_df=pd.read_csv(csvtofetchdata)
+        for indexx ,rows in csvtobefilled_df.iterrows():
 
-        csvtobefilled_df['COMMON_IDENTIFIER']=csvtobefilled_df['SESSION_ID'].astype(str) + '_' + csvtobefilled_df['SESSION_LABEL'].astype(str)+ '_' + csvtobefilled_df['SCAN_NUMBER'].astype(str)
-        csvtobefilled_df['COMMON_IDENTIFIER']=csvtofetchdata_df['SESSION_ID'].astype(str) + '_' + csvtofetchdata_df['SESSION_LABEL'].astype(str)+ '_' + csvtofetchdata_df['SCAN_NUMBER'].astype(str)
+            csvtobefilled_df.loc[csvtobefilled_df[commonidentifier] ==rows[commonidentifier],columntobefetched] =csvtofetchdata_df.loc[csvtofetchdata_df[commonidentifier] ==rows[commonidentifier]]
+            # csvtofetchdata_df.loc[csvtofetchdata_df[commonidentifier]]
+            # csvtobefilled_df['COMMON_IDENTIFIER']=csvtobefilled_df['SESSION_ID'].astype(str) + '_' + csvtobefilled_df['SESSION_LABEL'].astype(str)+ '_' + csvtobefilled_df['SCAN_NUMBER'].astype(str)
+            # csvtobefilled_df['COMMON_IDENTIFIER']=csvtofetchdata_df['SESSION_ID'].astype(str) + '_' + csvtofetchdata_df['SESSION_LABEL'].astype(str)+ '_' + csvtofetchdata_df['SCAN_NUMBER'].astype(str)
 
         # ## get all the rows with csv in the name:
         # allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]

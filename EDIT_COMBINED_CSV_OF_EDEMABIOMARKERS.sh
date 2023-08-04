@@ -61,6 +61,7 @@ file_ext='.csv'
 call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
+filename_to_download=${outputfiles_present#}
 
 ## downlaod scan level analytics data
 

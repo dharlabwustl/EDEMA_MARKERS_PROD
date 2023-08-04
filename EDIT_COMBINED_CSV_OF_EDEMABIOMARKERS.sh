@@ -65,7 +65,10 @@ echo outputfiles_present::${outputfiles_present}
 filename_to_download=${outputfiles_present#}
 
 ## downlaod scan level analytics data
+while IFS=',' read -ra array; do
+  echo ${array[0]}
 
+done < <(tail -n +2 "${outputfile_with_latestfilename}")
 ## add columns with the values:
 
 

@@ -80,12 +80,12 @@ def get_latest_csvfile_singlefilename_infarct(df1,extens='columndropped.csv'):
     # print(filetocopy)
     return filetocopy
 
-def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename):
+def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename,file_prefix):
     returnvalue=0
     try:
         df1=pd.read_csv(metadata_filename)
         ## get all the rows with csv in the name:
-        allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
+        allfileswithprefix1_df = df1[df1[column_name].str.contains(file_prefix)]
         allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
         allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]
         allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['DATETIME'].str.split("_").str[-1]
@@ -111,7 +111,8 @@ def call_get_latest_file_from_metadata(args):
         column_name=args.stuff[2]
         file_ext=args.stuff[3]
         outputfile_with_latestfilename=args.stuff[4]
-        filetocopy=get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename)
+        file_prefix=args.stuff[5]
+        filetocopy=get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename,file_prefix)
         returnvalue=filetocopy
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

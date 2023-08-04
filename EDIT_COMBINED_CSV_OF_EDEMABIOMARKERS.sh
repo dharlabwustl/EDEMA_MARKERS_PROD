@@ -50,12 +50,15 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 ## Download combined csv file directory metadata
 URI=/data/projects/${project_ID}
 resource_dir='EDEMA_BIOMARKER_TEST'
-final_output_directory=${working_dir}
+#final_output_directory=${working_dir}
 output_csvfile=${project_ID}_${resource_dir}"_metadata.csv"
-call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
-call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+metadata_filename=${working_dir}/${output_csvfile}
+column_name='URI'
+file_ext='.csv'
+call_get_latest_file_from_metadata_arguments=('call_get_latest_file_from_metadata' ${metadata_filename} ${column_name} ${file_ext} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_get_latest_file_from_metadata_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 

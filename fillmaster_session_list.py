@@ -85,6 +85,7 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputf
     try:
         df1=pd.read_csv(metadata_filename)
         ## get all the rows with csv in the name:
+        allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
         allfileswithprefix1_df = df1[df1[column_name].str.contains(file_prefix)]
         allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
         allfileswithprefix1_df['DATETIME']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]

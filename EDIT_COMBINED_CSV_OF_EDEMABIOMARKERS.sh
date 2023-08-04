@@ -115,13 +115,12 @@ splitter_idx='-1'
 call_make_a_column_with_substring_from_othercolumn_arguments=('call_make_a_column_with_substring_from_othercolumn' ${csvfilename_input} ${csvfilename_output} ${column_name_forstring} ${new_column_name} ${splitter} ${splitter_idx})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_a_column_with_substring_from_othercolumn_arguments[@]}")
 
-
 csvfilename_input=${SCAN_ANALYTICS_NOFILENAME_FILE}
 csvfilename_output=${SCAN_ANALYTICS_NOFILENAME_FILE}
 output_column_name="UNIQUE_IDENTIFIER"
 #columns_list_tocombine=args.stuff[4:]
 
-call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER )
+call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_identifier_column_arguments[@]}")
 
 csvfilename_input=${BIOMARKERS_COMBINED_FILE}
@@ -129,8 +128,17 @@ csvfilename_output=${BIOMARKERS_COMBINED_FILE}
 output_column_name="UNIQUE_IDENTIFIER"
 #columns_list_tocombine=args.stuff[4:]
 
-call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER )
+call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_identifier_column_arguments[@]}")
+
+csvtobefilled=${BIOMARKERS_COMBINED_FILE}
+csvtofetchdata=${SCAN_ANALYTICS_NOFILENAME_FILE}
+time_now=$(date -dnow +%Y%m%d%H%M%S)
+csvtobefilled_output=${BIOMARKERS_COMBINED_FILE%.csv*}_modified_${time_now}.csv
+columntobefetched='series_description'
+commonidentifier="UNIQUE_IDENTIFIER"
+call_fill_onecsv_with_data_from_othercsv_arguments=('call_fill_onecsv_with_data_from_othercsv' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_onecsv_with_data_from_othercsv_arguments[@]}")
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

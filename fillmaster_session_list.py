@@ -94,6 +94,9 @@ def get_latest_file_from_metadata(metadata_filename,column_name,file_ext):
         x_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
         x_df=x_df.reset_index(drop=True)
         filetocopy=x_df['URI'][0]
+        filetocopy_df=pd.DataFrame([filetocopy])
+        filetocopy_df.columns=['FILENAME']
+        filetocopy_df.to_csv(os.path.join(os.path.dirname(metadata_filename),os.path.basename(metadata_filename).split('.csv')[0]+"_latest_"+file_ext.split('.')[1]+'.csv'),index=False)
         returnvalue= "FILE_TO_DOWNLOAD_BEGIN::"+filetocopy+"::FILE_TO_DOWNLOAD_END"
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         print(returnvalue)

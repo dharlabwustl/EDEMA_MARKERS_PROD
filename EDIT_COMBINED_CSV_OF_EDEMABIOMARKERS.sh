@@ -114,6 +114,15 @@ splitter='/'
 splitter_idx='-1'
 call_make_a_column_with_substring_from_othercolumn_arguments=('call_make_a_column_with_substring_from_othercolumn' ${csvfilename_input} ${csvfilename_output} ${column_name_forstring} ${new_column_name} ${splitter} ${splitter_idx})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_a_column_with_substring_from_othercolumn_arguments[@]}")
+
+
+csvfilename_input=${SCAN_ANALYTICS_NOFILENAME_FILE}
+csvfilename_output=${SCAN_ANALYTICS_NOFILENAME_FILE}
+output_column_name="UNIQUE_IDENTIFIER"
+#columns_list_tocombine=args.stuff[4:]
+
+call_make_identifier_column_arguments=('call_make_identifier_column' ${csvfilename_input} ${csvfilename_output} ${output_column_name} SESSION_ID SESSION_LABEL SCAN_NUMBER )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_make_identifier_column_arguments[@]}")
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'
 ##final_output_directory=${working_dir}

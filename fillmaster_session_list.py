@@ -169,8 +169,9 @@ def call_make_identifier_column(args):
     try:
         csvfilename_input=args.stuff[1]
         csvfilename_output=args.stuff[2]
-        columns_list_tocombine=args.stuff[3]
-        output_column_name=args.stuff[4]
+        output_column_name=args.stuff[3]
+        columns_list_tocombine=args.stuff[4:]
+
         make_identifier_column(csvfilename_input,csvfilename_output,columns_list_tocombine,output_column_name)
         returnvalue=1
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -1827,7 +1828,9 @@ def main():
     if name_of_the_function=="call_get_latest_file_from_metadata":
         return_value=call_get_latest_file_from_metadata(args) #
     if name_of_the_function=="call_make_a_column_with_substring_from_othercolumn":
-        return_value=call_make_a_column_with_substring_from_othercolumn(args)
+        return_value=call_make_a_column_with_substring_from_othercolumn(args) #
+    if name_of_the_function=="call_make_identifier_column":
+        return_value=call_make_identifier_column(args)
     return return_value
 if __name__ == '__main__':
     main()

@@ -147,6 +147,26 @@ commonidentifier="UNIQUE_IDENTIFIER"
 call_fill_onecsv_with_data_from_othercsv_arguments=('call_fill_onecsv_with_data_from_othercsv' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_onecsv_with_data_from_othercsv_arguments[@]}")
 resource_dirname_at_snipr=EDEMA_BIOMARKER_TEST
+
+csvfilename=${csvtobefilled_output}
+columnname='series_description'
+new_position=0
+csvfilename_edited=${csvtobefilled_output}
+call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+csvfilename=${csvtobefilled_output}
+columnname='SLICE_COUNT'
+new_position=0
+csvfilename_edited=${csvtobefilled_output}
+call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+
+csvfilename=${csvtobefilled_output}
+columnname='UNIQUE_IDENTIFIER'
+new_position=0
+csvfilename_edited=${csvtobefilled_output}
+call_move_one_column_arguments=('call_move_one_column' ${csvtobefilled} ${csvtofetchdata} ${csvtobefilled_output} ${columntobefetched} ${commonidentifier})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
 copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  ${csvtobefilled_output}
 #URI=/data/projects/${project_ID}
 #resource_dir='EDEMA_BIOMARKER_TEST'

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+import inspect
 
 # In[1]:
 
@@ -78,6 +79,35 @@ def get_latest_csvfile_singlefilename_infarct(df1,extens='columndropped.csv'):
     filetocopy=x_df['URI'][0]
     # print(filetocopy)
     return filetocopy
+
+def get_latest_file_from_metadata(metadata_filename,column_name,file_ext):
+    df1=pd.read_csv(metadata_filename)
+    ## get all the rows with csv in the name:
+    allfileswithprefix1_df = df1[df1[column_name].str.contains(file_ext)]
+    allfileswithprefix1_df['FILENAME']=allfileswithprefix1_df[column_name].apply(lambda x: os.path.basename(x))
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILENAME'].str.split(".csv").str[0]
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILENAME'].str.split("_").str[-1]
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M%S', errors='coerce')
+    x_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+    x_df=x_df.reset_index(drop=True)
+    filetocopy=x_df['URI'][0]
+    return "FILE_TO_DOWNLOAD::"+filetocopy+"::FILE_TO_DOWNLOAD"
+def call_get_latest_file_from_metadata(args):
+    returnvalue=0
+    try:
+        metadata_filename=args.stuff[1]
+        column_name=args.stuff[2]
+        file_ext=args.stuff[3]
+        get_latest_file_from_metadata(metadata_filename,column_name,file_ext)
+        returnvalue=1
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "failed at::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+
+    return returnvalue
+
 def create_sessionid(csvfilename):
     df1 = pd.read_csv(csvfilename)
     if not('SESSIONID' in df1.columns):
@@ -1672,6 +1702,10 @@ def main():
         return_value=call_move_one_column(args) #
     if name_of_the_function=="call_remove_single_column_with_colnmname_substring":
         return_value=call_remove_single_column_with_colnmname_substring(args)
+
+    if name_of_the_function=="call_get_latest_file_from_metadata":
+        return_value=call_get_latest_file_from_metadata(args)
+    return return_value
 if __name__ == '__main__':
     main()
 

@@ -747,14 +747,19 @@ split_masks_into_two_halves  "_resaved_levelset_bet.nii.gz"
 #def call_ratio_left_right(args):
 #    returnvalue=0
 #    try:
-
-lefthalf_file=$(ls ${working_dir}/*_resaved_csf_unet_left_half_originalRF.nii.gz)
-righthalf_file=$(ls ${working_dir}/*_resaved_csf_unet_right_half_originalRF.nii.gz)
-column_name="CSF_RATIO"
+calculate_left_right_ratio()
+{
+maskfile_extension=${maskfile_extension}
+maskfile_extension_no_nii=${${1}%.nii*}
+lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
+column_name=${2}
 filename_to_write=${output_directory}/${column_name}.csv
 call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
+}
+calculate_left_right_ratio "_resaved_csf_unet.nii.gz" CSF_RATIO
 
 #for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
 #  #      cp ${filetocopy} ${final_output_directory}/

@@ -40,12 +40,13 @@ now=time.localtime()
 
 def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
-    lefthalf_np[lefthalf_np>0]=1
-    lefthalf_np[lefthalf_np<1]=0
-    righthalf_np[righthalf_np>0]=1
-    righthalf_np[righthalf_np<1]=0
+
 
     try:
+        lefthalf_np[lefthalf_np>0]=1
+        lefthalf_np[lefthalf_np<1]=0
+        righthalf_np[righthalf_np>0]=1
+        righthalf_np[righthalf_np<1]=0
         left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
         if np.sum(lefthalf_np) > np.sum(righthalf_np) :
             left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
@@ -58,13 +59,13 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
-    print(returnvalue)
+    print('left_right_ratio'+str(returnvalue))
     return  returnvalue
 def call_ratio_left_right(args):
     returnvalue=0
     try:
-        lefthalf_np=nib.load(args.stuff[1])
-        righthalf_np=nib.load(args.stuff[2])
+        lefthalf_np=nib.load(args.stuff[1]).get_fdata()
+        righthalf_np=nib.load(args.stuff[2]).get_fdata()
         column_name=args.stuff[3]
         filename_to_write=args.stuff[4]
         returnvalue=ratio_left_right(lefthalf_np,righthalf_np,column_name=column_name,filename_to_write=filename_to_write)

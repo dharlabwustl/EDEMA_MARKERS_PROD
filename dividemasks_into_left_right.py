@@ -37,6 +37,44 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+
+def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_write="test.csv"):
+    returnvalue="NONE"
+    lefthalf_np[lefthalf_np>0]=1
+    lefthalf_np[lefthalf_np<1]=0
+    righthalf_np[righthalf_np>0]=1
+    righthalf_np[righthalf_np<1]=0
+
+    try:
+        left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+        if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+            left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+        returnvalue=left_right_ratio
+        left_right_ratio_df=pd.DataFrame([left_right_ratio])
+        left_right_ratio_df.columns=[column_name]
+        left_right_ratio_df.to_csv(filename_to_write,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],ratio_left_right)
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return  returnvalue
+def call_ratio_left_right(args):
+    returnvalue=0
+    try:
+        lefthalf_np=nib.load(args.stuff[1])
+        righthalf_np=nib.load(args.stuff[2])
+        column_name=args.stuff[3]
+        filename_to_write=args.stuff[4]
+        returnvalue=ratio_left_right(lefthalf_np,righthalf_np,column_name=column_name,filename_to_write=filename_to_write)
+        returnvalue=1
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],call_ratio_left_right)
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return  returnvalue
+
 def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :
     returnvalue=0
     try:
@@ -85,7 +123,7 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
         # levelset2originalRF_new_flip_with_params(original_file,levelset_file,OUTPUT_DIRECTORY)
 
         returnvalue=1
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],maskfilename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
@@ -1222,6 +1260,9 @@ def main():
     return_value=0
     if name_of_the_function == "call_divide_a_mask_into_left_right_submasks":
         return_value=call_divide_a_mask_into_left_right_submasks(args)
+    if name_of_the_function == "call_ratio_left_right":
+        return_value=call_ratio_left_right(args)
+
 
     return return_value
 if __name__ == '__main__':

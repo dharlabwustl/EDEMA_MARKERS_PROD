@@ -750,7 +750,7 @@ split_masks_into_two_halves  "_resaved_levelset_bet.nii.gz"
 calculate_left_right_ratio()
 {
 maskfile_extension=${maskfile_extension}
-maskfile_extension_no_nii=${${1}%.nii*}
+maskfile_extension_no_nii=${maskfile_extension%.nii*}
 lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
 righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
 column_name=${2}

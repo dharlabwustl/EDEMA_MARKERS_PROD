@@ -58,6 +58,7 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
+    print(returnvalue)
     return  returnvalue
 def call_ratio_left_right(args):
     returnvalue=0
@@ -68,11 +69,13 @@ def call_ratio_left_right(args):
         filename_to_write=args.stuff[4]
         returnvalue=ratio_left_right(lefthalf_np,righthalf_np,column_name=column_name,filename_to_write=filename_to_write)
         returnvalue=1
+
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],call_ratio_left_right)
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
+    print(returnvalue)
     return  returnvalue
 
 def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :

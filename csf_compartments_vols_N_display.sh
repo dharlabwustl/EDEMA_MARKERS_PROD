@@ -748,7 +748,7 @@ split_masks_into_two_halves  "_resaved_levelset_bet.nii.gz"
 #    returnvalue=0
 #    try:
 
-lefthalf_file=$(ls ${working_dir}/*_resaved_csf_unet_right_half_originalRF.nii.gz)
+lefthalf_file=$(ls ${working_dir}/*_resaved_csf_unet_left_half_originalRF.nii.gz)
 righthalf_file=$(ls ${working_dir}/*_resaved_csf_unet_right_half_originalRF.nii.gz)
 column_name="CSF_RATIO"
 filename_to_write=${output_directory}/${column_name}.csv

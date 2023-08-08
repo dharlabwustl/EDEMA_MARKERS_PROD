@@ -759,7 +759,10 @@ call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righ
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 }
-calculate_left_right_ratio "_resaved_csf_unet.nii.gz" CSF_RATIO
+calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
+calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
 
 #for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
 #  #      cp ${filetocopy} ${final_output_directory}/

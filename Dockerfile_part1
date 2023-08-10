@@ -26,5 +26,6 @@ RUN pip3 install \
   scipy  \ 
   pypng  \
   PyGithub \
-  SimpleITK
+  SimpleITK \
+  webcolors
 

@@ -37,6 +37,8 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+def color_to_BGRvalues():
+
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
     returnvalue=0
     try:
@@ -48,7 +50,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
                 slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
                 slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
-                # mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
+                mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
                 # slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=
 
 

@@ -760,11 +760,11 @@ calculate_left_right_ratio() {
 }
 
 calculate_volume() {
-  local maskfile_extension=${1}
-  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
-  local column_name=${3}
+#  local maskfile_extension=${1}
+#  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+  local column_name=${2}
   local filename_to_write=${output_directory}/${column_name}.csv
-  local mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
+  local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
   local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
@@ -779,17 +779,15 @@ mask_subtraction() {
   local mask_tobe_subtracted_basename=$(basename ${mask_tobe_subtracted})
   local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
   local output_mask_file=${output_mask_dir}/${mask_donor_basename}_${mask_tobe_subtracted_basename}.nii.gz
-  #maskfile_extension=${1}
-  #maskfile_extension_no_nii=${maskfile_extension%.nii*}
-  #lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-  #righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
-  #column_name=${2}
-  #filename_to_write=${output_directory}/${column_name}.csv
   call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file})
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
-mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
+#mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
+
+call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset.nii.gz)
+outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+echo outputfiles_present::${outputfiles_present}
 ################################################################################################################################
 #calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
 #calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"

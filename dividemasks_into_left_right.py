@@ -37,6 +37,26 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+def masks_on_grayscale_colored():
+    returnvalue=0
+    try:
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+def call_masks_on_grayscale_colored(args):
+    returnvalue=0
+    try:
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
 
 def masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file):
     returnvalue=0
@@ -1351,7 +1371,8 @@ def main():
         return_value=call_calculate_volume(args)
     if name_of_the_function == "call_masks_subtraction":
         return_value=call_masks_subtraction(args)
-
+    if name_of_the_function == "call_masks_on_grayscale_colored":
+        return_value=call_masks_on_grayscale_colored(args)
 
     return return_value
 if __name__ == '__main__':

@@ -789,7 +789,7 @@ mask_subtraction() {
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
-mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet.nii.gz ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet.nii.gz ${working_dir}
+mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 ################################################################################################################################
 #calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
 #calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"

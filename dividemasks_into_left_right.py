@@ -50,7 +50,7 @@ def masks_subtraction():
     print(returnvalue)
     return  returnvalue
 
-def call_masks_subtraction():
+def call_masks_subtraction(args):
     returnvalue=0
     try:
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_subtraction')

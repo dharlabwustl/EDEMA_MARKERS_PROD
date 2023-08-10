@@ -37,6 +37,30 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+
+def masks_subtraction():
+    returnvalue=0
+    try:
+
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_subtraction')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
+def call_masks_subtraction():
+    returnvalue=0
+    try:
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_subtraction')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
 def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
 
@@ -1313,6 +1337,8 @@ def main():
         return_value=call_ratio_left_right(args)
     if name_of_the_function == "call_calculate_volume":
         return_value=call_calculate_volume(args)
+    if name_of_the_function == "call_masks_subtraction":
+        return_value=call_masks_subtraction(args)
 
 
     return return_value

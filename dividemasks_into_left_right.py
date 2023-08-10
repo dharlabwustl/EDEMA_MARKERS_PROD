@@ -37,7 +37,7 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
+def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,outputfile_dir,outputfile_suffix):
     returnvalue=0
     try:
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
@@ -59,6 +59,13 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
 def call_masks_on_grayscale_colored(args):
     returnvalue=0
     try:
+        grayscale_filename=args.stuff[1]
+        contrast_limits=(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+        # mask_color_list=args.stuff[4]
+        outputfile_dir=args.stuff[3]
+        outputfile_suffix=args.stuff[4]
+        mask_filename_list=args.stuff[5]
+        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,outputfile_dir,outputfile_suffix)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:
@@ -1382,6 +1389,8 @@ def main():
         return_value=call_masks_subtraction(args)
     if name_of_the_function == "call_masks_on_grayscale_colored":
         return_value=call_masks_on_grayscale_colored(args)
+
+
 
     return return_value
 if __name__ == '__main__':

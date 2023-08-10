@@ -807,7 +807,7 @@ echo outputfiles_present::${outputfiles_present}
 while IFS=',' read -ra array; do
       latexfilename=${array[0]}
       echo ${latexfilename}
-done
+done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ################################################################################################################################
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"

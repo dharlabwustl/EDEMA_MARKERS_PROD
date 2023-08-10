@@ -37,7 +37,7 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-def color_to_BGRvalues():
+# def color_to_BGRvalues():
 
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
     returnvalue=0

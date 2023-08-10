@@ -749,43 +749,60 @@ split_masks_into_two_halves  "_resaved_levelset_bet.nii.gz"
 #    try:
 calculate_left_right_ratio()
 {
-maskfile_extension=${1}
-maskfile_extension_no_nii=${maskfile_extension%.nii*}
-lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
-column_name=${2}
-filename_to_write=${output_directory}/${column_name}.csv
-call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
-outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
+local maskfile_extension=${1}
+local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+local righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
+local column_name=${2}
+local filename_to_write=${output_directory}/${column_name}.csv
+local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
+local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 }
 
 calculate_volume()
 {
-maskfile_extension=${1}
-maskfile_extension_no_nii=${maskfile_extension%.nii*}
-column_name=${3}
-filename_to_write=${output_directory}/${column_name}.csv
-mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
-call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write} )
-outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
+local maskfile_extension=${1}
+local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+local column_name=${3}
+local filename_to_write=${output_directory}/${column_name}.csv
+local mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
+local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write} )
+local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 }
 
-#maskfile_extension="_resaved_csf_unet.nii.gz"
+mask_subtraction()
+{
+  local mask_donor=${1}
+  local mask_tobe_subtracted=${2}
+  local output_mask_dir=${3}
+  local mask_donor_basename=$(basename ${mask_donor})
+  local mask_donor_basename=${mask_donor_basename%.nii*}
+  local mask_tobe_subtracted_basename=$(basename ${mask_tobe_subtracted})
+  local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
+  local output_mask_file=${output_mask_dir}/${mask_donor_basename}_${mask_tobe_subtracted_basename}.nii.gz
+#maskfile_extension=${1}
 #maskfile_extension_no_nii=${maskfile_extension%.nii*}
-#mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
-calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"
-calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
-calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
-calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
-calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
-calculate_volume "_resaved_levelset_bet.nii.gz" 'left' "LEFT_BET_VOLUME"
-calculate_volume "_resaved_levelset_bet.nii.gz" 'right' "RIGHT_BET_VOLUME"
-#calculate_volume  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-#calculate_volume  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-#calculate_volume  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+#lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+#righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
+#column_name=${2}
+#filename_to_write=${output_directory}/${column_name}.csv
+call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file} )
+outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
+echo outputfiles_present::${outputfiles_present}
+}
+
+################################################################################################################################
+#calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
+#calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"
+#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
+#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
+#calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
+#calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
+#calculate_volume "_resaved_levelset_bet.nii.gz" 'left' "LEFT_BET_VOLUME"
+#calculate_volume "_resaved_levelset_bet.nii.gz" 'right' "RIGHT_BET_VOLUME"
+#
 
 ##############################################################################
 #calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"

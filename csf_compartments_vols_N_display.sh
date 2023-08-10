@@ -786,7 +786,7 @@ mask_subtraction() {
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 
         grayscale_filename=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset.nii.gz
-        contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+        contrast_limits=1000_1200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
         # mask_color_list=args.stuff[4]
         outputfile_dir=${output_directory}
         outputfile_suffix="GRAY"

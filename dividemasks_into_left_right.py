@@ -136,7 +136,7 @@ def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_t
         left_right_ratio_df=pd.DataFrame([volume])
         left_right_ratio_df.columns=[column_name]
         left_right_ratio_df.to_csv(filename_to_write,index=False)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],"ratio_left_right")
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],"calculate_volume")
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])

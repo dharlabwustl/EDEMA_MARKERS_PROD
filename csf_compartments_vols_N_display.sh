@@ -762,23 +762,20 @@ echo outputfiles_present::${outputfiles_present}
 
 calculate_volume()
 {
-#maskfile_extension=${1}
-#maskfile_extension_no_nii=${maskfile_extension%.nii*}
-column_name=${2}
+maskfile_extension=${1}
+maskfile_extension_no_nii=${maskfile_extension%.nii*}
+column_name=${3}
 filename_to_write=${output_directory}/${column_name}.csv
-mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
 call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write} )
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 }
 
-maskfile_extension="_resaved_csf_unet.nii.gz"
-maskfile_extension_no_nii=${maskfile_extension%.nii*}
-mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-
-
-#
-calculate_volume  ${mask_file}  "LEFT_CSF_VOLUME"
+#maskfile_extension="_resaved_csf_unet.nii.gz"
+#maskfile_extension_no_nii=${maskfile_extension%.nii*}
+#mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+calculate_volume "_resaved_csf_unet.nii.gz" ${mask_file}  'left' "LEFT_CSF_VOLUME"
 #calculate_volume  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
 #calculate_volume  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
 #calculate_volume  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"

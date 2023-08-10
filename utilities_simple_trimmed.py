@@ -5,14 +5,24 @@ Created on Timporthu Mar 12 15:40:53 2020
 
 @author: atul
 """
-import subprocess,os,sys,glob,datetime
+import subprocess,os,sys,glob,datetime,time
 import csv
 import pandas as pd
 import numpy as np
 import cv2
 import nibabel as nib
 from skimage import exposure 
-import smtplib,math
+import smtplib,math,argparse,inspect
+from github import Github
+#############################################################
+from dateutil.parser import parse
+import pandas as pd
+g = Github()
+repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
+contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
+dt = parse(contents.last_modified)
+
+Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 # import matplotlib.pyplot as plt
 def demo():
     print(" i m in demo")
@@ -739,6 +749,50 @@ def latex_start(filename):
 
 #    file1.writelines("\\begin{document}\n")
     return file1
+def call_latex_start(args):
+    returnvalue=0
+    try:
+        filename=args.stuff[1]
+        latex_start(filename)
+        command="echo successful at :: {}::filename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_start')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+def create_a_latex_filename(filename_prefix,filename_to_write):
+    returnvalue=0
+    try:
+        now=time.localtime()
+        date_time = time.strftime("_%m_%d_%Y",now)
+        latexfilename=filename_prefix +"_"+ Version_Date + date_time+".tex"
+        returnvalue=latexfilename
+        left_right_ratio_df=pd.DataFrame([latexfilename])
+        left_right_ratio_df.columns=['latexfilename']
+        left_right_ratio_df.to_csv(filename_to_write,index=False)
+        command="echo successful at :: {}::filename::{} >> /software/error.txt".format(inspect.stack()[0][3],'create_a_latex_filename')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
+def call_create_a_latex_filename(args):
+    returnvalue=0
+    try:
+        filename_prefix=args.stuff[1]
+        filename_to_write=args.stuff[2]
+        create_a_latex_filename(filename_prefix,filename_to_write)
+        command="echo successful at :: {}::filename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_create_a_latex_filename')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
 def latex_end(filename):
     file1 = open(filename,"a")
     file1.writelines("\\end{document}\n")
@@ -1384,3 +1438,18 @@ def flipnifti3Dslicebysclie(numpy3D,flipdir=0):
 
 
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('stuff', nargs='+')
+    args = parser.parse_args()
+    name_of_the_function=args.stuff[0]
+    return_value=0
+    if name_of_the_function == "call_create_a_latex_filename":
+        return_value=call_create_a_latex_filename(args)
+
+
+
+
+    return return_value
+if __name__ == '__main__':
+    main()

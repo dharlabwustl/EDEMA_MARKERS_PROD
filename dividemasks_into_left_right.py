@@ -41,7 +41,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
     returnvalue=0
     try:
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
-        grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))
+        grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1

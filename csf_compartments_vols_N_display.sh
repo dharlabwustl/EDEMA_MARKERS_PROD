@@ -800,14 +800,14 @@ outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_gr
 echo outputfiles_present::${outputfiles_present}
 
 ################################################################################################################################
-#calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
-#calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"
+calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
 #calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
 #calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
-#calculate_volume "_resaved_levelset_bet.nii.gz" 'left' "LEFT_BET_VOLUME"
-#calculate_volume "_resaved_levelset_bet.nii.gz" 'right' "RIGHT_BET_VOLUME"
+calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
+calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"
 #
 
 ##############################################################################

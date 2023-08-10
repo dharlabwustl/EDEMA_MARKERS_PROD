@@ -798,16 +798,22 @@ mask_filename4=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
+latexfilename_prefix=${grayscale_filename%.nii*}
+csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename} ${csv_file_tostore_latexfilename})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+echo outputfiles_present::${outputfiles_present}
+############################
 
 ################################################################################################################################
-calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
-calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
+#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
 #calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
 #calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
-calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
-calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"
+#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
+#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"
 #
 
 ##############################################################################

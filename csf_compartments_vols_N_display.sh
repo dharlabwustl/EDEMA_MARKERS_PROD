@@ -749,7 +749,7 @@ split_masks_into_two_halves  "_resaved_levelset_bet.nii.gz"
 #    try:
 calculate_left_right_ratio()
 {
-maskfile_extension=${maskfile_extension}
+maskfile_extension=${1}
 maskfile_extension_no_nii=${maskfile_extension%.nii*}
 lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
 righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
@@ -759,10 +759,36 @@ call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righ
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 }
-calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
-calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+
+calculate_volume()
+{
+#maskfile_extension=${1}
+#maskfile_extension_no_nii=${maskfile_extension%.nii*}
+column_name=${2}
+filename_to_write=${output_directory}/${column_name}.csv
+mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write} )
+outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
+echo outputfiles_present::${outputfiles_present}
+}
+
+maskfile_extension="_resaved_csf_unet.nii.gz"
+maskfile_extension_no_nii=${maskfile_extension%.nii*}
+mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+
+
+#
+calculate_volume  ${mask_file}  "LEFT_CSF_VOLUME"
+#calculate_volume  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+#calculate_volume  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+#calculate_volume  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+
+##############################################################################
+#calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
+#calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+#calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+#calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+
 
 #for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
 #  #      cp ${filetocopy} ${final_output_directory}/

@@ -37,6 +37,51 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_to_write="test.csv"):
+    returnvalue="NONE"
+
+
+    try:
+        mask_np[mask_np>0]=1
+        mask_np[mask_np<1]=0
+        volume=single_voxel_volume*np.sum(mask_np)
+        # infarct_total_voxels_volume =np.sum(mask_np)*
+        volume=volume/1000
+        # righthalf_np[righthalf_np>0]=1
+        # righthalf_np[righthalf_np<1]=0
+        # left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+        # if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+        #     left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+        returnvalue=volume
+        left_right_ratio_df=pd.DataFrame([volume])
+        left_right_ratio_df.columns=[column_name]
+        left_right_ratio_df.to_csv(filename_to_write,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],"ratio_left_right")
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print('left_right_ratio'+str(returnvalue))
+    return  returnvalue    
+def call_calculate_volume(args):
+    
+    returnvalue=0
+    try:
+        mask_np=nib.load(args.stuff[1]).get_fdata()
+        single_voxel_volume=np.prod(np.array(nib.load(args.stuff[1]).header["pixdim"][1:4]))
+        # righthalf_np=nib.load(args.stuff[2]).get_fdata()
+        column_name=args.stuff[2]
+        filename_to_write=args.stuff[3]
+        returnvalue=calculate_volume(mask_np,single_voxel_volume=single_voxel_volume,column_name=column_name,filename_to_write=filename_to_write)
+        # returnvalue=1
+
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue    
 
 def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
@@ -54,7 +99,7 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
         left_right_ratio_df=pd.DataFrame([left_right_ratio])
         left_right_ratio_df.columns=[column_name]
         left_right_ratio_df.to_csv(filename_to_write,index=False)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],ratio_left_right)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
@@ -71,7 +116,7 @@ def call_ratio_left_right(args):
         returnvalue=ratio_left_right(lefthalf_np,righthalf_np,column_name=column_name,filename_to_write=filename_to_write)
         returnvalue=1
 
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],call_ratio_left_right)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_ratio_left_right')
         subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
@@ -1266,6 +1311,8 @@ def main():
         return_value=call_divide_a_mask_into_left_right_submasks(args)
     if name_of_the_function == "call_ratio_left_right":
         return_value=call_ratio_left_right(args)
+    if name_of_the_function == "call_calculate_volume":
+        return_value=call_calculate_volume(args)
 
 
     return return_value

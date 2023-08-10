@@ -760,8 +760,8 @@ calculate_left_right_ratio() {
 }
 
 calculate_volume() {
-#  local maskfile_extension=${1}
-#  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+  #  local maskfile_extension=${1}
+  #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
   local column_name=${2}
   local filename_to_write=${output_directory}/${column_name}.csv
   local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
@@ -785,16 +785,17 @@ mask_subtraction() {
 }
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 
-        grayscale_filename=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset.nii.gz
-        contrast_limits=1000_1200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
-        # mask_color_list=args.stuff[4]
-        outputfile_dir=${output_directory}
-        outputfile_suffix="GRAY"
-        mask_filename_list=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet.nii.gz
-call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${mask_filename_list})
+grayscale_filename=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset.nii.gz
+contrast_limits=1000_1200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+# mask_color_list=args.stuff[4]
+outputfile_dir=${output_directory}
+outputfile_suffix="GRAY"
+color_list='red_green'
+mask_filename1=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet.nii.gz
+mask_filename2=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet.nii.gz
+call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${mask_filename1} ${mask_filename2})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
-
 
 ################################################################################################################################
 #calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"

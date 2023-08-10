@@ -776,6 +776,13 @@ echo outputfiles_present::${outputfiles_present}
 #maskfile_extension_no_nii=${maskfile_extension%.nii*}
 #mask_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
 calculate_volume "_resaved_csf_unet.nii.gz" 'left' "LEFT_CSF_VOLUME"
+calculate_volume "_resaved_csf_unet.nii.gz" 'right' "RIGHT_CSF_VOLUME"
+calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
+calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
+calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
+calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
+calculate_volume "_resaved_levelset_bet.nii.gz" 'left' "LEFT_BET_VOLUME"
+calculate_volume "_resaved_levelset_bet.nii.gz" 'right' "RIGHT_BET_VOLUME"
 #calculate_volume  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
 #calculate_volume  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
 #calculate_volume  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"

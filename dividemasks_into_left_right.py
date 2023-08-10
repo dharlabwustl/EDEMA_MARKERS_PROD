@@ -55,8 +55,6 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
                 slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
-
-
             slice_number="{0:0=3d}".format(i)
             cv2.imwrite(os.path.join(outputfile_dir, os.path.basename(grayscale_filename).split('.nii')[0] + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')

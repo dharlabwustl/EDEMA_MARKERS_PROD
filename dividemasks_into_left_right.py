@@ -37,9 +37,18 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-def masks_on_grayscale_colored():
+def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
     returnvalue=0
     try:
+        grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
+        grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))
+        slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
+        for i in range(grayscale_filename_np.shape[2]):
+            slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
+            slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
+            slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
+            slice_number="{0:0=3d}".format(i)
+            cv2.imwrite(os.path.join(outputfile_dir,"I4_img" + os.path.basename(grayscale_filename) + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:

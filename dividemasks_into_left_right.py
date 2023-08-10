@@ -48,7 +48,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
             slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
             slice_number="{0:0=3d}".format(i)
-            cv2.imwrite(os.path.join(outputfile_dir,"I4_img" + os.path.basename(grayscale_filename) + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
+            cv2.imwrite(os.path.join(outputfile_dir,"I4_img" + os.path.basename(grayscale_filename).split('.nii')[0] + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:
@@ -60,7 +60,7 @@ def call_masks_on_grayscale_colored(args):
     returnvalue=0
     try:
         grayscale_filename=args.stuff[1]
-        contrast_limits=(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+        contrast_limits=(int(args.stuff[2].split('_')[0]),int(args.stuff[2].split('_')[1]))
         # mask_color_list=args.stuff[4]
         outputfile_dir=args.stuff[3]
         outputfile_suffix=args.stuff[4]

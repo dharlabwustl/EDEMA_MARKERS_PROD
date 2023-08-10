@@ -38,10 +38,18 @@ Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
 
 now=time.localtime()
 
-def masks_subtraction():
+def masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file):
     returnvalue=0
     try:
-
+        mask_donor_np=nib.load(mask_donor).get_fdata()
+        mask_donor_np[mask_donor_np>0]=1
+        mask_donor_np[mask_donor_np<1]=0
+        mask_tobe_subtracted_np=nib.load(mask_tobe_subtracted).get_fdata()
+        mask_tobe_subtracted_np[mask_tobe_subtracted_np>0]=1
+        mask_tobe_subtracted_np[mask_tobe_subtracted_np<1]=0
+        mask_donor_np[mask_tobe_subtracted_np>0]=0
+        array_img = nib.Nifti1Image(mask_donor_np,affine=nib.load(mask_donor).affine, header=nib.load(mask_donor).header)
+        nib.save(array_img, output_mask_file)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_subtraction')
         subprocess.call(command,shell=True)
     except:
@@ -53,6 +61,10 @@ def masks_subtraction():
 def call_masks_subtraction(args):
     returnvalue=0
     try:
+        mask_donor=args.stuff[1]
+        mask_tobe_subtracted=args.stuff[2]
+        output_mask_file=args.stuff[3]
+        masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_subtraction')
         subprocess.call(command,shell=True)
     except:

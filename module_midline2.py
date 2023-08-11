@@ -34,7 +34,6 @@ def fit_line_to_midlinepixels_ORF_sh():
      gray_file=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTs_SP_Pineal/CTs/Helsinki2000_1225_1_05012015_1250_Head_2.0_ax_Tilt_1.nii"
      midline_nifti_file=sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/pyscripts/IDEALML/midlinecssfResampled1InverseT.nii.gz"
      SAVE_DIRECTORY=sys.argv[3]
-     # methodType=sys.argv[4]
      method_name=sys.argv[4]
      midline_nifti=nib.load(midline_nifti_file)
      midline_nifti_np=midline_nifti.get_fdata()

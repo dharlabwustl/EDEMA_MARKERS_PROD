@@ -799,6 +799,19 @@ def latex_end(filename):
     file1.writelines("\\end{document}\n")
     file1.close()
     return "X"
+def call_latex_end(args):
+    returnvalue=0
+    try:
+        filename=args.stuff[1]
+        latex_end(filename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_insertimage_tableNc')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    # print(returnvalue)
+    return  returnvalue
 def latex_begin_document(filename):
     file1 = open(filename,"a")
     file1.writelines("\\begin{document}\n")
@@ -1472,6 +1485,8 @@ def main():
         return_value=call_latex_start(args)
     if name_of_the_function == "call_latex_insertimage_tableNc":
         return_value=call_latex_insertimage_tableNc(args)
+    if name_of_the_function == "call_latex_end":
+        return_value=call_latex_end(args)
 
 
 

@@ -805,23 +805,27 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex
 echo outputfiles_present::${outputfiles_present}
 ############################
 while IFS=',' read -ra array; do
-      latexfilename=${array[0]}
-      echo ${latexfilename}
-      call_latex_start_arguments=('call_latex_start' ${latexfilename} )
-      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-      echo outputfiles_present::${outputfiles_present}
+  latexfilename=${array[0]}
+  echo ${latexfilename}
+  call_latex_start_arguments=('call_latex_start' ${latexfilename})
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
 
-      ###############################
+  ###############################
 
-#              filename=args.stuff[1]
-              imagescale='0.5' #float(args.stuff[2])
-              angle='90' #float(args.stuff[3])
-              space='1' #float(args.stuff[4])
-              images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-            call_latex_insertimage_tableNc_arguments=('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale}  ${angle} ${space} ${images} )
-            outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_insertimage_tableNc_arguments[@]}")
-            echo outputfiles_present::${outputfiles_present}
-done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+  #              filename=args.stuff[1]
+  imagescale='0.5' #float(args.stuff[2])
+  angle='90'       #float(args.stuff[3])
+  space='1'        #float(args.stuff[4])
+  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+  call_latex_insertimage_tableNc_arguments=('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_insertimage_tableNc_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+  call_latex_end_arguments=('call_latex_end' ${latexfilename})
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+
+done \
+  < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ################################################################################################################################
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"

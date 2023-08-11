@@ -51,7 +51,7 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
             x_points2=x_points2[:,0]
             y_points2=y_points2[:,0]
             img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
+            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'draw_midline_on_a_slice')
             subprocess.call(command,shell=True)
             return img_with_line1
     except:
@@ -74,8 +74,8 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
             #################
             slice_number="{0:0=3d}".format(i)
-            if len(npyfiledirectory) > 3:
-                slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+            # if len(npyfiledirectory) > 3:
+            #     slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
             ##############
             for mask_filename_list_id in range(len(mask_filename_list)):
                 mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()

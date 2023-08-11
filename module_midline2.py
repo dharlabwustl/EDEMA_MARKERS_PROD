@@ -46,11 +46,11 @@ def fit_line_to_midlinepixels_ORF_sh():
      midline_nifti=nib.load(midline_nifti_file)
      midline_nifti_np=midline_nifti.get_fdata()
      # if infarctfile_present==1:
-     midline_nifti_np=resizeinto_512by512(midline_nifti_np)
+     # midline_nifti_np=resizeinto_512by512(midline_nifti_np)
      gray_nifti=nib.load(gray_file)
      gray_nifti_np=gray_nifti.get_fdata()  
      # if infarctfile_present==1: 
-     gray_nifti_np=resizeinto_512by512(gray_nifti_np)
+     # gray_nifti_np=resizeinto_512by512(gray_nifti_np)
      gray_nifti_np_im=contrast_stretch(gray_nifti_np,1)*255
 #     if "_levelset" in os.path.basename(gray_file):
 #         gray_nifti_np_im=contrast_stretch(gray_nifti_np,2)*255

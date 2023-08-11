@@ -22,7 +22,7 @@ import pandas as pd
 # contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
 # dt = parse(contents.last_modified)
 
-Version_Date="_VersionDate-" + "08102023" #dt.strftime("%m%d%Y")
+Version_Date="VersionDate-" + "08102023" #dt.strftime("%m%d%Y")
 # import matplotlib.pyplot as plt
 def demo():
     print(" i m in demo")

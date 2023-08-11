@@ -121,7 +121,7 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
     # methodType=sys.argv[4]
     # method_name=sys.argv[5]
     # infarctfile_present=int(float(sys.argv[6]))
-    latexfilename=os.path.join(SAVE_DIRECTORY,os.path.basename(gray_file.split(".nii")[0].replace('.','_')) + "_IML.tex")
+    latexfilename=os.path.join(SAVE_DIRECTORY,os.path.basename(gray_file.split(".nii")[0].replace('.','_')) + "_IML_V2.tex")
     print("latexfilename")
     print(latexfilename)
     latex_start(latexfilename)
@@ -180,9 +180,9 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
             filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(gray_file).split(".nii")[0])
             slice_number="{0:0=3d}".format(xx)
             slice_3_layer=cv2.line(slice_3_layer, ( int(x_axis_1[0]),int(y_axis_1[0])),(int(x_axis_1[511]),int(y_axis_1[511])), (0,255,255), 2)
-            imagefilename=os.path.join(SAVE_DIRECTORY,filename_tosave+"IML_" + method_name+ str(slice_number)+ ".jpg")
+            imagefilename=os.path.join(SAVE_DIRECTORY,filename_tosave+"IML_" + method_name+ str(slice_number)+ "_V2.jpg")
             cv2.imwrite(imagefilename,slice_3_layer)
-            file_midline=os.path.join(SAVE_DIRECTORY,filename_tosave+method_name+str(slice_number)+  ".npy")
+            file_midline=os.path.join(SAVE_DIRECTORY,filename_tosave+method_name+str(slice_number)+  "_V2.npy")
             line_data={'x_axis':x_axis_1, 'y_axis':y_axis_1}
             #            line_data=dict([('x_axis',x_axis_1),('y_axis',y_axis_1)])
             np.save(file_midline,line_data)

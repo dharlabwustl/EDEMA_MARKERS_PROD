@@ -818,24 +818,34 @@ while IFS=',' read -ra array; do
   angle='90'       #float(args.stuff[3])
   space='1'        #float(args.stuff[4])
   i=0
-#  for file in *
-#  do
-#      if [[ -f $file ]]; then
-#          array[$i]=$file
-#          i=$(($i+1))
-#      fi
-#  done
-#  for x in ${output_directory}/SAH_1_01052014_2003_2_GRAY_*.jpg; do
-#    y=${x%.*} ; echo $y ;suffix=${y##*_};
-#    echo $suffix;
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    i=$(($i+1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS031.jpg
-#  done
+  #  for file in *
+  #  do
+  #      if [[ -f $file ]]; then
+  #          array[$i]=$file
+  #          i=$(($i+1))
+  #      fi
+  #  done
+  #  for x in ${output_directory}/SAH_1_01052014_2003_2_GRAY_*.jpg; do
+  #    y=${x%.*} ; echo $y ;suffix=${y##*_};
+  #    echo $suffix;
+  images[$i]='call_latex_insertimage_tableNc'
+  i=$(($i + 1))
+  images[$i]=${latexfilename}
+  i=$(($i + 1))
+  images[$i]=${imagescale}
+  i=$(($i + 1))
+  images[$i]=${angle}
+  i=$(($i + 1))
+  images[$i]=${space}
+  i=$(($i + 1))
+  images[$i]=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+  i=$(($i + 1))
+  images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS031.jpg
+  #  done
 
-#  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-  call_latex_insertimage_tableNc_arguments=('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_insertimage_tableNc_arguments[@]}")
+  #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
   echo outputfiles_present::${outputfiles_present}
   call_latex_end_arguments=('call_latex_end' ${latexfilename})
   outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")

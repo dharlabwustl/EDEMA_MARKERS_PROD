@@ -812,7 +812,7 @@ while IFS=',' read -ra array; do
   echo outputfiles_present::${outputfiles_present}
 
   ###############################
-  for x in ${outputfile_dir}/SAH_1_01052014_2003_2_GRAY*_V2.jpg; do
+  for x in ${outputfile_dir}/SAH_1_01052014_2003_2_GRAY*.jpg; do
     #              filename=args.stuff[1]
     imagescale='0.5' #float(args.stuff[2])
     angle='90'       #float(args.stuff[3])

@@ -75,7 +75,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             #################
             slice_number="{0:0=3d}".format(i)
             if len(npyfiledirectory) > 3:
-                draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+                slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
             ##############
             for mask_filename_list_id in range(len(mask_filename_list)):
                 mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()

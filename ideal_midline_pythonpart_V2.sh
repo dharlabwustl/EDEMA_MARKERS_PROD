@@ -61,4 +61,4 @@ echo "${method_type_name}"
 #outputfiles_present=$(python3 module_midline1.py "${call_fit_line_to_midlinepixels_ORF_V2_arguments[@]}")
 
 run_fit_line_to_midlinepixels_ORF_sh "$GRAYSCALENIFTI_FILE" $TRANSFORMED_MASK_DIRECTORY/$transformed_output_file  "$OUTPUT_DIRECTORY"  "${method_type}" "${method_type_name}"
-rm ${OUTPUT_DIRECTORY}/*.tex
+#rm ${OUTPUT_DIRECTORY}/*.tex

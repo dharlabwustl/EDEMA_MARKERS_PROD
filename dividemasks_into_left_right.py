@@ -39,24 +39,50 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 now=time.localtime()
 # def color_to_BGRvalues():
-def draw_midline():
+def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number):
+    returnvalue=0
+    try:
+        filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
+        this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  "_V2.npy")
+        if os.path.exists(this_npyfile):
+            calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+            x_points2=calculated_midline_points.item().get('x_axis')
+            y_points2=calculated_midline_points.item().get('y_axis')
+            x_points2=x_points2[:,0]
+            y_points2=y_points2[:,0]
+            img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
+            subprocess.call(command,shell=True)
+            return img_with_line1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+    print(returnvalue)
     return 0
-def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
+def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory=""):
     returnvalue=0
     try:
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
+        method_name="REGIS"
+
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
             slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
             slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
+            #################
+            slice_number="{0:0=3d}".format(i)
+            if len(npyfiledirectory) > 3:
+                draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+            ##############
             for mask_filename_list_id in range(len(mask_filename_list)):
                 mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
                 slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
                 slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
-            slice_number="{0:0=3d}".format(i)
+
             font = cv2.FONT_HERSHEY_SIMPLEX
             org = (50, 50)
 
@@ -84,9 +110,10 @@ def call_masks_on_grayscale_colored(args):
         contrast_limits=(int(args.stuff[2].split('_')[0]),int(args.stuff[2].split('_')[1]))
         mask_color_list=args.stuff[5].split('_')
         outputfile_dir=args.stuff[3]
-        outputfile_suffix=args.stuff[4]
-        mask_filename_list=args.stuff[6:]
-        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix)
+        npyfiledirectory=args.stuff[4]
+        outputfile_suffix=args.stuff[6]
+        mask_filename_list=args.stuff[7:]
+        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:

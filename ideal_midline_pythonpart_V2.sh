@@ -2,7 +2,7 @@
 template_file_name=scct_strippedResampled1.nii.gz 
 mask_on_template=midlinecssfResampled1.nii.gz
 input_filename=$1
-output_directory=/input ##$(dirname ${input_filename}) #$3
+output_directory=$(dirname ${input_filename}) #$3
 echo " I AM WORKING IN DOCKER"
 # input_directory=/input  
 # result_output_directory=/output    
@@ -37,7 +37,7 @@ from module_midline2 import * ;   fit_line_to_midlinepixels_ORF_sh()" $this_imag
 TRANSFORMED_MASKFILE_PREFIX="midlinecssfResampled1"
 # output_directory01=${output_directory}  #/output #/SMOOTH_IML_OUTPUT
 # mkdir -p output_directory01
-OUTPUT_DIRECTORY=${output_directory} 
+OUTPUT_DIRECTORY=/input #${output_directory}
 # FILE_EXTENSION=$gray_nifti_extension 
 # MASKFILE_EXTENSION=$extension 
 # echo $OUTPUT_DIRECTORY

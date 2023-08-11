@@ -1447,6 +1447,8 @@ def main():
     return_value=0
     if name_of_the_function == "call_create_a_latex_filename":
         return_value=call_create_a_latex_filename(args)
+    if name_of_the_function == "call_latex_start":
+        return_value=call_latex_start(args)
 
 
 

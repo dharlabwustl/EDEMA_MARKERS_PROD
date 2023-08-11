@@ -795,7 +795,7 @@ mask_filename1=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_ha
 mask_filename2=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz
 mask_filename3=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz
 mask_filename4=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz
-call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}
 latexfilename_prefix=${grayscale_filename%.nii*}

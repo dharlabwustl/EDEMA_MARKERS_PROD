@@ -126,17 +126,12 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
 
         midline_nifti=nib.load(midline_nifti_file)
         midline_nifti_np=midline_nifti.get_fdata()
-        # if infarctfile_present==1:
         midline_nifti_np=resizeinto_512by512(midline_nifti_np)
         gray_nifti=nib.load(gray_file)
         gray_nifti_np=gray_nifti.get_fdata()
         # if infarctfile_present==1:
         gray_nifti_np=resizeinto_512by512(gray_nifti_np)
         gray_nifti_np_im=contrast_stretch(gray_nifti_np,1)*255
-        #     if "_levelset" in os.path.basename(gray_file):
-        #         gray_nifti_np_im=contrast_stretch(gray_nifti_np,2)*255
-        #     if "_header_copied" in os.path.basename(gray_file):
-        #         gray_nifti_np_im=contrast_stretch(gray_nifti_np,1)*255
         numberofslices=midline_nifti_np.shape[2]
         for xx in range(numberofslices):
             this_slice=midline_nifti_np[:,:,xx]
@@ -193,7 +188,7 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
                 latex_end_table2c(latexfilename)
                 latex_insert_line_nodate(latexfilename, os.path.basename(gray_file).split(".nii")[0] + "_SLICE_"+str(xx) )
         latex_end(latexfilename)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_fit_line_to_midlinepixels_ORF_V2')
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'fit_line_to_midlinepixels_ORF_V2')
         subprocess.call(command,shell=True)
         returnvalue=1
     except:
@@ -209,7 +204,7 @@ def call_fit_line_to_midlinepixels_ORF_V2(args):
         midline_nifti_file=args.stuff[2]
         SAVE_DIRECTORY=args.stuff[3]
         method_name=args.stuff[4]
-        # fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,method_name)
+        fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,method_name)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_fit_line_to_midlinepixels_ORF_V2')
         subprocess.call(command,shell=True)
         returnvalue=1

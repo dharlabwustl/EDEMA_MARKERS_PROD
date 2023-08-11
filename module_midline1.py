@@ -114,13 +114,13 @@ def fit_line_to_midlinepixels_ORF_sh():
      latex_end(latexfilename)
 
 
-def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,methodType,method_name):
-    # gray_file=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTs_SP_Pineal/CTs/Helsinki2000_1225_1_05012015_1250_Head_2.0_ax_Tilt_1.nii"
-    # midline_nifti_file=sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/pyscripts/IDEALML/midlinecssfResampled1InverseT.nii.gz"
-    # SAVE_DIRECTORY=sys.argv[3]
-    # methodType=sys.argv[4]
-    # method_name=sys.argv[5]
-    # # infarctfile_present=int(float(sys.argv[6]))
+def fit_line_to_midlinepixels_ORF_V2():
+    gray_file=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTs_SP_Pineal/CTs/Helsinki2000_1225_1_05012015_1250_Head_2.0_ax_Tilt_1.nii"
+    midline_nifti_file=sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/pyscripts/IDEALML/midlinecssfResampled1InverseT.nii.gz"
+    SAVE_DIRECTORY=sys.argv[3]
+    methodType=sys.argv[4]
+    method_name=sys.argv[5]
+    # infarctfile_present=int(float(sys.argv[6]))
     latexfilename=os.path.join(SAVE_DIRECTORY,os.path.basename(gray_file.split(".nii")[0].replace('.','_')) + "_IML.tex")
     print("latexfilename")
     print(latexfilename)
@@ -130,11 +130,11 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
     midline_nifti=nib.load(midline_nifti_file)
     midline_nifti_np=midline_nifti.get_fdata()
     # if infarctfile_present==1:
-    midline_nifti_np=resizeinto_512by512(midline_nifti_np)
+    # midline_nifti_np=resizeinto_512by512(midline_nifti_np)
     gray_nifti=nib.load(gray_file)
     gray_nifti_np=gray_nifti.get_fdata()
     # if infarctfile_present==1:
-    gray_nifti_np=resizeinto_512by512(gray_nifti_np)
+    # gray_nifti_np=resizeinto_512by512(gray_nifti_np)
     gray_nifti_np_im=contrast_stretch(gray_nifti_np,1)*255
     #     if "_levelset" in os.path.basename(gray_file):
     #         gray_nifti_np_im=contrast_stretch(gray_nifti_np,2)*255
@@ -197,38 +197,7 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
             latex_insert_line_nodate(latexfilename, os.path.basename(gray_file).split(".nii")[0] + "_SLICE_"+str(xx) )
     latex_end(latexfilename)
 
-def call_fit_line_to_midlinepixels_ORF_V2(args):
-    returnvalue=0
-    try:
-        gray_file=args.stuff[1]
-        midline_nifti_file=args.stuff[2]
-        SAVE_DIRECTORY=args.stuff[3]
-        methodType=args.stuff[4]
-        method_name=args.stuff[5]
-        fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,methodType,method_name)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_fit_line_to_midlinepixels_ORF_V2')
-        subprocess.call(command,shell=True)
-        returnvalue=1
-    except:
-        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
-        subprocess.call(command,shell=True)
-    print(returnvalue)
-    return  returnvalue
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('stuff', nargs='+')
-    args = parser.parse_args()
-    name_of_the_function=args.stuff[0]
-    return_value=0
-    if name_of_the_function == "call_fit_line_to_midlinepixels_ORF_V2":
-        return_value=call_fit_line_to_midlinepixels_ORF_V2(args)
 
-
-
-
-    return return_value
-if __name__ == '__main__':
-    main()
 
 
 # # # -*- coding: utf-8 -*-

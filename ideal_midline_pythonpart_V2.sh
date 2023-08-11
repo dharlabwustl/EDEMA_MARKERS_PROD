@@ -2,7 +2,7 @@
 template_file_name=scct_strippedResampled1.nii.gz 
 mask_on_template=midlinecssfResampled1.nii.gz
 input_filename=$1
-output_directory=$(dirname ${input_filename}) #$3
+output_directory=/input ##$(dirname ${input_filename}) #$3
 echo " I AM WORKING IN DOCKER"
 # input_directory=/input  
 # result_output_directory=/output    

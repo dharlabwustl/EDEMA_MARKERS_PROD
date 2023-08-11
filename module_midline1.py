@@ -118,11 +118,11 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
     returnvalue=0
     try:
 
-        latexfilename=os.path.join(SAVE_DIRECTORY,os.path.basename(gray_file.split(".nii")[0].replace('.','_')) + "_IML_V2.tex")
-        print("latexfilename")
-        print(latexfilename)
-        latex_start(latexfilename)
-        latex_begin_document(latexfilename)
+        # latexfilename=os.path.join(SAVE_DIRECTORY,os.path.basename(gray_file.split(".nii")[0].replace('.','_')) + "_IML_V2.tex")
+        # print("latexfilename")
+        # print(latexfilename)
+        # latex_start(latexfilename)
+        # latex_begin_document(latexfilename)
 
         midline_nifti=nib.load(midline_nifti_file)
         midline_nifti_np=midline_nifti.get_fdata()
@@ -178,16 +178,16 @@ def fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY
                 line_data={'x_axis':x_axis_1, 'y_axis':y_axis_1}
                 #            line_data=dict([('x_axis',x_axis_1),('y_axis',y_axis_1)])
                 np.save(file_midline,line_data)
-                latex_start_tableNc_noboundary(latexfilename,1)
+                # latex_start_tableNc_noboundary(latexfilename,1)
                 image_list=[]
                 image_list.append(imagefilename)
-                latex_insertimage_tableNc(latexfilename,image_list,1, caption=os.path.basename(gray_file).split(".nii")[0],imagescale=0.5, angle=90,space=1)
+                # latex_insertimage_tableNc(latexfilename,image_list,1, caption=os.path.basename(gray_file).split(".nii")[0],imagescale=0.5, angle=90,space=1)
 
                 # latex_start_table1c(latexfilename)
                 # latex_insertimage_table1c(latexfilename,image1=imagefilename,caption= os.path.basename(gray_file).split(".nii")[0],imagescale=0.5)
-                latex_end_table2c(latexfilename)
-                latex_insert_line_nodate(latexfilename, os.path.basename(gray_file).split(".nii")[0] + "_SLICE_"+str(xx) )
-        latex_end(latexfilename)
+                # latex_end_table2c(latexfilename)
+                # latex_insert_line_nodate(latexfilename, os.path.basename(gray_file).split(".nii")[0] + "_SLICE_"+str(xx) )
+        # latex_end(latexfilename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'fit_line_to_midlinepixels_ORF_V2')
         subprocess.call(command,shell=True)
         returnvalue=1

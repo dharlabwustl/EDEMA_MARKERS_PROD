@@ -807,8 +807,8 @@ echo outputfiles_present::${outputfiles_present}
 while IFS=',' read -ra array; do
       latexfilename=${array[0]}
       echo ${latexfilename}
-      call_latex_start_arguments=('call_latex_start' ${latexfilename} )
-      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#      call_latex_start_arguments=('call_latex_start' ${latexfilename} )
+#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
       echo outputfiles_present::${outputfiles_present}
 done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ################################################################################################################################

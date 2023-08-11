@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="no comment">
-      <change afterPath="$PROJECT_DIR$/ideal_midline_pythonpart_V2.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/csf_compartments_vols_N_display.sh" beforeDir="false" afterPath="$PROJECT_DIR$/csf_compartments_vols_N_display.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module_midline1.py" beforeDir="false" afterPath="$PROJECT_DIR$/module_midline1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,7 +429,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="1929" />
+    <option name="localTasksCounter" value="1930" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

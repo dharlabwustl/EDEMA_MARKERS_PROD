@@ -28,7 +28,7 @@ method_type_name=$5
 python3 -c "
 import sys 
 sys.path.append('/software');
-from module_midline1 import * ;   fit_line_to_midlinepixels_ORF_sh()" $this_image $midline_nifti_file $SAVE_DIRECTORY $method_type  $method_type_name # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+from module_midline2 import * ;   fit_line_to_midlinepixels_ORF_sh()" $this_image $midline_nifti_file $SAVE_DIRECTORY $method_type  $method_type_name # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 }
 ####################################################################################################################
 # input_for_BET=${output_directory}  #/output #/preprocessing_output/grayctimage
@@ -57,8 +57,8 @@ echo "$OUTPUT_DIRECTORY"
 echo "${method_type}" 
 echo "${method_type_name}"
 
-call_fit_line_to_midlinepixels_ORF_V2_arguments=('call_fit_line_to_midlinepixels_ORF_V2' "$GRAYSCALENIFTI_FILE" $TRANSFORMED_MASK_DIRECTORY/$transformed_output_file  "$OUTPUT_DIRECTORY"  "${method_type}" "${method_type_name}" )
-outputfiles_present=$(python3 module_midline1.py "${call_fit_line_to_midlinepixels_ORF_V2_arguments[@]}")
+#call_fit_line_to_midlinepixels_ORF_V2_arguments=('call_fit_line_to_midlinepixels_ORF_V2' "$GRAYSCALENIFTI_FILE" $TRANSFORMED_MASK_DIRECTORY/$transformed_output_file  "$OUTPUT_DIRECTORY"  "${method_type}" "${method_type_name}" )
+#outputfiles_present=$(python3 module_midline1.py "${call_fit_line_to_midlinepixels_ORF_V2_arguments[@]}")
 
-#run_fit_line_to_midlinepixels_ORF_sh "$GRAYSCALENIFTI_FILE" $TRANSFORMED_MASK_DIRECTORY/$transformed_output_file  "$OUTPUT_DIRECTORY"  "${method_type}" "${method_type_name}"
-#rm ${OUTPUT_DIRECTORY}/*.tex
+run_fit_line_to_midlinepixels_ORF_sh "$GRAYSCALENIFTI_FILE" $TRANSFORMED_MASK_DIRECTORY/$transformed_output_file  "$OUTPUT_DIRECTORY"  "${method_type}" "${method_type_name}"
+rm ${OUTPUT_DIRECTORY}/*.tex

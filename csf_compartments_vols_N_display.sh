@@ -137,9 +137,9 @@ run_IML() {
 
   echo "RUNNING IML PYTHON PART"
 
-  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+#  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
-
+  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   #    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
   #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}

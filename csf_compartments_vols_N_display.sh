@@ -825,8 +825,7 @@ while IFS=',' read -ra array; do
   #          i=$(($i+1))
   #      fi
   #  done
-  #  for x in ${output_directory}/SAH_1_01052014_2003_2_GRAY_*.jpg; do
-  #    y=${x%.*} ; echo $y ;suffix=${y##*_};
+
   #    echo $suffix;
   images[$i]='call_latex_insertimage_tableNc'
   i=$(($i + 1))
@@ -838,10 +837,12 @@ while IFS=',' read -ra array; do
   i=$(($i + 1))
   images[$i]=${space}
   i=$(($i + 1))
-  images[$i]=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+      for x in ${output_directory}/SAH_1_01052014_2003_2_GRAY_*.jpg; do
+        y=${x%.*} ; echo $y ;suffix=${y##*_};
+  images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
   i=$(($i + 1))
-  images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS031.jpg
-  #  done
+  images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS${suffix}.jpg
+    done
 
   #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
 #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})

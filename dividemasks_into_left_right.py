@@ -27,12 +27,12 @@ from github import Github
 #############################################################
 from dateutil.parser import parse
 import pandas as pd
-g = Github()
-repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
-contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
-dt = parse(contents.last_modified)
+# g = Github()
+# repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
+# contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
+# dt = parse(contents.last_modified)
 
-Version_Date="_VersionDate-" + dt.strftime("%m%d%Y")
+Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 #############################################################
 

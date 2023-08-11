@@ -1238,6 +1238,7 @@ def call_latex_insertimage_tableNc(args):
         space=float(args.stuff[4])
         images=args.stuff[5:]
         N=len(images)
+        latex_start_tableNc_noboundary(filename,N)
         latex_insertimage_tableNc(filename,images,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_insertimage_tableNc')

@@ -96,9 +96,9 @@ def fit_line_to_midlinepixels_ORF_sh():
              filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(gray_file).split(".nii")[0])
              slice_number="{0:0=3d}".format(xx)
              slice_3_layer=cv2.line(slice_3_layer, ( int(x_axis_1[0]),int(y_axis_1[0])),(int(x_axis_1[511]),int(y_axis_1[511])), (0,255,255), 2)
-             imagefilename=os.path.join(SAVE_DIRECTORY,filename_tosave+"IML_" + method_name+ str(slice_number)+ "_V2.jpg")
+             imagefilename=os.path.join(SAVE_DIRECTORY,filename_tosave+"IML_" + method_name+ "_V2_"+ str(slice_number)+ ".jpg")
              cv2.imwrite(imagefilename,slice_3_layer)
-             file_midline=os.path.join(SAVE_DIRECTORY,filename_tosave+method_name+str(slice_number)+  "_V2.npy")
+             file_midline=os.path.join(SAVE_DIRECTORY,filename_tosave+method_name+ "_V2_"+str(slice_number)+  ".npy")
              line_data={'x_axis':x_axis_1, 'y_axis':y_axis_1}
  #            line_data=dict([('x_axis',x_axis_1),('y_axis',y_axis_1)])
              np.save(file_midline,line_data)

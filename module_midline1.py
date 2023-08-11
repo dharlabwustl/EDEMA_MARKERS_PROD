@@ -219,8 +219,8 @@ def main():
     args = parser.parse_args()
     name_of_the_function=args.stuff[0]
     return_value=0
-    if name_of_the_function == "fit_line_to_midlinepixels_ORF_V2":
-        return_value=fit_line_to_midlinepixels_ORF_V2(args)
+    if name_of_the_function == "call_fit_line_to_midlinepixels_ORF_V2":
+        return_value=call_fit_line_to_midlinepixels_ORF_V2(args)
 
 
 

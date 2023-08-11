@@ -204,7 +204,7 @@ def call_fit_line_to_midlinepixels_ORF_V2(args):
         midline_nifti_file=args.stuff[2]
         SAVE_DIRECTORY=args.stuff[3]
         method_name=args.stuff[4]
-        fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,method_name)
+        # fit_line_to_midlinepixels_ORF_V2(gray_file,midline_nifti_file,SAVE_DIRECTORY,method_name)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_fit_line_to_midlinepixels_ORF_V2')
         subprocess.call(command,shell=True)
         returnvalue=1

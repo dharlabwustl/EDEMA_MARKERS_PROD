@@ -39,7 +39,8 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 now=time.localtime()
 # def color_to_BGRvalues():
-
+def draw_midline():
+    return 0
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
     returnvalue=0
     try:

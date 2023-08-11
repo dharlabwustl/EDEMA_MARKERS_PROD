@@ -754,6 +754,7 @@ def call_latex_start(args):
     try:
         filename=args.stuff[1]
         latex_start(filename)
+        latex_begin_document(filename)
         command="echo successful at :: {}::filename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_start')
         subprocess.call(command,shell=True)
     except:

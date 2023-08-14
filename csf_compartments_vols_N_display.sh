@@ -848,6 +848,14 @@ while IFS=',' read -ra array; do
     i=$(($i + 1))
     images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
+    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    i=$(($i + 1))
+    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    i=$(($i + 1))
+    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    i=$(($i + 1))
+    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    i=$(($i + 1))
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
     echo outputfiles_present::${outputfiles_present}
   done

@@ -54,7 +54,7 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
             y_points2=calculated_midline_points.item().get('y_axis')
             x_points2=x_points2[:,0]
             y_points2=y_points2[:,0]
-            img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+            img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,255), 2)
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'draw_midline_on_a_slice')
             subprocess.call(command,shell=True)
             return img_with_line1

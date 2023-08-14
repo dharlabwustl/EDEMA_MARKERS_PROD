@@ -41,23 +41,23 @@ now=time.localtime()
 # def color_to_BGRvalues():
 def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number):
     returnvalue=0
-    try:
-        filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
-        this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
-        if os.path.exists(this_npyfile):
-            calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
-            x_points2=calculated_midline_points.item().get('x_axis')
-            y_points2=calculated_midline_points.item().get('y_axis')
-            x_points2=x_points2[:,0]
-            y_points2=y_points2[:,0]
-            img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'draw_midline_on_a_slice')
-            subprocess.call(command,shell=True)
-            return img_with_line1
-    except:
-        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
-        subprocess.call(command,shell=True)
-        pass
+    # try:
+    #     filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
+    #     this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
+    #     if os.path.exists(this_npyfile):
+    #         calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+    #         x_points2=calculated_midline_points.item().get('x_axis')
+    #         y_points2=calculated_midline_points.item().get('y_axis')
+    #         x_points2=x_points2[:,0]
+    #         y_points2=y_points2[:,0]
+    #         img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+    #         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'draw_midline_on_a_slice')
+    #         subprocess.call(command,shell=True)
+    #         return img_with_line1
+    # except:
+    #     command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+    #     subprocess.call(command,shell=True)
+    #     pass
     print(returnvalue)
     return 0
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
@@ -80,7 +80,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
                 slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
             slice_number="{0:0=3d}".format(i)
-            # slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+            slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
             font = cv2.FONT_HERSHEY_SIMPLEX
             org = (50, 50)
 

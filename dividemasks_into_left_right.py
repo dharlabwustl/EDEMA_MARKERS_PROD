@@ -93,7 +93,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 y_points2=calculated_midline_points.item().get('y_axis')
                 x_points2=x_points2[:,0]
                 y_points2=y_points2[:,0]
-                img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+                slice_3_layer=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
                 command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
                 subprocess.call(command,shell=True)
             font = cv2.FONT_HERSHEY_SIMPLEX

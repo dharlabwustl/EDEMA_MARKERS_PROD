@@ -763,8 +763,11 @@ calculate_volume() {
   #  local maskfile_extension=${1}
   #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
   local column_name=${2}
-  local filename_to_write=${output_directory}/${column_name}.csv
+
   local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
+  local mask_file_basename=$(basename ${mask_file})
+  mask_file_basename=${mask_file_basename%.nii*}
+  local filename_to_write=${output_directory}/${mask_file_basename}_${column_name}.csv
   local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
@@ -868,7 +871,7 @@ while IFS=',' read -ra array; do
 
 done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ################################################################################################################################
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"

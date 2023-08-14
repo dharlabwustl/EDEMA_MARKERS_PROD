@@ -87,8 +87,8 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             slice_number="{0:0=3d}".format(i)
             filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
             this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
-            subprocess.call(command,shell=True)
+            # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
+            # subprocess.call(command,shell=True)
             if os.path.exists(this_npyfile):
                 calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                 x_points2=calculated_midline_points.item().get('x_axis')

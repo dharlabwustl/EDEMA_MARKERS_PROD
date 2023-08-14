@@ -820,7 +820,7 @@ while IFS=',' read -ra array; do
   ###############################
   for x in ${outputfile_dir}/SAH_1_01052014_2003_2_resaved_levelset_GRAY*.jpg; do
     #              filename=args.stuff[1]
-    imagescale='0.3' #float(args.stuff[2])
+    imagescale='0.2' #float(args.stuff[2])
     angle='90'       #float(args.stuff[3])
     space='1'        #float(args.stuff[4])
     i=0
@@ -857,8 +857,8 @@ while IFS=',' read -ra array; do
     i=$(($i + 1))
     images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
+#    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+#    i=$(($i + 1))
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
     echo outputfiles_present::${outputfiles_present}
   done

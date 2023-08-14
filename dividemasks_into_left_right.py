@@ -58,7 +58,7 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
             img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'draw_midline_on_a_slice')
             subprocess.call(command,shell=True)
-            # return img_with_line1
+            return img_with_line1
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)

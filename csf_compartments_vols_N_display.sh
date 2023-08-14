@@ -797,88 +797,88 @@ mask_filename3=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_o
 mask_filename4=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-echo outputfiles_present::${outputfiles_present}
-latexfilename_prefix=${grayscale_filename%.nii*}
-csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-echo outputfiles_present::${outputfiles_present}
-############################
-while IFS=',' read -ra array; do
-  latexfilename=${array[0]}
-  echo ${latexfilename}
-  call_latex_start_arguments=('call_latex_start' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
-
-  ###############################
-  for x in ${outputfile_dir}/SAH_1_01052014_2003_2_GRAY*.jpg; do
-    #              filename=args.stuff[1]
-    imagescale='0.5' #float(args.stuff[2])
-    angle='90'       #float(args.stuff[3])
-    space='1'        #float(args.stuff[4])
-    i=0
-    #  for file in *
-    #  do
-    #      if [[ -f $file ]]; then
-    #          array[$i]=$file
-    #          i=$(($i+1))
-    #      fi
-    #  done
-
-    #    echo $suffix;
-    images[$i]='call_latex_insertimage_tableNc'
-    i=$(($i + 1))
-    images[$i]=${latexfilename}
-    i=$(($i + 1))
-    images[$i]=${imagescale}
-    i=$(($i + 1))
-    images[$i]=${angle}
-    i=$(($i + 1))
-    images[$i]=${space}
-    i=$(($i + 1))
-
-    y=${x%.*}
-    echo $y
-    suffix=${y##*_}
-    images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    i=$(($i + 1))
-    images[$i]=${working_dir_1}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS_${suffix}_V2.jpg
-    i=$(($i + 1))
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-    echo outputfiles_present::${outputfiles_present}
-  done
-
-  #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-  #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-
-  call_latex_end_arguments=('call_latex_end' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-
-done \
-  < <(tail -n +2 "${csv_file_tostore_latexfilename}")
-################################################################################################################################
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
-#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
-#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
-#calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
-#calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"
+#echo outputfiles_present::${outputfiles_present}
+#latexfilename_prefix=${grayscale_filename%.nii*}
+#csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+#call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+#echo outputfiles_present::${outputfiles_present}
+#############################
+#while IFS=',' read -ra array; do
+#  latexfilename=${array[0]}
+#  echo ${latexfilename}
+#  call_latex_start_arguments=('call_latex_start' ${latexfilename})
+#  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#  echo outputfiles_present::${outputfiles_present}
 #
-
-##############################################################################
-#calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
-#calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-#calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-#calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
-
-#for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
-#  #      cp ${filetocopy} ${final_output_directory}/
-#  URI_1=${url1%/resources*}
-#  resource_dirname="MASKS"
-#  call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
-#  outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#  echo ${outputfiles_present}
-#done
+#  ###############################
+#  for x in ${outputfile_dir}/SAH_1_01052014_2003_2_GRAY*.jpg; do
+#    #              filename=args.stuff[1]
+#    imagescale='0.5' #float(args.stuff[2])
+#    angle='90'       #float(args.stuff[3])
+#    space='1'        #float(args.stuff[4])
+#    i=0
+#    #  for file in *
+#    #  do
+#    #      if [[ -f $file ]]; then
+#    #          array[$i]=$file
+#    #          i=$(($i+1))
+#    #      fi
+#    #  done
+#
+#    #    echo $suffix;
+#    images[$i]='call_latex_insertimage_tableNc'
+#    i=$(($i + 1))
+#    images[$i]=${latexfilename}
+#    i=$(($i + 1))
+#    images[$i]=${imagescale}
+#    i=$(($i + 1))
+#    images[$i]=${angle}
+#    i=$(($i + 1))
+#    images[$i]=${space}
+#    i=$(($i + 1))
+#
+#    y=${x%.*}
+#    echo $y
+#    suffix=${y##*_}
+#    images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#    i=$(($i + 1))
+#    images[$i]=${working_dir_1}/SAH_1_01052014_2003_2_resaved_levelsetIML_REGIS_${suffix}_V2.jpg
+#    i=$(($i + 1))
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#    echo outputfiles_present::${outputfiles_present}
+#  done
+#
+#  #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#  #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+#
+#  call_latex_end_arguments=('call_latex_end' ${latexfilename})
+#  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+#
+#done \
+#  < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+#################################################################################################################################
+##calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+##calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
+##calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
+##calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
+##calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
+##calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
+##calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
+##calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"
+##
+#
+###############################################################################
+##calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
+##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+#
+##for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/${filename_nifti})*.mat; do
+##  #      cp ${filetocopy} ${final_output_directory}/
+##  URI_1=${url1%/resources*}
+##  resource_dirname="MASKS"
+##  call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
+##  outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+##  echo ${outputfiles_present}
+##done

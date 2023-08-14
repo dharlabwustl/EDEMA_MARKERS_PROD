@@ -64,14 +64,14 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
         pass
     print(returnvalue)
     return 0
-def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix):
+def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory=""):
     returnvalue=0
     try:
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         method_name="REGIS"
-        npyfiledirectory="/input"
+        # npyfiledirectory="/input"
 
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
@@ -84,12 +84,13 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
                 slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
             slice_number="{0:0=3d}".format(i)
-            filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
-            this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
-            try:
-                slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
-            except:
-                pass
+            # filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
+            # this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
+            if os.path.exists(npyfiledirectory):
+                try:
+                    slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+                except:
+                    pass
             # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
             # subprocess.call(command,shell=True)
             # if os.path.exists(this_npyfile):
@@ -130,8 +131,9 @@ def call_masks_on_grayscale_colored(args):
         mask_color_list=args.stuff[5].split('_')
         outputfile_dir=args.stuff[3]
         outputfile_suffix=args.stuff[4]
-        mask_filename_list=args.stuff[6:]
-        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix)
+        npyfiledirectory=args.stuff[6]
+        mask_filename_list=args.stuff[7:]
+        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:

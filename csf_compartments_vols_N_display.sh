@@ -883,7 +883,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
     call_latex_start_arguments=('call_latex_start' ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
     echo outputfiles_present::${outputfiles_present}
-    call_write_panda_df_arguments=('call_write_panda_df' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv)
+    call_write_panda_df_arguments=('call_write_panda_df' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
     #
     #    ###############################

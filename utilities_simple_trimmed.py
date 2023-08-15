@@ -808,7 +808,7 @@ def call_write_panda_df(args):
     table_df1.drop(["IDX"],axis=1)
 
     latexfilename=args.stuff[2]
-    write_panda_df(latexfilename,table_df)
+    write_panda_df(latexfilename,table_df1)
     return
 def latex_end(filename):
     file1 = open(filename,"a")

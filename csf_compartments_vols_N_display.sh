@@ -789,6 +789,19 @@ mask_subtraction() {
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 ##rename grayscale image
 #_resaved_levelset.nii.gz
+overlapped_mask_on_otherimage(){
+  local grayscale_filename_1=${1}
+  local contrast_limits=${2}
+  local outputfile_dir=${3}
+  local outputfile_suffix=${4}
+  local color_list=${5}
+  local working_dir_1=${6}
+  local -n mask_filename=${7}
+  local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]} )
+  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+
+}
 for grayscale_filename in ${working_dir_1}/*.nii*; do
   #grayscale_filename=${x} #${working_dir_1}/SAH_1_01052014_2003_2.nii
   grayscale_filename_basename=$(basename ${grayscale_filename})
@@ -805,8 +818,10 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
   mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
   mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
-  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+#  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 
   ###################################################################

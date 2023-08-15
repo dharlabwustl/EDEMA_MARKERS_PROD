@@ -789,97 +789,97 @@ mask_subtraction() {
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 ##rename grayscale image
 #_resaved_levelset.nii.gz
-for grayscale_filename in ${working_dir_1}/*.nii* ; do
-#grayscale_filename=${x} #${working_dir_1}/SAH_1_01052014_2003_2.nii
-grayscale_filename_basename=$(basename ${grayscale_filename})
-grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
-grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
-grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
-cp ${grayscale_filename} ${grayscale_filename_1}
-contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
-# mask_color_list=args.stuff[4]
-outputfile_dir=${output_directory}
-outputfile_suffix="GRAY"
-color_list='red_green_black_black'
-mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
-mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
-mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
-call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-echo outputfiles_present::${outputfiles_present}
-
-###################################################################
-
-latexfilename_prefix=${grayscale_filename%.nii*}
-csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-echo outputfiles_present::${outputfiles_present}
-############################
-while IFS=',' read -ra array; do
-  latexfilename=${array[0]}
-  echo ${latexfilename}
-  call_latex_start_arguments=('call_latex_start' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+for grayscale_filename in ${working_dir_1}/*.nii*; do
+  #grayscale_filename=${x} #${working_dir_1}/SAH_1_01052014_2003_2.nii
+  grayscale_filename_basename=$(basename ${grayscale_filename})
+  grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
+  grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+  grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
+  cp ${grayscale_filename} ${grayscale_filename_1}
+  contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+  # mask_color_list=args.stuff[4]
+  outputfile_dir=${output_directory}
+  outputfile_suffix="GRAY"
+  color_list='red_green_black_black'
+  mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+  mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+  mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+  mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 
-  ###############################
-  for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
-    #              filename=args.stuff[1]
-    imagescale='0.2' #float(args.stuff[2])
-    angle='90'       #float(args.stuff[3])
-    space='1'        #float(args.stuff[4])
-    i=0
-    #  for file in *
-    #  do
-    #      if [[ -f $file ]]; then
-    #          array[$i]=$file
-    #          i=$(($i+1))
-    #      fi
-    #  done
+  ###################################################################
 
-    #    echo $suffix;
-    images[$i]='call_latex_insertimage_tableNc'
-    i=$(($i + 1))
-    images[$i]=${latexfilename}
-    i=$(($i + 1))
-    images[$i]=${imagescale}
-    i=$(($i + 1))
-    images[$i]=${angle}
-    i=$(($i + 1))
-    images[$i]=${space}
-    i=$(($i + 1))
-
-    y=${x%.*}
-    echo $y
-    suffix=${y##*_}
-    images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    i=$(($i + 1))
-    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
-    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
-    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
-    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
-#    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-#    i=$(($i + 1))
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+  latexfilename_prefix=${grayscale_filename%.nii*}
+  csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+  call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+  ############################
+  while IFS=',' read -ra array; do
+    latexfilename=${array[0]}
+    echo ${latexfilename}
+    call_latex_start_arguments=('call_latex_start' ${latexfilename})
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
     echo outputfiles_present::${outputfiles_present}
-  done
 
-  #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-  #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+    ###############################
+    for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
+      #              filename=args.stuff[1]
+      imagescale='0.2' #float(args.stuff[2])
+      angle='90'       #float(args.stuff[3])
+      space='1'        #float(args.stuff[4])
+      i=0
+      #  for file in *
+      #  do
+      #      if [[ -f $file ]]; then
+      #          array[$i]=$file
+      #          i=$(($i+1))
+      #      fi
+      #  done
 
-  call_latex_end_arguments=('call_latex_end' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+      #    echo $suffix;
+      images[$i]='call_latex_insertimage_tableNc'
+      i=$(($i + 1))
+      images[$i]=${latexfilename}
+      i=$(($i + 1))
+      images[$i]=${imagescale}
+      i=$(($i + 1))
+      images[$i]=${angle}
+      i=$(($i + 1))
+      images[$i]=${space}
+      i=$(($i + 1))
 
-done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+      y=${x%.*}
+      echo $y
+      suffix=${y##*_}
+      images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+      i=$(($i + 1))
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      i=$(($i + 1))
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      i=$(($i + 1))
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      i=$(($i + 1))
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      i=$(($i + 1))
+      #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+      #    i=$(($i + 1))
+      outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+      echo outputfiles_present::${outputfiles_present}
+    done
+
+    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+
+    call_latex_end_arguments=('call_latex_end' ${latexfilename})
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+
+  done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done
 ################################################################################################################################
-calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"

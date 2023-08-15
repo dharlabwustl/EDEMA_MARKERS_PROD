@@ -877,8 +877,8 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
       i=$(($i + 1))
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-      i=$(($i + 1))
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+#      i=$(($i + 1))
       #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
       #    i=$(($i + 1))
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")

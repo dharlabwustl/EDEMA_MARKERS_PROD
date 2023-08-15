@@ -791,6 +791,7 @@ mask_subtraction() {
 #_resaved_levelset.nii.gz
 grayscale_filename=${working_dir_1}/SAH_1_01052014_2003_2.nii
 grayscale_filename_basename=$(basename ${grayscale_filename})
+grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
 grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
 grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
 cp ${grayscale_filename} ${grayscale_filename_1}
@@ -799,10 +800,10 @@ contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1]
 outputfile_dir=${output_directory}
 outputfile_suffix="GRAY"
 color_list='red_green_black_black'
-mask_filename1=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz
-mask_filename2=${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz
-mask_filename3=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz
-mask_filename4=${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz
+mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 echo outputfiles_present::${outputfiles_present}

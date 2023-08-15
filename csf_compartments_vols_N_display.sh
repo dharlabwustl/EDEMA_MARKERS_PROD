@@ -789,7 +789,8 @@ mask_subtraction() {
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 ##rename grayscale image
 #_resaved_levelset.nii.gz
-grayscale_filename=${working_dir_1}/SAH_1_01052014_2003_2.nii
+for x in ${working_dir_1}/*.nii* ; do
+grayscale_filename=${x} #${working_dir_1}/SAH_1_01052014_2003_2.nii
 grayscale_filename_basename=$(basename ${grayscale_filename})
 grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
 grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
@@ -876,6 +877,7 @@ while IFS=',' read -ra array; do
   outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 
 done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+done
 ################################################################################################################################
 calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"

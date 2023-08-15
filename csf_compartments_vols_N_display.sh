@@ -870,13 +870,13 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   #  mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
   #  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
   #  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-  #  #############################################################
-  #  latexfilename_prefix=${grayscale_filename%.nii*}
-  #  csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-  #  call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-  #  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-  #  echo outputfiles_present::${outputfiles_present}
-  #  ############################
+    #############################################################
+    latexfilename_prefix=${grayscale_filename%.nii*}
+    csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+    call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+    echo outputfiles_present::${outputfiles_present}
+    ############################
   while IFS=',' read -ra array; do
     latexfilename=${array[0]}
     echo ${latexfilename}

@@ -38,6 +38,28 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+def combine_csv_horizontally(list_df_files,combined_csv_filename):
+    list_df=[]
+    for x in list_df_files:
+        list_df.append(pd.read_csv(x))
+
+    list_df_combined = pd.concat(list_df, axis=1)
+    list_df_combined.to_csv(combined_csv_filename,index=False)
+def call_combine_csv_horizontally(args):
+    returnvalue=0
+
+    try:
+        combined_csv_filename=args.stuff[1]
+        list_df_files=args.stuff[2:]
+        combine_csv_horizontally(list_df_files,combined_csv_filename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_combine_csv_horizontally')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
+
 # def color_to_BGRvalues():
 def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number):
     returnvalue=0
@@ -1458,6 +1480,8 @@ def main():
         return_value=call_masks_subtraction(args)
     if name_of_the_function == "call_masks_on_grayscale_colored":
         return_value=call_masks_on_grayscale_colored(args)
+    if name_of_the_function == "call_combine_csv_horizontally":
+        return_value=call_combine_csv_horizontally(args)
 
 
 

@@ -790,6 +790,7 @@ mask_subtraction() {
 ##rename grayscale image
 #_resaved_levelset.nii.gz
 grayscale_filename=${working_dir_1}/SAH_1_01052014_2003_2.nii
+grayscale_filename_ext=${grayscale_filename##*.}
 grayscale_filename_basename=$(basename grayscale_filename)
 grayscale_filename_basename_noext=t=${grayscale_filename_basename%.nii*}
 grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.nii

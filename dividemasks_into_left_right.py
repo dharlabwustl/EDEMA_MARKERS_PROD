@@ -233,6 +233,8 @@ def call_calculate_volume(args):
         single_voxel_volume=np.prod(np.array(nib.load(args.stuff[1]).header["pixdim"][1:4]))
         # righthalf_np=nib.load(args.stuff[2]).get_fdata()
         column_name=args.stuff[2]
+        column_name=column_name.replace('levelset_','')
+        column_name=column_name.replace('unet_','')
         column_name=column_name.upper()
         filename_to_write=args.stuff[3]
         returnvalue=calculate_volume(mask_np,single_voxel_volume=single_voxel_volume,column_name=column_name,filename_to_write=filename_to_write)

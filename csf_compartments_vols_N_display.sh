@@ -790,7 +790,9 @@ mask_subtraction() {
 ##rename grayscale image
 #_resaved_levelset.nii.gz
 grayscale_filename=${working_dir_1}/SAH_1_01052014_2003_2.nii
-grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.nii
+grayscale_filename_basename=$(basename ${grayscale_filename})
+grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
 cp ${grayscale_filename} ${grayscale_filename_1}
 contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
 # mask_color_list=args.stuff[4]

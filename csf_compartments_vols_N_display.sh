@@ -740,6 +740,9 @@ midlineonly_each_scan ${filename_nifti}
 
 split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
+split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
+split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
+split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 
@@ -789,7 +792,7 @@ mask_subtraction() {
 #mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
 ##rename grayscale image
 #_resaved_levelset.nii.gz
-overlapped_mask_on_otherimage(){
+overlapped_mask_on_otherimage() {
   local grayscale_filename_1=${1}
   local contrast_limits=${2}
   local outputfile_dir=${3}
@@ -797,7 +800,7 @@ overlapped_mask_on_otherimage(){
   local color_list=${5}
   local working_dir_1=${6}
   local -n mask_filename=${7}
-  local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]} )
+  local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 
@@ -819,21 +822,32 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
   mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
   mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+  mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
+  mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
+  mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
+  mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
+  mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
+  mask_filename10${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
   mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
   call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-### GRAY SCALE with all CSF
+  ### GRAY SCALE with all CSF
   outputfile_suffix="GRAY_CSF"
   color_list='red_green'
   mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1}  ${mask_filename3} ${mask_filename4})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
   echo outputfiles_present::${outputfiles_present}
 
   ###################################################################
-
+  outputfile_suffix="GRAY_CSF_COMPARTMENTS"
+  color_list='green_green_yellow_yellow_red_red_blue_blue'
+  mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  #############################################################
   latexfilename_prefix=${grayscale_filename%.nii*}
   csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
   call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
@@ -881,12 +895,12 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
       i=$(($i + 1))
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_CSF_${suffix}.jpg
       i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_CSF_COMPARTMENTS_${suffix}.jpg
       i=$(($i + 1))
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))
-#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-#      i=$(($i + 1))
+      #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+      #      i=$(($i + 1))
       #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
       #    i=$(($i + 1))
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")

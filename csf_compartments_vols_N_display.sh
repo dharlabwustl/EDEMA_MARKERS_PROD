@@ -847,7 +847,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
   call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
   call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
-  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
+  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/${grayscale_filename_basename_noext}.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
   echo ${call_combine_csv_horizontally_arguments[@]}
 
@@ -883,7 +883,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
     call_latex_start_arguments=('call_latex_start' ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
     echo outputfiles_present::${outputfiles_present}
-    call_write_panda_df_arguments=('call_write_panda_df' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${latexfilename})
+    call_write_panda_df_arguments=('call_write_panda_df' ${working_dir_1}/${grayscale_filename_basename_noext}.csv ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
     #
     #    ###############################

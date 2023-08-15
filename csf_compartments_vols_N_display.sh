@@ -917,11 +917,30 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done
 ################################################################################################################################
-calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz "LEFT_CSF_VOLUME"
-#calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
-#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
-#calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
-#calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'left' "LEFT_VENTRICLE_VOLUME"
+call_calculate_volume()
+{
+  local mask_filename=${1}
+  local column_name_this=$(basename ${mask_filename} )
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
+  local column_name_this=${column_name_this%_half_originalRF*}
+  calculate_volume ${mask_filename1} ${column_name_this}
+}
+call_calculate_volume ${mask_filename1}
+call_calculate_volume ${mask_filename2}
+call_calculate_volume ${mask_filename3}
+call_calculate_volume ${mask_filename4}
+call_calculate_volume ${mask_filename5}
+call_calculate_volume ${mask_filename6}
+call_calculate_volume ${mask_filename7}
+call_calculate_volume ${mask_filename8}
+call_calculate_volume ${mask_filename9}
+call_calculate_volume ${mask_filename10}
+
+#calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz "LEFT_CSF_VOLUME"
+#calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
+#calculate_volume ${working_dir}/${grayscale_filename_basename_noext}"_resaved_levelset_sulci_total.nii.gz"  "SULCAL_LEFT"
+##calculate_volume ${working_dir}/${grayscale_filename_basename_noext}"_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"
+#calculate_volume ${working_dir}/${grayscale_filename_basename_noext}"_resaved_levelset_ventricle_total.nii.gz" "VENTRICLE_TOTAL"
 #calculate_volume "_resaved_levelset_ventricle_total.nii.gz" 'right' "RIGHT_VENTRICLE_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_left_half_originalRF.nii.gz  "LEFT_BET_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  "RIGHT_BET_VOLUME"

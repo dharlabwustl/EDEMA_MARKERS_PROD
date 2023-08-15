@@ -820,14 +820,16 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
   mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
   mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-#  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 ### GRAY SCALE with all CSF
   outputfile_suffix="GRAY_CSF"
   color_list='red_green'
   mask_filename=(${mask_filename3} ${mask_filename4})
-  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1}  ${mask_filename3} ${mask_filename4})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
   echo outputfiles_present::${outputfiles_present}
 
   ###################################################################

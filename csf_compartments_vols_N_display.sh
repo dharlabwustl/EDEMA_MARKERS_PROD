@@ -935,9 +935,9 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
     #    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
     #    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
     #
-    #    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-    #
+        call_latex_end_arguments=('call_latex_end' ${latexfilename})
+        outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+
   done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done
 #################################################################################################################################

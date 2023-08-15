@@ -811,6 +811,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   cp ${grayscale_filename} ${grayscale_filename_1}
   contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
   # mask_color_list=args.stuff[4]
+  ## GRAY SCALE WITH BET MASK with CSF subtracted.
   outputfile_dir=${output_directory}
   outputfile_suffix="GRAY"
   color_list='red_green_black_black'
@@ -822,6 +823,11 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
 #  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 #  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+### GRAY SCALE with all CSF
+  outputfile_suffix="GRAY_CSF"
+  color_list='red_green'
+  mask_filename=(${mask_filename3} ${mask_filename4})
+  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
   echo outputfiles_present::${outputfiles_present}
 
   ###################################################################

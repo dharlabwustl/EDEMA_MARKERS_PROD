@@ -846,7 +846,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   call_calculate_volume ${mask_filename8}
   call_calculate_volume ${mask_filename9}
   call_calculate_volume ${mask_filename10}
-  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${mask_filename1%.nii*}.csv ${mask_filename2%.nii*}.csv ${mask_filename3%.nii*}.csv ${mask_filename4%.nii*}.csv ${mask_filename5%.nii*}.csv ${mask_filename6%.nii*}.csv ${mask_filename7%.nii*}.csv ${mask_filename8%.nii*}.csv ${mask_filename9%.nii*}.csv ${mask_filename10%.nii*}.csv)
+  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${working_dir}/$(basename ${mask_filename1%.nii*}.csv ) ${working_dir}/$(basename ${mask_filename2%.nii*}.csv )  ${working_dir}/$(basename ${mask_filename3%.nii*}.csv )  ${working_dir}/$(basename ${mask_filename4%.nii*}.csv )   ${working_dir}/$(basename ${mask_filename5%.nii*}.csv )  ${working_dir}/$(basename ${mask_filename6%.nii*}.csv )  ${working_dir}/$(basename ${mask_filename7%.nii*}.csv )  ${working_dir}/$(basename ${mask_filename8%.nii*}.csv )   ${working_dir}/$(basename ${mask_filename9%.nii*}.csv )   ${working_dir}/$(basename ${mask_filename10%.nii*}.csv ) )
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
   mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
   #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename

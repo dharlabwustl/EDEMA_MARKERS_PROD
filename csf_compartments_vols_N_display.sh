@@ -846,95 +846,95 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   call_calculate_volume ${mask_filename8}
   call_calculate_volume ${mask_filename9}
   call_calculate_volume ${mask_filename10}
-  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv ) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv )  ${output_directory}/$(basename ${mask_filename3%.nii*}.csv )  ${output_directory}/$(basename ${mask_filename4%.nii*}.csv )   ${output_directory}/$(basename ${mask_filename5%.nii*}.csv )  ${output_directory}/$(basename ${mask_filename6%.nii*}.csv )  ${output_directory}/$(basename ${mask_filename7%.nii*}.csv )  ${output_directory}/$(basename ${mask_filename8%.nii*}.csv )   ${output_directory}/$(basename ${mask_filename9%.nii*}.csv )   ${output_directory}/$(basename ${mask_filename10%.nii*}.csv ) )
-#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-echo ${call_combine_csv_horizontally_arguments[@]}
-#  mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-#  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#  ### GRAY SCALE with all CSF
-#  outputfile_suffix="COMPLETE_CSF"
-#  color_list='red_green'
-#  mask_filename=(${mask_filename3} ${mask_filename4})
-#  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
-#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-#  echo outputfiles_present::${outputfiles_present}
-#
-#  ###################################################################
-#  outputfile_suffix="CSF_COMPARTMENTS"
-#  color_list='green_green_yellow_yellow_red_red_blue_blue'
-#  mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#  #############################################################
-#  latexfilename_prefix=${grayscale_filename%.nii*}
-#  csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-#  call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-#  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-#  echo outputfiles_present::${outputfiles_present}
-#  ############################
-#  while IFS=',' read -ra array; do
-#    latexfilename=${array[0]}
-#    echo ${latexfilename}
-#    call_latex_start_arguments=('call_latex_start' ${latexfilename})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#    echo outputfiles_present::${outputfiles_present}
-#
-#    ###############################
-#    for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
-#      #              filename=args.stuff[1]
-#      imagescale='0.2' #float(args.stuff[2])
-#      angle='90'       #float(args.stuff[3])
-#      space='1'        #float(args.stuff[4])
-#      i=0
-#      #  for file in *
-#      #  do
-#      #      if [[ -f $file ]]; then
-#      #          array[$i]=$file
-#      #          i=$(($i+1))
-#      #      fi
-#      #  done
-#
-#      #    echo $suffix;
-#      images[$i]='call_latex_insertimage_tableNc'
-#      i=$(($i + 1))
-#      images[$i]=${latexfilename}
-#      i=$(($i + 1))
-#      images[$i]=${imagescale}
-#      i=$(($i + 1))
-#      images[$i]=${angle}
-#      i=$(($i + 1))
-#      images[$i]=${space}
-#      i=$(($i + 1))
-#
-#      y=${x%.*}
-#      echo $y
-#      suffix=${y##*_}
-#      images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-#      i=$(($i + 1))
-#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
-#      i=$(($i + 1))
-#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
-#      i=$(($i + 1))
-#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-#      i=$(($i + 1))
-#      #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-#      #      i=$(($i + 1))
-#      #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-#      #    i=$(($i + 1))
-#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-#      echo outputfiles_present::${outputfiles_present}
-#    done
-#
-#    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-#    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-#
-#    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-#
-#  done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${output_directory}/$(basename ${mask_filename1%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename2%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename3%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename4%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename5%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename6%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename7%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename8%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename9%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename10%_half_originalRF*}.csv))
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+  echo ${call_combine_csv_horizontally_arguments[@]}
+  #  mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+  #  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+  #  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+  #  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  #  ### GRAY SCALE with all CSF
+  #  outputfile_suffix="COMPLETE_CSF"
+  #  color_list='red_green'
+  #  mask_filename=(${mask_filename3} ${mask_filename4})
+  #  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+  #  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  #  #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+  #  echo outputfiles_present::${outputfiles_present}
+  #
+  #  ###################################################################
+  #  outputfile_suffix="CSF_COMPARTMENTS"
+  #  color_list='green_green_yellow_yellow_red_red_blue_blue'
+  #  mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+  #  call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+  #  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  #  #############################################################
+  #  latexfilename_prefix=${grayscale_filename%.nii*}
+  #  csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+  #  call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+  #  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+  #  echo outputfiles_present::${outputfiles_present}
+  #  ############################
+  #  while IFS=',' read -ra array; do
+  #    latexfilename=${array[0]}
+  #    echo ${latexfilename}
+  #    call_latex_start_arguments=('call_latex_start' ${latexfilename})
+  #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+  #    echo outputfiles_present::${outputfiles_present}
+  #
+  #    ###############################
+  #    for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
+  #      #              filename=args.stuff[1]
+  #      imagescale='0.2' #float(args.stuff[2])
+  #      angle='90'       #float(args.stuff[3])
+  #      space='1'        #float(args.stuff[4])
+  #      i=0
+  #      #  for file in *
+  #      #  do
+  #      #      if [[ -f $file ]]; then
+  #      #          array[$i]=$file
+  #      #          i=$(($i+1))
+  #      #      fi
+  #      #  done
+  #
+  #      #    echo $suffix;
+  #      images[$i]='call_latex_insertimage_tableNc'
+  #      i=$(($i + 1))
+  #      images[$i]=${latexfilename}
+  #      i=$(($i + 1))
+  #      images[$i]=${imagescale}
+  #      i=$(($i + 1))
+  #      images[$i]=${angle}
+  #      i=$(($i + 1))
+  #      images[$i]=${space}
+  #      i=$(($i + 1))
+  #
+  #      y=${x%.*}
+  #      echo $y
+  #      suffix=${y##*_}
+  #      images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+  #      i=$(($i + 1))
+  #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
+  #      i=$(($i + 1))
+  #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
+  #      i=$(($i + 1))
+  #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+  #      i=$(($i + 1))
+  #      #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+  #      #      i=$(($i + 1))
+  #      #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+  #      #    i=$(($i + 1))
+  #      outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+  #      echo outputfiles_present::${outputfiles_present}
+  #    done
+  #
+  #    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+  #    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+  #
+  #    call_latex_end_arguments=('call_latex_end' ${latexfilename})
+  #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+  #
+  #  done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done
 #################################################################################################################################
 #

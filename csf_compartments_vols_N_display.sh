@@ -822,6 +822,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
   mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
   mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+
   mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
   mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
   mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
@@ -833,7 +834,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
   ### GRAY SCALE with all CSF
-  outputfile_suffix="GRAY_CSF"
+  outputfile_suffix="COMPLETE_CSF"
   color_list='red_green'
   mask_filename=(${mask_filename3} ${mask_filename4})
   call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
@@ -842,7 +843,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   echo outputfiles_present::${outputfiles_present}
 
   ###################################################################
-  outputfile_suffix="GRAY_CSF_COMPARTMENTS"
+  outputfile_suffix="CSF_COMPARTMENTS"
   color_list='green_green_yellow_yellow_red_red_blue_blue'
   mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
   call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
@@ -893,9 +894,9 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
       suffix=${y##*_}
       images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
       i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_CSF_${suffix}.jpg
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
       i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_CSF_COMPARTMENTS_${suffix}.jpg
+      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
       i=$(($i + 1))
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))

@@ -800,7 +800,13 @@ def write_panda_df(latexfilename,table_df):
     return
 def call_write_panda_df(args):
     table_df=pd.read_csv(args.stuff[1])
-    table_df=table_df.T
+    table_df['FILENAME']=os.path.basename(args.stuff[1])
+    column_to_move = table_df.pop('FILENAME')
+    table_df.insert(0, 'FILENAME', column_to_move)
+    table_df1=table_df.unstack().reset_index()
+    table_df1.columns=["Region","IDX","Volume"]
+    table_df1.drop(["IDX"],axis=1)
+
     latexfilename=args.stuff[2]
     write_panda_df(latexfilename,table_df)
     return

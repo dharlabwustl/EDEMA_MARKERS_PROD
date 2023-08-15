@@ -800,6 +800,7 @@ def write_panda_df(latexfilename,table_df):
     return
 def call_write_panda_df(args):
     table_df=pd.read_csv(args.stuff[1])
+    table_df=table_df.T
     latexfilename=args.stuff[2]
     write_panda_df(latexfilename,table_df)
     return

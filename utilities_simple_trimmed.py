@@ -799,7 +799,7 @@ def write_panda_df(latexfilename,table_df):
     latex_end_table2c(latexfilename)
     return
 def call_write_panda_df(args):
-    table_df=np.read_csv(args.stuff[1])
+    table_df=pd.read_csv(args.stuff[1])
     latexfilename=args.stuff[2]
     write_panda_df(latexfilename,table_df)
     return

@@ -770,13 +770,14 @@ calculate_volume() {
   local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
   local mask_file_basename=$(basename ${mask_file})
   mask_file_basename=${mask_file_basename%.nii*}
-  local filename_to_write=${output_directory}/${mask_file_basename}_${column_name}.csv
+  local filename_to_write=${output_directory}/${mask_file_basename}.csv
   local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
 call_calculate_volume() {
   local mask_filename=${1}
+  local grayscale_filename_basename_noext=${2}
   local column_name_this=$(basename ${mask_filename})
   local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
   local column_name_this=${column_name_this%_half_originalRF*}
@@ -836,17 +837,17 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
   mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
 
-  call_calculate_volume ${mask_filename1}
-  call_calculate_volume ${mask_filename2}
-  call_calculate_volume ${mask_filename3}
-  call_calculate_volume ${mask_filename4}
-  call_calculate_volume ${mask_filename5}
-  call_calculate_volume ${mask_filename6}
-  call_calculate_volume ${mask_filename7}
-  call_calculate_volume ${mask_filename8}
-  call_calculate_volume ${mask_filename9}
-  call_calculate_volume ${mask_filename10}
-  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${output_directory}/$(basename ${mask_filename1%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename2%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename3%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename4%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename5%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename6%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename7%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename8%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename9%_half_originalRF*}.csv) ${output_directory}/$(basename ${mask_filename10%_half_originalRF*}.csv))
+  call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+  call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/COMBINED_CSF_VOLUMES.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
   echo ${call_combine_csv_horizontally_arguments[@]}
   #  mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})

@@ -775,7 +775,13 @@ calculate_volume() {
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
-
+call_calculate_volume() {
+  local mask_filename=${1}
+  local column_name_this=$(basename ${mask_filename})
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
+  local column_name_this=${column_name_this%_half_originalRF*}
+  calculate_volume ${mask_filename1} ${column_name_this}
+}
 mask_subtraction() {
   local mask_donor=${1}
   local mask_tobe_subtracted=${2}
@@ -829,6 +835,19 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
   mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
   mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
+
+  call_calculate_volume ${mask_filename1}
+  call_calculate_volume ${mask_filename2}
+  call_calculate_volume ${mask_filename3}
+  call_calculate_volume ${mask_filename4}
+  call_calculate_volume ${mask_filename5}
+  call_calculate_volume ${mask_filename6}
+  call_calculate_volume ${mask_filename7}
+  call_calculate_volume ${mask_filename8}
+  call_calculate_volume ${mask_filename9}
+  call_calculate_volume ${mask_filename10}
+  call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${mask_filename1%.nii*}.csv ${mask_filename2%.nii*}.csv ${mask_filename3%.nii*}.csv ${mask_filename4%.nii*}.csv ${mask_filename5%.nii*}.csv ${mask_filename6%.nii*}.csv ${mask_filename7%.nii*}.csv ${mask_filename8%.nii*}.csv ${mask_filename9%.nii*}.csv ${mask_filename10%.nii*}.csv)
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
   mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
   #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
   call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
@@ -917,24 +936,6 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
   done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done
 ################################################################################################################################
-call_calculate_volume()
-{
-  local mask_filename=${1}
-  local column_name_this=$(basename ${mask_filename} )
-  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
-  local column_name_this=${column_name_this%_half_originalRF*}
-  calculate_volume ${mask_filename1} ${column_name_this}
-}
-call_calculate_volume ${mask_filename1}
-call_calculate_volume ${mask_filename2}
-call_calculate_volume ${mask_filename3}
-call_calculate_volume ${mask_filename4}
-call_calculate_volume ${mask_filename5}
-call_calculate_volume ${mask_filename6}
-call_calculate_volume ${mask_filename7}
-call_calculate_volume ${mask_filename8}
-call_calculate_volume ${mask_filename9}
-call_calculate_volume ${mask_filename10}
 
 #calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"

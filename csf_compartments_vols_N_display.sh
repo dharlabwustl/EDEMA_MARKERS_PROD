@@ -780,7 +780,7 @@ call_calculate_volume() {
   local column_name_this=$(basename ${mask_filename})
   local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
   local column_name_this=${column_name_this%_half_originalRF*}
-  calculate_volume ${mask_filename1} ${column_name_this}
+  calculate_volume ${mask_filename} ${column_name_this}
 }
 mask_subtraction() {
   local mask_donor=${1}

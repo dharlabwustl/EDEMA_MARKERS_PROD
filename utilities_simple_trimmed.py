@@ -793,7 +793,16 @@ def call_create_a_latex_filename(args):
         subprocess.call(command,shell=True)
     print(returnvalue)
     return  returnvalue
-
+def write_panda_df(latexfilename,table_df):
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+    return
+def call_write_panda_df(args):
+    table_df=np.read_csv(args.stuff[1])
+    latexfilename=args.stuff[2]
+    write_panda_df(latexfilename,table_df)
+    return
 def latex_end(filename):
     file1 = open(filename,"a")
     file1.writelines("\\end{document}\n")
@@ -1487,6 +1496,8 @@ def main():
         return_value=call_latex_insertimage_tableNc(args)
     if name_of_the_function == "call_latex_end":
         return_value=call_latex_end(args)
+    if name_of_the_function == "call_write_panda_df":
+        return_value=call_write_panda_df(args)
 
 
 

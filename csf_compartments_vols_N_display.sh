@@ -824,7 +824,7 @@ while IFS=',' read -ra array; do
   echo outputfiles_present::${outputfiles_present}
 
   ###############################
-  for x in ${outputfile_dir}/SAH_1_01052014_2003_2_resaved_levelset_GRAY*.jpg; do
+  for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
     #              filename=args.stuff[1]
     imagescale='0.2' #float(args.stuff[2])
     angle='90'       #float(args.stuff[3])
@@ -855,13 +855,13 @@ while IFS=',' read -ra array; do
     suffix=${y##*_}
     images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
     i=$(($i + 1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
-    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))
 #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
 #    i=$(($i + 1))
@@ -877,7 +877,7 @@ while IFS=',' read -ra array; do
 
 done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ################################################################################################################################
-calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
+calculate_volume ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz  "LEFT_CSF_VOLUME"
 #calculate_volume ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz  "RIGHT_CSF_VOLUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'left' "LEFT_SULCI_LUME"
 #calculate_volume "_resaved_levelset_sulci_total.nii.gz" 'right' "RIGHT_SULCI_VOLUME"

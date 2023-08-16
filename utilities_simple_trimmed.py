@@ -811,7 +811,7 @@ def call_write_panda_df(args):
         session_label_df = pd.DataFrame(table_df.pop('SESSION_LABEL'))
         # table_df.insert(0, 'FILENAME', column_to_move)
         table_df1=table_df.unstack().reset_index()
-        table_df1.columns=["Region","IDX","Volume"]
+        table_df1.columns=["Region","IDX","Volume(ml)"]
         table_df1=table_df1.drop(["IDX"],axis=1)
         latexfilename=args.stuff[2]
         write_panda_df(latexfilename,session_label_df)

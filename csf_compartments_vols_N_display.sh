@@ -723,7 +723,7 @@ download_files_from_resources() {
     local filename2=$(basename ${url2})
     local call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
     local outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-    csffillocal e=${dir_to_save}/${filename2}
+    local csffile=${dir_to_save}/${filename2}
     echo "${csffile}"
   done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 

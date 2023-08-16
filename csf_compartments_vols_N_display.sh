@@ -878,8 +878,7 @@ contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1]
 # mask_color_list=args.stuff[4]
 ## GRAY SCALE WITH BET MASK with CSF subtracted.
 outputfile_dir=${output_directory}
-outputfile_suffix="GRAY"
-color_list='red_green_black_black'
+
 mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
 mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
 mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
@@ -932,15 +931,19 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_la
 call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv  ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)  ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) )
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
 #echo ${call_combine_csv_horizontally_arguments[@]}
+call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${outputfile_dir})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_saveslicesofnifti_arguments[@]}")
 
-mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+outputfile_suffix="GRAY"
+color_list='red_green_black_black'
+#mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 ### GRAY SCALE with all CSF
 outputfile_suffix="COMPLETE_CSF"
 color_list='red_green'
-mask_filename=(${mask_filename3} ${mask_filename4})
+#mask_filename=(${mask_filename3} ${mask_filename4})
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
@@ -949,7 +952,7 @@ echo outputfiles_present::${outputfiles_present}
 ###################################################################
 outputfile_suffix="CSF_COMPARTMENTS"
 color_list='green_green_yellow_yellow_red_red_blue_blue'
-mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+#mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #############################################################

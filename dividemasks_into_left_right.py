@@ -88,6 +88,7 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
         pass
     print(returnvalue)
     return 0
+
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory=""):
     returnvalue=0
     try:

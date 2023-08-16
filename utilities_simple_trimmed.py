@@ -1368,7 +1368,17 @@ def saveslicesofnifti(filename,savetodir=""):
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
     for x in range(img_gray_data.shape[2]):
         cv2.imwrite(os.path.join(savetodir,os.path.basename(filename).split(".nii")[0]+str(x)+".jpg" ),img_gray_data[:,:,x]*255 )
-    
+
+def call_saveslicesofnifti(args):
+    try:
+        filename=args.stuff[1]
+        savetodir=args.stuff[2]
+        saveslicesofnifti(filename,savetodir=savetodir)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
 def savesingleslicesofnifti(filename,slicenumber=0,savetodir=""):
     filename_nib=nib.load(filename)
     filename_gray_data_np=filename_nib.get_fdata()
@@ -1519,6 +1529,8 @@ def main():
         return_value=call_latex_end(args)
     if name_of_the_function == "call_write_panda_df":
         return_value=call_write_panda_df(args)
+    if name_of_the_function == "call_saveslicesofnifti":
+        return_value=call_saveslicesofnifti(args)
 
 
 

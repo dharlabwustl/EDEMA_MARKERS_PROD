@@ -740,7 +740,9 @@ while IFS=',' read -ra array; do
     resource_dir="MASKS"
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+    while IFS=',' read -ra array2; do
 
+      url2=${array2[6]}
               echo "It's there!"
               echo "${array2[6]}"
               filename2=$(basename ${url2})
@@ -905,9 +907,9 @@ pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_dire
     #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
     #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
+#    while IFS=',' read -ra array2; do
+#
+#      url2=${array2[6]}
       #################
 
 

@@ -707,9 +707,8 @@ echo " I AM RUNNING "
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}
-
-call_get_metadata_session_arguments=('call_get_metadata_session' ${sessionID} )
-outputfiles_present=$(python3 download_with_session_ID.py "${call_get_metadata_session_arguments[@]}")
+#call_get_metadata_session_arguments=('call_get_metadata_session' ${sessionID} )
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_get_metadata_session_arguments[@]}")
 #resource_dir="NIFTI_LOCATION"
 #output_csvfile=${sessionID}_SCANSELECTION_METADATA.csv
 #call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}

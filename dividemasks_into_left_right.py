@@ -211,6 +211,7 @@ def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_t
         volume=single_voxel_volume*np.sum(mask_np)
         # infarct_total_voxels_volume =np.sum(mask_np)*
         volume=volume/1000
+        volume=round(volume,2)
         # righthalf_np[righthalf_np>0]=1
         # righthalf_np[righthalf_np<1]=0
         # left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)

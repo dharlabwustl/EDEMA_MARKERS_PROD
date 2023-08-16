@@ -893,8 +893,8 @@ outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_gr
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ############# FILL THE LATEX FILE #################
 #echo outputfiles_present::${outputfiles_present}
-#call_write_panda_df_arguments=('call_write_panda_df' ${working_dir_1}/${grayscale_filename_basename_noext}.csv ${latexfilename})
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename}.csv ${latexfilename})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 #
 ################################
 #for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do

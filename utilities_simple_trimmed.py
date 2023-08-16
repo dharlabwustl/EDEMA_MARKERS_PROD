@@ -815,7 +815,7 @@ def call_write_panda_df(args):
         latexfilename=args.stuff[2]
         write_panda_df(latexfilename,title_df)
         write_panda_df(latexfilename,table_df1)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_insertimage_tableNc')
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
         subprocess.call(command,shell=True)
         returnvalue=1
     except:

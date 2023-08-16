@@ -1144,14 +1144,29 @@ def copy_nifti():
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 
-def get_metadata_session(sessionId):
+def get_metadata_session(sessionId,outputfile="NONE.csv"):
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     xnatSession.close_httpsession()
     metadata_session=response.json()['ResultSet']['Result']
+    metadata_session_1=json.dumps(metadata_session)
+    df_scan = pd.read_json(metadata_session_1)
+    df_scan.to_csv(outputfile,index=False)
     return metadata_session
+def call_get_metadata_session(args):
+    returnvalue=0
+    try:
+        sessionId=args.stuff[1]
+        get_metadata_session(sessionId)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_get_metadata_session')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
 def get_metadata_session_forbash():
     sessionId=sys.argv[1]
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
@@ -1716,6 +1731,8 @@ def main():
         return_value=call_download_a_singlefile_with_URIString(args)
     if name_of_the_function=="call_change_type_of_scan":
         return_value=call_change_type_of_scan(args)
+    if name_of_the_function=="call_get_metadata_session":
+        return_value=call_get_metadata_session(args)
     print(return_value)
 if __name__ == '__main__':
     main()

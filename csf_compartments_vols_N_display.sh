@@ -740,70 +740,7 @@ while IFS=',' read -ra array; do
     resource_dir="MASKS"
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
-    #      filename1=$(basename ${url1})
-    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
-    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
-      #################
-
-
-#      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        greyfile=${dir_to_save}/${filename2}
-#        echo "${greyfile}"
-#      fi
-#      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        betfile=${dir_to_save}/${filename2}
-#        echo "${betfile}"
-#      fi
-#      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
-#      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
-#      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
-#      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
               echo "It's there!"
               echo "${array2[6]}"
               filename2=$(basename ${url2})
@@ -962,6 +899,74 @@ call_latex_end_arguments=('call_latex_end' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 #
+
+####################################################################################################
+    #      filename1=$(basename ${url1})
+    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
+    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+
+    while IFS=',' read -ra array2; do
+
+      url2=${array2[6]}
+      #################
+
+
+#      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        greyfile=${dir_to_save}/${filename2}
+#        echo "${greyfile}"
+#      fi
+#      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        betfile=${dir_to_save}/${filename2}
+#        echo "${betfile}"
+#      fi
+#      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+
+#######################################################################
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ##done
 ##################################################################################################################################

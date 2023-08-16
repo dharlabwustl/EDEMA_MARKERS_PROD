@@ -620,6 +620,73 @@ sys.path.append('/software');
 from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
+## ratio of two halves
+#def call_ratio_left_right(args):
+#    returnvalue=0
+#    try:
+calculate_left_right_ratio() {
+  local maskfile_extension=${1}
+  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+  local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+  local righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
+  local column_name=${2}
+  local filename_to_write=${output_directory}/${column_name}.csv
+  local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
+  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+}
+
+calculate_volume() {
+  #  local maskfile_extension=${1}
+  #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+  local column_name=${2}
+
+  local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
+  local mask_file_basename=$(basename ${mask_file})
+  mask_file_basename=${mask_file_basename%.nii*}
+  local filename_to_write=${output_directory}/${mask_file_basename}.csv
+  local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
+  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+}
+call_calculate_volume() {
+  local mask_filename=${1}
+  local grayscale_filename_basename_noext=${2}
+  local column_name_this=$(basename ${mask_filename})
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
+  local column_name_this=${column_name_this%_half_originalRF*}
+  calculate_volume ${mask_filename} ${column_name_this}
+}
+mask_subtraction() {
+  local mask_donor=${1}
+  local mask_tobe_subtracted=${2}
+  local output_mask_dir=${3}
+  local mask_donor_basename=$(basename ${mask_donor})
+  local mask_donor_basename=${mask_donor_basename%.nii*}
+  local mask_tobe_subtracted_basename=$(basename ${mask_tobe_subtracted})
+  local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
+  local output_mask_file=${output_mask_dir}/${mask_donor_basename}_${mask_tobe_subtracted_basename}.nii.gz
+  call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file})
+  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+}
+#mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
+##rename grayscale image
+#_resaved_levelset.nii.gz
+overlapped_mask_on_otherimage() {
+  local grayscale_filename_1=${1}
+  local contrast_limits=${2}
+  local outputfile_dir=${3}
+  local outputfile_suffix=${4}
+  local color_list=${5}
+  local working_dir_1=${6}
+  local -n mask_filename=${7}
+  local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]})
+  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  echo outputfiles_present::${outputfiles_present}
+
+}
+#for grayscale_filename in ${working_dir_1}/*.nii*; do
 
 function call_get_resourcefiles_metadata_saveascsv_args() {
 
@@ -749,73 +816,6 @@ split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 
-## ratio of two halves
-#def call_ratio_left_right(args):
-#    returnvalue=0
-#    try:
-calculate_left_right_ratio() {
-  local maskfile_extension=${1}
-  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
-  local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-  local righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
-  local column_name=${2}
-  local filename_to_write=${output_directory}/${column_name}.csv
-  local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
-}
-
-calculate_volume() {
-  #  local maskfile_extension=${1}
-  #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
-  local column_name=${2}
-
-  local mask_file=${1} ##$(ls ${working_dir}/*${maskfile_extension_no_nii}_${2}_half_originalRF.nii.gz)
-  local mask_file_basename=$(basename ${mask_file})
-  mask_file_basename=${mask_file_basename%.nii*}
-  local filename_to_write=${output_directory}/${mask_file_basename}.csv
-  local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
-}
-call_calculate_volume() {
-  local mask_filename=${1}
-  local grayscale_filename_basename_noext=${2}
-  local column_name_this=$(basename ${mask_filename})
-  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
-  local column_name_this=${column_name_this%_half_originalRF*}
-  calculate_volume ${mask_filename} ${column_name_this}
-}
-mask_subtraction() {
-  local mask_donor=${1}
-  local mask_tobe_subtracted=${2}
-  local output_mask_dir=${3}
-  local mask_donor_basename=$(basename ${mask_donor})
-  local mask_donor_basename=${mask_donor_basename%.nii*}
-  local mask_tobe_subtracted_basename=$(basename ${mask_tobe_subtracted})
-  local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
-  local output_mask_file=${output_mask_dir}/${mask_donor_basename}_${mask_tobe_subtracted_basename}.nii.gz
-  call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file})
-  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
-}
-#mask_subtraction ${working_dir}/SAH_1_01052014_2003_2_resaved_levelset_bet_right_half_originalRF.nii.gz  ${working_dir}/SAH_1_01052014_2003_2_resaved_csf_unet_right_half_originalRF.nii.gz ${working_dir}
-##rename grayscale image
-#_resaved_levelset.nii.gz
-overlapped_mask_on_otherimage() {
-  local grayscale_filename_1=${1}
-  local contrast_limits=${2}
-  local outputfile_dir=${3}
-  local outputfile_suffix=${4}
-  local color_list=${5}
-  local working_dir_1=${6}
-  local -n mask_filename=${7}
-  local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-  echo outputfiles_present::${outputfiles_present}
-
-}
-#for grayscale_filename in ${working_dir_1}/*.nii*; do
 
 grayscale_filename=${working_dir_1}/${filename_nifti}
 grayscale_filename_basename=$(basename ${grayscale_filename})

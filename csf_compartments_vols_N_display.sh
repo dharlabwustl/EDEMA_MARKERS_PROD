@@ -932,7 +932,7 @@ call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grays
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
 #echo ${call_combine_csv_horizontally_arguments[@]}
 call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
-outputfiles_present=$(python3 download_with_session_ID.py "${call_saveslicesofnifti_arguments[@]}")
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
 outputfile_suffix="GRAY"
 color_list='red_green_black_black'

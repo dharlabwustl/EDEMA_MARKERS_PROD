@@ -1,6 +1,6 @@
 #!/bin/bash
 VERSION='V_08162023'
-time_now=$(date -dnow + %m_%d_%Y)
+time_now=$(date -dnow +%m_%d_%Y)
 outputfiles_suffix=${VERSION}_${time_now}
 export XNAT_USER=${2}
 export XNAT_PASS=${3}

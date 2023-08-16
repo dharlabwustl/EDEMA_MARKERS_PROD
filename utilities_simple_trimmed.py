@@ -805,7 +805,7 @@ def call_write_panda_df(args):
     # title_df.columns=["FILENAME"]
 
     # table_df['FILENAME']=os.path.basename(args.stuff[1]).split('.csv')[0]
-    title_df = table_df.pop('FILENAME')
+    title_df = pd.DataFrame(table_df.pop('FILENAME'))
     # table_df.insert(0, 'FILENAME', column_to_move)
     table_df1=table_df.unstack().reset_index()
     table_df1.columns=["Region","IDX","Volume"]

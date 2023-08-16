@@ -38,18 +38,20 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-def combine_csv_horizontally(list_df_files,combined_csv_filename):
+def combine_csv_horizontally(list_df_files,combined_csv_filename,niftifilename):
     list_df=[]
     for x in list_df_files:
         list_df.append(pd.read_csv(x))
 
     list_df_combined = pd.concat(list_df, axis=1)
+    list_df_combined['FILENAME']=
     list_df_combined.to_csv(combined_csv_filename,index=False)
 def call_combine_csv_horizontally(args):
     returnvalue=0
 
     try:
         combined_csv_filename=args.stuff[1]
+        niftifilename=args.stuff[2]
         list_df_files=args.stuff[2:]
         combine_csv_horizontally(list_df_files,combined_csv_filename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_combine_csv_horizontally')

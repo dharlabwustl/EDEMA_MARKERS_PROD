@@ -766,7 +766,7 @@ while IFS=',' read -ra array; do
 #    download_files_from_resources ${sessionID} ${url1} ${working_dir} ${resource_dir} ${output_directory}
 
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
-    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
 
     while IFS=',' read -ra array2; do
 

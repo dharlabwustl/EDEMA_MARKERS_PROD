@@ -823,6 +823,19 @@ grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
 grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
 grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
 cp ${grayscale_filename} ${grayscale_filename_1}
+latexfilename_prefix=${grayscale_filename%.nii*}
+#csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
+csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
+##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+##echo outputfiles_present::${outputfiles_present}
+############################# create the latex file ##################
+##while IFS=',' read -ra array; do
+##  latexfilename=${array[0]}
+##  echo ${latexfilename}
+call_latex_start_arguments=('call_latex_start' ${latexfilename})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
 # mask_color_list=args.stuff[4]
 ## GRAY SCALE WITH BET MASK with CSF subtracted.
@@ -852,7 +865,7 @@ call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
 call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
 call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
 ## combine all volumes data:
-call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${working_dir_1}/${grayscale_filename_basename_noext}.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
+call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
 #echo ${call_combine_csv_horizontally_arguments[@]}
 
@@ -876,18 +889,7 @@ mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_file
 call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #############################################################
-latexfilename_prefix=${grayscale_filename%.nii*}
-#csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
-##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-##echo outputfiles_present::${outputfiles_present}
-############################# create the latex file ##################
-##while IFS=',' read -ra array; do
-##  latexfilename=${array[0]}
-##  echo ${latexfilename}
-  call_latex_start_arguments=('call_latex_start' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ############# FILL THE LATEX FILE #################
 #echo outputfiles_present::${outputfiles_present}

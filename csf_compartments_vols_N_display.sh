@@ -937,7 +937,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
 
     call_latex_end_arguments=('call_latex_end' ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} latexfilename ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename}  ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 
   done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 done

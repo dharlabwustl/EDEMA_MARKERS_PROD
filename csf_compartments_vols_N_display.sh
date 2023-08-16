@@ -763,24 +763,24 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
     #      URI=/data/experiments/${sessionID}
     resource_dir="MASKS"
-    download_files_from_resources ${sessionID} ${url1} ${working_dir} ${resource_dir} ${output_directory}
+#    download_files_from_resources ${sessionID} ${url1} ${working_dir} ${resource_dir} ${output_directory}
 
-#    output_csvfile_1=${sessionID}_MASK_METADATA.csv
-#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
-#
-#    while IFS=',' read -ra array2; do
-#
-#      url2=${array2[6]}
-#      #################
-#
-#      echo "It's there!"
-#      echo "${array2[6]}"
-#      filename2=$(basename ${url2})
-#      call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-#      outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#      csffile=${dir_to_save}/${filename2}
-#      echo "${csffile}"
-#    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+    output_csvfile_1=${sessionID}_MASK_METADATA.csv
+    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+
+    while IFS=',' read -ra array2; do
+
+      url2=${array2[6]}
+      #################
+
+      echo "It's there!"
+      echo "${array2[6]}"
+      filename2=$(basename ${url2})
+      call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+      outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+      csffile=${dir_to_save}/${filename2}
+      echo "${csffile}"
+    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 

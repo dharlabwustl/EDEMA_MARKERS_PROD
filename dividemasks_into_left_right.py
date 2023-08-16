@@ -105,9 +105,9 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
 
             for mask_filename_list_id in range(len(mask_filename_list)):
                 mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
-                slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
-                slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
-                slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
+                slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0.5]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
+                slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0.5]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
+                slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0.5]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
             slice_number="{0:0=3d}".format(i)
             # filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
             # this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")

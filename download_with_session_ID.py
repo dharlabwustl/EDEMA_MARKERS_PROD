@@ -1155,11 +1155,53 @@ def get_metadata_session(sessionId,outputfile="NONE.csv"):
     df_scan = pd.read_json(metadata_session_1)
     df_scan.to_csv(outputfile,index=False)
     return metadata_session
-def call_get_metadata_session(args):
+def get_session_label(sessionId,outputfile="NONE.csv"):
+    try:
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        sessionId='SNIPR02_E02933'
+
+        url = ("/data/experiments/%s/?format=json" %    (sessionId)) #scans/
+        response = xnatSession.httpsess.get(xnatSession.host + url)
+        xnatSession.close_httpsession()
+        session_label=response.json()['items'][0]['data_fields']['label']
+        df_session=pd.DataFrame([session_label])
+        df_session.columns=['SESSION_LABEL']
+        df_session.to_csv(outputfile,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'get_session_label')
+        subprocess.call(command,shell=True)
+        returnvalue=session_label
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
+def call_get_session_label(args):
     returnvalue=0
     try:
         sessionId=args.stuff[1]
-        get_metadata_session(sessionId)
+        outputfile=args.stuff[2]
+        get_session_label(sessionId,outputfile=outputfile)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_get_metadata_session')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
+
+def call_get_metadata_session(args):
+    returnvalue=0
+    try:
+        outpufilename=""
+        sessionId=args.stuff[1]
+        try:
+            outpufilename=args.stuff[2]
+        except:
+            pass
+        if len(outpufilename)>0:
+            get_metadata_session(sessionId,outpufilename)
+        else:
+            get_metadata_session(sessionId)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_get_metadata_session')
         subprocess.call(command,shell=True)
         returnvalue=1
@@ -1733,6 +1775,8 @@ def main():
         return_value=call_change_type_of_scan(args)
     if name_of_the_function=="call_get_metadata_session":
         return_value=call_get_metadata_session(args)
+    if name_of_the_function=="call_get_session_label":
+        return_value=call_get_session_label(args)
     print(return_value)
 if __name__ == '__main__':
     main()

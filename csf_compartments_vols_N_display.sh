@@ -889,7 +889,7 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
         ###############################
         for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
           #              filename=args.stuff[1]
-          imagescale='0.2' #float(args.stuff[2])
+          imagescale='0.3' #float(args.stuff[2])
           angle='90'       #float(args.stuff[3])
           space='1'        #float(args.stuff[4])
           i=0
@@ -922,8 +922,8 @@ for grayscale_filename in ${working_dir_1}/*.nii*; do
           i=$(($i + 1))
           images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
           i=$(($i + 1))
-          images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-          i=$(($i + 1))
+#          images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+#          i=$(($i + 1))
           #      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
           #      i=$(($i + 1))
           #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg

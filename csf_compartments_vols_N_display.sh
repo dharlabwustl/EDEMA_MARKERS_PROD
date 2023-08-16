@@ -931,7 +931,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_la
 call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv  ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)  ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)   ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) )
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
 #echo ${call_combine_csv_horizontally_arguments[@]}
-call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${outputfile_dir})
+call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_saveslicesofnifti_arguments[@]}")
 
 outputfile_suffix="GRAY"
@@ -964,7 +964,7 @@ call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilen
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 
 ###############################
-for x in ${outputfile_dir}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY*.jpg; do
+for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
   #              filename=args.stuff[1]
   imagescale='0.3' #float(args.stuff[2])
   angle='90'       #float(args.stuff[3])

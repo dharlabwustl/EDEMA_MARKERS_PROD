@@ -882,15 +882,15 @@ while IFS=',' read -ra array; do
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
-midlineonly_each_scan ${filename_nifti}
-
-split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
-split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
+#midlineonly_each_scan ${filename_nifti}
+#
+#split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
+#split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 #
 #
 #grayscale_filename=${working_dir_1}/${filename_nifti}

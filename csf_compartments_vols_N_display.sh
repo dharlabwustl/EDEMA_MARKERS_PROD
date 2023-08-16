@@ -703,6 +703,30 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
   echo " I AM AT call_get_resourcefiles_metadata_saveascsv_args"
 
 }
+
+download_files_from_resources(){
+      local url1=${1}
+      local working_dir=${2}
+      local resource_dir=${3} #"MASKS"
+      local output_csvfile_1=${4} #${sessionID}_MASK_METADATA.csv
+      local output_directory=${5}
+      local call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+
+      while IFS=',' read -ra array2; do
+
+        local url2=${array2[6]}
+        #################
+
+        echo "It's there!"
+        echo "${array2[6]}"
+        local filename2=$(basename ${url2})
+        local call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+        local outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        csffillocal e=${dir_to_save}/${filename2}
+        echo "${csffile}"
+      done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+
+}
 echo " I AM RUNNING "
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
@@ -740,16 +764,22 @@ while IFS=',' read -ra array; do
     resource_dir="MASKS"
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+    #      filename1=$(basename ${url1})
+    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
+    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+
     while IFS=',' read -ra array2; do
 
       url2=${array2[6]}
-              echo "It's there!"
-              echo "${array2[6]}"
-              filename2=$(basename ${url2})
-              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-              csffile=${dir_to_save}/${filename2}
-              echo "${csffile}"
+      #################
+
+      echo "It's there!"
+      echo "${array2[6]}"
+      filename2=$(basename ${url2})
+      call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+      outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+      csffile=${dir_to_save}/${filename2}
+      echo "${csffile}"
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 
   done < <(tail -n +2 "${dir_to_save}/${filename}")
@@ -765,7 +795,6 @@ split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
 split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
-
 
 grayscale_filename=${working_dir_1}/${filename_nifti}
 grayscale_filename_basename=$(basename ${grayscale_filename})
@@ -815,9 +844,9 @@ call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
 call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
 call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
 ## combine all volumes data:
-call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv )
+call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv  ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
+call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv))
 outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
 #echo ${call_combine_csv_horizontally_arguments[@]}
 
@@ -845,7 +874,7 @@ outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_gr
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ############# FILL THE LATEX FILE #################
 #echo outputfiles_present::${outputfiles_present}
-call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilename} )
+call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 #
 ################################
@@ -902,17 +931,6 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_argu
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 #
 
-####################################################################################################
-    #      filename1=$(basename ${url1})
-    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
-    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-#    while IFS=',' read -ra array2; do
-#
-#      url2=${array2[6]}
-      #################
-
-
 #      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
 #        echo "It's there!"
 #        echo "${array2[6]}"
@@ -968,7 +986,6 @@ pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_dire
 #        echo "${csffile}"
 #      fi
 
-#######################################################################
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ##done
 ##################################################################################################################################

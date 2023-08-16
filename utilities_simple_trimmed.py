@@ -808,11 +808,13 @@ def call_write_panda_df(args):
 
         # table_df['FILENAME']=os.path.basename(args.stuff[1]).split('.csv')[0]
         title_df = pd.DataFrame(table_df.pop('FILENAME'))
+        session_label_df = pd.DataFrame(table_df.pop('SESSION_LABEL'))
         # table_df.insert(0, 'FILENAME', column_to_move)
         table_df1=table_df.unstack().reset_index()
         table_df1.columns=["Region","IDX","Volume"]
         table_df1=table_df1.drop(["IDX"],axis=1)
         latexfilename=args.stuff[2]
+        write_panda_df(latexfilename,session_label_df)
         write_panda_df(latexfilename,title_df)
         write_panda_df(latexfilename,table_df1)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')

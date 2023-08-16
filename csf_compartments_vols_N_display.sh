@@ -808,7 +808,7 @@ while IFS=',' read -ra array; do
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 ###################################################
     resource_dir="SAH_SEGM"
-    output_csvfile_1=${sessionID}_${resource_dir}_METADATA.csv
+    output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
     #      filename1=$(basename ${url1})
     #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})

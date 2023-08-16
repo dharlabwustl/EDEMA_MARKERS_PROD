@@ -1367,7 +1367,8 @@ def saveslicesofnifti(filename,savetodir=""):
     else:
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
     for x in range(img_gray_data.shape[2]):
-        cv2.imwrite(os.path.join(savetodir,os.path.basename(filename).split(".nii")[0]+str(x)+".jpg" ),img_gray_data[:,:,x]*255 )
+        slice_number="{0:0=3d}".format(x)
+        cv2.imwrite(os.path.join(savetodir,os.path.basename(filename).split(".nii")[0]+slice_number+".jpg" ),img_gray_data[:,:,x]*255 )
 
 def call_saveslicesofnifti(args):
     try:

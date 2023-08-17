@@ -625,13 +625,19 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 #    returnvalue=0
 #    try:
 calculate_left_right_ratio() {
-  local maskfile_extension=${1}
-  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
-  local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
-  local righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
-  local column_name=${2}
-  local filename_to_write=${output_directory}/${column_name}.csv
-  local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name} ${filename_to_write})
+  local lefthalf_file=${1}
+  local righthalf_file=${2}
+  local grayscale_filename_basename_noext=${3}
+  local column_name_this=$(basename ${lefthalf_file})
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
+  local column_name_this=${column_name_this%_half_originalRF*}_RATIO
+  #  local maskfile_extension=${1}
+  #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
+  #  local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)
+  #  local righthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_right_half_originalRF.nii.gz)
+  ##  local column_name=${2}
+  local filename_to_write=${output_directory}/${lefthalf_file%.nii*}_RATIO.csv
+  local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name_this} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
@@ -922,7 +928,12 @@ mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_
 mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
 mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
 mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
-
+#######################################
+#calculate_left_right_ratio  "_resaved_csf_unet.nii.gz"  "CSF_RATIO"
+#calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+#calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+#calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+#######################################
 ####################################################
 call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
 call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"

@@ -293,6 +293,7 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
             left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
             if np.sum(lefthalf_np) > np.sum(righthalf_np) :
                 left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+            left_right_ratio=round(left_right_ratio,2)
             returnvalue=left_right_ratio
             left_right_ratio_df=pd.DataFrame([left_right_ratio])
             left_right_ratio_df.columns=[column_name]

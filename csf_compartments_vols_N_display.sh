@@ -665,7 +665,7 @@ call_calculate_volume_mask_from_yasheng() {
   local mask_file_basename=${mask_file_basename%.nii*}
   local filename_to_write=${output_directory}/${mask_file_basename}.csv
   local column_name_this=$(basename ${mask_filename%.nii*})
-  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}_TOTAL
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}  #_TOTAL
 #  local column_name_this=${column_name_this%_half_originalRF*}
   local call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${mask_filename} ${original_nifti_file} ${column_name_this} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")

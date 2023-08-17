@@ -931,6 +931,7 @@ mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_
 mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
 #######################################
 calculate_left_right_ratio  ${mask_filename3} ${mask_filename4}  ${grayscale_filename_basename_noext}
+#calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
 ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
 ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
 ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"

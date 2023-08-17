@@ -630,7 +630,8 @@ calculate_left_right_ratio() {
   local grayscale_filename_basename_noext=${3}
   local column_name_this=$(basename ${lefthalf_file})
   local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}
-  local column_name_this=${column_name_this%_half_originalRF*}_RATIO
+  local column_name_this=${column_name_this%_half_originalRF*}
+  local column_name_this=${column_name_this%_left*}_RATIO
   #  local maskfile_extension=${1}
   #  local maskfile_extension_no_nii=${maskfile_extension%.nii*}
   #  local lefthalf_file=$(ls ${working_dir}/*${maskfile_extension_no_nii}_left_half_originalRF.nii.gz)

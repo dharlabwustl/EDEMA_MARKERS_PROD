@@ -311,6 +311,10 @@ def call_ratio_left_right(args):
         lefthalf_np=nib.load(args.stuff[1]).get_fdata()
         righthalf_np=nib.load(args.stuff[2]).get_fdata()
         column_name=args.stuff[3]
+        column_name=column_name.replace('levelset_','')
+        column_name=column_name.replace('unet_','')
+        column_name=column_name.upper()
+        column_name=column_name.replace('4DL','SAH')
         filename_to_write=args.stuff[4]
         returnvalue=ratio_left_right(lefthalf_np,righthalf_np,column_name=column_name,filename_to_write=filename_to_write)
         returnvalue=1

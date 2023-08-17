@@ -660,11 +660,13 @@ call_calculate_volume() {
 call_calculate_volume_mask_from_yasheng() {
   local mask_filename=${1}
   local original_nifti_file=${2}
+  local grayscale_filename_basename_noext=$(basename ${original_nifti_file%.nii*})
   local mask_file_basename=$(basename ${mask_filename})
   local mask_file_basename=${mask_file_basename%.nii*}
   local filename_to_write=${output_directory}/${mask_file_basename}.csv
-  local column_name_this=${3} #${column_name_this%_half_originalRF*}
-#  calculate_volume ${mask_filename} ${column_name_this}
+  local column_name_this=$(basename ${mask_filename})
+  local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_}_TOTAL
+#  local column_name_this=${column_name_this%_half_originalRF*}
   local call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${mask_filename} ${original_nifti_file} ${column_name} ${filename_to_write})
   local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
@@ -863,18 +865,7 @@ split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
 split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
 split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
 split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-####################################################
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz ${grayscale_filename} "BET_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz ${grayscale_filename} "CSF_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz ${grayscale_filename} "csf_sulci_above_ventricle_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz ${grayscale_filename} "csf_sulci_at_ventricle_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz ${grayscale_filename} "csf_sulci_below_ventricle_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz ${grayscale_filename} "csf_ventricle_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz ${grayscale_filename} "SAH_SULCAL_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz ${grayscale_filename} "SAH_VENTRICLE_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz ${grayscale_filename} "SAH_cistern_TOTAL"
-call_calculate_volume_mask_from_yasheng ${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz ${grayscale_filename} "SAH_TOTAL"
-#####################################################
+
 grayscale_filename=${working_dir_1}/${filename_nifti}
 grayscale_filename_basename=$(basename ${grayscale_filename})
 grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
@@ -899,6 +890,8 @@ contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1]
 ## GRAY SCALE WITH BET MASK with CSF subtracted.
 outputfile_dir=${output_directory}
 
+
+
 mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
 mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
 mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
@@ -919,6 +912,34 @@ mask_filename15=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_
 mask_filename16=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_left_half_originalRF.nii.gz
 mask_filename17=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_right_half_originalRF.nii.gz
 mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
+
+
+###################
+mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
+mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
+mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
+mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz
+mask_filename24=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz
+mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz
+mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
+mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
+mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
+
+
+####################################################
+call_calculate_volume_mask_from_yasheng  ${mask_filename19}   ${grayscale_filename}
+call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "CSF_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"SAH_SULCAL_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+#####################################################
+
 #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
 #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
 #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"

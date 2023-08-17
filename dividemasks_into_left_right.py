@@ -240,6 +240,7 @@ def call_calculate_volume(args):
         column_name=column_name.replace('levelset_','')
         column_name=column_name.replace('unet_','')
         column_name=column_name.upper()
+        column_name=column_name.replace('4DL','SAH')
         filename_to_write=args.stuff[3]
         returnvalue=calculate_volume(mask_np,single_voxel_volume=single_voxel_volume,column_name=column_name,filename_to_write=filename_to_write)
         # returnvalue=1

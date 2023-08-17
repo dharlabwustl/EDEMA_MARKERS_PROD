@@ -213,6 +213,7 @@ def call_calculate_volume_mask_from_yasheng(args):
         column_name=args.stuff[3]
         column_name=column_name.replace('levelset_','')
         column_name=column_name.replace('unet_','')
+        column_name=column_name.replace('_unet','')
         column_name=column_name.upper()
         column_name=column_name.replace('4DL','SAH')
         filename_to_write=args.stuff[4]

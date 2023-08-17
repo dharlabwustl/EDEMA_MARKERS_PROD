@@ -201,13 +201,37 @@ def call_masks_subtraction(args):
         subprocess.call(command,shell=True)
     print(returnvalue)
     return  returnvalue
+def call_calculate_volume_mask_from_yasheng(args):
+
+    returnvalue=0
+    try:
+        mask_np=nib.load(args.stuff[1]).get_fdata()
+        single_voxel_volume=np.prod(np.array(nib.load(args.stuff[2]).header["pixdim"][1:4]))
+        # righthalf_np=nib.load(args.stuff[2]).get_fdata()
+        column_name=args.stuff[3]
+        column_name=column_name.replace('levelset_','')
+        column_name=column_name.replace('unet_','')
+        column_name=column_name.upper()
+        column_name=column_name.replace('4DL','SAH')
+        filename_to_write=args.stuff[4]
+        returnvalue=calculate_volume(mask_np,single_voxel_volume=single_voxel_volume,column_name=column_name,filename_to_write=filename_to_write)
+        # returnvalue=1
+
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
 
 def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
 
 
     try:
-        mask_np[mask_np>0]=1
+        mask_np[mask_np>0.5]=1
         mask_np[mask_np<1]=0
         volume=single_voxel_volume*np.sum(mask_np)
         # infarct_total_voxels_volume =np.sum(mask_np)*
@@ -1489,7 +1513,8 @@ def main():
         return_value=call_masks_on_grayscale_colored(args)
     if name_of_the_function == "call_combine_csv_horizontally":
         return_value=call_combine_csv_horizontally(args)
-
+    if name_of_the_function == "call_calculate_volume_mask_from_yasheng":
+        return_value=call_calculate_volume_mask_from_yasheng(args)
 
 
     return return_value

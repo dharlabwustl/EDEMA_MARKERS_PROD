@@ -969,8 +969,8 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df
 for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
   #              filename=args.stuff[1]
   imagescale='0.15' #float(args.stuff[2])
-  angle='90'       #float(args.stuff[3])
-  space='1'        #float(args.stuff[4])
+  angle='90'        #float(args.stuff[3])
+  space='1'         #float(args.stuff[4])
   i=0
   #  for file in *
   #  do
@@ -997,10 +997,11 @@ for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_
   suffix=${y##*_}
   images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
   i=$(($i + 1))
+  images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+  i=$(($i + 1))
   images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
   i=$(($i + 1))
-    images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    i=$(($i + 1))
+
   images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
   i=$(($i + 1))
   images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg

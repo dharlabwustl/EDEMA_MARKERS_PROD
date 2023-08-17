@@ -285,22 +285,24 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
 
 
     try:
-        lefthalf_np[lefthalf_np>0]=1
+        lefthalf_np[lefthalf_np>0.5]=1
         lefthalf_np[lefthalf_np<1]=0
-        righthalf_np[righthalf_np>0]=1
+        righthalf_np[righthalf_np>0.5]=1
         righthalf_np[righthalf_np<1]=0
-        left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
-        if np.sum(lefthalf_np) > np.sum(righthalf_np) :
-            left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
-        returnvalue=left_right_ratio
-        left_right_ratio_df=pd.DataFrame([left_right_ratio])
-        left_right_ratio_df.columns=[column_name]
-        left_right_ratio_df.to_csv(filename_to_write,index=False)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
-        subprocess.call(command,shell=True)
+        if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
+            left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+            if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+                left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+            returnvalue=left_right_ratio
+            left_right_ratio_df=pd.DataFrame([left_right_ratio])
+            left_right_ratio_df.columns=[column_name]
+            left_right_ratio_df.to_csv(filename_to_write,index=False)
+            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
+            subprocess.call(command,shell=True)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
+        pass
     print('left_right_ratio'+str(returnvalue))
     return  returnvalue
 def call_ratio_left_right(args):

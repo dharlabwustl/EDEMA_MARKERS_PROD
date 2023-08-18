@@ -737,12 +737,14 @@ dir_to_save=${working_dir}
 greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
 betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
 csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
+NIFTI_SCAN_URI=''
 while IFS=',' read -ra array; do
   #xx=0
   #
   ##if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
   #  echo "${array[6]}"
   url=${array[6]}
+  NIFTI_SCAN_URI=url
   filename=$(basename ${url})
 
   #def call_download_a_singlefile_with_URIString(args):
@@ -854,9 +856,7 @@ while IFS=',' read -ra array; do
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
 
-  done < <(tail -n +2 "${dir_to_save}/${filename}")
 
-done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 
 midlineonly_each_scan ${filename_nifti}
 #
@@ -1084,6 +1084,13 @@ done
 call_latex_end_arguments=('call_latex_end' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+#URI_1=${url1%/resources*}
+#resource_dirname="MASKS"
+#call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${filetocopy} ${resource_dirname})
+#outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+  done < <(tail -n +2 "${dir_to_save}/${filename}")
+
+done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 #
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ##done

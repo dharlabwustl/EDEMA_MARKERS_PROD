@@ -877,7 +877,7 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_slice_num_to_csv_arguments[@]}")
+    outputfiles_present=$(python3 download_with_session_ID.py "${call_slice_num_to_csv_arguments[@]}")
 #    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
 #    cp ${grayscale_filename} ${grayscale_filename_1}
 #    latexfilename_prefix=${grayscale_filename%.nii*}

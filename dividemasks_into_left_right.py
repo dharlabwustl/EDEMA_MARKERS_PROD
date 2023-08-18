@@ -278,8 +278,35 @@ def call_calculate_volume(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     print(returnvalue)
-    return  returnvalue    
+    return  returnvalue
+def numberlist_to_csv(value_col,name_col,file_to_save):
 
+    returnvalue=0
+    try:
+        value_col_df=pd.DataFrame(value_col)
+        value_col_df.columns=[name_col]
+        value_col_df.to_csv(file_to_save,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+def call_slice_num_to_csv(args):
+    returnvalue=0
+    try:
+        value_col=nib.load(args.stuff[1]).get_fdata().shape[2]
+        name_col=args.stuff[2]
+        file_to_save=args.stuff[3]
+        numberlist_to_csv([value_col],name_col,file_to_save)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
 def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
 
@@ -1525,6 +1552,8 @@ def main():
         return_value=call_combine_csv_horizontally(args)
     if name_of_the_function == "call_calculate_volume_mask_from_yasheng":
         return_value=call_calculate_volume_mask_from_yasheng(args)
+    if name_of_the_function == "call_slice_num_to_csv":
+        return_value=call_slice_num_to_csv(args)
 
 
     return return_value

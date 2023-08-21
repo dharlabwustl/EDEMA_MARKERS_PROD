@@ -21,6 +21,7 @@ import nibabel as nib
 import numpy as np
 import cv2 , re,subprocess,time,math
 sys.path.append("/software")
+import traceback
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
 from utilities_simple_trimmed import *
 from github import Github
@@ -145,7 +146,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except Exception as e :
-        command="echo failed at :: {} :: {} >> /software/error.txt".format(e,inspect.stack()[0][3])
+        command="echo failed at :: {}:: {} :: {} >> /software/error.txt".format(traceback.format_exc(),e,inspect.stack()[0][3])
         subprocess.call(command,shell=True)
 
     print(returnvalue)

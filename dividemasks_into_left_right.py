@@ -146,7 +146,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:
-        command="echo failed at ::{}:: {} >> /software/error.txt".format(traceback.format_exc(),inspect.stack()[0][3])
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
 
     print(returnvalue)

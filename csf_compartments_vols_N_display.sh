@@ -860,6 +860,12 @@ while IFS=',' read -ra array; do
     ################################################################
 
     midlineonly_each_scan ${filename_nifti}
+    URI_1=${url1%/resources*}
+    for matfiles in ${output_directory}/*.mat; do
+
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
     #
     split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
@@ -1095,7 +1101,9 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-  done < <(tail -n +2 "${dir_to_save}/${filename}")
+
+  done \
+    < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 #

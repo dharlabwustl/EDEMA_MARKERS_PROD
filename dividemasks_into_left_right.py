@@ -145,10 +145,8 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             cv2.imwrite(os.path.join(outputfile_dir, os.path.basename(grayscale_filename).split('.nii')[0] + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
-    except Exception as e :
-        command="echo failed at :::: {} :: {} >> /software/error.txt".format(e,inspect.stack()[0][3])
-        subprocess.call(command,shell=True)
-        command="echo failed at :: {}:: {} :: {} >> /software/error.txt".format(traceback.format_exc(),e,inspect.stack()[0][3])
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
 
     print(returnvalue)

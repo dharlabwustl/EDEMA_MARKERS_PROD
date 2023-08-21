@@ -382,11 +382,11 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
                     y_points2=calculated_midline_points.item().get('y_axis')
                     x_points2=x_points2[:,0]
                     y_points2=y_points2[:,0]
-                    # Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]>0.5]=1
-                    # Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]<1]=0
+                    Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]>0.5]=1
+                    Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]<1]=0
                     img_with_line=Mask_filename_data_np[:,:,img_idx]
-                    img_with_line[img_with_line>=0.5]=1
-                    img_with_line[img_with_line<1]=0
+                    # img_with_line[img_with_line>=0.5]=1
+                    # img_with_line[img_with_line<1]=0
                     img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
                     # Mask_filename_data_np_idx=Mask_filename_fdata_June21_2023_np[:,:,img_idx]
                     # Mask_filename_data_np_idx[Mask_filename_data_np_idx>=0.5]=1

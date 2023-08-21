@@ -364,6 +364,8 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
         Mask_filename_fdata_June21_2023_np=resizeinto_512by512(Mask_filename_fdata_June21_2023)
         Mask_filename_data_np=resizeinto_512by512(Mask_filename_fdata)
         Mask_filename_data_np[Mask_filename_data_np>1]=0
+        Mask_filename_data_np[Mask_filename_data_np>0.5]=1
+        Mask_filename_data_np[Mask_filename_data_np<1]=0
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
         numpy_image=filename_gray_data_np
         left_half_filename=Mask_filename.split('.nii')[0]+'_left_half_originalRF.nii.gz'
@@ -382,8 +384,7 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
                     y_points2=calculated_midline_points.item().get('y_axis')
                     x_points2=x_points2[:,0]
                     y_points2=y_points2[:,0]
-                    Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]>0.5]=1
-                    Mask_filename_data_np[:,:,img_idx][Mask_filename_data_np[:,:,img_idx]<1]=0
+
                     img_with_line=Mask_filename_data_np[:,:,img_idx]
                     # img_with_line[img_with_line>=0.5]=1
                     # img_with_line[img_with_line<1]=0

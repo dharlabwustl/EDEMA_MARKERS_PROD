@@ -174,7 +174,7 @@ def masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file):
     returnvalue=0
     try:
         mask_donor_np=nib.load(mask_donor).get_fdata()
-        mask_donor_np[mask_donor_np>0.5]=1
+        mask_donor_np[mask_donor_np>=0.5]=1
         mask_donor_np[mask_donor_np<1]=0
         mask_tobe_subtracted_np=nib.load(mask_tobe_subtracted).get_fdata()
         mask_tobe_subtracted_np[mask_tobe_subtracted_np>0]=1
@@ -235,7 +235,7 @@ def calculate_volume(mask_np,single_voxel_volume=1,column_name='test',filename_t
 
 
     try:
-        mask_np[mask_np>0.5]=1
+        mask_np[mask_np>=0.5]=1
         mask_np[mask_np<1]=0
         volume=single_voxel_volume*np.sum(mask_np)
         # infarct_total_voxels_volume =np.sum(mask_np)*
@@ -313,9 +313,9 @@ def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_wri
 
 
     try:
-        lefthalf_np[lefthalf_np>0.5]=1
+        lefthalf_np[lefthalf_np>=0.5]=1
         lefthalf_np[lefthalf_np<1]=0
-        righthalf_np[righthalf_np>0.5]=1
+        righthalf_np[righthalf_np>=0.5]=1
         righthalf_np[righthalf_np<1]=0
         if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
             left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
@@ -364,7 +364,7 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
         Mask_filename_fdata_June21_2023_np=resizeinto_512by512(Mask_filename_fdata_June21_2023)
         Mask_filename_data_np=resizeinto_512by512(Mask_filename_fdata)
         Mask_filename_data_np[Mask_filename_data_np>1]=0
-        Mask_filename_data_np[Mask_filename_data_np>0.5]=1
+        Mask_filename_data_np[Mask_filename_data_np>=0.5]=1
         Mask_filename_data_np[Mask_filename_data_np<1]=0
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
         numpy_image=filename_gray_data_np

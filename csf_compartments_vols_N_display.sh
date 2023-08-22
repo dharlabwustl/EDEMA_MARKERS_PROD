@@ -993,6 +993,8 @@ while IFS=',' read -ra array; do
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
+    mask_subtraction ${mask_filename19}  ${mask_filename20} ${working_dir}
+
     outputfile_suffix="GRAY"
     color_list='red_green_black_black'
     #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
@@ -1040,6 +1042,7 @@ while IFS=',' read -ra array; do
 
     ###############################
     for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
+
       #              filename=args.stuff[1]
       imagescale='0.15' #float(args.stuff[2])
       angle='90'        #float(args.stuff[3])
@@ -1068,8 +1071,11 @@ while IFS=',' read -ra array; do
       y=${x%.*}
       echo $y
       suffix=${y##*_}
+      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ] ; then
       images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
       i=$(($i + 1))
+
+
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))
       images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
@@ -1086,6 +1092,7 @@ while IFS=',' read -ra array; do
       #    i=$(($i + 1))
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
       echo outputfiles_present::${outputfiles_present}
+      fi
     done
 
     #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg

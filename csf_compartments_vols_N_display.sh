@@ -691,7 +691,7 @@ mask_subtraction() {
   local mask_tobe_subtracted_extension=${mask_tobe_subtracted##*.}
   local mask_tobe_subtracted_basename=$(basename ${mask_tobe_subtracted})
   local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
-  local output_mask_file=${output_mask_dir}/${mask_donor_basename}_MINUS_${mask_tobe_subtracted_extension} ###${mask_tobe_subtracted_basename}.nii.gz
+  local output_mask_file=${output_mask_dir}/${mask_donor_basename}_MINUS_${mask_tobe_subtracted_basename}.nii.gz
   call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file})
   outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}

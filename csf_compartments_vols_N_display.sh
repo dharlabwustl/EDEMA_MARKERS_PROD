@@ -939,59 +939,59 @@ while IFS=',' read -ra array; do
     mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
     mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
     mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
-    #######################################
-    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
-    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
-    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
-    ########################################
-    ####################################################
-    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
-    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"SAH_SULCAL_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
-    ####################################################
-
-    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-
-    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
-
-    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
-
-    ## combine all volumes data:
-    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-    #echo ${call_combine_csv_horizontally_arguments[@]}
-    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
+#    #######################################
+#    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
+#    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
+#    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+#    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+#    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+#    ########################################
+#    ####################################################
+#    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
+#    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"SAH_SULCAL_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+#    ####################################################
+#
+#    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+#
+#    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+#
+#    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+#
+#    ## combine all volumes data:
+#    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    #echo ${call_combine_csv_horizontally_arguments[@]}
+#    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
     mask_subtraction ${mask_filename19}  ${mask_filename20} ${working_dir}
 

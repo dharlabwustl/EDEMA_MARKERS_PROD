@@ -1050,7 +1050,7 @@ while IFS=',' read -ra array; do
     for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
 
       #              filename=args.stuff[1]
-      imagescale='0.25' #float(args.stuff[2])
+      imagescale='0.18' #float(args.stuff[2])
       angle='90'        #float(args.stuff[3])
       space='1'         #float(args.stuff[4])
       i=0

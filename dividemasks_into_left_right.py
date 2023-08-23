@@ -177,7 +177,7 @@ def masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file):
         mask_donor_np[mask_donor_np>=0.5]=1
         mask_donor_np[mask_donor_np<1]=0
         mask_tobe_subtracted_np=nib.load(mask_tobe_subtracted).get_fdata()
-        mask_tobe_subtracted_np[mask_tobe_subtracted_np>0]=1
+        mask_tobe_subtracted_np[mask_tobe_subtracted_np>=0.5]=1
         mask_tobe_subtracted_np[mask_tobe_subtracted_np<1]=0
         mask_donor_np[mask_tobe_subtracted_np>0]=0
         array_img = nib.Nifti1Image(mask_donor_np,affine=nib.load(mask_donor).affine, header=nib.load(mask_donor).header)

@@ -995,119 +995,119 @@ while IFS=',' read -ra array; do
 
     mask_subtraction ${mask_filename19}  ${mask_filename20} ${working_dir}
 
-    outputfile_suffix="GRAY"
-    color_list='red_green_black_black'
-    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-    ### GRAY SCALE with all CSF
-    outputfile_suffix="COMPLETE_CSF"
-    color_list='red_green'
-    #mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-    echo outputfiles_present::${outputfiles_present}
-
-    ###################################################################
-    outputfile_suffix="CSF_COMPARTMENTS"
-    color_list='green_green_yellow_yellow_red_red_blue_blue'
-    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-    #############################################################
-    ###################################################################
-    outputfile_suffix="SAH_COMPARTMENTS"
-    color_list='green_green_yellow_yellow_red_red_blue_blue'
-    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    #${mask_filename17} ${mask_filename18}
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename11} ${mask_filename12} ${mask_filename13} ${mask_filename14} ${mask_filename15} ${mask_filename16})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-    #############################################################
-    ###################################################################
-    outputfile_suffix="SAH_COMPARTMENTS_TOTAL"
-    color_list='green_green_yellow_yellow_red_red_blue_blue'
-    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    #
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename17} ${mask_filename18})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-    #############################################################
-
-    ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
-    ############# FILL THE LATEX FILE #################
-    #echo outputfiles_present::${outputfiles_present}
-    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilename})
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-
-    ###############################
-    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
-
-      #              filename=args.stuff[1]
-      imagescale='0.15' #float(args.stuff[2])
-      angle='90'        #float(args.stuff[3])
-      space='1'         #float(args.stuff[4])
-      i=0
-      #  for file in *
-      #  do
-      #      if [[ -f $file ]]; then
-      #          array[$i]=$file
-      #          i=$(($i+1))
-      #      fi
-      #  done
-
-      #    echo $suffix;
-      images[$i]='call_latex_insertimage_tableNc'
-      i=$(($i + 1))
-      images[$i]=${latexfilename}
-      i=$(($i + 1))
-      images[$i]=${imagescale}
-      i=$(($i + 1))
-      images[$i]=${angle}
-      i=$(($i + 1))
-      images[$i]=${space}
-      i=$(($i + 1))
-
-      y=${x%.*}
-      echo $y
-      suffix=${y##*_}
-      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ] ; then
-      images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-      i=$(($i + 1))
-
-
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-      i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
-      i=$(($i + 1))
-
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
-      i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-      i=$(($i + 1))
-      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
-      i=$(($i + 1))
-
-      #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-      #    i=$(($i + 1))
-      outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-      echo outputfiles_present::${outputfiles_present}
-      fi
-    done
-
-    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-
-    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-    URI_1=${url1%/resources*}
-    resource_dirname="SAH_CSF_ANALYSIS"
-    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
-    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
-    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    outputfile_suffix="GRAY"
+#    color_list='red_green_black_black'
+#    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    ### GRAY SCALE with all CSF
+#    outputfile_suffix="COMPLETE_CSF"
+#    color_list='red_green'
+#    #mask_filename=(${mask_filename3} ${mask_filename4})
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+#    echo outputfiles_present::${outputfiles_present}
+#
+#    ###################################################################
+#    outputfile_suffix="CSF_COMPARTMENTS"
+#    color_list='green_green_yellow_yellow_red_red_blue_blue'
+#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    #############################################################
+#    ###################################################################
+#    outputfile_suffix="SAH_COMPARTMENTS"
+#    color_list='green_green_yellow_yellow_red_red_blue_blue'
+#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+#    #${mask_filename17} ${mask_filename18}
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename11} ${mask_filename12} ${mask_filename13} ${mask_filename14} ${mask_filename15} ${mask_filename16})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    #############################################################
+#    ###################################################################
+#    outputfile_suffix="SAH_COMPARTMENTS_TOTAL"
+#    color_list='green_green_yellow_yellow_red_red_blue_blue'
+#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+#    #
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename17} ${mask_filename18})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    #############################################################
+#
+#    ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+#    ############# FILL THE LATEX FILE #################
+#    #echo outputfiles_present::${outputfiles_present}
+#    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilename})
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+#
+#    ###############################
+#    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
+#
+#      #              filename=args.stuff[1]
+#      imagescale='0.15' #float(args.stuff[2])
+#      angle='90'        #float(args.stuff[3])
+#      space='1'         #float(args.stuff[4])
+#      i=0
+#      #  for file in *
+#      #  do
+#      #      if [[ -f $file ]]; then
+#      #          array[$i]=$file
+#      #          i=$(($i+1))
+#      #      fi
+#      #  done
+#
+#      #    echo $suffix;
+#      images[$i]='call_latex_insertimage_tableNc'
+#      i=$(($i + 1))
+#      images[$i]=${latexfilename}
+#      i=$(($i + 1))
+#      images[$i]=${imagescale}
+#      i=$(($i + 1))
+#      images[$i]=${angle}
+#      i=$(($i + 1))
+#      images[$i]=${space}
+#      i=$(($i + 1))
+#
+#      y=${x%.*}
+#      echo $y
+#      suffix=${y##*_}
+#      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ] ; then
+#      images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#      i=$(($i + 1))
+#
+#
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+#      i=$(($i + 1))
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
+#      i=$(($i + 1))
+#
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
+#      i=$(($i + 1))
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+#      i=$(($i + 1))
+#      images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
+#      i=$(($i + 1))
+#
+#      #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+#      #    i=$(($i + 1))
+#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#      echo outputfiles_present::${outputfiles_present}
+#      fi
+#    done
+#
+#    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+#
+#    call_latex_end_arguments=('call_latex_end' ${latexfilename})
+#    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+#    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+#    URI_1=${url1%/resources*}
+#    resource_dirname="SAH_CSF_ANALYSIS"
+#    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
+#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
+#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #
   done  < <(tail -n +2 "${dir_to_save}/${filename}")
 

@@ -951,6 +951,7 @@ while IFS=',' read -ra array; do
     mask_subtraction ${mask_filename19}  ${mask_filename20} ${working_dir}
     bet_mask_minus_csf=$(ls   ${working_dir}/*_resaved_levelset_bet*MINUS*csf_unet*)
     call_calculate_volume_mask_from_yasheng ${bet_mask_minus_csf} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
     call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"

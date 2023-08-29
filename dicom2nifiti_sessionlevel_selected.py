@@ -204,7 +204,7 @@ if __name__ == '__main__':
                     pass
                 ####
                 if outcome==False:
-                    print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
+                    # print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
                     message_text="If false decision: scanId: " + scanId
                     command="echo " + message_text +"  >>  logmessage.txt"
                     subprocess.call(command,shell=True)

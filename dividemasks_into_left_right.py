@@ -45,9 +45,9 @@ def combine_csv_horizontally(list_df_files,combined_csv_filename,niftifilename):
         list_df.append(pd.read_csv(x))
 
     list_df_combined = pd.concat(list_df, axis=1)
-    list_df_combined['FILENAME']=niftifilename
-    column_to_move = pd.DataFrame(list_df_combined.pop('FILENAME'))
-    list_df_combined.insert(1, 'FILENAME', column_to_move)
+    # list_df_combined['FILENAME']=niftifilename
+    # column_to_move = pd.DataFrame(list_df_combined.pop('FILENAME'))
+    # list_df_combined.insert(1, 'FILENAME', column_to_move)
     list_df_combined.to_csv(combined_csv_filename,index=False)
 def call_combine_csv_horizontally(args):
     returnvalue=0

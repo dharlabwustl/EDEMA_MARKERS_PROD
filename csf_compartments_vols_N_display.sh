@@ -1028,11 +1028,10 @@ while IFS=',' read -ra array; do
 #      call_combine_csv_horizontally  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
 ##      echo $i;
 #    done
-call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv))
-
-    # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
+#${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
     # ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
-    # ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
+call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
+${output_directory}/$(basename ${mask_filename2%.nii*}.csv) )
     # ${output_directory}/$(basename ${mask_filename3%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename4%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename5%.nii*}.csv)

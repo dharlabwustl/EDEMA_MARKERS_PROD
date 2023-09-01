@@ -39,6 +39,26 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,colvalue):
+    returnvalue=0
+    try:
+        df=pd.read_csv(csvfilename)
+        df[colname]=colvalue
+        df.to_csv(csvfilename_output,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname_colidx')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname_colidx')
+        subprocess.call(command,shell=True)
+
+    return returnvalue
+def call_insert_one_col_with_colname_colidx(args):
+    csvfilename=args.stuff[1]
+    csvfilename_output=args.stuff[2]
+    colname=args.stuff[3]
+    colvalue=args.stuff[4]
+    insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,colvalue)
 def combine_csv_horizontally(list_df_files,combined_csv_filename,niftifilename):
     list_df=[]
     for x in list_df_files:
@@ -1560,6 +1580,8 @@ def main():
         return_value=call_calculate_volume_mask_from_yasheng(args)
     if name_of_the_function == "call_slice_num_to_csv":
         return_value=call_slice_num_to_csv(args)
+    if name_of_the_function == "call_insert_one_col_with_colname_colidx":
+        return_value=call_insert_one_col_with_colname_colidx(args)
 
 
     return return_value

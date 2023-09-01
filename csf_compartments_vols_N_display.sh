@@ -1028,9 +1028,8 @@ while IFS=',' read -ra array; do
 #      call_combine_csv_horizontally  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
 ##      echo $i;
 #    done
-call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename}
-\ ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv))
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv))
+
     # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
     # ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
@@ -1060,7 +1059,7 @@ call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grays
     # ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
 

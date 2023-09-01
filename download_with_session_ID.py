@@ -1159,7 +1159,7 @@ def get_session_label(sessionId,outputfile="NONE.csv"):
     try:
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()
-        sessionId='SNIPR02_E02933'
+        # sessionId='SNIPR02_E02933'
 
         url = ("/data/experiments/%s/?format=json" %    (sessionId)) #scans/
         response = xnatSession.httpsess.get(xnatSession.host + url)

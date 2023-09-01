@@ -39,17 +39,17 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
-def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,colvalue):
+def insert_one_col_with_colname(csvfilename,csvfilename_output,colname,colvalue):
     returnvalue=0
     try:
         df=pd.read_csv(csvfilename)
         df[colname]=colvalue
         df.to_csv(csvfilename_output,index=False)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname_colidx')
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname')
         subprocess.call(command,shell=True)
         returnvalue=1
     except:
-        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname_colidx')
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'insert_one_col_with_colname')
         subprocess.call(command,shell=True)
 
     return returnvalue
@@ -58,7 +58,7 @@ def call_insert_one_col_with_colname(args):
     csvfilename_output=args.stuff[2]
     colname=args.stuff[3]
     colvalue=args.stuff[4]
-    insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,colvalue)
+    insert_one_col_with_colname(csvfilename,csvfilename_output,colname,colvalue)
 def combine_csv_horizontally(list_df_files,combined_csv_filename,niftifilename):
     list_df=[]
     for x in list_df_files:

@@ -1023,7 +1023,9 @@ while IFS=',' read -ra array; do
     END1=28
     for mask_number in $(seq 1 $END1);
     do
-      call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename${mask_number}%.nii*}.csv)
+      maskfile_string=mask_filename${mask_number}
+      this_maskfile=${!xx}
+      call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
 #      echo $i;
     done
     # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

@@ -11,7 +11,7 @@ working_dir_1=/input
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
-call_insert_one_col_with_colname_colidx() {
+call_combine_csv_horizontally() {
   local grayscale_filename_basename_noext=${1}
   local csvfilename=${2}
   local file_to_append_horizontally=${3}
@@ -1025,7 +1025,7 @@ while IFS=',' read -ra array; do
     do
       maskfile_string=mask_filename${mask_number}
       this_maskfile=${!maskfile_string}
-      call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
+      call_combine_csv_horizontally  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
 #      echo $i;
     done
     # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

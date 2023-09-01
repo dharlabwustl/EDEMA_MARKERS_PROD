@@ -53,7 +53,7 @@ def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,co
         subprocess.call(command,shell=True)
 
     return returnvalue
-def call_insert_one_col_with_colname_colidx(args):
+def call_insert_one_col_with_colname(args):
     csvfilename=args.stuff[1]
     csvfilename_output=args.stuff[2]
     colname=args.stuff[3]
@@ -1580,8 +1580,8 @@ def main():
         return_value=call_calculate_volume_mask_from_yasheng(args)
     if name_of_the_function == "call_slice_num_to_csv":
         return_value=call_slice_num_to_csv(args)
-    if name_of_the_function == "call_insert_one_col_with_colname_colidx":
-        return_value=call_insert_one_col_with_colname_colidx(args)
+    if name_of_the_function == "call_insert_one_col_with_colname":
+        return_value=call_insert_one_col_with_colname(args)
 
 
     return return_value

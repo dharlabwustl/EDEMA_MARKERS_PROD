@@ -1020,11 +1020,12 @@ while IFS=',' read -ra array; do
 
 #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
 #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
-    END=28
-    for mask_number in $(seq 1 $END); do
+    END1=28
+    for mask_number in $(seq 1 $END1);
+    do
       call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename${mask_number}%.nii*}.csv)
 #      echo $i;
-      done
+    done
     # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
     # ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
     # ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)

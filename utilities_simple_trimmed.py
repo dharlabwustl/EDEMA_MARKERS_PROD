@@ -804,10 +804,10 @@ def remove_a_column(csvfilename,columnnamelist,outputfilename):
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
         csvfilename_df.to_csv(outputfilename,index=False)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     except:
-        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return  returnvalue
 def call_remove_a_column(args):
@@ -835,14 +835,15 @@ def call_write_panda_df(args):
         # title_df.columns=["FILENAME"]
 
         # table_df['FILENAME']=os.path.basename(args.stuff[1]).split('.csv')[0]
-        try:
-            title_df = pd.DataFrame(table_df.pop('FILENAME'))
-            write_panda_df(latexfilename,title_df)
-        except:
-            pass
+
         try:
             session_label_df = pd.DataFrame(table_df.pop('SESSION_LABEL'))
             write_panda_df(latexfilename,session_label_df)
+        except:
+            pass
+        try:
+            title_df = pd.DataFrame(table_df.pop('FILENAME'))
+            write_panda_df(latexfilename,title_df)
         except:
             pass
         # table_df.insert(0, 'FILENAME', column_to_move)

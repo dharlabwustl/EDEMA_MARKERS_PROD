@@ -1104,11 +1104,13 @@ ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename17} ${mask_filename18})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #############################################################
-
+    csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
+    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT	BET_RIGHT	CSF_LEFT	CSF_RIGHT	SULCI_ABOVE_VENTRICLE_LEFT	SULCI_ABOVE_VENTRICLE_RIGHT	SULCI_AT_VENTRICLE_LEFT	SULCI_AT_VENTRICLE_RIGHT	SULCI_BELOW_VENTRICLE_LEFT	SULCI_BELOW_VENTRICLE_RIGHT	SAH_SEG_SULCAL_RIGHT	SAH_SEG_SULCAL_LEFT	SAH_SEG_VENTRI_RIGHT	SAH_SEG_VENTRI_LEFT	SAH_SEG_CISTERN_RIGHT	SAH_SEG_CISTERN_LEFT	SAH_SEG_TOTAL_RIGHT	SAH_SEG_TOTAL_LEFT )
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
     ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
     ############# FILL THE LATEX FILE #################
     #echo outputfiles_present::${outputfiles_present}
-    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename} ${latexfilename})
+    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 
     ###############################

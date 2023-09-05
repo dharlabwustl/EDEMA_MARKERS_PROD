@@ -803,7 +803,7 @@ def remove_a_column(csvfilename,columnnamelist,outputfilename):
     try:
         csvfilename_df=pd.read_csv(csvfilename)
         csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
-        csvfilename_df.to_csv(outputfilename)
+        csvfilename_df.to_csv(outputfilename,index=False)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
         subprocess.call(command,shell=True)
     except:

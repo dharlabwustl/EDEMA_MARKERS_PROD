@@ -798,6 +798,32 @@ def write_panda_df(latexfilename,table_df):
     latex_insert_line_nodek(latexfilename,text=table_df.to_latex(index=False))
     latex_end_table2c(latexfilename)
     return
+def remove_a_column(csvfilename,columnnamelist,outputfilename):
+    returnvalue=0
+    try:
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
+        csvfilename_df.to_csv(outputfilename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
+        subprocess.call(command,shell=True)
+    return  returnvalue
+def call_remove_a_column(args):
+    returnvalue=0
+    try:
+        csvfilename=args.stuff[1]
+        columnnamelist=args.stuff[3:]
+        outputfilename=args.stuff[2]
+        remove_a_column(csvfilename,columnnamelist,outputfilename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return  returnvalue
+
 def call_write_panda_df(args):
     returnvalue=0
 
@@ -1542,6 +1568,8 @@ def main():
         return_value=call_write_panda_df(args)
     if name_of_the_function == "call_saveslicesofnifti":
         return_value=call_saveslicesofnifti(args)
+    if name_of_the_function == "call_remove_a_column":
+        return_value=call_remove_a_column(args)
 
 
 

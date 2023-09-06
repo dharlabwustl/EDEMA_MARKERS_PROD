@@ -1091,7 +1091,7 @@ ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
     #############################################################
     ###################################################################
     outputfile_suffix="SAH_COMPARTMENTS"
-    color_list='green_green_yellow_yellow_red_red_blue_blue'
+    color_list='fuchsia_fuchsia_olive_olive_lime_lime_orange_orange'
     #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
     #${mask_filename17} ${mask_filename18}
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename11} ${mask_filename12} ${mask_filename13} ${mask_filename14} ${mask_filename15} ${mask_filename16})

@@ -846,6 +846,11 @@ def call_write_panda_df(args):
             write_panda_df(latexfilename,title_df)
         except:
             pass
+        try:
+            SLICE_NUM_df = pd.DataFrame(table_df.pop('SLICE_NUM'))
+            write_panda_df(latexfilename,SLICE_NUM_df)
+        except:
+            pass
         # table_df.insert(0, 'FILENAME', column_to_move)
         table_df1=table_df.unstack().reset_index()
         table_df1.columns=["Region","IDX","Volume(ml)"]

@@ -1338,7 +1338,7 @@ def latex_inserttext_tableNc_colored(filename,texts,text_colors,N,space=1):
             file1.writelines("\\textbf{\\textcolor{"+ text_colors[x]+"}{" + texts[x] + "}}\n")
 
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
-    file1.writelines("\\vspace{" + str(space)+"em}\n")
+    # file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 def call_latex_insertimage_tableNc(args):
 

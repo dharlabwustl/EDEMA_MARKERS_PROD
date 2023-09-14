@@ -1302,6 +1302,7 @@ def latex_end_table2c(filename):
     file1.writelines("\n")
     file1.writelines("\\end{tabular}\n")
     file1.writelines("\\end{center}\n")
+    file1.writelines("\\vspace{" + str(-5)+"em}\n")
     return file1
 
 def latex_insertimage_table2c(filename,image1="lion.jpg", image2="lion.jpg",caption="ATUL",imagescale=0.5):
@@ -1323,7 +1324,7 @@ def latex_insertimage_tableNc(filename,images,N, caption="ATUL",imagescale=0.5, 
             file1.writelines("\\includegraphics[angle="+ str(angle) + ",width=" + str(imagescale) + "\\textwidth]{" + images[x] + "}\n")
             
 #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
-    file1.writelines("\\vspace{" + str(space)+"em}\n")
+#     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 
 def latex_inserttext_tableNc_colored(filename,texts,text_colors,N,space=1):

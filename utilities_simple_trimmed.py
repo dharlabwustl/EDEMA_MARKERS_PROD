@@ -744,7 +744,8 @@ def latex_start(filename):
     file1.writelines("\\usepackage{graphicx}\n")   
     file1.writelines("\\usepackage[T1]{fontenc} \n") 
     file1.writelines("\\usepackage{datetime} \n")
-    file1.writelines("\\usepackage{booktabs} \n") 
+    file1.writelines("\\usepackage{booktabs} \n")
+    file1.writelines("\\usepackage{xcolor} \n")
 
 
 #    file1.writelines("\\begin{document}\n")

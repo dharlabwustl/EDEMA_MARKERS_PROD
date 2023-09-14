@@ -1285,7 +1285,7 @@ def latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=0.1):
     file1.writelines("\\begin{center}\n")
     texttowrite=""
     for x in range(N):
-        texttowrite = texttowrite +  "p{"+ colsize+"\\textwidth}" # + " "
+        texttowrite = texttowrite +  "p{" + colsize +"\\textwidth}" # + " "
     file1.writelines("\\begin{tabular}{ " + texttowrite + "  }\n")
     return file1
 def latex_start_table1c(filename):
@@ -1325,16 +1325,16 @@ def latex_insertimage_tableNc(filename,images,N, caption="ATUL",imagescale=0.5, 
     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 
-def latex_inserttext_tableNc(filename,texts,textcolors,N,space=1):
+def latex_inserttext_tableNc(filename,texts,N,space=1):
     file1 = open(filename,"a")
     # file1.writelines("\\vspace{-2em}\n")
 
     for x in range(N):
         if x < N-1:
-            file1.writelines("\\textbf{\\textcolor{"+textcolors[x] + "}" + texts[x] + "}\n")
+            file1.writelines("\\textbf{" + texts[x] + "}\n")
             file1.writelines("&")
         else:
-            file1.writelines("\\textbf{\\textcolor{"+textcolors[x] + "}" + texts[x] + "}\n")
+            file1.writelines("\\textbf{" + texts[x] + "}\n")
 
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     file1.writelines("\\vspace{" + str(space)+"em}\n")
@@ -1365,16 +1365,13 @@ def call_latex_inserttext_tableNc(args):
     returnvalue=0
     try:
         filename=args.stuff[1]
-        textcolors=args.stuff[2].split('_')
         # imagescale=float(args.stuff[2])
         # angle=float(args.stuff[3])
         # space=float(args.stuff[4])
-        texts=args.stuff[3:]
+        texts=args.stuff[2:]
         N=len(texts)
         latex_start_tableNc_noboundary(filename,N)
-        colsize=(1/N)
-        latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
-        latex_inserttext_tableNc(filename,texts,textcolors,N,space=1)
+        latex_inserttext_tableNc(filename,texts,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')

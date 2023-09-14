@@ -1313,6 +1313,21 @@ def latex_insertimage_tableNc(filename,images,N, caption="ATUL",imagescale=0.5, 
 #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
+
+def latex_inserttext_tableNc(filename,texts,N,space=1):
+    file1 = open(filename,"a")
+    # file1.writelines("\\vspace{-2em}\n")
+
+    for x in range(N):
+        if x < N-1:
+            file1.writelines("\\textbf{" + texts[x] + "}\n")
+            file1.writelines("&")
+        else:
+            file1.writelines("\\textbf{" + texts[x] + "}\n")
+
+    #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
+    file1.writelines("\\vspace{" + str(space)+"em}\n")
+    return file1
 def call_latex_insertimage_tableNc(args):
 
     returnvalue=0
@@ -1334,7 +1349,28 @@ def call_latex_insertimage_tableNc(args):
         subprocess.call(command,shell=True)
     # print(returnvalue)
     return  returnvalue
+def call_latex_inserttext_tableNc(args):
 
+    returnvalue=0
+    try:
+        filename=args.stuff[1]
+        imagescale=float(args.stuff[2])
+        angle=float(args.stuff[3])
+        space=float(args.stuff[4])
+        texts=args.stuff[5:]
+        N=len(texts)
+        latex_start_tableNc_noboundary(filename,N)
+        latex_inserttext_tableNc(filename,texts,N,space=1)
+        # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
+        latex_end_table2c(filename)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    # print(returnvalue)
+    return  returnvalue
 def latex_insertimage_tableNc_v1(filename,images,N, caption="ATUL",imagescale=0.5, angle=0,space=1):
     file1 = open(filename,"a")
     # file1.writelines("\\vspace{-2em}\n")
@@ -1576,7 +1612,8 @@ def main():
         return_value=call_saveslicesofnifti(args)
     if name_of_the_function == "call_remove_a_column":
         return_value=call_remove_a_column(args)
-
+    if name_of_the_function == "call_latex_inserttext_tableNc":
+        return_value=call_latex_inserttext_tableNc(args)
 
 
 

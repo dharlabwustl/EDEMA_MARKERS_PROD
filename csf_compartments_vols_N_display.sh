@@ -1113,63 +1113,63 @@ ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
     #echo outputfiles_present::${outputfiles_present}
     call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" "ATUL5")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" )
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
-    ###############################
-#    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
-#
-#      #              filename=args.stuff[1]
-#      imagescale='0.18' #float(args.stuff[2])
-#      angle='90'        #float(args.stuff[3])
-#      space='1'         #float(args.stuff[4])
-#      i=0
-#      #  for file in *
-#      #  do
-#      #      if [[ -f $file ]]; then
-#      #          array[$i]=$file
-#      #          i=$(($i+1))
-#      #      fi
-#      #  done
-#
-#      #    echo $suffix;
-#      ## Legends
-#      images[$i]='call_latex_insertimage_tableNc'
-#      i=$(($i + 1))
-#      images[$i]=${latexfilename}
-#      i=$(($i + 1))
-#      images[$i]=${imagescale}
-#      i=$(($i + 1))
-#      images[$i]=${angle}
-#      i=$(($i + 1))
-#      images[$i]=${space}
-#      i=$(($i + 1))
-#
-#      y=${x%.*}
-#      echo $y
-#      suffix=${y##*_}
-#      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
-#        images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-#        i=$(($i + 1))
-#
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-#        i=$(($i + 1))
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
-#        i=$(($i + 1))
-#
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
-#        i=$(($i + 1))
-#        #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-#        #        i=$(($i + 1))
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
-#        i=$(($i + 1))
-#
-#        #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-#        #    i=$(($i + 1))
-#        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-#        echo outputfiles_present::${outputfiles_present}
-#      fi
-#    done
+    ##############################
+    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
+
+      #              filename=args.stuff[1]
+      imagescale='0.18' #float(args.stuff[2])
+      angle='90'        #float(args.stuff[3])
+      space='1'         #float(args.stuff[4])
+      i=0
+      #  for file in *
+      #  do
+      #      if [[ -f $file ]]; then
+      #          array[$i]=$file
+      #          i=$(($i+1))
+      #      fi
+      #  done
+
+      #    echo $suffix;
+      ## Legends
+      images[$i]='call_latex_insertimage_tableNc'
+      i=$(($i + 1))
+      images[$i]=${latexfilename}
+      i=$(($i + 1))
+      images[$i]=${imagescale}
+      i=$(($i + 1))
+      images[$i]=${angle}
+      i=$(($i + 1))
+      images[$i]=${space}
+      i=$(($i + 1))
+
+      y=${x%.*}
+      echo $y
+      suffix=${y##*_}
+      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
+        images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+        i=$(($i + 1))
+
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+        i=$(($i + 1))
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
+        i=$(($i + 1))
+
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
+        i=$(($i + 1))
+        #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+        #        i=$(($i + 1))
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
+        i=$(($i + 1))
+
+        #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+        #    i=$(($i + 1))
+        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+        echo outputfiles_present::${outputfiles_present}
+      fi
+    done
 
     #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
     #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})

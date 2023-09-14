@@ -1370,7 +1370,9 @@ def call_latex_inserttext_tableNc(args):
         # space=float(args.stuff[4])
         texts=args.stuff[2:]
         N=len(texts)
-        latex_start_tableNc_noboundary(filename,N)
+        colsize=(1/N)
+        # latex_start_tableNc_noboundary(filename,N)
+        latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
         latex_inserttext_tableNc(filename,texts,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)

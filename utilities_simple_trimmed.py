@@ -1277,6 +1277,17 @@ def latex_start_tableNc_noboundary(filename,N):
         texttowrite = texttowrite +  "c" # + " " 
     file1.writelines("\\begin{tabular}{ " + texttowrite + "  }\n")
     return file1
+
+def latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=0.1):
+    print("latex_start_table2c")
+    print(filename)
+    file1 = open(filename,"a")
+    file1.writelines("\\begin{center}\n")
+    texttowrite=""
+    for x in range(N):
+        texttowrite = texttowrite +  "p{"+ colsize+"\\textwidth}" # + " "
+    file1.writelines("\\begin{tabular}{ " + texttowrite + "  }\n")
+    return file1
 def latex_start_table1c(filename):
     print("latex_start_table2c")
     print(filename)
@@ -1361,7 +1372,9 @@ def call_latex_inserttext_tableNc(args):
         texts=args.stuff[3:]
         N=len(texts)
         latex_start_tableNc_noboundary(filename,N)
-        latex_inserttext_tableNc(filename,texts,textcolors,N,space=1)
+        colsize=(1/N)
+        latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
+        # latex_inserttext_tableNc(filename,texts,textcolors,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')

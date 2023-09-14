@@ -1374,7 +1374,7 @@ def call_latex_inserttext_tableNc(args):
         latex_start_tableNc_noboundary(filename,N)
         colsize=(1/N)
         latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
-        # latex_inserttext_tableNc(filename,texts,textcolors,N,space=1)
+        latex_inserttext_tableNc(filename,texts,textcolors,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')

@@ -1331,10 +1331,10 @@ def latex_inserttext_tableNc(filename,texts,N,space=1):
 
     for x in range(N):
         if x < N-1:
-            file1.writelines("\\textbf{" + texts[x] + "}\n")
+            file1.writelines("\\textcolor{blue}{\\textbf{" + texts[x] + "}}\n")
             file1.writelines("&")
         else:
-            file1.writelines("\\textbf{" + texts[x] + "}\n")
+            file1.writelines("\\textcolor{blue}{\\textbf{" + texts[x] + "}}\n")
 
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     file1.writelines("\\vspace{" + str(space)+"em}\n")

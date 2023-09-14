@@ -1354,10 +1354,10 @@ def call_latex_inserttext_tableNc(args):
     returnvalue=0
     try:
         filename=args.stuff[1]
-        imagescale=float(args.stuff[2])
-        angle=float(args.stuff[3])
-        space=float(args.stuff[4])
-        texts=args.stuff[5:]
+        # imagescale=float(args.stuff[2])
+        # angle=float(args.stuff[3])
+        # space=float(args.stuff[4])
+        texts=args.stuff[2:]
         N=len(texts)
         latex_start_tableNc_noboundary(filename,N)
         latex_inserttext_tableNc(filename,texts,N,space=1)

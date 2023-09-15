@@ -1302,9 +1302,11 @@ def latex_end_table2c(filename):
     file1.writelines("\n")
     file1.writelines("\\end{tabular}\n")
     file1.writelines("\\end{center}\n")
-    file1.writelines("\\vspace{" + str(-5)+"em}\n")
     return file1
-
+def space_between_lines(filename,space=1):
+    file1 = open(filename,"a")
+    file1.writelines("\\vspace{" + str(space)+"em}\n")
+    return file1
 def latex_insertimage_table2c(filename,image1="lion.jpg", image2="lion.jpg",caption="ATUL",imagescale=0.5):
     file1 = open(filename,"a")
     file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{" + image1 + "}\n")
@@ -1379,6 +1381,7 @@ def call_latex_inserttext_tableNc(args):
         latex_inserttext_tableNc_colored(filename,texts,text_color_list,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
+        space_between_lines(filename,space=-5)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')
         subprocess.call(command,shell=True)
         returnvalue=1

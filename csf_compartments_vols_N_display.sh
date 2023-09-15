@@ -949,7 +949,7 @@ while IFS=',' read -ra array; do
     mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
 
     mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
-    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_leftt_half_originalRF.nii.gz
+    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_left_half_originalRF.nii.gz
     #######################################
     calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}

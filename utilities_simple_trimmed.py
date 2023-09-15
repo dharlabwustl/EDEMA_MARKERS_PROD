@@ -1305,6 +1305,7 @@ def latex_end_table2c(filename):
     return file1
 def space_between_lines(filename,space=1):
     file1 = open(filename,"a")
+    file1.writelines("\n")
     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 def latex_insertimage_table2c(filename,image1="lion.jpg", image2="lion.jpg",caption="ATUL",imagescale=0.5):

@@ -1061,9 +1061,7 @@ while IFS=',' read -ra array; do
     ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename29%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename30%.nii*}.csv) )
+    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
@@ -1091,7 +1089,7 @@ while IFS=',' read -ra array; do
     outputfile_suffix="CSF_COMPARTMENTS"
     color_list='green_green_yellow_yellow_red_red_aqua_aqua'
     #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename29} ${mask_filename30} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #############################################################
     ###################################################################

@@ -1113,13 +1113,13 @@ ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
     #echo outputfiles_present::${outputfiles_present}
     call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" "ATUL5")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" )
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" "ATUL5")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" )
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" "ATUL5")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" )
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-        call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" "ATUL5")
+        call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "ATUL0" "ATUL1" "ATUL2" "ATUL3" "ATUL4" )
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     ##############################
     for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY

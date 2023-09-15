@@ -947,9 +947,6 @@ while IFS=',' read -ra array; do
     mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
     mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
     mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
-
-    mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
-    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_left_half_originalRF.nii.gz
     #######################################
     calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
@@ -1061,9 +1058,7 @@ while IFS=',' read -ra array; do
     ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename29%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename30%.nii*}.csv))
+    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")

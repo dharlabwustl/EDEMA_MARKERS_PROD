@@ -746,11 +746,10 @@ def latex_start(filename):
     file1.writelines("\\usepackage{datetime} \n")
     file1.writelines("\\usepackage{booktabs} \n")
     file1.writelines("\\usepackage{xcolor} \n")
-    file1.writelines("\\usepackage{latexcolors} \n")
     file1.writelines("\\definecolor{darkmagenta}{rgb}{0.55, 0.0, 0.55}\n")
     file1.writelines("\\definecolor{fuchsia}{rgb}{1.0, 0.0, 1.0}\n")
     file1.writelines("\\definecolor{upmaroon}{rgb}{0.48, 0.07, 0.07}\n")
-    file1.writelines("\\definecolor{lime(colorwheel)}{rgb}{0.75, 1.0, 0.0}\n")
+    file1.writelines("\\definecolor{lime}{rgb}{0.75, 1.0, 0.0}\n")
     file1.writelines("\\definecolor{aqua}{rgb}{0.0, 1.0, 1.0}\n")
     file1.writelines("\\definecolor{olive}{rgb}{0.5, 0.5, 0.0}\n")
 

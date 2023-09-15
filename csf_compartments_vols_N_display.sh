@@ -947,6 +947,9 @@ while IFS=',' read -ra array; do
     mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
     mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
     mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
+
+    mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
+    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_leftt_half_originalRF.nii.gz
     #######################################
     calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
@@ -1058,7 +1061,9 @@ while IFS=',' read -ra array; do
     ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename29%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename30%.nii*}.csv) )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
@@ -1086,7 +1091,7 @@ while IFS=',' read -ra array; do
     outputfile_suffix="CSF_COMPARTMENTS"
     color_list='green_green_yellow_yellow_red_red_aqua_aqua'
     #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename29} ${mask_filename30} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #############################################################
     ###################################################################
@@ -1114,27 +1119,27 @@ while IFS=',' read -ra array; do
     call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "   " "   " "Left Hemisphere" "Ventricle" "Sulci")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_purple_black_black "   " "Left Hemisphere" "  " "Ventricle" "Sulci")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "   " "   " "Right Hemisphere" "Sulci at ventricle" "Ventricle")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_maroon_black_black "   "   "Right Hemisphere" "   "  "Sulci at ventricle" "Ventricle")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "   " "   " "Left Hemisphere" "Sulci above Ventricle" "Cistern")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_purple_black_black "   " "   " " " "Sulci above Ventricle" "Cistern")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} green_green_yellow_yellow_red_red_blue_blue "   " "   " "  " "Sulci below Ventricle" "  ")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_purple_black_black "   " "   " "  " "Sulci below Ventricle" "  ")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     ##############################

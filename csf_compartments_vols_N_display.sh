@@ -1118,18 +1118,18 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_purple_black_green_black "   "  "Left Hemisphere"  "   "  "Ventricle" "Sulci")
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")  #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_purple_black_green_fuchsia "   "  "Left Hemisphere"  "   "  "Ventricle" "Sulci")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_red_black "   "   "Right Hemisphere"    "   "  "Sulci at ventricle" "Ventricle")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_red_olive "   "   "Right Hemisphere"    "   "  "Sulci at ventricle" "Ventricle")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_yellow_black "   " "   " " " "Sulci above Ventricle" "Cistern")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_yellow_lime "   " "   " " " "Sulci above Ventricle" "Cistern")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')

@@ -1308,6 +1308,21 @@ def space_between_lines(filename,space=1):
     file1.writelines("\n")
     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
+def call_space_between_lines(args):
+
+    returnvalue=0
+    try:
+        filename=args.stuff[1]
+        space=int(args.stuff[2])
+        space_between_lines(filename,space=space)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_space_between_lines')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    # print(returnvalue)
+    return  returnvalue
 def latex_insertimage_table2c(filename,image1="lion.jpg", image2="lion.jpg",caption="ATUL",imagescale=0.5):
     file1 = open(filename,"a")
     file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{" + image1 + "}\n")
@@ -1382,7 +1397,7 @@ def call_latex_inserttext_tableNc(args):
         latex_inserttext_tableNc_colored(filename,texts,text_color_list,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
-        space_between_lines(filename,space=-2)
+        # space_between_lines(filename,space=-2)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')
         subprocess.call(command,shell=True)
         returnvalue=1
@@ -1634,6 +1649,8 @@ def main():
         return_value=call_remove_a_column(args)
     if name_of_the_function == "call_latex_inserttext_tableNc":
         return_value=call_latex_inserttext_tableNc(args)
+    if name_of_the_function == "call_space_between_lines":
+        return_value=call_space_between_lines(args)
 
 
 

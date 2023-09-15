@@ -1342,7 +1342,7 @@ def latex_inserttext_tableNc_colored(filename,texts,text_colors,N,space=1):
             file1.writelines("\\textbf{\\textcolor{"+ text_colors[x]+"}{" + texts[x] + "}}\n")
 
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
-    file1.writelines("\\vspace{" + str(-2*space)+"em}\n")
+    # file1.writelines("\\vspace{" + str(-2*space)+"em}\n")
     return file1
 def call_latex_insertimage_tableNc(args):
 
@@ -1382,7 +1382,7 @@ def call_latex_inserttext_tableNc(args):
         latex_inserttext_tableNc_colored(filename,texts,text_color_list,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
-        space_between_lines(filename,space=-5)
+        space_between_lines(filename,space=-2)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_latex_inserttext_tableNc')
         subprocess.call(command,shell=True)
         returnvalue=1

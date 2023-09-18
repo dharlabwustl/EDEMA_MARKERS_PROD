@@ -1132,7 +1132,7 @@ while IFS=',' read -ra array; do
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_yellow_lime "   " "   " " " "*Sulci above Ventricle" "*Cistern")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_upmaroon_black_aqua_black "   " "   " "  " "*Sulci below Ventricle" "  ")
 

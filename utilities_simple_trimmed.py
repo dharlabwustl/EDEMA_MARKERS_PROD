@@ -1432,7 +1432,7 @@ def call_latex_insertimage_tableNc(args):
         subprocess.call(command,shell=True)
     # print(returnvalue)
     return  returnvalue
-def call_latex_inserttext_tableNc_colored_with_item(args):
+def call_latex_inserttext_tableNc_colored_with_bullet(args):
 
     returnvalue=0
     try:
@@ -1447,8 +1447,8 @@ def call_latex_inserttext_tableNc_colored_with_item(args):
         colsize=(1/N)
         # latex_start_tableNc_noboundary(filename,N)
         latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
-        # latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_color_list,bullet_sign_list,N,space=1)
-        latex_inserttext_tableNc_colored_with_item(filename,texts,text_color_list,N,space=1)
+        latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_color_list,bullet_sign_list,N,space=1)
+        # latex_inserttext_tableNc_colored_with_item(filename,texts,text_color_list,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         # space_between_lines(filename,space=-2)
@@ -1732,8 +1732,8 @@ def main():
         return_value=call_latex_inserttext_tableNc(args)
     if name_of_the_function == "call_space_between_lines":
         return_value=call_space_between_lines(args)
-    if name_of_the_function == "call_latex_inserttext_tableNc_colored_with_item":
-        return_value=call_latex_inserttext_tableNc_colored_with_item(args)
+    if name_of_the_function == "call_latex_inserttext_tableNc_colored_with_bullet":
+        return_value=call_latex_inserttext_tableNc_colored_with_bullet(args)
 
 
 

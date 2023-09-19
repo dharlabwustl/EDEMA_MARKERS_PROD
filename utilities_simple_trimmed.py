@@ -1391,16 +1391,17 @@ def latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_colors,bull
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     # file1.writelines("\\vspace{" + str(-2*space)+"em}\n")
     return file1
-def item_inside_table(filename,texts,text_colors,N,space=1):
+def latex_inserttext_tableNc_colored_with_item(filename,texts,text_colors,N,space=1):
     file1 = open(filename,"a")
-    text_to_write="\\begin{itemize}\n"
-    for x in range(N):
-        text_to_write=text_to_write +"  "  +"\\item  " + "\\textbf{\\textcolor{"+ text_colors[x]+"}{" + texts[x] + "}}" + "\n"
 
-    text_to_write=text_to_write +"  "  +"\\end{itemize}\n"
     # file1.writelines("\\begin{itemize} \n")
     for x in range(N):
         if x < N-1:
+            text_to_write="\\begin{itemize}\n"
+            # for x in range(N):
+            text_to_write=text_to_write +"  "  +"\\item  " + "\\textbf{\\textcolor{"+ text_colors[x]+"}{" + texts[x] + "}}" + "\n"
+
+            text_to_write=text_to_write +"  "  +"\\end{itemize}\n"
             file1.writelines(text_to_write)
             file1.writelines("&")
         else:
@@ -1409,6 +1410,7 @@ def item_inside_table(filename,texts,text_colors,N,space=1):
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     # file1.writelines("\\vspace{" + str(-2*space)+"em}\n")
     return file1
+
 def call_latex_insertimage_tableNc(args):
 
     returnvalue=0
@@ -1445,7 +1447,8 @@ def call_latex_inserttext_tableNc_colored_with_bullet(args):
         colsize=(1/N)
         # latex_start_tableNc_noboundary(filename,N)
         latex_start_tableNc_noboundary_withcolsize(filename,N,colsize=colsize)
-        latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_color_list,bullet_sign_list,N,space=1)
+        # latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_color_list,bullet_sign_list,N,space=1)
+        latex_inserttext_tableNc_colored_with_item(filename,texts,text_color_list,N,space=1)
         # latex_inserttext_tableNc(filename,texts,N, caption="NONE",imagescale=imagescale, angle=angle,space=space)
         latex_end_table2c(filename)
         # space_between_lines(filename,space=-2)

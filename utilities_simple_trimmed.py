@@ -1383,10 +1383,10 @@ def latex_inserttext_tableNc_colored_with_bullet(filename,texts,text_colors,bull
 
     for x in range(N):
         if x < N-1:
-            file1.writelines("\\textbf{\\textcolor{"+ "$\\" + bullet_sign_list[x] +"$ " +text_colors[x]+"}{" + texts[x] + "}}\n")
+            file1.writelines("\\textbf{\\textcolor{" + text_colors[x]+"}{" + "$\\" + bullet_sign_list[x] +"$ " + texts[x] + "}}\n")
             file1.writelines("&")
         else:
-            file1.writelines("\\textbf{\\textcolor{"+ "$\\" + bullet_sign_list[x] +"$ " +text_colors[x]+"}{" + texts[x] + "}}\n")
+            file1.writelines("\\textbf{\\textcolor{" + text_colors[x]+"}{" + "$\\" + bullet_sign_list[x] +"$ " + texts[x] + "}}\n")
 
     #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     # file1.writelines("\\vspace{" + str(-2*space)+"em}\n")

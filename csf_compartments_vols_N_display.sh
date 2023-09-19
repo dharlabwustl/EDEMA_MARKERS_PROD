@@ -1117,7 +1117,7 @@ while IFS=',' read -ra array; do
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
+    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")  #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_darkmagenta_white_cadmiumgreen_fuchsia bullet_bullet_bullet_bullet_bullet   "   "  "Left Hemisphere"  "   "  "Ventricle" "Sulci")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")

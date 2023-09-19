@@ -1441,8 +1441,8 @@ def call_latex_inserttext_tableNc_colored_with_bullet(args):
         # angle=float(args.stuff[3])
         # space=float(args.stuff[4])
         text_color_list=args.stuff[2].split('_')
-        # bullet_sign_list=args.stuff[3].split('_')
-        texts=args.stuff[3:]
+        bullet_sign_list=args.stuff[3].split('_')
+        texts=args.stuff[4:]
         N=len(texts)
         colsize=(1/N)
         # latex_start_tableNc_noboundary(filename,N)

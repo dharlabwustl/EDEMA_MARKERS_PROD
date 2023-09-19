@@ -1432,7 +1432,7 @@ def call_latex_insertimage_tableNc(args):
         subprocess.call(command,shell=True)
     # print(returnvalue)
     return  returnvalue
-def call_latex_inserttext_tableNc_colored_with_bullet(args):
+def call_latex_inserttext_tableNc_colored_with_item(args):
 
     returnvalue=0
     try:
@@ -1441,8 +1441,8 @@ def call_latex_inserttext_tableNc_colored_with_bullet(args):
         # angle=float(args.stuff[3])
         # space=float(args.stuff[4])
         text_color_list=args.stuff[2].split('_')
-        bullet_sign_list=args.stuff[3].split('_')
-        texts=args.stuff[4:]
+        # bullet_sign_list=args.stuff[3].split('_')
+        texts=args.stuff[3:]
         N=len(texts)
         colsize=(1/N)
         # latex_start_tableNc_noboundary(filename,N)
@@ -1732,8 +1732,8 @@ def main():
         return_value=call_latex_inserttext_tableNc(args)
     if name_of_the_function == "call_space_between_lines":
         return_value=call_space_between_lines(args)
-    if name_of_the_function == "call_latex_inserttext_tableNc_colored_with_bullet":
-        return_value=call_latex_inserttext_tableNc_colored_with_bullet(args)
+    if name_of_the_function == "call_latex_inserttext_tableNc_colored_with_item":
+        return_value=call_latex_inserttext_tableNc_colored_with_item(args)
 
 
 

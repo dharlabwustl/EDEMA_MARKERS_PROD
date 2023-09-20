@@ -27,5 +27,6 @@ RUN pip3 install \
   pypng  \
   PyGithub \
   SimpleITK \
+  h5py \
   webcolors
 

@@ -890,7 +890,7 @@ while IFS=',' read -ra array; do
       template_bet_maskfilename=${filename#.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1_BET.nii.gz
       thisfile_bet_gray_filename=${filename#.nii*}_resaved_levelset_brain_f.nii.gz
       thisfile_bet_mask_filename=${filename#.nii*}_resaved_levelset_brain_f_BET.nii.gz
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} )
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} ${final_output_directory} )
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
 

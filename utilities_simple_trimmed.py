@@ -1760,8 +1760,8 @@ def call_createh5file(args):
     returnvalue=0
     try:
         template_file=args.stuff[1]
-        template_mask_file=args.stuff[2]
-        target_file=args.stuff[3]
+        target_file=args.stuff[2]
+        template_mask_file=args.stuff[3]
         target_mask_file=args.stuff[4]
         output_dir=args.stuff[5]
         createh5file(template_file,target_file,template_mask_file,target_mask_file,output_dir=output_dir)

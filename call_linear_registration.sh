@@ -886,19 +886,19 @@ while IFS=',' read -ra array; do
     registration_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do
+
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
       template_gray_filename=${filename#.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1.nii.gz
       template_bet_maskfilename=${filename#.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1_BET.nii.gz
       thisfile_bet_gray_filename=${filename#.nii*}_resaved_levelset_brain_f.nii.gz
       thisfile_bet_mask_filename=${filename#.nii*}_resaved_levelset_brain_f_BET.nii.gz
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} ${final_output_directory} )
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
-
-    call_createh5file_arguments=('call_createh5file' ${URI_1} ${matfiles} "MASKS")
+    call_createh5file_arguments=('call_createh5file' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} ${final_output_directory})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_createh5file_arguments[@]}")
 
-  done \
-    < <(tail -n +2 "${dir_to_save}/${filename}")
+
+  done < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 #

@@ -118,7 +118,7 @@ run_Registration() {
   #  done
 
 }
-run_IML() {
+run_REGISTRATION() {
   this_filename=${1}
   this_betfilename=${2}
   #  this_csfmaskfilename=${3}
@@ -134,22 +134,30 @@ run_IML() {
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
-    #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
+        /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
   else
     /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 
     echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   fi
 
-  echo "RUNNING IML FSL PART"
-  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
-  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
+  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz; do
+    cp ${filetocopy} ${final_output_directory}/
+  done
 
-  echo "RUNNING IML PYTHON PART"
+  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
+    cp ${filetocopy} ${final_output_directory}/
+  done
 
-  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
-  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
-  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+  #  echo "RUNNING IML FSL PART"
+  #  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
+  #  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
+  #
+  #  echo "RUNNING IML PYTHON PART"
+  #
+  #  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+  #  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
+  #  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   #    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
   #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
@@ -372,7 +380,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
 
 }
 
-midlineonly_each_scan() {
+registration_each_scan() {
   local niftifilename_ext=${1}
 
   eachfile_basename_noext=''
@@ -446,7 +454,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
       bet_mask_filename=${output_directory}/${betfilename}
       #    infarct_mask_filename=${output_directory}/${infarctfilename}
       #    csf_mask_filename=${output_directory}/${csffilename}
-      run_IML $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
+      run_REGISTRATION $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
     fi
   done
 
@@ -867,7 +875,7 @@ while IFS=',' read -ra array; do
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
 
-    midlineonly_each_scan ${filename_nifti}
+    registration_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do
 
@@ -875,336 +883,336 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
     #
-#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
-#
-#    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-#
-#    grayscale_filename=${working_dir_1}/${filename_nifti}
-#
-#    grayscale_filename_basename=$(basename ${grayscale_filename})
-#    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
-#    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
-#    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-#    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
-#    cp ${grayscale_filename} ${grayscale_filename_1}
-#    latexfilename_prefix=${grayscale_filename%.nii*}
-#    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-#    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
-#    csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
-#    ##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-#    ##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-#    ##echo outputfiles_present::${outputfiles_present}
-#    ############################# create the latex file ##################
-#    ##while IFS=',' read -ra array; do
-#    ##  latexfilename=${array[0]}
-#    ##  echo ${latexfilename}
-#    call_latex_start_arguments=('call_latex_start' ${latexfilename})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#    contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
-#    # mask_color_list=args.stuff[4]
-#    ## GRAY SCALE WITH BET MASK with CSF subtracted.
-#    outputfile_dir=${output_directory}
-#
-#    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
-#    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
-#    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-#    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
-#
-#    mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
-#    mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
-#    mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
-#    mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
-#    mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
-#    mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
-#
-#    mask_filename11=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_right_half_originalRF.nii.gz
-#    mask_filename12=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_left_half_originalRF.nii.gz
-#    mask_filename13=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_right_half_originalRF.nii.gz
-#    mask_filename14=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_left_half_originalRF.nii.gz
-#    mask_filename15=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_right_half_originalRF.nii.gz
-#    mask_filename16=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_left_half_originalRF.nii.gz
-#    mask_filename17=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_right_half_originalRF.nii.gz
-#    mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
-#
-#    ###################
-#    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
-#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
-#    mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
-#    mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
-#    mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz
-#    mask_filename24=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz
-#    mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz
-#    mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
-#    mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
-#    mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
-#    #######################################
-#    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
-#    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
-#    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-#    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-#    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
-#    ########################################
-#    ####################################################
-#    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
-#    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
-#    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
-#    column_name_this="bet_mask_WITHOUT_csf"
-#    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
-#    call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
-#    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
-#    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"SAH_SULCAL_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
-#    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
-#    ####################################################
-#
-#    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-#    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-#    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-#    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-#
-#    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
-#
-#    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-#    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
-#
-#    ## combine all volumes data:
-#    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-#    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
-#    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#
-#    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-#    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv)
-#    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#
-#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv))
-#    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#
-#    #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
-#    #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
-#    #    END1=28
-#    #    for mask_number in $(seq 1 $END1);
-#    #    do
-#    #      maskfile_string=mask_filename${mask_number}
-#    #      this_maskfile=${!maskfile_string}
-#    #      call_combine_csv_horizontally  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
-#    ##      echo $i;
-#    #    done
-#    #${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
-#    # ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
-#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename3%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename4%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename5%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename6%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename7%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename8%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename9%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename10%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename18%.nii*}.csv)
-#    #     ${output_directory}/$(basename ${mask_filename19%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename20%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename21%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename22%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename23%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename24%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-#    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-#    #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-#    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-#
-#    #    echo ${call_combine_csv_horizontally_arguments[@]}
-#    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
-#
-#    outputfile_suffix="GRAY"
-#    color_list='purple_maroon_black_black'
-#    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#    ### GRAY SCALE with all CSF
-#    outputfile_suffix="COMPLETE_CSF"
-#    color_list='blue_blue'
-#    #mask_filename=(${mask_filename3} ${mask_filename4})
-#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-#    echo outputfiles_present::${outputfiles_present}
-#
-#    ###################################################################
-#    outputfile_suffix="CSF_COMPARTMENTS"
-#    color_list='green_green_yellow_yellow_red_red_aqua_aqua'
-#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#    #############################################################
-#    ###################################################################
-#    outputfile_suffix="SAH_COMPARTMENTS"
-#    color_list='fuchsia_fuchsia_olive_olive_lime_lime_orange_orange'
-#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#    #${mask_filename17} ${mask_filename18}
-#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename11} ${mask_filename12} ${mask_filename13} ${mask_filename14} ${mask_filename15} ${mask_filename16})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#    #############################################################
-#    ###################################################################
-#    outputfile_suffix="SAH_COMPARTMENTS_TOTAL"
-#    color_list='green_green_yellow_yellow_red_red_blue_blue'
-#    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-#    #
-#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename17} ${mask_filename18})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
-#    #############################################################
-#    csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
-#    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
-#    ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
-#    ############# FILL THE LATEX FILE #################
-#    #echo outputfiles_present::${outputfiles_present}
-#    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-#
-#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-#
-#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")  #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
-#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_darkmagenta_white_cadmiumgreen_fuchsia bullet_bullet_bullet_bullet_bullet   "   "  "Left Hemisphere"  "   "  "Ventricle" "Sulci")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_upmaroon_white_red_olive  bullet_bullet_bullet_bullet_bullet "   "   "Right Hemisphere"    "   "  "Sulci at ventricle" "Ventricle")
-#
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-#
-#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_white_yellow_lime  bullet_bullet_bullet_bullet_bullet "   " "   " " " "Sulci above Ventricle" "Cistern")
-#
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_white_aqua_white bullet_bullet_bullet_bullet_bullet "   " "   " "  " "Sulci below Ventricle" "  ")
-#
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-#    ##############################
-#    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
-#
-#      #              filename=args.stuff[1]
-#      imagescale='0.18' #float(args.stuff[2])
-#      angle='90'        #float(args.stuff[3])
-#      space='1'         #float(args.stuff[4])
-#      i=0
-#      #  for file in *
-#      #  do
-#      #      if [[ -f $file ]]; then
-#      #          array[$i]=$file
-#      #          i=$(($i+1))
-#      #      fi
-#      #  done
-#
-#      #    echo $suffix;
-#      ## Legends
-#      images[$i]='call_latex_insertimage_tableNc'
-#      i=$(($i + 1))
-#      images[$i]=${latexfilename}
-#      i=$(($i + 1))
-#      images[$i]=${imagescale}
-#      i=$(($i + 1))
-#      images[$i]=${angle}
-#      i=$(($i + 1))
-#      images[$i]=${space}
-#      i=$(($i + 1))
-#
-#      y=${x%.*}
-#      echo $y
-#      suffix=${y##*_}
-#      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
-#        images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-#        i=$(($i + 1))
-#
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-#        i=$(($i + 1))
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
-#        i=$(($i + 1))
-#
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
-#        i=$(($i + 1))
-#        #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-#        #        i=$(($i + 1))
-#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
-#        i=$(($i + 1))
-#
-#        #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-#        #    i=$(($i + 1))
-#        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-#        echo outputfiles_present::${outputfiles_present}
-#      fi
-#    done
-#
-#    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-#    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-#
-#    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-#    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-#    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-#    #    URI_1=${url1%/resources*}
-#    #    resource_dirname="SAH_CSF_ANALYSIS"
-#    #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
-#    #    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
-#    #    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    #    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
+    #    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
+    #
+    #    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+    #    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+    #    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+    #    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+    #
+    #    grayscale_filename=${working_dir_1}/${filename_nifti}
+    #
+    #    grayscale_filename_basename=$(basename ${grayscale_filename})
+    #    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
+    #    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+    #    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
+    #    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
+    #    cp ${grayscale_filename} ${grayscale_filename_1}
+    #    latexfilename_prefix=${grayscale_filename%.nii*}
+    #    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+    #    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
+    #    csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
+    #    ##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+    #    ##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+    #    ##echo outputfiles_present::${outputfiles_present}
+    #    ############################# create the latex file ##################
+    #    ##while IFS=',' read -ra array; do
+    #    ##  latexfilename=${array[0]}
+    #    ##  echo ${latexfilename}
+    #    call_latex_start_arguments=('call_latex_start' ${latexfilename})
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+    #    contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+    #    # mask_color_list=args.stuff[4]
+    #    ## GRAY SCALE WITH BET MASK with CSF subtracted.
+    #    outputfile_dir=${output_directory}
+    #
+    #    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+    #    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+    #    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+    #    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+    #
+    #    mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
+    #    mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
+    #    mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
+    #    mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
+    #    mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
+    #    mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
+    #
+    #    mask_filename11=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_right_half_originalRF.nii.gz
+    #    mask_filename12=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_left_half_originalRF.nii.gz
+    #    mask_filename13=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_right_half_originalRF.nii.gz
+    #    mask_filename14=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_left_half_originalRF.nii.gz
+    #    mask_filename15=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_right_half_originalRF.nii.gz
+    #    mask_filename16=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_left_half_originalRF.nii.gz
+    #    mask_filename17=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_right_half_originalRF.nii.gz
+    #    mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
+    #
+    #    ###################
+    #    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
+    #    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+    #    mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
+    #    mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
+    #    mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz
+    #    mask_filename24=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz
+    #    mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz
+    #    mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
+    #    mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
+    #    mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
+    #    #######################################
+    #    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
+    #    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
+    #    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+    #    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+    #    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+    #    ########################################
+    #    ####################################################
+    #    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
+    #    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
+    #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
+    #    column_name_this="bet_mask_WITHOUT_csf"
+    #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
+    #    call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"SAH_SULCAL_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+    #    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+    #    ####################################################
+    #
+    #    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+    #    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+    #    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+    #    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+    #
+    #    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+    #
+    #    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+    #    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+    #
+    #    ## combine all volumes data:
+    #    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
+    #    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
+    #    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
+    #    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #
+    #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+    #    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv)
+    #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #
+    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv))
+    #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #
+    #    #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
+    #    #    call_insert_one_col_with_colname_colidx  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
+    #    #    END1=28
+    #    #    for mask_number in $(seq 1 $END1);
+    #    #    do
+    #    #      maskfile_string=mask_filename${mask_number}
+    #    #      this_maskfile=${!maskfile_string}
+    #    #      call_combine_csv_horizontally  ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${this_maskfile%.nii*}.csv)
+    #    ##      echo $i;
+    #    #    done
+    #    #${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
+    #    # ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
+    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename3%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename4%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename5%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename6%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename7%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename8%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename9%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename10%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename18%.nii*}.csv)
+    #    #     ${output_directory}/$(basename ${mask_filename19%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename20%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename21%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename22%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename23%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename24%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
+    #    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+    #    #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
+    #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+    #
+    #    #    echo ${call_combine_csv_horizontally_arguments[@]}
+    #    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
+    #
+    #    outputfile_suffix="GRAY"
+    #    color_list='purple_maroon_black_black'
+    #    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+    #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+    #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+    #    ### GRAY SCALE with all CSF
+    #    outputfile_suffix="COMPLETE_CSF"
+    #    color_list='blue_blue'
+    #    #mask_filename=(${mask_filename3} ${mask_filename4})
+    #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+    #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+    #    echo outputfiles_present::${outputfiles_present}
+    #
+    #    ###################################################################
+    #    outputfile_suffix="CSF_COMPARTMENTS"
+    #    color_list='green_green_yellow_yellow_red_red_aqua_aqua'
+    #    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+    #    #############################################################
+    #    ###################################################################
+    #    outputfile_suffix="SAH_COMPARTMENTS"
+    #    color_list='fuchsia_fuchsia_olive_olive_lime_lime_orange_orange'
+    #    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    #    #${mask_filename17} ${mask_filename18}
+    #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename11} ${mask_filename12} ${mask_filename13} ${mask_filename14} ${mask_filename15} ${mask_filename16})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+    #    #############################################################
+    #    ###################################################################
+    #    outputfile_suffix="SAH_COMPARTMENTS_TOTAL"
+    #    color_list='green_green_yellow_yellow_red_red_blue_blue'
+    #    #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    #    #
+    #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename17} ${mask_filename18})
+    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+    #    #############################################################
+    #    csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
+    #    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
+    #    ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+    #    ############# FILL THE LATEX FILE #################
+    #    #echo outputfiles_present::${outputfiles_present}
+    #    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+    #
+    #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+    #
+    #    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")  #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+    #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_darkmagenta_white_cadmiumgreen_fuchsia bullet_bullet_bullet_bullet_bullet   "   "  "Left Hemisphere"  "   "  "Ventricle" "Sulci")
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+    #    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+    #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_upmaroon_white_red_olive  bullet_bullet_bullet_bullet_bullet "   "   "Right Hemisphere"    "   "  "Sulci at ventricle" "Ventricle")
+    #
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+    #
+    #    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+    #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_white_yellow_lime  bullet_bullet_bullet_bullet_bullet "   " "   " " " "Sulci above Ventricle" "Cistern")
+    #
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+    #    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+    #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_white_aqua_white bullet_bullet_bullet_bullet_bullet "   " "   " "  " "Sulci below Ventricle" "  ")
+    #
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+    #    ##############################
+    #    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
+    #
+    #      #              filename=args.stuff[1]
+    #      imagescale='0.18' #float(args.stuff[2])
+    #      angle='90'        #float(args.stuff[3])
+    #      space='1'         #float(args.stuff[4])
+    #      i=0
+    #      #  for file in *
+    #      #  do
+    #      #      if [[ -f $file ]]; then
+    #      #          array[$i]=$file
+    #      #          i=$(($i+1))
+    #      #      fi
+    #      #  done
+    #
+    #      #    echo $suffix;
+    #      ## Legends
+    #      images[$i]='call_latex_insertimage_tableNc'
+    #      i=$(($i + 1))
+    #      images[$i]=${latexfilename}
+    #      i=$(($i + 1))
+    #      images[$i]=${imagescale}
+    #      i=$(($i + 1))
+    #      images[$i]=${angle}
+    #      i=$(($i + 1))
+    #      images[$i]=${space}
+    #      i=$(($i + 1))
+    #
+    #      y=${x%.*}
+    #      echo $y
+    #      suffix=${y##*_}
+    #      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
+    #        images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+    #        i=$(($i + 1))
+    #
+    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+    #        i=$(($i + 1))
+    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
+    #        i=$(($i + 1))
+    #
+    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
+    #        i=$(($i + 1))
+    #        #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+    #        #        i=$(($i + 1))
+    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
+    #        i=$(($i + 1))
+    #
+    #        #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+    #        #    i=$(($i + 1))
+    #        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+    #        echo outputfiles_present::${outputfiles_present}
+    #      fi
+    #    done
+    #
+    #    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+    #    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+    #
+    #    call_latex_end_arguments=('call_latex_end' ${latexfilename})
+    #    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+    #    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+    #    #    URI_1=${url1%/resources*}
+    #    #    resource_dirname="SAH_CSF_ANALYSIS"
+    #    #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
+    #    #    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    #    #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
+    #    #    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 
   done < <(tail -n +2 "${dir_to_save}/${filename}")
 

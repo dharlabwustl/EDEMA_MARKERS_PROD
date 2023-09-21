@@ -75,34 +75,20 @@ run_LIN_REG() {
   echo "LINEAR REGISTRATION TO TEMPLATE"
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
-  #  echo "RUNNING IML FSL PART"
-  #  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
-  #  echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
-  #  echo "RUNNING IML PYTHON PART"
-  #
-  #  /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
-  #  echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
-  #
-  #  echo "RUNNING NWU AND CSF VOLUME CALCULATION "
-  #
-  #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
-  #  echo "nwu_csf_volume successful" >>${output_directory}/success.txt
-  #  thisfile_basename=$(basename $this_filename)
-  # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
-  #  for texfile in ${output_directory}/*.tex; do
-  #    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-  #    rm ${output_directory}/*.aux
-  #    rm ${output_directory}/*.log
-  #  done
-
   for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz; do
     cp ${filetocopy} ${final_output_directory}/
+
+    call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
   done
   for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*lin1*.nii.gz; do
     cp ${filetocopy} ${final_output_directory}/
+    call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
   done
 
   for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
+
     cp ${filetocopy} ${final_output_directory}/
   done
 

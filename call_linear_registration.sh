@@ -147,15 +147,15 @@ run_REGISTRATION() {
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
   done
 
-    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*lin1*.nii.gz; do
+    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*lin1_1*.nii.gz; do
       cp ${filetocopy} ${final_output_directory}/
       call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
     done
 
-  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
-    cp ${filetocopy} ${final_output_directory}/
-  done
+#  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
+#    cp ${filetocopy} ${final_output_directory}/
+#  done
 
   #  echo "RUNNING IML FSL PART"
   #  /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8

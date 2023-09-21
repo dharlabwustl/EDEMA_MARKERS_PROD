@@ -1734,27 +1734,38 @@ def call_gray2binary(args):
     # print(returnvalue)
     return  returnvalue
 def createh5file(image0_file,image1_file,label0_file,label1_file,output_dir="./"):
-    image0=nib.load(image0_file).get_fdata() #'/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_images/case_001.nii.gz').get_fdata()
+    returnvalue=0
+    try:
+        image0=nib.load(image0_file).get_fdata() #'/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_images/case_001.nii.gz').get_fdata()
 
-    ## import gray 1
-    image1=nib.load(image1_file).get_fdata() #nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_images/case_009.nii.gz').get_fdata()
-    # import label 0
-    label0=nib.load(label0_file).get_fdata() # nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_labels/case_001.nii.gz').get_fdata()
-    # import label 1
-    label0[label0>0]=1
-    label0[label0<1]=0
-    image0=image0*label0
-    label1=nib.load(label1_file).get_fdata() #nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_labels/case_009.nii.gz').get_fdata()
-    label1[label1>0]=1
-    label1[label1<1]=0
-    image1=image1*label1
-    h5filename=os.path.join(output_dir,os.path.basename(image1_file).split('.nii')[0] + '_h5data.h5')
-    print("{}:{}".format('h5filename',h5filename))
-    hf = h5py.File(h5filename, 'w')
-    hf.create_dataset('image0',data=image0,dtype='i2') # moving image
-    hf.create_dataset('image1',data=image1,dtype='i2') # fixed image
-    hf.create_dataset('label0',data=label0,dtype='i') # moving mask
-    hf.create_dataset('label1',data=label1,dtype='i') # fixed mask
+        ## import gray 1
+        image1=nib.load(image1_file).get_fdata() #nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_images/case_009.nii.gz').get_fdata()
+        # import label 0
+        label0=nib.load(label0_file).get_fdata() # nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_labels/case_001.nii.gz').get_fdata()
+        # import label 1
+        label0[label0>0]=1
+        label0[label0<1]=0
+        image0=image0*label0
+        label1=nib.load(label1_file).get_fdata() #nib.load('/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/fixed_labels/case_009.nii.gz').get_fdata()
+        label1[label1>0]=1
+        label1[label1<1]=0
+        image1=image1*label1
+        h5filename=os.path.join(output_dir,os.path.basename(image1_file).split('.nii')[0] + '_h5data.h5')
+        print("{}:{}".format('h5filename',h5filename))
+        hf = h5py.File(h5filename, 'w')
+        hf.create_dataset('image0',data=image0,dtype='i2') # moving image
+        hf.create_dataset('image1',data=image1,dtype='i2') # fixed image
+        hf.create_dataset('label0',data=label0,dtype='i') # moving mask
+        hf.create_dataset('label1',data=label1,dtype='i') # fixed mask
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'createh5file')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    # print(returnvalue)
+    return  returnvalue
+
 
 def call_createh5file(args):
     returnvalue=0
@@ -1765,7 +1776,7 @@ def call_createh5file(args):
         target_mask_file=args.stuff[4]
         output_dir=args.stuff[5]
         createh5file(template_file,target_file,template_mask_file,target_mask_file,output_dir=output_dir)
-        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_gray2binary')
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_createh5file')
         subprocess.call(command,shell=True)
         returnvalue=1
     except:

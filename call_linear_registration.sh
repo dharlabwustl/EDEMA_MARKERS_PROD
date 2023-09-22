@@ -153,11 +153,11 @@ run_REGISTRATION() {
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
   done
 
-    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_onlyventricle.nii.gz; do
-      cp ${filetocopy} ${final_output_directory}/
-      call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
-      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
-    done
+#    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_onlyventricle.nii.gz; do
+#      cp ${filetocopy} ${final_output_directory}/
+#      call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
+#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
+#    done
 
   #  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
   #    cp ${filetocopy} ${final_output_directory}/

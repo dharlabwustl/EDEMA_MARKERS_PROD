@@ -895,7 +895,7 @@ while IFS=',' read -ra array; do
     thisfile_bet_gray_filename=${dir_to_save}/${filename%.nii*}_resaved_levelset_brain_f.nii.gz
     thisfile_bet_mask_filename=${dir_to_save}/${filename%.nii*}_resaved_levelset_brain_f_BET.nii.gz
     call_createh5file_arguments=('call_createh5file' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} ${final_output_directory})
-    outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_createh5file_arguments[@]}")
+#    outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_createh5file_arguments[@]}")
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

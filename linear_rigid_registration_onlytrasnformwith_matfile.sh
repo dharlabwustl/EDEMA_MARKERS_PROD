@@ -26,6 +26,8 @@ echo $output_filename
 #/usr/lib/fsl/5.0/flirt  -in "${img}" -ref "${template_image}"  -dof 12 -out "${output_filename}${exten}lin1" -omat ${output_filename}_${exten}lin1.mat
 
 /usr/lib/fsl/5.0/flirt -in ${template_image} -ref ${img} -out "${output_filename}${exten}lin1_1" -init ${output_filename}_${exten}lin1_1.mat  -applyxfm
+
+/usr/lib/fsl/5.0/flirt -in ${template_image%} -ref ${img} -out "${output_filename}${exten}lin1_1" -init ${output_filename}_${exten}lin1_1.mat  -applyxfm
 #/usr/lib/fsl/5.0/flirt -ref  "${img}"  -in "${template_image}"  -dof 12 -out "${output_filename}${exten}lin1_1" -omat ${output_filename}_${exten}lin1_1.mat
 
 echo "IMAGE REGISTERED"

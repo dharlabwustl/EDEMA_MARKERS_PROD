@@ -153,11 +153,11 @@ run_REGISTRATION() {
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
   done
 
-#    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_onlyventricle.nii.gz; do
-#      cp ${filetocopy} ${final_output_directory}/
-#      call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
-#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
-#    done
+  #    for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_onlyventricle.nii.gz; do
+  #      cp ${filetocopy} ${final_output_directory}/
+  #      call_gray2binary_arguments=('call_gray2binary' ${filetocopy} ${final_output_directory} 0)
+  #      outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_gray2binary_arguments[@]}")
+  #    done
 
   #  for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.mat; do
   #    cp ${filetocopy} ${final_output_directory}/
@@ -900,8 +900,19 @@ while IFS=',' read -ra array; do
     template_bet_maskfilename=${dir_to_save}/${filename%.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1_BET.nii.gz
     thisfile_bet_gray_filename=${dir_to_save}/${filename%.nii*}_resaved_levelset_brain_f.nii.gz
     thisfile_bet_mask_filename=${dir_to_save}/${filename%.nii*}_resaved_levelset_brain_f_BET.nii.gz
+    #    URI_1=${url1%/resources*}
+    resource_dirname="MASKS"
+    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${template_gray_filename} ${resource_dirname})
+    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${template_bet_maskfilename} ${resource_dirname})
+    #    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${thisfile_bet_gray_filename} ${resource_dirname})
+    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    #        call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${thisfile_bet_mask_filename} ${resource_dirname})
+    #        outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+
     call_createh5file_arguments=('call_createh5file' ${template_gray_filename} ${thisfile_bet_gray_filename} ${template_bet_maskfilename} ${thisfile_bet_mask_filename} ${final_output_directory})
-#    outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_createh5file_arguments[@]}")
+    #    outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_createh5file_arguments[@]}")
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

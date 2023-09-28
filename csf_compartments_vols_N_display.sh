@@ -1213,6 +1213,13 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
 
+    URI_1=${url1%/resources*}
+    resource_dirname="MASKS"
+    for npyfilename in ${output_directory}/*_lin1_1.nii.gz; do
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
+
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")
 

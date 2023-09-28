@@ -138,6 +138,7 @@ run_REGISTRATION() {
   else
     /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 
+
     echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   fi
 

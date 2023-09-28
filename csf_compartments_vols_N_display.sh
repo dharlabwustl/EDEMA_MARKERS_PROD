@@ -135,9 +135,10 @@ run_IML() {
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
   else
     /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
     echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   fi
 

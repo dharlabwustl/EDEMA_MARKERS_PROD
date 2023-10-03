@@ -112,6 +112,8 @@ def whenOFsize512x512_new_flip_np(image_levelset_data1,original_file,levelset_fi
     return "X"
 def whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY):
 #     if "WUSTL" in levelset_file:
+    print('original_file.shape::{}'.format(original_file))
+    print('levelset_file.shape::{}'.format(levelset_file))
     original_file_nib=nib.load(original_file)
     image_levelset_nib=nib.load(levelset_file)
     image_levelset_data1=image_levelset_nib.dataobj.get_unscaled()

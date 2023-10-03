@@ -504,6 +504,10 @@ def betgrayfrombetbinary1_sh_v3():
     ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
 #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
 #    for eachgrayfiles in allgrayfiles:
+    print('inputfile_gray.shape::{}'.format(inputfile_gray))
+    print('output_directory.shape::{}'.format(output_directory))
+    print('betgrayfile.shape::{}'.format(betgrayfile))
+    # print('bet_nifti_data.shape::{}'.format(bet_nifti_data.shape))
     if os.path.exists(betgrayfile):
         eachgrayfiles=inputfile_gray
         niifilenametosave=os.path.join(output_directory,os.path.basename(inputfile_gray).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")

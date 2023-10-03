@@ -512,9 +512,7 @@ def betgrayfrombetbinary1_sh_v3():
         gray_nifti=nib.load(eachgrayfiles)
         gray_nifti_data=gray_nifti.get_fdata() #.get_unscaled() #.get_fdata() dataobj.
         bet_nifti=nib.load(betgrayfile)
-        bet_nifti_data=bet_nifti.dataobj.get_unscaled() #.get_fdata()
-        print('gray_nifti_data.shape::{}'.format(gray_nifti_data.shape))
-        print('bet_nifti_data.shape::{}'.format(bet_nifti_data.shape))
+        bet_nifti_data=bet_nifti.get_fdata() #dataobj.get_unscaled() #.get_fdata()
         gray_nifti_data[bet_nifti_data<np.max(bet_nifti_data)]= 0 #np.min(gray_nifti_data)
         array_img = nib.Nifti1Image(gray_nifti_data, affine=gray_nifti.affine, header=gray_nifti.header)
         nib.save(array_img, niifilenametosave)

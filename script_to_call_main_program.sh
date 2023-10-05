@@ -130,3 +130,7 @@ if [[ ${TYPE_OF_PROGRAM} == 22 ]] ;
 then
     /software/call_linear_registration.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+if [[ ${TYPE_OF_PROGRAM} == 23 ]] ;
+then
+    /software/call_reg_midline.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

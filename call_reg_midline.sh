@@ -825,24 +825,28 @@ while IFS=',' read -ra array; do
 
     midlineonly_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
-    for matfiles in ${output_directory}/*.mat; do
+    for matfiles in ${output_directory}/${filename_nifti%.nii*}*.mat; do
 
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
 #   
     resource_dirname="MIDLINE_NPY"
-    for npyfilename in ${working_dir_1}/*.npy; do
+    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
 
 #    URI_1=${url1%/resources*}
     resource_dirname="MASKS"
-    for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
+    for nifti_reg_filename in ${output_directory}/${filename_nifti%.nii*}*lin1_1.nii.gz; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
+        for nifti_reg_filename in ${output_directory}/${filename_nifti%.nii*}*brain_f.nii.gz ; do
+          call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
+          outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+        done
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

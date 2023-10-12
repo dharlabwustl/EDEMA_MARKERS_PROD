@@ -843,8 +843,8 @@ while IFS=',' read -ra array; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
-        for nifti_reg_filename in ${output_directory}/${filename_nifti%.nii*}*brain_f.nii.gz ; do
-          call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
+        for nifti_reg_filename1 in ${output_directory}/${filename_nifti%.nii*}*brain_f.nii.gz ; do
+          call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename1} ${resource_dirname})
           outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
         done
 

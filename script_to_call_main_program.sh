@@ -134,3 +134,10 @@ if [[ ${TYPE_OF_PROGRAM} == 23 ]] ;
 then
     /software/call_reg_midline.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 24 ]] ;
+then
+      PROJECT_ID=${1}
+    /software/NWU_INFARCT_PROCESSING_ANALYTICS.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+

@@ -56,10 +56,10 @@ scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME
 #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 #cp ${sessions_list} ${copy_session}
 counter=0
-call_create_empty_csvfile_arguments=('call_create_empty_csvfile' ${scan_analytics}  ) ##
+call_create_empty_csvfile_arguments=('create_empty_csvfile' ${scan_analytics}  ) ##
 outputfiles_present=$(python3 fill_csv.py "${call_create_empty_csvfile_arguments[@]}")
-call_make_identifier_column_arguments=('call_make_identifier_column' ${scan_analytics} ${scan_analytics} "MY_NAME" ) ##
-outputfiles_present=$(python3 fill_csv.py "${call_make_identifier_column_arguments[@]}")
+#call_make_identifier_column_arguments=('call_make_identifier_column' ${scan_analytics} ${scan_analytics} "MY_NAME" ) ##
+#outputfiles_present=$(python3 fill_csv.py "${call_make_identifier_column_arguments[@]}")
 #while IFS=',' read -ra array; do
 #xx=0
 #

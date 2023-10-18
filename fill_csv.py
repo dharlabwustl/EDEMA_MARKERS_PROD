@@ -17,7 +17,7 @@ def make_identifier_column(csvfilename_input,csvfilename_output,output_column_na
     returnvalue=0
     try:
         csvfilename_input_df=pd.read_csv(csvfilename_input)
-        csvfilename_input_df[output_column_name]="ATUL" #csvfilename_input_df[columns_list_tocombine[0]].astype(str)
+        csvfilename_input_df['output_column_name']'="ATUL" #csvfilename_input_df[columns_list_tocombine[0]].astype(str)
         # for x in range(len(columns_list_tocombine)):
         #     if x>0:
         #         csvfilename_input_df[output_column_name]=csvfilename_input_df[output_column_name].astype(str) + "_"+ csvfilename_input_df[columns_list_tocombine[x]].astype(str)

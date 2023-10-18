@@ -56,10 +56,6 @@ scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
 counter=0
-call_create_empty_csvfile_arguments=('create_empty_csvfile' ${scan_analytics}  ) ##
-outputfiles_present=$(python3 fill_csv.py "${call_create_empty_csvfile_arguments[@]}")
-#call_make_identifier_column_arguments=('call_make_identifier_column' ${scan_analytics} ${scan_analytics} "MY_NAME" ) ##
-#outputfiles_present=$(python3 fill_csv.py "${call_make_identifier_column_arguments[@]}")
 while IFS=',' read -ra array; do
 xx=0
 
@@ -76,10 +72,8 @@ call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesess
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
 counter=$((counter + 1))
-## create an empty csv file
-
 fi
-if [ $counter -eq 1 ] ; then
+if [ $counter -eq 2 ] ; then
   break
 fi
 done < <(tail -n +2 "${sessions_list}")

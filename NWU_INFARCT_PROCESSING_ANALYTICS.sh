@@ -56,8 +56,8 @@ scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
 counter=0
-call_fill_sniprsession_list_arguments=('call_create_empty_csvfile' ${copy_session} ${array[1]} ) ##
-outputfiles_present=$(python3 fill_csv.py "${call_fill_sniprsession_list_arguments[@]}")
+call_create_empty_csvfile_arguments=('call_create_empty_csvfile' ${scan_analytics}  ) ##
+outputfiles_present=$(python3 fill_csv.py "${call_create_empty_csvfile_arguments[@]}")
 while IFS=',' read -ra array; do
 xx=0
 

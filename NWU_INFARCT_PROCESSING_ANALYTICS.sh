@@ -80,33 +80,7 @@ done < <(tail -n +2 "${sessions_list}")
 
 
 ############################################################################################################
-### get metadata from the analytics folder:
-#URI="/data/projects/"${project_ID}
-#resource_dir="SNIPR_ANALYTICS_TEST"
-#dir_to_receive_the_data=${working_dir}
-#output_csvfile=${project_ID}"_metadata.csv"
-#call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
-#while IFS="," read -ra array; do
-#
-#  if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] && [[ ${array[-1]} != *"NOFILENAME"* ]]; then
-#
-#    uri=${array[-3]}
-#    echo ${uri}
-#    filename=${array[-1]}
-#    echo ${filename}
-#    dir_to_save=${working_dir}
-#    echo ${dir_to_save}
-#    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${uri} ${filename} ${dir_to_save} )
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#    echo ${outputfiles_present}
-#
-#  fi
-#
-#done \
-#  < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
-#
-#scan_analytics_filename=${dir_to_save}/${filename}
+
 counter=0
 while IFS="," read -ra array ; do
   echo ${array[6]}
@@ -119,7 +93,7 @@ while IFS="," read -ra array ; do
     call_fill_row_intermediate_files_count_arguments=('call_fill_row_intermediate_files_count' ${SCAN_URI} ${resource_dir} ${extension_to_find_list} ${columnname_prefix} ${tempfile} )
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_row_intermediate_files_count_arguments[@]}")
     counter=$((counter + 1 ))
-    if [ $counter -gt 20 ] ; then
+    if [ $counter -gt 1 ] ; then
       break
     fi
 done < <(tail -n +2 ${scan_analytics_filename})

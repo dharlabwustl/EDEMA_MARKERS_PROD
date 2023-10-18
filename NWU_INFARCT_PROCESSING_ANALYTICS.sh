@@ -56,6 +56,8 @@ scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
 counter=0
+call_fill_sniprsession_list_arguments=('call_create_empty_csvfile' ${copy_session} ${array[1]} ) ##
+outputfiles_present=$(python3 fill_csv.py "${call_fill_sniprsession_list_arguments[@]}")
 while IFS=',' read -ra array; do
 xx=0
 
@@ -72,6 +74,8 @@ if [ ${array[4]} == "xnat:ctSessionData" ] ; then
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
 ##def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
 ##counter=$((counter + 1))
+### create an empty csv file
+
 fi
 #if [ $counter -eq 7 ] ; then
 #  break

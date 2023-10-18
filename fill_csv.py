@@ -46,7 +46,9 @@ def call_create_empty_csvfile(args):
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
         csvfilename=args.stuff[1]
-        create_empty_csvfile(csvfilename)
+        expression=args.stuff[0].split('call_')[1]+"("+args.stuff[1]+")"
+        eval(expression)
+        # create_empty_csvfile(csvfilename)
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

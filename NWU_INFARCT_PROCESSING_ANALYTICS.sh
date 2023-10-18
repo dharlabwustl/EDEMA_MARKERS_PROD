@@ -78,24 +78,109 @@ if [ $counter -eq 2 ] ; then
 fi
 done < <(tail -n +2 "${sessions_list}")
 
-#call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_scan_analytics_file_arguments[@]}")
-#X_level="projects"
-#level_name=${project_ID}
-#dir_to_save=${working_dir}
-#resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-#call_upload_pdfs_arguments=('call_upload_pdfs'  ${scan_analytics}  ${X_level} ${level_name} ${dir_to_save} ${resource_dirname_at_snipr} )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_upload_pdfs_arguments[@]}")
+
+############################################################################################################
+### get metadata from the analytics folder:
+#URI="/data/projects/"${project_ID}
+#resource_dir="SNIPR_ANALYTICS_TEST"
+#dir_to_receive_the_data=${working_dir}
+#output_csvfile=${project_ID}"_metadata.csv"
+#call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+#while IFS="," read -ra array; do
 #
-#outputfilename=${project_ID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
-#call_download_csvs_combine_upload_v1_arguments=('call_download_csvs_combine_upload_v1'  ${scan_analytics}  ${sessions_list} ${dir_to_save} ${outputfilename} )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_csvs_combine_upload_v1_arguments[@]}")
+#  if [[ ${array[-1]} == *"SCAN_ANALYTICS_"* ]] && [[ ${array[-1]} != *"NOFILENAME"* ]]; then
 #
-#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
-#resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-#call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file'   ${copy_session} )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+#    uri=${array[-3]}
+#    echo ${uri}
+#    filename=${array[-1]}
+#    echo ${filename}
+#    dir_to_save=${working_dir}
+#    echo ${dir_to_save}
+#    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${uri} ${filename} ${dir_to_save} )
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#    echo ${outputfiles_present}
 #
+#  fi
+#
+#done \
+#  < <(tail -n +2 ${dir_to_receive_the_data}/${output_csvfile})
+#
+#scan_analytics_filename=${dir_to_save}/${filename}
+counter=0
+while IFS="," read -ra array ; do
+  echo ${array[6]}
+  SCAN_URI=${array[6]}
+  resource_dir="DICOM"
+  extension_to_find_list=".dcm"
+  columnname_prefix="DICOM"
+  tempfile=${scan_analytics_filename}
+#      call_fill_row_intermediate_files_count(SCAN_URI,resource_dir,extension_to_find_list,columnname_prefix,tempfile)
+    call_fill_row_intermediate_files_count_arguments=('call_fill_row_intermediate_files_count' ${SCAN_URI} ${resource_dir} ${extension_to_find_list} ${columnname_prefix} ${tempfile} )
+    outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_row_intermediate_files_count_arguments[@]}")
+#    counter=$((counter + 1 ))
+#    if [ $counter -gt 20 ] ; then
+#      break
+#    fi
+done < <(tail -n +2 ${scan_analytics_filename})
+
+
+
+
+columnname="SESSION_LABEL"
+new_position=0
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics} ${columnname} ${new_position} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="DICOM_FILE_COUNT"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics_nofilename} ${columnname} ${new_position} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="DICOM_FILE_AVAILABLE"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics_nofilename} ${columnname} ${new_position} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="SLICE_COUNT"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics_nofilename} ${columnname} ${new_position} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+
+columnname="SCAN_SELECTED"
+new_position=11
+call_move_one_column_arguments=('call_move_one_column'  ${scan_analytics_nofilename} ${columnname} ${new_position} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_move_one_column_arguments[@]}")
+columnname_substring="FILE_NAME"
+call_remove_single_column_with_colnmname_substring_arguments=('call_remove_single_column_with_colnmname_substring'  ${scan_analytics_nofilename} ${columnname_substring} ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_remove_single_column_with_colnmname_substring_arguments[@]}")
+#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
+#copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
+
+
+
+
+
+###################################################################################################################
+
+call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_scan_analytics_file_arguments[@]}")
+X_level="projects"
+level_name=${project_ID}
+dir_to_save=${working_dir}
+resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
+call_upload_pdfs_arguments=('call_upload_pdfs'  ${scan_analytics}  ${X_level} ${level_name} ${dir_to_save} ${resource_dirname_at_snipr} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_upload_pdfs_arguments[@]}")
+
+outputfilename=${project_ID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
+call_download_csvs_combine_upload_v1_arguments=('call_download_csvs_combine_upload_v1'  ${scan_analytics}  ${sessions_list} ${dir_to_save} ${outputfilename} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_csvs_combine_upload_v1_arguments[@]}")
+
+copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
+resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
+call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file'   ${copy_session} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
 #copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${copy_session} )

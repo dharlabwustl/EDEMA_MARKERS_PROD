@@ -46,7 +46,7 @@ def call_create_empty_csvfile(args):
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
         csvfilename=args.stuff[1]
-        expression=args.stuff[0].split('call_')[1]+"("+args.stuff[1]+")"
+        expression=args.stuff[0].split('call_')[1] #+"("+args.stuff[1]+")"
         eval(expression)
         # create_empty_csvfile(csvfilename)
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

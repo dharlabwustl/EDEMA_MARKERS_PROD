@@ -31,8 +31,9 @@ def create_empty_csvfile(csvfilename):
     returnvalue=0
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
-        df =pd.DataFrame(columns=['TOREMOVE'])
-        # df.columns=['TOREMOVE']
+        df=pd.DataFrame([1,2,3])
+        # df =pd.DataFrame(columns=['TOREMOVE'])
+        df.columns=['TOREMOVE']
         df.to_csv(csvfilename)
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:

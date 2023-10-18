@@ -50,9 +50,9 @@ def call_create_empty_csvfile(args):
         # expression=str(args.stuff[0].split('call_')[1])  + str('\(')  + str('\"')+csvfilename + str('\"')+"\)"
         # eval(expression)
         # create_empty_csvfile(csvfilename)
-        subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(expression) ,shell=True )
+        subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(expression) ,shell=True )
+        subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return  returnvalue
 def call_make_identifier_column(args):

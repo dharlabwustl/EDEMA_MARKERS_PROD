@@ -51,7 +51,7 @@ def call_create_empty_csvfile(args):
         # create_empty_csvfile(csvfilename)
         subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        subprocess.call("echo " + "failed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "failed at ::{}  >> /workingoutput/error.txt".format(expression) ,shell=True )
         pass
     return  returnvalue
 def call_make_identifier_column(args):

@@ -35,9 +35,9 @@ def create_empty_csvfile(csvfilename):
         # df =pd.DataFrame(columns=['TOREMOVE'])
         df.columns=['TOREMOVE']
         df.to_csv(csvfilename)
-        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "failed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return  returnvalue
 def call_create_empty_csvfile(args):
@@ -49,9 +49,9 @@ def call_create_empty_csvfile(args):
         expression=args.stuff[0].split('call_')[1]+"("+args.stuff[1]+")"
         eval(expression)
         # create_empty_csvfile(csvfilename)
-        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "failed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return  returnvalue
 def call_make_identifier_column(args):
@@ -63,9 +63,9 @@ def call_make_identifier_column(args):
         csvfilename_output=args.stuff[2]
         output_column_name=args.stuff[3]
         make_identifier_column(csvfilename_input,csvfilename_output,output_column_name)
-        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "passed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "failed at ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return  returnvalue
 

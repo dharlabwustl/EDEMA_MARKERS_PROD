@@ -46,7 +46,7 @@ def call_create_empty_csvfile(args):
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
         csvfilename=args.stuff[1]
-        globals()['create_empty_csvfile'](csvfilename)
+        globals()[args.stuff[0].split('call_')[1]](csvfilename)
         # expression=str(args.stuff[0].split('call_')[1])  + str('\(')  + str('\"')+csvfilename + str('\"')+"\)"
         # eval(expression)
         # create_empty_csvfile(csvfilename)

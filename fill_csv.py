@@ -20,8 +20,7 @@ def create_empty_csvfile(args):
     # print("I AM AT ::{}".format(inspect.stack()[0][3]))
     try:
         csvfilename=args.stuff[1]
-        df=pd.DataFrame([1,2,3])
-        # df =pd.DataFrame(columns=['TOREMOVE'])
+        df=pd.DataFrame([1])
         df.columns=['TOREMOVE']
         df.to_csv(csvfilename)
         subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

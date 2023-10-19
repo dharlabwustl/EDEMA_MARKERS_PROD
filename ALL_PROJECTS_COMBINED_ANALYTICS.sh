@@ -53,10 +53,11 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 download_a_single_file() {
   local file_path_csv=${1}
   local dir_to_save=${2} #args.stuff[3]
+  local projectid=${3}
 
   while IFS=',' read -ra array; do
     echo array::${array[0]}
-    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} $(basename ${array[0]}) ${dir_to_save})
+    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} ${projectid}_$(basename ${array[0]}) ${dir_to_save})
     local outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
   done < <(tail -n +2 "${file_path_csv}")
 
@@ -84,7 +85,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231003124834" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
-      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
 
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
@@ -96,7 +97,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231009173614" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
-      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
     elif [ ${project_ID} == "ICH" ]; then
       resource_dir="ICH_QUANTIFICATION"
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
@@ -107,7 +108,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_CTSESSIONS_202305222109" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
-      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
     fi
 
     #    resource_dir="SNIPR_ANALYTICS_TEST"

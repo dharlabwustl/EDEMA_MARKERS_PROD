@@ -4,9 +4,11 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 ARGS=("$@")
 # Get the last argument
-for project_ID in ${ARGS[@]}; do
-  echo ${project_ID}
-  echo ${#ARGS[@]}
+arguments_count=${#ARGS[@]}
+#for project_ID in ${ARGS[@]}; do
+for x in $(seq 0 1 $((arguments_count-1))) ; do echo $x ; done
+#  echo ${project_ID}
+  echo ${ARGS[x]}
 done
 #
 #PROJECT_ID_3=${ARGS[-1]}

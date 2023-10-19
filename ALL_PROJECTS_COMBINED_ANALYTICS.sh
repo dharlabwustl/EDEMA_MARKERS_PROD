@@ -76,9 +76,10 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
-          while IFS=',' read -ra array; do
+      while IFS=',' read -ra array; do
           echo array::${array[0]}
-   done < <(tail -n +2 "${file_path_csv}")
+          download_a_single_file ${array[0]} $(basename ${array[0]})  ${dir_to_receive_the_data}
+      done < <(tail -n +2 "${file_path_csv}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"

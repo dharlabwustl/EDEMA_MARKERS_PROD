@@ -9,19 +9,10 @@ arguments_count=${#ARGS[@]}
 for x in $(seq 0 1 $((arguments_count-1))) ; do
 #  echo ${project_ID}
   if [[ $x -gt 2 ]] ; then
-  echo ${ARGS[x]}
-  fi
-done
-#
-#PROJECT_ID_3=${ARGS[-1]}
-#PROJECT_ID_2=${ARGS[-2]}
-#PROJECT_ID_1=${ARGS[-3]}
 
-##echo  ${outputfile}
-##PROJECT_ID_1=${5}
-##PROJECT_ID_2=${6}
-##PROJECT_ID_3=${7}
-#project_ID=${1}
+
+project_ID=${ARGS[x]}
+  echo PROJECTID::${project_ID}
 #working_dir=/workinginput
 #output_directory=/workingoutput
 #
@@ -114,3 +105,5 @@ done
 ##
 ##
 ##copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+  fi
+done

@@ -1,14 +1,14 @@
 #!/bin/bash
-export XNAT_USER=${2}
-export XNAT_PASS=${3}
-export XNAT_HOST=${4}
+export XNAT_USER=${1}
+export XNAT_PASS=${2}
+export XNAT_HOST=${3}
 ARGS=("$@")
 # Get the last argument
 arguments_count=${#ARGS[@]}
 #for project_ID in ${ARGS[@]}; do
 for x in $(seq 0 1 $((arguments_count-1))) ; do
 #  echo ${project_ID}
-  if [[ $x -gt 3 ]] ; then
+  if [[ $x -gt 2 ]] ; then
   echo ${ARGS[x]}
   fi
 done

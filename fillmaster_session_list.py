@@ -1462,8 +1462,15 @@ def fill_sniprsession_list_SAH(args):
         columnname="NUMBER_SELECTEDSCANS"
         columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="INFARCT_FILE_NUM"
-        columnvalue=infarct_file_num #axial_thin_count[1]
+        # columnname="INFARCT_FILE_NUM"
+        # columnvalue=infarct_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+
+        columnname="VEN_ABOVE_VEN_MASK_FILES"
+        columnvalue=mask_sulci_at_ventricle_file_num #axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="SAH_SEG_MASK_FILES"
+        columnvalue=mask_4DL_seg_total_file_num #axial_thin_count[1]
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="CSF_FILE_NUM"
         columnvalue=csf_file_num #axial_thin_count[1]

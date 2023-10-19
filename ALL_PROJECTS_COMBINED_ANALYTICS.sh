@@ -56,8 +56,8 @@ download_a_single_file() {
 
   while IFS=',' read -ra array; do
     echo array::${array[0]}
-  local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} $(basename ${array[0]}) ${dir_to_save})
-  local outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
+    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} $(basename ${array[0]}) ${dir_to_save})
+    local outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
   done < <(tail -n +2 "${file_path_csv}")
 
 }
@@ -79,19 +79,21 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
-download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "MGBBMC_EDEMA_BIOMARKERS_COMBINED_20231009173614_modified_20231016200619" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "ICH" ]; then
       resource_dir="ICH_QUANTIFICATION"
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS "
     fi
 

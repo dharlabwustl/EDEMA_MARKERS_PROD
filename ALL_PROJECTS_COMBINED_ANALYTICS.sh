@@ -77,7 +77,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
           while IFS=',' read -ra array; do
-          echo ${array[0]}
+          echo array::${array[0]}
    done < <(tail -n +2 "${file_path_csv}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then

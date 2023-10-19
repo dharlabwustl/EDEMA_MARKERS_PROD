@@ -65,8 +65,10 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
 #      resource_dir="SNIPR_ANALYTICS_TEST"
       dir_to_receive_the_data=${working_dir}
       output_csvfile=${project_ID}"_metadata.csv"
-      call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
-      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+#      call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
+#      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834")
+      outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"

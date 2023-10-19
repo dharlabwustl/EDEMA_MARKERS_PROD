@@ -78,24 +78,13 @@ while IFS=',' read -ra array; do
   fi
 done < <(tail -n +2 "${sessions_list}")
 
-##call_edit_scan_analytics_file_arguments=('call_edit_scan_analytics_file'  ${scan_analytics}  ${scan_analytics_nofilename})
-##outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_scan_analytics_file_arguments[@]}")
-##X_level="projects"
-##level_name=${project_ID}
-#dir_to_save=${working_dir}
-##resource_dirname_at_snipr="EDEMA_BIOMARKER_TEST"
-##call_upload_pdfs_arguments=('call_upload_pdfs'  ${scan_analytics}  ${X_level} ${level_name} ${dir_to_save} ${resource_dirname_at_snipr} )
-##outputfiles_present=$(python3 fillmaster_session_list.py "${call_upload_pdfs_arguments[@]}")
-##
-##outputfilename=${project_ID}_EDEMA_BIOMARKERS_COMBINED_${time_now}.csv
-##call_download_csvs_combine_upload_v1_arguments=('call_download_csvs_combine_upload_v1'  ${scan_analytics}  ${sessions_list} ${dir_to_save} ${outputfilename} )
-##outputfiles_present=$(python3 fillmaster_session_list.py "${call_download_csvs_combine_upload_v1_arguments[@]}")
-##
-##copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${outputfilename}
-#resource_dirname_at_snipr="SNIPR_ANALYTICS_TEST"
-#call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-##copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics} )
-##copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  $(basename ${scan_analytics_nofilename} )
-#copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+
+dir_to_save=${working_dir}
+
+
+resource_dirname_at_snipr="SAH_SESSION_PROCESSING_ANALYTICS"
+call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+
+copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

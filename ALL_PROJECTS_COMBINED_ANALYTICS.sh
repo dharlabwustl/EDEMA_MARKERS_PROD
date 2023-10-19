@@ -8,7 +8,7 @@ arguments_count=${#ARGS[@]}
 #for project_ID in ${ARGS[@]}; do
 for x in $(seq 0 1 $((arguments_count-1))) ; do
 #  echo ${project_ID}
-  if [[ $x -gt 4 ]] ; then
+  if [[ $x -gt 3 ]] ; then
   echo ${ARGS[x]}
   fi
 done

@@ -1396,6 +1396,9 @@ def fill_sniprsession_list_SAH(args):
                 # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>3:
                     pdf_file_num=pdf_file_num+1
+                columnname="PDF_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
 
                 #             subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
                 extension_to_find_list=".csv" #_infarct_auto_removesmall.nii.gz"
@@ -1405,7 +1408,9 @@ def fill_sniprsession_list_SAH(args):
                 # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>3:
                     csv_file_num=csv_file_num+1
-
+                columnname="CSV_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 #             subprocess.call("echo " + "csv_file_num::{}  >> /workingoutput/error.txt".format(csv_file_num) ,shell=True )
                 resource_dir="MASKS"
                 # extension_to_find_list="_infarct_auto_removesmall.nii.gz"

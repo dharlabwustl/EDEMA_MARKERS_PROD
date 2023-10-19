@@ -61,56 +61,64 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
     time_now=$(date -dnow +%Y%m%d%H%M%S)
     URI="/data/projects/"${project_ID}
     if [ ${project_ID} == "COLI" ]; then
+      resource_dir="EDEMA_BIOMARKER_TEST"
+#      resource_dir="SNIPR_ANALYTICS_TEST"
+      dir_to_receive_the_data=${working_dir}
+      output_csvfile=${project_ID}"_metadata.csv"
+      call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_r++eceive_the_data} ${output_csvfile})
+      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
       resource_dir="SNIPR_ANALYTICS_TEST"
-    elif [ ${project_ID} == "COLI" ]; then
+    elif [ ${project_ID} == "MGBBMC" ]; then
+      resource_dir="EDEMA_BIOMARKER_TEST"
       resource_dir="SNIPR_ANALYTICS_TEST"
-    elif [ ${project_ID} == "COLI" ]; then
-      resource_dir="SNIPR_ANALYTICS_TEST"
+    elif [ ${project_ID} == "ICH" ]; then
+      resource_dir="CH_QUANTIFICATION"
+      resource_dir="SNIPR_ANALYTICS "
     fi
 
-    #resource_dir="SNIPR_ANALYTICS_TEST"
-    #dir_to_receive_the_data=${working_dir}
-    #output_csvfile=${project_ID}"_metadata.csv"
-    #call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
-    #outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+#    resource_dir="SNIPR_ANALYTICS_TEST"
+#    dir_to_receive_the_data=${working_dir}
+#    output_csvfile=${project_ID}"_metadata.csv"
+#    call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+
+    #copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_${time_now}.csv
+    ##scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
+    ##scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
+    #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
+    #cp ${sessions_list} ${copy_session}
+    #counter=0
+    #while IFS=',' read -ra array; do
+    #  xx=0
     #
-    ##copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_${time_now}.csv
-    ###scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
-    ###scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
-    ##curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
-    ##cp ${sessions_list} ${copy_session}
-    ##counter=0
-    ##while IFS=',' read -ra array; do
-    ##  xx=0
-    ##
-    ##  #if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
-    ##  #  echo "${array[1]}"
-    ##  #  echo "${array[5]}"
-    ##  if [ ${array[4]} == "xnat:ctSessionData" ]; then
-    ##    echo "${array[1]}"
-    ##    echo "${array[5]}"
-    ##    call_fill_sniprsession_list_arguments=('fill_sniprsession_list_SAH' ${copy_session} ${array[1]}) ##
-    ##    ## ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
-    ##    outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
-    ##  #call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
-    ##  #outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
-    ##  #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
-    ###  counter=$((counter + 1))
+    #  #if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
+    #  #  echo "${array[1]}"
+    #  #  echo "${array[5]}"
+    #  if [ ${array[4]} == "xnat:ctSessionData" ]; then
+    #    echo "${array[1]}"
+    #    echo "${array[5]}"
+    #    call_fill_sniprsession_list_arguments=('fill_sniprsession_list_SAH' ${copy_session} ${array[1]}) ##
+    #    ## ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
+    #    outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
+    #  #call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
+    #  #outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
+    #  #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
+    ##  counter=$((counter + 1))
+    #  fi
+    ##  if [ $counter -eq 7 ] ; then
+    ##    break
     ##  fi
-    ###  if [ $counter -eq 7 ] ; then
-    ###    break
-    ###  fi
-    ##done < <(tail -n +2 "${sessions_list}")
-    ##
-    ##
-    ##dir_to_save=${working_dir}
-    ##
-    ##
-    ##resource_dirname_at_snipr="SAH_SESSION_PROCESSING_ANALYTICS"
-    ##call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
-    ##outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-    ##
-    ##
-    ##copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+    #done < <(tail -n +2 "${sessions_list}")
+    #
+    #
+    #dir_to_save=${working_dir}
+    #
+    #
+    #resource_dirname_at_snipr="SAH_SESSION_PROCESSING_ANALYTICS"
+    #call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
+    #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+    #
+    #
+    #copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
   fi
 done

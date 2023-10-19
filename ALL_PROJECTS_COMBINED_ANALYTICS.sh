@@ -78,7 +78,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       echo ${outputfiles_present}
       while IFS=',' read -ra array; do
           echo array::${array[0]}
-          download_a_single_file ${array[0]} $(basename ${array[0]})  ${dir_to_receive_the_data}
+#          download_a_single_file ${array[0]} $(basename ${array[0]})  ${dir_to_receive_the_data}
       done < <(tail -n +2 "${file_path_csv}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then

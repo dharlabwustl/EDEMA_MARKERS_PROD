@@ -60,13 +60,9 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
     ##sessions_list=${working_dir}/'sessions.csv'
     time_now=$(date -dnow +%Y%m%d%H%M%S)
     URI="/data/projects/"${project_ID}
+    dir_to_receive_the_data=${working_dir}
     if [ ${project_ID} == "COLI" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
-#      resource_dir="SNIPR_ANALYTICS_TEST"
-      dir_to_receive_the_data=${working_dir}
-      output_csvfile=${project_ID}"_metadata.csv"
-#      call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
-#      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
       file_path_csv=${dir_to_receive_the_data}/${project_ID}"_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
@@ -74,17 +70,23 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
+      file_path_csv=${dir_to_receive_the_data}/${project_ID}"_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "MGBBMC_EDEMA_BIOMARKERS_COMBINED_20231009173614_modified_20231016200619" ${file_path_csv})
+      outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "ICH" ]; then
-      resource_dir="CH_QUANTIFICATION"
+      resource_dir="ICH_QUANTIFICATION"
+      file_path_csv=${dir_to_receive_the_data}/${project_ID}"_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
+      outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       resource_dir="SNIPR_ANALYTICS "
     fi
 
-#    resource_dir="SNIPR_ANALYTICS_TEST"
-#    dir_to_receive_the_data=${working_dir}
-#    output_csvfile=${project_ID}"_metadata.csv"
-#    call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
+    #    resource_dir="SNIPR_ANALYTICS_TEST"
+    #    dir_to_receive_the_data=${working_dir}
+    #    output_csvfile=${project_ID}"_metadata.csv"
+    #    call_get_resourcefiles_metadata_saveascsv_args_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile})
+    #    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
 
     #copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_${time_now}.csv
     ##scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv

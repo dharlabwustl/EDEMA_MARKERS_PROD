@@ -69,6 +69,7 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
 #      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args_arguments[@]}")
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834")
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      echo ${outputfiles_present}
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"

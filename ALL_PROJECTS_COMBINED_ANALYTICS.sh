@@ -6,7 +6,7 @@ ARGS=("$@")
 # Get the last argument
 arguments_count=${#ARGS[@]}
 #for project_ID in ${ARGS[@]}; do
-for x in $(seq 0 1 $((arguments_count-1))) ; do echo $x ; done
+for x in $(seq 0 1 $((arguments_count-1))) ; do
 #  echo ${project_ID}
   echo ${ARGS[x]}
 done

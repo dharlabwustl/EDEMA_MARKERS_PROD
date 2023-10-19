@@ -2,60 +2,69 @@
 export XNAT_USER=${1}
 export XNAT_PASS=${2}
 export XNAT_HOST=${3}
+working_dir=/workinginput
+output_directory=/workingoutput
+
+final_output_directory=/outputinsidedocker
 ARGS=("$@")
 # Get the last argument
 arguments_count=${#ARGS[@]}
 #for project_ID in ${ARGS[@]}; do
+####################
+call_get_resourcefiles_metadata_saveascsv() {
+  URI=${1}
+  resource_dir=${2}
+  dir_to_receive_the_data=${3}
+  output_csvfile=${4}
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
+}
+copysinglefile_to_sniprproject() {
+  local projectID=$1
+  #scanID=$2
+  local resource_dirname=$3 #"MASKS" #sys.argv[4]
+  local file_name=$4
+  local output_dir=$2
+  echo " I AM IN copysinglefile_to_sniprproject "
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
+## for each session
+function call_get_resourcefiles_metadata_saveascsv_args() {
+  local resource_dir=${2}   #"NIFTI"
+  local output_csvfile=${4} #{array[1]}
+
+  local URI=${1} #{array[0]}
+  local file_ext=${5}
+  local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
+
+  local final_output_directory=${3}
+  local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+
+}
+download_a_single_file(){
+      local url= ${1} #args.stuff[1]
+      local filename= ${2} #args.stuff[2]
+      local dir_to_save=${3} #args.stuff[3]
+        local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save} )
+        local outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
+
+
+}
 for x in $(seq 0 1 $((arguments_count - 1))); do
   #  echo ${project_ID}
   if [[ $x -gt 2 ]]; then
 
     project_ID=${ARGS[x]}
     echo PROJECTID::${project_ID}
-    working_dir=/workinginput
-    output_directory=/workingoutput
-
-    final_output_directory=/outputinsidedocker
-    ####################
-    call_get_resourcefiles_metadata_saveascsv() {
-      URI=${1}
-      resource_dir=${2}
-      dir_to_receive_the_data=${3}
-      output_csvfile=${4}
-      python3 -c "
-import sys
-sys.path.append('/software');
-from download_with_session_ID import *;
-call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-    }
-    copysinglefile_to_sniprproject() {
-      local projectID=$1
-      #scanID=$2
-      local resource_dirname=$3 #"MASKS" #sys.argv[4]
-      local file_name=$4
-      local output_dir=$2
-      echo " I AM IN copysinglefile_to_sniprproject "
-      python3 -c "
-import sys
-sys.path.append('/software');
-from download_with_session_ID import *;
-uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
-
-    }
-    ## for each session
-    function call_get_resourcefiles_metadata_saveascsv_args() {
-      local resource_dir=${2}   #"NIFTI"
-      local output_csvfile=${4} #{array[1]}
-
-      local URI=${1} #{array[0]}
-      local file_ext=${5}
-      local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
-
-      local final_output_directory=${3}
-      local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-      outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-
-    }
 
     ##sessions_list=${working_dir}/'sessions.csv'
     time_now=$(date -dnow +%Y%m%d%H%M%S)
@@ -67,6 +76,9 @@ uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} 
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834" ${file_path_csv})
       outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
+          while IFS=',' read -ra array; do
+          echo ${array[0]}
+   done < <(tail -n +2 "${file_path_csv}")
       resource_dir="SNIPR_ANALYTICS_TEST"
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"

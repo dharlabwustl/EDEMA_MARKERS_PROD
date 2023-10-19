@@ -18,6 +18,7 @@ def get_latest_filepath_from_metadata(args):
     resource_dir=args.stuff[2]
     extension_to_find_list=args.stuff[3]
     SCAN_URI_NIFTI_FILEPREFIX=args.stuff[4]
+    file_location_csv=args.stuff[5]
     latest_file_path=""
     try:
         metadata=get_resourcefiles_metadata(URI,resource_dir)
@@ -27,6 +28,9 @@ def get_latest_filepath_from_metadata(args):
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         latest_file_df=get_latest_file(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
         latest_file_path=str(latest_file_df.at[0,"URI"])
+        latest_file_path_df=pd.DataFrame([latest_file_path])
+        latest_file_path_df.columns=['FILE_PATH']
+        latest_file_path_df.to_csv(file_location_csv,index=False)
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )

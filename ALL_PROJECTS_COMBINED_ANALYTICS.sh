@@ -6,6 +6,7 @@ ARGS=("$@")
 # Get the last argument
 for project_ID in ${ARGS[@]}; do
   echo ${project_ID}
+  echo ${#ARGS[@]}
 done
 #
 #PROJECT_ID_3=${ARGS[-1]}

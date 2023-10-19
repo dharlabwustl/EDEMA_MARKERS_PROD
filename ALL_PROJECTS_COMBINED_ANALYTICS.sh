@@ -57,7 +57,7 @@ download_a_single_file() {
 
   while IFS=',' read -ra array; do
     echo array::${array[0]}
-    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} ${projectid}_$(basename ${array[0]}) ${dir_to_save})
+    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} ${projectid}$(basename ${array[0]}) ${dir_to_save})
     local outputfiles_present=$(python3 fill_csv.py "${get_latest_filepath_from_metadata_arguments[@]}")
   done < <(tail -n +2 "${file_path_csv}")
 

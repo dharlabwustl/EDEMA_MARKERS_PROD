@@ -43,6 +43,12 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
         return 0
+def histogram_column_ina_csvfile(args):
+    csvfilename=args.stuff[1]
+    column_name=args.stuff[2]
+    output_image_name=args.stuff[3]
+    df=pd.read_csv(csvfilename)
+    df[column_name].plot.hist().get_figure().savefig(output_image_name)
 def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans,column_name_for_url,column_name_for_session_name,file_extension,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
 
     try:

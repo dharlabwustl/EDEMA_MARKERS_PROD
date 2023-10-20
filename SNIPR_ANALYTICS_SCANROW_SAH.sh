@@ -106,6 +106,9 @@ done < <(tail -n +2 "${copy_session}")
 csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 echo "CSV_FILENAMES" > ${csvfile_list}
 for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> ${csvfile_list} ; done
+combined_metrics_results="${working_dir}/COMBINED_SESSIONS_SAH_METRICS_${time_now}.csv"
+combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${csv_output_filename} ${dir_to_save})
+outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
 ##scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
 ##scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 ##curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}

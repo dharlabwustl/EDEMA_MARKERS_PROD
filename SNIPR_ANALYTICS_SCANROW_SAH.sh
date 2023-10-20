@@ -97,9 +97,9 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
   fi
 
-  if [ $counter -eq 2 ]; then
-    break
-  fi
+#  if [ $counter -eq 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 #
 csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"

@@ -55,7 +55,7 @@ def histogram_column_ina_csvfile(args):
     # # ax = s.hist()  # s is an instance of Series
     ax.set_xlabel(column_name)
     ax.set_ylabel("COUNT")
-    ax.text(int(df[column_name].max()/2),int(non_zero_items.shape[0]/2),"COUNT:" +str(non_zero_items.shape[0]))
+    ax.text(int(df[column_name].max()/2),int(non_zero_items.shape[0]/4),"COUNT:" +str(non_zero_items.shape[0]))
     fig = ax.get_figure()
     fig.savefig(output_image_name)
     # ax = df.plot().hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)

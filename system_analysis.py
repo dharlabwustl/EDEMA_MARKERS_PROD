@@ -49,7 +49,10 @@ def histogram_column_ina_csvfile(args):
     output_image_name=args.stuff[3]
     df=pd.read_csv(csvfilename)
     ###################
-    df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
+    ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
+    # ax = s.hist()  # s is an instance of Series
+    fig = ax.get_figure()
+    fig.savefig(output_image_name)
     # ax = df.plot().hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
     # ax.get_figure().savefig(output_image_name)
     # ax = ax[0]

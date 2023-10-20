@@ -48,12 +48,14 @@ def histogram_column_ina_csvfile(args):
     column_name=args.stuff[2]
     output_image_name=args.stuff[3]
     df=pd.read_csv(csvfilename)
+    non_zero_items=df[df[column_name]>0]
     ###################
     ax = df[column_name].plot.hist(bins=12, alpha=0.5)
     # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
     # # ax = s.hist()  # s is an instance of Series
     ax.set_xlabel(column_name)
     ax.set_ylabel("COUNT")
+    ax.text(np.max(non_zero_items)/1.5,non_zero_items.shape[0]/2,"COUNT:" +str(non_zero_items.shape[0]))
     fig = ax.get_figure()
     fig.savefig(output_image_name)
     # ax = df.plot().hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)

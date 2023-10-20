@@ -48,7 +48,42 @@ def histogram_column_ina_csvfile(args):
     column_name=args.stuff[2]
     output_image_name=args.stuff[3]
     df=pd.read_csv(csvfilename)
-    df[column_name].plot.hist().get_figure().savefig(output_image_name)
+    ###################
+    ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
+    ax.get_figure().savefig(output_image_name)
+    # ax = ax[0]
+    # for x in ax:
+    #
+    #     # Despine
+    #     x.spines['right'].set_visible(False)
+    #     x.spines['top'].set_visible(False)
+    #     x.spines['left'].set_visible(False)
+    #
+    #     # Switch off ticks
+    #     x.tick_params(axis="both", which="both", bottom="off", top="off", labelbottom="on", left="off", right="off", labelleft="on")
+    #
+    #     # Draw horizontal axis lines
+    #     vals = x.get_yticks()
+    #     for tick in vals:
+    #         x.axhline(y=tick, linestyle='dashed', alpha=0.4, color='#eeeeee', zorder=1)
+    #
+    #     # Remove title
+    #     x.set_title("")
+    #
+    #     # Set x-axis label
+    #     x.set_xlabel("Session Duration (Seconds)", labelpad=20, weight='bold', size=12)
+    #
+    #     # Set y-axis label
+    #     x.set_ylabel("Sessions", labelpad=20, weight='bold', size=12)
+    #
+    #     # Format y-axis label
+    #     x.yaxis.set_major_formatter(StrMethodFormatter('{x:,g}'))
+    #
+
+    #######################
+
+
+    # df[column_name].plot.hist().get_figure().savefig(output_image_name)
 def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans,column_name_for_url,column_name_for_session_name,file_extension,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
 
     try:

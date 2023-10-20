@@ -103,6 +103,8 @@ while IFS=',' read -ra array; do
   fi
 done < <(tail -n +2 "${copy_session}")
 #
+echo "CSV_FILENAMES" > "${working_dir}/CSV_FILENAMES_LIST.csv"
+for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> CSV_FILENAMES_LIST.csv ; done
 ##scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
 ##scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 ##curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}

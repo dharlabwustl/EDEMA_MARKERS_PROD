@@ -13,6 +13,31 @@ import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+
+def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filename,outputfilename):
+    try:
+        listofcsvfiles_filename=args.stuff[1]
+        outputfilename=args.stuff[2]
+        csv_counter=0
+        combined_csv_df=""
+        for each_file in listofcsvfiles_filename:
+            try:
+                each_file_df=pd.read_csv(each_file)
+                if csv_counter==0:
+                    combined_csv_df=each_file_df
+                    csv_counter=csv_counter+1
+                else:
+                    combined_csv_df=pd.concat([combined_csv_df,each_file_df])
+            except:
+                pass
+        combined_csv_df = combined_csv_df.drop_duplicates()
+        combined_csv_df.to_csv(outputfilename, index=False, encoding='utf-8-sig')
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
 def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans,column_name_for_url,column_name_for_session_name,file_extension,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
 
     try:

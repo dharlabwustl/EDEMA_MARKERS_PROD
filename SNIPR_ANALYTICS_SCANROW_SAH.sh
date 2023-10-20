@@ -110,8 +110,8 @@ for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> ${csvfile_li
 combined_metrics_results="${working_dir}/COMBINED_SESSIONS_SAH_METRICS_${time_now}.csv"
 combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${combined_metrics_results} )
 outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
-#resource_dirname_at_snipr='SAH_RESULTS_CSV'
-#copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
+resource_dirname_at_snipr='SAH_RESULTS_CSV'
+copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
 ##scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
 ##scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 ##curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}

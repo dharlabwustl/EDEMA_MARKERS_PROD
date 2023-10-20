@@ -49,8 +49,9 @@ def histogram_column_ina_csvfile(args):
     output_image_name=args.stuff[3]
     df=pd.read_csv(csvfilename)
     ###################
-    ax = df.plot().hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
-    ax.get_figure().savefig(output_image_name)
+    df.hist(column=column_name)
+    # ax = df.plot().hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
+    # ax.get_figure().savefig(output_image_name)
     # ax = ax[0]
     # for x in ax:
     #

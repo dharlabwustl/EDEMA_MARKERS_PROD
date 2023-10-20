@@ -21,7 +21,7 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         csv_counter=0
         combined_csv_df=""
         listofcsvfiles_filename_df=pd.read_csv(listofcsvfiles_filename)
-        colname=listofcsvfiles_filename_df.columns[0]
+        colname=list(listofcsvfiles_filename_df.columns)[0]
         # masterfile_scans_df=masterfile_scans_df[masterfile_scans_df[column_name_for_url].str.contains(file_extension)] #df["name"].str.contains("Honda")
         for index, row in listofcsvfiles_filename_df.iterrows():
         # for each_file in listofcsvfiles_filename:

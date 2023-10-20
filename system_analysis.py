@@ -48,7 +48,7 @@ def histogram_column_ina_csvfile(args):
     column_name=args.stuff[2]
     output_image_name=args.stuff[3]
     df=pd.read_csv(csvfilename)
-    non_zero_items=df[df[column_name]>0]
+    non_zero_items=df[df[column_name]>=np.min(df[column_name])]
     ###################
     ax = df[column_name].plot.hist(bins=12, alpha=0.5)
     # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)

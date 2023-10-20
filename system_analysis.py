@@ -13,6 +13,40 @@ import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans,column_name_for_url,column_name_for_session_name,file_extension,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
+
+    try:
+        masterfile_scans=args.stuff[1]
+        column_name_for_url=args.stuff[2]
+        column_name_for_session_name=args.stuff[3]
+        file_extension=args.stuff[4]
+        X_level=args.stuff[5]
+        level_name=args.stuff[6]
+        dir_to_save=args.stuff[7]
+        resource_dirname_at_snipr=args.stuff[8]
+        masterfile_scans_df=pd.read_csv(masterfile_scans)
+        masterfile_scans_df=masterfile_scans_df[masterfile_scans_df[column_name_for_url].str.contains(file_extension)] #df["name"].str.contains("Honda")
+        for index, row in masterfile_scans_df.iterrows():
+            # if len(str(row[column_name_for_url])) > 1:
+            # if row['PDF_FILE_AVAILABLE']==1:
+            url=row[column_name_for_url] #"PDF_FILE_NAME"]
+            filename=row[column_name_for_session_name] + "_" + os.path.basename(url)
+            try:
+                download_with_session_ID.download_a_singlefile_with_URIString(url,filename,dir_to_save)
+                download_with_session_ID.uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
+            except:
+                pass
+
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+
+    return 0
+
 def download_a_singlefile_with_URIString(args):
     url=args.stuff[1]
     filename=args.stuff[2]

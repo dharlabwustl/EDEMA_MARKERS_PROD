@@ -124,23 +124,23 @@ combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_fro
 outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
 ### histograms: CSF ratio='CSF RATIO', NWU='NWU' , ICH volumes:'ICH VOLUME' 'ICH EDEMA VOLUME'
 
-csvfilename=${combined_metrics_results} #args.stuff[1]
-column_name="NWU"                       #args.stuff[2]
-output_image_name=${working_dir}/${column_name}"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#csvfilename=${combined_metrics_results} #args.stuff[1]
+#column_name="NWU"                       #args.stuff[2]
+#output_image_name=${working_dir}/${column_name}"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
 column_name='CSF RATIO'                      #args.stuff[2]
 output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
 histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
 outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
-column_name='ICH VOLUME'                      #args.stuff[2]
-output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
-
-column_name='ICH EDEMA VOLUME'                      #args.stuff[2]
-output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#column_name='ICH VOLUME'                      #args.stuff[2]
+#output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#
+#column_name='ICH EDEMA VOLUME'                      #args.stuff[2]
+#output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")

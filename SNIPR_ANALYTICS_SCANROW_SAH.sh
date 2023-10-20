@@ -71,6 +71,12 @@ sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
+  while IFS=',' read -ra array; do
+    echo array::${array[0]}
+
+#    local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} ${output_filename} ${dir_to_save})
+#    local outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+  done < <(tail -n +2 "${copy_session}")
 #scan_analytics=${sessions_list%sessions.csv}SCAN_ANALYTICS_${time_now}.csv
 #scan_analytics_nofilename=${sessions_list%sessions.csv}SCAN_ANALYTICS_NOFILENAME${time_now}.csv
 #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}

@@ -1828,6 +1828,8 @@ def fill_datapoint_each_session_sniprcsv(identifier,columnname,columnvalue,csvfi
     return  returnvalue
 def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     returnvalue=0
+    subprocess.call("echo " + "I AM BEFORE TRY AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     try:
         if os.path.exists(csvfilename):
             identifier=identifier

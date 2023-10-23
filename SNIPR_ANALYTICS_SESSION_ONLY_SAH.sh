@@ -98,7 +98,7 @@ while IFS=',' read -ra array; do
     temp_dir=${working_dir}
     echo temp_dir::${temp_dir}
 
-    call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} ${temp_dir})
+    call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} "PDF_FILE_SIZE" ${temp_dir})
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
   fi
 done < <(tail -n +2 "${copy_session}")

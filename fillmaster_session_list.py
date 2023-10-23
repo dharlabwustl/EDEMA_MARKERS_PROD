@@ -968,6 +968,22 @@ def remove_a_column(csvfilename,columnnamelist,outputfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
     csvfilename_df.to_csv(outputfilename)
+def add_file_size(args):
+    session_ID=args.stuff[1]
+    file_url=args.stuff[2]
+    csvfilename=args.stuff[3]
+    temp_dir=args.stuff[4]
+    temp_filename=os.path.basename(file_url)
+    download_a_singlefile_with_URIString(file_url,temp_filename,temp_dir)
+    file_stats = os.stat(os.path.join(temp_dir,temp_filename))
+    file_size_MB=file_stats.st_size / (1024 * 1024)
+    # temp_filename_df=pd.read_csv(temp_filename)
+    columnname=temp_filename.split('.')[1].upper()+'_SIZE'
+    # for temp_filename_df_index ,temp_filename_df_row in temp_filename_df.iterrows():
+        # file_basename_split=os.path.basename(temp_filename_df_row["PDF_FILE_PATH"])
+    fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
+
+    ## download the file
 
 def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename):
     # csvfilename_withoutfilename=csvfilename

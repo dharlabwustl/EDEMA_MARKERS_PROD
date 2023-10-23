@@ -1413,15 +1413,15 @@ def fill_sniprsession_list_SAH(args):
                 # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>3:
                     pdf_file_num=pdf_file_num+1
-                    if ".pdf" in _infarct_auto_removesmall_path:
-                        temp_filename=os.path.basename(_infarct_auto_removesmall_path)
-                        temp_dir=os.path.dirname(sessionlist_filename)
-                        download_a_singlefile_with_URIString(_infarct_auto_removesmall_path,temp_filename,temp_dir)
-                        file_stats = os.stat(os.path.join(_infarct_auto_removesmall_path,temp_filename))
-                        file_size_MB=file_stats.st_size / (1024 * 1024)
-                        columnname="PDF_FILE_SIZE"
-                        columnvalue=str(file_size_MB)
-                        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    # if ".pdf" in _infarct_auto_removesmall_path:
+                    #     temp_filename=os.path.basename(_infarct_auto_removesmall_path)
+                    #     temp_dir=os.path.dirname(sessionlist_filename)
+                    #     download_a_singlefile_with_URIString(_infarct_auto_removesmall_path,temp_filename,temp_dir)
+                    #     file_stats = os.stat(os.path.join(_infarct_auto_removesmall_path,temp_filename))
+                    #     file_size_MB=file_stats.st_size / (1024 * 1024)
+                    #     columnname="PDF_FILE_SIZE"
+                    #     columnvalue=str(file_size_MB)
+                    #     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 columnname="PDF_FILE_PATH"
                 columnvalue=str(_infarct_auto_removesmall_path) #str(0)
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

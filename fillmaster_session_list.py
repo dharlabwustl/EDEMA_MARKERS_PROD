@@ -975,7 +975,7 @@ def add_file_size(args):
         csvfilename=args.stuff[3]
         temp_dir=args.stuff[4]
         temp_filename=os.path.basename(file_url)
-        download_a_singlefile_with_URIString(file_url,temp_filename,temp_dir)
+        # download_a_singlefile_with_URIString(file_url,temp_filename,temp_dir)
         # file_stats = os.stat(os.path.join(temp_dir,temp_filename))
         # file_size_MB=file_stats.st_size / (1024 * 1024)
         # temp_filename_df=pd.read_csv(temp_filename)

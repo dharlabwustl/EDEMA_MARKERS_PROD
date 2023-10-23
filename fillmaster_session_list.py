@@ -980,7 +980,7 @@ def add_file_size(args):
         file_stats = os.stat(os.path.join(temp_dir,temp_filename))
         file_size_MB=file_stats.st_size / (1024 * 1024)
         fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
-        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],file_size_MB) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

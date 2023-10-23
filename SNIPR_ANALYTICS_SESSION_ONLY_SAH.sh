@@ -73,7 +73,7 @@ while IFS=',' read -ra array; do
   #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
   counter=$((counter + 1))
   fi
-  if [ $counter -eq 7 ] ; then
+  if [ $counter -eq 2 ] ; then
     break
   fi
 done < <(tail -n +2 "${sessions_list}")
@@ -98,4 +98,4 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 done < <(tail -n +2 "${copy_session}")
 ##############################
 
-copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+#copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

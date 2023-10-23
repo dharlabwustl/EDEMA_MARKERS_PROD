@@ -980,7 +980,7 @@ def add_file_size(args):
         file_stats = os.stat(os.path.join(temp_dir,temp_filename))
         file_size_MB=file_stats.st_size / (1024 * 1024)
         fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],file_size_MB) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -1778,6 +1778,7 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
             # last_row_index=csvfilename_df['ROW_IDENTIFIER'].iget(-1)
             # csvfilename_df.at[last_row_index+1,
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
         else:
             columnvalue_flag=0
@@ -1790,7 +1791,7 @@ def fill_single_datapoint_each_scan(identifier,columnname,columnvalue,csvfilenam
             # print(first_dict)
             # first_dict_df=pd.DataFrame([first_dict])
             # first_dict_df.to_csv(csvfilename,index=False)
-
+            subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
@@ -1838,6 +1839,7 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
             # # this_scan_dict={"SCAN_ID":identifier,columnname:columnvalue}
             # last_row_index=csvfilename_df['ROW_IDENTIFIER'].iget(-1)
             # csvfilename_df.at[last_row_index+1,
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
         else:
             columnvalue_flag=0
@@ -1850,7 +1852,7 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
             # print(first_dict)
             # first_dict_df=pd.DataFrame([first_dict])
             # first_dict_df.to_csv(csvfilename,index=False)
-
+            subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

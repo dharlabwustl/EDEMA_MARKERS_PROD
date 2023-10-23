@@ -979,7 +979,7 @@ def add_file_size(args):
         download_a_singlefile_with_URIString(file_url,temp_filename,temp_dir)
         file_stats = os.stat(os.path.join(temp_dir,temp_filename))
         file_size_MB=file_stats.st_size / (1024 * 1024)
-        fill_datapoint_each_sessionn(session_ID,columnname,str(file_size_MB),csvfilename)
+        fill_datapoint_each_sessionn_1(session_ID,columnname,str(file_size_MB),csvfilename)
         subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],csvfilename) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
@@ -1832,24 +1832,51 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     try:
         if os.path.exists(csvfilename):
-
             identifier=identifier
             subprocess.call("echo " + "I AM AFTER TRY  after IF AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
-
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            # this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            # this_scan_dict_df=pd.DataFrame([this_scan_dict])
+            # print(this_scan_dict)
             csvfilename_df=pd.read_csv(csvfilename)
-            subprocess.call("echo " + "I AM AFTER TRY  after IF AT after read csv::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
 
             csvfilename_df_colname=csvfilename_df.columns
-            if columnname not in csvfilename_df_colname:
-                csvfilename_df[columnname]=""
-            if 'SESSION_ID' in csvfilename_df_colname:
-                csvfilename_df.loc[csvfilename_df['SESSION_ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
-            elif 'ID' in csvfilename_df_colname:
-                csvfilename_df.loc[csvfilename_df['ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
-            subprocess.call("echo " + "I AM AFTER TRY  after IF AT after read_csv after writing data::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            csvfilename_df.loc[csvfilename_df['SESSION_ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
+
+            csvfilename_df.to_csv(csvfilename,index=False)
+
+            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        else:
+
+            subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return  returnvalue
+
+def fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename):
+    returnvalue=0
+    subprocess.call("echo " + "I AM BEFORE TRY AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    try:
+        if os.path.exists(csvfilename):
+            identifier=identifier
+            subprocess.call("echo " + "I AM AFTER TRY  after IF AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+            # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
+            # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
+            # this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+            # this_scan_dict_df=pd.DataFrame([this_scan_dict])
+            # print(this_scan_dict)
+            csvfilename_df=pd.read_csv(csvfilename)
+
+            csvfilename_df_colname=csvfilename_df.columns
+            csvfilename_df.loc[csvfilename_df['ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
+
             csvfilename_df.to_csv(csvfilename,index=False)
 
             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

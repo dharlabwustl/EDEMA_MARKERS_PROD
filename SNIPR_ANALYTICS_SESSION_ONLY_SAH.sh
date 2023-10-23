@@ -87,7 +87,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 #def add_file_size(args):
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session_1=${sessions_list%.csv}_${project_ID}_ANALYTICS_${time_now}.csv
-cp ${copy_session} ${copy_session_1}
+#cp ${copy_session} ${copy_session_1}
 while IFS=',' read -ra array; do
   file_url=${array[3]}
   if [[ ${file_url} == *".pdf"* ]]; then

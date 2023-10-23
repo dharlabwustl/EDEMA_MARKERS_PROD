@@ -71,11 +71,11 @@ while IFS=',' read -ra array; do
     #call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})
     #outputfiles_present=$(python3 fillmaster_session_list.py "${call_creat_analytics_onesessionscanasID_arguments[@]}")
     #def creat_analytics_onesessionscanasID(sessionId,sessionLabel,csvfilename,csvfilename_withoutfilename)
-    counter=$((counter + 1))
+#    counter=$((counter + 1))
   fi
-  if [ $counter -eq 2 ]; then
-    break
-  fi
+#  if [ $counter -eq 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${sessions_list}")
 
 dir_to_save=${working_dir}
@@ -93,17 +93,15 @@ while IFS=',' read -ra array; do
   if [[ ${file_url} == *".pdf"* ]]; then
     session_ID=${array[0]}
     echo session_ID::${session_ID}
-
     echo file_url::${file_url}
-    csvfilename=${copy_session_1}
+    csvfilename=${copy_session}
     echo csvfilename::${csvfilename}
     temp_dir=${working_dir}
     echo temp_dir::${temp_dir}
-
     call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} "PDF_FILE_SIZE" ${temp_dir})
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
   fi
 done < <(tail -n +2 "${copy_session}")
 ##############################
 
-#copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

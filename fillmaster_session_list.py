@@ -979,19 +979,12 @@ def add_file_size(args):
         download_a_singlefile_with_URIString(file_url,temp_filename,temp_dir)
         file_stats = os.stat(os.path.join(temp_dir,temp_filename))
         file_size_MB=file_stats.st_size / (1024 * 1024)
-        # temp_filename_df=pd.read_csv(temp_filename)
-
-        # for temp_filename_df_index ,temp_filename_df_row in temp_filename_df.iterrows():
-            # file_basename_split=os.path.basename(temp_filename_df_row["PDF_FILE_PATH"])
         fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
-        # print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-    # pass
-    ## download the file
 
 def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename):
     # csvfilename_withoutfilename=csvfilename

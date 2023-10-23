@@ -85,6 +85,17 @@ dir_to_save=${working_dir}
 resource_dirname_at_snipr="SAH_SESSION_PROCESSING_ANALYTICS"
 call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+##############################
+#def add_file_size(args):
 
+while IFS=',' read -ra array; do
+      session_ID=${array[0]}
+      file_url=${array[3]}
+      csvfilename=${copy_session}
+      temp_dir=${working_dir}
+call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} ${temp_dir})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+done < <(tail -n +2 "${copy_session}")
+##############################
 
 copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

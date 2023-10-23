@@ -982,8 +982,8 @@ def add_file_size(args):
         columnname=temp_filename.split('.')[1].upper()+'_SIZE'
         # for temp_filename_df_index ,temp_filename_df_row in temp_filename_df.iterrows():
             # file_basename_split=os.path.basename(temp_filename_df_row["PDF_FILE_PATH"])
-        fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
-        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        # fill_datapoint_each_sessionn(session_ID,columnname,file_size_MB,csvfilename)
+        # print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

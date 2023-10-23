@@ -90,11 +90,15 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 
 while IFS=',' read -ra array; do
       session_ID=${array[0]}
+      echo session_ID::${session_ID}
       file_url=${array[3]}
+      echo file_url::${file_url}
       csvfilename=${copy_session}
+      echo csvfilename::${csvfilename}
       temp_dir=${working_dir}
-call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} ${temp_dir})
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+      echo temp_dir::${temp_dir}
+#call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} ${temp_dir})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 done < <(tail -n +2 "${copy_session}")
 ##############################
 

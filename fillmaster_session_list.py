@@ -1833,6 +1833,8 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     try:
         if os.path.exists(csvfilename):
             identifier=identifier
+            subprocess.call("echo " + "I AM AFTER TRY  after IF AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
             # scan_type=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'type')
             # scan_description=get_single_value_from_metadata_forascan(columnvalue,str(identifier),'series_description')
             # this_scan_dict={"ROW_IDENTIFIER":columnvalue+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}

@@ -1842,7 +1842,8 @@ def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
 
             # csvfilename_df_colname=csvfilename_df.columns
             csvfilename_df.loc[csvfilename_df['SESSION_ID'] ==identifier, columnname] = columnvalue #row['NUMBEROFSLICES']
-
+            subprocess.call("echo " + "I AM AFTER TRY  after IF AT after read_csv after writing data::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
             csvfilename_df.to_csv(csvfilename,index=False)
 
             subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

@@ -159,3 +159,9 @@ then
       PROJECT_ID=${1}
     /software/SNIPR_ANALYTICS_SCANROW_SAH.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 28 ]] ;
+then
+    /software/csf_compartments_vols_N_display_Oct24_2023.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+

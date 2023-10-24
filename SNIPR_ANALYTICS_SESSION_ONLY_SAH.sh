@@ -103,5 +103,4 @@ while IFS=',' read -ra array; do
   fi
 done < <(tail -n +2 "${copy_session}")
 ##############################
-
 copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

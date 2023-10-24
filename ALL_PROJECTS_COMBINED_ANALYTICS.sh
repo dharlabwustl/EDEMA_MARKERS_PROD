@@ -99,6 +99,18 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231009173614" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+    elif [ ${project_ID} == "SAH" ]; then
+      resource_dir="SAH_RESULTS_CSV"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COMBINED_SESSIONS_SAH_METRICS_20231020185756" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
+      resource_dir="SAH_SESSION_PROCESSING_ANALYTICS"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS_20231023214156" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+
     elif [ ${project_ID} == "ICH" ]; then
       resource_dir="ICH_QUANTIFICATION"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
@@ -111,6 +123,8 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
     fi
+
+
 
   fi
 
@@ -141,6 +155,11 @@ histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfile
 outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
 column_name='ICH_EDEMA_VOLUME'                      #args.stuff[2]
+output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
+outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+
+column_name='SAH_SEG_TOTAL'                      #args.stuff[2]
 output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
 histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
 outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")

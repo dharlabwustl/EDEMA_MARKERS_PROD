@@ -867,6 +867,20 @@ def write_a_col_on_tex(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return returnvalue
+def csvtable_on_tex(args):
+    returnvalue=0
+
+    try:
+        table_df=pd.read_csv(args.stuff[1])
+        latexfilename=args.stuff[2]
+        write_panda_df(latexfilename,table_df)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_write_panda_df')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
 def call_write_panda_df(args):
     returnvalue=0
 

@@ -152,10 +152,10 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina
 #histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_nwu})
 #outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
-#column_name='CSF_RATIO'                                                                         #args.stuff[2]
-#output_image_name_csfratio=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_csfratio})
-#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+column_name='CSF_RATIO'                                                                         #args.stuff[2]
+output_image_name_csfratio=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_csfratio})
+outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 #
 #column_name='ICH_VOLUME'                                                                         #args.stuff[2]
 #output_image_name_ichvolume=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]

@@ -236,7 +236,7 @@ i=$(($i + 1))
 images[$i]=${space}
 i=$(($i + 1))
 images[$i]=${output_image_name_sahsegtotal}
-i=$(($i + 1))
+#i=$(($i + 1))
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")

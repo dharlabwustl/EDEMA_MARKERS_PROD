@@ -43,14 +43,16 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
         return 0
-def remove_empty_rows_ina_col(args):
-    csvfilename=args.stuff[1]
-    column_name=args.stuff[2]
-    csvfilename_output=args.stuff[3]
-    # column_name=args.stuff[2]
-    df=pd.read_csv(csvfilename)
-    df=df[df[str(column_name)]>=df[str(column_name)].min()]
-    df.to_csv(csvfilename_output,index=False)
+# def get_count_of_each_project_column(args):
+#     csvfilename_result=args.stuff[1]
+#     csvfilename_analytics=args.stuff[2]
+#     column_names=args.stuff[4:]
+#     csvfilename_output=args.stuff[3]
+#     # column_name=args.stuff[2]
+#     df=pd.read_csv(csvfilename_result)
+#     df_output
+#     df=df[df[str(column_name)]>=df[str(column_name)].min()]
+#     df.to_csv(csvfilename_output,index=False)
 
 # def save_column_names_ofacsvfile():
 #     f2 = df1.copy()

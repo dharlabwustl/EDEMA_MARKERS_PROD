@@ -69,7 +69,7 @@ download_a_single_file() {
 }
 create_histogram_and_save(){
   local column_name=${1} #'ICH_EDEMA_VOLUME'
-  local csvfilename=${2}# args.stuff[2]
+  local csvfilename=${2} # args.stuff[2]
   local output_image_name_ichedemavolume=${3} #/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
   local histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichedemavolume})
   local  outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
@@ -205,7 +205,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 #outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
 column_name="NWU"                                                   #args.stuff[2]
 create_histogram_and_save  ${column_name} ${csvfilename} ${working_dir}
-output_image_name_nwu=${3}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
 add_image_to_texfile ${output_image_name_nwu} 0.9
 #output_image_name_nwu=${working_dir}/${column_name}"_HISTOGRAM.png" #args.stuff[3]
 #histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_nwu})
@@ -304,7 +304,7 @@ call_latex_end_arguments=('call_latex_end' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-URI="/data/projects/WashU"
+#URI="/data/projects/WashU"
 #resource_dirname="ALL_PROJECTS_COMBINED"
 #call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
 #outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

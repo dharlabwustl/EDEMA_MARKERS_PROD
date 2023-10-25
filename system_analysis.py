@@ -44,24 +44,34 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         pass
         return 0
 def histogram_column_ina_csvfile(args):
-    csvfilename=args.stuff[1]
-    column_name=args.stuff[2]
-    output_image_name=args.stuff[3]
-    df=pd.read_csv(csvfilename)
-    df.columns=df.columns.str.replace(' ','_')
-    non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
-    ###################
-    ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
-    # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
-    # # ax = s.hist()  # s is an instance of Series
-    # ax.set_xlabel(str(column_name).replace("_"," "))
-    # if "VOLUME" in column_name:
-    #     ax.set_xlabel(str(column_name).replace("_"," ")+'(ml)')
-    # ax.set_ylabel("COUNT")
-    # ax.text(int(df[str(column_name)].max()/2),int(non_zero_items.shape[0]/4),"TOTAL COUNT: " +str(non_zero_items.shape[0]))
-    # fig = ax.get_figure()
-    # fig.savefig(output_image_name)
-    #
+    try:
+        csvfilename=args.stuff[1]
+        column_name=args.stuff[2]
+        output_image_name=args.stuff[3]
+        df=pd.read_csv(csvfilename)
+        df.columns=df.columns.str.replace(' ','_')
+        non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
+        ###################
+        ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
+        # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
+        # # ax = s.hist()  # s is an instance of Series
+        # ax.set_xlabel(str(column_name).replace("_"," "))
+        # if "VOLUME" in column_name:
+        #     ax.set_xlabel(str(column_name).replace("_"," ")+'(ml)')
+        # ax.set_ylabel("COUNT")
+        # ax.text(int(df[str(column_name)].max()/2),int(non_zero_items.shape[0]/4),"TOTAL COUNT: " +str(non_zero_items.shape[0]))
+        # fig = ax.get_figure()
+        # fig.savefig(output_image_name)
+        #
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+
+    return 0
 def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans,column_name_for_url,column_name_for_session_name,file_extension,X_level,level_name,dir_to_save,resource_dirname_at_snipr):
 
     try:

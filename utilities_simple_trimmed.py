@@ -855,7 +855,7 @@ def write_a_col_on_tex(args):
         column_value_df=pd.DataFrame([column_value])
         column_value_df.columns=[str(column_name)]
         # session_label_df = pd.DataFrame(table_df.pop(str(column_name)))
-        write_panda_df(latexfilename,column_value_df)
+        write_panda_df(latexfilename,column_value_df.T)
         returnvalue=1
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'write_a_col_on_tex')
         subprocess.call(command,shell=True)

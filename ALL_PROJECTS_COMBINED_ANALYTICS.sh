@@ -143,7 +143,8 @@ combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_fro
 outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
 ### histograms: CSF ratio='CSF RATIO', NWU='NWU' , ICH volumes:'ICH VOLUME' 'ICH EDEMA VOLUME'
 #
-csvfilename=${combined_metrics_results}                             #args.stuff[1]
+csvfilename=${combined_metrics_results}
+#args.stuff[1]
 histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session.list.py "${histogram_column_ina_csvfile_arguments[@]}")
 #column_name="NWU"                                                   #args.stuff[2]

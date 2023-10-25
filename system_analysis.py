@@ -62,6 +62,9 @@ def histogram_column_ina_csvfile(args):
         # df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
         # if "SAH" in column_name:
         #     df=df[df[str(column_name)]<=100]
+        if "ICH" in column_name:
+            # ax.set_xlim([0,100])
+            df=df[df[str(column_name)]<=100]
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
         # if "CSF_RATIO" in column_name:
         # #     df=df[df[str(column_name)]<=1]
@@ -75,8 +78,7 @@ def histogram_column_ina_csvfile(args):
             ax.set_xlabel(str(column_name).replace("_"," ")+'(ml)')
 
         ax.set_ylabel("COUNT"+"  (TOTAL: " +str(non_zero_items.shape[0]) + ")")
-        if "ICH" in column_name:
-            ax.set_xlim([0,100])
+
         # y_lim=ax.get_ylim()
         # x_lim=ax.get_xlim()
         # ax.text(int(x_lim[0]+x_lim[0]*.10),int(y_lim[1]-y_lim[1]*0.10),"TOTAL COUNT: " +str(non_zero_items.shape[0]))

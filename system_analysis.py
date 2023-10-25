@@ -76,7 +76,7 @@ def histogram_column_ina_csvfile(args):
 
         ax.set_ylabel("COUNT"+"  (TOTAL: " +str(non_zero_items.shape[0]) + ")")
         if "ICH" in column_name:
-            ax.set_xlim([0,200])
+            ax.set_xlim([0,100])
         # y_lim=ax.get_ylim()
         # x_lim=ax.get_xlim()
         # ax.text(int(x_lim[0]+x_lim[0]*.10),int(y_lim[1]-y_lim[1]*0.10),"TOTAL COUNT: " +str(non_zero_items.shape[0]))

@@ -215,7 +215,7 @@ images[$i]=${output_image_name_csfratio}
 i=$(($i + 1))
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
-call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+#call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
 i=0
 images=()
@@ -235,7 +235,7 @@ images[$i]=${output_image_name_sahsegtotal} #}
 i=$(($i + 1))
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
-call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+#call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
 i=0
 images=()

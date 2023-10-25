@@ -72,6 +72,8 @@ def histogram_column_ina_csvfile(args):
         ax.set_xlabel(str(column_name).replace("_"," "))
         if "VOLUME" in column_name or "TOTAL" in column_name:
             ax.set_xlabel(str(column_name).replace("_"," ")+'(ml)')
+        if "SAH" in column_name:
+            ax.set_xlim([0, 100])
         ax.set_ylabel("COUNT"+"  (TOTAL: " +str(non_zero_items.shape[0]) + ")")
         # y_lim=ax.get_ylim()
         # x_lim=ax.get_xlim()

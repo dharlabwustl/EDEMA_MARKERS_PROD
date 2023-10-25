@@ -168,7 +168,7 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
 #      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "ICH" ]; then
-      resource_dir="ICH_QUANTIFICATION"
+      resource_dir="ICH_QUANTIFICATIONPDF"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")

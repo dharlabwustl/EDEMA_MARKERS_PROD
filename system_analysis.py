@@ -50,7 +50,7 @@ def histogram_column_ina_csvfile(args):
         output_image_name=args.stuff[3]
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
-        # df.columns=df.columns.str.replace(' ','_')
+        df.columns=df.columns.str.replace(' ','_')
         # non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
         # ##################
         # ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)

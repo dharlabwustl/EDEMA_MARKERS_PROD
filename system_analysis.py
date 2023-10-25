@@ -49,7 +49,8 @@ def histogram_column_ina_csvfile(args):
         column_name=args.stuff[2]
         output_image_name=args.stuff[3]
         df=pd.read_csv(csvfilename)
-        df.columns=df.columns.str.replace(' ','_')
+        df.columns=df.columns.str.replace(' ','')
+        column_name=column_name.replace("_",'')
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
         ###################
         ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
@@ -64,7 +65,7 @@ def histogram_column_ina_csvfile(args):
         # fig.savefig(output_image_name)
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::  >> /workingoutput/error.txt".format(inspect.stack()[0][3],non_zero_items) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

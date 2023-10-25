@@ -67,6 +67,44 @@ download_a_single_file() {
   done < <(tail -n +2 "${file_path_csv}")
 
 }
+create_histogram_and_save(){
+  local column_name=${1} #'ICH_EDEMA_VOLUME'
+  local csvfilename=${2}# args.stuff[2]
+  local output_image_name_ichedemavolume=${3} #/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+  local histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichedemavolume})
+  local  outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+
+}
+add_image_to_texfile(){
+  local imagescale=${2} #float(args.stuff[2])
+  local angle='0'        #float(args.stuff[3])
+  local space='1'        #float(args.stuff[4])
+  local i=0
+  local images=()
+  images[$i]='call_latex_insertimage_tableNc'
+  i=$(($i + 1))
+  images[$i]=${latexfilename}
+  i=$(($i + 1))
+  images[$i]=${imagescale}
+  i=$(($i + 1))
+  images[$i]=${angle}
+  i=$(($i + 1))
+  images[$i]=${space}
+  i=$(($i + 1))
+
+  #if [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
+
+  images[$i]=${1}
+  i=$(($i + 1))
+#  images[$i]=${output_image_name_csfratio}
+#  i=$(($i + 1))
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+  echo outputfiles_present::${outputfiles_present}
+  #call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+
+}
+
 
 for x in $(seq 0 1 $((arguments_count - 1))); do
   #  echo ${project_ID}
@@ -156,114 +194,119 @@ outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_
 ### histograms: CSF ratio='CSF RATIO', NWU='NWU' , ICH volumes:'ICH VOLUME' 'ICH EDEMA VOLUME'
 #
 csvfilename=${combined_metrics_results}
-#args.stuff[1]
-histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
-outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
-column_name="NWU"                                                   #args.stuff[2]
-output_image_name_nwu=${working_dir}/${column_name}"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_nwu})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
-
-column_name='CSF_RATIO'                                                                         #args.stuff[2]
-output_image_name_csfratio=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_csfratio})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
-
-column_name='ICH_VOLUME'                                                                         #args.stuff[2]
-output_image_name_ichvolume=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichvolume})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
-
-column_name='ICH_EDEMA_VOLUME'                                                                        #args.stuff[2]
-output_image_name_ichedemavolume=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichedemavolume})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
-
-column_name='SAH_SEG_TOTAL'                                                                        #args.stuff[2]
-output_image_name_sahsegtotal=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_sahsegtotal})
-outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 latexfilename_prefix=${working_dir}/${4}
 latexfilename=${latexfilename_prefix}_histograms_${time_now}.tex
 #csvfilename=${latexfilename%.pdf*}.csv
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-echo outputfiles_present::${outputfiles_present}
-imagescale='0.5' #float(args.stuff[2])
-angle='0'        #float(args.stuff[3])
-space='1'        #float(args.stuff[4])
-i=0
-images=()
-images[$i]='call_latex_insertimage_tableNc'
-i=$(($i + 1))
-images[$i]=${latexfilename}
-i=$(($i + 1))
-images[$i]=${imagescale}
-i=$(($i + 1))
-images[$i]=${angle}
-i=$(($i + 1))
-images[$i]=${space}
-i=$(($i + 1))
+##args.stuff[1]
+#histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
+column_name="NWU"                                                   #args.stuff[2]
+create_histogram_and_save  ${column_name} ${csvfilename} ${working_dir}
+output_image_name_nwu=${3}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+add_image_to_texfile ${output_image_name_nwu} 0.9
+#output_image_name_nwu=${working_dir}/${column_name}"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_nwu})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#
+#column_name='CSF_RATIO'                                                                         #args.stuff[2]
+#output_image_name_csfratio=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_csfratio})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#
+#column_name='ICH_VOLUME'                                                                         #args.stuff[2]
+#output_image_name_ichvolume=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichvolume})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#
+#column_name='ICH_EDEMA_VOLUME'                                                                        #args.stuff[2]
+#output_image_name_ichedemavolume=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichedemavolume})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+#
+#column_name='SAH_SEG_TOTAL'                                                                        #args.stuff[2]
+#output_image_name_sahsegtotal=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+#histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_sahsegtotal})
+#outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
-#if [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
-
-images[$i]=${output_image_name_nwu}
-i=$(($i + 1))
-images[$i]=${output_image_name_csfratio}
-i=$(($i + 1))
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-echo outputfiles_present::${outputfiles_present}
-#call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
-i=0
-images=()
-images[$i]='call_latex_insertimage_tableNc'
-i=$(($i + 1))
-images[$i]=${latexfilename}
-i=$(($i + 1))
-images[$i]=${imagescale}
-i=$(($i + 1))
-images[$i]=${angle}
-i=$(($i + 1))
-images[$i]=${space}
-i=$(($i + 1))
-images[$i]=${output_image_name_ichvolume}
-i=$(($i + 1))
-images[$i]=${output_image_name_sahsegtotal} #}
-i=$(($i + 1))
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-echo outputfiles_present::${outputfiles_present}
-#call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
-i=0
-images=()
-images[$i]='call_latex_insertimage_tableNc'
-i=$(($i + 1))
-images[$i]=${latexfilename}
-i=$(($i + 1))
-images[$i]=${imagescale}
-i=$(($i + 1))
-images[$i]=${angle}
-i=$(($i + 1))
-images[$i]=${space}
-i=$(($i + 1))
-images[$i]=${output_image_name_ichedemavolume}
+#
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#echo outputfiles_present::${outputfiles_present}
+#imagescale='0.5' #float(args.stuff[2])
+#angle='0'        #float(args.stuff[3])
+#space='1'        #float(args.stuff[4])
+#i=0
+#images=()
+#images[$i]='call_latex_insertimage_tableNc'
 #i=$(($i + 1))
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-echo outputfiles_present::${outputfiles_present}
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-##echo outputfiles_present::${outputfiles_present}
-##fi
+#images[$i]=${latexfilename}
+#i=$(($i + 1))
+#images[$i]=${imagescale}
+#i=$(($i + 1))
+#images[$i]=${angle}
+#i=$(($i + 1))
+#images[$i]=${space}
+#i=$(($i + 1))
+#
+##if [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
+#
+#images[$i]=${output_image_name_nwu}
+#i=$(($i + 1))
+#images[$i]=${output_image_name_csfratio}
+#i=$(($i + 1))
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#echo outputfiles_present::${outputfiles_present}
+##call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+#i=0
+#images=()
+#images[$i]='call_latex_insertimage_tableNc'
+#i=$(($i + 1))
+#images[$i]=${latexfilename}
+#i=$(($i + 1))
+#images[$i]=${imagescale}
+#i=$(($i + 1))
+#images[$i]=${angle}
+#i=$(($i + 1))
+#images[$i]=${space}
+#i=$(($i + 1))
+#images[$i]=${output_image_name_ichvolume}
+#i=$(($i + 1))
+#images[$i]=${output_image_name_sahsegtotal} #}
+#i=$(($i + 1))
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#echo outputfiles_present::${outputfiles_present}
+##call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+#i=0
+#images=()
+#images[$i]='call_latex_insertimage_tableNc'
+#i=$(($i + 1))
+#images[$i]=${latexfilename}
+#i=$(($i + 1))
+#images[$i]=${imagescale}
+#i=$(($i + 1))
+#images[$i]=${angle}
+#i=$(($i + 1))
+#images[$i]=${space}
+#i=$(($i + 1))
+#images[$i]=${output_image_name_ichedemavolume}
+##i=$(($i + 1))
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#echo outputfiles_present::${outputfiles_present}
+###outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+###echo outputfiles_present::${outputfiles_present}
+###fi
 
 call_latex_end_arguments=('call_latex_end' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 URI="/data/projects/WashU"
-resource_dirname="ALL_PROJECTS_COMBINED"
-call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
-outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${csvfilename} ${resource_dirname})
-outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#resource_dirname="ALL_PROJECTS_COMBINED"
+#call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
+#outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${csvfilename} ${resource_dirname})
+#outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

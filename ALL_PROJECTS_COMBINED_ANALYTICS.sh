@@ -179,7 +179,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
-imagescale='0.18' #float(args.stuff[2])
+imagescale='0.5' #float(args.stuff[2])
 angle='0'        #float(args.stuff[3])
 space='1'         #float(args.stuff[4])
 i=0
@@ -201,13 +201,40 @@ images[$i]=${output_image_name_nwu}
 i=$(($i + 1))
 images[$i]=${output_image_name_csfratio}
 i=$(($i + 1))
-
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+echo outputfiles_present::${outputfiles_present}
+i=0
+images[$i]='call_latex_insertimage_tableNc'
+i=$(($i + 1))
+images[$i]=${latexfilename}
+i=$(($i + 1))
+images[$i]=${imagescale}
+i=$(($i + 1))
+images[$i]=${angle}
+i=$(($i + 1))
+images[$i]=${space}
+i=$(($i + 1))
 images[$i]=${output_image_name_ichvolume}
 i=$(($i + 1))
 images[$i]=${output_image_name_sahsegtotal}
 i=$(($i + 1))
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+echo outputfiles_present::${outputfiles_present}
+i=0
+images[$i]='call_latex_insertimage_tableNc'
+i=$(($i + 1))
+images[$i]=${latexfilename}
+i=$(($i + 1))
+images[$i]=${imagescale}
+i=$(($i + 1))
+images[$i]=${angle}
+i=$(($i + 1))
+images[$i]=${space}
+i=$(($i + 1))
 images[$i]=${output_image_name_ichedemavolume}
 i=$(($i + 1))
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+echo outputfiles_present::${outputfiles_present}
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
 #fi

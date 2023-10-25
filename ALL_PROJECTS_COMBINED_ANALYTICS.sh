@@ -249,9 +249,7 @@ pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 URI="/data/projects/WashU"
 resource_dirname="ALL_PROJECTS_COMBINED"
-#for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
 call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
 outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${csvfilename} ${resource_dirname})
 outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#done

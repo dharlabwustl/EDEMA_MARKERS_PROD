@@ -138,7 +138,7 @@ time_now=$(date -dnow +%Y%m%d%H%M%S)
 csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 echo "CSV_FILENAMES" >${csvfile_list}
 for eachfilename in ${dir_to_receive_the_data}/*.csv; do echo $eachfilename >>${csvfile_list}; done
-combined_metrics_results="${working_dir}/COMBINED_PROJECTS_DIFFERENT_METRICS_${time_now}.csv"
+combined_metrics_results="${working_dir}/COMBINED_PROJECTS_${4}_${time_now}.csv"
 combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${combined_metrics_results})
 outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
 ### histograms: CSF ratio='CSF RATIO', NWU='NWU' , ICH volumes:'ICH VOLUME' 'ICH EDEMA VOLUME'
@@ -173,7 +173,7 @@ histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfile
 outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 latexfilename_prefix=${working_dir}/${4}
 latexfilename=${latexfilename_prefix}_histograms_${time_now}.tex
-csvfilename=${latexfilename%.pdf*}.csv
+#csvfilename=${latexfilename%.pdf*}.csv
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 

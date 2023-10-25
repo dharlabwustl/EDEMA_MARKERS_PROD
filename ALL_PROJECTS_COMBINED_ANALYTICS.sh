@@ -191,29 +191,26 @@ i=$(($i + 1))
 images[$i]=${space}
 i=$(($i + 1))
 
-y=${x%.*}
-echo $y
-#suffix=${y##*_}
-if  [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
 
+#if [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
 
-  images[$i]=${output_image_name_nwu}
-  i=$(($i + 1))
-  images[$i]=${output_image_name_csfratio}
-  i=$(($i + 1))
+images[$i]=${output_image_name_nwu}
+i=$(($i + 1))
+images[$i]=${output_image_name_csfratio}
+i=$(($i + 1))
 
-  images[$i]=${output_image_name_ichvolume}
-  i=$(($i + 1))
-  images[$i]=${output_image_name_sahsegtotal}
-  i=$(($i + 1))
-  images[$i]=${output_image_name_ichedemavolume}
-  i=$(($i + 1))
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-  echo outputfiles_present::${outputfiles_present}
-fi
+images[$i]=${output_image_name_ichvolume}
+i=$(($i + 1))
+images[$i]=${output_image_name_sahsegtotal}
+i=$(($i + 1))
+images[$i]=${output_image_name_ichedemavolume}
+i=$(($i + 1))
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+echo outputfiles_present::${outputfiles_present}
+#fi
 call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
-    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+call_latex_end_arguments=('call_latex_end' ${latexfilename})
+pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex

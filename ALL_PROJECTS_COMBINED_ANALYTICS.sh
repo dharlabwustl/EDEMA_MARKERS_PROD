@@ -206,6 +206,34 @@ column_value=$(( column_value -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 #####################
+###################
+column_name='COLISEUM_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20231003124834*.csv | wc -l )
+column_value=$(( column_value -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
+###################
+column_name='ICH_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_202305222109*.csv | wc -l )
+column_value=$(( column_value -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
+###################
+column_name='MGBBMC_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20231009173614*.csv | wc -l )
+column_value=$(( column_value -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
+###################
+column_name='SAH_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_20231023214156*.csv | wc -l )
+column_value=$(( column_value -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
 ##args.stuff[1]
 histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")

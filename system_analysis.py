@@ -60,8 +60,11 @@ def histogram_column_ina_csvfile(args):
         if "VOLUME" in column_name or "TOTAL" in column_name:
             ax.set_xlabel(str(column_name).replace("_"," ")+'(ml)')
         ax.set_ylabel("COUNT")
-        # ax.text(int(df[str(column_name)].max()/2),int(non_zero_items.shape[0]/4),"TOTAL COUNT: " +str(non_zero_items.shape[0]))
+        y_lim=ax.get_ylim()
+        x_lim=ax.get_xlim()
+        ax.text(int(x_lim[0]),int(y_lim[1]),"TOTAL COUNT: " +str(non_zero_items.shape[0]))
         fig = ax.get_figure()
+
         fig.savefig(output_image_name)
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))

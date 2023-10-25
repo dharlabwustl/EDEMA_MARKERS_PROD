@@ -193,8 +193,8 @@ i=$(($i + 1))
 
 y=${x%.*}
 echo $y
-suffix=${y##*_}
-if [ -f "${x}" ] && [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
+#suffix=${y##*_}
+if  [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
   images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
   i=$(($i + 1))
 

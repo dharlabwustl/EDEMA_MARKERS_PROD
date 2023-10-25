@@ -195,6 +195,7 @@ imagescale='0.5' #float(args.stuff[2])
 angle='0'        #float(args.stuff[3])
 space='1'        #float(args.stuff[4])
 i=0
+images=()
 images[$i]='call_latex_insertimage_tableNc'
 i=$(($i + 1))
 images[$i]=${latexfilename}
@@ -217,6 +218,7 @@ echo outputfiles_present::${outputfiles_present}
 call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
 i=0
+images=()
 images[$i]='call_latex_insertimage_tableNc'
 i=$(($i + 1))
 images[$i]=${latexfilename}
@@ -236,6 +238,7 @@ echo outputfiles_present::${outputfiles_present}
 call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
 i=0
+images=()
 images[$i]='call_latex_insertimage_tableNc'
 i=$(($i + 1))
 images[$i]=${latexfilename}

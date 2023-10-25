@@ -43,6 +43,11 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
         return 0
+# def save_column_names_ofacsvfile():
+#     f2 = df1.copy()
+#     with pd.ExcelWriter('output.xlsx') as writer:
+#         df1.to_excel(writer, sheet_name='Sheet_name_1')
+#         df2.to_excel(writer, sheet_name='Sheet_name_2')
 def histogram_column_ina_csvfile(args):
     try:
         csvfilename=args.stuff[1]

@@ -2,6 +2,7 @@
 export XNAT_USER=${1}
 export XNAT_PASS=${2}
 export XNAT_HOST=${3}
+
 working_dir=/workinginput
 output_directory=/workingoutput
 
@@ -9,6 +10,10 @@ final_output_directory=/outputinsidedocker
 ARGS=("$@")
 # Get the last argument
 arguments_count=${#ARGS[@]}
+IFS='_' read -r -a project_IDS <<< "${4}"
+echo "${project_IDS[0]}"
+arguments_count=${#project_IDS[@]}
+
 #for project_ID in ${ARGS[@]}; do
 ####################
 call_get_resourcefiles_metadata_saveascsv() {
@@ -65,8 +70,8 @@ download_a_single_file() {
 
 for x in $(seq 0 1 $((arguments_count - 1))); do
   #  echo ${project_ID}
-  if [[ $x -gt 2 ]]; then
-
+#  if [[ $x -gt 2 ]]; then
+  if [[ $x -gt -1 ]]; then
     project_ID=${ARGS[x]}
     echo PROJECTID::${project_ID}
 
@@ -163,3 +168,6 @@ column_name='SAH_SEG_TOTAL'                      #args.stuff[2]
 output_image_name=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
 histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name})
 outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+latexfilename_prefix=${working_dir}/
+latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
+csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv

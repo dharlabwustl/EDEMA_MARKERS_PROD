@@ -181,7 +181,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 echo outputfiles_present::${outputfiles_present}
 imagescale='0.5' #float(args.stuff[2])
 angle='0'        #float(args.stuff[3])
-space='1'         #float(args.stuff[4])
+space='1'        #float(args.stuff[4])
 i=0
 images[$i]='call_latex_insertimage_tableNc'
 i=$(($i + 1))
@@ -193,7 +193,6 @@ images[$i]=${angle}
 i=$(($i + 1))
 images[$i]=${space}
 i=$(($i + 1))
-
 
 #if [ -f "${output_image_name_nwu}" ] && [ -f "${output_image_name_csfratio}" ] && [ -f "${output_image_name_ichvolume}" ] && [ -f "${output_image_name_ichedemavolume}" ] && [ -f "${output_image_name_sahsegtotal}" ]; then
 

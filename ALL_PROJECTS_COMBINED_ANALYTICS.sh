@@ -126,11 +126,11 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
-#      resource_dir="SNIPR_ANALYTICS_TEST"
-#      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-#      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231003124834" ${file_path_csv})
-#      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+      resource_dir="SNIPR_ANALYTICS_TEST"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231003124834" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "WashU" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
@@ -138,11 +138,11 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "WashU_EDEMA_BIOMARKERS_COMBINED_20230912002214" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
-#      resource_dir="SNIPR_ANALYTICS_TEST"
-#      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-#      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20230912002214" ${file_path_csv})
-#      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+      resource_dir="SNIPR_ANALYTICS_TEST"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20230912002214" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
@@ -151,21 +151,21 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
 #      resource_dir="SNIPR_ANALYTICS_TEST"
-#      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-#      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231009173614" ${file_path_csv})
-#      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231009173614" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
     elif [ ${project_ID} == "SAH" ]; then
       resource_dir="SAH_RESULTS_CSV"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COMBINED_SESSIONS_SAH_METRICS_20231020185756" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
-#      resource_dir="SAH_SESSION_PROCESSING_ANALYTICS"
-#      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-#      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS_20231023214156" ${file_path_csv})
-#      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+      resource_dir="SAH_SESSION_PROCESSING_ANALYTICS"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS_20231023214156" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "ICH" ]; then
       resource_dir="ICH_QUANTIFICATIONPDF"
@@ -173,11 +173,11 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
       get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
-#      resource_dir="SNIPR_ANALYTICS"
-#      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-#      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_CTSESSIONS_202305222109" ${file_path_csv})
-#      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
+      resource_dir="SNIPR_ANALYTICS"
+      file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_CTSESSIONS_202305222109" ${file_path_csv})
+      outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
     fi
 
   fi
@@ -199,7 +199,13 @@ latexfilename=${latexfilename_prefix}_histograms_${time_now}.tex
 #csvfilename=${latexfilename%.pdf*}.csv
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-
+###################
+column_name='WASHU_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20230912002214*.csv | wc -l )
+column_value=$(( column_value -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
 ##args.stuff[1]
 histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")

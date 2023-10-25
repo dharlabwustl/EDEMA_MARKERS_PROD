@@ -65,7 +65,7 @@ def histogram_column_ina_csvfile(args):
         # fig.savefig(output_image_name)
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
-        subprocess.call("echo " + "I PASSED AT ::{}::  >> /workingoutput/error.txt".format(inspect.stack()[0][3],non_zero_items) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],non_zero_items) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

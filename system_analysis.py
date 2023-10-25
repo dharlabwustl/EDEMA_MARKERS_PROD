@@ -52,9 +52,11 @@ def histogram_column_ina_csvfile(args):
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
         df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(int)
+        if "CSF_RATIO" in column_name:
+            df=df[df[str(column_name)]<=1]
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
         ##################
-        ax = df[str(column_name)].plot.hist(bins=20, alpha=0.5,color = "blueviolet", lw=0)
+        ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
         # # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
         # # ax = s.hist()  # s is an instance of Series
         ax.set_xlabel(str(column_name).replace("_"," "))

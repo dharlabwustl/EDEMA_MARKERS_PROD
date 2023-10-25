@@ -72,7 +72,8 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
   #  echo ${project_ID}
 #  if [[ $x -gt 2 ]]; then
   if [[ $x -gt -1 ]]; then
-    project_ID=${ARGS[x]}
+#    project_ID=${ARGS[x]}
+    project_ID=${project_IDS[x]}
     echo PROJECTID::${project_ID}
 
     ##sessions_list=${working_dir}/'sessions.csv'

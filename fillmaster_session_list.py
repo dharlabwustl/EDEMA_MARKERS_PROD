@@ -1038,6 +1038,7 @@ def call_remove_single_column_with_colnmname_substring(args):
     remove_single_column_with_colnmname_substring(csvfilename,colnmname_substring,csvfilename_output)
 def remove_single_column_with_colnmname_substring(csvfilename,colnmname_substring,csvfilename_output):
     csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
     csvfilename_df_colnames=csvfilename_df.columns
     for col_name in csvfilename_df_colnames:
         if colnmname_substring in col_name:

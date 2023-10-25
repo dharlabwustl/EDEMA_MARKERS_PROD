@@ -51,7 +51,7 @@ def histogram_column_ina_csvfile(args):
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
-        df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
+        # df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
 
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
         if "CSF_RATIO" in column_name:

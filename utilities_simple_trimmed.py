@@ -842,7 +842,31 @@ def call_remove_a_column(args):
         command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return  returnvalue
+def write_a_col_on_tex(args):
+    returnvalue=0
 
+    try:
+        # table_df=pd.read_csv(args.stuff[1])
+        latexfilename=args.stuff[1]
+        column_name=args.stuff[2]
+        column_value=args.stuff[3]
+
+        # try:
+        column_value_df=pd.DataFrame([column_value])
+        column_value_df.columns=[str(column_name)]
+        # session_label_df = pd.DataFrame(table_df.pop(str(column_name)))
+        write_panda_df(latexfilename,column_value_df)
+        returnvalue=1
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'write_a_col_on_tex')
+        subprocess.call(command,shell=True)
+        # except:
+        #     pass
+
+
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
 def call_write_panda_df(args):
     returnvalue=0
 
@@ -1821,6 +1845,10 @@ def main():
         return_value=call_gray2binary(args)
     if name_of_the_function == "call_createh5file":
         return_value=call_createh5file(args)
+    if "call" not in name_of_the_function:
+        return_value=0
+        globals()[args.stuff[0]](args)
+        return return_value
 
 
 

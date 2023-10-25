@@ -66,6 +66,7 @@ def histogram_column_ina_csvfile(args):
             # ax.set_xlim([0,100])
             df=df[df[str(column_name)]<=100]
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]
+        non_zero_items.to_csv(csvfilename.split('.csv')[0]+'_hist.csv')
         # if "CSF_RATIO" in column_name:
         # #     df=df[df[str(column_name)]<=1]
         #     non_zero_items=non_zero_items[non_zero_items[str(column_name)]<=1.0]

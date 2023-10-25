@@ -53,7 +53,7 @@ def histogram_column_ina_csvfile(args):
         df.columns=df.columns.str.replace(' ','_')
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
-        df[str(column_name)]=pd.to_numeric(df[str(column_name)])
+        df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')
         # df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
 
         non_zero_items=df[df[str(column_name)]>=df[str(column_name)].min()]

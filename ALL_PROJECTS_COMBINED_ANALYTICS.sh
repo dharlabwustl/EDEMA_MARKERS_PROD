@@ -205,7 +205,7 @@ echo "WASHU,," >> ${cohort_count}
 echo "SAH,," >>${cohort_count}
 csvfilename_input=$(ls ${working_dir}/*WashUsessions_ANALYTICS_*.csv)
 column_to_be_counted="ID"                                                                 #args.stuff[2]
-identifier_column_name_inoutput="COHORT_NAME"                                                     #args.stuff[2]
+identifier_column_name_inoutput="COHORT_NAME"                                                         #args.stuff[2]
 identifier_column_value_inoutput="WASHU"                                                            #args.stuff[3]
 column_name="SESSION_COUNT"                                                                       #args.stuff[4]
 csvfilename_output=${cohort_count}                                                                #args.stuff[6]

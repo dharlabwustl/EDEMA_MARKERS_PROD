@@ -80,7 +80,7 @@ done < <(tail -n +2 "${sessions_list}")
 
 dir_to_save=${working_dir}
 
-resource_dirname_at_snipr="SAH_SESSION_PROCESSING_ANALYTICS"
+resource_dirname_at_snipr="ICH_SESSION_PROCESSING_ANALYTICS"
 call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 ##############################

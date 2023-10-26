@@ -14,6 +14,19 @@ import argparse
 from utilities_simple import *
 from download_with_session_ID import *
 
+def write_single_data_incsv_withknown_id(args):
+    # csvfilename=args.stuff[1]
+    # identifier_column_name=args.stuff[2]
+    # identifier_column_value=args.stuff[3]
+    # column_name=args.stuff[4]
+    # column_value=args.stuff[5]
+    # csvfilename_output=args.stuff[6]
+    # this_scan_dict={identifier_column_name:identifier_column_value,column_name:column_value} #+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+    # this_scan_dict_df=pd.DataFrame([this_scan_dict])
+    # csvfilename_df=pd.read_csv(csvfilename)
+    # csvfilename_df  = pd.concat([csvfilename_df,this_scan_dict_df],ignore_index=True)
+    # csvfilename_df.to_csv(csvfilename_output,index=False)
+    return "I WORKED"
 def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filename,outputfilename):
     try:
         listofcsvfiles_filename=args.stuff[1]
@@ -257,7 +270,8 @@ def main():
     parser.add_argument('stuff', nargs='+')
     args = parser.parse_args()
     return_value=0
-    globals()[args.stuff[0]](args)
+    xx=globals()[args.stuff[0]](args)
+    subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(xx) ,shell=True )
     return return_value
 if __name__ == '__main__':
     main()

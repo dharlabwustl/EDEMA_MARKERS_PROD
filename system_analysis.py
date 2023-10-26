@@ -28,7 +28,7 @@ def non_numerical_val_counter(args):
         # csvfilename_df.columns=csvfilename_df.columns.str.replace(' ','_')
         # csvfilename_df[str(column_to_be_counted)]=pd.to_numeric(csvfilename_df[str(column_to_be_counted)],errors='coerce')
         csvfilename_output_df=pd.read_csv(csvfilename_output)
-        column_value=csvfilename_df[str(column_to_be_counted)].str.notnull().sum() #[csvfilename_df[str(column_to_be_counted)]>=np.min(column_to_be_counted)]
+        column_value=csvfilename_df[str(column_to_be_counted)].notnull().sum() #[csvfilename_df[str(column_to_be_counted)]>=np.min(column_to_be_counted)]
         this_scan_dict={identifier_column_name_inoutput:identifier_column_value_inoutput,column_name:column_value} #+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
         this_scan_dict_df=pd.DataFrame([this_scan_dict])
         csvfilename_output_df  = pd.concat([csvfilename_output_df,this_scan_dict_df],ignore_index=True)

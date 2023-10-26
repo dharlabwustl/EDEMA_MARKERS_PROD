@@ -1451,7 +1451,7 @@ def get_latest_file_for_analytics(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX="")
 
     # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
-    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-18:-4]
     allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
     allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
     allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)

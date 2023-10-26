@@ -212,6 +212,10 @@ csvfilename_output=${cohort_count}                                              
 echo csvfilename_input::${csvfilename_input}
 call_latex_start_arguments=('non_numerical_val_counter' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('non_numerical_val_counter' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('non_numerical_val_counter' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #column_name='WASHU_SESSIONS_COUNT'
 #
 ##call_latex_start_arguments=('write_single_data_incsv_withknown_id' ${latexfilename})

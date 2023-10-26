@@ -213,6 +213,13 @@ outputcsvfilename_washu_nwu="${working_dir}/${cohort_name}_${column_to_be_counte
 call_latex_start_arguments=('count_a_column' ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu_nwu})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
+cohort_name="WASHU" #args.stuff[3]
+outputcsvfilename_washu_nwu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
+call_latex_start_arguments=('count_a_column' ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu_nwu})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+
 
 csvfile_analysis=$(ls ${working_dir}/*COLIsessions_ANALYTICS_*.csv) #args.stuff[1]
 column_to_be_counted_in_analysis="ID" #args.stuff[2]

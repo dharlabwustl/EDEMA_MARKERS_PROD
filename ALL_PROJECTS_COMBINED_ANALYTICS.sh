@@ -207,7 +207,7 @@ cohort_name="WASHU" #args.stuff[3]
 outputcsvfilename="${working_dir}/${cohort_name}_ID_count.csv" #args.stuff[4]
 
 call_latex_start_arguments=('count_a_column' ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename})
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 ##cohort_count=${working_dir}/cohort_sessions_count.csv
 ###echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT" >${cohort_count}
 ###echo "WASHU,," >> ${cohort_count}

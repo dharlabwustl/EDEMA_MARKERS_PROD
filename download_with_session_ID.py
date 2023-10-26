@@ -1500,7 +1500,7 @@ def get_latest_file_SAH(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
     allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-14:-4]
     allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
-    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%d_%m_%Y', errors='coerce')
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%m_%d_%Y', errors='coerce')
     allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
     # print(allfileswithprefix1_df["DATETIME"])
     allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)

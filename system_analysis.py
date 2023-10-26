@@ -13,7 +13,20 @@ import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
-
+def combinecsvs_with_a_given_suffix(args):
+    inputdirectory=args.stuff[1]
+    outputdirectory=args.stuff[2]
+    outputfilename=args.stuff[3]
+    suffix=args.stuff[4]
+    outputfilepath=os.path.join(outputdirectory,outputfilename)
+    extension = 'csv'
+    all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'{}*.{}'.format(suffix,extension)))]
+    #    os.chdir(inputdirectory)
+    #combine all files in the list
+    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    combined_csv = combined_csv.drop_duplicates()
+    #export to csv
+    combined_csv.to_csv(outputfilepath, index=False, encoding='utf-8-sig')
 def count_a_column(args):
     csvfile_analysis=args.stuff[1]
     column_to_be_counted_in_analysis=args.stuff[2]

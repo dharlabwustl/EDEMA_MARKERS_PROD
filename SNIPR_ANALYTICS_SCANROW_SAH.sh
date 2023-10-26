@@ -73,39 +73,39 @@ copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 counter=0
 dir_to_save=${output_directory}
-#
-#while IFS=',' read -ra array; do
-#  echo array::${array[3]}
-#  pdf_file_location=${array[3]}
-#  csv_file_location=${array[4]}
-#  n_pdffilename_length=${#pdf_file_location}
-#  echo ${n_pdffilename_length}
-#  if [ ${n_pdffilename_length} -gt 1 ]; then
-#    resource_dirname_at_snipr='SAH_RESULTS_PDF'
-#    output_filename=$(basename ${pdf_file_location})
-#    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
-#    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#    copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${output_filename}
-#    counter=$((counter + 1))
+
+while IFS=',' read -ra array; do
+  echo array::${array[3]}
+  pdf_file_location=${array[3]}
+  csv_file_location=${array[4]}
+  n_pdffilename_length=${#pdf_file_location}
+  echo ${n_pdffilename_length}
+  if [ ${n_pdffilename_length} -gt 1 ]; then
+    resource_dirname_at_snipr='SAH_RESULTS_PDF'
+    output_filename=$(basename ${pdf_file_location})
+    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
+    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+    copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${output_filename}
+    counter=$((counter + 1))
+  fi
+  n_csvfilename_length=${#csv_file_location}
+  echo ${n_csvfilename_length}
+  if [ ${n_csvfilename_length} -gt 1 ]; then
+    csv_output_filename=$(basename ${csv_file_location})
+    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${csv_file_location} ${csv_output_filename} ${dir_to_save})
+    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+  fi
+
+#  if [ $counter -eq 2 ]; then
+#    break
 #  fi
-#  n_csvfilename_length=${#csv_file_location}
-#  echo ${n_csvfilename_length}
-#  if [ ${n_csvfilename_length} -gt 1 ]; then
-#    csv_output_filename=$(basename ${csv_file_location})
-#    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${csv_file_location} ${csv_output_filename} ${dir_to_save})
-#    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#  fi
+done < <(tail -n +2 "${copy_session}")
 #
-##  if [ $counter -eq 2 ]; then
-##    break
-##  fi
-#done < <(tail -n +2 "${copy_session}")
-##
-#csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
-#echo "CSV_FILENAMES" > ${csvfile_list}
-#for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> ${csvfile_list} ; done
-#combined_metrics_results="${working_dir}/COMBINED_SESSIONS_SAH_METRICS_${time_now}.csv"
-#combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${combined_metrics_results} )
-#outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
-#resource_dirname_at_snipr='SAH_RESULTS_CSV'
-#copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
+csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
+echo "CSV_FILENAMES" > ${csvfile_list}
+for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> ${csvfile_list} ; done
+combined_metrics_results="${working_dir}/COMBINED_SESSIONS_SAH_METRICS_${time_now}.csv"
+combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${combined_metrics_results} )
+outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
+resource_dirname_at_snipr='SAH_RESULTS_CSV'
+copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})

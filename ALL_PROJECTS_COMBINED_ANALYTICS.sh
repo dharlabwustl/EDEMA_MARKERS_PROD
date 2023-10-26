@@ -203,7 +203,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 cohort_count=${working_dir}/cohort_sessions_count.csv
 echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT"> ${cohort_count}
 column_name='WASHU_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*WashUsessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
 column_value_1=$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
@@ -213,7 +213,7 @@ echo "WASHU,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='COLISEUM_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*COLIsessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
 column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
@@ -233,7 +233,7 @@ echo "ICH,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='MGBBMC_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
 column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))

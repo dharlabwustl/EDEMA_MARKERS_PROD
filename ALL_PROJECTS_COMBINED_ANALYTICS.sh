@@ -122,60 +122,60 @@ for x in $(seq 0 1 $((arguments_count - 1))); do
     if [ ${project_ID} == "COLI" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "COLI_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       echo ${outputfiles_present}
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231003124834" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "WashU" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "WashU_EDEMA_BIOMARKERS_COMBINED_20230912002214" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "WashU_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20230912002214" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "MGBBMC" ]; then
       resource_dir="EDEMA_BIOMARKER_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "MGBBMC_EDEMA_BIOMARKERS_COMBINED_20231009173614_modified_20231016200619" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "MGBBMC_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS_TEST"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_20231009173614" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_ANALYTICS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
     elif [ ${project_ID} == "SAH" ]; then
       resource_dir="SAH_RESULTS_CSV"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "COMBINED_SESSIONS_SAH_METRICS_20231020185756" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "COMBINED_SESSIONS_SAH_METRICS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SAH_SESSION_PROCESSING_ANALYTICS"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS_20231023214156" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 
     elif [ ${project_ID} == "ICH" ]; then
       resource_dir="ICH_QUANTIFICATIONPDF"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${dir_to_receive_the_data}
       resource_dir="SNIPR_ANALYTICS"
       file_path_csv=${analytics_file_dir}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata' ${URI} ${resource_dir} ".csv" "ICH_CTSESSIONS_202305222109" ${file_path_csv})
+      get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "ICH_CTSESSIONS_" ${file_path_csv})
       outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
       download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
     fi

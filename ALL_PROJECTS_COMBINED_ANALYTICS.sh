@@ -211,7 +211,7 @@ column_name="SESSION_COUNT"                                                     
 csvfilename_output=${cohort_count}                                                                #args.stuff[6]
 echo csvfilename_input::${csvfilename_input}
 call_latex_start_arguments=('create_empty_csvfile' ${cohort_count} ) ##${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})
-#outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #call_latex_start_arguments=('non_numerical_val_counter' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})
 #outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #call_latex_start_arguments=('non_numerical_val_counter' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${identifier_column_value_inoutput} ${column_name} ${csvfilename_output})

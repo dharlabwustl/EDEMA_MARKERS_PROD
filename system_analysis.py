@@ -271,7 +271,6 @@ def main():
     args = parser.parse_args()
     return_value=0
     globals()[args.stuff[0]](args)
-    subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(xx) ,shell=True )
     return return_value
 if __name__ == '__main__':
     main()

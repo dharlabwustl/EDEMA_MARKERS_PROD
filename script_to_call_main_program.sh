@@ -166,3 +166,14 @@ then
     /software/csf_compartments_vols_N_display_Oct24_2023.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 29 ]] ;
+then
+      PROJECT_ID=${1}
+    /software/SNIPR_ANALYTICS_SESSION_ONLY_ICH.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+if [[ ${TYPE_OF_PROGRAM} == 30 ]] ;
+then
+      PROJECT_ID=${1}
+    /software/SNIPR_ANALYTICS_SCANROW_ICH.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+

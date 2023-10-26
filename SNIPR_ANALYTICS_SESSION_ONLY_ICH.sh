@@ -65,7 +65,7 @@ while IFS=',' read -ra array; do
   if [ ${array[4]} == "xnat:ctSessionData" ]; then
     echo "${array[1]}"
     echo "${array[5]}"
-    call_fill_sniprsession_list_arguments=('fill_sniprsession_list_SAH' ${copy_session} ${array[1]}) ##
+    call_fill_sniprsession_list_arguments=('fill_sniprsession_list_ICH' ${copy_session} ${array[1]}) ##
     ## ${working_dir}/${project_ID}_SNIPER_ANALYTICS.csv  ${project_ID} ${output_directory} )
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
     #call_creat_analytics_onesessionscanasID_arguments=('call_creat_analytics_onesessionscanasID' ${array[1]} ${array[5]} ${scan_analytics}  ${scan_analytics_nofilename})

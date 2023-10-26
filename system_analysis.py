@@ -14,6 +14,18 @@ import argparse
 from utilities_simple import *
 from download_with_session_ID import *
 
+def analysis_files_count(args):
+    csvfile_analysis=args.stuff[1]
+    column_to_be_counted_in_analysis=args.stuff[2]
+    csvfile_results=args.stuff[3]
+    column_to_be_counted_in_result=args.stuff[4]
+    outputcsvfilename=args.stuff[5]
+    csvfile_results_df=pd.read_csv(csvfile_results)
+    csvfile_analysis_df=pd.read_csv(csvfile_analysis)
+    sess_result_count_df=pd.DataFrame([csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum(),csvfile_results_df[str(column_to_be_counted_in_result)].notnull().sum()])
+    sess_result_count_df.columns=['SESSIONS_COUNT','RESULTS_COUNT']
+    sess_result_count_df.to_csv(outputcsvfilename,index=False)
+
 def non_numerical_val_counter(args):
 
     try:

@@ -19,10 +19,10 @@ def non_numerical_val_counter(args):
     try:
         csvfilename_input=args.stuff[1]
         column_to_be_counted=args.stuff[2]
-        identifier_column_name_inoutput=args.stuff[2]
-        identifier_column_value_inoutput=args.stuff[3]
-        column_name=args.stuff[4]
-        csvfilename_output=args.stuff[5]
+        identifier_column_name_inoutput=args.stuff[3]
+        identifier_column_value_inoutput=args.stuff[4]
+        column_name=args.stuff[5]
+        csvfilename_output=args.stuff[6]
         csvfilename_df=pd.read_csv(csvfilename_input)
         # csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
         # csvfilename_df.columns=csvfilename_df.columns.str.replace(' ','_')

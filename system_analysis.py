@@ -22,7 +22,7 @@ def count_gt_min_in_a_column(args):
         identifier_column_name_inoutput=args.stuff[2]
         identifier_column_value_inoutput=args.stuff[3]
         column_name=args.stuff[4]
-        csvfilename_output=args.stuff[6]
+        csvfilename_output=args.stuff[5]
         csvfilename_df=pd.read_csv(csvfilename_input)
         csvfilename_output_df=pd.read_csv(csvfilename_output)
         column_value_df=csvfilename_df[csvfilename_df[str(column_to_be_counted)]>=np.min(column_to_be_counted)]

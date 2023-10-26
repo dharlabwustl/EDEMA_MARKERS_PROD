@@ -201,8 +201,8 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 ###################
 cohort_count=${working_dir}/cohort_sessions_count.csv
 echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT" >${cohort_count}
-echo "WASHU,," >${cohort_count}
-echo "SAH,," >${cohort_count}
+echo "WASHU,," >> ${cohort_count}
+echo "SAH,," >>${cohort_count}
 csvfilename_input=$(ls ${working_dir}/*WashUsessions_ANALYTICS_*.csv)
 column_to_be_counted="ID"                                                                 #args.stuff[2]
 identifier_column_name_inoutput="COHORT_NAME"                                                     #args.stuff[2]

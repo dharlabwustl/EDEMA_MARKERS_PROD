@@ -204,89 +204,89 @@ cohort_count=${working_dir}/cohort_sessions_count.csv
 echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT"> ${cohort_count}
 column_name='WASHU_SESSIONS_COUNT'
 
-call_latex_start_arguments=('write_single_data_incsv_withknown_id' ${latexfilename})
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#column_value=$(cat ${working_dir}/*WashUsessions_ANALYTICS_*.csv | wc -l )
-#column_value=$(( column_value -1 ))
-#column_value_1=$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
-#column_value_1=$(( column_value_1 -1 ))
-#call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#echo "WASHU,${column_value},${column_value_1}">> ${cohort_count}
-######################
-####################
-#column_name='COLISEUM_SESSIONS_COUNT'
-#column_value=$(cat ${working_dir}/*COLIsessions_ANALYTICS_*.csv | wc -l )
-#column_value=$(( column_value -1 ))
-#column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
-#column_value_1=$(( column_value_1 -1 ))
-#call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#echo "COLISEUM,${column_value},${column_value_1}">> ${cohort_count}
-######################
-####################
-#column_name='ICH_SESSIONS_COUNT'
-#column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_*.csv | wc -l )
-#column_value=$(( column_value -1 ))
-#column_value_1=$(cat ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
-#column_value_1=$(( column_value_1 -1 ))
-#call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#echo "ICH,${column_value},${column_value_1}">> ${cohort_count}
-######################
-####################
-#column_name='MGBBMC_SESSIONS_COUNT'
-#column_value=$(cat ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv | wc -l )
-#column_value=$(( column_value -1 ))
-#column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
-#column_value_1=$(( column_value_1 -1 ))
-#call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#echo "MGBBMC,${column_value},${column_value_1}">> ${cohort_count}
-######################
-####################
-#column_name='SAH_SESSIONS_COUNT'
-#column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_*.csv | wc -l )
-#column_value=$(( column_value -1 ))
-#column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_*.csv | wc -l )
-#column_value_1=$(( column_value_1 -1 ))
-#call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
-##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-#echo "SAH,${column_value},${column_value_1}">> ${cohort_count}
-#
-#call_latex_start_arguments=('csvtable_on_tex' ${cohort_count} ${latexfilename} )
+#call_latex_start_arguments=('write_single_data_incsv_withknown_id' ${latexfilename})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-######################
-###args.stuff[1]
-#histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
-#column_name="NWU"                                                   #args.stuff[2]
-#output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
-#add_image_to_texfile ${output_image_name_nwu} 0.9
-#column_name="CSF_RATIO"                                                   #args.stuff[2]
-#output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
-#add_image_to_texfile ${output_image_name_nwu} 0.9
-#column_name="ICH_VOLUME"                                                   #args.stuff[2]
-#output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
-#add_image_to_texfile ${output_image_name_nwu} 0.9
-#column_name="ICH_EDEMA_VOLUME"                                                   #args.stuff[2]
-#output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
-#add_image_to_texfile ${output_image_name_nwu} 0.9
-#column_name="SAH_SEG_TOTAL"                                                   #args.stuff[2]
-#output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-#create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
-#add_image_to_texfile ${output_image_name_nwu} 0.9
-#call_latex_end_arguments=('call_latex_end' ${latexfilename})
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-#pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-#pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-##URI="/data/projects/WashU"
-##resource_dirname="ALL_PROJECTS_COMBINED"
-##call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
-##outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-##call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${csvfilename} ${resource_dirname})
-##outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+column_value=$(cat ${working_dir}/*WashUsessions_ANALYTICS_*.csv | wc -l )
+column_value=$(( column_value -1 ))
+column_value_1="" #$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value_1=$(( column_value_1 -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+echo "WASHU,${column_value},${column_value_1}">> ${cohort_count}
+#####################
+###################
+column_name='COLISEUM_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*COLIsessions_ANALYTICS_*.csv | wc -l )
+column_value=$(( column_value -1 ))
+column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value_1="" #$(( column_value_1 -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+echo "COLISEUM,${column_value},${column_value_1}">> ${cohort_count}
+#####################
+###################
+column_name='ICH_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_*.csv | wc -l )
+column_value=$(( column_value -1 ))
+column_value_1=$(cat ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value_1="" #$(( column_value_1 -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+echo "ICH,${column_value},${column_value_1}">> ${cohort_count}
+#####################
+###################
+column_name='MGBBMC_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv | wc -l )
+column_value=$(( column_value -1 ))
+column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value_1="" #$(( column_value_1 -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+echo "MGBBMC,${column_value},${column_value_1}">> ${cohort_count}
+#####################
+###################
+column_name='SAH_SESSIONS_COUNT'
+column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_*.csv | wc -l )
+column_value=$(( column_value -1 ))
+column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_*.csv | wc -l )
+column_value_1="" #$(( column_value_1 -1 ))
+call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+echo "SAH,${column_value},${column_value_1}">> ${cohort_count}
+
+call_latex_start_arguments=('csvtable_on_tex' ${cohort_count} ${latexfilename} )
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#####################
+##args.stuff[1]
+histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
+column_name="NWU"                                                   #args.stuff[2]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+add_image_to_texfile ${output_image_name_nwu} 0.9
+column_name="CSF_RATIO"                                                   #args.stuff[2]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+add_image_to_texfile ${output_image_name_nwu} 0.9
+column_name="ICH_VOLUME"                                                   #args.stuff[2]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+add_image_to_texfile ${output_image_name_nwu} 0.9
+column_name="ICH_EDEMA_VOLUME"                                                   #args.stuff[2]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+add_image_to_texfile ${output_image_name_nwu} 0.9
+column_name="SAH_SEG_TOTAL"                                                   #args.stuff[2]
+output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
+create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+add_image_to_texfile ${output_image_name_nwu} 0.9
+call_latex_end_arguments=('call_latex_end' ${latexfilename})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+#URI="/data/projects/WashU"
+#resource_dirname="ALL_PROJECTS_COMBINED"
+#call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${pdfilename} ${resource_dirname})
+#outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${csvfilename} ${resource_dirname})
+#outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

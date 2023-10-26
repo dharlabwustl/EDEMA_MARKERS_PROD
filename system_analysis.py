@@ -173,7 +173,7 @@ def get_latest_filepath_from_metadata_for_analytics(args):
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
         if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
-        latest_file_df=get_latest_file(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
+        latest_file_df=get_latest_file_for_analytics(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
         latest_file_path=str(latest_file_df.at[0,"URI"])
         latest_file_path_df=pd.DataFrame([latest_file_path])
         latest_file_path_df.columns=['FILE_PATH']

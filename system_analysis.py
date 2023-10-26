@@ -159,6 +159,44 @@ def download_a_singlefile_with_URIString(args):
                 f.write(chunk)
     xnatSession.close_httpsession()
     return zipfilename
+def get_latest_filepath_from_metadata_for_analytics(args):
+    URI=args.stuff[1]
+    resource_dir=args.stuff[2]
+    extension_to_find_list=args.stuff[3]
+    SCAN_URI_NIFTI_FILEPREFIX=args.stuff[4]
+    file_location_csv=args.stuff[5]
+    latest_file_path=""
+    try:
+        metadata=get_resourcefiles_metadata(URI,resource_dir)
+        df_listfile = pd.read_json(json.dumps(metadata))
+        df_listfile.to_csv(os.path.join(os.path.dirname(file_location_csv),"test.csv"),index=False)
+        df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
+            df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
+        latest_file_df=get_latest_file(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
+        latest_file_path=str(latest_file_df.at[0,"URI"])
+        latest_file_path_df=pd.DataFrame([latest_file_path])
+        latest_file_path_df.columns=['FILE_PATH']
+        latest_file_path_df.to_csv(file_location_csv,index=False)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        print(" NO SUCH FILE PRESENT!!")
+        # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
+        # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
+        # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
+        pass
+    return latest_file_path
+
 
 def get_latest_filepath_from_metadata(args):
     URI=args.stuff[1]
@@ -171,6 +209,7 @@ def get_latest_filepath_from_metadata(args):
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile=df_listfile[df_listfile.URI.str.contains(extension_to_find_list)]
+        df_listfile.to_csv(os.path.join(os.path.dirname(file_location_csv),"test.csv"),index=False)
         if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         latest_file_df=get_latest_file(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)

@@ -1443,7 +1443,22 @@ def call_check_if_a_file_exist_in_snipr( args):
         pass
     return  returnvalue
 
+def get_latest_file_for_analytics(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
+    allfileswithprefix1_df=df_listfile
+    # if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
+    #     allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
+    allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
 
+    # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[-16:-4]
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%Y%m%d%H%M', errors='coerce')
+    allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+    # print(allfileswithprefix1_df["DATETIME"])
+    allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
+    x_df=allfileswithprefix1_df.iloc[[0]]
+    return x_df
 
 def get_latest_file(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df=df_listfile

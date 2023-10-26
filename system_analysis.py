@@ -267,7 +267,7 @@ def create_empty_csvfile(args):
     try:
         csvfilename=args.stuff[1]
         # df=pd.DataFrame([1])
-        columns=["ONE","TWO","THREE"]
+        columns=['COHORT_NAME','SESSION_COUNT','RESULTS_COUNT']
         df = pd.DataFrame(columns=columns)
         # df.columns=['TOREMOVE']
         df.to_csv(csvfilename)

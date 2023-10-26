@@ -24,7 +24,7 @@ def count_a_column(args):
     # csvfile_results_df=pd.read_csv(csvfile_results)
     csvfile_analysis_df=pd.read_csv(csvfile_analysis)
     columname_value_count_df=pd.DataFrame([csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()])
-    columname_value_count_df.columns=[cohort_name+'_'+str(column_to_be_counted_in_analysis)]
+    columname_value_count_df.columns=[cohort_name+'_'+str(column_to_be_counted_in_analysis)+'_COUNT']
     # sess_result_count_df=pd.DataFrame([csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum(),csvfile_results_df[str(column_to_be_counted_in_result)].notnull().sum()])
     # sess_result_count_df.columns=['SESSIONS_COUNT','RESULTS_COUNT']
     columname_value_count_df.to_csv(outputcsvfilename,index=False)

@@ -26,7 +26,7 @@ def count_a_column(args):
     csvfile_analysis_df.columns=csvfile_analysis_df.columns.str.strip() #(' ','')
     csvfile_analysis_df.columns=csvfile_analysis_df.columns.str.replace(' ','_')
     columname_value_count_df = pd.DataFrame()
-    columname_value_count_df[str(cohort_name)] = cohort_name
+    columname_value_count_df['COHORT_NAME'] = cohort_name
     columname_value_count_df[str(column_to_be_counted_in_analysis)+'_COUNT'] = csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()
     # columname_value_count_df=pd.DataFrame([[cohort_name],[csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]])
     # columname_value_count_df.columns=['COHORT_NAME',str(column_to_be_counted_in_analysis)+'_COUNT']

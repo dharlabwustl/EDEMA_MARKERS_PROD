@@ -25,8 +25,8 @@ def count_gt_min_in_a_column(args):
         csvfilename_output=args.stuff[6]
         csvfilename_df=pd.read_csv(csvfilename_input)
         csvfilename_output_df=pd.read_csv(csvfilename_output)
-        column_value=csvfilename_df[csvfilename_df[str(column_to_be_counted)]>=np.min(column_to_be_counted)]
-        this_scan_dict={identifier_column_name_inoutput:identifier_column_value_inoutput,column_name:column_value} #+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
+        column_value_df=csvfilename_df[csvfilename_df[str(column_to_be_counted)]>=np.min(column_to_be_counted)]
+        this_scan_dict={identifier_column_name_inoutput:identifier_column_value_inoutput,column_name:column_value_df.shape[0]} #+"_"+str(identifier),"SESSION_ID":columnvalue,"SESSION_LABEL":columnvalue2, "SCAN_ID":str(identifier)} #,"SCAN_TYPE":scan_type,"scan_description":scan_description}
         this_scan_dict_df=pd.DataFrame([this_scan_dict])
         csvfilename_output_df  = pd.concat([csvfilename_output_df,this_scan_dict_df],ignore_index=True)
         csvfilename_output_df.to_csv(csvfilename_output,index=False)

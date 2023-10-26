@@ -67,18 +67,18 @@ download_a_single_file() {
   done < <(tail -n +2 "${file_path_csv}")
 
 }
-create_histogram_and_save(){
-  local column_name=${1} #'ICH_EDEMA_VOLUME'
-  local csvfilename=${2} # args.stuff[2]
+create_histogram_and_save() {
+  local column_name=${1}                      #'ICH_EDEMA_VOLUME'
+  local csvfilename=${2}                      # args.stuff[2]
   local output_image_name_ichedemavolume=${3} #/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
   local histogram_column_ina_csvfile_arguments=('histogram_column_ina_csvfile' ${csvfilename} ${column_name} ${output_image_name_ichedemavolume})
-  local  outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
+  local outputfiles_present=$(python3 system_analysis.py "${histogram_column_ina_csvfile_arguments[@]}")
 
 }
-add_image_to_texfile(){
+add_image_to_texfile() {
   local imagescale=${2} #float(args.stuff[2])
-  local angle='0'        #float(args.stuff[3])
-  local space='1'        #float(args.stuff[4])
+  local angle='0'       #float(args.stuff[3])
+  local space='1'       #float(args.stuff[4])
   local i=0
   local images=()
   images[$i]='call_latex_insertimage_tableNc'
@@ -96,15 +96,14 @@ add_image_to_texfile(){
 
   images[$i]=${1}
   i=$(($i + 1))
-#  images[$i]=${output_image_name_csfratio}
-#  i=$(($i + 1))
+  #  images[$i]=${output_image_name_csfratio}
+  #  i=$(($i + 1))
   outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
   echo outputfiles_present::${outputfiles_present}
   #call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
   outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
 
 }
-
 
 for x in $(seq 0 1 $((arguments_count - 1))); do
   #  echo ${project_ID}
@@ -201,84 +200,93 @@ call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 ###################
 cohort_count=${working_dir}/cohort_sessions_count.csv
-echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT"> ${cohort_count}
+echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT" >${cohort_count}
 column_name='WASHU_SESSIONS_COUNT'
 
 #call_latex_start_arguments=('write_single_data_incsv_withknown_id' ${latexfilename})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-column_value=$(cat ${working_dir}/*WashUsessions_ANALYTICS_*.csv | wc -l )
-column_value=$(( column_value -1 ))
+column_value=$(cat ${working_dir}/*WashUsessions_ANALYTICS_*.csv | wc -l)
+column_value=$((column_value - 1))
 column_value_1="" #$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
-column_value_1=$(( column_value_1 -1 ))
+column_value_1=$((column_value_1 - 1))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-echo "WASHU,${column_value},${column_value_1}">> ${cohort_count}
+echo "WASHU,${column_value},${column_value_1}" >>${cohort_count}
 #####################
 ###################
 column_name='COLISEUM_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*COLIsessions_ANALYTICS_*.csv | wc -l )
-column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*COLIsessions_ANALYTICS_*.csv | wc -l)
+column_value=$((column_value - 1))
+column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l)
 column_value_1="" #$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-echo "COLISEUM,${column_value},${column_value_1}">> ${cohort_count}
+echo "COLISEUM,${column_value},${column_value_1}" >>${cohort_count}
 #####################
 ###################
 column_name='ICH_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_*.csv | wc -l )
-column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_*.csv | wc -l)
+column_value=$((column_value - 1))
+column_value_1=$(cat ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l)
 column_value_1="" #$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-echo "ICH,${column_value},${column_value_1}">> ${cohort_count}
+echo "ICH,${column_value},${column_value_1}" >>${cohort_count}
+csvfilename_input=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
+column_to_be_counted="ICH_VOLUME"                                                                 #args.stuff[2]
+identifier_column_name_inoutput="COHORT_NAME"                                                     #args.stuff[2]
+identifier_column_value_inoutput="ICH"                                                            #args.stuff[3]
+column_name="RESULTS_COUNT"                                                                       #args.stuff[4]
+csvfilename_output=${cohort_count}                                                                #args.stuff[6]
+call_latex_start_arguments=('count_gt_min_in_a_column' ${csvfilename_input} ${column_to_be_counted} ${identifier_column_name_inoutput} ${column_name} ${csvfilename_output})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+
 #####################
 ###################
 column_name='MGBBMC_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv | wc -l )
-column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv | wc -l)
+column_value=$((column_value - 1))
+column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l)
 column_value_1="" #$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-echo "MGBBMC,${column_value},${column_value_1}">> ${cohort_count}
+echo "MGBBMC,${column_value},${column_value_1}" >>${cohort_count}
 #####################
 ###################
 column_name='SAH_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_*.csv | wc -l )
-column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_*.csv | wc -l )
+column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_*.csv | wc -l)
+column_value=$((column_value - 1))
+column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_*.csv | wc -l)
 column_value_1="" #$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-echo "SAH,${column_value},${column_value_1}">> ${cohort_count}
+echo "SAH,${column_value},${column_value_1}" >>${cohort_count}
 
-call_latex_start_arguments=('csvtable_on_tex' ${cohort_count} ${latexfilename} )
+call_latex_start_arguments=('csvtable_on_tex' ${cohort_count} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 #####################
 ##args.stuff[1]
 histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${histogram_column_ina_csvfile_arguments[@]}")
-column_name="NWU"                                                   #args.stuff[2]
+column_name="NWU"                                                                          #args.stuff[2]
 output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+create_histogram_and_save ${column_name} ${csvfilename} ${output_image_name_nwu}
 add_image_to_texfile ${output_image_name_nwu} 0.9
-column_name="CSF_RATIO"                                                   #args.stuff[2]
+column_name="CSF_RATIO"                                                                    #args.stuff[2]
 output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+create_histogram_and_save ${column_name} ${csvfilename} ${output_image_name_nwu}
 add_image_to_texfile ${output_image_name_nwu} 0.9
-column_name="ICH_VOLUME"                                                   #args.stuff[2]
+column_name="ICH_VOLUME"                                                                   #args.stuff[2]
 output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+create_histogram_and_save ${column_name} ${csvfilename} ${output_image_name_nwu}
 add_image_to_texfile ${output_image_name_nwu} 0.9
-column_name="ICH_EDEMA_VOLUME"                                                   #args.stuff[2]
+column_name="ICH_EDEMA_VOLUME"                                                             #args.stuff[2]
 output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+create_histogram_and_save ${column_name} ${csvfilename} ${output_image_name_nwu}
 add_image_to_texfile ${output_image_name_nwu} 0.9
-column_name="SAH_SEG_TOTAL"                                                   #args.stuff[2]
+column_name="SAH_SEG_TOTAL"                                                                #args.stuff[2]
 output_image_name_nwu=${working_dir}/$(echo ${column_name} | sed 's/ //g')"_HISTOGRAM.png" #args.stuff[3]
-create_histogram_and_save  ${column_name} ${csvfilename} ${output_image_name_nwu}
+create_histogram_and_save ${column_name} ${csvfilename} ${output_image_name_nwu}
 add_image_to_texfile ${output_image_name_nwu} 0.9
 call_latex_end_arguments=('call_latex_end' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")

@@ -215,7 +215,13 @@ cohort_name="WASHU" #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${working_dir}/*WashUsessions_ANALYTICS_*.csv) #args.stuff[1]
+csvfile_analysis=$(ls ${working_dir}/*COLIsessions_ANALYTICS_*.csv) #args.stuff[1]
+column_to_be_counted_in_analysis="ID" #args.stuff[2]
+cohort_name="WASHU" #args.stuff[3]
+outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
+count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
+
+csvfile_analysis=$(ls ${working_dir}/*COLIsessions_ANALYTICS_*.csv) #args.stuff[1]
 column_to_be_counted_in_analysis="ID" #args.stuff[2]
 cohort_name="WASHU" #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]

@@ -203,9 +203,9 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 cohort_count=${working_dir}/cohort_sessions_count.csv
 echo "COHORT_NAME,SESSION_COUNT,RESULTS_COUNT"> ${cohort_count}
 column_name='WASHU_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20230912002214*.csv | wc -l )
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_20230912002214*.csv | wc -l )
+column_value_1=$(cat ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
@@ -213,9 +213,9 @@ echo "WASHU,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='COLISEUM_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20231003124834*.csv | wc -l )
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_20231003124834*.csv | wc -l )
+column_value_1=$(cat ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
@@ -223,7 +223,7 @@ echo "COLISEUM,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='ICH_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_202305222109*.csv | wc -l )
+column_value=$(cat ${working_dir}/*ICH_CTSESSIONS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
 column_value_1=$(cat ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
@@ -233,9 +233,9 @@ echo "ICH,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='MGBBMC_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_ANALYTICS_20231009173614*.csv | wc -l )
+column_value=$(cat ${working_dir}/*sessions_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_20231009173614_modified_20231016200619*.csv | wc -l )
+column_value_1=$(cat ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
@@ -243,9 +243,9 @@ echo "MGBBMC,${column_value},${column_value_1}">> ${cohort_count}
 #####################
 ###################
 column_name='SAH_SESSIONS_COUNT'
-column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_20231023214156*.csv | wc -l )
+column_value=$(cat ${working_dir}/*sessions_SAH_ANALYTICS_*.csv | wc -l )
 column_value=$(( column_value -1 ))
-column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_20231020185756*.csv | wc -l )
+column_value_1=$(cat ${dir_to_receive_the_data}/*COMBINED_SESSIONS_SAH_METRICS_*.csv | wc -l )
 column_value_1=$(( column_value_1 -1 ))
 call_latex_start_arguments=('write_a_col_on_tex' ${latexfilename} ${column_name} ${column_value})
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")

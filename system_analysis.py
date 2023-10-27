@@ -26,7 +26,7 @@ def combinecsvs_with_a_given_suffix(args):
             merged_df.loc[merged_df[list(merged_df.columns)[0]]==df[list(df.columns)[0]][0], list(df.columns)[1]] = df[list(df.columns)[1]][0]
         else:
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
-    combined_csv = merged_df.drop_duplicates() #.T
+    combined_csv = merged_df.drop_duplicates().T
     combined_csv.loc[-1] = combined_csv.columns
     combined_csv = combined_csv.sort_index().reset_index(drop=True)
     # combined_csv.columns = combined_csv.iloc[0]

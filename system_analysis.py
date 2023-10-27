@@ -20,7 +20,7 @@ def bar_chart_a_table(args):
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
     csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
     # csvfilename_df.replace(np.nan,0)
-    ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0) #,width=3) #figsize=(3,5),
+    ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0).legend(fontsize=8, loc="upper right") #,width=3) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     # for p in ax.patches:
     #     ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))

@@ -20,7 +20,7 @@ def combinecsvs_with_a_given_suffix(args):
     all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(suffix)))]
     #    os.chdir(inputdirectory)
     #combine all files in the list
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ], ignore_index=True)
+    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ], ignore_index=False)
     combined_csv = combined_csv.drop_duplicates()
     #export to csv
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')

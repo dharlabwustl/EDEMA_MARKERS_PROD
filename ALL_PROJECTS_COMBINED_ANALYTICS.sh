@@ -41,11 +41,11 @@ from download_with_session_ID import *;
 uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
-count_values_in_a_column(){
-  local csvfile_analysis=${1} #$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
+count_values_in_a_column() {
+  local csvfile_analysis=${1}                 #$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
   local column_to_be_counted_in_analysis=${2} #"CSF_RATIO" #args.stuff[2]
-  local cohort_name=${3} #"WASHU" #args.stuff[3]
-  local outputcsvfilename=${4} #"${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
+  local cohort_name=${3}                      #"WASHU" #args.stuff[3]
+  local outputcsvfilename=${4}                #"${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
   local call_latex_start_arguments=('count_a_column' ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename})
   local outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 
@@ -209,111 +209,106 @@ latexfilename=${latexfilename_prefix}_histograms_${time_now}.tex
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 ###################
-csvfile_analysis=$(ls ${working_dir}/*WashUsessions_ANALYTICS_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ID" #args.stuff[2]
-cohort_name="WASHU" #args.stuff[3]
+csvfile_analysis=$(ls ${working_dir}/*WashUsessions_ANALYTICS_*.csv)                                  #args.stuff[1]
+column_to_be_counted_in_analysis="ID"                                                                 #args.stuff[2]
+cohort_name="WASHU"                                                                                   #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${working_dir}/*COLIsessions_ANALYTICS_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ID" #args.stuff[2]
-cohort_name="COLI" #args.stuff[3]
+csvfile_analysis=$(ls ${working_dir}/*COLIsessions_ANALYTICS_*.csv)                                   #args.stuff[1]
+column_to_be_counted_in_analysis="ID"                                                                 #args.stuff[2]
+cohort_name="COLI"                                                                                    #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ID" #args.stuff[2]
-cohort_name="MGBBMC" #args.stuff[3]
+csvfile_analysis=$(ls ${working_dir}/*MGBBMCsessions_ANALYTICS_*.csv)                                 #args.stuff[1]
+column_to_be_counted_in_analysis="ID"                                                                 #args.stuff[2]
+cohort_name="MGBBMC"                                                                                  #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${working_dir}/*SAHsessions_SAH_ANALYTICS_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ID" #args.stuff[2]
-cohort_name="SAH" #args.stuff[3]
+csvfile_analysis=$(ls ${working_dir}/*SAHsessions_SAH_ANALYTICS_*.csv)                                #args.stuff[1]
+column_to_be_counted_in_analysis="ID"                                                                 #args.stuff[2]
+cohort_name="SAH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${working_dir}/*ICHICH_CTSESSIONS_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ID" #args.stuff[2]
-cohort_name="ICH" #args.stuff[3]
+csvfile_analysis=$(ls ${working_dir}/*ICHICH_CTSESSIONS_*.csv)                                        #args.stuff[1]
+column_to_be_counted_in_analysis="ID"                                                                 #args.stuff[2]
+cohort_name="ICH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="NWU" #args.stuff[2]
-cohort_name="WASHU" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv)              #args.stuff[1]
+column_to_be_counted_in_analysis="NWU"                                                                #args.stuff[2]
+cohort_name="WASHU"                                                                                   #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
-cohort_name="WASHU" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv)              #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO"                                                          #args.stuff[2]
+cohort_name="WASHU"                                                                                   #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="NWU" #args.stuff[2]
-cohort_name="COLI" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv)               #args.stuff[1]
+column_to_be_counted_in_analysis="NWU"                                                                #args.stuff[2]
+cohort_name="COLI"                                                                                    #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
-cohort_name="COLI" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*COLI_EDEMA_BIOMARKERS_COMBINED_*.csv)               #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO"                                                          #args.stuff[2]
+cohort_name="COLI"                                                                                    #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="NWU" #args.stuff[2]
-cohort_name="MGBBMC" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv)             #args.stuff[1]
+column_to_be_counted_in_analysis="NWU"                                                                #args.stuff[2]
+cohort_name="MGBBMC"                                                                                  #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
-cohort_name="MGBBMC" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*MGBBMC_EDEMA_BIOMARKERS_COMBINED_*.csv)             #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO"                                                          #args.stuff[2]
+cohort_name="MGBBMC"                                                                                  #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ICH_VOLUME" #args.stuff[2]
-cohort_name="ICH" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv)      #args.stuff[1]
+column_to_be_counted_in_analysis="ICH_VOLUME"                                                         #args.stuff[2]
+cohort_name="ICH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="ICH_EDEMA_VOLUME" #args.stuff[2]
-cohort_name="ICH" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv)      #args.stuff[1]
+column_to_be_counted_in_analysis="ICH_EDEMA_VOLUME"                                                   #args.stuff[2]
+cohort_name="ICH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
-cohort_name="ICH" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_COMBINED_*.csv)      #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO"                                                          #args.stuff[2]
+cohort_name="ICH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*SAH*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="CSF_RATIO" #args.stuff[2]
-cohort_name="SAH" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*SAH*.csv)                                           #args.stuff[1]
+column_to_be_counted_in_analysis="CSF_RATIO"                                                          #args.stuff[2]
+cohort_name="SAH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-csvfile_analysis=$(ls ${dir_to_receive_the_data}/*SAH*.csv) #args.stuff[1]
-column_to_be_counted_in_analysis="SAH_SEG_TOTAL" #args.stuff[2]
-cohort_name="SAH" #args.stuff[3]
+csvfile_analysis=$(ls ${dir_to_receive_the_data}/*SAH*.csv)                                           #args.stuff[1]
+column_to_be_counted_in_analysis="SAH_SEG_TOTAL"                                                      #args.stuff[2]
+cohort_name="SAH"                                                                                     #args.stuff[3]
 outputcsvfilename_washu="${working_dir}/${cohort_name}_${column_to_be_counted_in_analysis}_count.csv" #args.stuff[4]
 count_values_in_a_column ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu}
 
-working_directory=sys.argv[1]
-working_directory_tocombinecsv=sys.argv[2]
-extension=sys.argv[3]
-outputfilename=sys.argv[4]
-
-
-call_latex_start_arguments=('call_combine_all_csvfiles_of_edema_biomarker' ${csvfile_analysis} ${column_to_be_counted_in_analysis} ${cohort_name} ${outputcsvfilename_washu})
+inputdirectory=${working_dir}                               #args.stuff[1]
+outputfilename=${working_dir}/ALL_COHORT_COUNT_COMBINED.csv #args.stuff[2]
+suffix='_count.csv'                                         #args.stuff[3]
+call_latex_start_arguments=('combinecsvs_with_a_given_suffix' ${inputdirectory} ${outputfilename} ${suffix})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
 #column_to_be_counted_in_analysis="NWU" #args.stuff[2]

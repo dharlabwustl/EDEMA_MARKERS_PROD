@@ -27,23 +27,23 @@ def combinecsvs_with_a_given_suffix(args):
         else:
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
     combined_csv = merged_df.drop_duplicates()
-    column_names=combined_csv.columns
-    # combined_csv.loc[-1] = combined_csv.columns
-    # combined_csv = combined_csv.sort_index().reset_index(drop=True)
-    # combined_csv = merged_df.drop_duplicates().T
-    # # combined_csv.columns = combined_csv.iloc[0]
-    # # combined_csv = combined_csv[1:]
-    combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
-    combined_csv=combined_csv.T
-    combined_csv.set_index=list(column_names)
-    combined_csv.columns = combined_csv.iloc[0]
-    combined_csv = combined_csv[1:]
-    # combined_csv.rename(columns = {'Unnamed: 0':'DATA TYPE'}, inplace = True)
-    combined_csv.index.name = 'DATA TYPE'
-    # combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
-    #export to csv
+    # column_names=combined_csv.columns
+    # # combined_csv.loc[-1] = combined_csv.columns
+    # # combined_csv = combined_csv.sort_index().reset_index(drop=True)
+    # # combined_csv = merged_df.drop_duplicates().T
+    # # # combined_csv.columns = combined_csv.iloc[0]
+    # # # combined_csv = combined_csv[1:]
+    # combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
+    # combined_csv=combined_csv.T
+    # combined_csv.set_index=list(column_names)
+    # combined_csv.columns = combined_csv.iloc[0]
+    # combined_csv = combined_csv[1:]
+    # # combined_csv.rename(columns = {'Unnamed: 0':'DATA TYPE'}, inplace = True)
+    # combined_csv.index.name = 'DATA TYPE'
+    # # combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
+    # #export to csv
     combined_csv.replace(np.nan, '')
-    combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
+    combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def transpose_a_table(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]

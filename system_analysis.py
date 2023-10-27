@@ -20,9 +20,8 @@ def bar_chart_a_table(args):
     csvfilename_df.replace(np.nan,0)
     ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],figsize=(13,23),rot=0)
     ax.set_ylabel("COUNT")
-    # for container in ax.containers:
-    #     ax.bar_label(container)
-
+    for p in ax.patches:
+        ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
     fig = ax.get_figure()
 
     fig.savefig(output_image_name)

@@ -21,8 +21,9 @@ def combinecsvs_with_a_given_suffix(args):
     #    os.chdir(inputdirectory)
     #combine all files in the list
     combined_csv=pd.read_csv(all_filenames[0])
+
     for each_file in all_filenames:
-        combined_csv = pd.merge(combined_csv,pd.read_csv(each_file), how = 'inner', on = 'Key')
+        combined_csv = pd.merge(combined_csv,pd.read_csv(each_file), how = 'inner', on = combined_csv.columns[0])
     # combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ], ignore_index=True)
     combined_csv = combined_csv.drop_duplicates()
     #export to csv

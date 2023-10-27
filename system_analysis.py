@@ -18,7 +18,8 @@ def bar_chart_a_table(args):
     output_image_name=args.stuff[2]
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df.replace(np.nan,0)
-    ax = csvfilename_df.plot.bar(rot=0)
+    ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
+    # ax = df.plot.bar(x='lifespan', rot=0)
     fig = ax.get_figure()
 
     fig.savefig(output_image_name)

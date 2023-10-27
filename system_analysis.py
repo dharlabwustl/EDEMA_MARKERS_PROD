@@ -26,9 +26,16 @@ def combinecsvs_with_a_given_suffix(args):
             merged_df.loc[merged_df[list(merged_df.columns)[0]]==df[list(df.columns)[0]][0], list(df.columns)[1]] = df[list(df.columns)[1]][0]
         else:
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
-    combined_csv = merged_df.drop_duplicates()
+    combined_csv = merged_df.drop_duplicates().T
     #export to csv
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
+def transpose_a_table(args):
+    csvfilename=args.stuff[1]
+    csvfilename_df=pd.read_csv(csvfilename)
+    values_in_table=[]
+    # col_names=csvfilename_df.columns
+    # for x in range(0,col_names.shape[0]):
+    #     values_in_table.append([(str(col_names[x])).replace("_"," "),(str(csvfilename_df[])).replace("_","")])
 def rename_one_column(args):
     csvfilename=args.stuff[1]
     columnname=args.stuff[2]

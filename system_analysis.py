@@ -17,7 +17,7 @@ def bar_chart_a_table(args):
     csvfilename=args.stuff[1]
     output_image_name=args.stuff[2]
     csvfilename_df=pd.read_csv(csvfilename)
-    # csvfilename_df.replace(np.nan,0)
+    csvfilename_df.replace(np.nan,-)
     ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     for p in ax.patches:

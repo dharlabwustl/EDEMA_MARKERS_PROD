@@ -321,9 +321,9 @@ outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@
 call_latex_start_arguments=('transpose_a_table' ${outputfilename} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 
-call_latex_start_arguments=('bar_chart_a_table' ${outputfilename} ${outputfilename%.csv}_hist.png)
+call_latex_start_arguments=('bar_chart_a_table' ${outputfilename} ${outputfilename%.csv}_barplot.png)
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
-add_image_to_texfile ${outputfilename%.csv}_hist.png 0.9
+add_image_to_texfile ${outputfilename%.csv}_barplot.png 0.9
 call_latex_start_arguments=('csvtable_on_tex' ${outputfilename} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 #######################

@@ -33,7 +33,7 @@ def combinecsvs_with_a_given_suffix(args):
     # combined_csv = merged_df.drop_duplicates().T
     # # combined_csv.columns = combined_csv.iloc[0]
     # # combined_csv = combined_csv[1:]
-    # combined_csv.set_index=list(column_names)
+    combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
     #export to csv
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def transpose_a_table(args):

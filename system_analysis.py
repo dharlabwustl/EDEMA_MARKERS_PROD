@@ -40,6 +40,7 @@ def combinecsvs_with_a_given_suffix(args):
     combined_csv = combined_csv[1:]
     combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
     #export to csv
+    combined_csv.replace(np.nan, '')
     combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 def transpose_a_table(args):
     csvfilename=args.stuff[1]

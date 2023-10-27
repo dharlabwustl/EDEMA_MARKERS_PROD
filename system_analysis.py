@@ -38,6 +38,7 @@ def combinecsvs_with_a_given_suffix(args):
     combined_csv.set_index=list(column_names)
     combined_csv.columns = combined_csv.iloc[0]
     combined_csv = combined_csv[1:]
+    combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
     #export to csv
     combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 def transpose_a_table(args):

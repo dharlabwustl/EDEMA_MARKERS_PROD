@@ -29,6 +29,15 @@ def combinecsvs_with_a_given_suffix(args):
     combined_csv = merged_df.drop_duplicates()
     #export to csv
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
+def rename_one_column(args):
+    csvfilename=args.stuff[1]
+    columnname=args.stuff[2]
+    new_name=args.stuff[3]
+    csvfilename_edited=args.stuff[4]
+    csvfilename_df=pd.read_csv(csvfilename)
+    if columnname in csvfilename_df.columns:
+        csvfilename_df.rename(columns={columnname:new_name}, inplace=True)
+    csvfilename_df.to_csv(csvfilename_edited,index=False)
 def count_a_column(args):
     csvfile_analysis=args.stuff[1]
     column_to_be_counted_in_analysis=args.stuff[2]

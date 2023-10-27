@@ -310,6 +310,13 @@ outputfilename=${working_dir}/ALL_COHORT_COUNT_COMBINED.csv #args.stuff[2]
 suffix='_count.csv'                                         #args.stuff[3]
 call_latex_start_arguments=('combinecsvs_with_a_given_suffix' ${inputdirectory} ${outputfilename} ${suffix})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+
+#    csvfilename=args.stuff[1]
+columnname="ID_COUNT"     #args.stuff[2]
+new_name="SESSIONS_COUNT" #args.stuff[3]
+#    csvfilename_edited=args.stuff[4]
+call_latex_start_arguments=('rename_one_column' ${outputfilename} ${columnname} ${new_name} ${outputfilename})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #csvfile_analysis=$(ls ${dir_to_receive_the_data}/*WashU_EDEMA_BIOMARKERS_COMBINED_*.csv) #args.stuff[1]
 #column_to_be_counted_in_analysis="NWU" #args.stuff[2]
 #cohort_name="WASHU" #args.stuff[3]

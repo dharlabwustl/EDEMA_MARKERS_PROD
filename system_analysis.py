@@ -13,6 +13,15 @@ import argparse
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+def bar_chart_a_table(args):
+    csvfilename=args.stuff[1]
+    output_image_name=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df.replace(np.nan,0)
+    ax = csvfilename_df.plot.bar(rot=0)
+    fig = ax.get_figure()
+
+    fig.savefig(output_image_name)
 def combinecsvs_with_a_given_suffix(args):
     inputdirectory=args.stuff[1]
     outputfilename=args.stuff[2]
@@ -27,21 +36,6 @@ def combinecsvs_with_a_given_suffix(args):
         else:
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
     combined_csv = merged_df.drop_duplicates()
-    # column_names=combined_csv.columns
-    # # combined_csv.loc[-1] = combined_csv.columns
-    # # combined_csv = combined_csv.sort_index().reset_index(drop=True)
-    # # combined_csv = merged_df.drop_duplicates().T
-    # # # combined_csv.columns = combined_csv.iloc[0]
-    # # # combined_csv = combined_csv[1:]
-    # combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
-    # combined_csv=combined_csv.T
-    # combined_csv.set_index=list(column_names)
-    # combined_csv.columns = combined_csv.iloc[0]
-    # combined_csv = combined_csv[1:]
-    # # combined_csv.rename(columns = {'Unnamed: 0':'DATA TYPE'}, inplace = True)
-    # combined_csv.index.name = 'DATA TYPE'
-    # # combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
-    # #export to csv
     combined_csv.replace(np.nan, '')
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def transpose_a_table(args):

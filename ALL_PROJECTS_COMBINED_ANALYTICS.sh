@@ -318,6 +318,8 @@ new_name="SESSIONS_COUNT" #args.stuff[3]
 call_latex_start_arguments=('rename_one_column' ${outputfilename} ${columnname} ${new_name} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 
+call_latex_start_arguments=('transpose_a_table' ${outputfilename} ${outputfilename})
+outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('csvtable_on_tex' ${outputfilename} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 #######################

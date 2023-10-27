@@ -38,7 +38,7 @@ def combinecsvs_with_a_given_suffix(args):
     combined_csv.set_index=list(column_names)
     combined_csv.columns = combined_csv.iloc[0]
     combined_csv = combined_csv[1:]
-    combined_csv.rename(columns = {'Unnamed: 0':''}, inplace = True)
+    combined_csv.rename(columns = {'Unnamed: 0':'DATA TYPE'}, inplace = True)
     # combined_csv.drop(combined_csv.filter(regex="Unname"),axis=1, inplace=True)
     #export to csv
     combined_csv.replace(np.nan, '')

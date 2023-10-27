@@ -17,15 +17,16 @@ def combinecsvs_with_a_given_suffix(args):
     inputdirectory=args.stuff[1]
     outputfilename=args.stuff[2]
     suffix=args.stuff[3]
-    all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(suffix)))]
-    #    os.chdir(inputdirectory)
-    #combine all files in the list
-    # combined_csv=pd.read_csv(all_filenames[0])
-
-    # for each_file in all_filenames:
-    #     combined_csv = pd.merge(combined_csv,pd.read_csv(each_file), how='inner',left_on=['COHORT_NAME'],right_on=['COHORT_NAME'])
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ], axis=1)
-    combined_csv = combined_csv.drop_duplicates()
+    f = [i for i in glob.glob(os.path.join(inputdirectory,'*{}'.format(suffix)))]
+    # f=glob.glob("workinginput/*count.csv")
+    merged_df=pd.read_csv(f[0])
+    for x in range(len(f)):
+        df=pd.read_csv(f[x])
+        if df[list(df.columns)[0]][0] in list(merged_df[list(merged_df.columns)[0]]):
+            merged_df.loc[merged_df[list(merged_df.columns)[0]]==df[list(df.columns)[0]][0], list(df.columns)[1]] = df[list(df.columns)[1]][0]
+        else:
+            merged_df=pd.concat([merged_df,df ], ignore_index=True)
+    combined_csv = merged_df.drop_duplicates()
     #export to csv
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def count_a_column(args):

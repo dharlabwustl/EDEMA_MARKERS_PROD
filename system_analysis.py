@@ -24,7 +24,8 @@ def bar_chart_a_table(args):
     ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     for p in ax.patches:
-        ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005), fontsize=3,rotation=90)
+        if p.get_height()>0:
+            ax.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005), fontsize=8,rotation=90)
     fig = ax.get_figure()
 
     fig.savefig(output_image_name)

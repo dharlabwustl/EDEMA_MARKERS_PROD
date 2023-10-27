@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf-8 glpat-4ysoiRvp5V1zUhpniBNV
+# coding: utf-8
 import inspect
 
 # In[1]:

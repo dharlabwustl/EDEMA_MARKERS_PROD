@@ -52,12 +52,12 @@ def combinecsvs_with_a_given_suffix(args):
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
     combined_csv = merged_df.drop_duplicates()
     combined_csv.replace(np.nan, '')
+
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def transpose_a_table(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]
     combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
-    combined_csv.columns=combined_csv.columns.str.replace('_COUNT','')
     column_names=combined_csv.columns
     combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
     combined_csv=combined_csv.T
@@ -90,11 +90,12 @@ def count_a_column(args):
     csvfile_analysis_df.columns=csvfile_analysis_df.columns.str.replace(' ','_')
     columname_value_count_df = pd.DataFrame()
     columname_value_count_df['COHORT_NAME'] = [cohort_name]
-    columname_value_count_df[str(column_to_be_counted_in_analysis)+'_COUNT'] = [csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]
+    columname_value_count_df[str(column_to_be_counted_in_analysis)] = [csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]
     # columname_value_count_df=pd.DataFrame([[cohort_name],[csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]])
     # columname_value_count_df.columns=['COHORT_NAME',str(column_to_be_counted_in_analysis)+'_COUNT']
     # sess_result_count_df=pd.DataFrame([csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum(),csvfile_results_df[str(column_to_be_counted_in_result)].notnull().sum()])
     # sess_result_count_df.columns=['SESSIONS_COUNT','RESULTS_COUNT']
+    # columname_value_count_df.columns=columname_value_count_df.columns.str.replace('_COUNT','')
     columname_value_count_df.to_csv(outputcsvfilename,index=False)
 
 def non_numerical_val_counter(args):

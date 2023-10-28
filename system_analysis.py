@@ -58,6 +58,7 @@ def transpose_a_table(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]
     combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
+    combined_csv.columns=combined_csv.columns.str.replace('_TOTAL','')
     column_names=combined_csv.columns
     combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
     combined_csv=combined_csv.T

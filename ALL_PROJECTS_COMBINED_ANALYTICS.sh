@@ -315,8 +315,8 @@ call_latex_start_arguments=('combinecsvs_with_a_given_suffix' ${inputdirectory} 
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 
 #    csvfilename=args.stuff[1]
-columnname="ID_COUNT"     #args.stuff[2]
-new_name="SESSIONS_COUNT" #args.stuff[3]
+columnname="ID"     #args.stuff[2]
+new_name="SESSIONS" #args.stuff[3]
 #    csvfilename_edited=args.stuff[4]
 call_latex_start_arguments=('rename_one_column' ${outputfilename} ${columnname} ${new_name} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")

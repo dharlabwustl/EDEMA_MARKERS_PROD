@@ -175,10 +175,11 @@ def histogram_column_ina_csvfile(args):
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
-
+        df['TOTAL']=df.sum(axis=1)
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
         df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')
+
         # df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
         # if "SAH" in column_name:
         #     df=df[df[str(column_name)]<=100]

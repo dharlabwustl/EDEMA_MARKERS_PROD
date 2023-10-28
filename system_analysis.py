@@ -67,6 +67,7 @@ def transpose_a_table(args):
     combined_csv.index.name = 'DATA TYPE'
     #export to csv
     combined_csv.replace(np.nan, '')
+    combined_csv['TOTAL']=combined_csv.sum(axis=1)
     combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 def rename_one_column(args):
     csvfilename=args.stuff[1]
@@ -175,7 +176,7 @@ def histogram_column_ina_csvfile(args):
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
-        df['TOTAL']=df.sum(axis=1)
+
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
         df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')

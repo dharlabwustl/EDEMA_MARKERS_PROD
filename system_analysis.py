@@ -52,7 +52,7 @@ def combinecsvs_with_a_given_suffix(args):
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
     combined_csv = merged_df.drop_duplicates()
     combined_csv.replace(np.nan, '')
-    combined_csv['COMBINED']=combined_csv.sum(axis=0)
+
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
 def transpose_a_table(args):
     csvfilename=args.stuff[1]
@@ -68,6 +68,7 @@ def transpose_a_table(args):
     combined_csv.index.name = 'DATA TYPE'
     #export to csv
     combined_csv.replace(np.nan, '')
+    combined_csv['COMBINED']=combined_csv.sum(axis=1)
     combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 def rename_one_column(args):
     csvfilename=args.stuff[1]

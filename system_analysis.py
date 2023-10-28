@@ -173,7 +173,7 @@ def histogram_column_ina_csvfile(args):
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
-        df.columns=df.columns.str.replace('COUNT','')
+        df.columns=df.columns.str.replace('_COUNT','')
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
         df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')

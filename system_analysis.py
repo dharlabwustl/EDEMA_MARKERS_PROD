@@ -57,6 +57,7 @@ def transpose_a_table(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]
     combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
+    combined_csv.columns=combined_csv.columns.str.replace('_COUNT','')
     column_names=combined_csv.columns
     combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
     combined_csv=combined_csv.T
@@ -173,7 +174,7 @@ def histogram_column_ina_csvfile(args):
         df=pd.read_csv(csvfilename)
         df.columns=df.columns.str.strip() #(' ','')
         df.columns=df.columns.str.replace(' ','_')
-        df.columns=df.columns.str.replace('_COUNT','')
+
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
         df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')

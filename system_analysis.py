@@ -59,7 +59,7 @@ def sum_columns(args):
     outputfilename=args.stuff[2]
     combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
     combined_csv['COMBINED']=combined_csv.sum(axis=1)
-    combined_csv.to_csv(outputfilename, index=Fa, encoding='utf-8-sig')
+    combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 
 def transpose_a_table(args):
     csvfilename=args.stuff[1]

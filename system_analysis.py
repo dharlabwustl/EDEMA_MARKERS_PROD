@@ -21,6 +21,7 @@ def bar_chart_a_table(args):
     csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
     # csvfilename_df.replace(np.nan,0)
     csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
+
     # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
     ax = csvfilename_df.plot.bar(alpha=.7, rot=0)
     ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),

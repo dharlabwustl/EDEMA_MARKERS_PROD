@@ -321,8 +321,6 @@ new_name="SESSIONS" #args.stuff[3]
 call_latex_start_arguments=('rename_one_column' ${outputfilename} ${columnname} ${new_name} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 cp ${outputfilename} ${outputfilename%.csv}_copy.csv
-call_latex_start_arguments=('sum_columns' ${outputfilename%.csv}_copy.csv ${outputfilename%.csv}_copy.csv)
-outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('transpose_a_table' ${outputfilename} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 

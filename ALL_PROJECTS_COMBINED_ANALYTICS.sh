@@ -320,10 +320,10 @@ new_name="SESSIONS" #args.stuff[3]
 #    csvfilename_edited=args.stuff[4]
 call_latex_start_arguments=('rename_one_column' ${outputfilename} ${columnname} ${new_name} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
-
+cp ${outputfilename} ${outputfilename%.csv}_copy.csv
 call_latex_start_arguments=('transpose_a_table' ${outputfilename} ${outputfilename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
-cp ${outputfilename} ${outputfilename%.csv}_copy.csv
+
 call_latex_start_arguments=('bar_chart_a_table' ${outputfilename%.csv}_copy.csv ${outputfilename%.csv}_barplot.png)
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 add_image_to_texfile ${outputfilename%.csv}_barplot.png 0.9

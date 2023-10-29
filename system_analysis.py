@@ -38,7 +38,7 @@ def bar_chart_a_column(args):
     output_image_name=args.stuff[3]
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
-    # csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
+    csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
     # csvfilename_df.replace(np.nan,0)
     # csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
 

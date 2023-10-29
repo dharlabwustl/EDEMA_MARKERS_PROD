@@ -32,6 +32,26 @@ def bar_chart_a_table(args):
     fig = ax.get_figure()
 
     fig.savefig(output_image_name)
+def bar_chart_a_column(args):
+    csvfilename=args.stuff[1]
+    column_name=args.stuff[2]
+    output_image_name=args.stuff[3]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
+    # csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
+    # csvfilename_df.replace(np.nan,0)
+    # csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
+
+    # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
+    ax = csvfilename_df[column_name].plot.bar(alpha=.7, rot=0)
+    ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
+    ax.set_ylabel("COUNT")
+    for p in ax.patches:
+        if p.get_height()>0:
+            ax.annotate(str(int(p.get_height())), (p.get_x() * 1.005, p.get_height() * 1.005), fontsize=5,rotation=90)
+    fig = ax.get_figure()
+
+    fig.savefig(output_image_name)
 def remove_space_in_col_name(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]

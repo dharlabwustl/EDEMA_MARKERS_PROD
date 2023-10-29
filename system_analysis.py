@@ -202,7 +202,7 @@ def histogram_column_ina_csvfile(args):
         # #     df=df[df[str(column_name)]<=1]
         #     non_zero_items=non_zero_items[non_zero_items[str(column_name)]<=1.0]
         ##################
-        df=df.set_index(list(df.columns)[0]).T
+        df=df.set_index('DATA TYPE').T
         # ax = df.set_index('name').T.plot.bar(alpha=.7, rot=0, stacked=True)
         ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
         # # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)

@@ -43,7 +43,9 @@ def bar_chart_a_column(args):
     # csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
 
     # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
-    ax = csvfilename_df[column_name].plot.bar(alpha=.7, rot=0)
+    column_df=csvfilename_df[column_name]
+    column_df.set_index(csvfilename_df[list(csvfilename_df.columns)[0]])
+    ax = column_df.plot.bar(alpha=.7, rot=0)
     ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     for p in ax.patches:

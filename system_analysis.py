@@ -20,7 +20,9 @@ def bar_chart_a_table(args):
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
     csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
     # csvfilename_df.replace(np.nan,0)
-    ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
+    csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
+    # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
+    ax = csvfilename_df.plot.bar(alpha=.7, rot=0)
     ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     for p in ax.patches:
@@ -202,8 +204,8 @@ def histogram_column_ina_csvfile(args):
         # #     df=df[df[str(column_name)]<=1]
         #     non_zero_items=non_zero_items[non_zero_items[str(column_name)]<=1.0]
         ##################
-        df=df.set_index('DATA TYPE').T
-        # ax = df.set_index('name').T.plot.bar(alpha=.7, rot=0, stacked=True)
+
+
         ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
         # # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
         # # ax = s.hist()  # s is an instance of Series

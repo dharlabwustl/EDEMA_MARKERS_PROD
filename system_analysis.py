@@ -96,7 +96,7 @@ def transpose_a_table(args):
     combined_csv=combined_csv.T
     combined_csv.set_index=list(column_names)
     combined_csv.columns = combined_csv.iloc[0]
-    combined_csv['COMBINED']=combined_csv.sum(axis=1)
+    # combined_csv['COMBINED']=combined_csv.sum(axis=1)
     combined_csv = combined_csv[1:]
     combined_csv.index.name = 'DATA TYPE'
     #export to csv

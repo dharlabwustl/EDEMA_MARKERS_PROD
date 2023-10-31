@@ -80,14 +80,14 @@ while IFS=',' read -ra array; do
   csv_file_location=${array[4]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}
-#  if [ ${n_pdffilename_length} -gt 1 ]; then
-#    resource_dirname_at_snipr='SAH_RESULTS_PDF'
-#    output_filename=$(basename ${pdf_file_location})
-#    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
-#    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#    copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${output_filename}
-#    counter=$((counter + 1))
-#  fi
+  if [ ${n_pdffilename_length} -gt 1 ]; then
+    resource_dirname_at_snipr='SAH_RESULTS_PDF'
+    output_filename=$(basename ${pdf_file_location})
+    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
+    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+    copysinglefile_to_sniprproject  ${project_ID}  "${dir_to_save}"  ${resource_dirname_at_snipr}  ${output_filename}
+    counter=$((counter + 1))
+  fi
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
   if [ ${n_csvfilename_length} -gt 1 ]; then

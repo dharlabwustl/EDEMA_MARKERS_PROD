@@ -20,32 +20,7 @@ def bar_chart_a_table(args):
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
     csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
     # csvfilename_df.replace(np.nan,0)
-    csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
-
-    # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
-    ax = csvfilename_df.plot.bar(alpha=.7, rot=0)
-    ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
-    ax.set_ylabel("COUNT")
-    for p in ax.patches:
-        if p.get_height()>0:
-            ax.annotate(str(int(p.get_height())), (p.get_x() * 1.005, p.get_height() * 1.005), fontsize=5,rotation=90)
-    fig = ax.get_figure()
-
-    fig.savefig(output_image_name)
-def bar_chart_a_column(args):
-    csvfilename=args.stuff[1]
-    column_name=args.stuff[2]
-    output_image_name=args.stuff[3]
-    csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
-    csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
-    # csvfilename_df.replace(np.nan,0)
-    # csvfilename_df=csvfilename_df.set_index(list(csvfilename_df.columns)[0]).T
-
-    # ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
-    column_df=pd.DataFrame( csvfilename_df[column_name])
-    column_df.set_index(csvfilename_df[list(csvfilename_df.columns)[0]])
-    ax = column_df.plot.bar(alpha=.7, rot=0)
+    ax = csvfilename_df.plot.bar(x=list(csvfilename_df.columns)[0],rot=0)
     ax.legend(fontsize=5, loc="upper right") #,width=3) #figsize=(3,5),
     ax.set_ylabel("COUNT")
     for p in ax.patches:
@@ -77,31 +52,21 @@ def combinecsvs_with_a_given_suffix(args):
             merged_df=pd.concat([merged_df,df ], ignore_index=True)
     combined_csv = merged_df.drop_duplicates()
     combined_csv.replace(np.nan, '')
-
     combined_csv.to_csv(outputfilename, index=False, encoding='utf-8-sig')
-def sum_columns(args):
-    csvfilename=args.stuff[1]
-    outputfilename=args.stuff[2]
-    combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
-    # combined_csv['COMBINED']=combined_csv.sum(axis=1)
-    combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
-
 def transpose_a_table(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]
     combined_csv = pd.read_csv(csvfilename) #merged_df.drop_duplicates()
-    combined_csv.columns=combined_csv.columns.str.replace('_TOTAL','')
+    combined_csv.columns=combined_csv.columns.str.replace('_COUNT','')
     column_names=combined_csv.columns
     combined_csv.set_index=list(combined_csv[list(combined_csv.columns)[0]])
     combined_csv=combined_csv.T
     combined_csv.set_index=list(column_names)
     combined_csv.columns = combined_csv.iloc[0]
-    # combined_csv['COMBINED']=combined_csv.sum(axis=1)
     combined_csv = combined_csv[1:]
     combined_csv.index.name = 'DATA TYPE'
     #export to csv
     combined_csv.replace(np.nan, '')
-
     combined_csv.to_csv(outputfilename, index=True, encoding='utf-8-sig')
 def rename_one_column(args):
     csvfilename=args.stuff[1]
@@ -125,12 +90,11 @@ def count_a_column(args):
     csvfile_analysis_df.columns=csvfile_analysis_df.columns.str.replace(' ','_')
     columname_value_count_df = pd.DataFrame()
     columname_value_count_df['COHORT_NAME'] = [cohort_name]
-    columname_value_count_df[str(column_to_be_counted_in_analysis)] = [csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]
+    columname_value_count_df[str(column_to_be_counted_in_analysis)+'_COUNT'] = [csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]
     # columname_value_count_df=pd.DataFrame([[cohort_name],[csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum()]])
     # columname_value_count_df.columns=['COHORT_NAME',str(column_to_be_counted_in_analysis)+'_COUNT']
     # sess_result_count_df=pd.DataFrame([csvfile_analysis_df[str(column_to_be_counted_in_analysis)].notnull().sum(),csvfile_results_df[str(column_to_be_counted_in_result)].notnull().sum()])
     # sess_result_count_df.columns=['SESSIONS_COUNT','RESULTS_COUNT']
-    # columname_value_count_df.columns=columname_value_count_df.columns.str.replace('_COUNT','')
     columname_value_count_df.to_csv(outputcsvfilename,index=False)
 
 def non_numerical_val_counter(args):
@@ -167,7 +131,7 @@ def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filen
         colname=list(listofcsvfiles_filename_df.columns)[0]
         # masterfile_scans_df=masterfile_scans_df[masterfile_scans_df[column_name_for_url].str.contains(file_extension)] #df["name"].str.contains("Honda")
         for index, row in listofcsvfiles_filename_df.iterrows():
-        # for each_file in listofcsvfiles_filename:
+            # for each_file in listofcsvfiles_filename:
             try:
                 each_file=row[colname]
                 each_file_df=pd.read_csv(each_file)
@@ -214,7 +178,6 @@ def histogram_column_ina_csvfile(args):
         # df[str(column_name)]=pd.to_numeric(df[str(column_name)], errors='coerce')
         # df=df[pd.to_numeric(df[str(column_name)], errors='coerce').notnull()]
         df[str(column_name)]=pd.to_numeric(df[str(column_name)],errors='coerce')
-
         # df[str(column_name)] = df[str(column_name)].astype('str').str.extractall('(\d+)').unstack().fillna('').sum(axis=1).astype(float)
         # if "SAH" in column_name:
         #     df=df[df[str(column_name)]<=100]
@@ -227,8 +190,6 @@ def histogram_column_ina_csvfile(args):
         # #     df=df[df[str(column_name)]<=1]
         #     non_zero_items=non_zero_items[non_zero_items[str(column_name)]<=1.0]
         ##################
-
-
         ax = df[str(column_name)].plot.hist(bins=12, alpha=0.5,color = "blueviolet", lw=0)
         # # ax = df.hist(column=column_name, bins=25, grid=False, figsize=(12,8), color='#86bf91', zorder=2, rwidth=0.9)
         # # ax = s.hist()  # s is an instance of Series

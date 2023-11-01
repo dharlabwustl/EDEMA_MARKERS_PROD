@@ -46,13 +46,13 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     ax.scatter(x, y,color = '#88c999')
 
     # now determine nice limits by hand:
-    binwidth = 0.25
-    xymax = max(np.max(np.abs(x)), np.max(np.abs(y)))
-    lim = (int(xymax / binwidth) + 1) * binwidth
-
-    bins = np.arange(-lim, lim + binwidth, binwidth)
-    ax_histx.hist(x, bins=bins, alpha=0.5,color = "blueviolet")
-    ax_histy.hist(y, bins=bins, orientation='horizontal',alpha=0.5,color = "magenta")
+    # binwidth = 0.25
+    # xymax = max(np.max(np.abs(x)), np.max(np.abs(y)))
+    # lim = (int(xymax / binwidth) + 1) * binwidth
+    #
+    # bins = np.arange(-lim, lim + binwidth, binwidth)
+    ax_histx.hist(x, bins=12, alpha=0.5,color = "blueviolet")
+    ax_histy.hist(y, bins=12, orientation='horizontal',alpha=0.5,color = "magenta")
     fig = ax.get_figure()
 
     fig.savefig(output_image_filename)

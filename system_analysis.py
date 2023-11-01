@@ -48,6 +48,8 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
+    ax.set_xlabel('Volume (ml)')
+    ax.set_ylabel('Volume (ml)')
 
     # now determine nice limits by hand:
     # binwidth = 0.25

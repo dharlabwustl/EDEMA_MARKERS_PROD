@@ -319,7 +319,7 @@ add_image_to_texfile() {
 #outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 nrows=2
 ncols=2
-outputfilename_pkl=$(dirname ${csvfilename_ich})/historgrams.pkl
+outputfilename_pkl=${workingoutput}/historgrams.pkl
 call_latex_start_arguments=('initiate_a_subplot' ${nrows} ${ncols} ${outputfilename_pkl} )
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 

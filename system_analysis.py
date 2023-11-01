@@ -25,6 +25,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     df=df[(df[str(column_name_1)]<=cut_off_value) & (df[str(column_name_2)]<=cut_off_value)]
     x=df[str(column_name_1)]
     y=df[str(column_name_2)]
+    corr_xy=x.corr(y)
     fig = plt.figure(figsize=(6, 6))
 
     # Add a gridspec with two rows and two columns and a ratio of 1 to 4 between
@@ -48,6 +49,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
+    ax.annotate(str(corr_xy),int(x.max()/2),int(y.max()/2))
     ax.set_xlabel('Volume (ml)')
     ax.set_ylabel('Volume (ml)')
 

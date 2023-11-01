@@ -36,7 +36,9 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     # Create the Axes.
     ax = fig.add_subplot(gs[1, 0])
     ax_histx = fig.add_subplot(gs[0, 0], sharex=ax)
+    ax_histx.title.set_text(str(column_name_1))
     ax_histy = fig.add_subplot(gs[1, 1], sharey=ax)
+    ax_histy.title.set_text(str(column_name_2))
     # Draw the scatter plot and marginals.
     # scatter_hist(x, y, ax, ax_histx, ax_histy)
 

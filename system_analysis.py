@@ -22,6 +22,7 @@ def initiate_a_subplot(args):
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols)
     with open(outputfilename, 'wb') as f:  # Python 3: open(..., 'wb')
         pickle.dump([fig, axes], f)
+        pickle.dump([fig, axes], f, pickle.HIGHEST_PROTOCOL)
 def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy):
     csvfilename=args.stuff[1]
     column_name_1=args.stuff[2]

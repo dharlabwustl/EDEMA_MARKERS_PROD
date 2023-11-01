@@ -17,7 +17,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     csvfilename=args.stuff[1]
     column_name_1=args.stuff[2]
     column_name_2=args.stuff[3]
-    cut_off_value=args.stuff[4]
+    cut_off_value=float(args.stuff[4])
     output_image_filename=args.stuff[5]
     df=pd.read_csv(csvfilename)
     df.columns=df.columns.str.strip() #(' ','')

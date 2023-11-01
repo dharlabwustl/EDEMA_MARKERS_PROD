@@ -39,9 +39,9 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     # Create the Axes.
     ax = fig.add_subplot(gs[1, 0])
     ax_histx = fig.add_subplot(gs[0, 0], sharex=ax)
-    ax_histx.title.set_text(str(column_name_1))
+
     ax_histy = fig.add_subplot(gs[1, 1], sharey=ax)
-    ax_histy.title.set_text(str(column_name_2))
+
     # Draw the scatter plot and marginals.
     # scatter_hist(x, y, ax, ax_histx, ax_histy)
 
@@ -63,6 +63,8 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     # bins = np.arange(-lim, lim + binwidth, binwidth)
     ax_histx.hist(x, bins=12, alpha=0.5,color = "blueviolet")
     ax_histy.hist(y, bins=12, orientation='horizontal',alpha=0.5,color = "magenta")
+    ax_histx.title.set_text(str(column_name_1))
+    ax_histy.title.set_text(str(column_name_2))
     fig = ax.get_figure()
 
     fig.savefig(output_image_filename)

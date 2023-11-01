@@ -49,7 +49,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
-    ax.annotate(str(corr_xy),int(x.max()/2),int(y.max()/2))
+    ax.annotate(str(corr_xy),xy=(int(x.max()/2),int(y.max()/2)))
     ax.set_xlabel('Volume (ml)')
     ax.set_ylabel('Volume (ml)')
 

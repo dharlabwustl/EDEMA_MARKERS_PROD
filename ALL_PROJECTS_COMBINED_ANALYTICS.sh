@@ -317,6 +317,7 @@ column_name_2="ICH_EDEMA_VOLUME"                                                
 output_image_filename=$(dirname ${csvfilename_ich})/${column_name_1}_${column_name_2}_scatter_hist.jpg #args.stuff[4]
 call_latex_start_arguments=('scatter_hist' ${csvfilename_ich} ${column_name_1} ${column_name_2} 100 'Vol(ml)'  'Vol(ml)' ${output_image_filename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
+
 #nrows=2
 #ncols=2
 #outputfilename_pkl=$(dirname ${csvfilename_ich})/${column_name_1}_${column_name_2}_scatter_hist.jpg
@@ -350,6 +351,7 @@ outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@
 add_image_to_texfile ${outputfilename%.csv}_barplot.png 0.9
 call_latex_start_arguments=('csvtable_on_tex' ${outputfilename} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+add_image_to_texfile ${csvfilename_ich} 0.9
 #######################
 ####args.stuff[1]
 #histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})

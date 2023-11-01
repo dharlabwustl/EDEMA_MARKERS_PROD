@@ -64,7 +64,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     ax_histx.hist(x, bins=12, alpha=0.5,color = "blueviolet")
     ax_histy.hist(y, bins=12, orientation='horizontal',alpha=0.5,color = "magenta")
     ax_histx.title.set_text(str(column_name_1))
-    ax_histy.title.set_text(str(column_name_2))
+    ax_histy.title.set_text(str(column_name_2),rotation = 90)
     fig = ax.get_figure()
 
     fig.savefig(output_image_filename)

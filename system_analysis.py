@@ -18,7 +18,9 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     column_name_1=args.stuff[2]
     column_name_2=args.stuff[3]
     cut_off_value=float(args.stuff[4])
-    output_image_filename=args.stuff[5]
+    x_label=args.stuff[5]
+    y_label=args.stuff[6]
+    output_image_filename=args.stuff[7]
     df=pd.read_csv(csvfilename)
     df.columns=df.columns.str.strip() #(' ','')
     df.columns=df.columns.str.replace(' ','_')
@@ -49,7 +51,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
-    ax.annotate('r:'+str(round(corr_xy, 2)),xy=(int(x.max()-0.10*x.max()),int(y.max()-0.10*y.max())))
+    ax.annotate('r:'+str(round(corr_xy, 2)),xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
     ax.set_xlabel('Volume (ml)')
     ax.set_ylabel('Volume (ml)')
 

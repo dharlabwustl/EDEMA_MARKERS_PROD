@@ -61,7 +61,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     ax_histy.tick_params(axis="y", labelleft=False)
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
-    ax.annotate('r : '+str(round(corr, 2)) + '(P:' + str(p_value) +')',xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
+    ax.annotate('r : '+str(round(corr, 2)) + '(P<' + str(0.01) +')',xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
     ax.annotate('N : '+str(x.shape[0]),xy=(int(x.min()+0.10*x.min()),int(y.max()-0.20*y.max())),fontsize=15)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)

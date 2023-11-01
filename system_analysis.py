@@ -22,7 +22,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     df=pd.read_csv(csvfilename)
     df.columns=df.columns.str.strip() #(' ','')
     df.columns=df.columns.str.replace(' ','_')
-    df=df[df[str(column_name_1)]>=cut_off_value and df[str(column_name_2)]>=cut_off_value]
+    df=df[(df[str(column_name_1)]>=cut_off_value) & (df[str(column_name_2)]>=cut_off_value)]
     x=df[str(column_name_1)]
     y=df[str(column_name_2)]
     fig = plt.figure(figsize=(6, 6))

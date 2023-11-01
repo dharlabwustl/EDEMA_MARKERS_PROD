@@ -11,9 +11,17 @@ import numpy as np
 import os,sys,glob
 import datetime
 import argparse
+import pickle
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+def initiate_a_subplot(args):
+    nrows=int(args.stuff[1])
+    ncols=int(args.stuff[2])
+    outputfilename=args.stuff[3]
+    fig, axes = plt.subplots(nrows=nrows, ncols=nrows)
+    with open(outputfilename, 'w') as f:  # Python 3: open(..., 'wb')
+        pickle.dump([fig, axes], f)
 def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy):
     csvfilename=args.stuff[1]
     column_name_1=args.stuff[2]
@@ -46,11 +54,9 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # Draw the scatter plot and marginals.
     # scatter_hist(x, y, ax, ax_histx, ax_histy)
-
     # no labels
     ax_histx.tick_params(axis="x", labelbottom=False)
     ax_histy.tick_params(axis="y", labelleft=False)
-
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
     ax.annotate('r : '+str(round(corr, 2)) + '(P:' + str(p_value) +')',xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)

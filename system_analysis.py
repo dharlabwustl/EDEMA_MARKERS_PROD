@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import inspect
-import scipy
+import scipy.stats
 
 # In[1]:
 

@@ -351,7 +351,7 @@ outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@
 add_image_to_texfile ${outputfilename%.csv}_barplot.png 0.9
 call_latex_start_arguments=('csvtable_on_tex' ${outputfilename} ${latexfilename})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-add_image_to_texfile ${csvfilename_ich} 0.9
+add_image_to_texfile ${output_image_filename} 0.9
 #######################
 ####args.stuff[1]
 #histogram_column_ina_csvfile_arguments=('call_remove_single_column_with_colnmname_substring' ${csvfilename} "CSF_RATIO" ${csvfilename})

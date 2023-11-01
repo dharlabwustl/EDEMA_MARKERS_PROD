@@ -315,7 +315,7 @@ csvfilename_ich=$(ls ${dir_to_receive_the_data}/*ICH2023_06_06_EDEMA_BIOMARKERS_
 column_name_1="ICH_VOLUME"                                                                             #args.stuff[2]
 column_name_2="ICH_EDEMA_VOLUME"                                                                       #args.stuff[3]
 output_image_filename=$(dirname ${csvfilename_ich})/${column_name_1}_${column_name_2}_scatter_hist.jpg #args.stuff[4]
-call_latex_start_arguments=('scatter_hist' ${csvfilename_ich} ${column_name_1} ${column_name_2} ${output_image_filename})
+call_latex_start_arguments=('scatter_hist' ${csvfilename_ich} ${column_name_1} ${column_name_2} 100 ${output_image_filename})
 outputfiles_present=$(python3 system_analysis.py "${call_latex_start_arguments[@]}")
 #
 #suffix='_count.csv' #args.stuff[3]

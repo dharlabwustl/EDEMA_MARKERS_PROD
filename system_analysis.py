@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import inspect
+import scipy
 
 # In[1]:
 
@@ -28,6 +29,7 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     x=df[str(column_name_1)]
     y=df[str(column_name_2)]
     corr_xy=x.corr(y)
+    corr, p_value = scipy.stats.spearmanr(x, y)
     fig = plt.figure(figsize=(6, 6))
 
     # Add a gridspec with two rows and two columns and a ratio of 1 to 4 between
@@ -51,7 +53,8 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
 
     # the scatter plot:
     ax.scatter(x, y,color = '#88c999')
-    ax.annotate('r : '+str(round(corr_xy, 2)),xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
+    ax.annotate('r : '+str(round(corr, 2)) + '(' + str(p_value) +')',xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
+    ax.annotate('N : '+str(x.shape[0]),xy=(int(x.min()+0.10*x.min()),int(y.max()-0.10*y.max())),fontsize=15)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
 
@@ -62,9 +65,9 @@ def scatter_hist(args): #x, y,output_image_filename): #, ax, ax_histx, ax_histy)
     #
     # bins = np.arange(-lim, lim + binwidth, binwidth)
     ax_histx.hist(x, bins=12, alpha=0.5,color = "blueviolet")
-    ax_histx.annotate(str(column_name_1),xy=(ax_histx.get_xlim()[1]/2,ax_histx.get_ylim()[1]/2))
+    ax_histx.annotate(str(column_name_1).replace('_',' '),xy=(ax_histx.get_xlim()[1]/2,ax_histx.get_ylim()[1]/2))
     ax_histy.hist(y, bins=12, orientation='horizontal',alpha=0.5,color = "magenta")
-    ax_histy.annotate(str(column_name_2),xy=(ax_histy.get_xlim()[1]/2,ax_histy.get_ylim()[1]/2),rotation=-90)
+    ax_histy.annotate(str(column_name_2).replace('_',' '),xy=(ax_histy.get_xlim()[1]/2,ax_histy.get_ylim()[1]/2),rotation=-90)
     # ax_histx.set_title(str(column_name_1))
     # ax_histy.set_title(str(column_name_2),rotation = 90, x=0.5, y=1.1)
     fig = ax.get_figure()

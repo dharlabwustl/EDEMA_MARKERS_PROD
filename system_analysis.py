@@ -2,7 +2,7 @@
 # coding: utf-8
 import inspect
 import scipy.stats
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # In[1]:
 

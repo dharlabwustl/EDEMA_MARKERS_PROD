@@ -209,11 +209,13 @@ for eachfilename in ${dir_to_receive_the_data}/*.csv; do
 #eachfilename=$(ls ${workingoutput}/COMBINED_SESSIONS_SAH_METRICS_*.csv)
 remove_space_in_col_name_arguments=('remove_space_in_col_name' ${eachfilename} ${eachfilename})
 outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
-#get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv )
-#outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
+
 done
+for eachfilename in ${dir_to_receive_the_data}/*.csv; do
+get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv 10 )
+outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
 
-
+done
 
 
 #while IFS=',' read -ra array; do

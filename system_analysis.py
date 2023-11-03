@@ -22,7 +22,8 @@ def get_sessions_scans_for_pipepline_image(args):
     csvfilename_df=pd.read_csv(csvfilename)
     column_name=args.stuff[2]
     outputfilename=args.stuff[3]
-    descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
+    top_few=int(args.stuff[4])
+    descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(top_few)
     descending_colval_csvfilename_df.to_csv(outputfilename)
 def create_images_for_cluster(args):
     session_name=args.stuff[1] #sys.argv[1]

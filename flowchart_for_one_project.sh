@@ -203,24 +203,25 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 #  fi
 
 #done
-eachfilename_array=()
+#eachfilename_array=()
 
-for eachfilename in ${dir_to_receive_the_data}/*.csv; do
+#for eachfilename in ${dir_to_receive_the_data}/*.csv; do
+eachfilename=$(ls ${workingoutput}/COMBINED_SESSIONS_SAH_METRICS_*.csv)
   remove_space_in_col_name_arguments=('remove_space_in_col_name' ${eachfilename} ${eachfilename})
   outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
 #  ${eachfilename_array[0]}=eachfilename
-done
+#done
 
 get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv )
 outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
 
 
 while IFS=',' read -ra array; do
-sessionId=${array[1]}
+session_name=${array[1]}
 resource_dirname='DICOM'
 dir_to_save=${workingoutput}
 echo ${sessionId}
-create_images_for_cluster_arguments=('create_images_for_cluster' ${sessionId}  ${dir_to_save} ${sessions_list} )
+create_images_for_cluster_arguments=('create_images_for_cluster' ${session_name}  ${dir_to_save} ${sessions_list} )
 outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
 done < <(tail -n +2 "${eachfilename%.csv}_top10.csv")
 

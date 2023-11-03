@@ -27,7 +27,7 @@ def get_sessions_scans_for_pipepline_image(args):
 def download_multiple_scan_of_a_session(args):
     sessionId=sys.argv[1]
     # scan_id=sys.argv[2]
-    resource_dirname=sys.argv[2]
+    resource_dirname='DICOM' #sys.argv[2]
     dir_to_save=sys.argv[4]
     try:
         URI = (("/data/experiments/%s")  %
@@ -35,7 +35,6 @@ def download_multiple_scan_of_a_session(args):
         session_meta_data=get_metadata_session(URI)
         session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
         for index, row in session_meta_data_df.iterrows():
-
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)

@@ -177,3 +177,9 @@ then
     /software/SNIPR_ANALYTICS_SCANROW_ICH.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 31 ]] ;
+then
+      PROJECT_ID=${1}
+    /software/flowchart_for_one_project.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+

@@ -43,7 +43,7 @@ def create_images_for_cluster(args):
             try:
                 URI = row["URI"]+"/resources/" + resource_dirname+ "/files?format=json"
                 df_listfile=listoffile_witha_URI_as_df(URI)
-                df_listfile.to_csv(os.path.join(dir_to_save,'df_listfile.csv'),index=False)
+                df_listfile.to_csv(os.path.join(dir_to_save,str(row['ID'])+'_df_listfile.csv'),index=False)
             except:
                 pass
             # for item_id, row in df_listfile.iterrows():

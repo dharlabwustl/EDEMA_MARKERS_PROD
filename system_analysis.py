@@ -41,8 +41,7 @@ def create_images_for_cluster(args):
         session_meta_data_df.to_csv(os.path.join(dir_to_save,'session_meta_data_df.csv'),index=False)
         for index, row in session_meta_data_df.iterrows():
             try:
-                URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
-                       (sessionId))
+                URI = row["URI"]+"/resources/" + resource_dirname+ "/files?format=json"
                 df_listfile=listoffile_witha_URI_as_df(URI)
                 df_listfile.to_csv(os.path.join(dir_to_save,'df_listfile.csv'),index=False)
             except:

@@ -37,7 +37,7 @@ def create_images_for_cluster(args):
     try:
         URI = "/data/experiments/"+sessionId
         session_meta_data=get_metadata_session(URI)
-        session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
+        # session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
         # for index, row in session_meta_data_df.iterrows():
         #     URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
         #            (sessionId))

@@ -214,7 +214,7 @@ outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipep
 
 
 while IFS=',' read -ra array; do
-sessionId=${array[1]}
+sessionId=${array[0]}
 resource_dirname='DICOM'
 dir_to_save=${workingoutput}
 echo ${sessionId}

@@ -25,10 +25,9 @@ def get_sessions_scans_for_pipepline_image(args):
     descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
     descending_colval_csvfilename_df.to_csv(outputfilename)
 def download_multiple_scan_of_a_session(args):
-    sessionId=sys.argv[1]
-    # scan_id=sys.argv[2]
-    resource_dirname='DICOM' #sys.argv[2]
-    dir_to_save=sys.argv[4]
+    sessionId=args.stuff[1] #sys.argv[1]
+    resource_dirname='DICOM'
+    dir_to_save=args.stuff[2] #sys.argv[4]
     try:
         URI = (("/data/experiments/%s")  %
                (sessionId))
@@ -38,11 +37,10 @@ def download_multiple_scan_of_a_session(args):
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)
-            # print("df_listfile::{}".format(df_listfile))
             for item_id, row in df_listfile.iterrows():
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
-                print("DOWNLOADED ::{}".format(row))
-                print("PASSED AT ::{}".format("download_files_in_a_resource"))
+                # print("DOWNLOADED ::{}".format(row))
+                # print("PASSED AT ::{}".format("download_files_in_a_resource"))
 
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))

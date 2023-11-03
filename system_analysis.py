@@ -32,7 +32,7 @@ def create_images_for_cluster(args):
     sessions_list=args.stuff[3]
     sessions_list_df=pd.read_csv(sessions_list)
     sessions_list_df_1=sessions_list_df[sessions_list_df['label']==str(session_name)]
-    sessionId=str(sessions_list_df_1.loc[0,'ID'])
+    sessionId=str(sessions_list_df_1['ID'].iloc[0])
     try:
         URI = (("/data/experiments/%s")  %
                (sessionId))

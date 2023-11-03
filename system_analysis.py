@@ -16,6 +16,14 @@ import pickle
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+def get_sessions_scans_for_pipepline_image(args):
+
+    csvfilename=args.stuff[1]
+    csvfilename_df=pd.read_csv(csvfilename)
+    column_name=args.stuff[2]
+    outputfilename=args.stuff[3]
+    descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
+    descending_colval_csvfilename_df.to_csv(outputfilename)
 def initiate_a_subplot(args):
     nrows=int(args.stuff[1])
     ncols=int(args.stuff[2])

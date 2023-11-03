@@ -225,10 +225,8 @@ dir_to_save=${workingoutput}
 echo ${sessionId}
 create_images_for_cluster_arguments=('create_images_for_cluster' ${session_name}  ${dir_to_save} ${sessions_list} )
 outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
-done < <(tail -n +2 "${eachfilename)"
-
+done < <(tail -n +2 "${eachfilename}")
 done
-
 #time_now=$(date -dnow +%Y%m%d%H%M%S)
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" >${csvfile_list}

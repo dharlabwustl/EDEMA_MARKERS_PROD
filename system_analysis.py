@@ -37,15 +37,16 @@ def download_multiple_scan_of_a_session(args):
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)
-            for item_id, row in df_listfile.iterrows():
+            df_listfile.to_csv(os.path.join('/workingoutput/df_listfile.csv'))
+            # for item_id, row in df_listfile.iterrows():
                 ## for each scan download the dicom directory
                 ## convert them into nifti
                 ## check number of slices:
                 ## if only one slice: convert it into png image
                 ## if multiple slices: convert the middle image into png
-                download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
-                # print("DOWNLOADED ::{}".format(row))
-                # print("PASSED AT ::{}".format("download_files_in_a_resource"))
+                # download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
+                ## print("DOWNLOADED ::{}".format(row))
+                ## print("PASSED AT ::{}".format("download_files_in_a_resource"))
 
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))

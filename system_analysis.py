@@ -25,9 +25,12 @@ def get_sessions_scans_for_pipepline_image(args):
     descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
     descending_colval_csvfilename_df.to_csv(outputfilename)
 def create_images_for_cluster(args):
-    sessionId=args.stuff[1] #sys.argv[1]
+    session_name=args.stuff[1] #sys.argv[1]
     resource_dirname='DICOM'
     dir_to_save=args.stuff[2] #sys.argv[4]
+    sessions_list=args.stuff[3]
+    sessions_list_df=pd.read_csv(sessions_list)
+    sessions_list_df[sessions_list_df['ID']
     try:
         URI = (("/data/experiments/%s")  %
                (sessionId))

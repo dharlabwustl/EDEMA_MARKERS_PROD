@@ -32,7 +32,7 @@ def create_images_for_cluster(args):
     sessions_list=args.stuff[3]
     sessions_list_df=pd.read_csv(sessions_list)
     sessions_list_df_1=sessions_list_df[sessions_list_df['label']==str(session_name)]
-    sessionId=str(sessions_list_df_1['ID'])
+    sessionId=str(sessions_list_df_1['ID'][0])
     try:
         URI = (("/data/experiments/%s")  %
                (sessionId))
@@ -53,19 +53,10 @@ def create_images_for_cluster(args):
                 ## print("DOWNLOADED ::{}".format(row))
                 ## print("PASSED AT ::{}".format("download_files_in_a_resource"))
 
+        subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        print("FAILED AT ::{}".format("download_files_in_a_resource"))
+        subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-
-
-
-
-    #
-    # csvfilename_df=pd.read_csv(csvfilename)
-    # column_name=args.stuff[2]
-    # outputfilename=args.stuff[3]
-    # descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
-    # descending_colval_csvfilename_df.to_csv(outputfilename)
 def initiate_a_subplot(args):
     nrows=int(args.stuff[1])
     ncols=int(args.stuff[2])

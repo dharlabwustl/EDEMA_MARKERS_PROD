@@ -207,8 +207,8 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 
 #for eachfilename in ${dir_to_receive_the_data}/*.csv; do
 eachfilename=$(ls ${workingoutput}/COMBINED_SESSIONS_SAH_METRICS_*.csv)
-  remove_space_in_col_name_arguments=('remove_space_in_col_name' ${eachfilename} ${eachfilename})
-  outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
+remove_space_in_col_name_arguments=('remove_space_in_col_name' ${eachfilename} ${eachfilename})
+outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
 #  ${eachfilename_array[0]}=eachfilename
 #done
 

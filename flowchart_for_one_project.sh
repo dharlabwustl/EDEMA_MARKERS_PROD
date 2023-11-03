@@ -197,7 +197,9 @@ elif [ ${project_ID} == "ICH" ]; then
   outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
   download_a_single_file ${file_path_csv} ${analytics_file_dir} ${project_ID}
 fi
-
+sessions_list=${working_dir}/sessions_list.csv
+curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
+#cp ${sessions_list} ${copy_session}
 #  fi
 
 #done
@@ -209,18 +211,18 @@ for eachfilename in ${dir_to_receive_the_data}/*.csv; do
 #  ${eachfilename_array[0]}=eachfilename
 done
 
-get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv)
-outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
+#get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv ${sessions_list})
+#outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
 
 
-while IFS=',' read -ra array; do
-sessionId=${array[0]}
-resource_dirname='DICOM'
-dir_to_save=${workingoutput}
-echo ${sessionId}
-#create_images_for_cluster_arguments=('create_images_for_cluster' ${sessionId}  ${dir_to_save} )
+#while IFS=',' read -ra array; do
+#sessionId=${array[1]}
+#resource_dirname='DICOM'
+#dir_to_save=${workingoutput}
+#echo ${sessionId}
+#create_images_for_cluster_arguments=('create_images_for_cluster' ${sessionId}  ${dir_to_save} ${sessions_list} )
 #outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
-done < <(tail -n +2 "${eachfilename%.csv}_top10.csv")
+#done < <(tail -n +2 "${eachfilename%.csv}_top10.csv")
 
 #time_now=$(date -dnow +%Y%m%d%H%M%S)
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"

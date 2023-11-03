@@ -60,6 +60,8 @@ def create_images_for_cluster(args):
                 subprocess.call("echo " + "passed at expression::{}:{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],df_listfile.shape[0]) ,shell=True )
                 df_listfile.to_csv(os.path.join(dir_to_save,str(row['ID'])+'_df_listfile.csv'),index=False)
             except:
+                subprocess.call("echo " + "passed at expression::{}:{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],df_listfile.shape[0]) ,shell=True )
+                df_listfile.to_csv(os.path.join(dir_to_save,str(row['ID'])+'_df_listfile.csv'),index=False)
                 pass
             # for item_id, row in df_listfile.iterrows():
                 # for each scan download the dicom directory

@@ -49,7 +49,7 @@ def create_images_for_cluster(args):
                 # check number of slices:
                 # if only one slice: convert it into png image
                 # if multiple slices: convert the middle image into png
-                download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
+                # download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
                 # print("DOWNLOADED ::{}".format(row))
                 # print("PASSED AT ::{}".format("download_files_in_a_resource"))
 

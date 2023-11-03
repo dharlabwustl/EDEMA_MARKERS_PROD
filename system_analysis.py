@@ -38,7 +38,7 @@ def download_multiple_scan_of_a_session(args):
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)
-            print("df_listfile::{}".format(df_listfile))
+            # print("df_listfile::{}".format(df_listfile))
             for item_id, row in df_listfile.iterrows():
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
                 print("DOWNLOADED ::{}".format(row))

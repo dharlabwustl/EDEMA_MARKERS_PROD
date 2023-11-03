@@ -1654,6 +1654,12 @@ def contrast_stretch(img,threshold_id):
     if threshold_id==2:
         ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1000, 1200))
     return ct_image
+def contrast_stretch_stroke_range(img):
+    # if threshold_id==1:
+    ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(20, 60))
+    # if threshold_id==2:
+    #     ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1060))
+    return ct_image
 def contrast_stretch_np(img,threshold_id):
     if threshold_id==1:
         ct_image=exposure.rescale_intensity(img , in_range=(0, 200))

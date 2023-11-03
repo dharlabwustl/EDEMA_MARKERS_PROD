@@ -43,6 +43,8 @@ def create_images_for_cluster(args):
             try:
                 URI = row["URI"]+"/resources/" + resource_dirname+ "/files?format=json"
                 df_listfile=listoffile_witha_URI_as_df(URI)
+
+                subprocess.call("echo " + "passed at expression::{}:{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],df_listfile.shape[0]) ,shell=True )
                 df_listfile.to_csv(os.path.join(dir_to_save,str(row['ID'])+'_df_listfile.csv'),index=False)
             except:
                 pass

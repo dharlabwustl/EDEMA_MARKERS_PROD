@@ -223,9 +223,9 @@ while IFS=',' read -ra array; do
 session_name=${array[1]}
 resource_dirname='DICOM'
 dir_to_save=${workingoutput}
-echo ${sessionId}
+echo ${session_name}::${dir_to_save}::${sessions_list}
 create_images_for_cluster_arguments=('create_images_for_cluster' ${session_name}  ${dir_to_save} ${sessions_list} )
-outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
+#outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
 counter=$((counter + 1))
 if [ $counter -gt 0 ] ; then
   break

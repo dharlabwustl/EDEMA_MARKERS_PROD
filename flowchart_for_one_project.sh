@@ -211,8 +211,8 @@ for eachfilename in ${dir_to_receive_the_data}/*.csv; do
 #  ${eachfilename_array[0]}=eachfilename
 done
 
-#get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv ${sessions_list})
-#outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
+get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv )
+outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
 
 
 while IFS=',' read -ra array; do

@@ -222,10 +222,10 @@ for eachfilename in ${dir_to_receive_the_data}/*_top10.csv; do
 while IFS=',' read -ra array; do
 session_name=${array[1]}
 resource_dirname='DICOM'
-dir_to_save=${workingoutput}
-echo ${session_name}::${dir_to_save}::${sessions_list}
+dir_to_save=${output_directory}
+echo ${session_name}::${output_directory}::${dir_to_save}::${sessions_list}
 create_images_for_cluster_arguments=('create_images_for_cluster' ${session_name}  ${dir_to_save} ${sessions_list} )
-#outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
+outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
 counter=$((counter + 1))
 if [ $counter -gt 0 ] ; then
   break

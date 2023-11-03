@@ -135,7 +135,7 @@ def remove_space_in_col_name(args):
     outputfilename=args.stuff[2]
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
-    csvfilename_df.columns=csvfilename_df.columns.str.replace('_',' ')
+    csvfilename_df.columns=csvfilename_df.columns.str.replace(' ','_')
     csvfilename_df.to_csv(outputfilename,index=False)
 
 def combinecsvs_with_a_given_suffix(args):

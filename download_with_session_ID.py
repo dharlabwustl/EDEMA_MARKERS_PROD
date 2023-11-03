@@ -1567,7 +1567,7 @@ def download_files_in_scans_resources_withname_sh():
         session_meta_data=get_metadata_session(URI)
         session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
         for index, row in session_meta_data_df.iterrows():
-            
+
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)

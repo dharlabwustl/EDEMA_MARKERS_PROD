@@ -201,9 +201,12 @@ fi
 #  fi
 
 #done
+eachfilename_array=()
+
 for eachfilename in ${dir_to_receive_the_data}/*.csv; do
   remove_space_in_col_name_arguments=('remove_space_in_col_name' ${eachfilename} ${eachfilename})
   outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
+#  ${eachfilename_array[0]}=eachfilename
 done
 
 get_sessions_scans_for_pipepline_image_arguments=('get_sessions_scans_for_pipepline_image' ${eachfilename} 'SAH_SEG_TOTAL' ${eachfilename%.csv}_top10.csv)

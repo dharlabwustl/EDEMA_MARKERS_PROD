@@ -215,14 +215,14 @@ done
 #outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipepline_image_arguments[@]}")
 
 
-#while IFS=',' read -ra array; do
-#sessionId=${array[1]}
-#resource_dirname='DICOM'
-#dir_to_save=${workingoutput}
-#echo ${sessionId}
-#create_images_for_cluster_arguments=('create_images_for_cluster' ${sessionId}  ${dir_to_save} ${sessions_list} )
-#outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
-#done < <(tail -n +2 "${eachfilename%.csv}_top10.csv")
+while IFS=',' read -ra array; do
+sessionId=${array[1]}
+resource_dirname='DICOM'
+dir_to_save=${workingoutput}
+echo ${sessionId}
+create_images_for_cluster_arguments=('create_images_for_cluster' ${sessionId}  ${dir_to_save} ${sessions_list} )
+outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
+done < <(tail -n +2 "${eachfilename%.csv}_top10.csv")
 
 #time_now=$(date -dnow +%Y%m%d%H%M%S)
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"

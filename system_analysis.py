@@ -55,6 +55,7 @@ def create_images_for_cluster(args):
                     command='dcm2niix -o '+dir_to_save  + '  ' + os.path.join(dir_to_save,df_listfile['Name'].iloc[middle_slice])
                     subprocess.call(command,shell=True)
                 else:
+
                     pass
                 subprocess.call("echo " + "passed at expression::{}:{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],df_listfile.shape[0]) ,shell=True )
                 df_listfile.to_csv(os.path.join(dir_to_save,str(row['ID'])+'_df_listfile.csv'),index=False)

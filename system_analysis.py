@@ -35,23 +35,23 @@ def create_images_for_cluster(args):
     sessions_list_df_1.reset_index()
     sessionId=str(sessions_list_df_1['ID'].iloc[0])
     try:
-        URI = "/data/experiments/"+sessionId
+        # URI = "/data/experiments/"+sessionId
         session_meta_data=get_metadata_session(sessionId)
-        # session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
-        # for index, row in session_meta_data_df.iterrows():
-        #     URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
-        #            (sessionId))
-        #     df_listfile=listoffile_witha_URI_as_df(URI)
-        #     df_listfile.to_csv(os.path.join(dir_to_save,'df_listfile.csv'),index=False)
+        session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
+        for index, row in session_meta_data_df.iterrows():
+            URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
+                   (sessionId))
+            df_listfile=listoffile_witha_URI_as_df(URI)
+            df_listfile.to_csv(os.path.join(dir_to_save,'df_listfile.csv'),index=False)
             # for item_id, row in df_listfile.iterrows():
-                ## for each scan download the dicom directory
-                ## convert them into nifti
-                ## check number of slices:
-                ## if only one slice: convert it into png image
-                ## if multiple slices: convert the middle image into png
-                # download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
-                ## print("DOWNLOADED ::{}".format(row))
-                ## print("PASSED AT ::{}".format("download_files_in_a_resource"))
+                # for each scan download the dicom directory
+                # convert them into nifti
+                # check number of slices:
+                # if only one slice: convert it into png image
+                # if multiple slices: convert the middle image into png
+                download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
+                # print("DOWNLOADED ::{}".format(row))
+                # print("PASSED AT ::{}".format("download_files_in_a_resource"))
 
         subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

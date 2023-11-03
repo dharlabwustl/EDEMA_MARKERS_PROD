@@ -56,7 +56,7 @@ def create_images_for_cluster(args):
 
         subprocess.call("echo " + "passed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "failed at expression::{} ::{} >> /workingoutput/error.txt".format(inspect.stack()[0][3],sessionId) ,shell=True )
         pass
 def initiate_a_subplot(args):
     nrows=int(args.stuff[1])

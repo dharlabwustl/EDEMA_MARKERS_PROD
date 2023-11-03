@@ -38,6 +38,11 @@ def download_multiple_scan_of_a_session(args):
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)
             for item_id, row in df_listfile.iterrows():
+                ## for each scan download the dicom directory
+                ## convert them into nifti
+                ## check number of slices:
+                ## if only one slice: convert it into png image
+                ## if multiple slices: convert the middle image into png
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
                 # print("DOWNLOADED ::{}".format(row))
                 # print("PASSED AT ::{}".format("download_files_in_a_resource"))
@@ -45,22 +50,16 @@ def download_multiple_scan_of_a_session(args):
     except:
         print("FAILED AT ::{}".format("download_files_in_a_resource"))
         pass
-    ## for each scan download the dicom directory
-
-    ## convert them into nifti
-
-    ## check number of slices:
-
-    ## if only one slice: convert it into png image
-
-    ## if multiple slices: convert the middle image into png
 
 
-    csvfilename_df=pd.read_csv(csvfilename)
-    column_name=args.stuff[2]
-    outputfilename=args.stuff[3]
-    descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
-    descending_colval_csvfilename_df.to_csv(outputfilename)
+
+
+    #
+    # csvfilename_df=pd.read_csv(csvfilename)
+    # column_name=args.stuff[2]
+    # outputfilename=args.stuff[3]
+    # descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
+    # descending_colval_csvfilename_df.to_csv(outputfilename)
 def initiate_a_subplot(args):
     nrows=int(args.stuff[1])
     ncols=int(args.stuff[2])

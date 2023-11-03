@@ -24,7 +24,7 @@ def get_sessions_scans_for_pipepline_image(args):
     outputfilename=args.stuff[3]
     descending_colval_csvfilename_df=csvfilename_df.sort_values(by=[str(column_name)], ascending=False).head(10)
     descending_colval_csvfilename_df.to_csv(outputfilename)
-def download_multiple_scan_of_a_session(args):
+def create_images_for_cluster(args):
     sessionId=args.stuff[1] #sys.argv[1]
     resource_dirname='DICOM'
     dir_to_save=args.stuff[2] #sys.argv[4]
@@ -37,7 +37,7 @@ def download_multiple_scan_of_a_session(args):
             URI = ((row["URI"]+"/resources/" + resource_dirname+ "/files?format=json")  %
                    (sessionId))
             df_listfile=listoffile_witha_URI_as_df(URI)
-            df_listfile.to_csv(os.path.join('/workingoutput/df_listfile.csv'))
+            df_listfile.to_csv(os.path.join(dir_to_save,'df_listfile.csv'))
             # for item_id, row in df_listfile.iterrows():
                 ## for each scan download the dicom directory
                 ## convert them into nifti

@@ -218,6 +218,7 @@ outputfiles_present=$(python3 system_analysis.py "${get_sessions_scans_for_pipep
 done
 
 for eachfilename in ${dir_to_receive_the_data}/*_top10.csv; do
+  counter=0
 while IFS=',' read -ra array; do
 session_name=${array[1]}
 resource_dirname='DICOM'
@@ -225,6 +226,10 @@ dir_to_save=${workingoutput}
 echo ${sessionId}
 create_images_for_cluster_arguments=('create_images_for_cluster' ${session_name}  ${dir_to_save} ${sessions_list} )
 outputfiles_present=$(python3 system_analysis.py "${create_images_for_cluster_arguments[@]}")
+counter=$((counter + 1))
+if [ $counter -gt 0 ] ; then
+  break
+fi
 done < <(tail -n +2 "${eachfilename}")
 done
 #time_now=$(date -dnow +%Y%m%d%H%M%S)

@@ -35,8 +35,7 @@ def create_images_for_cluster(args):
     sessions_list_df_1.reset_index()
     sessionId=str(sessions_list_df_1['ID'].iloc[0])
     try:
-        URI = (("/data/experiments/%s")  %
-               (sessionId))
+        URI = "/data/experiments/"+sessionId
         session_meta_data=get_metadata_session(URI)
         session_meta_data_df = pd.read_json(json.dumps(session_meta_data))
         # for index, row in session_meta_data_df.iterrows():

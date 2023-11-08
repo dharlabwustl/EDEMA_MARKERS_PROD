@@ -1192,8 +1192,8 @@ while IFS=',' read -ra array; do
 ##        #    i=$(($i + 1))
 ##        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 ##        echo outputfiles_present::${outputfiles_present}
-#      fi
-    done
+##      fi
+##    done
 
 #    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
 #    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})

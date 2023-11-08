@@ -62,7 +62,8 @@ def call_insert_one_col_with_colname_colidx(args):
 def combine_csv_horizontally(list_df_files,combined_csv_filename,niftifilename):
     list_df=[]
     for x in list_df_files:
-        list_df.append(pd.read_csv(x))
+        if os.path.exists(x):
+            list_df.append(pd.read_csv(x))
 
     list_df_combined = pd.concat(list_df, axis=1)
     # list_df_combined['FILENAME']=niftifilename

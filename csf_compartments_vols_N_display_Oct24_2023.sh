@@ -877,11 +877,11 @@ while IFS=',' read -ra array; do
     done
     #
     split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_sulci_total_v1.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle_v1.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle_v1.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle_v1.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_ventricle_total_v1.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 
     split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"

@@ -190,7 +190,15 @@ def remove_space_in_col_name(args):
     csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
     csvfilename_df.columns=csvfilename_df.columns.str.replace(' ','_')
     csvfilename_df.to_csv(outputfilename,index=False)
-
+def remove_fewchars_in_col_name(args):
+    csvfilename=args.stuff[1]
+    outputfilename=args.stuff[2]
+    char_toremove=args.stuff[3]
+    char_toreplacewith=args.stuff[4]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df.columns=csvfilename_df.columns.str.strip() #(' ','')
+    csvfilename_df.columns=csvfilename_df.columns.str.replace(char_toremove,char_toreplacewith)
+    csvfilename_df.to_csv(outputfilename,index=False)
 def combinecsvs_with_a_given_suffix(args):
     inputdirectory=args.stuff[1]
     outputfilename=args.stuff[2]

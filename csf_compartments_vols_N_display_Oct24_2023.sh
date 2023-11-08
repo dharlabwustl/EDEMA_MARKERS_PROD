@@ -1200,25 +1200,25 @@ while IFS=',' read -ra array; do
     pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
     pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-    URI_1=${url1%/resources*}
-    resource_dirname="SAH_CSF_ANALYSIS"
-    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
-    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
-    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #    URI_1=${url1%/resources*}
-    resource_dirname="MIDLINE_NPY"
-    for npyfilename in ${working_dir_1}/*.npy; do
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
-
-#    URI_1=${url1%/resources*}
-    resource_dirname="MASKS"
-    for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
+#    resource_dirname="SAH_CSF_ANALYSIS"
+#    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
+#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
+#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+##    URI_1=${url1%/resources*}
+#    resource_dirname="MIDLINE_NPY"
+#    for npyfilename in ${working_dir_1}/*.npy; do
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
+#
+##    URI_1=${url1%/resources*}
+#    resource_dirname="MASKS"
+#    for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

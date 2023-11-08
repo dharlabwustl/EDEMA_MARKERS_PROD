@@ -1170,6 +1170,8 @@ while IFS=',' read -ra array; do
       y=${x%.*}
       echo $y
       suffix=${y##*_}
+      echo suffix::${suffix}
+      echo SUFFIXFILE::${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
       if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
         images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
         i=$(($i + 1))
@@ -1193,13 +1195,13 @@ while IFS=',' read -ra array; do
       fi
     done
 
-    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
-
-    call_latex_end_arguments=('call_latex_end' ${latexfilename})
-    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
-    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+#    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})
+#
+#    call_latex_end_arguments=('call_latex_end' ${latexfilename})
+#    pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+#    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
 #    URI_1=${url1%/resources*}
 #    resource_dirname="SAH_CSF_ANALYSIS"
 #    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})

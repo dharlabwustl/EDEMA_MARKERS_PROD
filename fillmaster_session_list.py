@@ -2041,7 +2041,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
                 subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
 
                 # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
@@ -2055,7 +2055,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
 
                 extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
-                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
                 subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
                 # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
                 if len(_infarct_auto_removesmall_path)>3:
@@ -2068,7 +2068,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
-                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                _infarct_auto_removesmall_path=get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
                 if len(_infarct_auto_removesmall_path)>3:
                     infarct_file_num=infarct_file_num+1
                     # subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
@@ -2078,7 +2078,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 extension_to_find_list="_csf_unet.nii.gz"
                 _infarct_auto_removesmall_path=""
-                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                _infarct_auto_removesmall_path=get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
                 if len(_infarct_auto_removesmall_path)>3:
                     csf_file_num=csf_file_num+1
                     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )

@@ -2049,6 +2049,10 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     pdf_file_num=pdf_file_num+1
 
                 #             subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
+                columnname="PDF_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+
                 extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
@@ -2058,6 +2062,9 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     csv_file_num=csv_file_num+1
 
                 #             subprocess.call("echo " + "csv_file_num::{}  >> /workingoutput/error.txt".format(csv_file_num) ,shell=True )
+                columnname="CSV_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 resource_dir="MASKS"
                 extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
@@ -2066,12 +2073,18 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     infarct_file_num=infarct_file_num+1
                     # subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
                     subprocess.call("echo " + "infarct_file_num::{}  >> /workingoutput/error.txt".format(infarct_file_num) ,shell=True )
+                columnname="INFARCT_MASK_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 extension_to_find_list="_csf_unet.nii.gz"
                 _infarct_auto_removesmall_path=""
                 _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
                 if len(_infarct_auto_removesmall_path)>3:
                     csf_file_num=csf_file_num+1
                     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                columnname="CSF_MASK_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         ### DICOM TO NIFTI STEP
         niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
         columnname="NUMBER_NIFTIFILES"

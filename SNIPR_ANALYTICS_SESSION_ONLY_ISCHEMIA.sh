@@ -63,7 +63,7 @@ while IFS=',' read -ra array; do
     echo "${array[5]}"
     call_fill_sniprsession_list_arguments=('fill_sniprsession_list' ${copy_session} ${array[1]}) ##
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
-    counter=$((counter +1))
+    counter=$(( counter+1 ))
   fi
     if [ $counter -eq 2 ]; then
       break

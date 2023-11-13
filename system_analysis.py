@@ -294,13 +294,13 @@ def non_numerical_val_counter(args):
         subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return "I WORKED"
-def append_results_to_analytics(args):
+def append_results_to_analytics_notinuse(args):
     try:
         session_analytics_csv_inputfile=args.stuff[1]
         current_scan_result_csvfile=args.stuff[2]
-        total_column_name=args.stuff[3]
-        session_analytics_csv_outputfile=args.stuff[4]
+        session_analytics_csv_outputfile=args.stuff[3]
         current_scan_result_csvfile_df=pd.read_csv(current_scan_result_csvfile)
+        # fill_datapoint_each_sessionn_1(session_ID,columnname,str(file_size_MB),csvfilename)
         # allfileswithprefix1_df = current_scan_result_csvfile_df[current_scan_result_csvfile_df[total_column_name].str.contains('TOTAL')]
         # allfileswithprefix1_df.to_csv(session_analytics_csv_outputfile)
         ## get the total row of the result:

@@ -1014,7 +1014,22 @@ def add_file_size(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-
+def append_results_to_analytics(args):
+    try:
+        session_analytics_csv_inputfile=args.stuff[1]
+        current_scan_result_csvfile=args.stuff[2]
+        result_csvfile_url=args.stuff[3]
+        # session_analytics_csv_outputfile=args.stuff[4]
+        current_scan_result_csvfile_df=pd.read_csv(current_scan_result_csvfile)
+        session_ID=result_csvfile_url.split('/')[3]
+        for each_column_name in current_scan_result_csvfile_df.columns:
+            # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+            fill_datapoint_each_sessionn_1(session_ID,each_column_name,current_scan_result_csvfile_df.at[0,each_column_name],session_analytics_csv_inputfile)
+            subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
 def edit_session_analytics_file(csvfilename) : #### ,csvfilename_withoutfilename):
     # csvfilename_withoutfilename=csvfilename
     csvfilename_df=pd.read_csv(csvfilename)

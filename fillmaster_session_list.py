@@ -1553,6 +1553,171 @@ def fill_sniprsession_list_SAH(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def fill_sniprsession_list_GENERIC(args):
+    sessionlist_filename=args.stuff[1]
+    session_id=args.stuff[2]
+    segmentation_resource_dir=args.stuff[3]+ "_SEGM" #"SAH_SEGM"
+    segmentation_extension_to_find_list=args.stuff[4] #"_4DL_seg_total.nii.gz"
+    columnname_project_mask=args.stuff[3] + "_SEG_MASK_FILES" #"SAH_SEG_MASK_FILES"
+    result_at_session_resource_dir=args.stuff[5] #"SAH_CSF_ANALYSIS" #"EDEMA_BIOMARKER"
+    returnvalue=0
+    try:
+        csvfilename=sessionlist_filename
+        # subprocess.call("echo " + "csvfilename::{}  >> /workingoutput/error.txt".format(csvfilename) ,shell=True )
+        # command="rm  " + os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"
+        # subprocess.call(command,shell=True)
+        # download_files_in_a_resource_withname( session_id, "NIFTI_LOCATION", os.path.dirname(csvfilename))
+        counter_nifti_location=0
+        nifti_file_list=list_niftilocation(session_id,os.path.dirname(sessionlist_filename))
+        subprocess.call("echo " + "nifti_file_list::{}  >> /workingoutput/error.txt".format(nifti_file_list.shape[0]) ,shell=True )
+        # niftilocation_files=glob.glob(os.path.join(os.path.dirname(csvfilename) + "/*NIFTILOCATION.csv"))
+        infarct_file_num=0
+        csf_file_num=0
+        pdf_file_num=0
+        csv_file_num=0
+        mask_sulci_at_ventricle_file_num=0
+        mask_4DL_seg_total_file_num=0
+        # fill_single_row_each_session(session_id,session_label,csvfilename)
+        # fill_datapoint_each_sessionn(row['ID'],columnname,columnvalue,csvfilename)
+        # for each_niftilocationfile in niftilocation_files:
+        # subprocess.call("echo " + "each_niftilocationfile::{}  >> /workingoutput/error.txt".format(each_niftilocationfile) ,shell=True )
+        # print(each_niftilocationfile)
+        # each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
+        SCAN_URI_NIFTI_FILEPREFIX_1=""
+        if nifti_file_list.shape[0]>0:
+            for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
+                # subprocess.call("echo " + "nifti_file_list_row::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
+                # # print("each_niftilocationfile_df.iloc[0]['ID']::{}".format(each_niftilocationfile_df.iloc[0]['ID']))
+                # #         SCAN_ID=nifti_file_list_row["ID"] #str(each_niftilocationfile_df.iloc[0]['ID'])
+                #         # fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
+                #         # counter_nifti_location=counter_nifti_location+1
+                # ### PDF  STEP:
+                SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
+                SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
+
+                extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=""
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,result_at_session_resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+
+                # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                if len(_infarct_auto_removesmall_path)>3:
+                    pdf_file_num=pdf_file_num+1
+                    # if ".pdf" in _infarct_auto_removesmall_path:
+                    #     temp_filename=os.path.basename(_infarct_auto_removesmall_path)
+                    #     temp_dir=os.path.dirname(sessionlist_filename)
+                    #     download_a_singlefile_with_URIString(_infarct_auto_removesmall_path,temp_filename,temp_dir)
+                    #     file_stats = os.stat(os.path.join(_infarct_auto_removesmall_path,temp_filename))
+                    #     file_size_MB=file_stats.st_size / (1024 * 1024)
+                    #     columnname="PDF_FILE_SIZE"
+                    #     columnvalue=str(file_size_MB)
+                    #     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                columnname="PDF_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+
+                #             subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
+                extension_to_find_list=".csv" #_infarct_auto_removesmall.nii.gz"
+                _infarct_auto_removesmall_path=""
+                _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
+                subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
+                # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                if len(_infarct_auto_removesmall_path)>3:
+                    csv_file_num=csv_file_num+1
+                columnname="CSV_FILE_PATH"
+                columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                #             subprocess.call("echo " + "csv_file_num::{}  >> /workingoutput/error.txt".format(csv_file_num) ,shell=True )
+                resource_dir="MASKS"
+                # extension_to_find_list="_infarct_auto_removesmall.nii.gz"
+                # _infarct_auto_removesmall_path=""
+                # _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                # if len(_infarct_auto_removesmall_path)>3:
+                #     infarct_file_num=infarct_file_num+1
+                #     # subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
+                #     subprocess.call("echo " + "infarct_file_num::{}  >> /workingoutput/error.txt".format(infarct_file_num) ,shell=True )
+                extension_to_find_list="_csf_unet.nii.gz"
+                _infarct_auto_removesmall_path=""
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                if len(_infarct_auto_removesmall_path)>3:
+                    csf_file_num=csf_file_num+1
+                    subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                ###############################################################
+                extension_to_find_list="_levelset_sulci_at_ventricle.nii.gz"
+                _infarct_auto_removesmall_path=""
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                if len(_infarct_auto_removesmall_path)>3:
+                    mask_sulci_at_ventricle_file_num=mask_sulci_at_ventricle_file_num+1
+                    subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                    ####################################
+
+                _infarct_auto_removesmall_path=""
+                _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,segmentation_resource_dir,segmentation_extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
+                if len(_infarct_auto_removesmall_path)>3:
+                    mask_4DL_seg_total_file_num=mask_4DL_seg_total_file_num+1
+                    subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+
+
+                    #####################################
+        ### DICOM TO NIFTI STEP
+        niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+        columnname="NUMBER_NIFTIFILES"
+        columnvalue=str(niftifiles_num[0]) #str(0)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="NIFTIFILES_PREFIX"
+        columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
+        # if nifti_file_list.shape[0]>0:
+        #     for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
+        #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
+        #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
+        #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        axial_thin_count=count_brainaxial_or_thin(session_id)
+        columnname="AXIAL_SCAN_NUM"
+        columnvalue=axial_thin_count[0]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="THIN_SCAN_NUM"
+        columnvalue=axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="NUMBER_SELECTEDSCANS"
+        columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="INFARCT_FILE_NUM"
+        # columnvalue=infarct_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+
+        # columnname="VEN_ABOVE_VEN_MASK_FILES"
+        # columnvalue=mask_sulci_at_ventricle_file_num #axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname_project_mask="SAH_SEG_MASK_FILES"
+        columnvalue=mask_4DL_seg_total_file_num #axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname_project_mask,columnvalue,csvfilename)
+        columnname="CSF_FILE_NUM"
+        columnvalue=csf_file_num #axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="PDF_FILE_NUM"
+        columnvalue=pdf_file_num #axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        columnname="CSV_FILE_NUM"
+        columnvalue=csv_file_num #axial_thin_count[1]
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        ### SEGMENTATION STEP
+        # counter=counter+1
+        # if counter>=2 : #sessionId== "SNIPR01_E02503": # session_counter>6: #
+        #     break
+        # if counter > 6:
+        #     break
+        # print(sessionlist_filename_df)
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        returnvalue=1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+    return returnvalue
+
 def fill_sniprsession_list_ICH(args):
     sessionlist_filename=args.stuff[1]
     session_id=args.stuff[2]

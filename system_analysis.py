@@ -301,8 +301,8 @@ def append_results_to_analytics(args):
         total_column_name=args.stuff[3]
         session_analytics_csv_outputfile=args.stuff[4]
         current_scan_result_csvfile_df=pd.read_csv(current_scan_result_csvfile)
-        allfileswithprefix1_df = current_scan_result_csvfile_df[current_scan_result_csvfile_df[total_column_name].str.contains('TOTAL')]
-        allfileswithprefix1_df.to_csv(session_analytics_csv_outputfile)
+        # allfileswithprefix1_df = current_scan_result_csvfile_df[current_scan_result_csvfile_df[total_column_name].str.contains('TOTAL')]
+        # allfileswithprefix1_df.to_csv(session_analytics_csv_outputfile)
         ## get the total row of the result:
         #
         #

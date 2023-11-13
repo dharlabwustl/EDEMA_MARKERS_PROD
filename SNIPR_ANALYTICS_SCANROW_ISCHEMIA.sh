@@ -110,7 +110,7 @@ for eachfilename in ${dir_to_save}/*.csv ; do
 #        current_scan_result_csvfile=args.stuff[2]
 #        total_column_name=args.stuff[3]
 #        session_analytics_csv_outputfile=args.stuff[4]
-append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${eachfilename}  "SLICE" ${combined_metrics_results})
+append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${eachfilename}  "Slice" ${combined_metrics_results})
 outputfiles_present=$(python3 system_analysis.py "${append_results_to_analytics_arguments[@]}")
 #resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
 #copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})

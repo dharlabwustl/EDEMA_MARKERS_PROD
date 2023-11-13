@@ -284,9 +284,10 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     #resource_foldername="EDEMA_BIOMARKER"
     snipr_output_foldername="ICH_QUANTIFICATION"
     ### check if the file exists:
-    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .csv .pdf)
-    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .csv .pdf)
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
   done < <(tail -n +2 "${niftifile_csvfilename}")
+  outputfiles_present=0000000
   ################################################
   echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
   #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"

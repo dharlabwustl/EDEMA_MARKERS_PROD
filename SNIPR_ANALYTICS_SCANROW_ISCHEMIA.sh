@@ -105,7 +105,7 @@ csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 echo "CSV_FILENAMES" > ${csvfile_list}
 combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"
 for eachfilename in ${dir_to_save}/*.csv ; do
-
+echo ${copy_session}::${eachfilename}::"Slice"::${combined_metrics_results}
 #        session_analytics_csv_inputfile=args.stuff[1]
 #        current_scan_result_csvfile=args.stuff[2]
 #        total_column_name=args.stuff[3]

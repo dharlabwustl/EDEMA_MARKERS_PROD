@@ -65,7 +65,7 @@ URI="/data/projects/"${project_ID}
 dir_to_receive_the_data=${working_dir}
 resource_dir="${project_ID}_SESSION_PROCESSING_ANALYTICS"
 file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_SAH_ANALYTICS" ${file_path_csv})
+get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS" ${file_path_csv})
 outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 sessions_list=${working_dir}/${project_ID}'_sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
@@ -96,15 +96,15 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
   fi
 
-#  if [ $counter -eq 2 ]; then
-#    break
-#  fi
+  if [ $counter -eq 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 #
 csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 echo "CSV_FILENAMES" > ${csvfile_list}
 for eachfilename in ${dir_to_save}/*.csv ; do echo $eachfilename >> ${csvfile_list} ; done
-combined_metrics_results="${working_dir}/COMBINED_SESSIONS_SAH_METRICS_${time_now}.csv"
+combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"
 combinecsvsfiles_from_a_csv_containing_its_list_arguments=('combinecsvsfiles_from_a_csv_containing_its_list' ${csvfile_list} ${combined_metrics_results} )
 outputfiles_present=$(python3 system_analysis.py "${combinecsvsfiles_from_a_csv_containing_its_list_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'

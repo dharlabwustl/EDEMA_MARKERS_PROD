@@ -294,6 +294,48 @@ def non_numerical_val_counter(args):
         subprocess.call("echo " + "failed at expression::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return "I WORKED"
+def append_results_to_analytics(args):
+    try:
+        session_analytics_csv_inputfile=args.stuff[1]
+        current_scan_result_csvfile=args.stuff[2]
+        total_column_name=args.stuff[3]
+        session_analytics_csv_outputfile=args.stuff[4]
+        current_scan_result_csvfile_df=pd.read_csv(current_scan_result_csvfile)
+        allfileswithprefix1_df = current_scan_result_csvfile_df[current_scan_result_csvfile_df[total_column_name].str.contains('TOTAL')]
+        ## get the total row of the result:
+        #
+        #
+        # listofcsvfiles_filename=args.stuff[1]
+        # outputfilename=args.stuff[2]
+        # csv_counter=0
+        # combined_csv_df=""
+        # listofcsvfiles_filename_df=pd.read_csv(listofcsvfiles_filename)
+        # colname=list(listofcsvfiles_filename_df.columns)[0]
+        # # masterfile_scans_df=masterfile_scans_df[masterfile_scans_df[column_name_for_url].str.contains(file_extension)] #df["name"].str.contains("Honda")
+        # for index, row in listofcsvfiles_filename_df.iterrows():
+        #     # for each_file in listofcsvfiles_filename:
+        #     try:
+        #         each_file=row[colname]
+        #         each_file_df=pd.read_csv(each_file)
+        #         if csv_counter==0:
+        #             combined_csv_df=each_file_df
+        #             csv_counter=csv_counter+1
+        #         else:
+        #             combined_csv_df=pd.concat([combined_csv_df,each_file_df])
+        #     except:
+        #         pass
+        # combined_csv_df = combined_csv_df.drop_duplicates()
+        # combined_csv_df.to_csv(outputfilename, index=False, encoding='utf-8-sig')
+
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+        return 0
+
 def combinecsvsfiles_from_a_csv_containing_its_list(args): #listofcsvfiles_filename,outputfilename):
     try:
         listofcsvfiles_filename=args.stuff[1]

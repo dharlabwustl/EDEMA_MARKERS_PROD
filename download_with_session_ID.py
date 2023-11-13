@@ -1506,6 +1506,22 @@ def get_latest_file_SAH(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
     x_df=allfileswithprefix1_df.iloc[[0]]
     return x_df
+def get_latest_file_ICH_CSV_COLDROPPED(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
+    allfileswithprefix1_df=df_listfile
+    # if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
+    #     allfileswithprefix1_df=allfileswithprefix1_df[allfileswithprefix1_df.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
+    allfileswithprefix1_df["FILE_BASENAME"]=allfileswithprefix1_df["URI"].apply(os.path.basename)
+
+    # allfileswithprefix1_df['FILE_BASENAME']=allfileswithprefix1_df["FILENAME"].apply(os.path.basename)
+    allfileswithprefix1_df['DATE']=allfileswithprefix1_df['FILE_BASENAME']
+    allfileswithprefix1_df['DATE'] = allfileswithprefix1_df['DATE'].str[(-14-13):(-4-13)]
+    allfileswithprefix1_df['DATETIME'] =    allfileswithprefix1_df['DATE']
+    allfileswithprefix1_df['DATETIME'] = pd.to_datetime(allfileswithprefix1_df['DATETIME'], format='%m_%d_%Y', errors='coerce')
+    allfileswithprefix1_df = allfileswithprefix1_df.sort_values(by=['DATETIME'], ascending=False)
+    # print(allfileswithprefix1_df["DATETIME"])
+    allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
+    x_df=allfileswithprefix1_df.iloc[[0]]
+    return x_df
 
 def call_download_a_singlefile_with_URIString(args):
     url=args.stuff[1]

@@ -561,6 +561,8 @@ def get_latest_filepath_from_metadata_SAH(URI,resource_dir,extension_to_find_lis
         if len(SCAN_URI_NIFTI_FILEPREFIX)>0:
             df_listfile=df_listfile[df_listfile.URI.str.contains(SCAN_URI_NIFTI_FILEPREFIX)]
         latest_file_df=get_latest_file_SAH(df_listfile) #,SCAN_URI_NIFTI_FILEPREFIX)
+        if "dropped.csv" in extension_to_find_list:
+            latest_file_df=get_latest_file_ICH_CSV_COLDROPPED(df_listfile)
         latest_file_path=str(latest_file_df.at[0,"URI"])
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
@@ -2053,7 +2055,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 columnvalue=str(_infarct_auto_removesmall_path) #str(0)
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
 
-                extension_to_find_list=".csv" #_infarct_auto_removesmall.nii.gz"
+                extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
                 _infarct_auto_removesmall_path=""
                 _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
                 subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )

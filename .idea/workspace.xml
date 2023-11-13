@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS_SESSION_ONLY_ISCHEMIA.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS_SESSION_ONLY_ISCHEMIA.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -433,7 +433,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="2957" />
+    <option name="localTasksCounter" value="2959" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -456,5 +456,16 @@
     <MESSAGE value="no comment" />
     <MESSAGE value="Flowchart commit" />
     <option name="LAST_COMMIT_MESSAGE" value="Flowchart commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
+          <line>610</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

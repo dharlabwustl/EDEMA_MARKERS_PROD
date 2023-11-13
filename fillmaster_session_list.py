@@ -1025,7 +1025,10 @@ def append_results_to_analytics(args):
         for each_column_name in current_scan_result_csvfile_df.columns:
             # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
             fill_datapoint_each_sessionn_1(session_ID,each_column_name,current_scan_result_csvfile_df.at[0,each_column_name],session_analytics_csv_inputfile)
-            subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
+            if "FileName" in each_column_name:
+                fill_datapoint_each_sessionn_1(session_ID,"SCAN_ID",current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1],session_analytics_csv_inputfile)
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
+
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

@@ -1014,6 +1014,17 @@ def add_file_size(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
+def donwload_xml_of_a_session(args):
+    pdffile_url=args.stuff[1]
+    session_ID=pdffile_url.split('/')[3]
+
+    try:
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    pass
+
 def append_results_to_analytics(args):
     try:
         session_analytics_csv_inputfile=args.stuff[1]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-import inspect
+import inspect,xmltodict
 
 # In[1]:
 
@@ -1024,7 +1024,38 @@ def donwload_xml_of_a_session(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     pass
+def append_sessionxmlinfo_to_analytics(args):
+    try:
+        xmlfile=args.stuff[2]
+        csvfilename=args.stuff[3]
+        subj_listfile=args.stuff[4]
+        subj_listfile_df=pd.read_csv(subj_listfile)
+        session_id=args.stuff[1]
+        identifier=session_id
+        xmlfile_dict = xmltodict.parse(xmlfile)
+        columnname='scanner'
+        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']['@model']
+        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        columnname='subject_id'
+        columnvalue=subj_listfile_df[subj_listfile_df['label']==xmlfile_dict['xnat:CTSession']['xnat:subject_ID']]['label']
+        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        # session_analytics_csv_inputfile=args.stuff[1]
+        # current_scan_result_csvfile=args.stuff[2]
+        # session_ID=args.stuff[3]
+        # # session_analytics_csv_outputfile=args.stuff[4]
+        # current_scan_result_csvfile_df=pd.read_csv(current_scan_result_csvfile)
+        # # session_ID=result_csvfile_url.split('/')[3]
+        # for each_column_name in current_scan_result_csvfile_df.columns:
+        #     # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        #     fill_datapoint_each_sessionn_1(session_ID,each_column_name,current_scan_result_csvfile_df.at[0,each_column_name],session_analytics_csv_inputfile)
+        #     if "FileName" in each_column_name:
+        #         fill_datapoint_each_sessionn_1(session_ID,"SCAN_SELECTED",current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1],session_analytics_csv_inputfile)
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
 
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
 def append_results_to_analytics(args):
     try:
         session_analytics_csv_inputfile=args.stuff[1]

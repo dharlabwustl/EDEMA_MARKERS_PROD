@@ -1032,7 +1032,10 @@ def append_sessionxmlinfo_to_analytics(args):
         subj_listfile_df=pd.read_csv(subj_listfile)
         session_id=args.stuff[1]
         identifier=session_id
-        xmlfile_dict = xmltodict.parse(xmlfile)
+        with open(xmlfile) as fd:
+            xmlfile_dict = xmltodict.parse(fd.read())
+
+        # xmlfile_dict = xmltodict.parse(xmlfile)
         columnname='scanner'
         columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']

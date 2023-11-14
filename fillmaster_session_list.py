@@ -1034,8 +1034,6 @@ def append_sessionxmlinfo_to_analytics(args):
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
-
-        xmlfile_dict = xmltodict.parse(xmlfile)
         columnname='scanner'
         # columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']

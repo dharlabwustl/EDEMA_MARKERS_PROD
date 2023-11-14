@@ -73,7 +73,8 @@ copy_session=${sessions_list%.csv}_ANALYTICS_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 counter=0
 dir_to_save=${output_directory}
-
+subject_list=${working_dir}/'subjects.csv'
+ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 while IFS=',' read -ra array; do
   echo array::${array[3]}
   pdf_file_location=${array[3]}
@@ -99,6 +100,14 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session} )
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
+                session_id=${this_session_id}
+            xmlfile=${this_session_id}.xml
+            csvfilename=${copy_session}
+            subj_listfile=${subject_list}
+
+
+        append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile}  )
+        outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
 
   fi
 

@@ -78,7 +78,7 @@ while IFS=',' read -ra array; do
   echo array::${array[3]}
   pdf_file_location=${array[3]}
   csv_file_location=${array[4]}
-  this_session_id=${array[1]}
+  this_session_id=${array[0]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}
   curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} > ${this_session_id}.xml

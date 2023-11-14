@@ -1037,7 +1037,7 @@ def append_sessionxmlinfo_to_analytics(args):
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']['@model']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         columnname='subject_id'
-        columnvalue=subj_listfile_df[subj_listfile_df['label']==xmlfile_dict['xnat:CTSession']['xnat:subject_ID']]['label']
+        columnvalue=subj_listfile_df[subj_listfile_df['label']==xmlfile_dict['xnat:CTSession']['xnat:subject_ID']].reset_index()['label'][0]
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # session_analytics_csv_inputfile=args.stuff[1]
         # current_scan_result_csvfile=args.stuff[2]

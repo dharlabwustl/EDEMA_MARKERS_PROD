@@ -1026,11 +1026,11 @@ def donwload_xml_of_a_session(args):
     pass
 def append_sessionxmlinfo_to_analytics(args):
     try:
+        session_id=args.stuff[1]
         xmlfile=args.stuff[2]
         csvfilename=args.stuff[3]
         subj_listfile=args.stuff[4]
         subj_listfile_df=pd.read_csv(subj_listfile)
-        session_id=args.stuff[1]
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
@@ -1040,12 +1040,12 @@ def append_sessionxmlinfo_to_analytics(args):
         columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        columnname='subject_id'
-        columnvalue=""
-        columnvalue_1=subj_listfile_df[subj_listfile_df['ID']==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
-        if len(columnvalue_1) >0 :
-            columnvalue=str(columnvalue_1.reset_index()['label'][0])
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        # columnname='subject_id'
+        # columnvalue=""
+        # columnvalue_1=subj_listfile_df[subj_listfile_df['ID']==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
+        # if len(columnvalue_1) >0 :
+        #     columnvalue=str(columnvalue_1.reset_index()['label'][0])
+        # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # session_analytics_csv_inputfile=args.stuff[1]
         # current_scan_result_csvfile=args.stuff[2]
         # session_ID=args.stuff[3]

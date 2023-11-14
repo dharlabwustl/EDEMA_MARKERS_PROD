@@ -1036,10 +1036,10 @@ def append_sessionxmlinfo_to_analytics(args):
             xmlfile_dict = xmltodict.parse(fd.read())
 
         # xmlfile_dict = xmltodict.parse(xmlfile)
-        columnname='scanner'
-        # columnvalue=""
-        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        # columnname='scanner'
+        # # columnvalue=""
+        # columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
+        # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # columnname='subject_id'
         # columnvalue=""
         # columnvalue_1=subj_listfile_df[subj_listfile_df['ID']==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
@@ -1057,7 +1057,7 @@ def append_sessionxmlinfo_to_analytics(args):
         #     fill_datapoint_each_sessionn_1(session_ID,each_column_name,current_scan_result_csvfile_df.at[0,each_column_name],session_analytics_csv_inputfile)
         #     if "FileName" in each_column_name:
         #         fill_datapoint_each_sessionn_1(session_ID,"SCAN_SELECTED",current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1],session_analytics_csv_inputfile)
-        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

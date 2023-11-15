@@ -998,6 +998,12 @@ def remove_a_column(csvfilename,columnnamelist,outputfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
     csvfilename_df.to_csv(outputfilename)
+def remove_columns(args):
+    csvfilename=args.stuff[1]
+    outputfilename=args.stuff[2]
+    columnnamelist=args.stuff[3:]
+    remove_a_column(csvfilename,columnnamelist,outputfilename)
+
 def add_file_size(args):
     try:
         session_ID=args.stuff[1]

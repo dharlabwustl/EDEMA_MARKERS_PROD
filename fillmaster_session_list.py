@@ -1050,7 +1050,7 @@ def sort_data_first_col_date(args):
         df['acquisition_datetime_1'] = pd.to_datetime(df[sorting_columns[0]], format='%m/%d/%Y %H:%M')
         df=df.sort_values(by=['acquisition_datetime_1'])
         df=df.sort_values(by=[sorting_columns[1]])
-        df=df.drop(['acquisition_datetime_1'], axis=1)
+        # df=df.drop(['acquisition_datetime_1'], axis=1)
         df.to_csv(csvfilename_output,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

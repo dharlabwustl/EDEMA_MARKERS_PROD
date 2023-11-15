@@ -1126,7 +1126,7 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
             acquisition_time = reader.GetMetaData(k)
             acquisition_time_h=str(acquisition_time[0:2])
             acquisition_time_m=str(acquisition_time[2:4])
-    dateandtime=acquisition_date_month+'/'+acquisition_date_day+'/'acquisition_date_year + ' '+acquisition_time_h+':'+acquisition_time_m
+    dateandtime=acquisition_date_month+'/'+acquisition_date_day+'/'+acquisition_date_year + ' '+acquisition_time_h+':'+acquisition_time_m
     return res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime
 
 

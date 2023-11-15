@@ -1035,6 +1035,7 @@ def append_sessionxmlinfo_to_analytics(args):
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
+        # Acquisition site
         columnname='acquisition_site'
         # columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
@@ -1063,25 +1064,27 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         columnname="SLICE_NUM"
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        res_x,res_y,res_z,scanner_model=get_dicom_resolution(df_scan.at[0,"URI"],dir_to_save)
+        # voxel resolution.#         Slice thickness
+        res_x,res_y,res_z,scanner_model,scanner_manufacturer=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
         fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'scanner_manufacturer',scanner_manufacturer,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
-#         Slice thickness
 
 
 
-# Acquisition site
+
+
 # Acquisition date and time (in datetime format)
-# voxel resolution.
+
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
 
-def get_dicom_resolution(dicom_url,dir_to_save="./"):
+def get_dicom_information(dicom_url,dir_to_save="./"):
     download_a_singlefile_with_URIString(dicom_url,os.path.basename(dicom_url),dir_to_save)
     dicom_filename=os.path.join(dir_to_save,os.path.basename(dicom_url))
     reader = sitk.ImageFileReader()
@@ -1092,6 +1095,12 @@ def get_dicom_resolution(dicom_url,dir_to_save="./"):
     res_y=''
     res_z=''
     scanner_model=''
+    scanner_manufacturer=''
+    acquisition_date_year=''
+    acquisition_date_month=''
+    acquisition_date_day=''
+    acquisition_time_h=''
+    acquisition_time_m=''
     for k in reader.GetMetaDataKeys():
         if k[0:4]=='0028' and k[5:9]=='0030':
             v = reader.GetMetaData(k).split('\\')
@@ -1103,8 +1112,20 @@ def get_dicom_resolution(dicom_url,dir_to_save="./"):
         if k[0:4]=='0008' and k[5:9]=='1090':
             scanner_model = reader.GetMetaData(k)
             print(scanner_model)
-
-    return res_x,res_y,res_z,scanner_model
+        if k[0:4]=='0008' and k[5:9]=='0070':
+            scanner_manufacturer = reader.GetMetaData(k)
+            print(scanner_model)
+        if k[0:4]=='0008' and k[5:9]=='0022':
+            acquisition_date = reader.GetMetaData(k)
+            acquisition_date_year=str(acquisition_date[0:4])
+            acquisition_date_month=str(acquisition_date[4:6])
+            acquisition_date_day=str(acquisition_date[6:8])
+        if k[0:4]=='0008' and k[5:9]=='0032':
+            acquisition_time = reader.GetMetaData(k)
+            acquisition_time_h=str(acquisition_time[0:2])
+            acquisition_time_m=str(acquisition_time[2:4])
+    dateandtime=acquisition_date_month+'/'+acquisition_date_day+'/'acquisition_date_year + ' '+acquisition_time_h+':'+acquisition_time_m
+    return res_x,res_y,res_z,scanner_model,scanner_manufacturer
 
 
     return 0,0,0

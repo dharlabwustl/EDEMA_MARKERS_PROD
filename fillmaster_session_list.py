@@ -1035,7 +1035,7 @@ def append_sessionxmlinfo_to_analytics(args):
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
-        columnname='session_xml_scanner'
+        columnname='acquisition_site'
         # columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)

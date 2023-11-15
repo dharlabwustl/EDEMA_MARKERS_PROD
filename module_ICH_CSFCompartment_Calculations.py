@@ -349,6 +349,22 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     slice_3_layer1=cv2.line(slice_3_layer1, (int(points1[0][0]),int(points1[0][1])), (int(points1[1][0]),int(points1[1][1])), (0,255,0), lineThickness)
                     numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
                     ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
+                    # font
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    # org
+                    org = (50, 50)
+
+                    # fontScale
+                    fontScale = 1
+
+                    # Blue color in BGR
+                    color = (0, 0, 255)
+
+                    # Line thickness of 2 px
+                    thickness = 2
+                    if np.sum(numpy_image_mask[:,:,img_idx]) >0:
+                        slice_3_layer = cv2.putText(slice_3_layer,str(slice_number)+'with PHE' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+
                     cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
                     cv2.imwrite(imagename,img_with_line1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
@@ -593,6 +609,21 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     numpy_image_mask_flatten=numpy_image_mask[:,:,img_idx].flatten()
                     ICH_pixels_number=ICH_pixels_number+len(numpy_image_mask_flatten[np.nonzero(numpy_image_mask_flatten)]) #ICH_pixels.flatten()
                     cv2.imwrite(imagename,img_with_line1)
+                    # font
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    # org
+                    org = (50, 50)
+
+                    # fontScale
+                    fontScale = 1
+
+                    # Blue color in BGR
+                    color = (0, 0, 255)
+
+                    # Line thickness of 2 px
+                    thickness = 2
+                    if np.sum(numpy_image_mask[:,:,img_idx]) >0:
+                        slice_3_layer = cv2.putText(slice_3_layer,str(slice_number)+'with ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                     cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 

@@ -115,11 +115,13 @@ while IFS=',' read -ra array; do
     break
   fi
 done < <(tail -n +2 "${copy_session}")
-
+new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
+time_now=$(date -dnow +%Y%m%d%H%M%S)
+new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
 columnname='subject_id'
 new_position=0
-csvfilename_edited=${csvfilename}
-call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${csvfilename})
+csvfilename_edited=${csvfilename%.csv}_
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"

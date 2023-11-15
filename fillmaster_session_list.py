@@ -10,6 +10,7 @@ import numpy as np
 import os,sys,glob
 import datetime
 import argparse
+import SimpleITK as sitk
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
@@ -1034,7 +1035,7 @@ def append_sessionxmlinfo_to_analytics(args):
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
-        columnname='scanner'
+        columnname='session_xml_scanner'
         # columnvalue=""
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
@@ -1050,7 +1051,7 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-def append_dicominfo_to_analytics(session_id,scan_id,csvfilename):
+def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./"):
     try:
         identifier=session_id
         resource_foldername="DICOM"
@@ -1062,10 +1063,11 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename):
         columnname="SLICE_NUM"
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        res_x,res_y,res_z=get_dicom_resolution(df_scan.at[0,"URI"],dir_to_save)
 #         Slice thickness
 
 
-# Scanner
+
 # Acquisition site
 # Acquisition date and time (in datetime format)
 # voxel resolution.
@@ -1074,6 +1076,19 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
+
+def get_dicom_resolution(dicom_url,dir_to_save="./"):
+    download_a_singlefile_with_URIString(dicom_url,os.path.basename(dicom_url),dir_to_save)
+    dicom_filename=os.path.join(dir_to_save,os.path.basename(dicom_url))
+    reader = sitk.ImageFileReader()
+    reader.SetFileName(dicom_filename)
+    reader.LoadPrivateTagsOn()
+    reader.ReadImageInformation()
+    for k in reader.GetMetaDataKeys():
+        v = reader.GetMetaData(k)
+        print(f'({k}) = = "{v}"')
+    return 0,0,0
+
 def append_results_to_analytics(args):
     try:
         session_analytics_csv_inputfile=args.stuff[1]
@@ -1091,7 +1106,7 @@ def append_results_to_analytics(args):
             if "FileName" in each_column_name:
                 scan_id=current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
                 fill_datapoint_each_sessionn_1(session_ID,"SCAN_SELECTED",scan_id,session_analytics_csv_inputfile)
-                append_dicominfo_to_analytics(session_ID,scan_id,session_analytics_csv_inputfile)
+                append_dicominfo_to_analytics(session_ID,scan_id,session_analytics_csv_inputfile,os.path.dirname(session_analytics_csv_inputfile))
                 scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
                 # Kernel (scan description) e.g. Head H30S
                 subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )

@@ -1097,7 +1097,7 @@ def append_results_to_analytics(args):
 
 
 
-    subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],session_analytics_csv_inputfile) ,shell=True )
 
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))

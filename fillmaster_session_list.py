@@ -1063,10 +1063,11 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         columnname="SLICE_NUM"
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        res_x,res_y,res_z=get_dicom_resolution(df_scan.at[0,"URI"],dir_to_save)
+        res_x,res_y,res_z,scanner_model=get_dicom_resolution(df_scan.at[0,"URI"],dir_to_save)
         fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
 #         Slice thickness
 
 
@@ -1090,6 +1091,7 @@ def get_dicom_resolution(dicom_url,dir_to_save="./"):
     res_x=''
     res_y=''
     res_z=''
+    scanner_model=''
     for k in reader.GetMetaDataKeys():
         if k[0:4]=='0028' and k[5:9]=='0030':
             v = reader.GetMetaData(k).split('\\')
@@ -1098,7 +1100,11 @@ def get_dicom_resolution(dicom_url,dir_to_save="./"):
         if k[0:4]=='0018' and k[5:9]=='0050':
             res_z = reader.GetMetaData(k)
             print(res_z)
-    return res_x,res_y,res_z
+        if k[0:4]=='0008' and k[5:9]=='1090':
+            scanner_model = reader.GetMetaData(k)
+            print(scanner_model)
+
+    return res_x,res_y,res_z,scanner_model
 
 
     return 0,0,0

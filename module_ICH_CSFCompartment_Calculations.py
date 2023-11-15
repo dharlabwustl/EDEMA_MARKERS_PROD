@@ -352,7 +352,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     # font
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     # org
-                    org = (50, 50)
+                    org = (50, 450)
 
                     # fontScale
                     fontScale = 1
@@ -361,7 +361,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     color = (0, 0, 255)
 
                     # Line thickness of 2 px
-                    thickness = 2
+                    thickness = 3
                     if np.sum(numpy_image_mask[:,:,img_idx]) >0:
                         slice_3_layer1 = cv2.putText(slice_3_layer1,' PHE' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
 
@@ -612,7 +612,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     # font
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     # org
-                    org = (50, 50)
+                    org = (50, 450)
 
                     # fontScale
                     fontScale = 1
@@ -621,7 +621,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     color = (0, 0, 255)
 
                     # Line thickness of 2 px
-                    thickness = 2
+                    thickness = 3
                     if np.sum(numpy_image_mask[:,:,img_idx]) >0:
                         slice_3_layer1 = cv2.putText(slice_3_layer1,' ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                     cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #

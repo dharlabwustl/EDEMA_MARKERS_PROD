@@ -1088,7 +1088,7 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         fill_datapoint_each_sessionn_1(identifier,'scanner',scanner_manufacturer+' '+scanner_model,csvfilename)
         # fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
-
+        fill_datapoint_each_sessionn_1(identifier,'body_part',bodypart,csvfilename)
 
 
 

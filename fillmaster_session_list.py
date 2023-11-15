@@ -1065,12 +1065,13 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # voxel resolution.#         Slice thickness
-        res_x,res_y,res_z,scanner_model,scanner_manufacturer=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
+        res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
         fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'scanner_manufacturer',scanner_manufacturer,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
 
 
 
@@ -1101,6 +1102,7 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
     acquisition_date_day=''
     acquisition_time_h=''
     acquisition_time_m=''
+    dateandtime=''
     for k in reader.GetMetaDataKeys():
         if k[0:4]=='0028' and k[5:9]=='0030':
             v = reader.GetMetaData(k).split('\\')
@@ -1125,7 +1127,7 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
             acquisition_time_h=str(acquisition_time[0:2])
             acquisition_time_m=str(acquisition_time[2:4])
     dateandtime=acquisition_date_month+'/'+acquisition_date_day+'/'acquisition_date_year + ' '+acquisition_time_h+':'+acquisition_time_m
-    return res_x,res_y,res_z,scanner_model,scanner_manufacturer
+    return res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime
 
 
     return 0,0,0

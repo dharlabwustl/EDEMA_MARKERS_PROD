@@ -363,7 +363,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     # Line thickness of 2 px
                     thickness = 2
                     if np.sum(numpy_image_mask[:,:,img_idx]) >0:
-                        slice_3_layer = cv2.putText(slice_3_layer,str(slice_number)+'with PHE' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                        slice_3_layer1 = cv2.putText(slice_3_layer1,str(slice_number)+'with PHE' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
 
                     cv2.imwrite(imagename_class2,slice_3_layer1) # img_with_line1) #
                     cv2.imwrite(imagename,img_with_line1) #
@@ -623,7 +623,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     # Line thickness of 2 px
                     thickness = 2
                     if np.sum(numpy_image_mask[:,:,img_idx]) >0:
-                        slice_3_layer = cv2.putText(slice_3_layer,str(slice_number)+'with ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                        slice_3_layer1 = cv2.putText(slice_3_layer1,str(slice_number)+'with ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                     cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                     cv2.imwrite(image_ICH_details,img_with_line1)
 

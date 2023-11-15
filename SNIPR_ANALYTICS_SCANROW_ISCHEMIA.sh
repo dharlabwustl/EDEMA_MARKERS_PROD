@@ -111,7 +111,7 @@ while IFS=',' read -ra array; do
 
   fi
 
-  if [ $counter -eq 2 ]; then
+  if [ $counter -eq 10 ]; then
     break
   fi
 done < <(tail -n +2 "${copy_session}")

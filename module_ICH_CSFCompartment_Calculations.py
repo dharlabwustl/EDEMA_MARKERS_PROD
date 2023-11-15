@@ -352,7 +352,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
                     # font
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     # org
-                    org = (350, 350)
+                    org = (350, 450)
 
                     # fontScale
                     fontScale = 1
@@ -612,7 +612,7 @@ def measure_ICH_Class1_Feb24_2023(): #niftifilename,npyfiledirectory,niftifilena
                     # font
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     # org
-                    org = (350, 350)
+                    org = (350, 450)
 
                     # fontScale
                     fontScale = 1

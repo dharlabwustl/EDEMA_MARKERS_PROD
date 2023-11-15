@@ -118,12 +118,29 @@ done < <(tail -n +2 "${copy_session}")
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
+##############################EDITING################################
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice  FILENAME_NIFTI)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 columnname='subject_id'
 new_position=0
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='FILENAME_NIFTI'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='acquisition_datetime'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='SCAN_SELECTED'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_PATH" "CSV_FILE_PATH")
+
+
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "PDF_FILE_PATH" "CSV_FILE_PATH")
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" > ${csvfile_list}

@@ -997,7 +997,17 @@ def call_edit_session_analytics_file(args):
 def remove_a_column(csvfilename,columnnamelist,outputfilename):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
-    csvfilename_df.to_csv(outputfilename)
+    csvfilename_df.to_csv(outputfilename,index=False)
+def rename_a_column(csvfilename,oldname,newname,outputfilename):
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df.rename(columns={oldname:newname}, inplace=True)
+    csvfilename_df.to_csv(outputfilename,index=False)
+def rename_columns(args):
+    csvfilename=args.stuff[1]
+    outputfilename=args.stuff[2]
+    oldname=args.stuff[3]
+    newname=args.stuff[4]
+    rename_a_column(csvfilename,oldname,newname,outputfilename)
 def remove_columns(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]

@@ -65,7 +65,7 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
     counter=$(( counter+1 ))
   fi
-    if [ $counter -eq 20 ]; then
+    if [ $counter -eq 10 ]; then
       break
     fi
 done < <(tail -n +2 "${sessions_list}")

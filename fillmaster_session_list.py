@@ -1094,6 +1094,7 @@ def append_results_to_analytics(args):
                 append_dicominfo_to_analytics(session_ID,scan_id,session_analytics_csv_inputfile)
                 scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].str==str(scan_id)].reset_index().at[0,'series_description']
                 # Kernel (scan description) e.g. Head H30S
+                subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
                 fill_datapoint_each_sessionn_1(session_ID,"SCAN_DESCRIPTION",scan_description,session_analytics_csv_inputfile)
 
 

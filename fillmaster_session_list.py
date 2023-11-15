@@ -1054,7 +1054,7 @@ def append_sessionxmlinfo_to_analytics(args):
         # Acquisition site
         columnname='acquisition_site'
         # columnvalue=""
-        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
+        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:acquisition_site']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         columnname='subject_id'
         columnvalue=""

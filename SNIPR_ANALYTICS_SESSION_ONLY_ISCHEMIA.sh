@@ -89,5 +89,12 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
   fi
 done < <(tail -n +2 "${copy_session}")
+
 ##############################
-copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})
+columnname='subject_id'
+new_position=0
+csvfilename_edited=${csvfilename}
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${csvfilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+#copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

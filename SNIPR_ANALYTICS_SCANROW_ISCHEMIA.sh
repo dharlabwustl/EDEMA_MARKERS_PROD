@@ -120,10 +120,11 @@ time_now=$(date -dnow +%Y%m%d%H%M%S)
 new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
 columnname='subject_id'
 new_position=0
-csvfilename_edited=${csvfilename%.csv}_
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${csvfilename} ${columnname} ${new_position}  ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
+
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_PATH" "CSV_FILE_PATH")
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" > ${csvfile_list}
 #combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"

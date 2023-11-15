@@ -1064,6 +1064,9 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         res_x,res_y,res_z=get_dicom_resolution(df_scan.at[0,"URI"],dir_to_save)
+        fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'res_z',res_z,csvfilename)
 #         Slice thickness
 
 
@@ -1084,9 +1087,21 @@ def get_dicom_resolution(dicom_url,dir_to_save="./"):
     reader.SetFileName(dicom_filename)
     reader.LoadPrivateTagsOn()
     reader.ReadImageInformation()
+    res_x=''
+    res_y=''
+    res_z=''
     for k in reader.GetMetaDataKeys():
         v = reader.GetMetaData(k)
-        print(f'({k}) = = "{v}"')
+        if k[0:4]=='0028' and k[5:9]=='0030':
+            v = reader.GetMetaData(k).split('\\')
+            res_x=v[0]
+            res_y=v[1]
+        if k[0:4]=='0018' and k[5:9]=='0050':
+            res_z = reader.GetMetaData(k)
+            print(res_z)
+    return res_x,res_y,res_z
+
+
     return 0,0,0
 
 def append_results_to_analytics(args):

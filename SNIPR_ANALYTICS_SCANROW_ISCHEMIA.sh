@@ -85,14 +85,14 @@ while IFS=',' read -ra array; do
   xml_filename=${workinginput}/${this_session_id}.xml
   curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
 
-  if [ ${n_pdffilename_length} -gt 1 ]; then
-    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
-    output_filename=$(basename ${pdf_file_location})
-    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
-    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-    copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
-    counter=$((counter + 1))
-  fi
+#  if [ ${n_pdffilename_length} -gt 1 ]; then
+#    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
+#    output_filename=$(basename ${pdf_file_location})
+#    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
+#    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+#    copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
+#    counter=$((counter + 1))
+#  fi
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
   if [ ${n_csvfilename_length} -gt 1 ]; then

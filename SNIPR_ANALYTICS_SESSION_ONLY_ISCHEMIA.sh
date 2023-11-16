@@ -63,11 +63,11 @@ while IFS=',' read -ra array; do
     echo "${array[5]}"
     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_1' ${copy_session} ${array[1]}) ##
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
-    counter=$(( counter+1 ))
+#    counter=$(( counter+1 ))
   fi
-    if [ $counter -eq 10 ]; then
-      break
-    fi
+#    if [ $counter -eq 10 ]; then
+#      break
+#    fi
 done < <(tail -n +2 "${sessions_list}")
 dir_to_save=${working_dir}
 resource_dirname_at_snipr=${project_ID}"_SESSION_PROCESSING_ANALYTICS"

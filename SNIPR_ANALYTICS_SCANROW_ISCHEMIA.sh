@@ -125,8 +125,8 @@ call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${ne
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 
-call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} NUMBER_NIFTIFILES	NIFTIFILES_PREFIX	AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	PDF_FILE_NUM	CSV_FILE_NUM
- "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "PDF_FILE_PATH" "CSV_FILE_PATH")
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} 'NON INFARCT DENSITY' NUMBER_NIFTIFILES		AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	CSV_FILE_NUM
+ "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE"  "CSV_FILE_PATH")
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 columnname='subject_id'

@@ -113,9 +113,9 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-  if [ $counter -eq 2 ]; then
-    break
-  fi
+#  if [ $counter -eq 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

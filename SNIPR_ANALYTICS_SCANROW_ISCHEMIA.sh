@@ -117,8 +117,7 @@ while IFS=',' read -ra array; do
 #    break
 #  fi
 done < <(tail -n +2 "${copy_session}")
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
@@ -203,7 +202,9 @@ call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${ne
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'NIFTIFILES_PREFIX'  scan_stem)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-
+resource_dirname_at_snipr=${project_ID}_RESULTS_CSV
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'PDF_FILE_NUM'  pdf_created)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 copysinglefile_to_sniprproject ${project_ID} "(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

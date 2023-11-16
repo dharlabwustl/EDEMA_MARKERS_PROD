@@ -117,55 +117,55 @@ done < <(tail -n +2 "${copy_session}")
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
-###############################EDITING################################
-#call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice  FILENAME_NIFTI)
+##############################EDITING################################
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice  FILENAME_NIFTI)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} NUMBER_NIFTIFILES	NIFTIFILES_PREFIX	AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	PDF_FILE_NUM	CSV_FILE_NUM
+ "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "PDF_FILE_PATH" "CSV_FILE_PATH")
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+columnname='subject_id'
+new_position=0
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+columnname='FILENAME_NIFTI'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='acquisition_datetime'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+columnname='acquisition_site'
+new_position=3
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='SCAN_SELECTED'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file} 'acquisition_datetime' 'subject_id' )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+#call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} acquisition_datetime_1)
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-#
-#call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} NUMBER_NIFTIFILES	NIFTIFILES_PREFIX	AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	PDF_FILE_NUM	CSV_FILE_NUM
-# "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "PDF_FILE_PATH" "CSV_FILE_PATH")
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-#columnname='subject_id'
-#new_position=0
-#call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-#columnname='FILENAME_NIFTI'
-#new_position=2
-#call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#columnname='acquisition_datetime'
-#new_position=2
-#call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-#columnname='acquisition_site'
-#new_position=3
-#call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#columnname='SCAN_SELECTED'
-#new_position=2
-#call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position}  ${new_analytics_file})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-#call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file} 'acquisition_datetime' 'subject_id' )
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#
-##call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} acquisition_datetime_1)
-##outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-##csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
-##echo "CSV_FILENAMES" > ${csvfile_list}
-##combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"
-##for eachfilename in ${dir_to_save}/*.csv ; do
-##echo ${copy_session}::${eachfilename}::"Slice"::${combined_metrics_results}
-###session_analytics_csv_inputfile=args.stuff[1]
-###current_scan_result_csvfile=args.stuff[2]
-###total_column_name=args.stuff[3]
-###session_analytics_csv_outputfile=args.stuff[4]
-###append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${eachfilename}  "Slice" ${combined_metrics_results})
-###outputfiles_present=$(python3 system_analysis.py "${append_results_to_analytics_arguments[@]}")
-###resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-###copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
-###echo $eachfilename >> ${csvfile_list} ;
-##done
+#csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
+#echo "CSV_FILENAMES" > ${csvfile_list}
+#combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"
+#for eachfilename in ${dir_to_save}/*.csv ; do
+#echo ${copy_session}::${eachfilename}::"Slice"::${combined_metrics_results}
+##session_analytics_csv_inputfile=args.stuff[1]
+##current_scan_result_csvfile=args.stuff[2]
+##total_column_name=args.stuff[3]
+##session_analytics_csv_outputfile=args.stuff[4]
+##append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${eachfilename}  "Slice" ${combined_metrics_results})
+##outputfiles_present=$(python3 system_analysis.py "${append_results_to_analytics_arguments[@]}")
+##resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
+##copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
+##echo $eachfilename >> ${csvfile_list} ;
+#done

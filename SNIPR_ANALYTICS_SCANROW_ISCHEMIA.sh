@@ -96,8 +96,8 @@ while IFS=',' read -ra array; do
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
   if [ ${n_csvfilename_length} -gt 1 ]; then
-    xml_filename=${workinginput}/${this_session_id}.xml
-      curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
+#    xml_filename=${workinginput}/${this_session_id}.xml
+#    curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
 
     csv_output_filename=$(basename ${csv_file_location})
     get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${csv_file_location} ${csv_output_filename} ${dir_to_save})

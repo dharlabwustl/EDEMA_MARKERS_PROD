@@ -218,3 +218,9 @@ then
     /software/flowchart_for_one_project.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 32 ]] ;
+then
+      PROJECT_ID=${1}
+    /software/renamecolumns.sh  ${PROJECT_ID}  $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+

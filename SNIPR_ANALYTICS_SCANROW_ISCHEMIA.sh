@@ -111,12 +111,12 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-  if [ $counter -gt  165 ]; then
+  if [ $counter -gt  2 ]; then
     break
   fi
-    if [ $counter -lt 160 ]; then
-      continue
-    fi
+#    if [ $counter -lt 160 ]; then
+#      continue
+#    fi
 done < <(tail -n +2 "${copy_session}")
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
@@ -129,7 +129,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 
 
 call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} 'NON INFARCT DENSITY' NUMBER_NIFTIFILES	AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	PDF_FILE_NUM	CSV_FILE_NUM
- "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE"  "CSV_FILE_PATH" 'INFARCT REFLECTION VOLUME')
+ "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE"  "CSV_FILE_PATH" 'INFARCT REFLECTION VOLUME' 'INFARCT THRESH RANGE' 'NORMAL THRESH RANGE')
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 columnname='subject_id'

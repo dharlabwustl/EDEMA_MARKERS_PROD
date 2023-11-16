@@ -160,10 +160,10 @@ call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_fil
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
 
 #resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" > ${csvfile_list}
 #combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"

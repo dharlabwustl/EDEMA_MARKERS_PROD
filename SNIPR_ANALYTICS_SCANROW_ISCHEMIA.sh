@@ -155,7 +155,11 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 
 call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} acquisition_datetime_1)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
 resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
+copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+
+#resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
 copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" > ${csvfile_list}

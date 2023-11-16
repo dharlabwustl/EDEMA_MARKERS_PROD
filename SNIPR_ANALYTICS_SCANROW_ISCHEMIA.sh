@@ -126,7 +126,7 @@ call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${ne
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 
-call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} 'INFARCT THRESH RANGE'	'NORMAL THRESH RANGE' 'INFARCT REFLECTION VOLUME' 'NON INFARCT DENSITY' NUMBER_NIFTIFILES		AXIAL_SCAN_NUM	THIN_SCAN_NUM	NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	CSV_FILE_NUM
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} 'INFARCT THRESH RANGE'	'NORMAL THRESH RANGE' 'INFARCT REFLECTION VOLUME' 'NON INFARCT DENSITY' NUMBER_NIFTIFILES		NUMBER_SELECTEDSCANS	INFARCT_FILE_NUM	CSF_FILE_NUM	CSV_FILE_NUM
  "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE"  "CSV_FILE_PATH")
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
@@ -205,6 +205,11 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 resource_dirname_at_snipr=${project_ID}_RESULTS_CSV
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'PDF_FILE_NUM'  pdf_created)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'AXIAL_SCAN_NUM'  axial_number)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'THIN_SCAN_NUM'  axial_thin_number)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
 #copysinglefile_to_sniprproject ${project_ID} "(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

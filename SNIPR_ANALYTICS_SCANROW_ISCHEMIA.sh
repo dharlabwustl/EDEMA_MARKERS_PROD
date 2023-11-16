@@ -85,14 +85,14 @@ while IFS=',' read -ra array; do
   xml_filename=${workinginput}/${this_session_id}.xml
   curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
 
-#  if [ ${n_pdffilename_length} -gt 1 ]; then
-#    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
-#    output_filename=$(basename ${pdf_file_location})
-#    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
-#    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#    copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
-#    counter=$((counter + 1))
-#  fi
+  if [ ${n_pdffilename_length} -gt 1 ]; then
+    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
+    output_filename=$(basename ${pdf_file_location})
+    get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
+    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+    copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
+    counter=$((counter + 1))
+  fi
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
   if [ ${n_csvfilename_length} -gt 1 ]; then
@@ -108,10 +108,10 @@ while IFS=',' read -ra array; do
 
     append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
-    counter=$((counter + 1))
+
   fi
 
-  if [ $counter -gt 2 ]; then
+  if [ $counter -eq 10 ]; then
     break
   fi
 done < <(tail -n +2 "${copy_session}")
@@ -155,8 +155,6 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 
 call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} acquisition_datetime_1)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
 #csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
 #echo "CSV_FILENAMES" > ${csvfile_list}
 #combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"

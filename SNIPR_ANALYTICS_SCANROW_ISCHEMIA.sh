@@ -76,7 +76,7 @@ dir_to_save=${output_directory}
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 while IFS=',' read -ra array; do
-  echo array::${array[3]}
+#  echo array::${array[3]}
   pdf_file_location=${array[3]}
   csv_file_location=${array[4]}
   this_session_id=${array[0]}

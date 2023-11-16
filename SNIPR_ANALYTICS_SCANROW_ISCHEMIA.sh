@@ -105,7 +105,6 @@ while IFS=',' read -ra array; do
     xmlfile=${xml_filename}
     csvfilename=${copy_session}
     subj_listfile=${subject_list}
-
     append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
 

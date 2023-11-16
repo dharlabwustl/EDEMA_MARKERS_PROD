@@ -113,9 +113,9 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-#  if [ $counter -eq 2 ]; then
-#    break
-#  fi
+  if [ $counter -eq 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

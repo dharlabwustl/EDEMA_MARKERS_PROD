@@ -210,6 +210,6 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'THIN_SCAN_NUM'  axial_thin_number)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-#copysinglefile_to_sniprproject ${project_ID} "(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+copysinglefile_to_sniprproject ${project_ID} "(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+copysinglefile_to_sniprproject ${project_ID} "(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

@@ -154,21 +154,53 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 
 call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file} 'acquisition_datetime' 'subject_id' )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+csvfilename=${new_analytics_file}
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} subject_id  subject)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} label  snipr_session)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SCAN_SELECTED  scan_selected)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} acquisition_datetime  scan_date_time)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FILENAME_NIFTI  scan_name)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SLICE_NUM  slices)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} res_x  px)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} res_y  py)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} slice_thickness  coverage)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} scanner  scanner_name)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} body_part  body_site)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SCAN_DESCRIPTION  scan_kernel)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'LEFT CSF VOLUME'  csf_left)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'RIGHT CSF VOLUME'  csf_right)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'TOTAL CSF VOLUME'  csf_total)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'INFARCT SIDE'  stroke_side)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'NWU'  nwu)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'INFARCT VOLUME'  infarct_volume)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'BET VOLUME'  cranial)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'CSF RATIO'  csf_ratio)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'LEFT BRAIN VOLUME without CSF'  brain_left)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'RIGHT BRAIN VOLUME without CSF'  brain_right)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'NIFTIFILES_PREFIX'  scan_stem)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-#call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} acquisition_datetime_1)
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#csvfile_list="${working_dir}/CSV_FILENAMES_LIST.csv"
-#echo "CSV_FILENAMES" > ${csvfile_list}
-#combined_metrics_results="${working_dir}/COMBINED_SESSIONS_${project_ID}_METRICS_${time_now}.csv"
-#for eachfilename in ${dir_to_save}/*.csv ; do
-#echo ${copy_session}::${eachfilename}::"Slice"::${combined_metrics_results}
-##session_analytics_csv_inputfile=args.stuff[1]
-##current_scan_result_csvfile=args.stuff[2]
-##total_column_name=args.stuff[3]
-##session_analytics_csv_outputfile=args.stuff[4]
-##append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${eachfilename}  "Slice" ${combined_metrics_results})
-##outputfiles_present=$(python3 system_analysis.py "${append_results_to_analytics_arguments[@]}")
-##resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-##copysinglefile_to_sniprproject  ${project_ID}  "${working_dir}"  ${resource_dirname_at_snipr}  $(basename ${combined_metrics_results})
-##echo $eachfilename >> ${csvfile_list} ;
-#done
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'PDF_FILE_NUM'  pdf_created)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")

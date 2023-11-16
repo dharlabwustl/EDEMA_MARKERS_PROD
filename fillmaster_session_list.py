@@ -1079,7 +1079,7 @@ def append_sessionxmlinfo_to_analytics(args):
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         columnname='subject_id'
         columnvalue=""
-        columnvalue_1=subj_listfile_df[subj_listfile_df['ID']==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
+        columnvalue_1=subj_listfile_df[subj_listfile_df['ID'].str==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])]
         if len(columnvalue_1) >0 :
             columnvalue=str(columnvalue_1.reset_index()['label'][0])
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)

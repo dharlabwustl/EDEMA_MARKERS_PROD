@@ -76,12 +76,6 @@ dir_to_save=${output_directory}
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 while IFS=',' read -ra array; do
-    if [ $counter -gt  165 ]; then
-      break
-    fi
-      if [ $counter -lt 160 ]; then
-        continue
-      fi
   echo array::${array[3]}
   pdf_file_location=${array[3]}
   csv_file_location=${array[4]}
@@ -117,7 +111,12 @@ while IFS=',' read -ra array; do
 
   fi
 
-
+  if [ $counter -gt  165 ]; then
+    break
+  fi
+    if [ $counter -lt 160 ]; then
+      continue
+    fi
 done < <(tail -n +2 "${copy_session}")
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)

@@ -115,7 +115,7 @@ call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${ne
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'RIGHT BRAIN VOLUME without CSF'  brain_right)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'RIGHT BRAIN VOLUME without CSF'  brain_right)
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'NIFTIFILES_PREFIX'  scan_stem)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
 #copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})

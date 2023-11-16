@@ -61,19 +61,45 @@ download_a_single_file() {
   done < <(tail -n +2 "${file_path_csv}")
 
 }
+time_now=$(date -dnow +%Y%m%d%H%M%S)
+csvfilename=${sessions_list%.csv}_${project_ID}_RESULTS_CSV_COLUMNS_RENAMED_${time_now}.csv
 URI="/data/projects/"${project_ID}
 dir_to_receive_the_data=${working_dir}
-resource_dir="${project_ID}_SESSION_PROCESSING_ANALYTICS"
+resource_dir="${project_ID}_RESULTS_CSV"
 file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
 get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS" ${file_path_csv})
 outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+cp ${file_path_csv} ${csvfilename}
 
-call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice  FILENAME_NIFTI)
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} subject_id  subject)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-
-resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
-
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} label  snipr_session)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SCAN_SELECTED  scan_selected)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} acquisition_datetime  scan_date_time)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FILENAME_NIFTI  scan_name)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SLICE_NUM  slices)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} res_x  px)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} res_y  py)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} slice_thickness  coverage)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} scanner  scanner_name)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} body_part  body_site)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SCAN_DESCRIPTION  scan_kernel)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} SCAN_DESCRIPTION  scan_kernel)
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+#
+##resource_dirname_at_snipr=${project_ID}'_RESULTS_CSV'
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
 

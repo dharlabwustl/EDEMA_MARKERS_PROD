@@ -122,8 +122,8 @@ new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
 ##############################EDITING################################
-remove_space_in_col_name_arguments=('remove_space_in_col_name' ${csvfilename} ${csvfilename})
-outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
+#remove_space_in_col_name_arguments=('remove_space_in_col_name' ${csvfilename} ${csvfilename})
+#outputfiles_present=$(python3 system_analysis.py "${remove_space_in_col_name_arguments[@]}")
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice  FILENAME_NIFTI)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 

@@ -108,12 +108,12 @@ while IFS=',' read -ra array; do
 
     append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
-
+    counter=$((counter + 1))
   fi
 
-#  if [ $counter -eq 10 ]; then
-#    break
-#  fi
+  if [ $counter -gt 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
 time_now=$(date -dnow +%Y%m%d%H%M%S)

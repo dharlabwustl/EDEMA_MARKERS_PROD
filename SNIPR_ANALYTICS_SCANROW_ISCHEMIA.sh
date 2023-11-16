@@ -84,7 +84,12 @@ while IFS=',' read -ra array; do
   echo ${n_pdffilename_length}
   xml_filename=${workinginput}/${this_session_id}.xml
   curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
-
+    session_id=${this_session_id}
+    xmlfile=${xml_filename}
+    csvfilename=${copy_session}
+    subj_listfile=${subject_list}
+    append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
+    outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
 #  if [ ${n_pdffilename_length} -gt 1 ]; then
 #    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
 #    output_filename=$(basename ${pdf_file_location})
@@ -104,18 +109,13 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
-    session_id=${this_session_id}
-    xmlfile=${xml_filename}
-    csvfilename=${copy_session}
-    subj_listfile=${subject_list}
-    append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
-    outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
+
     counter=$((counter + 1))
   fi
 
-#  if [ $counter -eq 2 ]; then
-#    break
-#  fi
+  if [ $counter -eq 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

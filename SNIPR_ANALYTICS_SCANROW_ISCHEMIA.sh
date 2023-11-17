@@ -125,7 +125,7 @@ while IFS=',' read -ra array; do
     break
   fi
 done < <(tail -n +2 "${copy_session}")
-create_subject_id_arguments=('create_subject_id' ${copy_session} ${copy_session})
+create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

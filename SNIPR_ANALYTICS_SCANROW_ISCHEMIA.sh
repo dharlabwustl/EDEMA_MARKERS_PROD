@@ -75,6 +75,9 @@ counter=0
 dir_to_save=${output_directory}
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
+
+create_subject_id_arguments=('create_subject_id' ${copy_session} ${copy_session})
+outputfiles_present=$(python3 download_with_session_ID.py "${create_subject_id_arguments[@]}")
 while IFS=',' read -ra array; do
   echo array::${array[3]}
   pdf_file_location=${array[3]}
@@ -116,12 +119,12 @@ while IFS=',' read -ra array; do
     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
 
-#    counter=$((counter + 1))
+    #    counter=$((counter + 1))
   fi
 
-#  if [ $counter -gt 0 ]; then
-#    break
-#  fi
+  #  if [ $counter -gt 0 ]; then
+  #    break
+  #  fi
 done < <(tail -n +2 "${copy_session}")
 
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

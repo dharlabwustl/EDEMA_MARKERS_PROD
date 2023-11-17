@@ -75,7 +75,7 @@ counter=0
 dir_to_save=${output_directory}
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-create_subject_id_arguments=('create_subject_id_from_snipr' ${copy_session} ${copy_session})
+create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
 outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 
 while IFS=',' read -ra array; do

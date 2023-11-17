@@ -1570,7 +1570,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         metadata_masks=response.text #json()['ResultSet']['Result']
         xmlfilename=os.path.join(dir_to_save,filename )
         f = open(xmlfilename, "w")
-        f.write("metadata_masks")
+        f.write(metadata_masks)
         f.close()
 
         # zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'

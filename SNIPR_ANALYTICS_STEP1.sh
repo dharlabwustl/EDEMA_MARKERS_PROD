@@ -50,7 +50,7 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
-copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_${time_now}.csv
+copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP1_${time_now}.csv
 
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 cp ${sessions_list} ${copy_session}
@@ -72,12 +72,12 @@ while IFS=',' read -ra array; do
   subj_listfile=${subject_list}
   append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
   outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
-  (args)
+
   add_axial_thin_num_arguments=('add_axial_thin_num' ${session_id} ${csvfilename} ${csvfilename})
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
   if [ $counter -gt 2 ]; then
     break
   fi
 done < <(tail -n +2 "${copy_session}")
-#resource_dirname_at_snipr=${project_ID}"_SESSION_PROCESSING_ANALYTICS"
-#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
+copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

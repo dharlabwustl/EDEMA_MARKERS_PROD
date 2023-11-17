@@ -1554,7 +1554,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         print("url::{}::filename::{}::dir_to_save::{}".format(session_ID,filename,dir_to_save))
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()
-        subprocess.call('echo working > /workingoutput/testatul.txt',shell=True)
+
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
         url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+session_ID
@@ -1563,6 +1563,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         if response.status_code != 200:
             xnatSession.close_httpsession()
             return num_files_present
+        subprocess.call('echo working > /workingoutput/testatul.txt',shell=True)
         metadata_masks=response.text #json()['ResultSet']['Result']
         xmlfilename=os.path.join(dir_to_save,filename )
         f = open(xmlfilename, "w")

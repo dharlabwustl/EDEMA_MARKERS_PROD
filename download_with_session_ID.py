@@ -1853,5 +1853,8 @@ def main():
     if name_of_the_function=="call_get_session_label":
         return_value=call_get_session_label(args)
     print(return_value)
+    if "call" not in name_of_the_function:
+        globals()[args.stuff[0]](args)
+    return return_value
 if __name__ == '__main__':
     main()

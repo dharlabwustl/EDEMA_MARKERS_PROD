@@ -1558,7 +1558,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     if response.status_code != 200:
         xnatSession.close_httpsession()
         return num_files_present
-    metadata_masks=response.json()['ResultSet']['Result']
+    metadata_masks=response.text #json()['ResultSet']['Result']
     xmlfilename=os.path.join(dir_to_save,filename )
     f = open(xmlfilename, "w")
     f.write(metadata_masks)

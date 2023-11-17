@@ -1546,8 +1546,9 @@ def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     return zipfilename
 def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     returnvalue=0
+
     try:
-        url=args.stuff[1]
+        session_ID=args.stuff[1]
         filename=args.stuff[2]
         dir_to_save=args.stuff[3]
         print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
@@ -1555,6 +1556,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         xnatSession.renew_httpsession()
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
+        url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+session_ID
         response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
         num_files_present=0
         if response.status_code != 200:

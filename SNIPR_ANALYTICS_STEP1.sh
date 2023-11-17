@@ -57,8 +57,7 @@ cp ${sessions_list} ${copy_session}
 counter=0
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
-outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+csvfilename=${copy_session}
 while IFS=',' read -ra array; do
   this_session_id=${array[0]}
   xml_filename=${working_dir}/${this_session_id}.xml
@@ -68,7 +67,6 @@ while IFS=',' read -ra array; do
   outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
   session_id=${this_session_id}
   xmlfile=${xml_filename}
-  csvfilename=${copy_session}
   subj_listfile=${subject_list}
   append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
   outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
@@ -80,5 +78,7 @@ while IFS=',' read -ra array; do
     break
   fi
 done < <(tail -n +2 "${copy_session}")
+#create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
 copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

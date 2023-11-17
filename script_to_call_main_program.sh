@@ -185,5 +185,5 @@ fi
 
 if [[ ${TYPE_OF_PROGRAM} == 32 ]]; then
   PROJECT_ID=${1}
-  /software/renamecolumns.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/SNIPR_ANALYTICS_STEP1.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

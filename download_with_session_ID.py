@@ -1143,7 +1143,17 @@ def copy_nifti():
 
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
-
+def get_metadata_subject(project_id,subject_id,outputfile="NONE.csv"):
+    url = ("/data/projects/"+project_id+"/subjects/"+subject_id+"/experiments/?format=json" %    (project_id,subject_id))
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    response = xnatSession.httpsess.get(xnatSession.host + url)
+    xnatSession.close_httpsession()
+    metadata_subj=response.json()['ResultSet']['Result']
+    metadata_subj_1=json.dumps(metadata_subj)
+    df_scan = pd.read_json(metadata_subj_1)
+    df_scan.to_csv(outputfile,index=False)
+    return metadata_subj
 def get_metadata_session(sessionId,outputfile="NONE.csv"):
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)

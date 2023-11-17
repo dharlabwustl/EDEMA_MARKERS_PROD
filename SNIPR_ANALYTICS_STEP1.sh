@@ -79,6 +79,6 @@ while IFS=',' read -ra array; do
   fi
 done < <(tail -n +2 "${copy_session}")
 create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
 copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

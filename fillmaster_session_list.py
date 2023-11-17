@@ -1065,6 +1065,12 @@ def sort_data_first_col_date(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     pass
+def create_subject_id(args):
+    csvfilename=args.stuff[1]
+    csvfilename_output=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df['subject_id']=csvfilename_df['label'].str.split("_").str[0]+"_"+csvfilename_df['label'].str.split("_").str[1]
+    csvfilename_df.to_csv(csvfilename_output,index=False)
 def append_sessionxmlinfo_to_analytics(args):
     try:
         session_id=args.stuff[1]
@@ -1083,14 +1089,14 @@ def append_sessionxmlinfo_to_analytics(args):
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # except:
         #     pass
-        # columnname='subject_id'
-        # columnvalue=""
-        # # try:
-        # columnvalue_1=subj_listfile_df[subj_listfile_df['ID'].astype(str)==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
-        # # if len(columnvalue_1) >0
-        # columnvalue=str(columnvalue_1.at[0,'label'])
-        # subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
-        # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        columnname='subject_id'
+        columnvalue=""
+        # try:
+        columnvalue_1=subj_listfile_df[subj_listfile_df['ID'].astype(str)==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
+        # if len(columnvalue_1) >0
+        columnvalue=str(columnvalue_1.at[0,'label'])
+        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
+        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # except:
         #     pass
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -1099,13 +1105,6 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-def create_subject_id(args):
-    csvfilename=args.stuff[1]
-    csvfilename_output=args.stuff[2]
-    csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df['subject_id']=csvfilename_df['label'].str.split("_").str[0]+"_"+csvfilename_df['label'].str.split("_").str[1]
-    csvfilename_df.to_csv(csvfilename_output,index=False)
-
 def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./"):
     try:
         identifier=session_id

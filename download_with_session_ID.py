@@ -1551,6 +1551,9 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         session_ID=args.stuff[1]
         filename=args.stuff[2]
         dir_to_save=args.stuff[3]
+        subprocess.call('echo working:' +session_ID+' > /workingoutput/testatul.txt',shell=True)
+        subprocess.call('echo working:' +filename+' > /workingoutput/testatul.txt',shell=True)
+        subprocess.call('echo working:' +dir_to_save+' > /workingoutput/testatul.txt',shell=True)
         print("url::{}::filename::{}::dir_to_save::{}".format(session_ID,filename,dir_to_save))
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()
@@ -1569,7 +1572,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         f = open(xmlfilename, "w")
         f.write("metadata_masks")
         f.close()
-        subprocess.call('echo working > /workingoutput/testatul.txt',shell=True)
+
         # zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
         # with open(zipfilename, "wb") as f:
         #     for chunk in response.iter_content(chunk_size=512):

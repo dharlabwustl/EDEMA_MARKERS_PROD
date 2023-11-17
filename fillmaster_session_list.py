@@ -1073,6 +1073,7 @@ def create_subject_id_from_snipr(args):
     session_list_file_df=pd.read_csv(session_list_file)
     session_list_file_df["subject_id"]="NONE"
     # session_list_file_df["project_id"]=str(subject_list_file_df["project"][0])
+    counter=0
     for  each_subject_row_index, each_subject_row_row in subject_list_file_df.iterrows():
         each_subj_metadata=get_metadata_subject(each_subject_row_row["project"],each_subject_row_row["ID"])
         metadata_subj_1=json.dumps(each_subj_metadata)
@@ -1081,6 +1082,9 @@ def create_subject_id_from_snipr(args):
             matched_session=session_list_file_df[session_list_file_df["ID"].astype(str)==str(each_session_row_row["ID"])]
             for matched_session_index, matched_session_row in matched_session.iterrows():
                 session_list_file_df.loc[matched_session_index,"subject_id"]=each_subject_row_row["label"]
+        counter=counter+1
+        if counter > 2:
+            break
     session_list_file_df.to_csv(session_list_file_output,index=False)
 def create_subject_id(args):
     csvfilename=args.stuff[1]

@@ -75,6 +75,7 @@ while IFS=',' read -ra array; do
 
   add_axial_thin_num_arguments=('add_axial_thin_num' ${session_id} ${csvfilename} ${csvfilename})
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
+  counter=$((counter+1))
   if [ $counter -gt 2 ]; then
     break
   fi

@@ -77,7 +77,7 @@ subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 
 create_subject_id_arguments=('create_subject_id' ${copy_session} ${copy_session})
-outputfiles_present=$(python3 download_with_session_ID.py "${create_subject_id_arguments[@]}")
+outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 while IFS=',' read -ra array; do
   echo array::${array[3]}
   pdf_file_location=${array[3]}

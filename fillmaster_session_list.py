@@ -1118,14 +1118,14 @@ def append_sessionxmlinfo_to_analytics(args):
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
-        columnname='datetime_from_xml'
-        columnvalue=""
-        try:
-            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:date']+' '+xmlfile_dict['xnat:CTSession']['xnat:time']
-            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-
-        except:
-            pass
+        # columnname='datetime_from_xml'
+        # columnvalue=""
+        # try:
+        #     columnvalue=xmlfile_dict['xnat:CTSession']['xnat:date']+' '+xmlfile_dict['xnat:CTSession']['xnat:time']
+        #     fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        #
+        # except:
+        #     pass
         # columnname='subject_id'
         # columnvalue=""
         # # try:

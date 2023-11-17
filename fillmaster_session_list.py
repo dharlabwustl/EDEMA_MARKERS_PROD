@@ -1072,6 +1072,7 @@ def create_subject_id_from_snipr(args):
     session_list_file_output=args.stuff[3]
     session_list_file_df=pd.read_csv(session_list_file)
     session_list_file_df["subject_id"]="NONE"
+    session_list_file_df["project_id"]=str(subject_list_file_df["project"][0])
     for  each_subject_row_index, each_subject_row_row in subject_list_file_df.iterrows():
         each_subj_metadata=get_metadata_subject(each_subject_row_row["project"],each_subject_row_row["ID"])
         metadata_subj_1=json.dumps(each_subj_metadata)
@@ -1106,6 +1107,16 @@ def append_sessionxmlinfo_to_analytics(args):
         columnvalue=""
         # try:
         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:acquisition_site']
+        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        columnname='scanner_from_xml'
+        columnvalue=""
+        # try:
+        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
+        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        columnname='datetime_from_xml'
+        columnvalue=""
+        # try:
+        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:date']+' '+xmlfile_dict['xnat:CTSession']['xnat:time']
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # except:
         #     pass
@@ -1208,6 +1219,17 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
 
 
     return 0,0,0
+def add_axial_thin_num(args):
+    sessionId=args.stuff[1]
+    csvfilename=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_output=args.stuff[3]
+    csvfilename_df.to_csv(csvfilename_output,index=False)
+    axial_thin_count=count_brainaxial_or_thin(sessionId)
+    fill_datapoint_each_sessionn_1(sessionId,"AXIAL_SCAN_NUM",axial_thin_count[0],csvfilename)
+    fill_datapoint_each_sessionn_1(sessionId,"THIN_SCAN_NUM",axial_thin_count[1],csvfilename)
+
+
 
 def append_results_to_analytics(args):
     try:

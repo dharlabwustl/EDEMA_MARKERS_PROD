@@ -122,9 +122,9 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-  if [ $counter -gt 2 ]; then
-    break
-  fi
+#  if [ $counter -gt 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 
 
@@ -162,8 +162,8 @@ new_position=2
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-#call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file} 'acquisition_datetime' 'subject_id')
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file} 'acquisition_datetime' 'subject_id')
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 csvfilename=${new_analytics_file}
 #call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} subject_id subject)
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
@@ -218,8 +218,8 @@ call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${ne
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} 'THIN_SCAN_NUM' axial_thin_number)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
-outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+#create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}_RESULTS_CSV
 copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")

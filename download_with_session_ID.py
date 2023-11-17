@@ -1545,31 +1545,40 @@ def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     xnatSession.close_httpsession()
     return zipfilename
 def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
-    url=args.stuff[1]
-    filename=args.stuff[2]
-    dir_to_save=args.stuff[3]
-    print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
-    # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
-    # subprocess.call(command,shell=True)
-    response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
-    num_files_present=0
-    if response.status_code != 200:
+    returnvalue=0
+    try:
+        url=args.stuff[1]
+        filename=args.stuff[2]
+        dir_to_save=args.stuff[3]
+        print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
+        # subprocess.call(command,shell=True)
+        response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
+        num_files_present=0
+        if response.status_code != 200:
+            xnatSession.close_httpsession()
+            return num_files_present
+        metadata_masks=response.text #json()['ResultSet']['Result']
+        xmlfilename=os.path.join(dir_to_save,filename )
+        f = open(xmlfilename, "w")
+        f.write(metadata_masks)
+        f.close()
+        # zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
+        # with open(zipfilename, "wb") as f:
+        #     for chunk in response.iter_content(chunk_size=512):
+        #         if chunk:  # filter out keep-alive new chunks
+        #             f.write(chunk)
         xnatSession.close_httpsession()
-        return num_files_present
-    metadata_masks=response.text #json()['ResultSet']['Result']
-    xmlfilename=os.path.join(dir_to_save,filename )
-    f = open(xmlfilename, "w")
-    f.write(metadata_masks)
-    f.close()
-    # zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
-    # with open(zipfilename, "wb") as f:
-    #     for chunk in response.iter_content(chunk_size=512):
-    #         if chunk:  # filter out keep-alive new chunks
-    #             f.write(chunk)
-    xnatSession.close_httpsession()
-    return xmlfilename
+        returnvalue=1
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    return returnvalue
 
 def listoffile_witha_URI_as_df(URI):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)

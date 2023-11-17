@@ -87,7 +87,7 @@ while IFS=',' read -ra array; do
   echo ${n_pdffilename_length}
   xml_filename=${working_dir}/${this_session_id}.xml
   #  def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
-  url_xml='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} #args.stuff[1]
+#  url_xml='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} #args.stuff[1]
   filename_xml=$(basename ${xml_filename})                                                                                                                            #args.stuff[2]
   dir_to_save_xml=$(dirname ${xml_filename})                                                                                                                          #args args.stuff[3]
   download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})

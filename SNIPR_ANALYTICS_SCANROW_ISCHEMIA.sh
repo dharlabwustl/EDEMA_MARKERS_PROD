@@ -119,7 +119,7 @@ while IFS=',' read -ra array; do
     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
 
-    #    counter=$((counter + 1))
+        counter=$((counter + 1))
   fi
 
     if [ $counter -gt 0 ]; then

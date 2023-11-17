@@ -121,9 +121,9 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-  if [ $counter -gt 2 ]; then
-    break
-  fi
+#  if [ $counter -gt 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 #create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")

@@ -43,18 +43,19 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 3.2 ]] ;
 then
   PROJECT_ID=${1}
-    if [[ ${PROJECT_ID} == *"COLI"* ]] ;then
-    /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-    fi
-        if [[ ${PROJECT_ID} == *"WashU"* ]] ;then
-        /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-        fi
-            if [[ ${PROJECT_ID} == *"BJH"* ]] ;then
-            /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-            fi
-                if [[ ${PROJECT_ID} == *"MGBBMC"* ]] ;then
-                /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-                fi
+  /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#    if [[ ${PROJECT_ID} == *"COLI"* ]] ;then
+#    /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#    fi
+#        if [[ ${PROJECT_ID} == *"WashU"* ]] ;then
+#        /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#        fi
+#            if [[ ${PROJECT_ID} == *"BJH"* ]] ;then
+#            /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#            fi
+#                if [[ ${PROJECT_ID} == *"MGBBMC"* ]] ;then
+#                /software/SNIPR_ANALYTICS_SCANROW_ISCHEMIA.sh  ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#                fi
 fi
 if [[ ${TYPE_OF_PROGRAM} == 4 ]] ;
 then

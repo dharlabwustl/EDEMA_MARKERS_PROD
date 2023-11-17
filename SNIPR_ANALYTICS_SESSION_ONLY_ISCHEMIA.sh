@@ -62,6 +62,9 @@ while IFS=',' read -ra array; do
     echo "${array[1]}"
     echo "${array[5]}"
     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_1' ${copy_session} ${array[1]}) ##
+    if [ ${project_ID} == "ICH" ] ; then
+     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_ICH' ${copy_session} ${array[1]}) ##
+    fi
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
     counter=$(( counter+1 ))
   fi

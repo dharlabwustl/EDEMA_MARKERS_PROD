@@ -1101,6 +1101,11 @@ def append_sessionxmlinfo_to_analytics(args):
         session_id=args.stuff[1]
         xmlfile=args.stuff[2]
         csvfilename=args.stuff[3]
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_df['acquisition_site']=""
+        csvfilename_df['scanner_from_xml']=""
+        csvfilename_df.to_csv(csvfilename,index=False)
+        # csvfilename_df['acquisition_site']=""
         subj_listfile=args.stuff[4]
         # subj_listfile_df=pd.read_csv(subj_listfile)
         identifier=session_id

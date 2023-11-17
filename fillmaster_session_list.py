@@ -1065,6 +1065,20 @@ def sort_data_first_col_date(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     pass
+def create_subject_id_from_snipr(args):
+    subject_list_file=args.stuff[1]
+    subject_list_file_df=pd.read_csv(subject_list_file)
+    session_list_file=args.stuff[2]
+    session_list_file_output=args.stuff[3]
+    session_list_file_df=pd.read_csv(session_list_file)
+    session_list_file_df["subject_id"]="NONE"
+    for  each_subject_row_index, each_subject_row_row in subject_list_file_df.iterrows():
+        each_subj_metadata=get_metadata_subject(each_subject_row_row["project"],each_subject_row_row["ID"])
+        metadata_subj_1=json.dumps(each_subj_metadata)
+        df_session = pd.read_json(metadata_subj_1)
+        for each_session_row_index, each_session_row_row in df_session:
+            session_list_file_df[session_list_file_df["ID"].str==each_session_row_row["ID"]]["subject_id"]=each_subject_row_row["label"]
+    session_list_file_df.to_csv(session_list_file_output,index=False)
 def create_subject_id(args):
     csvfilename=args.stuff[1]
     csvfilename_output=args.stuff[2]

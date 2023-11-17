@@ -75,7 +75,7 @@ counter=0
 dir_to_save=${output_directory}
 subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-create_subject_id_arguments=('create_subject_id' ${copy_session} ${copy_session})
+create_subject_id_arguments=('create_subject_id_from_snipr' ${copy_session} ${copy_session})
 outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 
 while IFS=',' read -ra array; do
@@ -122,9 +122,9 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
 
-#  if [ $counter -gt 2 ]; then
-#    break
-#  fi
+  if [ $counter -gt 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 
 
@@ -221,6 +221,6 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 #create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}_RESULTS_CSV
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename})" ${resource_dirname_at_snipr} $(basename ${csvfilename})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

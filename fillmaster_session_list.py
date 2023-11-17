@@ -1098,28 +1098,34 @@ def append_sessionxmlinfo_to_analytics(args):
         xmlfile=args.stuff[2]
         csvfilename=args.stuff[3]
         subj_listfile=args.stuff[4]
-        subj_listfile_df=pd.read_csv(subj_listfile)
+        # subj_listfile_df=pd.read_csv(subj_listfile)
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
         # Acquisition site
         columnname='acquisition_site'
         columnvalue=""
-        # try:
-        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:acquisition_site']
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        try:
+            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:acquisition_site']
+            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        except:
+            pass
         columnname='scanner_from_xml'
         columnvalue=""
-        # try:
-        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        try:
+
+            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scanner']
+            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        except:
+            pass
         columnname='datetime_from_xml'
         columnvalue=""
-        # try:
-        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:date']+' '+xmlfile_dict['xnat:CTSession']['xnat:time']
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        # except:
-        #     pass
+        try:
+            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:date']+' '+xmlfile_dict['xnat:CTSession']['xnat:time']
+            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+
+        except:
+            pass
         # columnname='subject_id'
         # columnvalue=""
         # # try:

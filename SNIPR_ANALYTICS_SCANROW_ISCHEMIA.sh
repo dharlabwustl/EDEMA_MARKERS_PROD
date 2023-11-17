@@ -122,7 +122,7 @@ while IFS=',' read -ra array; do
         counter=$((counter + 1))
   fi
 
-    if [ $counter -gt 0 ]; then
+    if [ $counter -gt 2 ]; then
       break
     fi
 done < <(tail -n +2 "${copy_session}")

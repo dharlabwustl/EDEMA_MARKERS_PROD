@@ -1071,7 +1071,7 @@ def create_subject_id(args):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df['subject']="NONE"
     for x in range(csvfilename_df.shape[0]):
-        csvfilename_df.iloc[x,'subject']="_".join(csvfilename_df.at[x,'label'].split("_")[0:2])
+        csvfilename_df.loc[x,'subject']="_".join(csvfilename_df.at[x,'label'].split("_")[0:2])
 
     # csvfilename_df['subject_id']=csvfilename_df['label'].str.split("_").str[0]+"_"+csvfilename_df['label'].str.split("_").str[1]
     csvfilename_df.to_csv(csvfilename_output,index=False)

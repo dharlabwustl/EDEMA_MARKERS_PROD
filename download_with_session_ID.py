@@ -1144,7 +1144,7 @@ def copy_nifti():
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 def get_metadata_subject(project_id,subject_id,outputfile="NONE.csv"):
-    url = ("/data/projects/"+project_id+"/subjects/"+subject_id+"/experiments/?format=json" %    (project_id,subject_id))
+    url = ("/data/projects/%s/subjects/%s/experiments/?format=json" %    (project_id,subject_id))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)

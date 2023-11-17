@@ -1093,16 +1093,16 @@ def append_sessionxmlinfo_to_analytics(args):
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # except:
         #     pass
-        columnname='subject_id'
-        columnvalue=""
-        # try:
-        columnvalue_1=subj_listfile_df[subj_listfile_df['ID'].astype(str)==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
-        # if len(columnvalue_1) >0
-        columnvalue=str(columnvalue_1.at[0,'label'])
-        subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
-        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        # except:
-        #     pass
+        # columnname='subject_id'
+        # columnvalue=""
+        # # try:
+        # columnvalue_1=subj_listfile_df[subj_listfile_df['ID'].astype(str)==str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])].reset_index()
+        # # if len(columnvalue_1) >0
+        # columnvalue=str(columnvalue_1.at[0,'label'])
+        # subprocess.call("echo " + "I PASSED AT ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
+        # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        # # except:
+        # #     pass
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
     except:

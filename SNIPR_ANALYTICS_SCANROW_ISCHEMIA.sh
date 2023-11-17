@@ -98,7 +98,7 @@ while IFS=',' read -ra array; do
   csvfilename=${copy_session}
   subj_listfile=${subject_list}
   append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
-#  outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
+  outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
   #  if [ ${n_pdffilename_length} -gt 1 ]; then
   #    resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
   #    output_filename=$(basename ${pdf_file_location})

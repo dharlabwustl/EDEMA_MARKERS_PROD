@@ -1247,7 +1247,7 @@ def add_axial_thin_num(args):
         fill_datapoint_each_sessionn_1(sessionId,"axial_thin_number",axial_thin_count[1],csvfilename)
         csvfilename_df.to_csv(csvfilename_output,index=False)
 
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT axial_thin_count ::{}  >> /workingoutput/error.txt".format(axial_thin_count[0]) ,shell=True )
         # print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
     except:
 

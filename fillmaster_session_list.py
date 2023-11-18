@@ -1240,8 +1240,8 @@ def add_axial_thin_num(args):
     try:
         sessionId=str(args.stuff[1])
         csvfilename=args.stuff[2]
-        csvfilename_df=pd.read_csv(csvfilename)
-        csvfilename_output=args.stuff[3]
+        # csvfilename_df=pd.read_csv(csvfilename)
+        # csvfilename_output=args.stuff[3]
         axial_thin_count=count_brainaxial_or_thin(sessionId)
         fill_datapoint_each_sessionn_1(sessionId,"axial_number",axial_thin_count[0],csvfilename)
         fill_datapoint_each_sessionn_1(sessionId,"axial_thin_number",axial_thin_count[1],csvfilename)

@@ -1237,14 +1237,22 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
 
     return 0,0,0
 def add_axial_thin_num(args):
-    sessionId=str(args.stuff[1])
-    csvfilename=args.stuff[2]
-    csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_output=args.stuff[3]
-    axial_thin_count=count_brainaxial_or_thin(sessionId)
-    fill_datapoint_each_sessionn_1(sessionId,"axial_number",axial_thin_count[0],csvfilename)
-    fill_datapoint_each_sessionn_1(sessionId,"axial_thin_number",axial_thin_count[1],csvfilename)
-    csvfilename_df.to_csv(csvfilename_output,index=False)
+    try:
+        sessionId=str(args.stuff[1])
+        csvfilename=args.stuff[2]
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_output=args.stuff[3]
+        axial_thin_count=count_brainaxial_or_thin(sessionId)
+        fill_datapoint_each_sessionn_1(sessionId,"axial_number",axial_thin_count[0],csvfilename)
+        fill_datapoint_each_sessionn_1(sessionId,"axial_thin_number",axial_thin_count[1],csvfilename)
+        csvfilename_df.to_csv(csvfilename_output,index=False)
+
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+    except:
+
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
 
 
 

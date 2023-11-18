@@ -1085,6 +1085,8 @@ def create_subject_id_from_snipr(args):
             counter=counter+1
             if counter > 2:
                 break
+        if counter > 2:
+            break
     session_list_file_df.to_csv(session_list_file_output,index=False)
 def create_subject_id(args):
     csvfilename=args.stuff[1]

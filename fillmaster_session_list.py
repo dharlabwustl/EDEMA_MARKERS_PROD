@@ -1237,7 +1237,7 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
 
     return 0,0,0
 def add_axial_thin_num(args):
-    sessionId=args.stuff[1]
+    sessionId=str(args.stuff[1])
     csvfilename=args.stuff[2]
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_output=args.stuff[3]

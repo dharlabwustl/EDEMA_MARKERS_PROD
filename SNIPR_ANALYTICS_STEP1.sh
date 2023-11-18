@@ -72,6 +72,7 @@ while IFS=',' read -ra array; do
   outputfiles_present=$(python3 fillmaster_session_list.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
 
   add_axial_thin_num_arguments=('add_axial_thin_num' ${session_id} ${csvfilename} ${csvfilename})
+  echo 'add_axial_thin_num'::${session_id}::${csvfilename}::${csvfilename}
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
   counter=$((counter+1))
   if [ $counter -gt 2 ]; then

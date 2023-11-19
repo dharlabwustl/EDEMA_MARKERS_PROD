@@ -2303,6 +2303,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
         # print(each_niftilocationfile)
         # each_niftilocationfile_df=pd.read_csv(each_niftilocationfile)
         SCAN_URI_NIFTI_FILEPREFIX_1=""
+        SELECTED_SCAN_ID=""
         if nifti_file_list.shape[0]>0:
             for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
                 # subprocess.call("echo " + "nifti_file_list_row::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
@@ -2314,6 +2315,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
                 SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="EDEMA_BIOMARKER"
@@ -2375,6 +2377,10 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
         #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
         #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
         #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+
+        columnname="SELECTED_SCAN_ID"
+        columnvalue=SELECTED_SCAN_ID
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         # axial_thin_count=count_brainaxial_or_thin(session_id)
         # columnname="AXIAL_SCAN_NUM"

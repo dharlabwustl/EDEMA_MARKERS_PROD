@@ -72,7 +72,7 @@ time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 counter=0
-
+dir_to_save=${output_directory}
 while IFS=',' read -ra array; do
   echo array::${array[15]}
   pdf_file_location=${array[14]}

@@ -99,7 +99,7 @@ resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"
 ##############################
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 while IFS=',' read -ra array; do
-  file_url=${array[3]}
+  file_url=${array[14]}
   if [[ ${file_url} == *".pdf"* ]]; then
     session_ID=${array[0]}
     echo session_ID::${session_ID}

@@ -94,8 +94,7 @@ while IFS=',' read -ra array; do
 done < <(tail -n +2 "${copy_session}")
 dir_to_save=${working_dir}
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"
-#call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
 ##############################
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 while IFS=',' read -ra array; do

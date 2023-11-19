@@ -74,6 +74,7 @@ copy_session=${sessions_list%.csv}_SESSION_ANALYTICS_2${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 
 counter=0
+
 while IFS=',' read -ra array; do
   xx=0
 
@@ -103,11 +104,11 @@ while IFS=',' read -ra array; do
     session_ID=${array[0]}
     echo session_ID::${session_ID}
     echo file_url::${file_url}
-    csvfilename=${copy_session}
-    echo csvfilename::${csvfilename}
+
+    echo copy_session::${copy_session}
     temp_dir=${working_dir}
     echo temp_dir::${temp_dir}
-    call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${csvfilename} "PDF_FILE_SIZE" ${temp_dir})
+    call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${copy_session} "PDF_FILE_SIZE" ${temp_dir})
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
   fi
 done < <(tail -n +2 "${copy_session}")

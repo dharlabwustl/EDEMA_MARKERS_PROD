@@ -74,27 +74,22 @@ download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
 counter=0
 
 while IFS=',' read -ra array; do
-  echo array::${array[3]}
-  pdf_file_location=${array[3]}
-  csv_file_location=${array[4]}
-  this_session_id=${array[0]}
+  echo array::${array[15]}
+  pdf_file_location=${array[14]}
+  csv_file_location=${array[15]}
+  this_session_id=${array[1]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
   if [ ${n_csvfilename_length} -gt 1 ]; then
-    #    xml_filename=${workinginput}/${this_session_id}.xml
-    #    curl -u $XNAT_USER:$XNAT_PASS -X GET 'https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'${this_session_id} >${xml_filename}
-
     csv_output_filename=$(basename ${csv_file_location})
     get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${csv_file_location} ${csv_output_filename} ${dir_to_save})
     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
-
     counter=$((counter + 1))
   fi
-
   if [ $counter -gt 2 ]; then
     break
   fi

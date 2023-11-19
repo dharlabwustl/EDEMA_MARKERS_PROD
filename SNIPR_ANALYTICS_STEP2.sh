@@ -68,9 +68,9 @@ file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfi
 
 get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ${file_path_csv})
 outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-sessions_list=${working_dir}/${project_ID}'_sessions.csv'
+sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
-copy_session=${sessions_list%.csv}_SESSION_ANALYTICS_STEP2_${time_now}.csv
+copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP2_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 
 counter=0

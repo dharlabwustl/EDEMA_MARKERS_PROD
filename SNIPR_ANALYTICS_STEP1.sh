@@ -53,6 +53,9 @@ time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP1_${time_now}.csv
 
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
+
+filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list})
+outputfiles_present=$(python3 fillmaster_session_list.py "${filter_ctsession_arguments[@]}")
 cp ${sessions_list} ${copy_session}
 counter=0
 subject_list=${working_dir}/'subjects.csv'
@@ -74,10 +77,10 @@ while IFS=',' read -ra array; do
   add_axial_thin_num_arguments=('add_axial_thin_num' ${session_id} ${csvfilename} ${csvfilename})
   echo 'add_axial_thin_num'::${session_id}::${csvfilename}::${csvfilename}
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
-  counter=$((counter+1))
-#  if [ $counter -gt 2 ]; then
-#    break
-#  fi
+  counter=$((counter + 1))
+  #  if [ $counter -gt 2 ]; then
+  #    break
+  #  fi
 done < <(tail -n +2 "${copy_session}")
 create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
 outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")

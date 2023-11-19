@@ -1995,6 +1995,12 @@ def fill_sniprsession_list_GENERIC(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def filter_ctsession(args):
+    csvfilename=args.stuff[1]
+    csvfilename_output=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilenam_df=csvfilename_df[csvfilename_df['xsiType']=='xnat:ctSessionData']
+    csvfilenam_df.to_csv(csvfilename_output,index=False)
 
 def fill_sniprsession_list_ICH(args):
     sessionlist_filename=args.stuff[1]

@@ -2105,10 +2105,10 @@ def fill_sniprsession_list_ICH(args):
 
                     #####################################
         ### DICOM TO NIFTI STEP
-        niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
-        columnname="NUMBER_NIFTIFILES"
-        columnvalue=str(niftifiles_num[0]) #str(0)
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+        # columnname="NUMBER_NIFTIFILES"
+        # columnvalue=str(niftifiles_num[0]) #str(0)
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NIFTIFILES_PREFIX"
         columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
         # if nifti_file_list.shape[0]>0:
@@ -2117,13 +2117,13 @@ def fill_sniprsession_list_ICH(args):
         #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
         #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        axial_thin_count=count_brainaxial_or_thin(session_id)
-        columnname="AXIAL_SCAN_NUM"
-        columnvalue=axial_thin_count[0]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="THIN_SCAN_NUM"
-        columnvalue=axial_thin_count[1]
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # axial_thin_count=count_brainaxial_or_thin(session_id)
+        # columnname="AXIAL_SCAN_NUM"
+        # columnvalue=axial_thin_count[0]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="THIN_SCAN_NUM"
+        # columnvalue=axial_thin_count[1]
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="NUMBER_SELECTEDSCANS"
         columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

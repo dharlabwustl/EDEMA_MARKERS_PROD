@@ -80,20 +80,20 @@ while IFS=',' read -ra array; do
     echo "${array[1]}"
     echo "${array[5]}"
     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_1' ${copy_session} ${array[1]}) ##
-    if [ ${project_ID} == "ICH" ] ; then
-     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_ICH' ${copy_session} ${array[1]}) ##
+    if [ ${project_ID} == "ICH" ]; then
+      call_fill_sniprsession_list_arguments=('fill_sniprsession_list_ICH' ${copy_session} ${array[1]}) ##
     fi
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
-    counter=$(( counter+1 ))
+    counter=$((counter + 1))
   fi
-    if [ $counter -eq 2 ]; then
-      break
-    fi
+  if [ $counter -eq 2 ]; then
+    break
+  fi
 done < <(tail -n +2 "${sessions_list}")
 dir_to_save=${working_dir}
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"
-call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+#call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${copy_session})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 ##############################
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 while IFS=',' read -ra array; do
@@ -111,9 +111,9 @@ while IFS=',' read -ra array; do
   fi
 done < <(tail -n +2 "${copy_session}")
 ##############################
-subject_list=${working_dir}/'subjects.csv'
-curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
-outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+#subject_list=${working_dir}/'subjects.csv'
+#curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
+#create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
+#outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 
 copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} $(basename ${copy_session})

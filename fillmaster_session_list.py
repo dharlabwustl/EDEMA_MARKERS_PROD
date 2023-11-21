@@ -2396,7 +2396,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
         # columnvalue=axial_thin_count[1]
         # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         #################
-        scan_id=columnvalue #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
+        scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
         fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
         append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
         session_ID_metadata=get_metadata_session(session_id)

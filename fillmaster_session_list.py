@@ -1274,14 +1274,14 @@ def append_results_to_analytics(args):
         for each_column_name in current_scan_result_csvfile_df.columns:
             # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
             fill_datapoint_each_sessionn_1(session_ID,each_column_name,current_scan_result_csvfile_df.at[0,each_column_name],session_analytics_csv_inputfile)
-            if "FileName" in each_column_name:
-                scan_id=current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
-                fill_datapoint_each_sessionn_1(session_ID,"SCAN_SELECTED",scan_id,session_analytics_csv_inputfile)
-                append_dicominfo_to_analytics(session_ID,scan_id,session_analytics_csv_inputfile,os.path.dirname(session_analytics_csv_inputfile))
-                scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
-                # Kernel (scan description) e.g. Head H30S
-                subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
-                fill_datapoint_each_sessionn_1(session_ID,"SCAN_DESCRIPTION",scan_description,session_analytics_csv_inputfile)
+            # if "FileName" in each_column_name:
+            #     scan_id=current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
+            #     fill_datapoint_each_sessionn_1(session_ID,"SCAN_SELECTED",scan_id,session_analytics_csv_inputfile)
+            #     append_dicominfo_to_analytics(session_ID,scan_id,session_analytics_csv_inputfile,os.path.dirname(session_analytics_csv_inputfile))
+            #     scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+            #     # Kernel (scan description) e.g. Head H30S
+            #     subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
+            #     fill_datapoint_each_sessionn_1(session_ID,"SCAN_DESCRIPTION",scan_description,session_analytics_csv_inputfile)
 
 
 
@@ -2395,6 +2395,19 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
         # columnname="THIN_SCAN_NUM"
         # columnvalue=axial_thin_count[1]
         # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        #################
+        scan_id=columnvalue #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
+        fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
+        append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
+        session_ID_metadata=get_metadata_session(session_id)
+        session_ID_metadata_1=json.dumps(session_ID_metadata)
+        session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+        scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+        # Kernel (scan description) e.g. Head H30S
+        subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
+        fill_datapoint_each_sessionn_1(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
+
+    #############
         columnname="NUMBER_SELECTEDSCANS"
         columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

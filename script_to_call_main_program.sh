@@ -199,3 +199,7 @@ if [[ ${TYPE_OF_PROGRAM} == 35 ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP4.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+if [[ ${TYPE_OF_PROGRAM} == 36 ]]; then
+  PROJECT_ID=${1}
+  /software/brain_left_right_entropy.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

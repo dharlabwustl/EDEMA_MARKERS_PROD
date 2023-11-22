@@ -1166,7 +1166,7 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         columnvalue=dicom_number_files
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # voxel resolution.#         Slice thickness
-        res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime,bodypart=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
+        res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
         fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
@@ -1174,6 +1174,7 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         # fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'body_part',bodypart,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'kvp',kvp,csvfilename)
 
 
 
@@ -1205,6 +1206,7 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
     acquisition_time_m=''
     dateandtime=''
     bodypart=''
+    kvp=''
     for k in reader.GetMetaDataKeys():
         if k[0:4]=='0028' and k[5:9]=='0030':
             v = reader.GetMetaData(k).split('\\')
@@ -1230,9 +1232,12 @@ def get_dicom_information(dicom_url,dir_to_save="./"):
             acquisition_time_m=str(acquisition_time[2:4])
         if k[0:4]=='0018' and k[5:9]=='0015':
             bodypart = reader.GetMetaData(k)
+        if k[0:4]=='0018' and k[5:9]=='0060':
+            kvp = reader.GetMetaData(k)
+
 
     dateandtime=acquisition_date_month+'/'+acquisition_date_day+'/'+acquisition_date_year + ' '+acquisition_time_h+':'+acquisition_time_m
-    return res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime,bodypart
+    return res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp
 
 
     return 0,0,0

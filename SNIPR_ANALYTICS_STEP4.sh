@@ -90,7 +90,7 @@ while IFS=',' read -ra array; do
       copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
       counter=$((counter + 1))
     fi
-  if [ $counter -gt 2 ]; then
-    break
-  fi
+#  if [ $counter -gt 2 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")

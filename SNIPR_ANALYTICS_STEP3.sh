@@ -103,13 +103,17 @@ cp ${copy_session} ${new_analytics_file}
 call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-call_edit_session_analytics_file_arguments=('rename_columns' ${csvfilename} ${new_analytics_file} FileName_slice FILENAME_NIFTI)
+call_edit_session_analytics_file_arguments=('rename_columns' ${new_analytics_file} ${new_analytics_file} FileName_slice FILENAME_NIFTI)
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
-call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} 'INFARCT THRESH RANGE' 'NORMAL THRESH RANGE' 'INFARCT REFLECTION VOLUME' 'NON INFARCT DENSITY' NUMBER_NIFTIFILES NUMBER_SELECTEDSCANS INFARCT_FILE_NUM CSF_FILE_NUM CSV_FILE_NUM
-  "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "CSV_FILE_PATH")
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file}  xsiType 'INFARCT THRESH RANGE' 'NORMAL THRESH RANGE' 'INFARCT REFLECTION VOLUME' 'NON INFARCT DENSITY' NUMBER_NIFTIFILES NUMBER_SELECTEDSCANS INFARCT_FILE_NUM CSF_FILE_NUM CSV_FILE_NUM
+  "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "CSV_FILE_PATH" 'xnat:subjectassessordata/id')
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-
+    if [ ${project_ID} == "ICH" ]; then
+call_edit_session_analytics_file_arguments=('remove_columns' ${new_analytics_file} ${new_analytics_file} xsiType 'INFARCT THRESH RANGE' 'NORMAL THRESH RANGE' 'INFARCT REFLECTION VOLUME' 'NON INFARCT DENSITY' NUMBER_NIFTIFILES NUMBER_SELECTEDSCANS INFARCT_FILE_NUM CSF_FILE_NUM CSV_FILE_NUM
+  "INFARCT_MASK_FILE_PATH" "CSF_MASK_FILE_PATH" "ID" "xsiType" "PDF_FILE_SIZE" "CSV_FILE_PATH" CSV_FILE_PATH	CSF_MASK	ICH_EDEMA_MASK	ICH_MASK  )
+    fi
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 columnname='subject_id'
 new_position=0
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})

@@ -995,13 +995,23 @@ def call_edit_session_analytics_file(args):
     edit_session_analytics_file(csvfilename)
 
 def remove_a_column(csvfilename,columnnamelist,outputfilename):
+
     csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df = csvfilename_df.drop(columnnamelist, axis=1)
+
+    for x in columnnamelist:
+        try:
+            csvfilename_df = csvfilename_df.drop([x], axis=1)
+        except:
+            pass
     csvfilename_df.to_csv(outputfilename,index=False)
+
 def rename_a_column(csvfilename,oldname,newname,outputfilename):
-    csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df.rename(columns={oldname:newname}, inplace=True)
-    csvfilename_df.to_csv(outputfilename,index=False)
+    try:
+        csvfilename_df=pd.read_csv(csvfilename)
+        csvfilename_df.rename(columns={oldname:newname}, inplace=True)
+        csvfilename_df.to_csv(outputfilename,index=False)
+    except:
+        pass
 def rename_columns(args):
     csvfilename=args.stuff[1]
     outputfilename=args.stuff[2]

@@ -1589,7 +1589,7 @@ def saveslicesofniftimat(filename_gray_data_np,filename,savetodir=""):
     if not os.path.exists(savetodir):
         savetodir=os.path.dirname(filename)
     if min_img_gray>=0:
-        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1060))
+        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1100))
         # img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     else:
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(20, 60))
@@ -1605,7 +1605,7 @@ def saveslicesofnifti(filename,savetodir=""):
     if not os.path.exists(savetodir):
         savetodir=os.path.dirname(filename)
     if min_img_gray>=0:
-        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1060))
+        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1100))
         # img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     else:
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(20, 60))
@@ -1633,7 +1633,7 @@ def savesingleslicesofnifti(filename,slicenumber=0,savetodir=""):
         savetodir=os.path.dirname(filename)
     if min_img_gray>=0:
         # img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
-        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1060))
+        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1020, 1100))
     else:
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(20, 60))
         # img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
@@ -1660,13 +1660,13 @@ def contrast_stretch(img,threshold_id):
         ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(20, 60))
     if threshold_id==2:
         # ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1000, 1200))
-        ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1060))
+        ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1100))
     return ct_image
 def contrast_stretch_stroke_range(img):
     # if threshold_id==1:
     ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(20, 60))
     # if threshold_id==2:
-    #     ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1060))
+    #     ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1100))
     return ct_image
 def contrast_stretch_np(img,threshold_id):
     if threshold_id==1:
@@ -1674,7 +1674,7 @@ def contrast_stretch_np(img,threshold_id):
         ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(20, 60))
     if threshold_id==2:
         # ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1000, 1200))
-        ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1060))
+        ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1100))
     return ct_image
 def saveslicesofnumpy3D(img_gray_data,savefilename="",savetodir=""):
 ##    filename_nib=nib.load(filename)

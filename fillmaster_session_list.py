@@ -2238,9 +2238,11 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 columnname="px"
                 columnvalue=SCAN_XYZ[0]
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                subprocess.call("echo " + "px::{}  >> /workingoutput/error.txt".format(columnvalue) ,shell=True )
                 columnname="pz"
                 columnvalue=SCAN_XYZ[2]
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                subprocess.call("echo " + "px::{}  >> /workingoutput/error.txt".format(columnvalue) ,shell=True )
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
                 SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])

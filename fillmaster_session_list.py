@@ -2194,7 +2194,7 @@ def nifti_image_resolution_info(filename): #URI_name,dir_to_save):
     filename_nib=nib.load(filename)
     image_dim=filename_nib.header["pixdim"][1:4]
     subprocess.call("echo " + "nifti_image_resolution_info::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
-    return image_dim #[0],image_dim[1],image_dim[2]
+    return image_dim,filename_nib.shape[2] #[0],image_dim[1],image_dim[2]
 def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
     returnvalue=0
     try:
@@ -2228,7 +2228,9 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 # #         SCAN_ID=nifti_file_list_row["ID"] #str(each_niftilocationfile_df.iloc[0]['ID'])
                 #         # fill_single_row_each_scan(SCAN_ID,row['ID'],row['label'],csvfilename)
                 #         # counter_nifti_location=counter_nifti_location+1
-                # ### PDF  STEP:
+                ############### ### PDF  STEP:
+
+                ############
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
@@ -2238,9 +2240,12 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 subprocess.call("echo " + "nifti_file_list_row['URI'],::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
                 # downloadniftiwithuri(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
                 download_a_singlefile_with_URIString(nifti_file_list_row['URI'],os.path.basename(nifti_file_list_row['URI']),os.path.dirname(sessionlist_filename))
-                SCAN_XYZ=nifti_image_resolution_info(os.path.join(os.path.dirname(sessionlist_filename),os.path.basename(nifti_file_list_row['URI']))) #nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
+                SCAN_XYZ,SCAN_SLICE_NUM=nifti_image_resolution_info(os.path.join(os.path.dirname(sessionlist_filename),os.path.basename(nifti_file_list_row['URI']))) #nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
                 columnname="px"
                 columnvalue=SCAN_XYZ[0]
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                columnname="SLICE_NUM"
+                columnvalue=SCAN_SLICE_NUM
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 subprocess.call("echo " + "px::{}  >> /workingoutput/error.txt".format(columnvalue) ,shell=True )
                 columnname="pz"
@@ -2250,6 +2255,31 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
                 SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                #################################
+                ### DICOM TO NIFTI STEP
+                # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+                # columnname="NUMBER_NIFTIFILES"
+                # columnvalue=str(niftifiles_num[0]) #str(0)
+                # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                columnname="NIFTIFILES_PREFIX"
+                columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                columnname="SELECTED_SCAN_ID"
+                columnvalue=SELECTED_SCAN_ID
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                ############################
+                scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
+                # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
+                append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
+                session_ID_metadata=get_metadata_session(session_id)
+                session_ID_metadata_1=json.dumps(session_ID_metadata)
+                session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+                scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+                # Kernel (scan description) e.g. Head H30S
+                subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
+                fill_datapoint_each_sessionn_1(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
+                ######################
+
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="ICH_QUANTIFICATION"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -2310,46 +2340,33 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 columnname="ICH_MASK"
                 columnvalue=str(_infarct_auto_removesmall_path) #str(0)
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        ### DICOM TO NIFTI STEP
-        # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
-        # columnname="NUMBER_NIFTIFILES"
-        # columnvalue=str(niftifiles_num[0]) #str(0)
-        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        columnname="NIFTIFILES_PREFIX"
-        columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
-        # if nifti_file_list.shape[0]>0:
-        #     for nifti_file_list_index , nifti_file_list_row in nifti_file_list.iterrows():
-        #         file_basename_split=os.path.basename(nifti_file_list_row["URI"]).split("_")
-        #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
-        #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-
-        columnname="SELECTED_SCAN_ID"
-        columnvalue=SELECTED_SCAN_ID
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        # axial_thin_count=count_brainaxial_or_thin(session_id)
-        # columnname="AXIAL_SCAN_NUM"
-        # columnvalue=axial_thin_count[0]
-        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        # columnname="THIN_SCAN_NUM"
-        # columnvalue=axial_thin_count[1]
-        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
-        #################
-        scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
-        # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
-        append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
-        session_ID_metadata=get_metadata_session(session_id)
-        session_ID_metadata_1=json.dumps(session_ID_metadata)
-        session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
-        scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
-        # Kernel (scan description) e.g. Head H30S
-        subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
-        fill_datapoint_each_sessionn_1(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
+#         ### DICOM TO NIFTI STEP
+#         # niftifiles_num=count_niftifiles_insession(session_id,os.path.dirname(sessionlist_filename))
+#         # columnname="NUMBER_NIFTIFILES"
+#         # columnvalue=str(niftifiles_num[0]) #str(0)
+#         # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+#         columnname="NIFTIFILES_PREFIX"
+#         columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
+#         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+#         columnname="SELECTED_SCAN_ID"
+#         columnvalue=SELECTED_SCAN_ID
+#         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+# ############################
+#         scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
+#         # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
+#         append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
+#         session_ID_metadata=get_metadata_session(session_id)
+#         session_ID_metadata_1=json.dumps(session_ID_metadata)
+#         session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+#         scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+#         # Kernel (scan description) e.g. Head H30S
+#         subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
+#         fill_datapoint_each_sessionn_1(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
 
         #############
-        columnname="NUMBER_SELECTEDSCANS"
-        columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
-        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        # columnname="NUMBER_SELECTEDSCANS"
+        # columnvalue=str(nifti_file_list.shape[0]) #counter_nifti_location) #str(0)
+        # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
         columnname="INFARCT_FILE_NUM"
         columnvalue=infarct_file_num #axial_thin_count[1]
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

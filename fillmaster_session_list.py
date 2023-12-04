@@ -622,11 +622,12 @@ def list_niftilocation(sessionID,download_dir):
         counter=0
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         for index1, row in f_listfile.iterrows():
-            filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
-            download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
-            filenames.append(os.path.join(download_dir,filename))
-            counter=counter+1
-            subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
+            if 'NIFTILOCATION' in row['URI']:
+                filename=URI_session.split('/')[3]+"_"+ str(counter)+".csv"
+                download_a_singlefile_with_URIString(row['URI'],filename,download_dir)
+                filenames.append(os.path.join(download_dir,filename))
+                counter=counter+1
+                subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
         if len(filenames)==1:
             returnvalue=pd.read_csv(filenames[0])
         elif len(filenames) >1:

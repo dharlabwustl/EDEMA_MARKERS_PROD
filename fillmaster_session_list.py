@@ -2192,6 +2192,7 @@ def nifti_image_resolution_info(URI_name,dir_to_save):
     filename=os.path.join(dir_to_save,os.path.basename(URI_name))
     filename_nib=nib.load(filename)
     image_dim=filename_nib.header["pixdim"][1:4]
+    subprocess.call("echo " + "nifti_image_resolution_info::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
     return image_dim #[0],image_dim[1],image_dim[2]
 def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
     returnvalue=0

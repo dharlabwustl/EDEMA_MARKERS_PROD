@@ -89,6 +89,7 @@ while IFS=',' read -ra array; do
     counter=$((counter + 1))
   fi
   rm ${working_dir}/*.nii
+  rm ${working_dir}/*.dcm
 #  if [ $counter -eq 1 ]; then
 #    break
 #  fi

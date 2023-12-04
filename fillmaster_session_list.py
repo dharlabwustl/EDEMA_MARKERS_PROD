@@ -2187,9 +2187,9 @@ def fill_sniprsession_list_ICH_V0(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
-def nifti_image_resolution_info(URI_name,dir_to_save):
-    downloadniftiwithuri(URI_name,dir_to_save)
-    filename=os.path.join(dir_to_save,os.path.basename(URI_name))
+def nifti_image_resolution_info(filename): #URI_name,dir_to_save):
+    # downloadniftiwithuri(URI_name,dir_to_save)
+    # filename=os.path.join(dir_to_save,os.path.basename(URI_name))
     filename_nib=nib.load(filename)
     image_dim=filename_nib.header["pixdim"][1:4]
     subprocess.call("echo " + "nifti_image_resolution_info::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )

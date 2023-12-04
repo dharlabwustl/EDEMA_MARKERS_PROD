@@ -2344,9 +2344,9 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                     extension_to_find_list="_normalized_class2.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
-                    if len(_infarct_auto_removesmall_path)>3:
-                        mask_sulci_at_ventricle_file_num=mask_sulci_at_ventricle_file_num+1
-                        subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                    # if len(_infarct_auto_removesmall_path)>3:
+                    #     mask_sulci_at_ventricle_file_num=mask_sulci_at_ventricle_file_num+1
+                    #     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
                         ####################################
                     # resource_dir="SAH_SEGM"
                     columnname="ICH_EDEMA_MASK"
@@ -2358,9 +2358,9 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                     extension_to_find_list="_normalized_class1.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
-                    if len(_infarct_auto_removesmall_path)>3:
-                        mask_4DL_seg_total_file_num=mask_4DL_seg_total_file_num+1
-                        subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                    # if len(_infarct_auto_removesmall_path)>3:
+                    #     mask_4DL_seg_total_file_num=mask_4DL_seg_total_file_num+1
+                    #     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
                     columnname="ICH_MASK"
                     columnvalue=str(_infarct_auto_removesmall_path) #str(0)
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

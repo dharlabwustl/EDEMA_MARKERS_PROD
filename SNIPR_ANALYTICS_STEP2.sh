@@ -88,9 +88,9 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
     counter=$((counter + 1))
   fi
-  if [ $counter -eq 1 ]; then
-    break
-  fi
+#  if [ $counter -eq 1 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 dir_to_save=${working_dir}
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"
@@ -117,4 +117,4 @@ done < <(tail -n +2 "${copy_session}")
 #create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 
-#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

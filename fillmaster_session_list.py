@@ -628,11 +628,12 @@ def list_niftilocation(sessionID,download_dir):
                 filenames.append(os.path.join(download_dir,filename))
                 counter=counter+1
                 subprocess.call("echo " + "I filename AT ::{}  >> /workingoutput/error.txt".format(filename) ,shell=True )
-        if len(filenames)==1:
-            returnvalue=pd.read_csv(filenames[0])
-        elif len(filenames) >1:
-            combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
-            returnvalue=combined_csv
+                returnvalue=pd.read_csv(filenames[0])
+        # if len(filenames)==1:
+        #     returnvalue=pd.read_csv(filenames[0])
+        # elif len(filenames) >1:
+        #     combined_csv = pd.concat([pd.read_csv(f) for f in filenames ])
+        #     returnvalue=combined_csv
         else:
             pass
     except :

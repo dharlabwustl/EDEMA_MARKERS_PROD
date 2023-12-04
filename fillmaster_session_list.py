@@ -2235,7 +2235,8 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 columnvalue=SCAN_DATETIME
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 subprocess.call("echo " + "nifti_file_list_row['URI'],::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
-                downloadniftiwithuri(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
+                # downloadniftiwithuri(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
+                download_a_singlefile_with_URIString(nifti_file_list_row['URI'],os.path.basename(nifti_file_list_row['URI']),os.path.dirname(sessionlist_filename))
                 SCAN_XYZ=nifti_image_resolution_info(os.path.join(os.path.dirname(sessionlist_filename),os.path.basename(nifti_file_list_row['URI']))) #nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
                 columnname="px"
                 columnvalue=SCAN_XYZ[0]

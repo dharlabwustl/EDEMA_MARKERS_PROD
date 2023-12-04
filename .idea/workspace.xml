@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities_simple_trimmed.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities_simple_trimmed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS_STEP2.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS_STEP2.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,7 +451,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="3226" />
+    <option name="localTasksCounter" value="3227" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -484,7 +485,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>1348</line>
+          <line>1351</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

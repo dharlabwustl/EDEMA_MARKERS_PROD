@@ -729,7 +729,7 @@ def get_filepath_withfileext_from_metadata(URI,resource_dir,extension_to_find_li
 
         print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
         # subprocess.call("echo " + "latest_file_path::{}  >> /workingoutput/error.txt".format(latest_file_path) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "extension_to_find_list::{}::latest_file_path::{}::I PASSED AT ::{}  >> /workingoutput/error.txt".format(extension_to_find_list,latest_file_path,inspect.stack()[0][3]) ,shell=True )
         # subprocess.call("echo " + "URI ::{}  >> /workingoutput/error.txt".format(URI) ,shell=True )
         # subprocess.call("echo " + "resource_dir::{}  >> /workingoutput/error.txt".format(resource_dir) ,shell=True )
         # subprocess.call("echo " + "extension_to_find_list ::{}  >> /workingoutput/error.txt".format(extension_to_find_list) ,shell=True )
@@ -2290,9 +2290,10 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 except:
                     pass
                 ######################
+                resource_dir="ICH_QUANTIFICATION"
                 try:
                     subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
-                    resource_dir="ICH_QUANTIFICATION"
+
                     extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))

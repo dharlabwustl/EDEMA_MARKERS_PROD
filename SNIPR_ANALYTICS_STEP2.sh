@@ -88,6 +88,7 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
     counter=$((counter + 1))
   fi
+  rm ${working_dir}/*.nii
 #  if [ $counter -eq 1 ]; then
 #    break
 #  fi

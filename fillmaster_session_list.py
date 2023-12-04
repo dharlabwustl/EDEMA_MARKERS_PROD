@@ -1163,6 +1163,9 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
+def make_datetime_column(scanfilename):
+    scanfilename_split=scanfilename.split("_")
+
 def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./"):
     try:
         identifier=session_id

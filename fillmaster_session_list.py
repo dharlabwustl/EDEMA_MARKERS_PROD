@@ -2806,9 +2806,9 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     extension_to_find_list="_infarct_auto_removesmall.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=get_filepath_withfileext_from_metadata(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX)
-                    if len(_infarct_auto_removesmall_path)>3:
-                        mask_sulci_at_ventricle_file_num=mask_sulci_at_ventricle_file_num+1
-                        subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
+                    # if len(_infarct_auto_removesmall_path)>3:
+                    #     mask_sulci_at_ventricle_file_num=mask_sulci_at_ventricle_file_num+1
+                    #     subprocess.call("echo " + "csf_file_num::{}  >> /workingoutput/error.txt".format(csf_file_num) ,shell=True )
                         ####################################
                     # resource_dir="SAH_SEGM"
                     columnname="INFARCT_MASK_FILE_PATH"

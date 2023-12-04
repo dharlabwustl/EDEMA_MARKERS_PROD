@@ -2223,6 +2223,10 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
+                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
+                columnname="acquisition_datetime"
+                columnvalue=SCAN_DATETIME
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
                 SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])

@@ -1184,12 +1184,12 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         # voxel resolution.#         Slice thickness
         res_x,res_y,res_z,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp=get_dicom_information(df_scan.at[0,"URI"],dir_to_save)
-        fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
-        fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
-        fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
+        # fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
+        # fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
+        # fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'scanner',scanner_manufacturer+' '+scanner_model,csvfilename)
         # fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
-        fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
+        # fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'body_part',bodypart,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'kvp',kvp,csvfilename)
 
@@ -2187,6 +2187,12 @@ def fill_sniprsession_list_ICH_V0(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def nifti_image_resolution_info(URI_name,dir_to_save):
+    downloadniftiwithuri(URI_name,dir_to_save)
+    filename=os.path.join(dir_to_save,os.path.basename(URI_name))
+    filename_nib=nib.load(filename)
+    image_dim=filename_nib.header["pixdim"][1:4]
+    return image_dim #[0],image_dim[1],image_dim[2]
 def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
     returnvalue=0
     try:
@@ -2226,6 +2232,13 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
                 columnname="acquisition_datetime"
                 columnvalue=SCAN_DATETIME
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                SCAN_XYZ=nifti_image_resolution_info(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
+                columnname="px"
+                columnvalue=SCAN_XYZ[0]
+                fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                columnname="pz"
+                columnvalue=SCAN_XYZ[2]
                 fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]

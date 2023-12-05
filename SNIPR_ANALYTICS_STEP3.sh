@@ -92,9 +92,9 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
     counter=$((counter + 1))
   fi
-  if [ $counter -gt 10 ]; then
-    break
-  fi
+#  if [ $counter -gt 10 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 
 new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

@@ -88,11 +88,11 @@ while IFS=',' read -ra array; do
 #    outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 #    append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
 #    outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
-#    counter=$((counter + 1))
+    counter=$((counter + 1))
 #  fi
-#  if [ $counter -gt 10 ]; then
-#    break
-#  fi
+  if [ $counter -gt 10 ]; then
+    break
+  fi
 done < <(tail -n +2 "${copy_session}")
 #
 #new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

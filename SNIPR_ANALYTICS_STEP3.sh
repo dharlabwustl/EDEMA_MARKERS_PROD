@@ -75,8 +75,8 @@ counter=0
 dir_to_save=${output_directory}
 while IFS=',' read -ra array; do
   echo array::${array[15]}
-  pdf_file_location=${array[14]}
-  csv_file_location=${array[15]}
+  pdf_file_location=${array[23]}
+  csv_file_location=${array[24]}
   this_session_id=${array[1]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}

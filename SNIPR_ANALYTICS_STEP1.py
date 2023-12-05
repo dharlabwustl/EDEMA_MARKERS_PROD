@@ -49,9 +49,10 @@ final_output_directory="/outputinsidedocker"
 #   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 #
 # }
+sys.path.append('/software')
 from fillmaster_session_list import *
 from download_with_session_ID import *
-from fillmaster_session_list import *
+# from fillmaster_session_list import *
 sessions_list=working_dir +'/'+'sessions.csv'
 time_now=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 # $(date -dnow +%Y%m%d%H%M%S)

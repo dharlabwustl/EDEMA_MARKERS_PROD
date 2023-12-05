@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 import sys,glob,os,datetime
 import argparse
 XNAT_USER=sys.argv[2] #${2}

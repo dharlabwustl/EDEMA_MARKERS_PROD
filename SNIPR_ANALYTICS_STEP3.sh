@@ -74,7 +74,7 @@ download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
 counter=0
 dir_to_save=${output_directory}
 while IFS=',' read -ra array; do
-#  echo array::${array[23]}
+  echo array::${array[23]}
   pdf_file_location=${array[23]}
   csv_file_location=${array[24]}
   this_session_id=${array[1]}

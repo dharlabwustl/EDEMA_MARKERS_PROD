@@ -16,6 +16,10 @@ import pickle
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+XNAT_HOST_URL='https://snipr.wustl.edu'
+XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
+XNAT_USER = os.environ['XNAT_USER']#
+XNAT_PASS =os.environ['XNAT_PASS'] #
 def get_sessions_scans_for_pipepline_image(args):
 
     csvfilename=args.stuff[1]

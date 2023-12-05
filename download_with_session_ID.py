@@ -1165,6 +1165,18 @@ def get_metadata_session(sessionId,outputfile="NONE.csv"):
     df_scan = pd.read_json(metadata_session_1)
     df_scan.to_csv(outputfile,index=False)
     return metadata_session
+def get_metadata_project_sessionlist(project_ID,outputfile="NONE.csv"):
+    url = ("/data/projects/%s/experiments/?format=json" %    (project_ID))
+    # /data/projects/${project_ID}/experiments/
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    response = xnatSession.httpsess.get(xnatSession.host + url)
+    xnatSession.close_httpsession()
+    metadata_session=response.json()['ResultSet']['Result']
+    metadata_session_1=json.dumps(metadata_session)
+    df_scan = pd.read_json(metadata_session_1)
+    df_scan.to_csv(outputfile,index=False)
+    return metadata_session
 def get_session_label(sessionId,outputfile="NONE.csv"):
     try:
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)

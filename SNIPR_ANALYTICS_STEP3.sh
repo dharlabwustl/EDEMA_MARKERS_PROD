@@ -73,10 +73,12 @@ copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 counter=0
 dir_to_save=${output_directory}
+call_edit_session_analytics_file_arguments=('remove_columns' ${copy_session} ${copy_session} 'scanner_from_xml'  )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 while IFS=',' read -ra array; do
-  echo array::${array[23]}
-  pdf_file_location=${array[23]}
-  csv_file_location=${array[24]}
+  echo array::${array[22]}
+  pdf_file_location=${array[22]}
+  csv_file_location=${array[23]}
   this_session_id=${array[1]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}

@@ -62,6 +62,7 @@ get_metadata_project_sessionlist(project_ID,sessions_list)
 # curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 #
 # filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list})
+filter_ctsession_witharg(sessions_list,sessions_list)
 # outputfiles_present=$(python3 fillmaster_session_list.py "${filter_ctsession_arguments[@]}")
 # cp ${sessions_list} ${copy_session}
 # counter=0

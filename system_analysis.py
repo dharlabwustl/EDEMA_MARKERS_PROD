@@ -16,10 +16,6 @@ import pickle
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
-XNAT_HOST_URL='https://snipr.wustl.edu'
-XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
-XNAT_USER = os.environ['XNAT_USER']#
-XNAT_PASS =os.environ['XNAT_PASS'] #
 def get_sessions_scans_for_pipepline_image(args):
 
     csvfilename=args.stuff[1]
@@ -48,13 +44,13 @@ def create_images_for_cluster(args):
                 URI = row["URI"]+"/resources/" + resource_dirname+ "/files?format=json"
                 df_listfile=listoffile_witha_URI_as_df(URI)
                 if df_listfile.shape[0]==1:
-                    download_a_singlefile_with_URIString_sys_ana(df_listfile['URI'].iloc[0],df_listfile['Name'].iloc[0],dir_to_save)
+                    download_a_singlefile_with_URIString(df_listfile['URI'].iloc[0],df_listfile['Name'].iloc[0],dir_to_save)
                     print('gt1')
                     command='dcm2niix -o '+dir_to_save  + '  ' + os.path.join(dir_to_save,df_listfile['Name'].iloc[0])
                     subprocess.call(command,shell=True)
                 elif df_listfile.shape[0]>1:
                     middle_slice=int(df_listfile.shape[0]/2)
-                    download_a_singlefile_with_URIString_sys_ana(df_listfile['URI'].iloc[middle_slice],df_listfile['Name'].iloc[middle_slice],dir_to_save)
+                    download_a_singlefile_with_URIString(df_listfile['URI'].iloc[middle_slice],df_listfile['Name'].iloc[middle_slice],dir_to_save)
                     print('gt1')
                     command='dcm2niix -o '+dir_to_save  + '  ' + os.path.join(dir_to_save,df_listfile['Name'].iloc[middle_slice])
                     subprocess.call(command,shell=True)
@@ -73,7 +69,7 @@ def create_images_for_cluster(args):
                 # check number of slices:
                 # if only one slice: convert it into png image
                 # if multiple slices: convert the middle image into png
-                # download_a_singlefile_with_URIString_sys_ana(row['URI'],row['Name'],dir_to_save)
+                # download_a_singlefile_with_URIString(row['URI'],row['Name'],dir_to_save)
                 # print("DOWNLOADED ::{}".format(row))
                 # print("PASSED AT ::{}".format("download_files_in_a_resource"))
 
@@ -459,7 +455,7 @@ def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans
             url=row[column_name_for_url] #"PDF_FILE_NAME"]
             filename=row[column_name_for_session_name] + "_" + os.path.basename(url)
             try:
-                download_with_session_ID.download_a_singlefile_with_URIString_sys_ana(url,filename,dir_to_save)
+                download_with_session_ID.download_a_singlefile_with_URIString(url,filename,dir_to_save)
                 download_with_session_ID.uploadsinglefile_X_level(X_level,level_name,os.path.join(dir_to_save,filename),resource_dirname_at_snipr)
             except:
                 pass
@@ -474,7 +470,7 @@ def download_then_upload_files_withurl_from_a_csvfile(args) : #,masterfile_scans
 
     return 0
 
-def download_a_singlefile_with_URIString_sys_ana(args):
+def download_a_singlefile_with_URIString(args):
     url=args.stuff[1]
     filename=args.stuff[2]
     dir_to_save=args.stuff[3]

@@ -2024,7 +2024,12 @@ def filter_ctsession(args):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilenam_df=csvfilename_df[csvfilename_df['xsiType']=='xnat:ctSessionData']
     csvfilenam_df.to_csv(csvfilename_output,index=False)
-
+def filter_ctsession_witharg(csvfilename,csvfilename_output):
+    # csvfilename=args.stuff[1]
+    # csvfilename_output=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilenam_df=csvfilename_df[csvfilename_df['xsiType']=='xnat:ctSessionData']
+    csvfilenam_df.to_csv(csvfilename_output,index=False)
 def fill_sniprsession_list_ICH_V0(args):
     sessionlist_filename=args.stuff[1]
     session_id=args.stuff[2]

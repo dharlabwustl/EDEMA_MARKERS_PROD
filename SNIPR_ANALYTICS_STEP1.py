@@ -58,7 +58,7 @@ time_now=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 # $(date -dnow +%Y%m%d%H%M%S)
 print(project_ID+"_"+time_now)
 copy_session=sessions_list.split('.csv')[0]+'_'+ project_ID+ '_ANALYTICS_STEP1_'+time_now+'.csv'
-download_with_session_ID.get_metadata_project_sessionlist(project_ID,sessions_list)
+get_metadata_project_sessionlist(project_ID,sessions_list)
 # curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 #
 # filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list})

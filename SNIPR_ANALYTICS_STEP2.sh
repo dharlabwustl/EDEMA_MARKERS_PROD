@@ -90,9 +90,9 @@ while IFS=',' read -ra array; do
   fi
   rm ${working_dir}/*.nii
   rm ${working_dir}/*.dcm
-  if [ $counter -eq 10 ]; then
-    break
-  fi
+#  if [ $counter -eq 10 ]; then
+#    break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 dir_to_save=${working_dir}
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"

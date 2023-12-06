@@ -50,6 +50,7 @@ final_output_directory="/outputinsidedocker"
 #
 # }
 sys.path.append('/software')
+import subprocess
 from fillmaster_session_list import *
 from download_with_session_ID import *
 # from fillmaster_session_list import *
@@ -63,6 +64,8 @@ get_metadata_project_sessionlist(project_ID,sessions_list)
 #
 # filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list})
 filter_ctsession_witharg(sessions_list,sessions_list)
+command="cp " + sessions_list +" " +copy_session
+subprocess.call(command,shell=True)
 # outputfiles_present=$(python3 fillmaster_session_list.py "${filter_ctsession_arguments[@]}")
 # cp ${sessions_list} ${copy_session}
 # counter=0

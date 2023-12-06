@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import sys,glob,os,datetime
 import argparse
+import pandas as pd
+import numpy as np
 XNAT_USER=sys.argv[2] #${2}
 XNAT_PASS=sys.argv[3] #${3}
 XNAT_HOST=sys.argv[4] #${4}

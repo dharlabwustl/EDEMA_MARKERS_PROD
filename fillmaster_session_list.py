@@ -1155,17 +1155,17 @@ def append_sessionxmlinfo_to_analytics(args):
                             break
                     except:
                         pass
-                for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
-                    if xx > 1:
-                        try:
-                            columnvalue_2=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@model']
-                            if len(columnvalue_2)>1:
-                                break
-                        except:
-                            pass
+            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                if xx > 1:
+                    try:
+                        columnvalue_2=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@model']
+                        if len(columnvalue_2)>1:
+                            break
+                    except:
+                        pass
 
-                columnvalue= columnvalue_1 + " " + columnvalue_2  #xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
-                fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+            columnvalue= columnvalue_1 + " " + columnvalue_2  #xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
+            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
         ################

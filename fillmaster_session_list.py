@@ -1144,12 +1144,25 @@ def append_sessionxmlinfo_to_analytics(args):
             pass
         columnname='scanner_from_xml'
         columnvalue=""
+        columnvalue_1=""
+        columnvalue_2=""
         try:
-            try:
-                columnvalue= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@manufacturer'] + " " +  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:scanner']['@model']
-                fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-            except:
-                columnvalue=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
+            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                try:
+                    columnvalue_1= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@manufacturer']
+                    if len(columnvalue_1)>0:
+                        break
+                except:
+                    pass
+            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                try:
+                    columnvalue_2=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@model']
+                    if len(columnvalue_2)>0:
+                        break
+                except:
+                    pass
+
+                columnvalue= columnvalue_1 +" " + columnvalue_2  #xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
                 fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
@@ -1157,8 +1170,15 @@ def append_sessionxmlinfo_to_analytics(args):
         columnname='body_part'
         columnvalue=""
         try:
-            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:bodyPartExamined']
-            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                try:
+                    columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:bodyPartExamined']
+                    fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+                    if len(columnvalue)>0:
+                        break
+                except:
+                    pass
+
         except:
             pass
         ################

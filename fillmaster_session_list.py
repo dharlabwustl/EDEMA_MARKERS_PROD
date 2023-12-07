@@ -1176,7 +1176,7 @@ def append_sessionxmlinfo_to_analytics(args):
                 try:
                     columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:bodyPartExamined']
                     fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-                    if len(columnvalue)>0:
+                    if len(columnvalue)>3:
                         break
                 except:
                     pass

@@ -1146,10 +1146,10 @@ def append_sessionxmlinfo_to_analytics(args):
         columnvalue=""
         try:
             try:
-                columnvalue= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:scanner']['@manufacturer'] + " " +  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:scanner']['@model']
+                columnvalue= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@manufacturer'] + " " +  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:scanner']['@model']
                 fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
             except:
-                columnvalue=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:scanner']['@model']
+                columnvalue=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
                 fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
@@ -1157,7 +1157,7 @@ def append_sessionxmlinfo_to_analytics(args):
         columnname='body_part'
         columnvalue=""
         try:
-            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:bodyPartExamined']
+            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:bodyPartExamined']
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass

@@ -464,7 +464,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="3289" />
+    <option name="localTasksCounter" value="3290" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -493,12 +493,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>1407</line>
+          <line>1409</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>2563</line>
+          <line>2565</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

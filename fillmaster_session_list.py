@@ -1148,21 +1148,23 @@ def append_sessionxmlinfo_to_analytics(args):
         columnvalue_2=""
         try:
             for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
-                try:
-                    columnvalue_1= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@manufacturer']
-                    if len(columnvalue_1)>0:
-                        break
-                except:
-                    pass
-            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
-                try:
-                    columnvalue_2=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@model']
-                    if len(columnvalue_2)>0:
-                        break
-                except:
-                    pass
+                if xx > 1:
+                    try:
+                        columnvalue_1= xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@manufacturer']
+                        if len(columnvalue_1)>1:
+                            break
+                    except:
+                        pass
+                for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                    if xx > 1:
+                        try:
+                            columnvalue_2=  xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:scanner']['@model']
+                            if len(columnvalue_2)>1:
+                                break
+                        except:
+                            pass
 
-                columnvalue= columnvalue_1 +" " + columnvalue_2  #xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
+                columnvalue= columnvalue_1 + " " + columnvalue_2  #xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][1]['xnat:scanner']['@model']
                 fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass

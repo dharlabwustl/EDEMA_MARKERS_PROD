@@ -1159,13 +1159,13 @@ def append_sessionxmlinfo_to_analytics(args):
             pass
         ################
         ################
-        columnname='kvp'
-        columnvalue=""
-        try:
-            columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:parameters']['xnat:kvp']
-            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        except:
-            pass
+        # columnname='kvp'
+        # columnvalue=""
+        # try:
+        #     columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:parameters']['xnat:kvp']
+        #     fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        # except:
+        #     pass
         ################
 
         # columnname='datetime_from_xml'
@@ -2311,7 +2311,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
                 # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
                 try:
-                    # append_dicominfo_to_analytics(session_id,SELECTED_SCAN_ID,csvfilename,os.path.dirname(csvfilename))
+                    append_dicominfo_to_analytics(session_id,SELECTED_SCAN_ID,csvfilename,os.path.dirname(csvfilename))
                     session_ID_metadata=get_metadata_session(session_id)
                     session_ID_metadata_1=json.dumps(session_ID_metadata)
                     session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
@@ -2655,7 +2655,7 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
         #################
         scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
         # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
-        # append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
+        append_dicominfo_to_analytics(session_id,scan_id,csvfilename,os.path.dirname(csvfilename))
         session_ID_metadata=get_metadata_session(session_id)
         session_ID_metadata_1=json.dumps(session_ID_metadata)
         session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
@@ -2773,7 +2773,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 scan_id=SELECTED_SCAN_ID #current_scan_result_csvfile_df.at[0,each_column_name].split('_')[-1]
                 # fill_datapoint_each_sessionn_1(session_id,"SCAN_SELECTED",scan_id,csvfilename)
                 try:
-                    # append_dicominfo_to_analytics(session_id,SELECTED_SCAN_ID,csvfilename,os.path.dirname(csvfilename))
+                    append_dicominfo_to_analytics(session_id,SELECTED_SCAN_ID,csvfilename,os.path.dirname(csvfilename))
                     session_ID_metadata=get_metadata_session(session_id)
                     session_ID_metadata_1=json.dumps(session_ID_metadata)
                     session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)

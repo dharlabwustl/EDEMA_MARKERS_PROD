@@ -82,7 +82,7 @@ while IFS=',' read -ra array; do
       break
     fi
 done < <(tail -n +2 "${copy_session}")
-csvfilename_before_sorting=${csvfilename%.csv*}_before_sorting.csv
+csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv
 cp ${csvfilename} ${csvfilename_before_sorting}
 #create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")

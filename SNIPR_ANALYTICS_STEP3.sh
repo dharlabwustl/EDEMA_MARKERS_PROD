@@ -122,7 +122,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 columnname='FILENAME_NIFTI'
-new_position=4
+new_position=5
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 #columnname='acquisition_datetime'
@@ -135,7 +135,7 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_an
 #call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 columnname='SCAN_SELECTED'
-new_position=3
+new_position=4
 call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 

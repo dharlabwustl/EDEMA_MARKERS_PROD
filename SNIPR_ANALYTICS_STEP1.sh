@@ -86,5 +86,19 @@ done < <(tail -n +2 "${copy_session}")
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file}  'subject_id' 'acquisition_datetime_xml' )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+columnname='subject_id'
+new_position=0
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+columnname='acquisition_datetime_xml'
+new_position=1
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+columnname='acquisition_site'
+new_position=2
+call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analytics_file} ${columnname} ${new_position} ${new_analytics_file})
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
 #copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

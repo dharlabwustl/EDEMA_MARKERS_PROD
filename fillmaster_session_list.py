@@ -1161,8 +1161,8 @@ def append_sessionxmlinfo_to_analytics(args):
         columnname='acquisition_datetime_xml'
         columnvalue=""
         try:
-
-            columnvalue_1="/".join(str(xmlfile_dict['xnat:CTSession']['xnat:date']).split('-'))
+            date_split=str(xmlfile_dict['xnat:CTSession']['xnat:date']).split('-')
+            columnvalue_1="/".join([date_split[1],date_split[2],date_split[0]])
             columnvalue_2=":".join(str(xmlfile_dict['xnat:CTSession']['xnat:time']).split(':')[0:2])
             columnvalue=columnvalue_1+" "+ columnvalue_2
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)

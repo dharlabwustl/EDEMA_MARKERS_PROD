@@ -1126,7 +1126,7 @@ def append_sessionxmlinfo_to_analytics(args):
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
         # Acquisition site
-        columnname='acquisition_site'
+        columnname='acquisition_site_xml'
         columnvalue=""
         try:
             columnvalue=xmlfile_dict['xnat:CTSession']['xnat:acquisition_site']
@@ -1134,7 +1134,7 @@ def append_sessionxmlinfo_to_analytics(args):
         except:
             pass
         try:
-            columnname='acquisition_datetime'
+            columnname='acquisition_datetime_xml'
             columnvalue=""
             columnvalue_1="/".join(str(xmlfile_dict['xnat:CTSession']['xnat:date']).split('-'))
             columnvalue_2=":".join(str(xmlfile_dict['xnat:CTSession']['xnat:time']).split(':')[0:2])
@@ -1169,7 +1169,7 @@ def append_sessionxmlinfo_to_analytics(args):
         except:
             pass
         ################
-        columnname='body_part'
+        columnname='body_part_xml'
         columnvalue=""
         try:
             for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
@@ -1184,16 +1184,25 @@ def append_sessionxmlinfo_to_analytics(args):
 
         except:
             pass
-        ################
-        ################
-        # columnname='kvp'
-        # columnvalue=""
-        # try:
-        #     columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:parameters']['xnat:kvp']
-        #     fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-        # except:
-        #     pass
-        ################
+        ###############
+        ###############
+        columnname='kvp_xml'
+        columnvalue=""
+        try:
+            for xx in range(len(xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'])):
+                if xx>1:
+                    try:
+                        columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:parameters']['xnat:kvp']
+                        fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+                        if len(columnvalue)>3:
+                            break
+                    except:
+                        pass
+            # columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][0]['xnat:parameters']['xnat:kvp']
+            # fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        except:
+            pass
+        ###############
 
         # columnname='datetime_from_xml'
         # columnvalue=""
@@ -1242,9 +1251,9 @@ def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./
         # fill_datapoint_each_sessionn_1(identifier,'res_x',res_x,csvfilename)
         # fill_datapoint_each_sessionn_1(identifier,'res_y',res_y,csvfilename)
         # fill_datapoint_each_sessionn_1(identifier,'slice_thickness',res_z,csvfilename)
-        fill_datapoint_each_sessionn_1(identifier,'scanner',scanner_manufacturer+' '+scanner_model,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'scanner',str(scanner_manufacturer) +' '+str(scanner_model),csvfilename)
         # fill_datapoint_each_sessionn_1(identifier,'scanner_model',scanner_model,csvfilename)
-        # fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
+        fill_datapoint_each_sessionn_1(identifier,'acquisition_datetime',dateandtime,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'body_part',bodypart,csvfilename)
         fill_datapoint_each_sessionn_1(identifier,'kvp',kvp,csvfilename)
 

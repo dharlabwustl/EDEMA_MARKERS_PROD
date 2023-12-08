@@ -78,11 +78,13 @@ while IFS=',' read -ra array; do
   echo 'add_axial_thin_num'::${session_id}::${csvfilename}::${csvfilename}
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
   counter=$((counter + 1))
-  #  if [ $counter -gt 2 ]; then
-  #    break
-  #  fi
+    if [ $counter -gt 2 ]; then
+      break
+    fi
 done < <(tail -n +2 "${copy_session}")
 #create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file}  'subject_id' 'acquisition_datetime_xml' )
+outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

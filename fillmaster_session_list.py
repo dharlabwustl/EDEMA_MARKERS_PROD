@@ -1057,12 +1057,15 @@ def sort_data_first_col_date(args):
     try:
         csvfilename=args.stuff[1]
         csvfilename_output=args.stuff[2]
-        sorting_columns=args.stuff[3:]
+        subject_col_name=args.stuff[3]
+        datetime_col_name=str(args.stuff[4])
+        datetime_col_name_1=datetime_col_name+"_1"
+        # sorting_columns=args.stuff[3:]
         df=pd.read_csv(csvfilename)
-        df['acquisition_datetime_1'] = pd.to_datetime(df[sorting_columns[0]], format='%m/%d/%Y %H:%M')
-        df_agg = df.groupby(['subject_id'])
-        res = df_agg.apply(lambda x: x.sort_values(by=['acquisition_datetime_1'],ascending=True))
-        x=res.pop('acquisition_datetime_1')
+        df[datetime_col_name_1] = pd.to_datetime(df[datetime_col_name], format='%m/%d/%Y %H:%M')
+        df_agg = df.groupby([subject_col_name])
+        res = df_agg.apply(lambda x: x.sort_values(by=[datetime_col_name_1],ascending=True))
+        x=res.pop(datetime_col_name_1)
         # df=df.sort_values(by=[sorting_columns[0]+'_1'])
         # if len(sorting_columns)>2:
         #

@@ -1125,6 +1125,8 @@ def append_sessionxmlinfo_to_analytics(args):
         xmlfile=args.stuff[2]
         csvfilename=args.stuff[3]
         csvfilename_df=pd.read_csv(csvfilename)
+        subject_list_file=args.stuff[4]
+        subject_list_file_df=pd.read_csv(subject_list_file)
         # csvfilename_df['acquisition_site']=""
         # csvfilename_df['scanner_from_xml']=""
         csvfilename_df.to_csv(csvfilename,index=False)
@@ -1134,6 +1136,17 @@ def append_sessionxmlinfo_to_analytics(args):
         identifier=session_id
         with open(xmlfile) as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
+        ## subject id:
+        columnname='subject_id'
+        columnvalue=""
+        try:
+            # session_list_file_df.loc[matched_session_index,"subject_id"]=each_subject_row_row["label"]
+            subject_ID=str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])
+            matched_session=subject_list_file_df[subject_list_file_df["ID"].astype(str)==subject_ID]
+            columnvalue=str(matched_session["label"])
+            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+        except:
+            pass
         # Acquisition site
         columnname='acquisition_site_xml'
         columnvalue=""
@@ -1142,9 +1155,10 @@ def append_sessionxmlinfo_to_analytics(args):
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
+        columnname='acquisition_datetime_xml'
+        columnvalue=""
         try:
-            columnname='acquisition_datetime_xml'
-            columnvalue=""
+
             columnvalue_1="/".join(str(xmlfile_dict['xnat:CTSession']['xnat:date']).split('-'))
             columnvalue_2=":".join(str(xmlfile_dict['xnat:CTSession']['xnat:time']).split(':')[0:2])
             columnvalue=columnvalue_1+" "+ columnvalue_2
@@ -1203,7 +1217,7 @@ def append_sessionxmlinfo_to_analytics(args):
                     try:
                         columnvalue=xmlfile_dict['xnat:CTSession']['xnat:scans']['xnat:scan'][xx]['xnat:parameters']['xnat:kvp']
                         fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
-                        if len(columnvalue)>3:
+                        if len(columnvalue)>1:
                             break
                     except:
                         pass

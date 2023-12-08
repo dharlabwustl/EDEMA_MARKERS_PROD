@@ -84,6 +84,7 @@ while IFS=',' read -ra array; do
 done < <(tail -n +2 "${copy_session}")
 #create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${csvfilename} ${csvfilename})
 #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
+new_analytics_file=${csvfilename}
 call_edit_session_analytics_file_arguments=('sort_data_first_col_date' ${new_analytics_file} ${new_analytics_file}  'subject_id' 'acquisition_datetime_xml' )
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 columnname='subject_id'

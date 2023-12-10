@@ -77,8 +77,8 @@ dir_to_receive_the_data=working_dir #${working_dir}
 resource_dir=project_ID+"_SESSION_ANALYTICS_1" #${project_ID}_SESSION_ANALYTICS_1"
 file_path_csv=os.path.join(dir_to_receive_the_data,project_ID+"_${resource_dir}_resultfilepath.csv") #${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
 get_latest_filepath_from_metadata_arguments=arguments()
-get_latest_filepath_from_metadata_arguments.stuff=[URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
-get_latest_filepath_from_metadata_for_analytics('get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ,file_path_csv)
+get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
+get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments) #'get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ,file_path_csv)
 # get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ${file_path_csv})
 # outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 # sessions_list=${working_dir}/'sessions.csv'

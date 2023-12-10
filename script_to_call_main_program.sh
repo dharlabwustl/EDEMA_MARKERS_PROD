@@ -197,7 +197,7 @@ if [[ ${TYPE_OF_PROGRAM} == 33 ]]; then
 fi
 if [[ ${TYPE_OF_PROGRAM} == 33.1 ]]; then
   PROJECT_ID=${1}
-  /software/SNIPR_ANALYTICS_STEP1.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/SNIPR_ANALYTICS_STEP2.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 if [[ ${TYPE_OF_PROGRAM} == 34 ]]; then
   PROJECT_ID=${1}

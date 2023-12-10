@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python
 import subprocess,os,sys,glob
 # sys.path.append('/software')
 from download_with_session_ID import *

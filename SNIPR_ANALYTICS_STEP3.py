@@ -74,11 +74,11 @@ time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 new_analytics_file=new_analytics_file_prefix+'_'+time_now+'.csv'
 command="cp " + copy_session + " " + new_analytics_file
 subprocess.call(command,shell=True)
-#
-# # ##############################EDITING################################
-# call_edit_session_analytics_file_arguments=arguments()
-# call_edit_session_analytics_file_arguments.stuff=['call_edit_session_analytics_file' ,new_analytics_file]
-# call_edit_session_analytics_file(call_edit_session_analytics_file_arguments)
+
+# ##############################EDITING################################
+call_edit_session_analytics_file_arguments=arguments()
+call_edit_session_analytics_file_arguments.stuff=['call_edit_session_analytics_file' ,new_analytics_file]
+call_edit_session_analytics_file(call_edit_session_analytics_file_arguments)
 # #
 # #
 # call_edit_session_analytics_file_arguments=arguments()

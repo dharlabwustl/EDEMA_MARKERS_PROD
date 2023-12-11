@@ -5,6 +5,7 @@ import pandas as pd
 # sys.path.append('/software')
 from download_with_session_ID import *
 from system_analysis import *
+from fillmaster_session_list import *
 command='export XNAT_USER='+sys.argv[2] #${2}'
 subprocess.call(command,shell=True)
 command='export XNAT_PASS='+sys.argv[3] #${3}
@@ -82,9 +83,20 @@ get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadat
 sessions_list=os.path.join(working_dir,'sessions.csv')
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S') ##$(date -dnow +%Y%m%d%H%M%S)
 copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv'
-
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 #
+copy_session_df=pd.read_csv(copy_session)
+for row_id,row in copy_session_df.iterrows():
+    if row['xsiType']=="xnat:ctSessionData":
+        call_fill_sniprsession_list_arguments=arguments()
+         ##
+        if  "ICH" in project_ID:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
+            fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
+        else:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
+            fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
+
 # counter=0
 #
 # while IFS=',' read -ra array; do

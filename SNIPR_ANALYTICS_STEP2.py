@@ -31,7 +31,7 @@ final_output_directory="/outputinsidedocker"
 # from download_with_session_ID import *;
 # call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
 # }
-# copysinglefile_to_sniprproject() {
+# def copysinglefile_to_sniprproject(projectID,resource_dirname,): {
 #   local projectID=$1
 #   #scanID=$2
 #   local resource_dirname=$3 #"MASKS" #sys.argv[4]
@@ -118,4 +118,7 @@ for row_id,row in copy_session_df.iterrows():
         counter=counter+1
     if counter>2:
         break
+uploadsinglefile_projectlevel_args_arguments=arguments()
+uploadsinglefile_projectlevel_args_arguments.stuff=[project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
+uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
 # copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

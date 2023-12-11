@@ -113,7 +113,7 @@ for row_id,row in copy_session_df.iterrows():
         session_ID=row['ID']
         temp_dir=working_dir
         call_edit_session_analytics_file_arguments=arguments()
-        call_edit_session_analytics_file_arguments.stuff['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
+        call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
         add_file_size(call_edit_session_analytics_file_arguments)
         counter=counter+1
     if counter>2:

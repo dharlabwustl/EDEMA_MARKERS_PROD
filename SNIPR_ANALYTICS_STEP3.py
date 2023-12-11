@@ -112,10 +112,10 @@ call_move_one_column(call_edit_session_analytics_file_arguments)
 call_edit_session_analytics_file_arguments.stuff=['rename_columns', new_analytics_file,new_analytics_file, 'subject_id' ,'subject']
 rename_columns(call_edit_session_analytics_file_arguments)
 #
-call_edit_session_analytics_file_arguments.stuff=['rename_columns', new_analytics_file,new_analytics_file, "label" "snipr_session"]
+call_edit_session_analytics_file_arguments.stuff=['rename_columns', new_analytics_file,new_analytics_file, "label", "snipr_session"]
 rename_columns(call_edit_session_analytics_file_arguments)
 #
-call_edit_session_analytics_file_arguments.stuff=['rename_columns', new_analytics_file,new_analytics_file, "SCAN_SELECTED" "scan_selected"]
+call_edit_session_analytics_file_arguments.stuff=['rename_columns', new_analytics_file,new_analytics_file, "SCAN_SELECTED", "scan_selected"]
 rename_columns(call_edit_session_analytics_file_arguments)
 #
 call_edit_session_analytics_file_arguments.stuff=['rename_columns' , new_analytics_file,new_analytics_file,"acquisition_datetime", "scan_date_time"]

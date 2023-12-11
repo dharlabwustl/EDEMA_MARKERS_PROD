@@ -19,46 +19,7 @@ working_dir="/workinginput"
 output_directory="/workingoutput"
 
 final_output_directory="/outputinsidedocker"
-####################
-# call_get_resourcefiles_metadata_saveascsv() {
-#   URI=${1}
-#   resource_dir=${2}
-#   dir_to_receive_the_data=${3}
-#   output_csvfile=${4}
-#   python3 -c "
-# import sys
-# sys.path.append('/software');
-# from download_with_session_ID import *;
-# call_get_resourcefiles_metadata_saveascsv()" ${URI} ${resource_dir} ${dir_to_receive_the_data} ${output_csvfile}
-# }
-# def copysinglefile_to_sniprproject(projectID,resource_dirname,): {
-#   local projectID=$1
-#   #scanID=$2
-#   local resource_dirname=$3 #"MASKS" #sys.argv[4]
-#   local file_name=$4
-#   local output_dir=$2
-#   echo " I AM IN copysinglefile_to_sniprproject "
-#   python3 -c "
-# import sys
-# sys.path.append('/software');
-# from download_with_session_ID import *;
-# uploadsinglefile_projectlevel()" ${projectID} ${output_dir} ${resource_dirname} ${file_name} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
-#
-# }
-## for each session
-# function call_get_resourcefiles_metadata_saveascsv_args() {
-#   local resource_dir=${2}   #"NIFTI"
-#   local output_csvfile=${4} #{array[1]}
-#
-#   local URI=${1} #{array[0]}
-#   local file_ext=${5}
-#   local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
-#
-#   local final_output_directory=${3}
-#   local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-#   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-#
-# }
+
 def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {
     file_path_csv_df=pd.read_csv(file_path_csv)
     for row_id,row in file_path_csv_df.iterrows():

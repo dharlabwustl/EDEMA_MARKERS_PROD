@@ -84,7 +84,7 @@ get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadat
 sessions_list=os.path.join(working_dir,'sessions.csv')
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S') ##$(date -dnow +%Y%m%d%H%M%S)
 copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv'
-system_analysis.download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
+download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 #
 copy_session_df=pd.read_csv(copy_session)
 counter=0

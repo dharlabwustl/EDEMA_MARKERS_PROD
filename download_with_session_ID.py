@@ -1068,6 +1068,30 @@ def call_uploadfilesfromlistinacsv(args):
     projectId=args.stuff[3]
     resource_dirname=args.stuff[4]
     uploadfilesfromlistinacsv(urllistfilename,X_level,projectId,resource_dirname)
+def uploadsinglefile_projectlevel_args(args):
+    try:
+        projectId=args.stuff[1] #str(sys.argv[1])
+        input_dirname=args.stuff[2] #str(sys.argv[2])
+        resource_dirname=args.stuff[3] #str(sys.argv[3])
+        file_name=args.stuff[4] # str(sys.argv[4])
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        url = (("/data/projects/%s/resources/"+resource_dirname+"/files/") % (projectId))
+        # allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
+        eachniftifile=os.path.join(input_dirname,file_name)
+        files={'file':open(eachniftifile,'rb')}
+        # for eachniftifile in allniftifiles:
+        #     files={'file':open(eachniftifile,'rb')}
+        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        print(response)
+        xnatSession.close_httpsession()
+        # for eachniftifile in allniftifiles:
+        #     command= 'rm  ' + eachniftifile
+        #     subprocess.call(command,shell=True)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 def uploadsinglefile_projectlevel():
     try:
         projectId=str(sys.argv[1])

@@ -89,36 +89,34 @@ sessions_list=os.path.join(working_dir,'sessions.csv')
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP3_'+time_now+'.csv'
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
-#
-# get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP2_" ${file_path_csv})
-# outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-# sessions_list=${working_dir}/'sessions.csv'
-# time_now=$(date -dnow +%Y%m%d%H%M%S)
-# copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
-# download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
-# counter=0
-# dir_to_save=${output_directory}
-#
+copy_session_df=pd.read_csv(copy_session)
+counter=0
+dir_to_save=output_directory
+for row_id,row in copy_session_df.iterrows():
 # while IFS=',' read -ra array; do
 #   echo array::${array[22]}
-#   pdf_file_location=${array[22]}
-#   csv_file_location=${array[23]}
-#   this_session_id=${array[1]}
-#   n_pdffilename_length=${#pdf_file_location}
+  pdf_file_location=row['PDF_FILE_PATH'] #${array[22]}
+  csv_file_location=row['CSV_FILE_PATH'] #${array[23]}
+  this_session_id=row['ID'] #${array[1]}
+  n_pdffilename_length=len(pdf_file_location) #${#pdf_file_location}
 #   echo ${n_pdffilename_length}
-#   n_csvfilename_length=${#csv_file_location}
+  n_csvfilename_length=len(csv_file_location) #${#csv_file_location}
 #   echo ${n_csvfilename_length}
-#   if [ ${n_csvfilename_length} -gt 1 ]; then
-#     csv_output_filename=$(basename ${csv_file_location})
-#     get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${csv_file_location} ${csv_output_filename} ${dir_to_save})
-#     outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#     append_results_to_analytics_arguments=('append_results_to_analytics' ${copy_session} ${dir_to_save}/${csv_output_filename} ${this_session_id} ${copy_session})
-#     outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
-#     counter=$((counter + 1))
-#   fi
-# #  if [ $counter -gt 10 ]; then
-# #    break
-# #  fi
+  if n_csvfilename_length > 1 : #]; then
+    csv_output_filename=os.path.basename(csv_file_location) #$(basename ${csv_file_location})
+    get_latest_filepath_from_metadata_arguments=arguments()
+    get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',csv_file_location,csv_output_filename,dir_to_save]
+    download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+    # outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+    append_results_to_analytics_arguments=arguments()
+    append_results_to_analytics_arguments.stuff=['append_results_to_analytics',copy_session,os.path.join(dir_to_save,csv_output_filename), this_session_id, copy_session]
+    append_results_to_analytics(append_results_to_analytics_arguments)
+    # outputfiles_present=$(python3 fillmaster_session_list.py "${append_results_to_analytics_arguments[@]}")
+    counter=counter+1
+
+    if counter > 10 : #; then
+     break
+
 # done < <(tail -n +2 "${copy_session}")
 #
 # new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'

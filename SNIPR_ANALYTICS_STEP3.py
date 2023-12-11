@@ -105,7 +105,7 @@ for row_id,row in copy_session_df.iterrows():
 
   n_csvfilename_length=len(str(csv_file_location)) #${#csv_file_location}
 #   echo ${n_csvfilename_length}
-  if ".csv" in csv_file_location : #]; then
+  if ".csv" in str(csv_file_location) : #]; then
     csv_output_filename=os.path.basename(csv_file_location) #$(basename ${csv_file_location})
     get_latest_filepath_from_metadata_arguments=arguments()
     get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',csv_file_location,csv_output_filename,dir_to_save]
@@ -122,9 +122,10 @@ for row_id,row in copy_session_df.iterrows():
 
 # done < <(tail -n +2 "${copy_session}")
 #
-# new_analytics_file_prefix=${working_dir}/${project_ID}'_SESSIONS_RESULTS_METRICS'
-# time_now=$(date -dnow +%Y%m%d%H%M%S)
-# new_analytics_file=${new_analytics_file_prefix}_${time_now}.csv
+new_analytics_file_prefix=os.path.join(working_dir,project_ID+'_SESSIONS_RESULTS_METRICS')
+time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S') # time_now=$(date -dnow +%Y%m%d%H%M%S)
+new_analytics_file=new_analytics_file_prefix+'_'+time_now+'.csv'
+command="cp " + copy_session + " " + new_analytics_file
 # cp ${copy_session} ${new_analytics_file}
 # ##############################EDITING################################
 # call_edit_session_analytics_file_arguments=('call_edit_session_analytics_file' ${new_analytics_file})

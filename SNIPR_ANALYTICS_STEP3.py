@@ -100,6 +100,7 @@ for row_id,row in copy_session_df.iterrows():
   this_session_id=row['ID'] #${array[1]}
   n_pdffilename_length=len(pdf_file_location) #${#pdf_file_location}
 #   echo ${n_pdffilename_length}
+  print(row['label'])
   n_csvfilename_length=len(csv_file_location) #${#csv_file_location}
 #   echo ${n_csvfilename_length}
   if n_csvfilename_length > 1 : #]; then

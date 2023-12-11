@@ -18,7 +18,9 @@ XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 
-
+class arguments:
+    def __init__(self,stuff=[]):
+        self.stuff=stuff
 def change_type_of_scan(sessionId, scanId,label):
     returnvalue=0
     try:

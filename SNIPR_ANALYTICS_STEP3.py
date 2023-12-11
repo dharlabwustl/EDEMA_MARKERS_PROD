@@ -81,16 +81,16 @@ call_edit_session_analytics_file_arguments.stuff=['call_edit_session_analytics_f
 call_edit_session_analytics_file(call_edit_session_analytics_file_arguments)
 # #
 # #
-call_edit_session_analytics_file_arguments=arguments()
+# call_edit_session_analytics_file_arguments=arguments()
 call_edit_session_analytics_file_arguments.stuff=['rename_columns' ,new_analytics_file,new_analytics_file ,'FileName_slice', 'FILENAME_NIFTI']
 rename_columns(call_edit_session_analytics_file_arguments) #
 # #
-call_edit_session_analytics_file_arguments=arguments()
+# call_edit_session_analytics_file_arguments=arguments()
 call_edit_session_analytics_file_arguments.stuff=['remove_columns' ,new_analytics_file,new_analytics_file,  'xsiType', 'INFARCT THRESH RANGE', 'NORMAL THRESH RANGE', 'INFARCT REFLECTION VOLUME', 'NON INFARCT DENSITY', 'NUMBER_NIFTIFILES', 'NUMBER_SELECTEDSCANS' ,'INFARCT_FILE_NUM', 'CSF_FILE_NUM', 'CSV_FILE_NUM',   "INFARCT_MASK_FILE_PATH", "CSF_MASK_FILE_PATH", "ID" ,"xsiType", "PDF_FILE_SIZE", "CSV_FILE_PATH", 'xnat:subjectassessordata/id']
 
 #
 if "ICH" in project_ID:
-  call_edit_session_analytics_file_arguments=arguments()
+  # call_edit_session_analytics_file_arguments=arguments()
   call_edit_session_analytics_file_arguments.stuff=['remove_columns',new_analytics_file,new_analytics_file, "xsiType", 'INFARCT THRESH RANGE', 'NORMAL THRESH RANGE', 'INFARCT REFLECTION VOLUME', 'NON INFARCT DENSITY', "NUMBER_NIFTIFILES", "NUMBER_SELECTEDSCANS" ,"INFARCT_FILE_NUM", "CSF_FILE_NUM", "CSV_FILE_NUM","INFARCT_MASK_FILE_PATH", "CSF_MASK_FILE_PATH", "ID", "xsiType", "PDF_FILE_SIZE", "CSV_FILE_PATH", "CSV_FILE_PATH",	"CSF_MASK",	"ICH_EDEMA_MASK",	"ICH_MASK"] #  )
 remove_columns(call_edit_session_analytics_file_arguments)
 
@@ -103,7 +103,7 @@ call_move_one_column(call_edit_session_analytics_file_arguments)
 
 columnname='SCAN_SELECTED'
 new_position=4
-call_edit_session_analytics_file_arguments=arguments()
+# call_edit_session_analytics_file_arguments=arguments()
 call_edit_session_analytics_file_arguments.stuff=['call_move_one_column',new_analytics_file,columnname,new_position,new_analytics_file]
 call_move_one_column(call_edit_session_analytics_file_arguments)
 #

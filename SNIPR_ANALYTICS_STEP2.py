@@ -1,5 +1,7 @@
 #!/usr/bin/python
-import subprocess,os,sys,glob
+# tininfo@proteantech.in
+import subprocess,os,sys,glob,datetime
+import pandas as pd
 # sys.path.append('/software')
 from download_with_session_ID import *
 from system_analysis import *
@@ -55,19 +57,15 @@ final_output_directory="/outputinsidedocker"
 #   outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 #
 # }
-# download_a_single_file() {
-#   local file_path_csv=${1}
-#   local dir_to_save=${2} #args.stuff[3]
-#   local projectid=${3}
-#   local output_filename=${4}
-#
-#   while IFS=',' read -ra array; do
-#     echo array::${array[0]}
-#
-#     local get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${array[0]} ${output_filename} ${dir_to_save})
-#     local outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-#   done < <(tail -n +2 "${file_path_csv}")
-#
+def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {
+    file_path_csv_df=pd.read_csv(file_path_csv)
+    for row_id,row in file_path_csv_df.iterrows():
+        filename=row['FILE_PATH']
+        get_latest_filepath_from_metadata_arguments=arguments()
+        get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',filename,output_filename,dir_to_save]
+        download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments) #outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+      # done < <(tail -n +2 "${file_path_csv}")
+
 # }
 # class arguments:
 #   def __init__(self,stuff=[]):
@@ -82,9 +80,10 @@ get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadat
 # get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ${file_path_csv})
 # outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 sessions_list=os.path.join(working_dir,'sessions.csv')
-# time_now=$(date -dnow +%Y%m%d%H%M%S)
-# copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP2_${time_now}.csv
-# download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
+time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S') ##$(date -dnow +%Y%m%d%H%M%S)
+copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv'
+
+download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 #
 # counter=0
 #

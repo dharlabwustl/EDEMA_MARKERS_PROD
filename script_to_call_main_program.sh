@@ -191,19 +191,19 @@ if [[ ${TYPE_OF_PROGRAM} == 32.1 ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP1.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-if [[ ${TYPE_OF_PROGRAM} == 33 ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 33.1 ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP2.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-if [[ ${TYPE_OF_PROGRAM} == 33.1 ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 33 ]]; then
   PROJECT_ID=${1}
   python3 /software/SNIPR_ANALYTICS_STEP2.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-if [[ ${TYPE_OF_PROGRAM} == 34 ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 34.1 ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP3.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-if [[ ${TYPE_OF_PROGRAM} == 34.1 ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 34 ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP3.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

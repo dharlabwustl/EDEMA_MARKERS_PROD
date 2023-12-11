@@ -66,23 +66,16 @@ def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename):
         get_latest_filepath_from_metadata_arguments=arguments()
         get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',filename,output_filename,dir_to_save]
         download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments) #outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-      # done < <(tail -n +2 "${file_path_csv}")
 
-# }
-# class arguments:
-#   def __init__(self,stuff=[]):
-#     self.stuff=stuff
 URI="/data/projects/"+project_ID #${project_ID}
 dir_to_receive_the_data=working_dir #${working_dir}
 resource_dir=project_ID+"_SESSION_ANALYTICS_1" #${project_ID}_SESSION_ANALYTICS_1"
 file_path_csv=os.path.join(dir_to_receive_the_data,project_ID+"_"+resource_dir+"_resultfilepath.csv") #${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
 get_latest_filepath_from_metadata_arguments=arguments()
 get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
-get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments) #'get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ,file_path_csv)
-# get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP1_" ${file_path_csv})
-# outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
 sessions_list=os.path.join(working_dir,'sessions.csv')
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S') ##$(date -dnow +%Y%m%d%H%M%S)
+time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv'
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 #
@@ -102,51 +95,27 @@ for row_id,row in copy_session_df.iterrows():
             counter=counter+1
     if counter>2:
         break
+command='rm ${working_dir}/*.nii'
+subprocess.call(command,shell=True)
+command='rm ${working_dir}/*.dcm'
+subprocess.call(command,shell=True)
 
-# counter=0
-#
-# while IFS=',' read -ra array; do
-#   xx=0
-#
-#   if [ ${array[4]} == "xnat:ctSessionData" ]; then
-#     echo "${array[1]}"
-#     echo "${array[5]}"
-#     call_fill_sniprsession_list_arguments=('fill_sniprsession_list_1' ${copy_session} ${array[1]}) ##
-#     if [ ${project_ID} == "ICH" ]; then
-#       call_fill_sniprsession_list_arguments=('fill_sniprsession_list_ICH' ${copy_session} ${array[1]}) ##
-#     fi
-#     outputfiles_present=$(python3 fillmaster_session_list.py "${call_fill_sniprsession_list_arguments[@]}")
-#     counter=$((counter + 1))
-#   fi
-#   rm ${working_dir}/*.nii
-#   rm ${working_dir}/*.dcm
-# #  if [ $counter -eq 10 ]; then
-# #    break
-# #  fi
-# done < <(tail -n +2 "${copy_session}")
-# dir_to_save=${working_dir}
-# resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_2"
+dir_to_save=working_dir
+resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_2"
 #
 # ##############################
-# time_now=$(date -dnow +%Y%m%d%H%M%S)
-# while IFS=',' read -ra array; do
-#   file_url=${array[14]}
-#   if [[ ${file_url} == *".pdf"* ]]; then
-#     session_ID=${array[0]}
-#     echo session_ID::${session_ID}
-#     echo file_url::${file_url}
-#
-#     echo copy_session::${copy_session}
-#     temp_dir=${working_dir}
-#     echo temp_dir::${temp_dir}
-#     call_edit_session_analytics_file_arguments=('add_file_size' ${session_ID} ${file_url} ${copy_session} "PDF_FILE_SIZE" ${temp_dir})
-#     outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#   fi
-# done < <(tail -n +2 "${copy_session}")
-# ##############################
-# #subject_list=${working_dir}/'subjects.csv'
-# #curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-# #create_subject_id_arguments=('create_subject_id_from_snipr' ${subject_list} ${copy_session} ${copy_session})
-# #outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
-#
+copy_session_df=pd.read_csv(copy_session)
+counter=0
+time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+for row_id,row in copy_session_df.iterrows():
+    if '.pdf' in row['PDF_FILE_PATH']:
+        file_url=row['PDF_FILE_PATH']
+        session_ID=row['ID']
+        temp_dir=working_dir
+        call_edit_session_analytics_file_arguments=arguments()
+        call_edit_session_analytics_file_arguments.stuff['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
+        add_file_size(call_edit_session_analytics_file_arguments)
+        counter=counter+1
+    if counter>2:
+        break
 # copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

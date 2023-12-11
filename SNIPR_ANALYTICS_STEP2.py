@@ -86,6 +86,7 @@ copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 #
 copy_session_df=pd.read_csv(copy_session)
+counter=0
 for row_id,row in copy_session_df.iterrows():
     if row['xsiType']=="xnat:ctSessionData":
         call_fill_sniprsession_list_arguments=arguments()
@@ -93,9 +94,13 @@ for row_id,row in copy_session_df.iterrows():
         if  "ICH" in project_ID:
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
             fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
+            counter=counter+1
         else:
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
+            counter=counter+1
+    if counter>2:
+        break
 
 # counter=0
 #

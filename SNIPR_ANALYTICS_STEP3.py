@@ -105,7 +105,7 @@ for row_id,row in copy_session_df.iterrows():
 
   n_csvfilename_length=len(csv_file_location) #${#csv_file_location}
 #   echo ${n_csvfilename_length}
-  if n_csvfilename_length > 1 : #]; then
+  if n_csvfilename_length > 10 : #]; then
     csv_output_filename=os.path.basename(csv_file_location) #$(basename ${csv_file_location})
     get_latest_filepath_from_metadata_arguments=arguments()
     get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',csv_file_location,csv_output_filename,dir_to_save]

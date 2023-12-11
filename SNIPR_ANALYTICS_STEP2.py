@@ -69,7 +69,7 @@ copy_session_df=pd.read_csv(copy_session)
 counter=0
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 for row_id,row in copy_session_df.iterrows():
-    if '.pdf' in row['PDF_FILE_PATH']:
+    if '.pdf' in str(row['PDF_FILE_PATH']):
         file_url=row['PDF_FILE_PATH']
         session_ID=row['ID']
         temp_dir=working_dir

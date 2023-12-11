@@ -119,6 +119,6 @@ for row_id,row in copy_session_df.iterrows():
     if counter>2:
         break
 uploadsinglefile_projectlevel_args_arguments=arguments()
-uploadsinglefile_projectlevel_args_arguments.stuff=[project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
+uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
 uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
 # copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

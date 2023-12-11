@@ -93,8 +93,8 @@ for row_id,row in copy_session_df.iterrows():
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
             counter=counter+1
-    if counter>2:
-        break
+    # if counter>2:
+    #     break
 command='rm ${working_dir}/*.nii'
 subprocess.call(command,shell=True)
 command='rm ${working_dir}/*.dcm'
@@ -116,8 +116,8 @@ for row_id,row in copy_session_df.iterrows():
         call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
         add_file_size(call_edit_session_analytics_file_arguments)
         counter=counter+1
-    if counter>2:
-        break
+    # if counter>2:
+    #     break
 uploadsinglefile_projectlevel_args_arguments=arguments()
 uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
 uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)

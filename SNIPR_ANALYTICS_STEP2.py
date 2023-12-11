@@ -3,9 +3,10 @@
 import subprocess,os,sys,glob,datetime
 import pandas as pd
 # sys.path.append('/software')
+from fillmaster_session_list import *
 from download_with_session_ID import *
 from system_analysis import *
-from fillmaster_session_list import *
+
 command='export XNAT_USER='+sys.argv[2] #${2}'
 subprocess.call(command,shell=True)
 command='export XNAT_PASS='+sys.argv[3] #${3}

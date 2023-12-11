@@ -99,6 +99,7 @@ for row_id,row in copy_session_df.iterrows():
   csv_file_location=row['CSV_FILE_PATH'] #${array[23]}
   this_session_id=row['ID'] #${array[1]}
   print(row['label'])
+  print(pdf_file_location)
   n_pdffilename_length=len(pdf_file_location) #${#pdf_file_location}
 #   echo ${n_pdffilename_length}
 

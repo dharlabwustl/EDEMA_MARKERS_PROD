@@ -100,10 +100,10 @@ for row_id,row in copy_session_df.iterrows():
   this_session_id=row['ID'] #${array[1]}
   print(row['label'])
   print(pdf_file_location)
-  n_pdffilename_length=len(pdf_file_location) #${#pdf_file_location}
+  n_pdffilename_length=len(str(pdf_file_location)) #${#pdf_file_location}
 #   echo ${n_pdffilename_length}
 
-  n_csvfilename_length=len(csv_file_location) #${#csv_file_location}
+  n_csvfilename_length=len(str(csv_file_location)) #${#csv_file_location}
 #   echo ${n_csvfilename_length}
   if n_csvfilename_length > 10 : #]; then
     csv_output_filename=os.path.basename(csv_file_location) #$(basename ${csv_file_location})

@@ -188,12 +188,8 @@ rename_columns(call_edit_session_analytics_file_arguments)
 call_edit_session_analytics_file_arguments.stuff=['rename_columns' , new_analytics_file,new_analytics_file, 'THIN_SCAN_NUM' ,"axial_thin_number"]
 rename_columns(call_edit_session_analytics_file_arguments)
 
-#create_subject_id_arguments=('create_subject_id' ${csvfilename} ${csvfilename})
-#outputfiles_present=$(python3 fillmaster_session_list.py "${create_subject_id_arguments[@]}")
 resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_3"
-# copysinglefile_to_sniprproject(project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
-# #
-# copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+
 uploadsinglefile_projectlevel_args_arguments=arguments()
 uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(new_analytics_file),resource_dirname_at_snipr, os.path.basename(new_analytics_file)]
 uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)

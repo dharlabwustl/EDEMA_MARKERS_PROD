@@ -16,7 +16,8 @@ working_dir="/workinginput"
 output_directory="/workingoutput"
 
 final_output_directory="/outputinsidedocker"
-
+api_token=str(sys.argv[4]).split('::::')[1] #sys.argv[5] #os.environ['REDCAP_API_TOKEN']
+api_url=str(sys.argv[4]).split('::::')[2] #sys.argv[6] #'https://redcap.wustl.edu/redcap/api/'
 def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {
   file_path_csv_df=pd.read_csv(file_path_csv)
   for row_id,row in file_path_csv_df.iterrows():
@@ -195,45 +196,71 @@ rename_columns(call_edit_session_analytics_file_arguments)
 # uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
 # uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
 # uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
+new_analytics_file_df=pd.read_csv(new_analytics_file)
+new_analytics_file_df_cols=new_analytics_file_df.columns
+for row_id, row in new_analytics_file_df.iterrows():
+  for each_col in new_analytics_file_df_cols:
+    if each_col != "subject":
+      record_id=row["subject"]
+      field_id=each_col
+      field_value=row[each_col]
+      record = {
+        # 'redcap_repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
+        # 'redcap_repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
+        'record_id':record_id, # str(df_scan_sample.loc[0,'record_id']),
+        field_id: field_value
 
-api_token=str(sys.argv[4]).split('::::')[1] #sys.argv[5] #os.environ['REDCAP_API_TOKEN']
-api_url=str(sys.argv[4]).split('::::')[2] #sys.argv[6] #'https://redcap.wustl.edu/redcap/api/'
-field_id='subject'
-field_value='OURTHIRDSUBJECT'
-record = {
-  # 'redcap_repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
-  # 'redcap_repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
-  'record_id':10, # str(df_scan_sample.loc[0,'record_id']),
-  field_id: field_value
-
-}
-data = json.dumps([record])
-fields = {
-  'token': api_token,
-  'content': 'record',
-  'format': 'json',
-  'type': 'flat',
-  'data': data,
-}
-r = requests.post(api_url,data=fields)
-print('HTTP Status: ' + str(r.status_code))
-print(r.text)
-# file =glob.glob('/home/atul/Downloads/*.pdf')[0] # '/home/atul/Downloads/COLI_HM25_CT_1_COLI_HM25_03092021_1954_2_thresh_0_40_VersionDate-11302022_01_07_2023.pdf'
+      }
+      data = json.dumps([record])
+      fields = {
+        'token': api_token,
+        'content': 'record',
+        'format': 'json',
+        'type': 'flat',
+        'data': data,
+      }
+      try:
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+      except:
+        pass
+#
+# # field_id='subject'
+# # field_value='OURTHIRDSUBJECT'
+# # record = {
+# #   # 'redcap_repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
+# #   # 'redcap_repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
+# #   'record_id':10, # str(df_scan_sample.loc[0,'record_id']),
+# #   field_id: field_value
+# #
+# # }
+# data = json.dumps([record])
 # fields = {
 #   'token': api_token,
-#   'content': 'file',
-#   'action': 'import',
-#   # 'repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
-#   # 'repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
-#   'record': str(df_scan_sample.loc[0,'record_id']),
-#   'field': 'session_pdf' , #'photo_as_pdf',
-#   'returnFormat': 'json'
+#   'content': 'record',
+#   'format': 'json',
+#   'type': 'flat',
+#   'data': data,
 # }
-#
-# file_path=file
-# file_obj = open(file_path, 'rb')
-# r = requests.post(api_url,data=fields,files={'file':file_obj})
-# file_obj.close()
-#
+# r = requests.post(api_url,data=fields)
 # print('HTTP Status: ' + str(r.status_code))
 # print(r.text)
+# # file =glob.glob('/home/atul/Downloads/*.pdf')[0] # '/home/atul/Downloads/COLI_HM25_CT_1_COLI_HM25_03092021_1954_2_thresh_0_40_VersionDate-11302022_01_07_2023.pdf'
+# # fields = {
+# #   'token': api_token,
+# #   'content': 'file',
+# #   'action': 'import',
+# #   # 'repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
+# #   # 'repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
+# #   'record': str(df_scan_sample.loc[0,'record_id']),
+# #   'field': 'session_pdf' , #'photo_as_pdf',
+# #   'returnFormat': 'json'
+# # }
+# #
+# # file_path=file
+# # file_obj = open(file_path, 'rb')
+# # r = requests.post(api_url,data=fields,files={'file':file_obj})
+# # file_obj.close()
+# #
+# # print('HTTP Status: ' + str(r.status_code))
+# # print(r.text)

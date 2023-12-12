@@ -202,6 +202,12 @@ counter=0
 for row_id, row in new_analytics_file_df.iterrows():
   for each_col in new_analytics_file_df_cols:
     if each_col != "subject":
+      PDF_FILE_PATH=row['PDF_FILE_PATH']
+      PDF_FILE_PATH_LOCAL=""
+      if ".pdf" in str(PDF_FILE_PATH):
+        PDF_FILE_PATH_LOCAL=os.path.join(dir_to_save,os.path.basename(PDF_FILE_PATH))
+        get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',PDF_FILE_PATH,os.path.basename(PDF_FILE_PATH),dir_to_save]
+        download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
       record_id=row["subject"]
       field_id=each_col
       field_value=row[each_col]
@@ -225,6 +231,25 @@ for row_id, row in new_analytics_file_df.iterrows():
         print('HTTP Status: ' + str(r.status_code))
       except:
         pass
+      if ".pdf" in PDF_FILE_PATH_LOCAL:
+        file =PDF_FILE_PATH_LOCAL ##glob.glob('/home/atul/Downloads/*.pdf')[0] # '/home/atul/Downloads/COLI_HM25_CT_1_COLI_HM25_03092021_1954_2_thresh_0_40_VersionDate-11302022_01_07_2023.pdf'
+        fields = {
+          'token': api_token,
+          'content': 'file',
+          'action': 'import',
+          # 'repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
+          # 'repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
+          'record':record_id, ## str(df_scan_sample.loc[0,'record_id']),
+          'field': 'session_pdf' , #'photo_as_pdf',
+          'returnFormat': 'json'
+        }
+
+        file_path=file
+        file_obj = open(file_path, 'rb')
+        r = requests.post(api_url,data=fields,files={'file':file_obj})
+        file_obj.close()
+
+
     counter=counter+1
     if counter > 1:
       break

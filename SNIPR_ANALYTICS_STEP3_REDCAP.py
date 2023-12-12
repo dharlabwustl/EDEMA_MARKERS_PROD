@@ -9,7 +9,7 @@ command='export XNAT_USER='+sys.argv[2] #${2}
 subprocess.call(command,shell=True)
 command='export XNAT_PASS='+sys.argv[3] #${3}
 subprocess.call(command,shell=True)
-command='export XNAT_HOST='+sys.argv[4] #${3}
+command='export XNAT_HOST='+str(sys.argv[4]).split('::::')[0] #${3}
 subprocess.call(command,shell=True)
 project_ID=sys.argv[1] #${1}
 working_dir="/workinginput"
@@ -64,7 +64,7 @@ for row_id,row in copy_session_df.iterrows():
     
     counter=counter+1
 
-    if counter > 10 : #; then
+    if counter > 2 : #; then
      break
 
 
@@ -196,8 +196,8 @@ rename_columns(call_edit_session_analytics_file_arguments)
 # uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
 # uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
 
-api_token=sys.argv[5] #os.environ['REDCAP_API_TOKEN']
-api_url=sys.argv[6] #'https://redcap.wustl.edu/redcap/api/'
+api_token=str(sys.argv[4]).split('::::')[1] #sys.argv[5] #os.environ['REDCAP_API_TOKEN']
+api_url=str(sys.argv[4]).split('::::')[2] #sys.argv[6] #'https://redcap.wustl.edu/redcap/api/'
 fields = {
   'token':api_token, # api_token,
   'content': 'record',

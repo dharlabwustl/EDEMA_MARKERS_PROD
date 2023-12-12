@@ -253,8 +253,8 @@ for row_id, row in new_analytics_file_df.iterrows():
 
 
     counter=counter+1
-    if counter > 20:
-      break
+  if counter > 20:
+    break
 # copy_session_df=pd.read_csv(copy_session)
 # copy_session_df_cols=copy_session_df.columns
 # for row_id, row in copy_session_df.iterrows():

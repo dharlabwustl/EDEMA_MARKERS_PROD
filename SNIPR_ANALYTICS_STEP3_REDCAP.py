@@ -198,29 +198,12 @@ rename_columns(call_edit_session_analytics_file_arguments)
 
 api_token=str(sys.argv[4]).split('::::')[1] #sys.argv[5] #os.environ['REDCAP_API_TOKEN']
 api_url=str(sys.argv[4]).split('::::')[2] #sys.argv[6] #'https://redcap.wustl.edu/redcap/api/'
-fields = {
-  'token':api_token, # api_token,
-  'content': 'record',
-  'format': 'json',
-  'type': 'flat'
-}
-r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
-r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
-df_scan = pd.read_json(r_json)
-print(df_scan)
-df_scan.to_csv('test.csv',index=False)
-df_scan=pd.read_csv('test.csv',index_col=False, dtype=object)
-############FILTER TO GET THE SINGLE ROW#######################
-# df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
-df_scan_sample=df_scan[(df_scan['record_id']=="1" )].reset_index()
-#######################################################################
 field_id='subject'
 field_value='OURTHIRDSUBJECT'
-print(df_scan_sample)
 record = {
   # 'redcap_repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
   # 'redcap_repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),
-  'record_id': str(df_scan_sample.loc[0,'record_id']),
+  'record_id':10, # str(df_scan_sample.loc[0,'record_id']),
   field_id: field_value
 
 }

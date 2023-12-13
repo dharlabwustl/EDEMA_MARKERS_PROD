@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import subprocess,os,sys,glob,datetime
+import subprocess,os,sys,glob,datetime,math
 import pandas as pd
 # sys.path.append('/software')
 from fillmaster_session_list import *
@@ -206,6 +206,11 @@ for row_id, row in new_analytics_file_df.iterrows():
     if each_col != "subject":
       field_id=each_col
       field_value=row[each_col]
+      if field_id=="pz" or field_id=="px" and str(field_value).isnumeric():
+        field_value=round(field_value, 3)
+      elif str(field_value).isnumeric():
+        field_value=round(field_value, 2)
+
       if "date_time" in each_col and len(str(row[each_col])>6):
         field_value=datetime.datetime.strptime(row[each_col], '%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
       record = {

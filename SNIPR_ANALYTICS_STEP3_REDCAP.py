@@ -207,7 +207,7 @@ for row_id, row in new_analytics_file_df.iterrows():
       field_id=each_col
       field_value=row[each_col]
       if "datetime" in each_col:
-        field_value=datetime.datetime.strptime(row[each_col], '%m/%d/%Y H:S').strftime('%b-%d-%Y H:S')
+        field_value=datetime.datetime.strptime(row[each_col], '%m/%d/%Y H:S').strftime('%m-%d-%Y H:S')
       record = {
         # 'redcap_repeat_instrument':str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
         # 'redcap_repeat_instance':str(df_scan_sample.loc[0,'redcap_repeat_instance']),

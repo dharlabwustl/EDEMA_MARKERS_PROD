@@ -225,7 +225,7 @@ for row_id, row in new_analytics_file_df.iterrows():
       }
       try:
         r = requests.post(api_url,data=fields)
-        print('FIELD NAME: ' + str(record_id))
+        print('FIELD NAME: ' + str(field_id))
         print('HTTP Status: ' + str(r.status_code))
       except:
         pass

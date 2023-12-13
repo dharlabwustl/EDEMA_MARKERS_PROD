@@ -201,6 +201,7 @@ new_analytics_file_df_cols=new_analytics_file_df.columns
 counter=0
 for row_id, row in new_analytics_file_df.iterrows():
   record_id=row["subject"]
+  print(record_id)
   for each_col in new_analytics_file_df_cols:
     if each_col != "subject":
       field_id=each_col

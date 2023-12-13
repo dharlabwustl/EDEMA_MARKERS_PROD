@@ -207,9 +207,9 @@ for row_id, row in new_analytics_file_df.iterrows():
       field_id=each_col
       field_value=row[each_col]
       if field_id=="pz" or field_id=="px" and str(field_value).replace(".", "").isnumeric():
-        field_value=round(field_value, 3)
+        field_value=round(float(field_value), 3)
       elif str(field_value).replace(".", "").isnumeric():
-        field_value=round(field_value, 2)
+        field_value=round(float(field_value), 2)
 
       if "date_time" in each_col and len(str(row[each_col]))>6:
         field_value=datetime.datetime.strptime(row[each_col], '%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')

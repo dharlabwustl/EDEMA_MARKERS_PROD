@@ -1578,9 +1578,8 @@ def call_download_a_singlefile_with_URIString(args):
     dir_to_save=args.stuff[3]
     download_a_singlefile_with_URIString(url,filename,dir_to_save)
     return
-def delete_a_file_with_URIString(url,filename,dir_to_save):
+def delete_a_file_with_URIString(url):
     try:
-        print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()
         response = xnatSession.httpsess.delete(xnatSession.host +url)

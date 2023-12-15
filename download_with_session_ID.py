@@ -1524,6 +1524,7 @@ def get_latest_file(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df=allfileswithprefix1_df.reset_index(drop=True)
     x_df=allfileswithprefix1_df.iloc[[0]]
     return x_df
+
 def download_a_singlefile_with_URLROW(url,dir_to_save):
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
@@ -1577,6 +1578,17 @@ def call_download_a_singlefile_with_URIString(args):
     dir_to_save=args.stuff[3]
     download_a_singlefile_with_URIString(url,filename,dir_to_save)
     return
+def delete_a_file_with_URIString(url,filename,dir_to_save):
+    try:
+        print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        response = xnatSession.httpsess.delete(xnatSession.host +url)
+        subprocess.call("echo " + "I FAILED AT ::{}::RESPONSE::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],response) ,shell=True )
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+
 def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)

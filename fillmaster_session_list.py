@@ -2764,7 +2764,7 @@ def software_version_and_application_date(pdffilename):
     except:
         pass
     try:
-        version_date="/".join(f.split('.pdf')[0].split('_')[-4])
+        version_date=f.split('.pdf')[0].split('_')[-4]
         verdate_applidate[0]=version_date
     except:
         pass

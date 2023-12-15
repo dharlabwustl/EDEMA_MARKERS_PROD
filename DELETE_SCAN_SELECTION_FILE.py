@@ -24,7 +24,7 @@ sessions_list=working_dir +'/'+'sessions.csv'
 time_now=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 # $(date -dnow +%Y%m%d%H%M%S)
 print(project_ID+"_"+time_now)
-copy_session=sessions_list.split('.csv')[0]+'_'+ project_ID+ '_SESSIONS_'+time_now+'.csv'
+copy_session=sessions_list #sessions_list.split('.csv')[0]+'_'+ project_ID+ '_SESSIONS_'+time_now+'.csv'
 get_metadata_project_sessionlist(project_ID,sessions_list)
 #
 # def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {

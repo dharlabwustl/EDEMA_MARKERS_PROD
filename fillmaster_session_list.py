@@ -2755,6 +2755,21 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def software_version_and_application_date(pdffilename):
+    f=pdffilename
+    verdate_applidate=["",""]
+    try:
+        application_date="/".join(f.split('.pdf')[0].split('_')[-3:])
+        verdate_applidate[1]=application_date
+    except:
+        pass
+    try:
+        version_date="/".join(f.split('.pdf')[0].split('_')[-4])
+        verdate_applidate[0]=version_date
+    except:
+        pass
+    return verdate_applidate
+
 def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
     returnvalue=0
     try:
@@ -2856,13 +2871,21 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )
 
                     # # check_available_file_and_document(row_identifier,extension_to_find_list,SCAN_URI,resource_dir,columnname,csvfilename)
+                    ver_appli_date=["",""]
                     if len(_infarct_auto_removesmall_path)>3:
                         pdf_file_num=pdf_file_num+1
+                        ver_appli_date=software_version_and_application_date(_infarct_auto_removesmall_path)
 
 
                     #             subprocess.call("echo " + "pdf_file_num::{}  >> /workingoutput/error.txt".format(pdf_file_num) ,shell=True )
                     columnname="PDF_FILE_PATH"
                     columnvalue=str(_infarct_auto_removesmall_path) #str(0)
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    columnname="SOFTWARE_VERSION_DATE"
+                    columnvalue=str(ver_appli_date[0]) #str(0)
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    columnname="SOFTWARE_APPLICATION_DATE"
+                    columnvalue=str(ver_appli_date[1]) #str(0)
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 except:
                     pass

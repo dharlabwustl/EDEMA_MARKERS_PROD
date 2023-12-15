@@ -57,6 +57,7 @@ for row_id,row in copy_session_df.iterrows():
         metadata_niftilocation=get_resourcefiles_metadata(URI,resource_dir)
         metadata_niftilocation_df = pd.read_json(json.dumps(metadata_niftilocation))
         for row_id_1,row_1 in metadata_niftilocation_df.iterrows():
+            print(row['label'])
             print(row_1['URI'])
             delete_a_file_with_URIString(row_1['URI'])
         #  ##

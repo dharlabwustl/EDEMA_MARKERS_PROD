@@ -87,7 +87,7 @@ call_edit_session_analytics_file_arguments.stuff=['rename_columns' ,new_analytic
 rename_columns(call_edit_session_analytics_file_arguments) #
 # #
 # call_edit_session_analytics_file_arguments=arguments()
-call_edit_session_analytics_file_arguments.stuff=['remove_columns' ,new_analytics_file,new_analytics_file,  'xsiType', 'INFARCT THRESH RANGE', 'NORMAL THRESH RANGE', 'INFARCT REFLECTION VOLUME', 'NON INFARCT DENSITY', 'NUMBER_NIFTIFILES', 'NUMBER_SELECTEDSCANS' ,'INFARCT_FILE_NUM', 'CSF_FILE_NUM', 'CSV_FILE_NUM',   "INFARCT_MASK_FILE_PATH", "CSF_MASK_FILE_PATH", "ID" ,"xsiType", "PDF_FILE_SIZE", "CSV_FILE_PATH", 'xnat:subjectassessordata/id']
+call_edit_session_analytics_file_arguments.stuff=['remove_columns' ,new_analytics_file,new_analytics_file,  'xsiType', "INFARCT VOX_NUMBERS",	"INFARCT DENSITY"	,"NON INFARCT VOX_NUMBERS" ,'INFARCT THRESH RANGE', 'NORMAL THRESH RANGE', 'INFARCT REFLECTION VOLUME', 'NON INFARCT DENSITY', 'NUMBER_NIFTIFILES', 'NUMBER_SELECTEDSCANS' ,'INFARCT_FILE_NUM', 'CSF_FILE_NUM', 'CSV_FILE_NUM',   "INFARCT_MASK_FILE_PATH", "CSF_MASK_FILE_PATH", "ID" ,"xsiType", "PDF_FILE_SIZE", "CSV_FILE_PATH", 'xnat:subjectassessordata/id', "ORGINAL_INFARCT_VOLUME",	"INFARCTUSED_VOL_RATIO"	,"NONINFACRTUSED_VOL_RATIO" ]
 
 #
 if "ICH" in project_ID:

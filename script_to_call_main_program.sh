@@ -219,3 +219,7 @@ if [[ ${TYPE_OF_PROGRAM} == 36 ]]; then
   SESSION_ID=${1}
   /software/brain_left_right_entropy.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+if [[ ${TYPE_OF_PROGRAM} == "DELETESCANSELECTIONFILES" ]]; then
+  SESSION_ID=${1}
+  /software/DELETE_SCAN_SELECTION_FILE.py ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

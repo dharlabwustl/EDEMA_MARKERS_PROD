@@ -2335,7 +2335,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                     SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
-                    # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "nifti_file_list_row['URI'],::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
                 # downloadniftiwithuri(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
                 except:
@@ -2797,7 +2797,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
-                    # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                     subprocess.call("echo " + "nifti_file_list_row['URI'],::{}  >> /workingoutput/error.txt".format(nifti_file_list_row['URI']) ,shell=True )
                 # downloadniftiwithuri(nifti_file_list_row['URI'],os.path.dirname(sessionlist_filename))
                 except:
@@ -2867,7 +2867,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 except:
                     pass
                 try:
-                    extension_to_find_list=".csv" #_infarct_auto_removesmall.nii.gz"
+                    extension_to_find_list="dropped.csv" #_infarct_auto_removesmall.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
                     subprocess.call("echo " + "_infarct_auto_removesmall_path::{}  >> /workingoutput/error.txt".format(_infarct_auto_removesmall_path) ,shell=True )

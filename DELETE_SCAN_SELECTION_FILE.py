@@ -52,7 +52,7 @@ counter=0
 for row_id,row in copy_session_df.iterrows():
     if row['xsiType']=="xnat:ctSessionData":
         call_fill_sniprsession_list_arguments=arguments()
-        URI='/data/experiments/'+row['ID']+'/'
+        URI='/data/experiments/'+row['ID']
         resource_dir='NIFTI_LOCATION'
         metadata_niftilocation=get_resourcefiles_metadata(URI,resource_dir)
         metadata_niftilocation_df = pd.read_json(json.dumps(metadata_niftilocation))

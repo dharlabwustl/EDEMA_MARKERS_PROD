@@ -58,6 +58,7 @@ for row_id,row in copy_session_df.iterrows():
         metadata_niftilocation_df = pd.read_json(json.dumps(metadata_niftilocation))
         for row_id_1,row_1 in metadata_niftilocation_df.iterrows():
             print(row_1['URI'])
+            delete_a_file_with_URIString(row_1['URI'])
         #  ##
         # if  "ICH" in project_ID:
         #     call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]

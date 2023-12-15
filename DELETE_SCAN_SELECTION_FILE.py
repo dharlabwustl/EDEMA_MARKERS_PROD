@@ -47,22 +47,28 @@ get_metadata_project_sessionlist(project_ID,sessions_list)
 # copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv'
 # download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 # #
-# copy_session_df=pd.read_csv(copy_session)
-# counter=0
-# for row_id,row in copy_session_df.iterrows():
-#     if row['xsiType']=="xnat:ctSessionData":
-#         call_fill_sniprsession_list_arguments=arguments()
-#          ##
-#         if  "ICH" in project_ID:
-#             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
-#             fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
-#             counter=counter+1
-#         else:
-#             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
-#             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
-#             counter=counter+1
-#     # if counter>2:
-#     #     break
+copy_session_df=pd.read_csv(copy_session)
+counter=0
+for row_id,row in copy_session_df.iterrows():
+    if row['xsiType']=="xnat:ctSessionData":
+        call_fill_sniprsession_list_arguments=arguments()
+        URI='/data/experiments/'+row['ID']+'/'
+        resource_dir='NIFTI_LOCATION'
+        metadata_niftilocation=get_resourcefiles_metadata(URI,resource_dir)
+        metadata_niftilocation_df = pd.read_json(json.dumps(metadata_niftilocation))
+        for row_id_1,row_1 in metadata_niftilocation_df.iterrows():
+            print(row_1)
+        #  ##
+        # if  "ICH" in project_ID:
+        #     call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
+        #     fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
+        #     counter=counter+1
+        # else:
+        #     call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
+        #     fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
+        #     counter=counter+1
+    if counter>2:
+        break
 # command='rm  ' + working_dir + '/*.nii'
 # subprocess.call(command,shell=True)
 # command='rm  ' + working_dir+ '/*.dcm'

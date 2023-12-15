@@ -1584,7 +1584,7 @@ def delete_a_file_with_URIString(url,filename,dir_to_save):
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()
         response = xnatSession.httpsess.delete(xnatSession.host +url)
-        subprocess.call("echo " + "I FAILED AT ::{}::RESPONSE::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],response) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}::RESPONSE::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],response) ,shell=True )
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass

@@ -1254,10 +1254,10 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-def make_datetime_column(scanfilename):
-    scanfilename_split=scanfilename.split("_")
-    scanfilename_split_date=scanfilename_split[-3]
-    scanfilename_split_time=scanfilename_split[-2]
+def make_datetime_column(scanfilename,scan_id):
+    scanfilename_split=scanfilename.split("_"+str(scan_id)+".nii")[0].split("_")
+    scanfilename_split_date=scanfilename_split[-2]
+    scanfilename_split_time=scanfilename_split[-1]
     scanfilename_split_datetime=scanfilename_split_date[0:2]+"/"+scanfilename_split_date[2:4]+"/"+scanfilename_split_date[4:8]+" " + scanfilename_split_time[0:2]+":"+scanfilename_split_time[2:4]
     return scanfilename_split_datetime
 def append_dicominfo_to_analytics(session_id,scan_id,csvfilename,dir_to_save="./"):
@@ -2332,7 +2332,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2357,9 +2357,9 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 except:
                     pass
 
-                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
-                SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
-                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SELECTED_SCAN_ID=str(nifti_file_list_row['ID']) #SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
+                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 try:
                     columnname="NIFTIFILES_PREFIX"
                     columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
@@ -2635,7 +2635,7 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
+                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
                 columnname="acquisition_datetime"
                 columnvalue=SCAN_DATETIME
                 # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2809,7 +2809,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

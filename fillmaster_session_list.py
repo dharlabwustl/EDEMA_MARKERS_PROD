@@ -2340,7 +2340,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2645,7 +2645,7 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
+                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
                 columnname="acquisition_datetime"
                 columnvalue=SCAN_DATETIME
                 # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2821,7 +2821,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],nifti_file_list_row['ID'])
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

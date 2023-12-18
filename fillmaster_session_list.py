@@ -1254,7 +1254,13 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
-def make_datetime_column(scanfilename,scan_id):
+def make_datetime_column(scanfilename):
+    scanfilename_split=scanfilename.split(".nii")[0].split("_")
+    scanfilename_split_date=scanfilename_split[-3]
+    scanfilename_split_time=scanfilename_split[-2]
+    scanfilename_split_datetime=scanfilename_split_date[0:2]+"/"+scanfilename_split_date[2:4]+"/"+scanfilename_split_date[4:8]+" " + scanfilename_split_time[0:2]+":"+scanfilename_split_time[2:4]
+    return scanfilename_split_datetime
+def make_datetime_column_v1(scanfilename,scan_id):
     scanfilename_split=scanfilename.split("_"+str(scan_id)+".nii")[0].split("_")
     scanfilename_split_date=scanfilename_split[-2]
     scanfilename_split_time=scanfilename_split[-1]
@@ -2340,7 +2346,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name']) #,str(nifti_file_list_row['ID']))
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2645,7 +2651,7 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
+                SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name']) #,str(nifti_file_list_row['ID']))
                 columnname="acquisition_datetime"
                 columnvalue=SCAN_DATETIME
                 # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
@@ -2821,7 +2827,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
                 try:
-                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'],str(nifti_file_list_row['ID']))
+                    SCAN_DATETIME=make_datetime_column(nifti_file_list_row['Name'])#,str(nifti_file_list_row['ID']))
                     columnname="acquisition_datetime"
                     columnvalue=SCAN_DATETIME
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)

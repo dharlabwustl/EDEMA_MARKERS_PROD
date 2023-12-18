@@ -1819,10 +1819,10 @@ def fill_sniprsession_list_SAH(args):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID'])
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="SAH_CSF_ANALYSIS" #"EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -1986,10 +1986,10 @@ def fill_sniprsession_list_GENERIC(args):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID'])
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
 
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -2160,12 +2160,12 @@ def fill_sniprsession_list_ICH_V0(args):
                 # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
 
                 # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID']) #SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 try:
                     resource_dir="ICH_QUANTIFICATION" #"EDEMA_BIOMARKER"
@@ -2365,9 +2365,9 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 except:
                     pass
 
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID']) #SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1]) ##nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 try:
                     columnname="NIFTIFILES_PREFIX"
                     columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
@@ -2522,10 +2522,10 @@ def fill_sniprsession_list(sessionlist_filename,session_id):
         # ### PDF  STEP:
                 SCAN_URI=nifti_file_list_row['URI'].split('/resources')[0]
                 SCAN_URI_NIFTI_FILEPREFIX=nifti_file_list_row['Name'].split('.nii')[0] #.split('/resources')[0]
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID'])
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -2651,9 +2651,9 @@ def fill_sniprsession_list_1_0(args): #sessionlist_filename,session_id):
                 # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
                 SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 # SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID'])
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 resource_dir="EDEMA_BIOMARKER"
                 extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
@@ -2846,11 +2846,11 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                 except:
                     pass
 
-                # SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
+                SCAN_URI_NIFTI_FILEPREFIX_SPLIT=SCAN_URI_NIFTI_FILEPREFIX.split("_")
                 # SELECTED_SCAN_ID=SCAN_URI_NIFTI_FILEPREFIX_SPLIT[-1]
-                # SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
+                SCAN_URI_NIFTI_FILEPREFIX_1="_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 SELECTED_SCAN_ID=str(nifti_file_list_row['ID'])
-                SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
+                # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0]
                 try:
                     columnname="NIFTIFILES_PREFIX"
                     columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)

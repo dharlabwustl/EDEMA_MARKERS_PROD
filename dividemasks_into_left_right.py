@@ -544,7 +544,7 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
     return (point_todecide[0]-line_pointA[0])*(line_pointB[1]-line_pointA[1])  -  (point_todecide[1]-line_pointA[1])*(line_pointB[0]-line_pointA[0])
 
 
-def flip_a_mask(args):
+def mirror_a_mask(args):
     niftifilename=args.stuff[1]
     Mask_filename=args.stuff[2]
     npyfiledirectory=args.stuff[3]
@@ -1202,8 +1202,8 @@ def flip_a_mask(args):
 #             CSF_RATIO=right_pixels_num/left_pixels_num
 #     return left_pixels_num,right_pixels_num,CSF_RATIO
 
-def call_flip_a_mask(args):
-    flip_a_mask(args)
+def call_mirror_a_mask(args):
+    mirror_a_mask(args)
     return 1
 def main():
     parser = argparse.ArgumentParser()
@@ -1229,8 +1229,8 @@ def main():
         return_value=call_slice_num_to_csv(args)
     if name_of_the_function == "call_insert_one_col_with_colname_colidx":
         return_value=call_insert_one_col_with_colname_colidx(args)
-    if name_of_the_function == "call_flip_a_mask":
-        return_value=call_flip_a_mask(args)
+    if name_of_the_function == "call_mirror_a_mask":
+        return_value=call_mirror_a_mask(args)
 
 
     return return_value

@@ -549,7 +549,8 @@ def mirror_a_mask(args):
     Mask_filename=args.stuff[2]
     npyfiledirectory=args.stuff[3]
     mask_flipped_filename=args.stuff[4]
-    Mask_filename_data_np=nib.load(Mask_filename).get_fdata() #resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
+    Mask_filename_data_nib=nib.load(Mask_filename)
+    Mask_filename_data_np=Mask_filename_data_nib.get_fdata() #resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
     # filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
     # filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     # numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
@@ -598,7 +599,7 @@ def mirror_a_mask(args):
                 M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
                 I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
                 numpy_image_mask_copy[:,:,img_idx]=I_t_r_f_rinv_tinv_mask
-    numpy_image_mask_flipped = nib.Nifti1Image(numpy_image_mask_copy,None)
+    numpy_image_mask_flipped = nib.Nifti1Image(numpy_image_mask_copy,affine=Mask_filename_data_nib.affine,header=Mask_filename_data_nib.header)
     nib.save(numpy_image_mask_flipped, mask_flipped_filename)
 
 # def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):

@@ -815,13 +815,18 @@ while IFS=',' read -ra array; do
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
-#        niftifilename=args.stuff[1]
-#    Mask_filename=args.stuff[2]
-    npyfiledirectory=${dir_to_save} ##args.stuff[3]
+    #        niftifilename=args.stuff[1]
+    #    Mask_filename=args.stuff[2]
+    npyfiledirectory=${dir_to_save}                            ##args.stuff[3]
     mask_flipped_filename=${Mask_filename%.nii*}_MIRROR.nii.gz #args.stuff[4]
     echo 'call_mirror_a_mask'::${niftifilename}::${Mask_filename}::${npyfiledirectory}::${mask_flipped_filename}
-    call_uploadsinglefile_with_URI_arguments=('call_mirror_a_mask' ${niftifilename} ${Mask_filename} ${npyfiledirectory} ${mask_flipped_filename} )
+    call_uploadsinglefile_with_URI_arguments=('call_mirror_a_mask' ${niftifilename} ${Mask_filename} ${npyfiledirectory} ${mask_flipped_filename})
     outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    resource_dirname="MASKS"
+    URI_1=${url1%/resources*}
+    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${mask_flipped_filename} ${resource_dirname})
+    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+
     #    done
     ##
     #    resource_dirname="MIDLINE_NPY"

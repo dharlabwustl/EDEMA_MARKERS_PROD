@@ -223,3 +223,7 @@ if [[ ${TYPE_OF_PROGRAM} == "DELETESCANSELECTIONFILES" ]]; then
   SESSION_ID=${1}
  python3 /software/DELETE_SCAN_SELECTION_FILE.py ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+if [[ ${TYPE_OF_PROGRAM} == "FLIPAMASK" ]]; then
+  SESSION_ID=${1}
+  /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

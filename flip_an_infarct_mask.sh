@@ -800,7 +800,7 @@ while IFS=',' read -ra array; do
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     resource_dirname="MIDLINE_NPY"
     output_csvfile_2=${sessionID}_MIDLINE_DIR_METADATA.csv
-    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_2}
+    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dirname} ${working_dir} ${output_csvfile_2}
     while IFS=',' read -ra array2; do
 
       url2=${array2[6]}

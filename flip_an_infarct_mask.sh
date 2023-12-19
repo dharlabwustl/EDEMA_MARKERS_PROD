@@ -819,6 +819,7 @@ while IFS=',' read -ra array; do
 #    Mask_filename=args.stuff[2]
     npyfiledirectory=${dir_to_save} ##args.stuff[3]
     mask_flipped_filename=${Mask_filename%.nii*}_MIRROR.nii.gz #args.stuff[4]
+    echo 'call_mirror_a_mask'::${niftifilename}::${Mask_filename}::${npyfiledirectory}::${mask_flipped_filename}
     call_uploadsinglefile_with_URI_arguments=('call_mirror_a_mask' ${niftifilename} ${Mask_filename} ${npyfiledirectory} ${mask_flipped_filename} )
     outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     #    done

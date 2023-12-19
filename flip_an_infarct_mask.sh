@@ -815,12 +815,12 @@ while IFS=',' read -ra array; do
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
-    #    niftifilename=args.stuff[1]
+#        niftifilename=args.stuff[1]
 #    Mask_filename=args.stuff[2]
-#    npyfiledirectory=args.stuff[3]
-#    mask_flipped_filename=args.stuff[4]
-#    call_uploadsinglefile_with_URI_arguments=('call_flip_a_mask' ${URI_1} ${matfiles} "MASKS")
-#    outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    npyfiledirectory=${dir_to_save} ##args.stuff[3]
+    mask_flipped_filename=${Mask_filename%.nii*}_MIRROR.nii.gz #args.stuff[4]
+    call_uploadsinglefile_with_URI_arguments=('call_mirror_a_mask' ${niftifilename} ${Mask_filename} ${npyfiledirectory} ${mask_flipped_filename} )
+    outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     #    done
     ##
     #    resource_dirname="MIDLINE_NPY"

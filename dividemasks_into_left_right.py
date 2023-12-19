@@ -600,7 +600,7 @@ def flip_a_mask(args):
                 I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
                 p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
                 p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
-                # points1=np.array([[p1x,p1y],[p2x,p2y]])
+                points1=np.array([[p1x,p1y],[p2x,p2y]])
                 M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
                 I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
                 numpy_image_mask_copy[:,:,img_idx]=I_t_r_f_rinv_tinv_mask

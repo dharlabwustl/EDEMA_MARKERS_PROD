@@ -795,6 +795,7 @@ while IFS=',' read -ra array; do
         Mask_filename=${dir_to_save}/${filename2}
         echo "${Mask_filename}"
         niftifilename=${dir_to_save}/${filename2%${mask_extention}*}.nii
+        break
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
@@ -827,24 +828,7 @@ while IFS=',' read -ra array; do
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${mask_flipped_filename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 
-    #    done
-    ##
-    #    resource_dirname="MIDLINE_NPY"
-    #    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
-    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    #    done
-    #
-    ##    URI_1=${url1%/resources*}
-    #    resource_dirname="MASKS"
-    #    for nifti_reg_filename in ${output_directory}/${filename_nifti%.nii*}*lin1_1.nii.gz; do
-    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
-    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    #    done
-    #        for nifti_reg_filename1 in ${output_directory}/${filename_nifti%.nii*}*brain_f.nii.gz ; do
-    #          call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename1} ${resource_dirname})
-    #          outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    #        done
+
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

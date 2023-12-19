@@ -549,7 +549,7 @@ def flip_a_mask(args):
     Mask_filename=args.stuff[2]
     npyfiledirectory=args.stuff[3]
     mask_flipped_filename=args.stuff[4]
-    Mask_filename_data_np=resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
+    Mask_filename_data_np=nib.load(Mask_filename).get_fdata() #resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
     # filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
     # filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     # numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #

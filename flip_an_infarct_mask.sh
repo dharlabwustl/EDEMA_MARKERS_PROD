@@ -792,18 +792,35 @@ while IFS=',' read -ra array; do
         filename2=$(basename ${url2})
         call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
+        Mask_filename=${dir_to_save}/${filename2}
+        echo "${Mask_filename}"
+        niftifilename=${filename2%${mask_extention}*}.nii
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+    resource_dirname="MIDLINE_NPY"
+    output_csvfile_2=${sessionID}_MIDLINE_DIR_METADATA.csv
+    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_2}
+    while IFS=',' read -ra array2; do
 
-    #    midlineonly_each_scan ${filename_nifti}
-    #    URI_1=${url1%/resources*}
-    #    for matfiles in ${output_directory}/${filename_nifti%.nii*}*.mat; do
-    #
-    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
-    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+      url2=${array2[6]}
+      #################
+
+      if [[ ${url2} == *.npy* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+      fi
+
+    done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
+    #    niftifilename=args.stuff[1]
+#    Mask_filename=args.stuff[2]
+#    npyfiledirectory=args.stuff[3]
+#    mask_flipped_filename=args.stuff[4]
+#    call_uploadsinglefile_with_URI_arguments=('call_flip_a_mask' ${URI_1} ${matfiles} "MASKS")
+#    outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     #    done
     ##
     #    resource_dirname="MIDLINE_NPY"

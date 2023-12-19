@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/call_reg_midline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/call_reg_midline.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -464,7 +465,7 @@
       <option name="project" value="LOCAL" />
       <updated>1687308458231</updated>
     </task>
-    <option name="localTasksCounter" value="3434" />
+    <option name="localTasksCounter" value="3435" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -493,17 +494,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>1445</line>
+          <line>1451</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>2611</line>
+          <line>2617</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/fillmaster_session_list.py</url>
-          <line>2174</line>
+          <line>2180</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

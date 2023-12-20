@@ -827,9 +827,6 @@ while IFS=',' read -ra array; do
     URI_1=${url1%/resources*}
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${mask_flipped_filename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-
-
-
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")
 

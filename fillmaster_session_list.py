@@ -1122,6 +1122,8 @@ def create_subject_id(args):
 
     # csvfilename_df['subject_id']=csvfilename_df['label'].str.split("_").str[0]+"_"+csvfilename_df['label'].str.split("_").str[1]
     csvfilename_df.to_csv(csvfilename_output,index=False)
+
+
 def append_sessionxmlinfo_to_analytics(args):
     try:
         session_id=args.stuff[1]
@@ -1254,6 +1256,151 @@ def append_sessionxmlinfo_to_analytics(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
+def check_preprocessing_step(session_id,scan_id,csvfilename):
+    try:
+        resource_dir="PREPROCESS_SEGM"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=["manual_splits.txt",'_resaved_4DL_normalized.nii.gz', "_resaved.nii.gz"  ,"_levelset.nii.gz" ,"_levelset_bet.nii.gz", "_4DL_seg.nii.gz"]
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==len(extension_to_count):
+            pre_process_success=1
+        columnname="PREPROCESS_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def check_infarct_csf_seg_step (session_id,scan_id,csvfilename):
+    try:
+        resource_dir="PREPROCESS_SEGM"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=[   "_resaved_4DL_normalized.nii.gz_csf_1.nii.gz" ,"_resaved_4DL_normalized.nii.gz_infarct.nii.gz", "_resaved_4DL_normalized.nii.gz_csf_2.nii.gz", "_resaved_4DL_normalized.nii.gz_csf_3.nii.gz" ,"_resaved_4DL_normalized.nii.gz_csf_4.nii.gz" ,"_resaved_4DL_normalized.nii.gz_csf_5.nii.gz", "_resaved_4DL_normalized.nii.gz_csf_6.nii.gz" ,"_resaved_4DL_normalized.nii.gz_csf_7.nii.gz" ,"_resaved_4DL_normalized.nii.gz_csf_8.nii.gz" ,"_resaved_4DL_normalized.nii.gz_csf_9.nii.gz", "_resaved_4DL_normalized.nii.gz_csf_10.nii.gz"]
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==len(extension_to_count):
+            pre_process_success=1
+        columnname="SEGMENTATION_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def  check_postrocessing_infarc_csf_step(session_id,scan_id,csvfilename):
+    try:
+        resource_dir="MASKS"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=[ "_resaved_csf_unet.nii.gz" "_resaved_infarct_auto.nii.gz" "_resaved_infarct_auto_removesmall.nii.gz" ]
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==5:
+            pre_process_success=1
+        columnname="POSTPROCESS_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def check_ich_seg_step(session_id,scan_id,csvfilename):
+    try:
+        resource_dir="PREPROCESS_SEGM"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=['_resaved_4DL_normalized.nii.gz','_resaved_4DL_seg.nii.gz','_resaved.nii.gz','_resaved_levelset_bet.nii.gz','_resaved_levelset.nii.gz']
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==5:
+            pre_process_success=1
+        columnname="PREPROCESS_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def check_registration_step(session_id,scan_id,csvfilename):
+    try:
+        resource_dir="PREPROCESS_SEGM"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=['_resaved_4DL_normalized.nii.gz','_resaved_4DL_seg.nii.gz','_resaved.nii.gz','_resaved_levelset_bet.nii.gz','_resaved_levelset.nii.gz']
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==5:
+            pre_process_success=1
+        columnname="PREPROCESS_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def check_biomarker_calculation_step(session_id,scan_id,csvfilename):
+    try:
+        resource_dir="PREPROCESS_SEGM"
+        URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
+        session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+        session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
+        pre_process_file_counter=0
+        pre_process_success=0
+        extension_to_count=['_resaved_4DL_normalized.nii.gz','_resaved_4DL_seg.nii.gz','_resaved.nii.gz','_resaved_levelset_bet.nii.gz','_resaved_levelset.nii.gz']
+        for row_id,row in session_resource_metadata_df.iterrows():
+            for each_extension in extension_to_count:
+                if each_extension in row['Name']:
+                    pre_process_file_counter=pre_process_file_counter+1
+                    break
+        if pre_process_file_counter==5:
+            pre_process_success=1
+        columnname="PREPROCESS_SUCESS"
+        columnvalue=pre_process_success
+        fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
+        return 1
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+
 def make_datetime_column(scanfilename):
     scanfilename_split=scanfilename.split(".nii")[0].split("_")
     scanfilename_split_date=scanfilename_split[-3]
@@ -2864,6 +3011,12 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     columnname="SELECTED_SCAN_ID"
                     columnvalue=SELECTED_SCAN_ID
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    #####################
+                    check_preprocessing_step(session_id,SELECTED_SCAN_ID,csvfilename)
+                    check_infarct_csf_seg_step (session_id,SELECTED_SCAN_ID,csvfilename)
+                    check_postrocessing_infarc_csf_step(session_id,SELECTED_SCAN_ID,csvfilename)
+                    #####################
+
                 except:
                     pass
                 ############################

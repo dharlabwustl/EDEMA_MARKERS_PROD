@@ -555,7 +555,7 @@ def mirror_a_mask(args):
     # filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
     # numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
     numpy_image_mask=Mask_filename_data_np
-    numpy_image_mask_copy=np.copy(numpy_image_mask)*0
+    numpy_image_mask_copy=(nib.load(Mask_filename).get_fdata())*0
     for img_idx in range(numpy_image_mask.shape[2]):
         if img_idx>0 and img_idx < numpy_image_mask.shape[2]: ## and  filename_gray_data_np_copy.shape==csf_seg_np.shape:
             method_name="REGIS"

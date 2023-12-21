@@ -794,7 +794,7 @@ while IFS=',' read -ra array; do
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
         Mask_filename=${dir_to_save}/${filename2}
         echo "${Mask_filename}"
-        niftifilename=${dir_to_save}/${filename2%${mask_extention}*}.nii
+        niftifilename=${dir_to_save}/${filename2%${mask_extention}*}_resaved_levelset.nii
         break
       fi
 

@@ -1318,7 +1318,7 @@ def  check_postrocessing_infarc_csf_step(session_id,scan_id,csvfilename):
                 if each_extension in row['Name']:
                     pre_process_file_counter=pre_process_file_counter+1
                     break
-        if pre_process_file_counter==5:
+        if pre_process_file_counter==len(extension_to_count):
             pre_process_success=1
         columnname="POSTPROCESS_SUCESS"
         columnvalue=pre_process_success
@@ -1354,13 +1354,13 @@ def check_ich_seg_step(session_id,scan_id,csvfilename):
     return 1
 def check_registration_step(session_id,scan_id,csvfilename):
     try:
-        resource_dir="PREPROCESS_SEGM"
+        resource_dir="EDEMA_BIOMARKER"
         URI="/data/experiments/"+str(session_id)+"/scans/"+str(scan_id)
         session_resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
         session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
         pre_process_file_counter=0
         pre_process_success=0
-        extension_to_count=['_resaved_4DL_normalized.nii.gz','_resaved_4DL_seg.nii.gz','_resaved.nii.gz','_resaved_levelset_bet.nii.gz','_resaved_levelset.nii.gz']
+        extension_to_count=['_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat','_resaved_levelset_brain_f_scct_strippedResampled1lin1_1.mat','_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat']
         for row_id,row in session_resource_metadata_df.iterrows():
             for each_extension in extension_to_count:
                 if each_extension in row['Name']:

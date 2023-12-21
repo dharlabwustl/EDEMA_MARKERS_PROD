@@ -566,6 +566,8 @@ def mirror_a_mask(args):
                 print(this_npyfile)
                 command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
                 subprocess.call(command,shell=True)
+                command="echo npyfilename :: {} >> /software/error.txt".format(this_npyfile)
+                subprocess.call(command,shell=True)
                 if os.path.exists(this_npyfile):
                     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                     x_points2=calculated_midline_points.item().get('x_axis')

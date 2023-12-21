@@ -1368,7 +1368,7 @@ def check_registration_step(session_id,scan_id,csvfilename):
                     break
         if pre_process_file_counter==5:
             pre_process_success=1
-        columnname="REGISTRATION_MIDLINE_SUCCESS"
+        columnname="REGISTRATION_SUCCESS"
         columnvalue=pre_process_success
         fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
         return 1

@@ -1264,13 +1264,13 @@ def check_preprocessing_step(session_id,scan_id,csvfilename):
         session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
         pre_process_file_counter=0
         pre_process_success=0
-        extension_to_count=["_resaved_4DL_normalized.nii.gz", "_resaved.nii.gz"  ,"_resaved_levelset.nii.gz" ,"_resaved_levelset_bet.nii.gz", "_resaved_4DL_seg.nii.gz"]
+        extension_to_count=["_resaved.nii.gz" ,"_normalized.nii.gz" ,"_levelset.nii.gz" ,"_levelset_bet.nii.gz" ,"_4DL_seg.nii.gz"]
         for row_id,row in session_resource_metadata_df.iterrows():
             for each_extension in extension_to_count:
                 if each_extension in row['Name']:
                     pre_process_file_counter=pre_process_file_counter+1
                     break
-        if pre_process_file_counter>0: ##==len(extension_to_count):
+        if pre_process_file_counter>1: ##==len(extension_to_count):
             pre_process_success=1
         columnname="PREPROCESS_SUCCESS"
         columnvalue=pre_process_success

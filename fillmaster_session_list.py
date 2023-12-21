@@ -1264,7 +1264,7 @@ def check_preprocessing_step(session_id,scan_id,csvfilename):
         session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
         pre_process_file_counter=0
         pre_process_success=0
-        extension_to_count=["manual_splits.txt",'_resaved_4DL_normalized.nii.gz', "_resaved.nii.gz"  ,"_levelset.nii.gz" ,"_levelset_bet.nii.gz", "_4DL_seg.nii.gz"]
+        extension_to_count=["_splits.txt",'_resaved_4DL_normalized.nii.gz', "_resaved.nii.gz"  ,"_levelset.nii.gz" ,"_levelset_bet.nii.gz", "_4DL_seg.nii.gz"]
         for row_id,row in session_resource_metadata_df.iterrows():
             for each_extension in extension_to_count:
                 if each_extension in row['Name']:
@@ -1312,7 +1312,7 @@ def  check_postrocessing_infarc_csf_step(session_id,scan_id,csvfilename):
         session_resource_metadata_df = pd.read_json(json.dumps(session_resource_metadata))
         pre_process_file_counter=0
         pre_process_success=0
-        extension_to_count=[ "_resaved_csf_unet.nii.gz" "_resaved_infarct_auto.nii.gz" "_resaved_infarct_auto_removesmall.nii.gz" ]
+        extension_to_count=[  "_resaved_levelset.nii.gz" , "_resaved_levelset_bet.nii.gz" ,"_resaved_csf_unet.nii.gz" , "_resaved_infarct_auto.nii.gz" , "_resaved_infarct_auto_removesmall.nii.gz" ]
         for row_id,row in session_resource_metadata_df.iterrows():
             for each_extension in extension_to_count:
                 if each_extension in row['Name']:
@@ -1366,7 +1366,7 @@ def check_registration_step(session_id,scan_id,csvfilename):
                 if each_extension in row['Name']:
                     pre_process_file_counter=pre_process_file_counter+1
                     break
-        if pre_process_file_counter==5:
+        if pre_process_file_counter==len(extension_to_count):
             pre_process_success=1
         columnname="REGISTRATION_SUCCESS"
         columnvalue=pre_process_success
@@ -3015,6 +3015,7 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     check_preprocessing_step(session_id,SELECTED_SCAN_ID,csvfilename)
                     check_infarct_csf_seg_step (session_id,SELECTED_SCAN_ID,csvfilename)
                     check_postrocessing_infarc_csf_step(session_id,SELECTED_SCAN_ID,csvfilename)
+                    check_registration_step(session_id,SELECTED_SCAN_ID,csvfilename)
                     #####################
 
                 except:

@@ -562,6 +562,7 @@ def mirror_a_mask(args):
             slice_number="{0:0=3d}".format(img_idx)
             filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
             this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+            print(this_npyfile)
             if os.path.exists(this_npyfile):
                 calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                 x_points2=calculated_midline_points.item().get('x_axis')

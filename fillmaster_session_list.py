@@ -1272,7 +1272,7 @@ def check_preprocessing_step(session_id,scan_id,csvfilename):
                     break
         if pre_process_file_counter==len(extension_to_count):
             pre_process_success=1
-        columnname="PREPROCESS_SUCESS"
+        columnname="PREPROCESS_SUCCESS"
         columnvalue=pre_process_success
         fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
         return 1
@@ -1296,7 +1296,7 @@ def check_infarct_csf_seg_step (session_id,scan_id,csvfilename):
                     break
         if pre_process_file_counter==len(extension_to_count):
             pre_process_success=1
-        columnname="SEGMENTATION_SUCESS"
+        columnname="SEGMENTATION_SUCCESS"
         columnvalue=pre_process_success
         fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
         return 1
@@ -1320,7 +1320,7 @@ def  check_postrocessing_infarc_csf_step(session_id,scan_id,csvfilename):
                     break
         if pre_process_file_counter==len(extension_to_count):
             pre_process_success=1
-        columnname="POSTPROCESS_SUCESS"
+        columnname="POSTPROCESS_SUCCESS"
         columnvalue=pre_process_success
         fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
         return 1
@@ -1368,7 +1368,7 @@ def check_registration_step(session_id,scan_id,csvfilename):
                     break
         if pre_process_file_counter==5:
             pre_process_success=1
-        columnname="PREPROCESS_SUCESS"
+        columnname="REGISTRATION_MIDLINE_SUCCESS"
         columnvalue=pre_process_success
         fill_datapoint_each_sessionn_1(str(session_id),columnname,columnvalue,csvfilename)
         return 1

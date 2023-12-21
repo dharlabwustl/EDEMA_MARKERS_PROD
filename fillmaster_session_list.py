@@ -1270,7 +1270,7 @@ def check_preprocessing_step(session_id,scan_id,csvfilename):
                 if each_extension in row['Name']:
                     pre_process_file_counter=pre_process_file_counter+1
                     break
-        if pre_process_file_counter==len(extension_to_count):
+        if pre_process_file_counter>0: ##==len(extension_to_count):
             pre_process_success=1
         columnname="PREPROCESS_SUCCESS"
         columnvalue=pre_process_success

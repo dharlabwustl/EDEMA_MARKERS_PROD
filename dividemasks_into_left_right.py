@@ -545,63 +545,70 @@ def whichsideofline(line_pointA,line_pointB,point_todecide):
 
 
 def mirror_a_mask(args):
-    niftifilename=args.stuff[1]
-    Mask_filename=args.stuff[2]
-    npyfiledirectory=args.stuff[3]
-    mask_flipped_filename=args.stuff[4]
-    Mask_filename_data_nib=nib.load(Mask_filename)
-    Mask_filename_data_np=Mask_filename_data_nib.get_fdata()*255 #resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
-    # filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
-    # filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
-    # numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
-    numpy_image_mask=Mask_filename_data_np
-    numpy_image_mask_copy=(nib.load(Mask_filename).get_fdata())*0
-    for img_idx in range(numpy_image_mask.shape[2]):
-        if img_idx>0 and img_idx < numpy_image_mask.shape[2]: ## and  filename_gray_data_np_copy.shape==csf_seg_np.shape:
-            method_name="REGIS"
-            slice_number="{0:0=3d}".format(img_idx)
-            filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
-            this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
-            print(this_npyfile)
-            if os.path.exists(this_npyfile):
-                calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
-                x_points2=calculated_midline_points.item().get('x_axis')
-                y_points2=calculated_midline_points.item().get('y_axis')
-                x_points2=x_points2[:,0]
-                y_points2=y_points2[:,0]
-                v1=np.array([512,0]) ## point from the image
-                v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
-                v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
-                v2=v2_2-v2_1
-                angle=  angle_bet_two_vector(v1,v2)
-                angleRad=angle_bet_two_vectorRad(v1,v2)
-                ## translation:
-                points=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
-                mid_point_line=np.mean(points,axis=0)
-                # delta translation:
-                image_midpoint=np.array([int(Mask_filename_data_np[:,:,img_idx].shape[0]/2),int(Mask_filename_data_np[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
-                translation_delta=image_midpoint-mid_point_line
-                M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
-                I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(Mask_filename_data_np[:,:,img_idx].shape[0],Mask_filename_data_np[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
+    try:
+        niftifilename=args.stuff[1]
+        Mask_filename=args.stuff[2]
+        npyfiledirectory=args.stuff[3]
+        mask_flipped_filename=args.stuff[4]
+        Mask_filename_data_nib=nib.load(Mask_filename)
+        Mask_filename_data_np=Mask_filename_data_nib.get_fdata()*255 #resizeinto_512by512(nib.load(Mask_filename).get_fdata()) #nib.load(Mask_filename).get_fdata()
+        # filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
+        # filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
+        # numpy_image=normalizeimage0to1(filename_gray_data_np)*255 #filename_gray_data_np #
+        numpy_image_mask=Mask_filename_data_np
+        numpy_image_mask_copy=(nib.load(Mask_filename).get_fdata())*0
+        for img_idx in range(numpy_image_mask.shape[2]):
+            if img_idx>0 and img_idx < numpy_image_mask.shape[2]: ## and  filename_gray_data_np_copy.shape==csf_seg_np.shape:
+                method_name="REGIS"
+                slice_number="{0:0=3d}".format(img_idx)
+                filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
+                this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+                print(this_npyfile)
+                if os.path.exists(this_npyfile):
+                    calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                    x_points2=calculated_midline_points.item().get('x_axis')
+                    y_points2=calculated_midline_points.item().get('y_axis')
+                    x_points2=x_points2[:,0]
+                    y_points2=y_points2[:,0]
+                    v1=np.array([512,0]) ## point from the image
+                    v2_1=np.array([x_points2[0],y_points2[0]]) ## point 1 from the midline
+                    v2_2=np.array([x_points2[1],y_points2[1]]) ## point 2 from the midline
+                    v2=v2_2-v2_1
+                    angle=  angle_bet_two_vector(v1,v2)
+                    angleRad=angle_bet_two_vectorRad(v1,v2)
+                    ## translation:
+                    points=np.array([[x_points2[0],y_points2[0]],[x_points2[511],y_points2[511]]])
+                    mid_point_line=np.mean(points,axis=0)
+                    # delta translation:
+                    image_midpoint=np.array([int(Mask_filename_data_np[:,:,img_idx].shape[0]/2),int(Mask_filename_data_np[:,:,img_idx].shape[1]/2)]) #np.array([255,255])
+                    translation_delta=image_midpoint-mid_point_line
+                    M = np.float32([[1,0,translation_delta[0]],[0,1,translation_delta[1]]])
+                    I_t_mask =cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(Mask_filename_data_np[:,:,img_idx].shape[0],Mask_filename_data_np[:,:,img_idx].shape[1]) , flags= cv2.INTER_NEAREST) # cv2.warpAffine(np.copy(numpy_image_mask[:,:,img_idx]),M,(512,512) , flags= cv2.INTER_NEAREST)
 
-                #########################################################################
-                translate_points= points+translation_delta
-                points=translate_points
-                ## translation matrix
-                p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
-                p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
-                points1=np.array([[p1x,p1y],[p2x,p2y]])
-                I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
-                I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
-                I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
-                p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
-                p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
-                points1=np.array([[p1x,p1y],[p2x,p2y]])
-                M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
-                I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
-                numpy_image_mask_copy[:,:,img_idx]=I_t_r_f_rinv_tinv_mask * 255
-    numpy_image_mask_flipped = nib.Nifti1Image(numpy_image_mask_copy,affine=Mask_filename_data_nib.affine,header=Mask_filename_data_nib.header)
-    nib.save(numpy_image_mask_flipped, mask_flipped_filename)
+                    #########################################################################
+                    translate_points= points+translation_delta
+                    points=translate_points
+                    ## translation matrix
+                    p1x,p1y= rotate_around_point_highperf(np.array([points[0][0],points[0][1]]), angleRad, origin=(255,255))
+                    p2x,p2y= rotate_around_point_highperf(np.array([points[1][0],points[1][1]]), angleRad, origin=(255,255))
+                    points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    I_t_r_mask=rotate_image(I_t_mask,(255,255),angle)
+                    I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
+                    I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
+                    p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
+                    p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
+                    points1=np.array([[p1x,p1y],[p2x,p2y]])
+                    M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
+                    I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
+                    numpy_image_mask_copy[:,:,img_idx]=I_t_r_f_rinv_tinv_mask * 255
+        numpy_image_mask_flipped = nib.Nifti1Image(numpy_image_mask_copy,affine=Mask_filename_data_nib.affine,header=Mask_filename_data_nib.header)
+        nib.save(numpy_image_mask_flipped, mask_flipped_filename)
+        command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
 
 # def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
 #     # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold

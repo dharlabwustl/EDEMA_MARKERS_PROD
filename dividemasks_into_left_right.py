@@ -564,6 +564,8 @@ def mirror_a_mask(args):
                 filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
                 this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
                 print(this_npyfile)
+                command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+                subprocess.call(command,shell=True)
                 if os.path.exists(this_npyfile):
                     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                     x_points2=calculated_midline_points.item().get('x_axis')
@@ -601,8 +603,7 @@ def mirror_a_mask(args):
                     M = np.float32([[1,0,-translation_delta[0]],[0,1,-translation_delta[1]]])
                     I_t_r_f_rinv_tinv_mask = cv2.warpAffine(I_t_r_f_rinv_mask,M,(512,512), flags= cv2.INTER_NEAREST )
                     numpy_image_mask_copy[:,:,img_idx]=I_t_r_f_rinv_tinv_mask * 255
-                    command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
-                    subprocess.call(command,shell=True)
+
         numpy_image_mask_flipped = nib.Nifti1Image(numpy_image_mask_copy,affine=Mask_filename_data_nib.affine,header=Mask_filename_data_nib.header)
         nib.save(numpy_image_mask_flipped, mask_flipped_filename)
 

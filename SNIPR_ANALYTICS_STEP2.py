@@ -56,10 +56,10 @@ for row_id,row in copy_session_df.iterrows():
             counter=counter+1
     # if counter>2:
     #     break
-command='rm  ' + working_dir + '/*.nii'
-subprocess.call(command,shell=True)
-command='rm  ' + working_dir+ '/*.dcm'
-subprocess.call(command,shell=True)
+    command='rm  ' + working_dir + '/*.nii'
+    subprocess.call(command,shell=True)
+    command='rm  ' + working_dir+ '/*.dcm'
+    subprocess.call(command,shell=True)
 
 dir_to_save=working_dir
 resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_2"

@@ -1600,7 +1600,32 @@ def move_one_column(csvfilename,columnname,new_position,csvfilename_edited):
         column_to_move = csvfilename_df.pop(columnname)
         csvfilename_df.insert(new_position, columnname, column_to_move)
     csvfilename_df.to_csv(csvfilename_edited,index=False)
-
+def move_one_column_after_another(args):
+    csvfilename=args.stuff[1]
+    columnname=args.stuff[2]
+    neighboring_col=args.stuff[3]
+    csvfilename_edited=args.stuff[4]
+    csvfilename_df=pd.read_csv(csvfilename)
+    new_position=csvfilename_df.columns.index(neighboring_col)+1
+    if new_position >= len(csvfilename_df.columns):
+        new_position=len(csvfilename_df.columns)-1
+    if columnname in csvfilename_df.columns:
+        column_to_move = csvfilename_df.pop(columnname)
+        csvfilename_df.insert(new_position, columnname, column_to_move)
+    csvfilename_df.to_csv(csvfilename_edited,index=False)
+def move_one_column_before_another(args):
+    csvfilename=args.stuff[1]
+    columnname=args.stuff[2]
+    neighboring_col=args.stuff[3]
+    csvfilename_edited=args.stuff[4]
+    csvfilename_df=pd.read_csv(csvfilename)
+    new_position=csvfilename_df.columns.index(neighboring_col)-1
+    if new_position <0:
+        new_position=0
+    if columnname in csvfilename_df.columns:
+        column_to_move = csvfilename_df.pop(columnname)
+        csvfilename_df.insert(new_position, columnname, column_to_move)
+    csvfilename_df.to_csv(csvfilename_edited,index=False)
 def call_remove_single_column_with_colnmname_substring(args):
     csvfilename=args.stuff[1]
     colnmname_substring=args.stuff[2]

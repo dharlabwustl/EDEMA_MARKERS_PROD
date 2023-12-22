@@ -562,7 +562,7 @@ def mirror_a_mask(args):
                 method_name="REGIS"
                 slice_number="{0:0=3d}".format(img_idx)
                 filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
-                this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+                this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+ "_"+str(slice_number)+ "_V2"+ ".npy")
                 print(this_npyfile)
                 command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
                 subprocess.call(command,shell=True)

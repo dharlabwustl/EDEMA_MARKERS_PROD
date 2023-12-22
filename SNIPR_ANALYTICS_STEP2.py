@@ -79,7 +79,11 @@ for row_id,row in copy_session_df.iterrows():
         counter=counter+1
     # if counter>2:
     #     break
-call_edit_session_analytics_file_arguments.stuff=['rename_columns' , new_analytics_file,new_analytics_file, 'PDF_FILE_NUM', "pdf_created"]
+    #     csvfilename=args.stuff[1]
+    # columnname=args.stuff[2]
+    # neighboring_col=args.stuff[3]
+    # csvfilename_edited=args.stuff[4]
+call_edit_session_analytics_file_arguments.stuff=['move_one_column_after_another' , copy_session, 'PDF_FILE_NUM', "REGISTRATION_SUCCESS",copy_session]
 rename_columns(call_edit_session_analytics_file_arguments)
 uploadsinglefile_projectlevel_args_arguments=arguments()
 uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]

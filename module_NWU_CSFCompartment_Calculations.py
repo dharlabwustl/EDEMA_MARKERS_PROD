@@ -304,8 +304,8 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
                     I_t_r_f_gray=cv2.flip(I_t_r_gray,0)
                     I_t_r_f_mask=cv2.flip(I_t_r_mask,0)
 
-                    I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(256,256),-angle)
-                    I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(256,256),-angle)
+                    I_t_r_f_rinv_gray=rotate_image(I_t_r_f_gray,(255,255),-angle)
+                    I_t_r_f_rinv_mask=rotate_image(I_t_r_f_mask,(255,255),-angle)
                     p1x,p1y= rotate_around_point_highperf(np.array([points1[0][0],points1[0][1]]), -angleRad, origin=(255,255))
                     p2x,p2y= rotate_around_point_highperf(np.array([points1[1][0],points1[1][1]]), -angleRad, origin=(255,255))
                     points1=np.array([[p1x,p1y],[p2x,p2y]])

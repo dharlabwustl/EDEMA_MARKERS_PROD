@@ -782,7 +782,7 @@ while IFS=',' read -ra array; do
     filename_nifti=$(basename ${url1})
     call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${working_dir_1})
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
+    midlineonly_each_scan ${filename_nifti}
     resource_dir="MASKS"
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
@@ -815,12 +815,31 @@ while IFS=',' read -ra array; do
         to_original_RF ${maskfilename} ${working_dir_1}/${filename_nifti} ${output_directory}
         echo "${betfile}"
       fi
-
+      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        betfile=${dir_to_save}/${filename2}
+        echo "${betfile}"
+        to_original_RF ${betfile} ${working_dir_1}/${filename_nifti} ${output_directory}
+      fi
+      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        csffile=${dir_to_save}/${filename2}
+        echo "${csffile}"
+        to_original_RF ${csffile} ${working_dir_1}/${filename_nifti} ${output_directory}
+      fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
       call_uploadsinglefile_with_URI_arguments=('call_calculate_nwu_or_nwulike_ratio' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}"  "0" "40" "20" "80" )
       outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-
+      run_divide_mask_into_left_right ${working_dir_1}/${filename_nifti} ${output_directory}/${csffile} ${output_directory} ${working_dir}
 #    latexfilename_prefix=${grayscale_filename%.nii*}_non_lin_reg
 #    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
 #    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex

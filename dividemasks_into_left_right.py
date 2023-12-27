@@ -622,8 +622,8 @@ def calculate_nwu_or_nwulike_ratio(args):
         mask_1=args.stuff[1]
         mask_2=args.stuff[2]
         grayscale_image=nib.load(args.stuff[3]).get_fdata()
-        threshold_lower_limit=args.stuff[4]
-        threshold_upper_limit=args.stuff[5]
+        threshold_lower_limit=int(args.stuff[4])
+        threshold_upper_limit=int(args.stuff[5])
         nwu_like_ratio=''
         if "MIRROR" in mask_1:
             denominator_mask=nib.load(mask_1).get_fdata()

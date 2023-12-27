@@ -613,6 +613,38 @@ def mirror_a_mask(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         pass
+def calculate_nwu_or_nwulike_ratio(args):
+    try:
+        mask_1=args.stuff[1]
+        mask_2=args.stuff[2]
+        grayscale_image=nib.load(args.stuff[3]).get_fdata()
+        threshold_lower_limit=args.stuff[4]
+        threshold_upper_limit=args.stuff[5]
+        nwu_like_ratio=''
+        if "MIRROR" in mask_1:
+            denominator_mask=nib.load(mask_1).get_fdata()
+            numerator_mask=nib.load(mask_2).get_fdata()
+        else:
+            denominator_mask=nib.load(mask_2).get_fdata()
+            numerator_mask=nib.load(mask_1).get_fdata()
+        numerator=grayscale_image[numerator_mask>0].flatten()
+        numerator=numerator[numerator>=threshold_lower_limit]
+        numerator=numerator[numerator<=threshold_upper_limit]
+        numerator_mean=np.mean(numerator)
+        denominator=grayscale_image[denominator_mask>0].flatten()
+        denominator=denominator[denominator>=threshold_lower_limit]
+        denominator=denominator[denominator<=threshold_upper_limit]
+        denominator_mean=np.mean(denominator)
+        if denominator_mean>0:
+            nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
+        nwu_like_ratio_df=pd.DataFrame([nwu_like_ratio])
+        nwu_like_ratio_df.columns=['NWU_RATIO']
+        nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+
 
 # def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
 #     # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold

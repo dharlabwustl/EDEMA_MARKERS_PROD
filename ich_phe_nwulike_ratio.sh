@@ -801,8 +801,9 @@ while IFS=',' read -ra array; do
         filename2=$(basename ${url2})
         call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
+        mask_mirror=${dir_to_save}/${filename2}
+        echo "${mask_mirror}"
+        to_original_RF ${mask_mirror} ${dir_to_save}/${filename} ${output_directory}
       fi
       if [[ ${url2} == *"_resaved_4DL_normalized_class2.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
@@ -810,7 +811,8 @@ while IFS=',' read -ra array; do
         filename2=$(basename ${url2})
         call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        betfile=${dir_to_save}/${filename2}
+        maskfilename=${dir_to_save}/${filename2}
+        to_original_RF ${maskfilename} ${dir_to_save}/${filename} ${output_directory}
         echo "${betfile}"
       fi
 

@@ -618,6 +618,13 @@ def call_calculate_nwu_or_nwulike_ratio(args):
     return 1
 
 def calculate_nwu_or_nwulike_ratio(args):
+    numerator_count=""
+    numerator_mean=""
+    numerator_volume=""
+    nwu_like_ratio=''
+    denominator_count=''
+    denominator_mean=''
+    denominator_volume = ''
     try:
         numerator_mask=nib.load(args.stuff[1]).get_fdata()
         denominator_mask=nib.load(args.stuff[2]).get_fdata()
@@ -626,7 +633,6 @@ def calculate_nwu_or_nwulike_ratio(args):
         threshold_upper_limit_inf=int(args.stuff[5])
         threshold_lower_limit_norm=int(args.stuff[4])
         threshold_upper_limit_norm=int(args.stuff[5])
-        nwu_like_ratio=''
         numerator=grayscale_image[numerator_mask>0].flatten()
         numerator=numerator[numerator>=threshold_lower_limit_inf]
         numerator=numerator[numerator<=threshold_upper_limit_inf]
@@ -643,10 +649,10 @@ def calculate_nwu_or_nwulike_ratio(args):
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
 
-
-        # nwu_like_ratio_df=pd.DataFrame([os.path.basename(args.stuff[3]).split('.nii')[0] + "_TOTAL","","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        # nwu_like_ratio_df.columns=["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        # nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
+    scan_name=os.path.basename(args.stuff[3]).split('.nii')[0] + "_TOTAL"
+    nwu_like_ratio_df=pd.DataFrame([scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+    nwu_like_ratio_df.columns=["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+    nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)

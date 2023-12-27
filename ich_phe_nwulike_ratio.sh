@@ -818,7 +818,7 @@ while IFS=',' read -ra array; do
 
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
-      call_uploadsinglefile_with_URI_arguments=('call_calculate_nwu_or_nwulike_ratio' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}"  20 80 )
+      call_uploadsinglefile_with_URI_arguments=('call_calculate_nwu_or_nwulike_ratio' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}"  0 40 20 80 )
       outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 
 #    latexfilename_prefix=${grayscale_filename%.nii*}_non_lin_reg

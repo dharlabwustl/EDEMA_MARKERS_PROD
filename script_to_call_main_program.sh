@@ -225,5 +225,5 @@ if [[ ${TYPE_OF_PROGRAM} == "DELETESCANSELECTIONFILES" ]]; then
 fi
 if [[ ${TYPE_OF_PROGRAM} == "FLIPAMASK" ]]; then
   SESSION_ID=${1}
-  /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST '_resaved_infarct_auto_removesmall.nii.gz'
 fi

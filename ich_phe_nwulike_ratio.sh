@@ -1173,8 +1173,8 @@ while IFS=',' read -ra array; do
 #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #    done
 #
-#  done \
-#    < <(tail -n +2 "${dir_to_save}/${filename}")
+  done \
+    < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 #

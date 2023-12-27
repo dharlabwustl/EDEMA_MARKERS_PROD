@@ -628,15 +628,18 @@ def calculate_nwu_or_nwulike_ratio(args):
         numerator=grayscale_image[numerator_mask>0].flatten()
         numerator=numerator[numerator>=threshold_lower_limit]
         numerator=numerator[numerator<=threshold_upper_limit]
+        numerator_count=len(numerator)
         numerator_mean=np.mean(numerator)
         denominator=grayscale_image[denominator_mask>0].flatten()
         denominator=denominator[denominator>=threshold_lower_limit]
         denominator=denominator[denominator<=threshold_upper_limit]
+        denominator_count=len(denominator)
         denominator_mean=np.mean(denominator)
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
-        nwu_like_ratio_df=pd.DataFrame([nwu_like_ratio])
-        nwu_like_ratio_df.columns=['NWU_LIKE_RATIO']
+
+        nwu_like_ratio_df=pd.DataFrame([nwu_like_ratio,numerator_count,denominator_count])
+        nwu_like_ratio_df.columns=['NWU_LIKE_RATIO','lesion_voxel_count','lesion_mirror_voxel_count']
         nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])

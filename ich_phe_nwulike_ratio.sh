@@ -820,36 +820,7 @@ while IFS=',' read -ra array; do
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
       call_uploadsinglefile_with_URI_arguments=('call_calculate_nwu_or_nwulike_ratio' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}"  20 80 )
       outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    midlineonly_each_scan ${filename_nifti}
-#    URI_1=${url1%/resources*}
-#    for matfiles in ${output_directory}/*.mat; do
-#
-#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
-#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    done
-#    #
-#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_total_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_ventricle_total_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
-#
-#    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-#
-#    grayscale_filename=${working_dir_1}/${filename_nifti}
-#
-#    grayscale_filename_basename=$(basename ${grayscale_filename})
-#    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
-#    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
-#    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-#    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
-#    cp ${grayscale_filename} ${grayscale_filename_1}
+
 #    latexfilename_prefix=${grayscale_filename%.nii*}_non_lin_reg
 #    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
 #    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex

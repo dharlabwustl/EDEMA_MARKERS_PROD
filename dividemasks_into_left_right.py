@@ -619,18 +619,12 @@ def call_calculate_nwu_or_nwulike_ratio(args):
 
 def calculate_nwu_or_nwulike_ratio(args):
     try:
-        mask_1=args.stuff[1]
-        mask_2=args.stuff[2]
+        numerator_mask=nib.load(args.stuff[1]).get_fdata()
+        denominator_mask=nib.load(args.stuff[2]).get_fdata()
         grayscale_image=nib.load(args.stuff[3]).get_fdata()
         threshold_lower_limit=int(args.stuff[4])
         threshold_upper_limit=int(args.stuff[5])
         nwu_like_ratio=''
-        if "MIRROR" in mask_1:
-            denominator_mask=nib.load(mask_1).get_fdata()
-            numerator_mask=nib.load(mask_2).get_fdata()
-        else:
-            denominator_mask=nib.load(mask_2).get_fdata()
-            numerator_mask=nib.load(mask_1).get_fdata()
         numerator=grayscale_image[numerator_mask>0].flatten()
         numerator=numerator[numerator>=threshold_lower_limit]
         numerator=numerator[numerator<=threshold_upper_limit]
@@ -642,7 +636,7 @@ def calculate_nwu_or_nwulike_ratio(args):
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
         nwu_like_ratio_df=pd.DataFrame([nwu_like_ratio])
-        nwu_like_ratio_df.columns=['NWU_RATIO']
+        nwu_like_ratio_df.columns=['NWU_LIKE_RATIO']
         nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])

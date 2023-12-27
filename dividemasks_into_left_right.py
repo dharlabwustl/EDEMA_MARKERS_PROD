@@ -622,24 +622,30 @@ def calculate_nwu_or_nwulike_ratio(args):
         numerator_mask=nib.load(args.stuff[1]).get_fdata()
         denominator_mask=nib.load(args.stuff[2]).get_fdata()
         grayscale_image=nib.load(args.stuff[3]).get_fdata()
-        threshold_lower_limit=int(args.stuff[4])
-        threshold_upper_limit=int(args.stuff[5])
+        threshold_lower_limit_inf=int(args.stuff[4])
+        threshold_upper_limit_inf=int(args.stuff[5])
+        threshold_lower_limit_norm=int(args.stuff[4])
+        threshold_upper_limit_norm=int(args.stuff[5])
         nwu_like_ratio=''
         numerator=grayscale_image[numerator_mask>0].flatten()
-        numerator=numerator[numerator>=threshold_lower_limit]
-        numerator=numerator[numerator<=threshold_upper_limit]
+        numerator=numerator[numerator>=threshold_lower_limit_inf]
+        numerator=numerator[numerator<=threshold_upper_limit_inf]
         numerator_count=len(numerator)
         numerator_mean=np.mean(numerator)
+        numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))
+
         denominator=grayscale_image[denominator_mask>0].flatten()
-        denominator=denominator[denominator>=threshold_lower_limit]
-        denominator=denominator[denominator<=threshold_upper_limit]
+        denominator=denominator[denominator>=threshold_lower_limit_norm]
+        denominator=denominator[denominator<=threshold_upper_limit_norm]
         denominator_count=len(denominator)
         denominator_mean=np.mean(denominator)
+        denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
 
-        nwu_like_ratio_df=pd.DataFrame([nwu_like_ratio,numerator_count,denominator_count])
-        nwu_like_ratio_df.columns=['NWU_LIKE_RATIO','lesion_voxel_count','lesion_mirror_voxel_count']
+
+        nwu_like_ratio_df=pd.DataFrame([os.path.basename(args.stuff[3]).split('.nii')[0] + "_TOTAL","","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        nwu_like_ratio_df.columns=["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
         nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])

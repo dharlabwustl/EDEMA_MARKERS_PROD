@@ -226,4 +226,6 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == "FLIPAMASK" ]]; then
   SESSION_ID=${1}
   /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST '_resaved_infarct_auto_removesmall.nii.gz'
+  /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST '_resaved_4DL_normalized_class2.nii.gz'
+  /software/flip_an_infarct_mask.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST '_resaved_4DL_normalized_class1.nii.gz'
 fi

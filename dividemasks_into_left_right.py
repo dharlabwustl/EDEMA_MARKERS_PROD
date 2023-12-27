@@ -613,6 +613,10 @@ def mirror_a_mask(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         pass
+def call_calculate_nwu_or_nwulike_ratio(args):
+    calculate_nwu_or_nwulike_ratio(args)
+    return 1
+
 def calculate_nwu_or_nwulike_ratio(args):
     try:
         mask_1=args.stuff[1]
@@ -1276,6 +1280,8 @@ def main():
         return_value=call_insert_one_col_with_colname_colidx(args)
     if name_of_the_function == "call_mirror_a_mask":
         return_value=call_mirror_a_mask(args)
+    if name_of_the_function == "call_calculate_nwu_or_nwulike_ratio":
+        return_value=call_calculate_nwu_or_nwulike_ratio(args)
 
 
     return return_value

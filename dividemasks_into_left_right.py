@@ -692,11 +692,11 @@ def mirror_a_mask(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         pass
-def call_calculate_nwu_or_nwulike_ratio(args):
-    calculate_nwu_or_nwulike_ratio(args)
+def call_infarct_and_reflectedinfarct_related_parameters(args):
+    infarct_and_reflectedinfarct_related_parameters(args)
     return 1
 
-def calculate_nwu_or_nwulike_ratio(args):
+def infarct_and_reflectedinfarct_related_parameters(args):
     numerator_count=""
     numerator_mean=""
     numerator_volume=""
@@ -1374,8 +1374,8 @@ def main():
         return_value=call_insert_one_col_with_colname_colidx(args)
     if name_of_the_function == "call_mirror_a_mask":
         return_value=call_mirror_a_mask(args)
-    if name_of_the_function == "call_calculate_nwu_or_nwulike_ratio":
-        return_value=call_calculate_nwu_or_nwulike_ratio(args)
+    if name_of_the_function == "call_infarct_and_reflectedinfarct_related_parameters":
+        return_value=call_infarct_and_reflectedinfarct_related_parameters(args)
 
     if name_of_the_function == "call_divide_a_mask_into_left_right_submasks_v1":
         return_value=call_divide_a_mask_into_left_right_submasks_v1(args)

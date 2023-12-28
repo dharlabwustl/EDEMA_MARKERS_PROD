@@ -854,7 +854,7 @@ while IFS=',' read -ra array; do
 #    to_original_RF ${graylevelset} ${working_dir_1}/${filename_nifti} ${output_directory}
     grayscale_filename=${output_directory}/$(basename ${graylevelset%.gz*})
     cp ${working_dir_1}/${filename_nifti} ${grayscale_filename}
-    call_uploadsinglefile_with_URI_arguments=('call_calculate_nwu_or_nwulike_ratio' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}" "0" "40" "20" "80")
+    call_uploadsinglefile_with_URI_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${maskfilename} ${mask_mirror} "${working_dir_1}/${filename_nifti}" "0" "40" "20" "80")
     outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     resource_dirname="MIDLINE_NPY"
     output_csvfile_midline=${sessionID}_MIDLINE_DIR_METADATA.csv

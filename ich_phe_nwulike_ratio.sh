@@ -782,7 +782,7 @@ while IFS=',' read -ra array; do
     filename_nifti=$(basename ${url1})
     call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${working_dir_1})
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-    midlineonly_each_scan ${filename_nifti}
+#    midlineonly_each_scan ${filename_nifti}
     resource_dir="MASKS"
     output_csvfile_1=${sessionID}_MASK_METADATA.csv
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}

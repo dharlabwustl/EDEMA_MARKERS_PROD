@@ -329,6 +329,7 @@ def call_slice_num_to_csv(args):
         subprocess.call(command,shell=True)
     print(returnvalue)
     return  returnvalue
+
 def ratio_left_right(lefthalf_np,righthalf_np,column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
 
@@ -696,6 +697,8 @@ def call_infarct_and_reflectedinfarct_related_parameters(args):
     infarct_and_reflectedinfarct_related_parameters(args)
     return 1
 
+
+
 def infarct_and_reflectedinfarct_related_parameters(args):
     numerator_count=""
     numerator_mean=""
@@ -727,21 +730,76 @@ def infarct_and_reflectedinfarct_related_parameters(args):
         denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
-        scan_name=os.path.basename(args.stuff[3]).split('.nii')[0] + "_TOTAL"
-        values=[scan_name,nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)]
+            nwu_like_ratio=round(nwu_like_ratio,2)
+        scan_name=os.path.basename(args.stuff[3]).split('.nii')[0]  ##+ "_TOTAL"
+        values=[scan_name,nwu_like_ratio,numerator_count,round(numerator_mean,2),denominator_count,round(denominator_mean,2),round(numerator_volume,2),round(denominator_volume,2),str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)]
         nwu_like_ratio_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
         nwu_like_ratio_df=nwu_like_ratio_df.T
         columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
         nwu_like_ratio_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU.csv",index=False)
+        nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_FROM_INFARCT.csv",index=False)
         # columns_df=pd.DataFrame(["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"])
         # columns_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU_cols.csv",index=False)
-        # "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF",
+        #  "INFARCT SIDE", "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF",
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         pass
-
+def call_csf_related_parameters(args):
+    lefthalf=args.stuff[1]
+    righthalf=args.stuff[2]
+    complete_csf=args.stuff[3]
+    grayscale_image=args.stuff[4]
+    csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image)
+def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image): #column_name='test',filename_to_write="test.csv"):
+    returnvalue="NONE"
+    # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
+    righthalf_volume=''
+    lefthalf_volume=''
+    total_csf_volume=''
+    left_right_ratio=''
+    try:
+        scan_name=os.path.basename(grayscale_image).split('_resaved')[0]
+        lefthalf_np=nib.load(lefthalf).get_fdata()
+        righthalf_np=nib.load(righthalf).get_fdata()
+        complete_csf_np=nib.load(complete_csf).get_fdata()
+        grayscale_image_nib=nib.load(grayscale_image)
+        lefthalf_np[lefthalf_np>=0.5]=1
+        lefthalf_np[lefthalf_np<1]=0
+        righthalf_np[righthalf_np>=0.5]=1
+        righthalf_np[righthalf_np<1]=0
+        righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        righthalf_volume=round(righthalf_volume,2)
+        lefthalf_volume = np.sum(lefthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        lefthalf_volume=round(lefthalf_volume,2)
+        complete_csf_np[complete_csf_np>=0.5]=1
+        complete_csf_np[complete_csf_np<1]=0
+        total_csf_volume=np.sum(complete_csf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        total_csf_volume=round(total_csf_volume,2)
+        if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
+            left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+            if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+                left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+            left_right_ratio=round(left_right_ratio,2)
+            returnvalue=left_right_ratio
+            # left_right_ratio_df=pd.DataFrame([left_right_ratio])
+            # left_right_ratio_df.columns=[column_name]
+            # left_right_ratio_df.to_csv(filename_to_write,index=False)
+            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
+            subprocess.call(command,shell=True)
+        # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
+        values=[scan_name,lefthalf_volume,righthalf_volume,total_csf_volume,left_right_ratio]
+        values_from_csf_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        values_from_csf_df=values_from_csf_df.T
+        columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
+        values_from_csf_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        values_from_csf_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_FROM_CSF.csv"),index=False)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+    print('left_right_ratio'+str(returnvalue))
+    return  returnvalue
 
 
 # def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
@@ -1376,7 +1434,8 @@ def main():
         return_value=call_mirror_a_mask(args)
     if name_of_the_function == "call_infarct_and_reflectedinfarct_related_parameters":
         return_value=call_infarct_and_reflectedinfarct_related_parameters(args)
-
+    if name_of_the_function == "call_csf_related_parameters":
+        return_value=call_csf_related_parameters(args)
     if name_of_the_function == "call_divide_a_mask_into_left_right_submasks_v1":
         return_value=call_divide_a_mask_into_left_right_submasks_v1(args)
     return return_value

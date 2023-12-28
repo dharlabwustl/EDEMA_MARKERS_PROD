@@ -379,8 +379,8 @@ def call_ratio_left_right(args):
 def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :
     returnvalue=0
     try:
-        command="echo successful at :: {}::divide_a_mask_into_left_right_submasks_v1::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
-        subprocess.call(command,shell=True)
+        # command="echo successful at :: {}::divide_a_mask_into_left_right_submasks_v1::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
+        # subprocess.call(command,shell=True)
         Mask_filename_fdata=nib.load(Mask_filename).get_fdata()
         Mask_filename_fdata_June21_2023=nib.load(Mask_filename).get_fdata()
         Mask_filename_fdata_June21_2023_np=resizeinto_512by512(Mask_filename_fdata_June21_2023)
@@ -403,6 +403,8 @@ def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfil
                 filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
                 this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+ "_"+str(slice_number)+ "_V2"+ ".npy")
                 if os.path.exists(this_npyfile):
+                    command="echo successful at :: {}::divide_a_mask_into_left_right_submasks_v1::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
+                    subprocess.call(command,shell=True)
                     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                     x_points2=calculated_midline_points.item().get('x_axis')
                     y_points2=calculated_midline_points.item().get('y_axis')

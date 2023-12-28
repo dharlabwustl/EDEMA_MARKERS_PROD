@@ -824,6 +824,17 @@ while IFS=',' read -ra array; do
         echo "${betfile}"
 
       fi
+            if [[ ${url2} == *"_resaved_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+              echo "It's there!"
+              echo "${array2[6]}"
+              filename2=$(basename ${url2})
+              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+              graylevelset=${dir_to_save}/${filename2}
+              echo "${graylevelset}"
+
+            fi
+
       if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
         echo "${array2[6]}"
@@ -859,7 +870,7 @@ while IFS=',' read -ra array; do
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_midline}")
-    grayscale_filename=${working_dir_1}/${filename_nifti}
+    grayscale_filename=${graylevelset} #${working_dir_1}/${filename_nifti}
 
     grayscale_filename_basename=$(basename ${grayscale_filename})
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}

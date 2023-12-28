@@ -379,6 +379,8 @@ def call_ratio_left_right(args):
 def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :
     returnvalue=0
     try:
+        command="echo successful at :: {}::divide_a_mask_into_left_right_submasks_v1::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
+        subprocess.call(command,shell=True)
         Mask_filename_fdata=nib.load(Mask_filename).get_fdata()
         Mask_filename_fdata_June21_2023=nib.load(Mask_filename).get_fdata()
         Mask_filename_fdata_June21_2023_np=resizeinto_512by512(Mask_filename_fdata_June21_2023)

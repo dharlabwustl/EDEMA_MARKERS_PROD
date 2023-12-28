@@ -838,10 +838,9 @@ def call_bet_related_parameters(args):
     lefthalf=args.stuff[1]
     righthalf=args.stuff[2]
     complete_bet=args.stuff[3]
-    complete_csf=args.stuff[4]
-    grayscale_image=args.stuff[5]
-    bet_related_parameters(lefthalf,righthalf,complete_bet,complete_csf,grayscale_image)
-def bet_related_parameters(lefthalf,righthalf,complete_bet,complete_csf,grayscale_image): #column_name='test',filename_to_write="test.csv"):
+    grayscale_image=args.stuff[4]
+    bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image)
+def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # ,
     righthalf_volume=''
@@ -853,7 +852,7 @@ def bet_related_parameters(lefthalf,righthalf,complete_bet,complete_csf,grayscal
         scan_name=os.path.basename(grayscale_image).split('.nii')[0]
         lefthalf_np=nib.load(lefthalf).get_fdata()
         righthalf_np=nib.load(righthalf).get_fdata()
-        complete_csf_np=nib.load(complete_csf).get_fdata()
+        # complete_csf_np=nib.load(complete_csf).get_fdata()
         complete_bet_np=nib.load(complete_bet).get_fdata()
         grayscale_image_nib=nib.load(grayscale_image)
         lefthalf_np[lefthalf_np>=0.5]=1
@@ -862,12 +861,12 @@ def bet_related_parameters(lefthalf,righthalf,complete_bet,complete_csf,grayscal
         righthalf_np[righthalf_np<1]=0
         complete_bet_np[complete_bet_np>=0.5]=1
         complete_bet_np[complete_bet_np<1]=0
-        complete_csf_np[complete_csf_np>=0.5]=1
-        complete_csf_np[complete_csf_np<1]=0
+        # complete_csf_np[complete_csf_np>=0.5]=1
+        # complete_csf_np[complete_csf_np<1]=0
         ##################
-        complete_bet_np[complete_csf_np>0]=0 #np.min(complete_bet_np)
-        lefthalf_np[complete_csf_np>0]=0 #np.min(lefthalf_np)
-        righthalf_np[complete_csf_np>0]=0 #np.min(righthalf_np)
+        # complete_bet_np[complete_csf_np>0]=0 #np.min(complete_bet_np)
+        # lefthalf_np[complete_csf_np>0]=0 #np.min(lefthalf_np)
+        # righthalf_np[complete_csf_np>0]=0 #np.min(righthalf_np)
         ######################
         righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
         righthalf_volume=round(righthalf_volume,2)

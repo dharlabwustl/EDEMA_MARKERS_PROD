@@ -814,6 +814,16 @@ while IFS=',' read -ra array; do
 
         echo "${betfile}"
       fi
+            if [[ ${url2} == *"_resaved_4DL_normalized_class1.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+              echo "It's there!"
+              echo "${array2[6]}"
+              filename2=$(basename ${url2})
+              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+              mask_core_filename=${dir_to_save}/${filename2}
+
+#              echo "${betfile}"
+            fi
       if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
         echo "${array2[6]}"
@@ -851,6 +861,8 @@ while IFS=',' read -ra array; do
     to_original_RF ${csffile} ${working_dir_1}/${filename_nifti} ${output_directory}
     to_original_RF ${betfile} ${working_dir_1}/${filename_nifti} ${output_directory}
     to_original_RF ${maskfilename} ${working_dir_1}/${filename_nifti} ${output_directory}
+    to_original_RF ${mask_core_filename} ${working_dir_1}/${filename_nifti} ${output_directory}
+
 #    to_original_RF ${graylevelset} ${working_dir_1}/${filename_nifti} ${output_directory}
     grayscale_filename=${output_directory}/$(basename ${graylevelset%.gz*})
     cp ${working_dir_1}/${filename_nifti} ${grayscale_filename}
@@ -878,6 +890,14 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename=$(basename ${grayscale_filename})
     grayscale_filename_basename_noext=${grayscale_filename_basename%_resaved*}
 #    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${mask_core_filename})  ${working_dir} ${output_directory})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    ich_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_4DL_normalized_class1_left_half_originalRF.nii.gz
+    ich_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_4DL_normalized_class1_right_half_originalRF.nii.gz
+
+    call_side_of_lesion_arguments=('call_side_of_lesion' ${ich_left_half} ${ich_right_half}  ${working_dir_1}/${filename_nifti})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_side_of_lesion_arguments[@]}")
+
     call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${csffile})  ${working_dir} ${output_directory})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${betfile})  ${working_dir} ${output_directory})
@@ -886,6 +906,8 @@ while IFS=',' read -ra array; do
     csf_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
     call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+
+
     #    run_divide_mask_into_left_right ${grayscale_filename} ${output_directory}/$(basename ${csffile}) ${output_directory} ${working_dir}
 #    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #    run_divide_mask_into_left_right ${grayscale_filename} ${output_directory}/$(basename ${betfile}) ${output_directory} ${working_dir}

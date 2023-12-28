@@ -892,6 +892,8 @@ while IFS=',' read -ra array; do
 #    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${mask_core_filename})  ${working_dir} ${output_directory})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+
+
     ich_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_4DL_normalized_class1_left_half_originalRF.nii.gz
     ich_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_4DL_normalized_class1_right_half_originalRF.nii.gz
 
@@ -902,10 +904,17 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${betfile})  ${working_dir} ${output_directory})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    bet_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+    bet_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+    call_bet_related_parameters_arguments=('call_bet_related_parameters' ${bet_left_half} ${bet_right_half} ${betfile}  ${csffile} ${working_dir_1}/${filename_nifti})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_bet_related_parameters_arguments[@]}")
+
     csf_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
     csf_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
     call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+#    call_bet_related_parameters_arguments=('call_bet_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_bet_related_parameters_arguments[@]}")
 
 
     #    run_divide_mask_into_left_right ${grayscale_filename} ${output_directory}/$(basename ${csffile}) ${output_directory} ${working_dir}

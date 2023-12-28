@@ -885,6 +885,11 @@ while IFS=',' read -ra array; do
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_midline}")
+    ## BET -CSF -> MASK -> Calculations
+    ## CSF mask -> Calculations
+    ## PHE mask -> Reflection ->Calculations
+    ## Images for display: GRAY,BET,GRAY+ICH+PHE,GRAY+PHE+PHE_MIRROR,GRAY+CSF
+
      #${working_dir_1}/${filename_nifti}
 #
 #    grayscale_filename_basename=$(basename ${grayscale_filename})

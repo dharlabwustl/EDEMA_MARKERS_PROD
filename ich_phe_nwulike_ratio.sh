@@ -880,8 +880,11 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${csffile})  ${working_dir} ${output_directory})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks_v1' ${grayscale_filename} ${output_directory}/$(basename ${betfile})  ${working_dir} ${output_directory})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+
     #    run_divide_mask_into_left_right ${grayscale_filename} ${output_directory}/$(basename ${csffile}) ${output_directory} ${working_dir}
-    #    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
+#    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #    run_divide_mask_into_left_right ${grayscale_filename} ${output_directory}/$(basename ${betfile}) ${output_directory} ${working_dir}
     #    latexfilename_prefix=${grayscale_filename%.nii*}_non_lin_reg
     #    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv

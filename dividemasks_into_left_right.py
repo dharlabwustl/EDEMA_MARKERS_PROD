@@ -717,14 +717,14 @@ def infarct_and_reflectedinfarct_related_parameters(args):
         numerator=numerator[numerator<=threshold_upper_limit_inf]
         numerator_count=len(numerator)
         numerator_mean=np.mean(numerator)
-        numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))
+        numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
 
         denominator=grayscale_image[denominator_mask>0].flatten()
         denominator=denominator[denominator>=threshold_lower_limit_norm]
         denominator=denominator[denominator<=threshold_upper_limit_norm]
         denominator_count=len(denominator)
         denominator_mean=np.mean(denominator)
-        denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))
+        denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
         scan_name=os.path.basename(args.stuff[3]).split('.nii')[0] + "_TOTAL"

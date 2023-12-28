@@ -403,7 +403,7 @@ def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfil
                 filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
                 this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+ "_"+str(slice_number)+ "_V2"+ ".npy")
                 if os.path.exists(this_npyfile):
-                    command="echo successful at :: {}::divide_a_mask_into_left_right_submasks_v1::{} >> /software/error.txt".format(inspect.stack()[0][3],Mask_filename)
+                    command="echo successful at :: {}::this_npyfile::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
                     subprocess.call(command,shell=True)
                     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                     x_points2=calculated_midline_points.item().get('x_axis')

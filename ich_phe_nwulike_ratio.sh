@@ -885,7 +885,16 @@ while IFS=',' read -ra array; do
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_midline}")
-    ## BET -CSF -> MASK -> Calculations
+    ## subtract CSF from BET
+    bet_minus_csf_mask_file=${betfile%.nii*}_minus_csf.nii.gz
+    call_masks_subtraction_arguments=('call_masks_subtraction' ${betfile} ${csffile} ${bet_minus_csf_mask_file})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
+    ## dividing BET-CSF subtracted mask to left and right
+    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+    ## BET-CSF -> MASK -> Calculations
     ## CSF mask -> Calculations
     ## PHE mask -> Reflection ->Calculations
     ## Images for display: GRAY,BET,GRAY+ICH+PHE,GRAY+PHE+PHE_MIRROR,GRAY+CSF

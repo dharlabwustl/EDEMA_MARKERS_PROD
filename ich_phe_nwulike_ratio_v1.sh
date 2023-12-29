@@ -864,8 +864,8 @@ while IFS=',' read -ra array; do
 #        echo "${greyfile}"
 #      fi
 
-    done \
-      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+#    done \
+#      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
 
     midlineonly_each_scan ${filename_nifti}

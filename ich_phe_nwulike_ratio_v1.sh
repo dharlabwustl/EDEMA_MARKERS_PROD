@@ -875,24 +875,24 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
     #
-#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_sulci_total_v1.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle_v1.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle_v1.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle_v1.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_ventricle_total_v1.nii.gz"
-#    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 #
 #    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
 #    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
 #    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
 #    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
 #
-#    grayscale_filename=${working_dir_1}/${filename_nifti}
-#
-#    grayscale_filename_basename=$(basename ${grayscale_filename})
-#    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
-#    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+    grayscale_filename=${working_dir_1}/${filename_nifti}
+
+    grayscale_filename_basename=$(basename ${grayscale_filename})
+    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
+    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
 #    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
 #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
 #    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
@@ -915,10 +915,10 @@ while IFS=',' read -ra array; do
 #    ## GRAY SCALE WITH BET MASK with CSF subtracted.
 #    outputfile_dir=${output_directory}
 #
-#    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
-#    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
-#    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-#    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
 #
 #    mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_v1_left_half_originalRF.nii.gz
 #    mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_v1_right_half_originalRF.nii.gz
@@ -937,8 +937,8 @@ while IFS=',' read -ra array; do
 #    mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
 #
 #    ###################
-#    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
-#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
+    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
 #    mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_v1.nii.gz
 #    mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_v1.nii.gz
 #    mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_v1.nii.gz
@@ -948,15 +948,17 @@ while IFS=',' read -ra array; do
 #    mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
 #    mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
 #    #######################################
-#    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
+    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
 #    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
 #    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total_v1.nii.gz" "CSF_SULCI_TOTAL"
 #    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total_v1.nii.gz" "CSF_VENTRICLE_TOTAL"
 #    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
 #    ########################################
 #    ####################################################
-#    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
-#    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
+    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
+
+    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
+    split_masks_into_two_halves ${bet_mask_WITHOUT_csf##*WITHOUT}
 #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
 #    column_name_this="bet_mask_WITHOUT_csf"
 #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

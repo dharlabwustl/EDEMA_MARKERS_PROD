@@ -958,7 +958,7 @@ while IFS=',' read -ra array; do
     mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
 
     bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
-#    split_masks_into_two_halves ${bet_mask_WITHOUT_csf##*WITHOUT}
+    split_masks_into_two_halves WITHOUT${bet_mask_WITHOUT_csf##*WITHOUT}
 #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
 #    column_name_this="bet_mask_WITHOUT_csf"
 #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

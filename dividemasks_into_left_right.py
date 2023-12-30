@@ -53,6 +53,17 @@ def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,co
         subprocess.call(command,shell=True)
 
     return returnvalue
+def call_begin_csvfile_with_scanname(args):
+    csvfilename=args.stuff[1]
+    scanname=args.stuff[2]
+    begin_csvfile_with_scanname(csvfilename,scanname)
+def begin_csvfile_with_scanname(csvfilename,scanname):
+
+    scanname_df=pd.DataFrame([scanname])
+    scanname_df.columns=['scan_name']
+    scanname_df.to_csv(csvfilename,index=False)
+
+
 def call_insert_one_col_with_colname_colidx(args):
     csvfilename=args.stuff[1]
     csvfilename_output=args.stuff[2]
@@ -1543,6 +1554,8 @@ def main():
         return_value=call_bet_related_parameters(args)
     if name_of_the_function == "call_side_of_lesion":
         return_value=call_side_of_lesion(args)
+    if name_of_the_function == "call_begin_csvfile_with_scanname":
+        return_value=call_begin_csvfile_with_scanname(args)
     return return_value
 if __name__ == '__main__':
     main()

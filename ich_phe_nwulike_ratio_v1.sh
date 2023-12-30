@@ -888,7 +888,7 @@ while IFS=',' read -ra array; do
             echo "It's there!"
             echo "${array2[6]}"
             filename2=$(basename ${url2})
-            call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${working_dir_1})
+            call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2}  ${output_directory}  #${working_dir_1})
             outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
           fi
 

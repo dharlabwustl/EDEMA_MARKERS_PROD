@@ -151,7 +151,7 @@ run_IML() {
 
   /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
-  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+#  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   #    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
   #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
@@ -833,7 +833,8 @@ while IFS=',' read -ra array; do
     done
 #   
     resource_dirname="MIDLINE_NPY"
-    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
+#    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
+    for npyfilename in ${output_directory}/${filename_nifti%.nii*}*.npy; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done

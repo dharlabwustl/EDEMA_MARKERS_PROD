@@ -832,12 +832,12 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
 #   
-    resource_dirname="MIDLINE_NPY"
-#    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
-    for npyfilename in ${output_directory}/${filename_nifti%.nii*}*.npy; do
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
+#    resource_dirname="MIDLINE_NPY"
+##    for npyfilename in ${working_dir_1}/${filename_nifti%.nii*}*.npy; do
+#    for npyfilename in ${output_directory}/${filename_nifti%.nii*}*.npy; do
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
 
 #    URI_1=${url1%/resources*}
     resource_dirname="MASKS"

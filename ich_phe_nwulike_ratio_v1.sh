@@ -812,24 +812,33 @@ while IFS=',' read -ra array; do
         csffile=${dir_to_save}/${filename2}
         echo "${csffile}"
       fi
-#      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
-#      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#        csffile=${dir_to_save}/${filename2}
-#        echo "${csffile}"
-#      fi
+      if [[ ${url2} == *"_resaved_4DL_normalized_class2.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        phefile=${dir_to_save}/${filename2}
+        echo "${phefile}"
+      fi
+      if [[ ${url2} == *"_resaved_4DL_normalized_class1.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        ichfile=${dir_to_save}/${filename2}
+        echo "${ichfile}"
+      fi
+      if [[ ${url2} == *"_resaved_4DL_normalized_class2_MIRROR.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        phemirrorfile=${dir_to_save}/${filename2}
+        echo "${phemirrorfile}"
+      fi
       if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
         echo "It's there!"
         echo "${array2[6]}"
@@ -966,6 +975,13 @@ while IFS=',' read -ra array; do
 #    ${mask_filename19_ext}_WITHOUT_${mask_filename20_ext}
 #    mask_filename20_ext=${mask_filename20_ext%.nii*}
     split_masks_into_two_halves ${mask_filename19_ext}_WITHOUT_$(basename ${mask_filename20}) ##${bet_mask_WITHOUT_csf##*${grayscale_filename_basename_noext}}
+## you have CSF left right mask, this will give the numbers from CSF
+#columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
+
+## bet-csf left right mask, this will give the numbers from BET
+#columns_name=["SCAN_NAME", "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+##  PHE, ICH and PHE_MIRROR masks will give infarct/lesion related parameters
+#        columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
 #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
 #    column_name_this="bet_mask_WITHOUT_csf"
 #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

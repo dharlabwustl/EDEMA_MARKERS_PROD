@@ -7,7 +7,7 @@ export XNAT_PASS=${3}
 arg_4=${4}
 #arr_4_array=(${arg_4//::/ })
 export XNAT_HOST=${4} ## ${arr_4_array[0]}
-mask_extention=${5}  ##${arr_4_array[1]}
+mask_extention=${5}   ##${arr_4_array[1]}
 sessionID=${1}
 working_dir=/workinginput
 working_dir_1=/input
@@ -154,7 +154,7 @@ run_IML() {
 
   /software/ideal_midline_pythonpart.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   echo "ideal_midline_pythonpart successful" >>${output_directory}/success.txt
-#  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
+  #  /software/ideal_midline_pythonpart_V2.sh ${this_filename} #${templatefilename}  #$3 #$8 $9 ${10}
   #    echo "RUNNING NWU AND CSF VOLUME CALCULATION "
   #
   #  /software/nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
@@ -795,49 +795,49 @@ while IFS=',' read -ra array; do
         Mask_filename=${dir_to_save}/${filename2}
         echo "${Mask_filename}"
         niftifilename=${dir_to_save}/${filename2%${mask_extention}*}_resaved_levelset.nii
-        break
+        #        break
       fi
-            if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-              echo "It's there!"
-              echo "${array2[6]}"
-              filename2=$(basename ${url2})
-              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-              betfile=${dir_to_save}/${filename2}
-              echo "${betfile}"
-            fi
-            if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-              echo "It's there!"
-              echo "${array2[6]}"
-              filename2=$(basename ${url2})
-              call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-              outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-              csffile=${dir_to_save}/${filename2}
-              echo "${csffile}"
-            fi
+      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        betfile=${dir_to_save}/${filename2}
+        echo "${betfile}"
+      fi
+      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array2[6]}"
+        filename2=$(basename ${url2})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+        csffile=${dir_to_save}/${filename2}
+        echo "${csffile}"
+      fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     midlineonly_each_scan ${filename_nifti}
-#    resource_dirname="MIDLINE_NPY"
-#    output_csvfile_2=${sessionID}_MIDLINE_DIR_METADATA.csv
-#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dirname} ${working_dir} ${output_csvfile_2}
-#    while IFS=',' read -ra array2; do
-#
-#      url2=${array2[6]}
-#      #################
-#
-#      if [[ ${url2} == *.npy* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#        echo "It's there!"
-#        echo "${array2[6]}"
-#        filename2=$(basename ${url2})
-#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#      fi
-#
-#    done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
+    #    resource_dirname="MIDLINE_NPY"
+    #    output_csvfile_2=${sessionID}_MIDLINE_DIR_METADATA.csv
+    #    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dirname} ${working_dir} ${output_csvfile_2}
+    #    while IFS=',' read -ra array2; do
+    #
+    #      url2=${array2[6]}
+    #      #################
+    #
+    #      if [[ ${url2} == *.npy* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+    #        echo "It's there!"
+    #        echo "${array2[6]}"
+    #        filename2=$(basename ${url2})
+    #        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+    #        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+    #      fi
+    #
+    #    done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
     #        niftifilename=args.stuff[1]
     #    Mask_filename=args.stuff[2]
-    npyfiledirectory=${output_directory} ##${dir_to_save}                            ##args.stuff[3]
+    npyfiledirectory=${output_directory}                       ##${dir_to_save}                            ##args.stuff[3]
     mask_flipped_filename=${Mask_filename%.nii*}_MIRROR.nii.gz #args.stuff[4]
     echo 'call_mirror_a_mask'::${niftifilename}::${Mask_filename}::${npyfiledirectory}::${mask_flipped_filename}
     call_uploadsinglefile_with_URI_arguments=('call_mirror_a_mask' ${niftifilename} ${Mask_filename} ${npyfiledirectory} ${mask_flipped_filename})

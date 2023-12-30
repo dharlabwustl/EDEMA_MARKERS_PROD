@@ -876,30 +876,13 @@ while IFS=',' read -ra array; do
 #    done \
 #      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
-        resource_dirname="MIDLINE_NPY"
-        output_csvfile_2=${sessionID}_MIDLINE_DIR_METADATA.csv
-        call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dirname} ${working_dir} ${output_csvfile_2}
-        while IFS=',' read -ra array2; do
 
-          url2=${array2[6]}
-          #################
-
-          if [[ ${url2} == *.npy* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-            echo "It's there!"
-            echo "${array2[6]}"
-            filename2=$(basename ${url2})
-            call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-            outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-          fi
-
-        done < <(tail -n +2 "${working_dir}/${output_csvfile_2}")
-
-#    midlineonly_each_scan ${filename_nifti}
-#    URI_1=${url1%/resources*}
-#    for matfiles in ${output_directory}/*.mat; do
-#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
-#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    done
+    midlineonly_each_scan ${filename_nifti}
+    URI_1=${url1%/resources*}
+    for matfiles in ${output_directory}/*.mat; do
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
     #
     split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
 #    split_masks_into_two_halves "_resaved_levelset_sulci_total_v1.nii.gz"

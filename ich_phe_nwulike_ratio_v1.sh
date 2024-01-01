@@ -906,7 +906,7 @@ while IFS=',' read -ra array; do
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
     #    grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
     #    cp ${grayscale_filename} ${grayscale_filename_1}
-    latexfilename_prefix=${grayscale_filename%.nii*}_non_lin_reg
+    latexfilename_prefix=${grayscale_filename%.nii*} ##_non_lin_reg
     #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
     latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
     csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
@@ -988,6 +988,11 @@ while IFS=',' read -ra array; do
     scanname=${filename_nifti%.nii*}
     call_calculate_volume_mask_from_yasheng_arguments=('call_begin_csvfile_with_scanname' ${csvfilename} ${scanname} )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+    ################CSF RELATED PARAMETERS###############################
+    csf_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+    csf_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
     #    column_name_this="bet_mask_WITHOUT_csf"
     #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

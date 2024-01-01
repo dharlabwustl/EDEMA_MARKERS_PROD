@@ -67,7 +67,7 @@ def begin_csvfile_with_session_name(csvfilename,session_id,scan_name):
         command="echo success at :: {}::{}::{}:{}>> /software/error.txt".format(inspect.stack()[0][3],session_name,csvfilename,scan_name)
         subprocess.call(command,shell=True)
         scanname_df=pd.DataFrame([session_id,session_name,scan_name]).T
-        scanname_df.columns=['snipr_session_id','snipr_session','scan_name']
+        scanname_df.columns=['SESSION_ID','snipr_session','scan_name']
         scanname_df.to_csv(csvfilename,index=False)
     except:
         command="echo failed at :: {}>> /software/error.txt".format(inspect.stack()[0][3])

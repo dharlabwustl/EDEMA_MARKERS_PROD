@@ -852,7 +852,7 @@ def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,sessi
         columnname='csf_total'
         columnvalue=total_csf_volume
         fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
-        left_right_ratio=volume_voxels_mask_binary(lefthalf,righthalf)
+        left_right_ratio=ratio_left_right_mask_binary(lefthalf,righthalf)
         columnname='csf_ratio'
         columnvalue=left_right_ratio
         fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)

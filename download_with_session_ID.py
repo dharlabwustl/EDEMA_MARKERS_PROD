@@ -1204,6 +1204,7 @@ def get_metadata_project_sessionlist(project_ID,outputfile="NONE.csv"):
     df_scan.to_csv(outputfile,index=False)
     return metadata_session
 def get_session_label(sessionId,outputfile="NONE.csv"):
+    returnvalue=''
     try:
         xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         xnatSession.renew_httpsession()

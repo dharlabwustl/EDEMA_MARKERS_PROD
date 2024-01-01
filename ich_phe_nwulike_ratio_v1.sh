@@ -985,12 +985,15 @@ while IFS=',' read -ra array; do
     #        columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
     #begin_csvfile_with_scanname(csvfilename,scanname)
     #csvfilename=${csvfilename}
+#    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${csvfilename})
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
     scanname=${filename_nifti%.nii*}
-    call_calculate_volume_mask_from_yasheng_arguments=('call_begin_csvfile_with_scanname' ${csvfilename} ${scanname} )
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+    call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_scanname' ${csvfilename}  ${sessionID} ${scanname} )
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
+
     ################CSF RELATED PARAMETERS###############################
-    csf_left_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-    csf_right_half=${output_directory}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+    csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+    csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
     call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}

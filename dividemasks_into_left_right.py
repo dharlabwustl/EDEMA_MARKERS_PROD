@@ -24,6 +24,7 @@ sys.path.append("/software")
 import traceback
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
 from utilities_simple_trimmed import *
+from download_with_session_ID import *
 from github import Github
 #############################################################
 from dateutil.parser import parse
@@ -53,14 +54,15 @@ def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,co
         subprocess.call(command,shell=True)
 
     return returnvalue
-def call_begin_csvfile_with_scanname(args):
+def call_begin_csvfile_with_session_name(args):
     csvfilename=args.stuff[1]
-    scanname=args.stuff[2]
-    begin_csvfile_with_scanname(csvfilename,scanname)
-def begin_csvfile_with_scanname(csvfilename,scanname):
-
-    scanname_df=pd.DataFrame([scanname])
-    scanname_df.columns=['scan_name']
+    session_id=args.stuff[2]
+    scan_name=args.stuff[3]
+    begin_csvfile_with_session_name(csvfilename,str(session_id),str(scan_name))
+def begin_csvfile_with_session_name(csvfilename,session_id,scan_name):
+    session_name=get_session_label(session_id)
+    scanname_df=pd.DataFrame([session_id,session_name,scan_name])
+    scanname_df.columns=['snipr_session_id','snipr_session','scan_name']
     scanname_df.to_csv(csvfilename,index=False)
 
 
@@ -795,7 +797,29 @@ def call_csf_related_parameters(args):
     complete_csf=args.stuff[3]
     grayscale_image=args.stuff[4]
     csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image)
-def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image): #column_name='test',filename_to_write="test.csv"):
+def count_voxels_mask_binary(maskfilename):
+    mask_np=nib.load(maskfilename).get_fdata()
+    mask_np[mask_np>=0.5]=1
+    mask_np[mask_np<1]=0
+    voxel_count=np.sum(mask_np)
+    return voxel_count
+def volume_voxels_mask_binary(maskfilename,niftigrayfile):
+    grayscale_image_nib=nib.load(niftigrayfile)
+    voxel_count=count_voxels_mask_binary(maskfilename)
+    mask_volume=voxel_count*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+    return mask_volume
+def ratio_left_right_mask_binary(right_maskfile,left_maskfile):
+    returnvalue=''
+    right_mask_np_count=count_voxels_mask_binary(right_maskfile)
+    left_mask_np_count=count_voxels_mask_binary(left_maskfile)
+    if left_mask_np_count > 0 and right_mask_np_count > 0:
+        left_right_ratio=left_mask_np_count/right_mask_np_count
+        if left_right_ratio > right_mask_np_count:
+            left_right_ratio=right_mask_np_count/left_right_ratio
+        left_right_ratio=round(left_right_ratio,2)
+        returnvalue=left_right_ratio
+    return returnvalue
+def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,csvfilename): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
     righthalf_volume=''
@@ -805,42 +829,47 @@ def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image): #co
     scan_name=''
     try:
         scan_name=os.path.basename(grayscale_image).split('.nii')[0]
-        lefthalf_np=nib.load(lefthalf).get_fdata()
-        righthalf_np=nib.load(righthalf).get_fdata()
-        complete_csf_np=nib.load(complete_csf).get_fdata()
-        grayscale_image_nib=nib.load(grayscale_image)
-        lefthalf_np[lefthalf_np>=0.5]=1
-        lefthalf_np[lefthalf_np<1]=0
-        righthalf_np[righthalf_np>=0.5]=1
-        righthalf_np[righthalf_np<1]=0
-        complete_csf_np[complete_csf_np>=0.5]=1
-        complete_csf_np[complete_csf_np<1]=0
-        righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        righthalf_volume=round(righthalf_volume,2)
-        lefthalf_volume = np.sum(lefthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        lefthalf_volume=round(lefthalf_volume,2)
-        complete_csf_np[complete_csf_np>=0.5]=1
-        complete_csf_np[complete_csf_np<1]=0
-        total_csf_volume=np.sum(complete_csf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        total_csf_volume=round(total_csf_volume,2)
-        if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
-            left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
-            if np.sum(lefthalf_np) > np.sum(righthalf_np) :
-                left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
-            left_right_ratio=round(left_right_ratio,2)
-            returnvalue=left_right_ratio
-            # left_right_ratio_df=pd.DataFrame([left_right_ratio])
-            # left_right_ratio_df.columns=[column_name]
-            # left_right_ratio_df.to_csv(filename_to_write,index=False)
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
-            subprocess.call(command,shell=True)
-        # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
-        values=[scan_name,lefthalf_volume,righthalf_volume,total_csf_volume,left_right_ratio]
-        values_from_csf_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        values_from_csf_df=values_from_csf_df.T
-        columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
-        values_from_csf_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        values_from_csf_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_FROM_CSF.csv"),index=False)
+        righthalf_volume=volume_voxels_mask_binary(righthalf,grayscale_image)
+        lefthalf_volume=volume_voxels_mask_binary(lefthalf,grayscale_image)
+        total_csf_volume=volume_voxels_mask_binary(complete_csf,grayscale_image)
+        left_right_ratio=volume_voxels_mask_binary(lefthalf,righthalf)
+        # fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename)
+        # lefthalf_np=nib.load(lefthalf).get_fdata()
+        # righthalf_np=nib.load(righthalf).get_fdata()
+        # complete_csf_np=nib.load(complete_csf).get_fdata()
+        # grayscale_image_nib=nib.load(grayscale_image)
+        # lefthalf_np[lefthalf_np>=0.5]=1
+        # lefthalf_np[lefthalf_np<1]=0
+        # righthalf_np[righthalf_np>=0.5]=1
+        # righthalf_np[righthalf_np<1]=0
+        # complete_csf_np[complete_csf_np>=0.5]=1
+        # complete_csf_np[complete_csf_np<1]=0
+        # righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # righthalf_volume=round(righthalf_volume,2)
+        # lefthalf_volume = np.sum(lefthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # lefthalf_volume=round(lefthalf_volume,2)
+        # complete_csf_np[complete_csf_np>=0.5]=1
+        # complete_csf_np[complete_csf_np<1]=0
+        # total_csf_volume=np.sum(complete_csf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # total_csf_volume=round(total_csf_volume,2)
+        # if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
+        #     left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+        #     if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+        #         left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+        #     left_right_ratio=round(left_right_ratio,2)
+        #     returnvalue=left_right_ratio
+        #     # left_right_ratio_df=pd.DataFrame([left_right_ratio])
+        #     # left_right_ratio_df.columns=[column_name]
+        #     # left_right_ratio_df.to_csv(filename_to_write,index=False)
+        #     command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
+        #     subprocess.call(command,shell=True)
+        # # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
+        # values=[scan_name,lefthalf_volume,righthalf_volume,total_csf_volume,left_right_ratio]
+        # values_from_csf_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        # values_from_csf_df=values_from_csf_df.T
+        # columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
+        # values_from_csf_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        # values_from_csf_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_FROM_CSF.csv"),index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
@@ -1554,8 +1583,8 @@ def main():
         return_value=call_bet_related_parameters(args)
     if name_of_the_function == "call_side_of_lesion":
         return_value=call_side_of_lesion(args)
-    if name_of_the_function == "call_begin_csvfile_with_scanname":
-        return_value=call_begin_csvfile_with_scanname(args)
+    if name_of_the_function == "call_begin_csvfile_with_session_name":
+        return_value=call_begin_csvfile_with_session_name(args)
     return return_value
 if __name__ == '__main__':
     main()

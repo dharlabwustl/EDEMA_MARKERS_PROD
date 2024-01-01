@@ -991,8 +991,8 @@ while IFS=',' read -ra array; do
 
     scanname=${filename_nifti%.nii*}
     echo csvfilename::${csvfilename}::sessionID=${sessionID}::scanname::${scanname}
-#    call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_session_name' ${csvfilename}  ${sessionID} ${scanname} )
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
+    call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_session_name' ${csvfilename}  ${sessionID} ${scanname} )
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
 
 #    ################CSF RELATED PARAMETERS###############################
 #    csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz

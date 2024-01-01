@@ -804,7 +804,9 @@ def call_csf_related_parameters(args):
     righthalf=args.stuff[2]
     complete_csf=args.stuff[3]
     grayscale_image=args.stuff[4]
-    csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image)
+    session_ID=args.stuff[5]
+    csvfilename=args.stuff[6]
+    csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,session_ID,csvfilename=csvfilename)
 def count_voxels_mask_binary(maskfilename):
     mask_np=nib.load(maskfilename).get_fdata()
     mask_np[mask_np>=0.5]=1
@@ -843,8 +845,17 @@ def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,sessi
         fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
         # columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
         lefthalf_volume=volume_voxels_mask_binary(lefthalf,grayscale_image)
+        columnname='csf_left'
+        columnvalue=lefthalf_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
         total_csf_volume=volume_voxels_mask_binary(complete_csf,grayscale_image)
+        columnname='csf_total'
+        columnvalue=total_csf_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
         left_right_ratio=volume_voxels_mask_binary(lefthalf,righthalf)
+        columnname='csf_ratio'
+        columnvalue=left_right_ratio
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
 
         # lefthalf_np=nib.load(lefthalf).get_fdata()
         # righthalf_np=nib.load(righthalf).get_fdata()

@@ -988,8 +988,9 @@ while IFS=',' read -ra array; do
     #csvfilename=${csvfilename}
 #    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${csvfilename})
 #    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+
+    scanname=${filename_nifti%.nii*}
     echo csvfilename::${csvfilename}::sessionID=${sessionID}::scanname::${scanname}
-#    scanname=${filename_nifti%.nii*}
 #    call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_session_name' ${csvfilename}  ${sessionID} ${scanname} )
 #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
 

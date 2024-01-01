@@ -818,7 +818,7 @@ def volume_voxels_mask_binary(maskfilename,niftigrayfile):
     voxel_count=count_voxels_mask_binary(maskfilename)
     mask_volume=voxel_count*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
     return mask_volume
-def ratio_left_right_mask_binary(right_maskfile,left_maskfile):
+def ratio_left_right_mask_binary(left_maskfile,right_maskfile):
     returnvalue=''
     right_mask_np_count=count_voxels_mask_binary(right_maskfile)
     left_mask_np_count=count_voxels_mask_binary(left_maskfile)

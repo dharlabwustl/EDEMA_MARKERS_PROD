@@ -737,33 +737,41 @@ def infarct_and_reflectedinfarct_related_parameters(args):
     threshold_upper_limit_inf=int(args.stuff[5])
     threshold_lower_limit_norm=int(args.stuff[6])
     threshold_upper_limit_norm=int(args.stuff[7])
+    session_ID=args.stuff[8]
+    csvfilename=args.stuff[9]
     try:
-        numerator=grayscale_image[numerator_mask>0].flatten()
-        numerator=numerator[numerator>=threshold_lower_limit_inf]
-        numerator=numerator[numerator<=threshold_upper_limit_inf]
-        numerator_count=len(numerator)
-        numerator_mean=np.mean(numerator)
-        numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
-
-        denominator=grayscale_image[denominator_mask>0].flatten()
-        denominator=denominator[denominator>=threshold_lower_limit_norm]
-        denominator=denominator[denominator<=threshold_upper_limit_norm]
-        denominator_count=len(denominator)
-        denominator_mean=np.mean(denominator)
-        denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
-        if denominator_mean>0:
-            nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
-            nwu_like_ratio=round(nwu_like_ratio,2)
-        scan_name=os.path.basename(args.stuff[3]).split('.nii')[0]  ##+ "_TOTAL"
-        values=[scan_name,nwu_like_ratio,numerator_count,round(numerator_mean,2),denominator_count,round(denominator_mean,2),round(numerator_volume,2),round(denominator_volume,2),str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)]
-        nwu_like_ratio_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        nwu_like_ratio_df=nwu_like_ratio_df.T
-        columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        nwu_like_ratio_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_FROM_INFARCT.csv",index=False)
-        # columns_df=pd.DataFrame(["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"])
-        # columns_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU_cols.csv",index=False)
-        #  , "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF",
+        columnname="INFARCT VOX_NUMBERS"
+        infarctmask_count=count_voxels_mask_binary(args.stuff[1])
+        fill_datapoint_each_sessionn(session_ID,columnname,infarctmask_count,csvfilename)
+        columnname="NON INFARCT VOX_NUMBERS"
+        infarct_mirror_mask_count=count_voxels_mask_binary(args.stuff[2])
+        fill_datapoint_each_sessionn(session_ID,columnname,infarct_mirror_mask_count,csvfilename)
+        # numerator=grayscale_image[numerator_mask>0].flatten()
+        # numerator=numerator[numerator>=threshold_lower_limit_inf]
+        # numerator=numerator[numerator<=threshold_upper_limit_inf]
+        # numerator_count=len(numerator)
+        # numerator_mean=np.mean(numerator)
+        # numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
+        #
+        # denominator=grayscale_image[denominator_mask>0].flatten()
+        # denominator=denominator[denominator>=threshold_lower_limit_norm]
+        # denominator=denominator[denominator<=threshold_upper_limit_norm]
+        # denominator_count=len(denominator)
+        # denominator_mean=np.mean(denominator)
+        # denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
+        # if denominator_mean>0:
+        #     nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
+        #     nwu_like_ratio=round(nwu_like_ratio,2)
+        # scan_name=os.path.basename(args.stuff[3]).split('.nii')[0]  ##+ "_TOTAL"
+        # values=[scan_name,nwu_like_ratio,numerator_count,round(numerator_mean,2),denominator_count,round(denominator_mean,2),round(numerator_volume,2),round(denominator_volume,2),str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)]
+        # nwu_like_ratio_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        # nwu_like_ratio_df=nwu_like_ratio_df.T
+        # columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        # nwu_like_ratio_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        # nwu_like_ratio_df.to_csv(args.stuff[3].split('.nii')[0]+"_FROM_INFARCT.csv",index=False)
+        # # columns_df=pd.DataFrame(["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"])
+        # # columns_df.to_csv(args.stuff[3].split('.nii')[0]+"_NWU_cols.csv",index=False)
+        # #  , "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF",
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
@@ -786,12 +794,6 @@ def side_of_lesion(lefthalf,righthalf,session_ID,csvfilename='NONE.csv'):
         columnname='LESION_SIDE'
         columnvalue=lesion_side
         fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
-        # values=[scan_name,lesion_side]
-        # values_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        # values_df=values_df.T
-        # columns_name=["SCAN_NAME", "LESION_SIDE"]
-        # values_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        # values_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_LESION_SIDE.csv"),index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)

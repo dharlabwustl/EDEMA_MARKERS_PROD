@@ -23,8 +23,9 @@ import cv2 , re,subprocess,time,math
 sys.path.append("/software")
 import traceback
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
-from utilities_simple_trimmed import *
 from download_with_session_ID import *
+from utilities_simple_trimmed import *
+
 from github import Github
 #############################################################
 from dateutil.parser import parse

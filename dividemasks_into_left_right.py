@@ -771,28 +771,27 @@ def infarct_and_reflectedinfarct_related_parameters(args):
 def call_side_of_lesion(args):
     lefthalf=args.stuff[1]
     righthalf=args.stuff[2]
-    grayscale_image=args.stuff[3]
-    side_of_lesion(lefthalf,righthalf,grayscale_image)
-def side_of_lesion(lefthalf,righthalf,grayscale_image):
+    session_id=args.stuff[3]
+    csvfilename=args.stuff[4]
+    side_of_lesion(lefthalf,righthalf,session_id,csvfilename)
+def side_of_lesion(lefthalf,righthalf,session_ID,csvfilename='NONE.csv'):
     lesion_side=''
     try:
-        scan_name=os.path.basename(grayscale_image).split('.nii')[0]
-        lefthalf_np=nib.load(lefthalf).get_fdata()
-        righthalf_np=nib.load(righthalf).get_fdata()
-        lefthalf_np[lefthalf_np>=0.5]=1
-        lefthalf_np[lefthalf_np<1]=0
-        righthalf_np[righthalf_np>=0.5]=1
-        righthalf_np[righthalf_np<1]=0
-        if np.sum(righthalf_np)>np.sum(lefthalf_np):
+        righthalf_count=count_voxels_mask_binary(righthalf) #,grayscale_image)
+        lefthalf_count=count_voxels_mask_binary(lefthalf) #,grayscale_image)
+        if righthalf_count>lefthalf_count:
             lesion_side='right'
-        elif np.sum(righthalf_np)<np.sum(lefthalf_np):
+        elif righthalf_count<lefthalf_count:
             lesion_side='left'
-        values=[scan_name,lesion_side]
-        values_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        values_df=values_df.T
-        columns_name=["SCAN_NAME", "LESION_SIDE"]
-        values_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        values_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_LESION_SIDE.csv"),index=False)
+        columnname='LESION_SIDE'
+        columnvalue=lesion_side
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+        # values=[scan_name,lesion_side]
+        # values_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        # values_df=values_df.T
+        # columns_name=["SCAN_NAME", "LESION_SIDE"]
+        # values_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        # values_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_LESION_SIDE.csv"),index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)

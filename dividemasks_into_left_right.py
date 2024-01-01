@@ -819,7 +819,7 @@ def ratio_left_right_mask_binary(right_maskfile,left_maskfile):
         left_right_ratio=round(left_right_ratio,2)
         returnvalue=left_right_ratio
     return returnvalue
-def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,csvfilename): #column_name='test',filename_to_write="test.csv"):
+def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,csvfilename="NONE.csv"): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
     righthalf_volume=''

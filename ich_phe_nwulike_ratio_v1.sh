@@ -910,6 +910,7 @@ while IFS=',' read -ra array; do
     #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
     latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
     csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
+    echo csvfilename::${csvfilename}::latexfilename::${latexfilename}
     #    ##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
     #    ##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
     #    ##echo outputfiles_present::${outputfiles_present}

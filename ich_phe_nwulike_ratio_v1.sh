@@ -845,8 +845,8 @@ while IFS=',' read -ra array; do
         filename2=$(basename ${url2})
         call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
+        matfile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
       fi
 
     done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")

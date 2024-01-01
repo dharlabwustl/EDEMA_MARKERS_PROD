@@ -60,10 +60,14 @@ def call_begin_csvfile_with_session_name(args):
     scan_name=args.stuff[3]
     begin_csvfile_with_session_name(csvfilename,str(session_id),str(scan_name))
 def begin_csvfile_with_session_name(csvfilename,session_id,scan_name):
-    session_name=get_session_label(session_id)
-    scanname_df=pd.DataFrame([session_id,session_name,scan_name])
-    scanname_df.columns=['snipr_session_id','snipr_session','scan_name']
-    scanname_df.to_csv(csvfilename,index=False)
+    try:
+        session_name=get_session_label(session_id)
+        scanname_df=pd.DataFrame([session_id,session_name,scan_name])
+        scanname_df.columns=['snipr_session_id','snipr_session','scan_name']
+        scanname_df.to_csv(csvfilename,index=False)
+    except:
+        command="echo failed at :: {}>> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
 
 
 def call_insert_one_col_with_colname_colidx(args):

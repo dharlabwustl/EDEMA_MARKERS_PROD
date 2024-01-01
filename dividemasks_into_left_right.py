@@ -23,6 +23,7 @@ import cv2 , re,subprocess,time,math
 sys.path.append("/software")
 import traceback
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
+from fillmaster_session_list import *
 from download_with_session_ID import *
 from utilities_simple_trimmed import *
 
@@ -826,7 +827,7 @@ def ratio_left_right_mask_binary(right_maskfile,left_maskfile):
         left_right_ratio=round(left_right_ratio,2)
         returnvalue=left_right_ratio
     return returnvalue
-def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,csvfilename="NONE.csv"): #column_name='test',filename_to_write="test.csv"):
+def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,session_ID,csvfilename="NONE.csv"): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
     righthalf_volume=''
@@ -837,10 +838,14 @@ def csf_related_parameters(lefthalf,righthalf,complete_csf,grayscale_image,csvfi
     try:
         scan_name=os.path.basename(grayscale_image).split('.nii')[0]
         righthalf_volume=volume_voxels_mask_binary(righthalf,grayscale_image)
+        columnname='csf_right'
+        columnvalue=righthalf_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+        # columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
         lefthalf_volume=volume_voxels_mask_binary(lefthalf,grayscale_image)
         total_csf_volume=volume_voxels_mask_binary(complete_csf,grayscale_image)
         left_right_ratio=volume_voxels_mask_binary(lefthalf,righthalf)
-        # fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename)
+
         # lefthalf_np=nib.load(lefthalf).get_fdata()
         # righthalf_np=nib.load(righthalf).get_fdata()
         # complete_csf_np=nib.load(complete_csf).get_fdata()
@@ -888,7 +893,9 @@ def call_bet_related_parameters(args):
     righthalf=args.stuff[2]
     complete_bet=args.stuff[3]
     grayscale_image=args.stuff[4]
-    bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image)
+    session_ID=args.stuff[5]
+    csvfilename=args.stuff[6]
+    bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename=csvfilename)
 def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # ,

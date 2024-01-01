@@ -1005,8 +1005,9 @@ while IFS=',' read -ra array; do
     ######################## INFARCT/HEMORRHAGE related parameters:
     call_divide_a_mask_into_left_right_submasks_arguments=('call_side_of_lesion' ${mask_filename5} ${mask_filename6}    ${sessionID} ${csvfilename})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
-    call_divide_a_mask_into_left_right_submasks_arguments=('infarct_and_reflectedinfarct_related_parameters' ${phefile} ${phemirrorfile}  ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
+#    call_divide_a_mask_into_left_right_submasks_arguments=('infarct_and_reflectedinfarct_related_parameters' ${phefile} ${phemirrorfile}  ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
     #    column_name_this="bet_mask_WITHOUT_csf"
     #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

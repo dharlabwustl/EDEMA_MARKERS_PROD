@@ -732,7 +732,7 @@ def infarct_and_reflectedinfarct_related_parameters(args):
     denominator_volume = ''
     numerator_mask=nib.load(args.stuff[1]).get_fdata()
     denominator_mask=nib.load(args.stuff[2]).get_fdata()
-    grayscale_image=nib.load(args.stuff[3]).get_fdata()
+    grayscale_image=resizeinto_512by512(nib.load(args.stuff[3]).get_fdata())
     threshold_lower_limit_inf=int(args.stuff[4])
     threshold_upper_limit_inf=int(args.stuff[5])
     threshold_lower_limit_norm=int(args.stuff[6])
@@ -740,28 +740,48 @@ def infarct_and_reflectedinfarct_related_parameters(args):
     session_ID=args.stuff[8]
     csvfilename=args.stuff[9]
     try:
+        # columnname="INFARCT VOX_NUMBERS"
+        # infarctmask_count=count_voxels_mask_binary(args.stuff[1])
+        # fill_datapoint_each_sessionn(session_ID,columnname,infarctmask_count,csvfilename)
+        # columnname="NON INFARCT VOX_NUMBERS"
+        # infarct_mirror_mask_count=count_voxels_mask_binary(args.stuff[2])
+        # fill_datapoint_each_sessionn(session_ID,columnname,infarct_mirror_mask_count,csvfilename)
+        # columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+
+        numerator=grayscale_image[numerator_mask>0].flatten()
+        numerator=numerator[numerator>=threshold_lower_limit_inf]
+        numerator=numerator[numerator<=threshold_upper_limit_inf]
+        numerator_count=len(numerator)
         columnname="INFARCT VOX_NUMBERS"
-        infarctmask_count=count_voxels_mask_binary(args.stuff[1])
-        fill_datapoint_each_sessionn(session_ID,columnname,infarctmask_count,csvfilename)
+        fill_datapoint_each_sessionn(session_ID,columnname,numerator_count,csvfilename)
+        numerator_mean=np.mean(numerator)
+        columnname= "INFARCT DENSITY"
+        fill_datapoint_each_sessionn(session_ID,columnname,numerator_mean,csvfilename)
+        numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
+        columnname="INFARCT VOLUME"
+        fill_datapoint_each_sessionn(session_ID,columnname,numerator_volume,csvfilename)
+        denominator=grayscale_image[denominator_mask>0].flatten()
+        denominator=denominator[denominator>=threshold_lower_limit_norm]
+        denominator=denominator[denominator<=threshold_upper_limit_norm]
+        denominator_count=len(denominator)
         columnname="NON INFARCT VOX_NUMBERS"
-        infarct_mirror_mask_count=count_voxels_mask_binary(args.stuff[2])
-        fill_datapoint_each_sessionn(session_ID,columnname,infarct_mirror_mask_count,csvfilename)
-        # numerator=grayscale_image[numerator_mask>0].flatten()
-        # numerator=numerator[numerator>=threshold_lower_limit_inf]
-        # numerator=numerator[numerator<=threshold_upper_limit_inf]
-        # numerator_count=len(numerator)
-        # numerator_mean=np.mean(numerator)
-        # numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
-        #
-        # denominator=grayscale_image[denominator_mask>0].flatten()
-        # denominator=denominator[denominator>=threshold_lower_limit_norm]
-        # denominator=denominator[denominator<=threshold_upper_limit_norm]
-        # denominator_count=len(denominator)
-        # denominator_mean=np.mean(denominator)
-        # denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
-        # if denominator_mean>0:
-        #     nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
-        #     nwu_like_ratio=round(nwu_like_ratio,2)
+        fill_datapoint_each_sessionn(session_ID,columnname,denominator_count,csvfilename)
+        denominator_mean=np.mean(denominator)
+        columnname= "NON INFARCT DENSITY"
+        fill_datapoint_each_sessionn(session_ID,columnname,denominator_mean,csvfilename)
+        denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
+        columnname="INFARCT REFLECTION VOLUME"
+        fill_datapoint_each_sessionn(session_ID,columnname,denominator_volume,csvfilename)
+        if denominator_mean>0:
+            nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
+            nwu_like_ratio=round(nwu_like_ratio,2)
+        columnname="NWU"
+        fill_datapoint_each_sessionn(session_ID,columnname,nwu_like_ratio,csvfilename)
+        columnname="INFARCT THRESH RANGE"
+        fill_datapoint_each_sessionn(session_ID,columnname,str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),csvfilename)
+        columnname="NORMAL THRESH RANGE"
+        fill_datapoint_each_sessionn(session_ID,columnname,str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm),csvfilename)
+
         # scan_name=os.path.basename(args.stuff[3]).split('.nii')[0]  ##+ "_TOTAL"
         # values=[scan_name,nwu_like_ratio,numerator_count,round(numerator_mean,2),denominator_count,round(denominator_mean,2),round(numerator_volume,2),round(denominator_volume,2),str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)]
         # nwu_like_ratio_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])

@@ -899,10 +899,11 @@ while IFS=',' read -ra array; do
     #    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
     #
     grayscale_filename=${working_dir_1}/${filename_nifti}
-    grayscale_filename512x512=${working_dir_1}/${filename_nifti%.nii*}_512x512.${grayscale_filename_basename_ext}
+
     grayscale_filename_basename=$(basename ${grayscale_filename})
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+    grayscale_filename512x512=${working_dir_1}/${filename_nifti%.nii*}_512x512.${grayscale_filename_basename_ext}
     #    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
 #        grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}

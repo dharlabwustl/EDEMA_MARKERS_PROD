@@ -995,8 +995,8 @@ while IFS=',' read -ra array; do
     call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_session_name' ${csvfilename}  ${sessionID} ${scanname} )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
     ########### Original to 512x512 size ####################
-    echo '${working_dir_1}/${filename_nifti%.nii*}_512x512${grayscale_filename_basename_ext})'::${working_dir_1}/${filename_nifti%.nii*}_512x512${grayscale_filename_basename_ext}
-    call_divide_a_mask_into_left_right_submasks_arguments=('call_original_to_512x512'  ${working_dir_1}/${filename_nifti}   ${working_dir_1}/${filename_nifti%.nii*}_512x512${grayscale_filename_basename_ext})
+    echo '${working_dir_1}/${filename_nifti%.nii*}_512x512${grayscale_filename_basename_ext})'::${working_dir_1}/${filename_nifti%.nii*}_512x512.${grayscale_filename_basename_ext}
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_original_to_512x512'  ${working_dir_1}/${filename_nifti}   ${working_dir_1}/${filename_nifti%.nii*}_512x512.${grayscale_filename_basename_ext})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 

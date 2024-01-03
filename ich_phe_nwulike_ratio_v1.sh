@@ -922,7 +922,7 @@ while IFS=',' read -ra array; do
     #    ##  echo ${latexfilename}
     #    call_latex_start_arguments=('call_latex_start' ${latexfilename})
     #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-        contrast_limits=20_60 #0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+#        contrast_limits=20_60 #0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
     #    # mask_color_list=args.stuff[4]
     #    ## GRAY SCALE WITH BET MASK with CSF subtracted.
     #    outputfile_dir=${output_directory}
@@ -1124,17 +1124,18 @@ while IFS=',' read -ra array; do
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename512x512} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
-    outputfile_suffix="GRAY"
-    color_list='purple_maroon_black_black'
-    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename512x512} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfile_suffix="GRAY"
+#    color_list='purple_maroon_black_black'
+#    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename512x512} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     ### GRAY SCALE with all CSF
     outputfile_suffix="COMPLETE_CSF"
+    contrast_limits='20_60'
     color_list='blue_red'
     #mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename512x512} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
     #    echo outputfiles_present::${outputfiles_present}

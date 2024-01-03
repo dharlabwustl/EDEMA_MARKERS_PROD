@@ -1001,7 +1001,8 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 
-
+    cp ${grayscale_filename} ${grayscale_filename%.nii*}_original.${grayscale_filename_basename_ext}
+    cp ${grayscale_filename512x512} ${grayscale_filename}
     ################CSF RELATED PARAMETERS###############################
     csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
     csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
@@ -1120,8 +1121,8 @@ while IFS=',' read -ra array; do
     #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
     #
     #    #    echo ${call_combine_csv_horizontally_arguments[@]}
-    echo '${grayscale_filename512x512} ${working_dir}'::"${grayscale_filename512x512}::${working_dir}"
-    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename512x512} ${working_dir})
+    echo '${grayscale_filename512x512} ${working_dir}'::"${grayscale_filename}::${working_dir}"
+    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
 #    outputfile_suffix="GRAY"
@@ -1135,7 +1136,7 @@ while IFS=',' read -ra array; do
     contrast_limits='20_60'
     color_list='blue_red'
     #mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename512x512} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename3} ${mask_filename4})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
     #    echo outputfiles_present::${outputfiles_present}

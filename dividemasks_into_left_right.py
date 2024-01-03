@@ -398,6 +398,21 @@ def call_ratio_left_right(args):
         subprocess.call(command,shell=True)
     print(returnvalue)
     return  returnvalue
+def original_to_512x512(niftifilename,niftifilenameoutput):
+    try:
+        filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
+        empty_header = nib.Nifti1Header()
+        array_img= nib.Nifti1Image(filename_gray_data_np,header=empty_header)
+        nib.save(array_img, niftifilenameoutput)
+    except:
+        command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],niftifilename)
+        subprocess.call(command,shell=True)
+def call_original_to_512x512(args):
+    niftifilename=args.stuff[1]
+    niftifilenameoutput=args.stuff[2]
+    original_to_512x512(niftifilename,niftifilenameoutput)
+
+
 def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY) :
     returnvalue=0
     try:
@@ -1631,6 +1646,8 @@ def main():
         return_value=call_side_of_lesion(args)
     if name_of_the_function == "call_begin_csvfile_with_session_name":
         return_value=call_begin_csvfile_with_session_name(args)
+    if name_of_the_function == "call_original_to_512x512":
+        return_value=call_original_to_512x512(args)
     return return_value
 if __name__ == '__main__':
     main()

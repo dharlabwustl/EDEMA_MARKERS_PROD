@@ -905,7 +905,7 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     #    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-        grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
+#        grayscale_filename_1=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
         cp ${grayscale_filename} ${grayscale_filename_1}
     latexfilename_prefix=${grayscale_filename%.nii*} ##_non_lin_reg
     #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
@@ -994,6 +994,10 @@ while IFS=',' read -ra array; do
     echo csvfilename::${csvfilename}::sessionID=${sessionID}::scanname::${scanname}
     call_begin_csvfile_with_scanname_arguments=('call_begin_csvfile_with_session_name' ${csvfilename}  ${sessionID} ${scanname} )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_begin_csvfile_with_scanname_arguments[@]}")
+    ########### Original to 512x512 size ####################
+
+        call_divide_a_mask_into_left_right_submasks_arguments=('call_original_to_512x512'  ${working_dir_1}/${filename_nifti}   ${working_dir_1}/${filename_nifti%.nii*}_512x512${grayscale_filename_basename_ext})
+        outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 
 
@@ -1118,12 +1122,12 @@ while IFS=',' read -ra array; do
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
-    outputfile_suffix="GRAY"
-    color_list='purple_maroon_black_black'
-    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfile_suffix="GRAY"
+#    color_list='purple_maroon_black_black'
+#    #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
+#    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #    ### GRAY SCALE with all CSF
 #    outputfile_suffix="COMPLETE_CSF"
 #    color_list='blue_blue'

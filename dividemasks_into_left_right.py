@@ -147,8 +147,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         method_name="REGIS"
         # npyfiledirectory="/input"
-        command="echo successful at before midline :: {} >> /software/error.txt".format(inspect.stack()[0][3])
-        subprocess.call(command,shell=True)
+
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
             slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
@@ -159,6 +158,8 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
                 slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
                 slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
+                command="echo successful at before midline :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+                subprocess.call(command,shell=True)
             slice_number="{0:0=3d}".format(i)
             # filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
             # this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")

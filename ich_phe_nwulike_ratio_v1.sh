@@ -1119,6 +1119,7 @@ while IFS=',' read -ra array; do
     #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
     #
     #    #    echo ${call_combine_csv_horizontally_arguments[@]}
+    echo '${grayscale_filename512x512} ${working_dir}'::"${grayscale_filename512x512}::${working_dir}"
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename512x512} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 

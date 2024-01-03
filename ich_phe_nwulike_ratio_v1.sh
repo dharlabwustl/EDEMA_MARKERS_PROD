@@ -1001,8 +1001,7 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 
-    cp ${grayscale_filename} ${grayscale_filename%.nii*}_original.${grayscale_filename_basename_ext}
-    cp ${grayscale_filename512x512} ${grayscale_filename}
+
     ################CSF RELATED PARAMETERS###############################
     csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
     csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
@@ -1121,6 +1120,9 @@ while IFS=',' read -ra array; do
     #    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
     #
     #    #    echo ${call_combine_csv_horizontally_arguments[@]}
+    #### DISPLAY OF IMAGES#######################
+        cp ${grayscale_filename} ${grayscale_filename%.nii*}_original.${grayscale_filename_basename_ext}
+        cp ${grayscale_filename512x512} ${grayscale_filename}
     echo '${grayscale_filename512x512} ${working_dir}'::"${grayscale_filename}::${working_dir}"
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")

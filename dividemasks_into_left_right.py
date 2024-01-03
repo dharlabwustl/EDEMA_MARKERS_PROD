@@ -162,12 +162,13 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
 
             # if os.path.exists(npyfiledirectory):
             # try:
+            command="echo successful at before midline :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+            subprocess.call(command,shell=True)
             slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
             # except:
             #     pass
 
-            # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
-            # subprocess.call(command,shell=True)
+
             # if os.path.exists(this_npyfile):
             #     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
             #     x_points2=calculated_midline_points.item().get('x_axis')

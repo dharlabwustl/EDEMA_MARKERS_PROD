@@ -114,10 +114,11 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
         filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
         this_npyfile_v2=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
         this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+
         if os.path.exists(this_npyfile_v2):
             this_npyfile=this_npyfile_v2
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
-            subprocess.call(command,shell=True)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
+        subprocess.call(command,shell=True)
         if os.path.exists(this_npyfile):
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'I exist')
             subprocess.call(command,shell=True)

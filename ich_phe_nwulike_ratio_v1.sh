@@ -925,7 +925,7 @@ while IFS=',' read -ra array; do
     #        contrast_limits=20_60 #0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
     #    # mask_color_list=args.stuff[4]
     #    ## GRAY SCALE WITH BET MASK with CSF subtracted.
-    #    outputfile_dir=${output_directory}
+    outputfile_dir=${output_directory}
     #
     mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
     mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz

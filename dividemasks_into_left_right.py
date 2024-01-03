@@ -143,6 +143,9 @@ def masks_on_grayscale_colored_v1(args):
     npyfiledirectory=args.stuff[6]
     mask_filename_list=args.stuff[7:]
     returnvalue=0
+    command="echo successful at :: {}::{}::{}::{}::{}::{}::{}::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename,contrast_limits,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory,mask_filename_list)
+    subprocess.call(command,shell=True)
+
     try:
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255

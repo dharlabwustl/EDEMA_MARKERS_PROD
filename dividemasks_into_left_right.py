@@ -161,10 +161,10 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
             # this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
 
             # if os.path.exists(npyfiledirectory):
-            try:
-                slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
-            except:
-                pass
+            # try:
+            slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+            # except:
+            #     pass
 
             # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
             # subprocess.call(command,shell=True)

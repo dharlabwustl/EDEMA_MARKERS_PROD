@@ -1121,9 +1121,10 @@ while IFS=',' read -ra array; do
     #    #    echo ${call_combine_csv_horizontally_arguments[@]}
     #### DISPLAY OF IMAGES#######################
     cp ${grayscale_filename} ${grayscale_filename%.nii*}_original.${grayscale_filename_basename_ext}
-    cp ${grayscale_filename512x512} ${grayscale_filename}
-    echo '${grayscale_filename512x512} ${working_dir}'::"${grayscale_filename}::${working_dir}"
-    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
+    levelset_gray_file=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
+    cp ${grayscale_filename512x512}  ${levelset_gray_file}
+    echo '${levelset_gray_file} ${working_dir}'::"${levelset_gray_file}::${working_dir}"
+    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${levelset_gray_file} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
     #    outputfile_suffix="GRAY"
@@ -1137,7 +1138,7 @@ while IFS=',' read -ra array; do
     contrast_limits='20_60'
     color_list='blue_red'
     #mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('masks_on_grayscale_colored_v1' ${grayscale_filename} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename3} ${mask_filename4})
+    call_masks_on_grayscale_colored_arguments=('masks_on_grayscale_colored_v1' ${levelset_gray_file} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
     #    echo outputfiles_present::${outputfiles_present}

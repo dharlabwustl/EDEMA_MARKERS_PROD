@@ -402,7 +402,7 @@ def original_to_512x512(niftifilename,niftifilenameoutput):
     try:
         filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata())
         empty_header = nib.Nifti1Header()
-        array_img= nib.Nifti1Image(filename_gray_data_np,affine='',header=empty_header)
+        array_img= nib.Nifti1Image(filename_gray_data_np,affine=None,header=empty_header)
         nib.save(array_img, niftifilenameoutput)
     except:
         command="echo failed at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],niftifilename)

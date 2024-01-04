@@ -934,7 +934,11 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
             #             latex_end_table2c(latexfilename)
             values_in_table.pop(0)
-            values_in_table.pop(-2)
+            slice_num_df=values_in_table.pop(-1)
+            latex_start_tableNc_noboundary(latexfilename1,1)
+            latex_insert_line_nodek(latexfilename1,text=slice_num_df.to_latex(index=False))
+            latex_end_table2c(latexfilename1)
+            values_in_table.pop(-1)
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]
             latex_start_tableNc_noboundary(latexfilename1,1)

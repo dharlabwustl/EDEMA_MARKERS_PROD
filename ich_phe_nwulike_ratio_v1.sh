@@ -978,7 +978,7 @@ while IFS=',' read -ra array; do
     #    ${mask_filename19_ext}_WITHOUT_${mask_filename20_ext}
     #    mask_filename20_ext=${mask_filename20_ext%.nii*}
     split_masks_into_two_halves ${mask_filename19_ext}_WITHOUT_$(basename ${mask_filename20}) ##${bet_mask_WITHOUT_csf##*${grayscale_filename_basename_noext}}
-
+    split_masks_into_two_halves ${mask_filename19_ext}_WITHOUT_$(basename ${mask_filename19})
     ## you have CSF left right mask, this will give the numbers from CSF
     #columns_name=["SCAN_NAME", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO"]
 
@@ -1001,17 +1001,22 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 
-    ################CSF RELATED PARAMETERS###############################
-    #    csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-    #    csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
-    #    call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half}  ${csffile} ${working_dir_1}/${filename_nifti}   ${sessionID} ${csvfilename})
-    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
-    #    ######################## INFARCT/HEMORRHAGE related parameters:
-    #    call_divide_a_mask_into_left_right_submasks_arguments=('call_side_of_lesion' ${mask_filename5} ${mask_filename6}    ${sessionID} ${csvfilename})
-    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
-    #    echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
-    #    call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phefile} ${phemirrorfile}  ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename})
-    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    ###### BET RELATED PARAMETERS ################################
+    bet_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_bet_left_half_originalRF.nii.gz
+    bet_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_bet_right_half_originalRF.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_bet_related_parameters' ${bet_left_half} ${bet_right_half} ${betfile} ${working_dir_1}/${filename_nifti} ${sessionID} ${csvfilename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    ###############CSF RELATED PARAMETERS###############################
+    csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+    csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_csf_related_parameters' ${csf_left_half} ${csf_right_half} ${csffile} ${working_dir_1}/${filename_nifti} ${sessionID} ${csvfilename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    ######################## INFARCT/HEMORRHAGE related parameters:
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_side_of_lesion' ${mask_filename5} ${mask_filename6} ${sessionID} ${csvfilename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phefile} ${phemirrorfile} ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
     #    column_name_this="bet_mask_WITHOUT_csf"
     #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
@@ -1122,7 +1127,7 @@ while IFS=',' read -ra array; do
     #### DISPLAY OF IMAGES#######################
     cp ${grayscale_filename} ${grayscale_filename%.nii*}_original.${grayscale_filename_basename_ext}
     levelset_gray_file=${grayscale_filename%.nii*}_resaved_levelset.${grayscale_filename_basename_ext}
-    cp ${grayscale_filename512x512}  ${levelset_gray_file}
+    cp ${grayscale_filename512x512} ${levelset_gray_file}
     echo '${levelset_gray_file} ${working_dir}'::"${levelset_gray_file}::${working_dir}"
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${levelset_gray_file} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")

@@ -1020,7 +1020,7 @@ def call_bet_related_parameters(args):
     session_ID=args.stuff[5]
     csvfilename=args.stuff[6]
     bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename=csvfilename)
-def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image): #column_name='test',filename_to_write="test.csv"):
+def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename="NONE.csv"): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # ,
     righthalf_volume=''
@@ -1029,49 +1029,63 @@ def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image): #co
     left_right_ratio=''
     scan_name=''
     try:
-        scan_name=os.path.basename(grayscale_image).split('.nii')[0]
-        lefthalf_np=nib.load(lefthalf).get_fdata()
-        righthalf_np=nib.load(righthalf).get_fdata()
-        # complete_csf_np=nib.load(complete_csf).get_fdata()
-        complete_bet_np=nib.load(complete_bet).get_fdata()
-        grayscale_image_nib=nib.load(grayscale_image)
-        lefthalf_np[lefthalf_np>=0.5]=1
-        lefthalf_np[lefthalf_np<1]=0
-        righthalf_np[righthalf_np>=0.5]=1
-        righthalf_np[righthalf_np<1]=0
-        complete_bet_np[complete_bet_np>=0.5]=1
-        complete_bet_np[complete_bet_np<1]=0
-        # complete_csf_np[complete_csf_np>=0.5]=1
-        # complete_csf_np[complete_csf_np<1]=0
-        ##################
-        # complete_bet_np[complete_csf_np>0]=0 #np.min(complete_bet_np)
-        # lefthalf_np[complete_csf_np>0]=0 #np.min(lefthalf_np)
-        # righthalf_np[complete_csf_np>0]=0 #np.min(righthalf_np)
-        ######################
-        righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        righthalf_volume=round(righthalf_volume,2)
-        lefthalf_volume = np.sum(lefthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        lefthalf_volume=round(lefthalf_volume,2)
-        total_bet_volume=np.sum(complete_bet_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
-        total_bet_volume=round(total_bet_volume,2)
-        if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
-            left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
-            if np.sum(lefthalf_np) > np.sum(righthalf_np) :
-                left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
-            left_right_ratio=round(left_right_ratio,2)
-            returnvalue=left_right_ratio
-            # left_right_ratio_df=pd.DataFrame([left_right_ratio])
-            # left_right_ratio_df.columns=[column_name]
-            # left_right_ratio_df.to_csv(filename_to_write,index=False)
-            command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
-            subprocess.call(command,shell=True)
-        # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
-        values=[scan_name,total_bet_volume,lefthalf_volume,righthalf_volume]
-        values_from_csf_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
-        values_from_csf_df=values_from_csf_df.T
-        columns_name=["SCAN_NAME", "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
-        values_from_csf_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
-        values_from_csf_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_FROM_BET.csv"),index=False)
+        righthalf_volume=volume_voxels_mask_binary(righthalf,grayscale_image)
+        columnname="RIGHT BRAIN VOLUME without CSF"
+        columnvalue=righthalf_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+        lefthalf_volume=volume_voxels_mask_binary(lefthalf,grayscale_image)
+        columnname="LEFT BRAIN VOLUME without CSF"
+        columnvalue=lefthalf_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+        complete_bet_volume=volume_voxels_mask_binary(complete_bet,grayscale_image)
+        columnname="BET VOLUME"
+        columnvalue=complete_bet_volume
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+        #
+        # # columns_name=["SCAN_NAME", "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+        # scan_name=os.path.basename(grayscale_image).split('.nii')[0]
+        # lefthalf_np=nib.load(lefthalf).get_fdata()
+        # righthalf_np=nib.load(righthalf).get_fdata()
+        # # complete_csf_np=nib.load(complete_csf).get_fdata()
+        # complete_bet_np=nib.load(complete_bet).get_fdata()
+        # grayscale_image_nib=nib.load(grayscale_image)
+        # lefthalf_np[lefthalf_np>=0.5]=1
+        # lefthalf_np[lefthalf_np<1]=0
+        # righthalf_np[righthalf_np>=0.5]=1
+        # righthalf_np[righthalf_np<1]=0
+        # complete_bet_np[complete_bet_np>=0.5]=1
+        # complete_bet_np[complete_bet_np<1]=0
+        # # complete_csf_np[complete_csf_np>=0.5]=1
+        # # complete_csf_np[complete_csf_np<1]=0
+        # ##################
+        # # complete_bet_np[complete_csf_np>0]=0 #np.min(complete_bet_np)
+        # # lefthalf_np[complete_csf_np>0]=0 #np.min(lefthalf_np)
+        # # righthalf_np[complete_csf_np>0]=0 #np.min(righthalf_np)
+        # ######################
+        # righthalf_volume = np.sum(righthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # righthalf_volume=round(righthalf_volume,2)
+        # lefthalf_volume = np.sum(lefthalf_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # lefthalf_volume=round(lefthalf_volume,2)
+        # total_bet_volume=np.sum(complete_bet_np)*np.prod(np.array(grayscale_image_nib.header["pixdim"][1:4]))/1000
+        # total_bet_volume=round(total_bet_volume,2)
+        # if np.sum(lefthalf_np) > 0 and np.sum(righthalf_np) > 0:
+        #     left_right_ratio=np.sum(lefthalf_np)/np.sum(righthalf_np)
+        #     if np.sum(lefthalf_np) > np.sum(righthalf_np) :
+        #         left_right_ratio=np.sum(righthalf_np)/np.sum(lefthalf_np)
+        #     left_right_ratio=round(left_right_ratio,2)
+        #     returnvalue=left_right_ratio
+        #     # left_right_ratio_df=pd.DataFrame([left_right_ratio])
+        #     # left_right_ratio_df.columns=[column_name]
+        #     # left_right_ratio_df.to_csv(filename_to_write,index=False)
+        #     command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'ratio_left_right')
+        #     subprocess.call(command,shell=True)
+        # # 'SCAN_NAME', "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME","CSF RATIO",
+        # values=[scan_name,total_bet_volume,lefthalf_volume,righthalf_volume]
+        # values_from_csf_df=pd.DataFrame(values) #[scan_name,"","","","",nwu_like_ratio,numerator_count,numerator_mean,denominator_count,denominator_mean,numerator_volume,denominator_volume,"","","","",str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm)])
+        # values_from_csf_df=values_from_csf_df.T
+        # columns_name=["SCAN_NAME", "BET VOLUME","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF"]
+        # values_from_csf_df.columns=columns_name #["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        # values_from_csf_df.to_csv(os.path.join(os.path.dirname(grayscale_image),scan_name+"_FROM_BET.csv"),index=False)
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)

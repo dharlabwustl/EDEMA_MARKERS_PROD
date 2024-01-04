@@ -812,7 +812,17 @@ def call_infarct_and_reflectedinfarct_related_parameters(args):
     infarct_and_reflectedinfarct_related_parameters(args)
     return 1
 
-
+def remove_voxels_from_mask_with_threshold_range(args):
+    mask_nib=nib.load(args.stuff[1])
+    mask=mask_nib.get_fdata()
+    grayscale_image=nib.load(args.stuff[2]).get_fdata()
+    threshold_lower_limit=int(args.stuff[3])
+    threshold_upper_limit=int(args.stuff[4])
+    mask_nib_outputfilename=args.stuff[5]
+    mask_after_threshold=mask[grayscale_image>=threshold_lower_limit]
+    mask_after_threshold=mask_after_threshold[grayscale_image<=threshold_upper_limit]
+    array_img= nib.Nifti1Image(mask_after_threshold,affine=mask_nib.affine,header=mask_nib.header)
+    nib.save(array_img, mask_nib_outputfilename)
 
 def infarct_and_reflectedinfarct_related_parameters(args):
     numerator_count=""
@@ -843,10 +853,12 @@ def infarct_and_reflectedinfarct_related_parameters(args):
         # fill_datapoint_each_sessionn(session_ID,columnname,infarct_mirror_mask_count,csvfilename)
         # columns_name=["SCAN_NAME" , "NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
 
-        numerator=grayscale_image[numerator_mask>0].flatten()
+        numerator=grayscale_image[numerator_mask>0] #.flatten()
         numerator=numerator[numerator>=threshold_lower_limit_inf]
         numerator=numerator[numerator<=threshold_upper_limit_inf]
+        numerator=numerator.flatten()
         numerator_count=len(numerator)
+
         columnname="INFARCT VOX_NUMBERS"
         if len(maskname_other_than_infarct) >2:
             columnname=maskname_other_than_infarct + "_VOX_NUMBERS"
@@ -861,7 +873,7 @@ def infarct_and_reflectedinfarct_related_parameters(args):
         if len(maskname_other_than_infarct) >2:
             columnname=maskname_other_than_infarct + "_VOLUME"
         fill_datapoint_each_sessionn(session_ID,columnname,numerator_volume,csvfilename)
-        denominator=grayscale_image[denominator_mask>0].flatten()
+        denominator=grayscale_image[denominator_mask>0] #.flatten()
         denominator=denominator[denominator>=threshold_lower_limit_norm]
         denominator=denominator[denominator<=threshold_upper_limit_norm]
         denominator_count=len(denominator)

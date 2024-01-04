@@ -39,6 +39,21 @@ from download_with_session_ID import *;
 downloadfiletolocaldir()" ${sessionID} ${scanID} ${resource_dirname} ${output_dirname} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
+copy_mat_data() {
+  echo " I AM IN copy_masks_data "
+  # rm -r /ZIPFILEDIR/*
+  local sessionID=${1}
+  local scanID=${2}
+  local resource_dirname=${3} #str(sys.argv[4])
+  local output_dirname=${4}   #str(sys.argv[3])
+  echo output_dirname::${output_dirname}
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+downloadfiletolocaldir()" ${sessionID} ${scanID} ${resource_dirname} ${output_dirname} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
 
 copy_scan_data() {
   echo " I AM IN copy_scan_data "

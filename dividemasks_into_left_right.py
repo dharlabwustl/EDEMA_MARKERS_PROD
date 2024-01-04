@@ -818,9 +818,9 @@ def remove_voxels_from_mask_with_threshold_range(args):
     grayscale_image=nib.load(args.stuff[2]).get_fdata()
     threshold_lower_limit=int(args.stuff[3])
     threshold_upper_limit=int(args.stuff[4])
-    mask_after_threshold=mask[grayscale_image>=threshold_lower_limit]
-    mask_after_threshold=mask_after_threshold[grayscale_image<=threshold_upper_limit]
-    array_img= nib.Nifti1Image(mask_after_threshold,affine=mask_nib.affine,header=mask_nib.header)
+    mask[grayscale_image>=threshold_lower_limit]=np.min(mask)
+    mask[grayscale_image<=threshold_upper_limit]=np.min(mask)
+    array_img= nib.Nifti1Image(mask,affine=mask_nib.affine,header=mask_nib.header)
     mask_nib_outputfilename=args.stuff[1].split('.nii')[0]+'_range_'+str(threshold_lower_limit)+'_to_'+str(threshold_upper_limit)+'.nii.gz'
     nib.save(array_img, mask_nib_outputfilename)
 

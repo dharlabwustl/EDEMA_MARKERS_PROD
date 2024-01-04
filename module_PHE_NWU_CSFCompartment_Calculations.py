@@ -894,6 +894,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
+            rename_columns(csvfile_with_vol_total,csvfile_with_vol_total)
             this_session_label_list=[]
 
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],SESSION_LABEL)
@@ -929,7 +930,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #             text1.append("Volume  (ml)")
             #             latex_start_tableNc(latexfilename,2)
             #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-
+            col_names=rename_column_name_list(col_names)
             for x in range(0,col_names.shape[0]):
                 #                 text1=[]
                 values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
@@ -939,7 +940,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
             #             latex_end_table2c(latexfilename)
             values_in_table.pop(0)
-            slice_num_df=values_in_table.pop(-1)
+            values_in_table.pop(-1)
             values_in_table.pop(-1)
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]
@@ -951,6 +952,22 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # latex_end_table2c(latexfilename)
         latex_end(latexfilename)
         # remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+def rename_columns(csvfilename,csvfilenameoutput):
+    csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df_cols=[]
+    for each_col_name in csvfilename_df.columns:
+        each_col_name.replace("INFARCT","PHE")
+        each_col_name.replace("NWU","PHE_NWU")
+        csvfilename_df_cols.append(each_col_name)
+    csvfilename_df.columns=csvfilename_df_cols
+    csvfilename_df.to_csv(csvfilenameoutput,index=False)
+def rename_column_name_list(csvfilename_df_columns):
+    csvfilename_df_cols=[]
+    for each_col_name in csvfilename_df_columns:
+        each_col_name.replace("INFARCT","PHE")
+        each_col_name.replace("NWU","PHE_NWU")
+        csvfilename_df_cols.append(each_col_name)
+    return csvfilename_df_cols
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0

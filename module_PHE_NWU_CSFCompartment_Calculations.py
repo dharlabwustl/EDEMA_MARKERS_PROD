@@ -897,9 +897,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
             this_nii_filename_df.columns=['FILENAME']
 
-            latex_start_tableNc_noboundary(latexfilename,1)
-            latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
-            latex_end_table2c(latexfilename)
+            latex_start_tableNc_noboundary(latexfilename1,1)
+            latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
+            latex_end_table2c(latexfilename1)
 
             #             latex_insert_line_nodek(latexfilename,"\\newpage")
             #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")

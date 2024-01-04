@@ -616,7 +616,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_start(latexfilename)
         latex_begin_document(latexfilename)
         latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
+        row = ["SCAN_NAME" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
         col_names=np.copy(np.array(row))
 
 
@@ -934,6 +934,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
             #             latex_end_table2c(latexfilename)
             values_in_table.pop(0)
+            values_in_table.pop(-2)
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]
             latex_start_tableNc_noboundary(latexfilename1,1)

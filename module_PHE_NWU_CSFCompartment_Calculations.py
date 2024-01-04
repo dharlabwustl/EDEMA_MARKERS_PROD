@@ -554,7 +554,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
     print(sys.argv)
     SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
-    SESSION_ID=sys.argv[7]
+    SESSION_ID=sys.argv[9]
 
     lower_thresh="NA" #int(float(sys.argv[7]))
     upper_thresh="NA" #int(float(sys.argv[8]))

@@ -1034,15 +1034,19 @@ while IFS=',' read -ra array; do
     phemirror_ORF=${output_directory}/$(basename ${phemirrorfile})
     to_original_RF ${phemirrorfile} ${working_dir_1}/${filename_nifti} ${output_directory}
     type_of_mask='PHE'
+    lesion_threshold_low=0
+    lesion_threshold_up=200
+    reflection_threshold_low=0
+    reflection_threshold_up=200
     echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
-    call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phe_ORF} ${phemirror_ORF} ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename} ${type_of_mask})
+    call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phe_ORF} ${phemirror_ORF} ${working_dir_1}/${filename_nifti} ${lesion_threshold_low} ${lesion_threshold_up} ${reflection_threshold_low} ${reflection_threshold_up} ${sessionID} ${csvfilename} ${type_of_mask})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## update the PHE and REFLECTED_PHE masks:
-    updated_phe_filename=${phe_ORF%.nii*}_range_0_to_40.nii.gz
-    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phe_ORF}  ${working_dir_1}/${filename_nifti} 0 40  )
+    updated_phe_filename=${phe_ORF%.nii*}_range_${lesion_threshold_low}_to_${lesion_threshold_up}.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phe_ORF}  ${working_dir_1}/${filename_nifti} ${lesion_threshold_low} ${lesion_threshold_up}  )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
-    updated_phemirror_filename=${phemirror_ORF%.nii*}_range_20_to_80.nii.gz
-    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phemirror_ORF}  ${working_dir_1}/${filename_nifti} 20 80 )
+    updated_phemirror_filename=${phemirror_ORF%.nii*}_range_${reflection_threshold_low}_to_${reflection_threshold_up}.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phemirror_ORF}  ${working_dir_1}/${filename_nifti} ${reflection_threshold_low} ${reflection_threshold_up} )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
     #    column_name_this="bet_mask_WITHOUT_csf"
@@ -1214,10 +1218,10 @@ while IFS=',' read -ra array; do
     #    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
     #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
     #    ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
-    #    ############# FILL THE LATEX FILE #################
-    #    #echo outputfiles_present::${outputfiles_present}
-    #    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
-    #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+        ############# FILL THE LATEX FILE #################
+        #echo outputfiles_present::${outputfiles_present}
+        call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
+        outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
     #
     #    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
     #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
@@ -1243,59 +1247,59 @@ while IFS=',' read -ra array; do
     #
     #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     #    ##############################
-    #    for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
-    #
-    #      #              filename=args.stuff[1]
-    #      imagescale='0.18' #float(args.stuff[2])
-    #      angle='90'        #float(args.stuff[3])
-    #      space='1'         #float(args.stuff[4])
-    #      i=0
-    #      #  for file in *
-    #      #  do
-    #      #      if [[ -f $file ]]; then
-    #      #          array[$i]=$file
-    #      #          i=$(($i+1))
-    #      #      fi
-    #      #  done
-    #
-    #      #    echo $suffix;
-    #      ## Legends
-    #      images[$i]='call_latex_insertimage_tableNc'
-    #      i=$(($i + 1))
-    #      images[$i]=${latexfilename}
-    #      i=$(($i + 1))
-    #      images[$i]=${imagescale}
-    #      i=$(($i + 1))
-    #      images[$i]=${angle}
-    #      i=$(($i + 1))
-    #      images[$i]=${space}
-    #      i=$(($i + 1))
-    #
-    #      y=${x%.*}
-    #      echo $y
-    #      suffix=${y##*_}
-    #      if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
-    #        images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-    #        i=$(($i + 1))
-    #
-    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-    #        i=$(($i + 1))
-    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
-    #        i=$(($i + 1))
-    #
-    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
-    #        i=$(($i + 1))
-    #        #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-    #        #        i=$(($i + 1))
-    #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
-    #        i=$(($i + 1))
-    #
-    #        #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
-    #        #    i=$(($i + 1))
-    #        outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-    #        echo outputfiles_present::${outputfiles_present}
-    #      fi
-    #    done
+        for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
+
+          #              filename=args.stuff[1]
+          imagescale='0.18' #float(args.stuff[2])
+          angle='90'        #float(args.stuff[3])
+          space='1'         #float(args.stuff[4])
+          i=0
+          #  for file in *
+          #  do
+          #      if [[ -f $file ]]; then
+          #          array[$i]=$file
+          #          i=$(($i+1))
+          #      fi
+          #  done
+
+          #    echo $suffix;
+          ## Legends
+          images[$i]='call_latex_insertimage_tableNc'
+          i=$(($i + 1))
+          images[$i]=${latexfilename}
+          i=$(($i + 1))
+          images[$i]=${imagescale}
+          i=$(($i + 1))
+          images[$i]=${angle}
+          i=$(($i + 1))
+          images[$i]=${space}
+          i=$(($i + 1))
+
+          y=${x%.*}
+          echo $y
+          suffix=${y##*_}
+          if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
+            images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+            i=$(($i + 1))
+
+            images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+            i=$(($i + 1))
+            images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
+            i=$(($i + 1))
+
+            images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_PHE_AND_PHEMIRROR_${suffix}.jpg
+            i=$(($i + 1))
+#            #        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+#            #        i=$(($i + 1))
+#            images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
+#            i=$(($i + 1))
+
+            #    images[$i]=${output_directory}/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
+            #    i=$(($i + 1))
+            outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+            echo outputfiles_present::${outputfiles_present}
+          fi
+        done
     #
     #    #  images=${output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
     #    #  call_latex_insertimage_tableNc_arguments=${images[@]} #('call_latex_insertimage_tableNc' ${latexfilename} ${imagescale} ${angle} ${space} ${images})

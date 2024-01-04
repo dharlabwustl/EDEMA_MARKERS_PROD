@@ -912,6 +912,11 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_start_tableNc_noboundary(latexfilename1,1)
             latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
             latex_end_table2c(latexfilename1)
+            slice_num_df=pd.DataFrame([slice_num])
+            slice_num_df.columns=['SLICE_NUM']
+            latex_start_tableNc_noboundary(latexfilename1,1)
+            latex_insert_line_nodek(latexfilename1,text=slice_num_df.to_latex(index=False))
+            latex_end_table2c(latexfilename1)
 
 
             #             latex_insert_line_nodek(latexfilename,"\\newpage")
@@ -935,9 +940,6 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #             latex_end_table2c(latexfilename)
             values_in_table.pop(0)
             slice_num_df=values_in_table.pop(-1)
-            latex_start_tableNc_noboundary(latexfilename1,1)
-            latex_insert_line_nodek(latexfilename1,text=slice_num_df.to_latex(index=False))
-            latex_end_table2c(latexfilename1)
             values_in_table.pop(-1)
             values_in_table_df=pd.DataFrame(values_in_table)
             values_in_table_df.columns=[" Regions ","Volume  (ml)"]

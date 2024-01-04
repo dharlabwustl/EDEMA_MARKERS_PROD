@@ -1357,6 +1357,7 @@ def downloadfiletolocaldir():
     subprocess.call(command,shell=True)
     xnatSession.close_httpsession()
     copy_nifti_to_a_dir(output_dirname)
+    copy_mat_to_a_dir(output_dirname)
 
     return True
 # def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
@@ -1388,7 +1389,15 @@ def copy_nifti_to_a_dir(dir_name):
                 command='cp ' + os.path.join(dirpath,file_name) + '  ' + dir_name + '/'
                 subprocess.call(command,shell=True)
                 print(os.path.join(dirpath,file_name))
-
+def copy_mat_to_a_dir(dir_name):
+    for dirpath, dirnames, files in os.walk('/ZIPFILEDIR'):
+        #                print(f'Found directory: {dirpath}')
+        for file_name in files:
+            file_extension = pathlib.Path(file_name).suffix
+            if '.mat' in file_extension :
+                command='cp ' + os.path.join(dirpath,file_name) + '  ' + dir_name + '/'
+                subprocess.call(command,shell=True)
+                print(os.path.join(dirpath,file_name))
 
 ## load two files:
 def list_analyzed_session(pdffilelist_file,selectedniftifilelist_file,allsessionlist_file,output_list_csvfile,pdffilelist_file_ext=".pdf",stringtofilterallsessionlist=''):

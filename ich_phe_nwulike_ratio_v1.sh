@@ -1001,11 +1001,14 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## NIFTI RELATED PARAMETERS#########################
 
+    number_of_slices_arguments=('number_of_slices' ${working_dir_1}/${filename_nifti} ${sessionID} ${csvfilename} )
+
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${number_of_slices_arguments[@]}")
     ###### BET RELATED PARAMETERS ################################
     bet_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_bet_left_half_originalRF.nii.gz
     bet_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_bet_right_half_originalRF.nii.gz
-    call_divide_a_mask_into_left_right_submasks_arguments=('call_bet_related_parameters' ${bet_left_half} ${bet_right_half} ${betfile} ${working_dir_1}/${filename_nifti} ${sessionID} ${csvfilename})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    call_bet_related_parameters_arguments=('call_bet_related_parameters' ${bet_left_half} ${bet_right_half} ${betfile} ${working_dir_1}/${filename_nifti} ${sessionID} ${csvfilename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_bet_related_parameters_arguments[@]}")
     ###############CSF RELATED PARAMETERS###############################
     csf_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
     csf_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz

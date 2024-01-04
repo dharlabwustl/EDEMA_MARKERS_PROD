@@ -277,7 +277,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     scanID=${array[2]}
     echo sessionId::${sessionID}
     echo scanId::${scanID}
-    snipr_output_foldername="PHE_NWU"
+    snipr_output_foldername="ICH_QUANTIFICATION"
     ### check if the file exists:
     call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
@@ -321,7 +321,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-      snipr_output_foldername="PHE_NWU"
+      snipr_output_foldername="ICH_QUANTIFICATION"
       file_suffixes=(.pdf .mat .csv) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
         copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}

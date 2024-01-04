@@ -897,7 +897,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],SESSION_LABEL)
             subprocess.call(command,shell=True)
             this_session_label_list.append(SESSION_LABEL)
-            this_session_label_df=pd.DataFrame(SESSION_LABEL)
+            this_session_label_df=pd.DataFrame(this_session_label_list)
             this_session_label_df.columns=['SESSION_LABEL']
             latex_start_tableNc_noboundary(latexfilename1,1)
             latex_insert_line_nodek(latexfilename1,text=this_session_label_df.to_latex(index=False))

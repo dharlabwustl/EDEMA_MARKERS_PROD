@@ -1021,7 +1021,7 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     to_original_RF ${phefile} ${working_dir_1}/${filename_nifti} ${output_directory}
     phe_ORF=${output_directory}/$(basename ${phefile})
-    phemirror_ORF=${output_directory}/$(basename ${phefile})
+    phemirror_ORF=${output_directory}/$(basename ${phemirrorfile})
     to_original_RF ${phemirrorfile} ${working_dir_1}/${filename_nifti} ${output_directory}
     type_of_mask='PHE'
     echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}

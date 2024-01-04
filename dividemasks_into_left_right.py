@@ -1022,7 +1022,7 @@ def call_bet_related_parameters(args):
     bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename=csvfilename)
 def number_of_slices(args):
     niftifilename=args.stuff[1]
-    session_ID=args.stuff[3]
+    session_ID=args.stuff[2]
     if len(args.stuff>3):
         csvfilename=args.stuff[3]
         columnname="slices"

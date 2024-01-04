@@ -496,6 +496,16 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
   done
 
 }
+function to_original_RF() {
+  local maskfile_name=${1}
+  local original_ct_file=${2}
+  local output_directory=${3}
+  python3 -c "
+import sys
+sys.path.append('/software');
+from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${maskfile_name}" "${output_directory}"
+
+}
 nwucalculation_each_scan() {
 
   eachfile_basename_noext=''

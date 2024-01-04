@@ -1023,7 +1023,7 @@ def call_bet_related_parameters(args):
 def number_of_slices(args):
     niftifilename=args.stuff[1]
     session_ID=args.stuff[2]
-    if len(args.stuff>3):
+    if len(args.stuff)>3:
         csvfilename=args.stuff[3]
         columnname="slices"
         columnvalue=nib.load(niftifilename).shape[2]

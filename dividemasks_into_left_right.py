@@ -1020,6 +1020,15 @@ def call_bet_related_parameters(args):
     session_ID=args.stuff[5]
     csvfilename=args.stuff[6]
     bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename=csvfilename)
+def number_of_slices(args):
+    niftifilename=args.stuff[1]
+    session_ID=args.stuff[3]
+    if len(args.stuff>3):
+        csvfilename=args.stuff[3]
+        columnname="slices"
+        columnvalue=nib.load(niftifilename).shape[2]
+        fill_datapoint_each_sessionn(session_ID,columnname,columnvalue,csvfilename)
+
 def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,session_ID,csvfilename="NONE.csv"): #column_name='test',filename_to_write="test.csv"):
     returnvalue="NONE"
     # ,

@@ -892,15 +892,15 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
-            this_nii_filename_list=[]
+            this_session_label_list=[]
             SESSION_LABEL=get_session_label(str(SESSION_ID))
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],SESSION_LABEL)
             subprocess.call(command,shell=True)
-            this_nii_filename_list.append(SESSION_LABEL)
-            this_nii_filename_df=pd.DataFrame(SESSION_LABEL)
-            this_nii_filename_df.columns=['SESSION_LABEL']
+            this_session_label_list.append(SESSION_LABEL)
+            this_session_label_df=pd.DataFrame(SESSION_LABEL)
+            this_session_label_df.columns=['SESSION_LABEL']
             latex_start_tableNc_noboundary(latexfilename1,1)
-            latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
+            latex_insert_line_nodek(latexfilename1,text=this_session_label_df.to_latex(index=False))
             latex_end_table2c(latexfilename1)
             # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
             this_nii_filename_list=[]
@@ -941,7 +941,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             # latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
             # latex_end_table2c(latexfilename)
         latex_end(latexfilename)
-        remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+        # remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0

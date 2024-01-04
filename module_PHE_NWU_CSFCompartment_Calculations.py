@@ -555,6 +555,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     print(sys.argv)
     SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
     SESSION_ID=sys.argv[9]
+    SESSION_LABEL=get_session_label(str(SESSION_ID))
 
     lower_thresh="NA" #int(float(sys.argv[7]))
     upper_thresh="NA" #int(float(sys.argv[8]))
@@ -576,6 +577,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     left_brain_volume=0
     right_brain_volume=0
     gray_image_data=nib.load(sys.argv[1]).get_fdata()
+    slice_num=gray_image_data.shape[2]
     bet_image_data=nib.load(sys.argv[2]).get_fdata()
     csf_image_data=nib.load(sys.argv[3]).get_fdata()
     Infarct_Mask_filename_June20=sys.argv[4]
@@ -614,7 +616,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
         latex_start(latexfilename)
         latex_begin_document(latexfilename)
         latex_insert_line_nodek(latexfilename,"\\input{"+latexfilename1+"}")
-        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+        row = ["FileName_slice" , "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
         col_names=np.copy(np.array(row))
 
 
@@ -884,7 +886,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             left_pixels_num=left_pixels_num_after_edema_subt
             right_pixels_num=right_pixels_num_after_edema_subt
             CSF_RATIO=CSF_RATIO_after_edema_subt
-            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal),SESSION_LABEL,slice_num]
 
             values_in_col=np.array(row2)
 
@@ -893,7 +895,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 writer = csv.writer(f1)
                 writer.writerow(row2)
             this_session_label_list=[]
-            SESSION_LABEL=get_session_label(str(SESSION_ID))
+
             command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],SESSION_LABEL)
             subprocess.call(command,shell=True)
             this_session_label_list.append(SESSION_LABEL)

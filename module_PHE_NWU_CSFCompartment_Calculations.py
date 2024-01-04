@@ -956,17 +956,17 @@ def rename_columns(csvfilename,csvfilenameoutput):
     csvfilename_df=pd.read_csv(csvfilename)
     csvfilename_df_cols=[]
     for each_col_name in csvfilename_df.columns:
-        each_col_name.replace("INFARCT","PHE")
-        each_col_name.replace("NWU","PHE_NWU")
-        csvfilename_df_cols.append(each_col_name)
+        x=each_col_name.replace("INFARCT","PHE")
+        x=x.replace("NWU","PHE_NWU")
+        csvfilename_df_cols.append(x)
     csvfilename_df.columns=csvfilename_df_cols
     csvfilename_df.to_csv(csvfilenameoutput,index=False)
 def rename_column_name_list(csvfilename_df_columns):
     csvfilename_df_cols=[]
     for each_col_name in csvfilename_df_columns:
-        each_col_name.replace("INFARCT","PHE")
-        each_col_name.replace("NWU","PHE_NWU")
-        csvfilename_df_cols.append(each_col_name)
+        x=each_col_name.replace("INFARCT","PHE")
+        x=x.replace("NWU","PHE_NWU")
+        csvfilename_df_cols.append(x)
     return csvfilename_df_cols
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):

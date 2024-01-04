@@ -1022,6 +1022,13 @@ while IFS=',' read -ra array; do
     echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
     call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phefile} ${phemirrorfile} ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename} ${type_of_mask})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    ## update the PHE and REFLECTED_PHE masks:
+    updated_phe_filename=${phefile%.nii*}_subtracted_0_40.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phefile}  ${working_dir_1}/${filename_nifti} 0 40 ${updated_phe_filename} )
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+    updated_phemirror_filename=${phemirrorfile%.nii*}_subtracted_20_80.nii.gz
+    call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phemirrorfile}  ${working_dir_1}/${filename_nifti} 20 80 ${updated_phemirror_filename})
+    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
     #    column_name_this="bet_mask_WITHOUT_csf"
     #    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv

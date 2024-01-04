@@ -27,10 +27,10 @@ uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_su
 copy_masks_data() {
   echo " I AM IN copy_masks_data "
   # rm -r /ZIPFILEDIR/*
-  sessionID=${1}
-  scanID=${2}
-  resource_dirname=${3} #str(sys.argv[4])
-  output_dirname=${4}   #str(sys.argv[3])
+  local sessionID=${1}
+  local scanID=${2}
+  local resource_dirname=${3} #str(sys.argv[4])
+  local output_dirname=${4}   #str(sys.argv[3])
   echo output_dirname::${output_dirname}
   python3 -c "
 import sys 
@@ -73,7 +73,7 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-#  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+  #  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
@@ -310,14 +310,16 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       echo working_dir::${working_dir}
       echo output_dirname::${output_dirname}
       copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+      cp ${output_dirname}/*.mat ${output_directory}/
+      cp ${output_dirname}/*.mat ${final_output_directory}/
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan
-          URI_1=${url1%/resources*}
-          for matfiles in ${output_directory}/*.mat; do
-            call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
-            outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-          done
+      URI_1=${url1%/resources*}
+      for matfiles in ${output_directory}/*.mat; do
+        call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+        outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+      done
 
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES

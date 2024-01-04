@@ -1038,7 +1038,7 @@ while IFS=',' read -ra array; do
     lesion_threshold_up=200
     reflection_threshold_low=0
     reflection_threshold_up=200
-    echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::0::40::20::80::${sessionID}::${csvfilename}
+    echo 'infarct_and_reflectedinfarct_related_parameters'::${phefile}::${phemirrorfile}::${working_dir_1}/${filename_nifti}::${lesion_threshold_low}_to_${lesion_threshold_up}::${reflection_threshold_low}_to_${reflection_threshold_up}::${sessionID}::${csvfilename}
     call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phe_ORF} ${phemirror_ORF} ${working_dir_1}/${filename_nifti} ${lesion_threshold_low} ${lesion_threshold_up} ${reflection_threshold_low} ${reflection_threshold_up} ${sessionID} ${csvfilename} ${type_of_mask})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## update the PHE and REFLECTED_PHE masks:
@@ -1181,7 +1181,7 @@ while IFS=',' read -ra array; do
     contrast_limits='20_60'
     color_list='green_yellow'
     #mask_filename=(${mask_filename3} ${mask_filename4})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${levelset_gray_file} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${updated_phe_filename} ${updated_phemirror_filename})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${levelset_gray_file} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${output_directory} ${phe_ORF} ${phemirror_ORF})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
     #    #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename

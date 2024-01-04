@@ -831,6 +831,9 @@ def infarct_and_reflectedinfarct_related_parameters(args):
     threshold_upper_limit_norm=int(args.stuff[7])
     session_ID=args.stuff[8]
     csvfilename=args.stuff[9]
+    maskname_other_than_infarct=''
+    if len(args.stuff)>10:
+        maskname_other_than_infarct=args.stuff[10]
     try:
         # columnname="INFARCT VOX_NUMBERS"
         # infarctmask_count=count_voxels_mask_binary(args.stuff[1])
@@ -845,33 +848,51 @@ def infarct_and_reflectedinfarct_related_parameters(args):
         numerator=numerator[numerator<=threshold_upper_limit_inf]
         numerator_count=len(numerator)
         columnname="INFARCT VOX_NUMBERS"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_VOX_NUMBERS"
         fill_datapoint_each_sessionn(session_ID,columnname,numerator_count,csvfilename)
         numerator_mean=np.mean(numerator)
         columnname= "INFARCT DENSITY"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_DENSITY"
         fill_datapoint_each_sessionn(session_ID,columnname,numerator_mean,csvfilename)
         numerator_volume = numerator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
         columnname="INFARCT VOLUME"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_VOLUME"
         fill_datapoint_each_sessionn(session_ID,columnname,numerator_volume,csvfilename)
         denominator=grayscale_image[denominator_mask>0].flatten()
         denominator=denominator[denominator>=threshold_lower_limit_norm]
         denominator=denominator[denominator<=threshold_upper_limit_norm]
         denominator_count=len(denominator)
         columnname="NON INFARCT VOX_NUMBERS"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_REFLECTION_VOX_NUMBERS"
         fill_datapoint_each_sessionn(session_ID,columnname,denominator_count,csvfilename)
         denominator_mean=np.mean(denominator)
         columnname= "NON INFARCT DENSITY"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_REFLECTION_DENSITY"
         fill_datapoint_each_sessionn(session_ID,columnname,denominator_mean,csvfilename)
         denominator_volume = denominator_count*np.prod(np.array(nib.load(args.stuff[3]).header["pixdim"][1:4]))/1000
         columnname="INFARCT REFLECTION VOLUME"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_REFLECTION_VOLUME"
         fill_datapoint_each_sessionn(session_ID,columnname,denominator_volume,csvfilename)
         if denominator_mean>0:
             nwu_like_ratio=(1 - (numerator_mean/denominator_mean))*100
             nwu_like_ratio=round(nwu_like_ratio,2)
         columnname="NWU"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_NWU"
         fill_datapoint_each_sessionn(session_ID,columnname,nwu_like_ratio,csvfilename)
         columnname="INFARCT THRESH RANGE"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct + "_THRESH_RANGE"
         fill_datapoint_each_sessionn(session_ID,columnname,str(threshold_lower_limit_inf)+'to'+str(threshold_upper_limit_inf),csvfilename)
         columnname="NORMAL THRESH RANGE"
+        if len(maskname_other_than_infarct) >2:
+            columnname=maskname_other_than_infarct+"_REFLECTION_THRESH_RANGE"
         fill_datapoint_each_sessionn(session_ID,columnname,str(threshold_lower_limit_norm)+'to'+str(threshold_upper_limit_norm),csvfilename)
 
         # scan_name=os.path.basename(args.stuff[3]).split('.nii')[0]  ##+ "_TOTAL"

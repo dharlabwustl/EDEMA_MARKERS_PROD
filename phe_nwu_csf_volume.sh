@@ -14,6 +14,6 @@ python3 -c "
 import sys ;
 print('I AM HERE')
 sys.path.append('/software');
-from module_NWU_CSFCompartment_Calculations  import * ;    measure_compartments_with_reg_round5_one_file_sh_v1()"  $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  ${npyfiledirectory}     ${output_directory}  ${lower_threshold} ${upper_threshold}  #$gray_bet_extension $yashengfolder $infarct_mask_ext $lower_threshold $upper_threshold  ${levelsetfile_directory}  #$method_type  $method_type_name #$static_template_image $new_image $backslicenumber #$single_slice_filename
+from module_ICH_CSFCompartment_Calculations  import * ;    measure_compartments_with_reg_round5_one_file_sh_v1()"  $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  ${npyfiledirectory}     ${output_directory}  ${lower_threshold} ${upper_threshold}  #$gray_bet_extension $yashengfolder $infarct_mask_ext $lower_threshold $upper_threshold  ${levelsetfile_directory}  #$method_type  $method_type_name #$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 

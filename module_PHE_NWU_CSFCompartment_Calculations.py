@@ -930,7 +930,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #             text1.append("Volume  (ml)")
             #             latex_start_tableNc(latexfilename,2)
             #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-            col_names=rename_column_name_list(col_names)
+            col_names=np.array(rename_column_name_list(col_names))
             for x in range(0,col_names.shape[0]):
                 #                 text1=[]
                 values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])

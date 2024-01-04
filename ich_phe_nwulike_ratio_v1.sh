@@ -1038,10 +1038,10 @@ while IFS=',' read -ra array; do
     call_divide_a_mask_into_left_right_submasks_arguments=('call_infarct_and_reflectedinfarct_related_parameters' ${phe_ORF} ${phemirror_ORF} ${working_dir_1}/${filename_nifti} 0 40 20 80 ${sessionID} ${csvfilename} ${type_of_mask})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     ## update the PHE and REFLECTED_PHE masks:
-    updated_phe_filename=${phefile%.nii*}_range_0_to_40.nii.gz
+    updated_phe_filename=${phe_ORF%.nii*}_range_0_to_40.nii.gz
     call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phe_ORF}  ${working_dir_1}/${filename_nifti} 0 40  )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
-    updated_phemirror_filename=${phemirrorfile%.nii*}_range_20_to_80.nii.gz
+    updated_phemirror_filename=${phemirror_ORF%.nii*}_range_20_to_80.nii.gz
     call_divide_a_mask_into_left_right_submasks_arguments=('remove_voxels_from_mask_with_threshold_range' ${phemirror_ORF}  ${working_dir_1}/${filename_nifti} 20 80 )
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
     #    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}

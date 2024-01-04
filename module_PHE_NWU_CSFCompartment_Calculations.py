@@ -893,7 +893,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 writer = csv.writer(f1)
                 writer.writerow(row2)
             this_nii_filename_list=[]
-            # SESSION_LABEL=get_session_label(SESSION_ID)
+            SESSION_LABEL=get_session_label(str(SESSION_ID))
             # this_nii_filename_list.append(SESSION_LABEL)
             # this_nii_filename_df=pd.DataFrame(SESSION_LABEL)
             # this_nii_filename_df.columns=['SESSION_LABEL']

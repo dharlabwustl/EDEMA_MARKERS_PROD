@@ -111,7 +111,7 @@ run_IML_NWU_CSF_CALC() {
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION "
 
-  /software/phe_nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold}
+  /software/phe_nwu_csf_volume.sh ${this_filename} ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename} ${lower_threshold} ${upper_threshold} ${sessionID}
   echo "phe_nwu_csf_volume successful" >>${output_directory}/success.txt
   thisfile_basename=$(basename $this_filename)
   # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;

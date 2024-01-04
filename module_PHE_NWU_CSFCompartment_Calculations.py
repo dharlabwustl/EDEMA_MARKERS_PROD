@@ -893,13 +893,13 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 writer = csv.writer(f1)
                 writer.writerow(row2)
             this_nii_filename_list=[]
-            SESSION_LABEL=get_session_label(SESSION_ID)
-            this_nii_filename_list.append(SESSION_LABEL)
-            this_nii_filename_df=pd.DataFrame(SESSION_LABEL)
-            this_nii_filename_df.columns=['SESSION_LABEL']
-            latex_start_tableNc_noboundary(latexfilename1,1)
-            latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
-            latex_end_table2c(latexfilename1)
+            # SESSION_LABEL=get_session_label(SESSION_ID)
+            # this_nii_filename_list.append(SESSION_LABEL)
+            # this_nii_filename_df=pd.DataFrame(SESSION_LABEL)
+            # this_nii_filename_df.columns=['SESSION_LABEL']
+            # latex_start_tableNc_noboundary(latexfilename1,1)
+            # latex_insert_line_nodek(latexfilename1,text=this_nii_filename_df.to_latex(index=False))
+            # latex_end_table2c(latexfilename1)
             # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
             this_nii_filename_list=[]
             this_nii_filename_list.append(thisfilebasename)

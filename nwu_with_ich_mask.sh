@@ -78,8 +78,18 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+#  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+#  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
+  if [[ ${mat_file_num} -gt 1 ]]; then
+    echo "MAT FILES PRESENT"
+    #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+  else
+    /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+    echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  fi
   echo "RUNNING IML FSL PART"
   /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
   echo "ideal_midline_fslpart successful" >>${output_directory}/success.txt
@@ -314,9 +324,16 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     echo working_dir::${working_dir}
     echo output_dirname::${output_dirname}
     copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+          cp ${output_dirname}/*.mat ${output_directory}/
+          cp ${output_dirname}/*.mat ${final_output_directory}/
     ######################################################################################################################
     ## CALCULATE EDEMA BIOMARKERS
     ich_calculation_each_scan
+    URI_1=${url1%/resources*}
+    for matfiles in ${output_directory}/*.mat; do
+      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
     ######################################################################################################################
     ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
     snipr_output_foldername="ICH_QUANTIFICATION"

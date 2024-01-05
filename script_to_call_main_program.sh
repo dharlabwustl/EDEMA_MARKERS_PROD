@@ -233,7 +233,7 @@ fi
 
 if [[ ${TYPE_OF_PROGRAM} == "PHE_NWULIKE_RATIO" ]]; then
   SESSION_ID=${1}
-  /software/nwu_with_ich_mask.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
   /software/phe_nwu_calculation.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 
 #  ich_phe_nwulike_ratio_v1.sh

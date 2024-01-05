@@ -490,8 +490,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       cp ${output_dirname}/*.mat ${final_output_directory}/
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
-      nwucalculation_each_scan
       ich_calculation_each_scan
+      nwucalculation_each_scan
+
       URI_1=${url1%/resources*}
       for matfiles in ${output_directory}/*.mat; do
         call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")

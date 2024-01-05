@@ -26,6 +26,7 @@ from github import Github
 #############################################################
 from dateutil.parser import parse
 import pandas as pd
+from module_ICH_CSFCompartment_Calculations  import *
 # g = Github()
 # repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
 # contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
@@ -39,10 +40,10 @@ Version_Date="_VersionDate-" + '01042024' #dt.strftime("%m%d%Y")
 now=time.localtime()
 
 
-def remove_few_columns(csvfilename,columnstoremove):
-    csvfilename_df=pd.read_csv(csvfilename)
-    csvfilename_df.drop(columnstoremove, axis=1, inplace=True)
-    csvfilename_df.to_csv(csvfilename.split('.csv')[0]+'columndropped.csv',index=False)
+# def remove_few_columns(csvfilename,columnstoremove):
+#     csvfilename_df=pd.read_csv(csvfilename)
+#     csvfilename_df.drop(columnstoremove, axis=1, inplace=True)
+#     csvfilename_df.to_csv(csvfilename.split('.csv')[0]+'columndropped.csv',index=False)
 
 
 
@@ -117,13 +118,13 @@ def determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,
     return infarct_side,numpy_image_mask
 
 
-def call_nwu_csfcompartment():
-    measure_NWU_after_subt_csf_Oct_5_2020()
-    measure_compartments_with_reg_round5_one_file_sh_v1()
+# def call_nwu_csfcompartment():
+#     measure_NWU_after_subt_csf_Oct_5_2020()
+#     measure_compartments_with_reg_round5_one_file_sh_phe()
 
-def whichsideofline(line_pointA,line_pointB,point_todecide):
-
-    return (point_todecide[0]-line_pointA[0])*(line_pointB[1]-line_pointA[1])  -  (point_todecide[1]-line_pointA[1])*(line_pointB[0]-line_pointA[0])
+# def whichsideofline(line_pointA,line_pointB,point_todecide):
+#
+#     return (point_todecide[0]-line_pointA[0])*(line_pointB[1]-line_pointA[1])  -  (point_todecide[1]-line_pointA[1])*(line_pointB[0]-line_pointA[0])
 
 
 
@@ -541,9 +542,9 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
     noninfarct_pixels_density=np.mean(np.array(nonfarct_pixels_list))
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
 
-def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
+def measure_compartments_with_reg_round5_one_file_sh_phe() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
-    print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
+    print(" I am in measure_compartments_with_reg_round5_one_file_sh_phe() ")
     print("code added on July 15 2022")
     niftifilename=sys.argv[1] ## THis is the  gray file:
 
@@ -882,7 +883,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             #     CSF_RATIO=right_pixels_num/left_pixels_num
                 # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
             # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            left_pixels_num_after_edema_subt,right_pixels_num_after_edema_subt,CSF_RATIO_after_edema_subt=csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
+            left_pixels_num_after_edema_subt,right_pixels_num_after_edema_subt,CSF_RATIO_after_edema_subt=csf_ratio_after_subtractionof_edema_phe(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
             left_pixels_num=left_pixels_num_after_edema_subt
             right_pixels_num=right_pixels_num_after_edema_subt
             CSF_RATIO=CSF_RATIO_after_edema_subt
@@ -969,7 +970,7 @@ def rename_column_name_list(csvfilename_df_columns):
         csvfilename_df_cols.append(x)
     return csvfilename_df_cols
 
-def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
+def csf_ratio_after_subtractionof_edema_phe(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0
     left_pixels_num=0
     right_pixels_num=0

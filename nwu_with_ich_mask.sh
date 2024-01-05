@@ -324,8 +324,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     echo working_dir::${working_dir}
     echo output_dirname::${output_dirname}
     copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-          cp ${output_dirname}/*.mat ${output_directory}/
-          cp ${output_dirname}/*.mat ${final_output_directory}/
+    cp ${output_dirname}/*.mat ${output_directory}/
+    cp ${output_dirname}/*.mat ${final_output_directory}/
     ######################################################################################################################
     ## CALCULATE EDEMA BIOMARKERS
     ich_calculation_each_scan

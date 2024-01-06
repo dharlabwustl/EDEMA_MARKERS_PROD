@@ -325,6 +325,22 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     echo working_dir::${working_dir}
     echo output_dirname::${output_dirname}
     copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+    resource_dir="ICH_QUANTIFICATION"
+    output_csvfile_ICH_QUAN=${sessionID}_ICH_QUAN_METADATA.csv
+    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_ICH_QUAN}
+    while IFS=',' read -ra array_ich_q; do
+
+      url_ich_q=${array_ich_q[6]}
+      #################
+
+      if [[ ${url_ich_q} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+        echo "It's there!"
+        echo "${array_ich_q[6]}"
+        filename_ich_q=$(basename ${url_ich_q})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url_ich_q} ${filename_ich_q} ${output_dirname})
+        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+      fi
+    done < <(tail -n +2 "${output_csvfile_ICH_QUAN}")
     cp ${output_dirname}/*.mat ${output_directory}/
     cp ${output_dirname}/*.mat ${final_output_directory}/
     ######################################################################################################################

@@ -17,7 +17,7 @@ output_directory='/working'
 for x in working/*TOTAL*.csv; do
   latexfilename=${x%.csv}.tex
   call_latex_start_arguments=('call_latex_start' ${latexfilename})
-  outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+  outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
   # 	echo ${x%_threshold*} ;
   grayscale_filename_basename_noext=$(basename ${x%_threshold*})
   for z in working/$(basename ${x%_threshold*})*gray.png; do
@@ -87,5 +87,5 @@ for x in working/*TOTAL*.csv; do
 done
 call_latex_end_arguments=('call_latex_end' ${latexfilename})
 pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
- pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex

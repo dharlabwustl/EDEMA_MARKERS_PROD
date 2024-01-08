@@ -21,7 +21,7 @@ for x in ${output_directory}/*TOTAL*.csv; do
   outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
   # 	echo ${x%_threshold*} ;
   grayscale_filename_basename_noext=$(basename ${x%_threshold*})
-  for z in working/$(basename ${x%_threshold*})*gray.png; do
+  for z in ${output_directory}/$(basename ${x%_threshold*})*gray.png; do
 
     #              filename=args.stuff[1]
     imagescale='0.18' #float(args.stuff[2])

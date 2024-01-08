@@ -24,7 +24,7 @@ for x in ${output_directory}/*TOTAL*.csv; do
   for z in ${output_directory}/$(basename ${x%_threshold*})*gray.png; do
 
     #              filename=args.stuff[1]
-    imagescale='0.18' #float(args.stuff[2])
+    imagescale='0.12' #float(args.stuff[2])
     angle='90'        #float(args.stuff[3])
     space='1'         #float(args.stuff[4])
     i=0
@@ -60,8 +60,8 @@ for x in ${output_directory}/*TOTAL*.csv; do
     image_col6="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}.png"
     if [ -f "${image_col1}" ] && [ -f "${image_col2}" ] && [ -f "${image_col3}" ] && [ -f "${image_col4}" ] && [ -f "${image_col5}" ] && [ -f "${image_col6}" ]; then
       echo $y
-      images[$i]=${image_col1} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
-      i=$(($i + 1))
+#      images[$i]=${image_col1} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+#      i=$(($i + 1))
 
       images[$i]=${image_col1} #/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))

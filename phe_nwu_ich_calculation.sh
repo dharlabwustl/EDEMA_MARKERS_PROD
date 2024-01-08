@@ -4,14 +4,14 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 XNAT_HOST=${4}
 
-#/software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-##  cp /workingoutput/*.tex /working/
-#cp /workingoutput/*TOTAL*.csv /working/
-#cp /workingoutput/*.png /working/
-#/software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-##  cp /workingoutput/*.tex /working/
-#cp /workingoutput/*TOTAL*.csv /working/
-#cp /workingoutput/*.png /working/
+/software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#  cp /workingoutput/*.tex /working/
+cp /workingoutput/*TOTAL*.csv /working/
+cp /workingoutput/*.png /working/
+/software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+#  cp /workingoutput/*.tex /working/
+cp /workingoutput/*TOTAL*.csv /working/
+cp /workingoutput/*.png /working/
 
 output_directory='/working'
 #echo "HELLO" > /working/atulTOTAL.csv

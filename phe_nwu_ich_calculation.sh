@@ -77,7 +77,7 @@ for x in working/*TOTAL*.csv; do
       images[$i]=${image_col6} #/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
       i=$(($i + 1))
       echo ${images[@]}
-      #       outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+       outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${images[@]}")
       #        echo outputfiles_present::${outputfiles_present}
     fi
 

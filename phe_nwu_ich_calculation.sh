@@ -15,7 +15,7 @@ cp /workingoutput/*.png /working/
 
 output_directory='/working'
 for x in working/*TOTAL*.csv; do
-  latexfilename=${x%.csv}.tex
+  latexfilename=${x%.csv*}.tex
   call_latex_start_arguments=('call_latex_start' ${latexfilename})
   outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
   # 	echo ${x%_threshold*} ;

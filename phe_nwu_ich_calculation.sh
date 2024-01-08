@@ -13,7 +13,7 @@ cp /workingoutput/*.png /working/
 cp /workingoutput/*TOTAL*.csv /working/
 cp /workingoutput/*.png /working/
 
-output_directory='working'
+output_directory='/working'
 for x in working/*TOTAL*.csv; do
   latexfilename=${x%.csv}.tex
   call_latex_start_arguments=('call_latex_start' ${latexfilename})
@@ -88,3 +88,4 @@ done
 call_latex_end_arguments=('call_latex_end' ${latexfilename})
 pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
+ pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex

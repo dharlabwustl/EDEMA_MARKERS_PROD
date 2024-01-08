@@ -345,9 +345,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #      done
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
-        cp /workingoutput/*.tex /working/
-        cp /workingoutput/*.csv /working/
-        cp /workingoutput/*.png /working/
+#        cp /workingoutput/*.tex /working/
+#        cp /workingoutput/*.csv /working/
+#        cp /workingoutput/*.png /working/
 
     else
       echo " FILES ARE PRESENT "

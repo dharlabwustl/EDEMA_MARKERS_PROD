@@ -4,17 +4,18 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 XNAT_HOST=${4}
 
-/software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-#  cp /workingoutput/*.tex /working/
-cp /workingoutput/*TOTAL*.csv /working/
-cp /workingoutput/*.png /working/
-/software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-#  cp /workingoutput/*.tex /working/
-cp /workingoutput/*TOTAL*.csv /working/
-cp /workingoutput/*.png /working/
+#/software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+##  cp /workingoutput/*.tex /working/
+#cp /workingoutput/*TOTAL*.csv /working/
+#cp /workingoutput/*.png /working/
+#/software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+##  cp /workingoutput/*.tex /working/
+#cp /workingoutput/*TOTAL*.csv /working/
+#cp /workingoutput/*.png /working/
 
 output_directory='/working'
-for x in working/*TOTAL*.csv; do
+#echo "HELLO" > /working/atulTOTAL.csv
+for x in ${output_directory}/*TOTAL*.csv; do
   latexfilename=${x%.csv*}.tex
   call_latex_start_arguments=('call_latex_start' ${latexfilename})
   outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")

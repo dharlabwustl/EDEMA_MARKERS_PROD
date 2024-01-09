@@ -29,7 +29,7 @@ call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 # 	echo ${x%_threshold*} ;
 
-for z in ${output_directory}/$(basename ${x%_threshold*})*gray.png; do
+for z in ${output_directory}/$(basename ${x%_thres*})*gray.png; do
 
   #              filename=args.stuff[1]
   imagescale='0.12' #float(args.stuff[2])

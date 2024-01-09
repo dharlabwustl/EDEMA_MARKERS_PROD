@@ -1011,7 +1011,7 @@ def csf_ratio_after_subtractionof_edema_phe(niftifilename,bet_filename_path,gray
             if os.path.exists(this_npyfile):
                 print("YES FOUND BOTH FILES")
                 print('latexfilename')
-                print(latexfilename)
+                # print(latexfilename)
                 calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
                 x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
                 # print(x_points2)

@@ -606,11 +606,12 @@ def measure_compartments_with_reg_round5_one_file_sh_phe() : #niftifilenamedir,n
         grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
         thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
         # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0] + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL.csv")
-        csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "_PHENWU_TOTAL" +Version_Date+date_time + ".csv")
+        # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "_PHENWU_TOTAL" +Version_Date+date_time + ".csv")
 
 
 
         latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +'_PHENWU'+ Version_Date + date_time+".tex")
+        csvfile_with_vol_total=latexfilename.split('.tex')[0]+'.csv'
         # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0]+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +".tex")
         # latexfilename1=os.path.join(os.path.dirname(latexfilename),'table.tex')
 

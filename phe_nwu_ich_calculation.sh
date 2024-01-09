@@ -18,7 +18,7 @@ cp /workingoutput/*.png /working/
 output_directory='/working'
 #echo "HELLO" > /working/atulTOTAL.csv
 counter=0
-x=$(ls ${output_directory}/*_PHENWU_TOTAL_*.csv)
+x=$(ls ${output_directory}/*_PHENWU*.csv)
 x1=$(ls ${output_directory}/*_ICHCSF*.csv )
 #for x in ${output_directory}/*TOTAL*.csv; do
 #  if [ ${counter} == 0 ] ; then

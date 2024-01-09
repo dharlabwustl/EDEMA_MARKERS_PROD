@@ -14,7 +14,6 @@ cp /workingoutput/*.png /working/
 #  cp /workingoutput/*.tex /working/
 cp /workingoutput/*_PHENWU*.csv /working/
 cp /workingoutput/*.png /working/
-
 output_directory='/working'
 #echo "HELLO" > /working/atulTOTAL.csv
 counter=0

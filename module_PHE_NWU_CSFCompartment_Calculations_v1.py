@@ -897,6 +897,9 @@ def measure_compartments_with_reg_round5_one_file_sh_phe() : #niftifilenamedir,n
                 writer = csv.writer(f1)
                 writer.writerow(row2)
             rename_columns(csvfile_with_vol_total,csvfile_with_vol_total)
+
+            #SCAN_NAME,PHE SIDE,PHE_NWU,PHE VOX_NUMBERS,PHE DENSITY,NON PHE VOX_NUMBERS,NON PHE DENSITY,PHE VOLUME,PHE REFLECTION VOLUME, PHE THRESH RANGE,NORMAL THRESH RANGE,SESSION_LABEL,SLICE_NUM
+
             this_session_label_list=[]
 
             # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],SESSION_LABEL)
@@ -963,6 +966,10 @@ def rename_columns(csvfilename,csvfilenameoutput):
         csvfilename_df_cols.append(x)
     csvfilename_df.columns=csvfilename_df_cols
     csvfilename_df.to_csv(csvfilenameoutput,index=False)
+def get_selected_columns():
+
+    return
+
 def rename_column_name_list(csvfilename_df_columns):
     csvfilename_df_cols=[]
     for each_col_name in csvfilename_df_columns:

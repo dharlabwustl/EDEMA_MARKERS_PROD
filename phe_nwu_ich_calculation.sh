@@ -19,6 +19,7 @@ output_directory='/working'
 #echo "HELLO" > /working/atulTOTAL.csv
 counter=0
 x=$(ls ${output_directory}/*_PHENWU_TOTAL_*.csv)
+x1=$(ls ${output_directory}/*_ICHCSF*.csv )
 #for x in ${output_directory}/*TOTAL*.csv; do
 #  if [ ${counter} == 0 ] ; then
 grayscale_filename_basename_noext=$(basename ${x%_threshold*})

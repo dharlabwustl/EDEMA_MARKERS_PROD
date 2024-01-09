@@ -21,7 +21,7 @@ x=$(ls ${output_directory}/*_PHENWU*.csv)
 x1=$(ls ${output_directory}/*_ICHCSF*.csv )
 #for x in ${output_directory}/*TOTAL*.csv; do
 #  if [ ${counter} == 0 ] ; then
-grayscale_filename_basename_noext=$(basename ${x%_thresh*})
+grayscale_filename_basename_noext=$(basename ${x%_thres*})
 latexfilename=${output_directory}/${grayscale_filename_basename_noext}_${outputfiles_suffix}.tex
 csvfilename=${latexfilename%.tex*}.csv
 cp ${x} ${csvfilename}

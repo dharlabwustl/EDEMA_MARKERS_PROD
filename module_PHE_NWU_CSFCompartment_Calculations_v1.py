@@ -896,10 +896,10 @@ def measure_compartments_with_reg_round5_one_file_sh_phe() : #niftifilenamedir,n
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
-            selected_columns=["SCAN_NAME","PHE SIDE","PHE_NWU","PHE VOX_NUMBERS","PHE DENSITY","NON PHE VOX_NUMBERS","NON PHE DENSITY","PHE VOLUME","PHE REFLECTION VOLUME", "PHE THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
-            get_selected_columns(csvfile_with_vol_total,csvfile_with_vol_total,selected_columns)
 
             rename_columns(csvfile_with_vol_total,csvfile_with_vol_total)
+            selected_columns=["SCAN_NAME","PHE SIDE","PHE_NWU","PHE VOX_NUMBERS","PHE DENSITY","NON PHE VOX_NUMBERS","NON PHE DENSITY","PHE VOLUME","PHE REFLECTION VOLUME", "PHE THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
+            get_selected_columns(csvfile_with_vol_total,csvfile_with_vol_total,selected_columns)
 
             #SCAN_NAME,PHE SIDE,PHE_NWU,PHE VOX_NUMBERS,PHE DENSITY,NON PHE VOX_NUMBERS,NON PHE DENSITY,PHE VOLUME,PHE REFLECTION VOLUME, PHE THRESH RANGE,NORMAL THRESH RANGE,SESSION_LABEL,SLICE_NUM
 

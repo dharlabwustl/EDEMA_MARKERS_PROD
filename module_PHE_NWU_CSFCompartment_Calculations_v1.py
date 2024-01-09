@@ -896,6 +896,9 @@ def measure_compartments_with_reg_round5_one_file_sh_phe() : #niftifilenamedir,n
             with open(csvfile_with_vol_total, 'a') as f1:
                 writer = csv.writer(f1)
                 writer.writerow(row2)
+            selected_columns=["SCAN_NAME","PHE SIDE","PHE_NWU","PHE VOX_NUMBERS","PHE DENSITY","NON PHE VOX_NUMBERS","NON PHE DENSITY","PHE VOLUME","PHE REFLECTION VOLUME", "PHE THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
+            get_selected_columns(csvfile_with_vol_total,csvfile_with_vol_total,selected_columns)
+
             rename_columns(csvfile_with_vol_total,csvfile_with_vol_total)
 
             #SCAN_NAME,PHE SIDE,PHE_NWU,PHE VOX_NUMBERS,PHE DENSITY,NON PHE VOX_NUMBERS,NON PHE DENSITY,PHE VOLUME,PHE REFLECTION VOLUME, PHE THRESH RANGE,NORMAL THRESH RANGE,SESSION_LABEL,SLICE_NUM
@@ -966,7 +969,15 @@ def rename_columns(csvfilename,csvfilenameoutput):
         csvfilename_df_cols.append(x)
     csvfilename_df.columns=csvfilename_df_cols
     csvfilename_df.to_csv(csvfilenameoutput,index=False)
-def get_selected_columns():
+def get_selected_columns(csvfileinput,csvfileoutput,selected_columns):
+    # selected_columns=["SCAN_NAME","PHE SIDE","PHE_NWU","PHE VOX_NUMBERS","PHE DENSITY","NON PHE VOX_NUMBERS","NON PHE DENSITY","PHE VOLUME","PHE REFLECTION VOLUME", "PHE THRESH RANGE","NORMAL THRESH RANGE","SESSION_LABEL","SLICE_NUM"]
+    csvfileinput_df=pd.read_csv(csvfileinput)
+    csvfileinput_df_copy=csvfileinput_df
+    for columname in csvfileinput_df.columns:
+        if columname not in selected_columns:
+            csvfileinput_df_copy.pop(columname)
+
+    csvfileinput_df_copy.to_csv(csvfileoutput,index=False)
 
     return
 

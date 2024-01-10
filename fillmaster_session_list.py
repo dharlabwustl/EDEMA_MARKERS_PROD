@@ -3347,6 +3347,13 @@ def fill_datapoint_each_session_sniprcsv(identifier,columnname,columnvalue,csvfi
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return  returnvalue
+def write_table_on_texfile(args):
+    latexfilename=args.stuff[1]
+    csvfilename=args.stuff[2]
+    csvfilename_df=pd.read_csv(csvfilename).T
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=csvfilename_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
 def add_single_column_in1Ddata(args):
     csvfilename_df=pd.read_csv(args.stuff[1])
     columnname=args.stuff[2]

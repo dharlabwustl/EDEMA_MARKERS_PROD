@@ -38,6 +38,8 @@ call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SLICE_NUM' 2 
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('add_single_column_in1Ddata' ${csvfilename} 'SESSION_ID' ${SESSION_ID} ${csvfilename} )
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_ID' 1 ${csvfilename} )
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 # 	echo ${x%_threshold*} ;

@@ -3352,7 +3352,7 @@ def add_single_column_in1Ddata(args):
     columnname=args.stuff[2]
     columnvalue=args.stuff[3]
     csvfilename_output=args.stuff[4]
-    csvfilename_df.iloc[0, columnname] = columnvalue #row['NUMBEROFSLICES']
+    csvfilename_df.at[0, columnname] = columnvalue #row['NUMBEROFSLICES']
     csvfilename_df.to_csv(csvfilename_output,index=True)
 def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     returnvalue=0

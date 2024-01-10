@@ -3355,7 +3355,7 @@ def write_table_on_texfile(args):
     col_names=np.array(csvfilename_df.columns)
     for name, values in csvfilename_df.iteritems():
         value=values[0]
-        if isinstance(values[0], float):
+        if isinstance(value, float):
             value=round(value,2)
         print('{name}: {value}'.format(name=name, value=value))
         values_in_table.append([name.replace("_"," "),str(value)])

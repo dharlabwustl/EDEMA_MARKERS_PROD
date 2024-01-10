@@ -3354,8 +3354,11 @@ def write_table_on_texfile(args):
     values_in_table=[]
     col_names=np.array(csvfilename_df.columns)
     for name, values in csvfilename_df.iteritems():
-        print('{name}: {value}'.format(name=name, value=values[0]))
-        values_in_table.append([name.replace("_"," "),str(values[0])])
+        value=values[0]
+        if isinstance(values[0], float):
+            value=round(value,2)
+        print('{name}: {value}'.format(name=name, value=value))
+        values_in_table.append([name.replace("_"," "),str(value)])
     values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
     values_in_table_df.columns=["Fields ","Values"]
     latex_start_tableNc_noboundary(latexfilename,1)

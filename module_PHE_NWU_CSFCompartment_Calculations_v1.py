@@ -455,9 +455,9 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
                             for non_zero_pixel in img_with_noninfarct_nonzero_id:
                                 if (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] >= lower_thresh_normal)  and (filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx] <= upper_thresh_normal) :
                                     current_noninfarct_num = current_noninfarct_num  + filename_gray_data_np_copy[non_zero_pixel[0],non_zero_pixel[1],img_idx]
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=100
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
-                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=100
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=200
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=10
                                     noninfarct_pixel_counter=noninfarct_pixel_counter+1
                             ##################################################################
 

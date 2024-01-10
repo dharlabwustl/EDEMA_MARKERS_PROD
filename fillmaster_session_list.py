@@ -3350,24 +3350,17 @@ def fill_datapoint_each_session_sniprcsv(identifier,columnname,columnvalue,csvfi
 def write_table_on_texfile(args):
     latexfilename=args.stuff[1]
     csvfilename=args.stuff[2]
-    csvfilename_df=pd.read_csv(csvfilename).T
-    # latex_start_tableNc_noboundary(latexfilename,1)
-    # latex_insert_line_nodek(latexfilename,text=csvfilename_df.to_latex(index=False))
-    # latex_end_table2c(latexfilename)
+    csvfilename_df=pd.read_csv(csvfilename) #.T
     values_in_table=[]
     col_names=np.array(csvfilename_df.columns)
-    values_in_col=csvfilename_df[[0]]
-    for x in range(0,col_names.shape[0]):
-        values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
-    values_in_table_df=pd.DataFrame(values_in_table)
-    values_in_table_df.columns=[" Fields ","Values"]
+    for name, values in csvfilename_df.iteritems():
+        print('{name}: {value}'.format(name=name, value=values[0]))
+        values_in_table.append([name.replace("_"," "),str(values[0])])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=["Fields ","Values"]
     latex_start_tableNc_noboundary(latexfilename,1)
     latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
     latex_end_table2c(latexfilename)
-    #     # latex_start_tableNc_noboundary(latexfilename,1)
-    #     # latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
-
-
 
 def add_single_column_in1Ddata(args):
     csvfilename_df=pd.read_csv(args.stuff[1])

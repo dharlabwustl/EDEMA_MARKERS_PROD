@@ -26,13 +26,22 @@ grayscale_filename_basename_noext=$(basename ${x%_thres*})
 latexfilename=${output_directory}/${grayscale_filename_basename_noext}_${outputfiles_suffix}.tex
 csvfilename=${latexfilename%.tex*}.csv
 cp ${x} ${csvfilename}
-call_latex_start_arguments=('remove_columns' ${csvfilename} ${csvfilename} 'FileName_slice')
-outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 
-call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_LABEL' 0 ${csvfilename} )
-outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${x1}) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
 outputfiles_present=$(python3 /software/dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+call_latex_start_arguments=('remove_columns' ${csvfilename} ${csvfilename} 'FileName_slice')
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_LABEL' 0 ${csvfilename} )
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SLICE_NUM' 2 ${csvfilename} )
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+call_latex_start_arguments=('add_single_column_in1Ddata' ${csvfilename} 'SESSION_ID' ${SESSION_ID} ${csvfilename} )
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+def (args):
+    csvfilename_df=pd.read_csv(args.stuff[1])
+    columnname=args.stuff[2]
+    columnvalue=args.stuff[3]
+    csvfilename_output=args.stuff[4]
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 # 	echo ${x%_threshold*} ;

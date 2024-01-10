@@ -42,7 +42,9 @@ call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_ID' 1
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-# 	echo ${x%_threshold*} ;
+call_latex_start_arguments=('write_table_on_texfile' ${latexfilename} ${csvfilename})
+outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+
 
 for z in ${output_directory}/${grayscale_filename_basename_noext}*gray.png; do
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+rm /working/*
 SESSION_ID=${1}
 XNAT_USER=${2}
 XNAT_PASS=${3}

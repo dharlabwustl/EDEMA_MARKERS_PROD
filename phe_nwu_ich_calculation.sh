@@ -47,7 +47,8 @@ while IFS=',' read -ra array_ich_q; do
 SELECTED_SCAN_ID=${array_ich_q[2]}
   #################
 done < <(tail -n +2 "${NIFTILOCATION_FILE}")
-add_scan_description_arguments=('add_scan_description' ${SESSION_ID} ${SELECTED_SCAN_ID} )
+
+add_scan_description_arguments=('add_scan_description' ${SESSION_ID} ${SELECTED_SCAN_ID}  ${csvfilename} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${add_scan_description_arguments[@]}")
 ######################################
 call_latex_start_arguments=('call_latex_start' ${latexfilename})

@@ -7,7 +7,7 @@ import inspect,xmltodict
 
 import pandas as pd
 import numpy as np
-import os,sys,glob
+import os,sys,glob,json
 import datetime
 import argparse
 import SimpleITK as sitk
@@ -2472,6 +2472,19 @@ def fill_sniprsession_list_ICH_V0(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return returnvalue
+def add_scan_description(args):
+    session_id=args.stuff[1]
+    SELECTED_SCAN_ID=args.stuff[2]
+    csvfilename=args.stuff[3]
+    append_dicominfo_to_analytics(session_id,SELECTED_SCAN_ID,csvfilename,os.path.dirname(csvfilename))
+    session_ID_metadata=get_metadata_session(session_id)
+    session_ID_metadata_1=json.dumps(session_ID_metadata)
+    session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+    scan_description=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+    # Kernel (scan description) e.g. Head H30S
+    subprocess.call("echo " + "I PASSED AT scan_description ::{}::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_description) ,shell=True )
+    # fill_datapoint_each_sessionn_1(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
+    fill_datapoint_each_sessionn(session_id,"SCAN_DESCRIPTION",scan_description,csvfilename)
 def nifti_image_resolution_info(filename): #URI_name,dir_to_save):
     # downloadniftiwithuri(URI_name,dir_to_save)
     # filename=os.path.join(dir_to_save,os.path.basename(URI_name))

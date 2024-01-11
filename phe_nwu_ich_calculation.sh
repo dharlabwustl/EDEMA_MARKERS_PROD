@@ -14,6 +14,7 @@ cp /workingoutput/*_ICHCSF*.csv /working/
 cp /workingoutput/*.png /working/
 /software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 #  cp /workingoutput/*.tex /working/
+cp /workinginput/*NIFTILOCATION*.csv /working/
 cp /workingoutput/*_PHENWU*.csv /working/
 cp /workingoutput/*.png /working/
 
@@ -40,6 +41,15 @@ call_latex_start_arguments=('add_single_column_in1Ddata' ${csvfilename} 'SESSION
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_ID' 1 ${csvfilename} )
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
+########################################
+NIFTILOCATION_FILE=$(ls /working/*NIFTILOCATION*.csv)
+while IFS=',' read -ra array_ich_q; do
+SELECTED_SCAN_ID=${array_ich_q[2]}
+  #################
+done < <(tail -n +2 "${NIFTILOCATION_FILE}")
+add_scan_description_arguments=('add_scan_description' ${SESSION_ID} ${SELECTED_SCAN_ID} )
+outputfiles_present=$(python3 fillmaster_session_list.py "${add_scan_description_arguments[@]}")
+######################################
 call_latex_start_arguments=('call_latex_start' ${latexfilename})
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 call_latex_start_arguments=('write_table_on_texfile' ${latexfilename} ${csvfilename})

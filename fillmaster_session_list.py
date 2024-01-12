@@ -3385,7 +3385,7 @@ def write_table_on_texfile(args):
 
     values_in_table=[]
     for name, values in csvfilename_df.iteritems():
-        if 'Unnamed' not in name and 'SIDE' in name :
+        if 'Unnamed' not in name and 'SIDE' in name and 'PHE' not in name:
             value=values[0]
             if isinstance(value, float):
                 value=round(value,2)

@@ -3371,7 +3371,7 @@ def write_table_on_texfile(args):
     csvfilename_df=pd.read_csv(csvfilename) #.T
     values_in_table=[]
     for name, values in csvfilename_df.iteritems():
-        if 'Unnamed' not in name:
+        if 'Unnamed' not in name and ('SESSION' in name or 'SCAN' in name):
             value=values[0]
             if isinstance(value, float):
                 value=round(value,2)
@@ -3379,6 +3379,72 @@ def write_table_on_texfile(args):
             values_in_table.append([name.replace("_"," "),str(value)])
     values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
     values_in_table_df.columns=["Fields ","Values"]
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+
+    values_in_table=[]
+    for name, values in csvfilename_df.iteritems():
+        if 'Unnamed' not in name and 'SIDE' in name :
+            value=values[0]
+            if isinstance(value, float):
+                value=round(value,2)
+            print('{name}: {value}'.format(name=name, value=value))
+            values_in_table.append([name.replace("_"," "),str(value)])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=[" "," "]
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+    values_in_table=[]
+    for name, values in csvfilename_df.iteritems():
+        if 'Unnamed' not in name and 'ICH' in name :
+            value=values[0]
+            if isinstance(value, float):
+                value=round(value,2)
+            print('{name}: {value}'.format(name=name, value=value))
+            values_in_table.append([name.replace("_"," "),str(value)])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=[" "," "]
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+    values_in_table=[]
+    for name, values in csvfilename_df.iteritems():
+        if 'Unnamed' not in name and 'PHE' in name :
+            value=values[0]
+            if isinstance(value, float):
+                value=round(value,2)
+            print('{name}: {value}'.format(name=name, value=value))
+            values_in_table.append([name.replace("_"," "),str(value)])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=[" "," "]
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+    values_in_table=[]
+    for name, values in csvfilename_df.iteritems():
+        if 'Unnamed' not in name and 'CSF' in name :
+            value=values[0]
+            if isinstance(value, float):
+                value=round(value,2)
+            print('{name}: {value}'.format(name=name, value=value))
+            values_in_table.append([name.replace("_"," "),str(value)])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=[" "," "]
+    latex_start_tableNc_noboundary(latexfilename,1)
+    latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+    latex_end_table2c(latexfilename)
+    values_in_table=[]
+    for name, values in csvfilename_df.iteritems():
+        if 'Unnamed' not in name and 'BRAIN' in name :
+            value=values[0]
+            if isinstance(value, float):
+                value=round(value,2)
+            print('{name}: {value}'.format(name=name, value=value))
+            values_in_table.append([name.replace("_"," "),str(value)])
+    values_in_table_df=pd.DataFrame(values_in_table) #csvfilename_df[[0]]
+    values_in_table_df.columns=[" "," "]
     latex_start_tableNc_noboundary(latexfilename,1)
     latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
     latex_end_table2c(latexfilename)

@@ -241,7 +241,7 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
         print('filename_gray_data_np_copy size = {}'.format(filename_gray_data_np_copy.shape))
         print('csf_seg_np size = {}'.format(csf_seg_np.shape))
 
-        filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
+        # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy)#255
         infarct_side,CSF_Mask_filename_data_np=determine_infarct_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,CSF_Mask_filename_data_np)
         numpy_image_mask=CSF_Mask_filename_data_np
 

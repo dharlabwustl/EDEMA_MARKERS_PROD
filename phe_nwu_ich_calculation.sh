@@ -60,7 +60,7 @@ outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex
 for z in ${output_directory}/${grayscale_filename_basename_noext}*gray.png; do
 
   #              filename=args.stuff[1]
-  imagescale='0.12' #float(args.stuff[2])
+  imagescale='0.15' #float(args.stuff[2])
   angle='90'        #float(args.stuff[3])
   space='1'         #float(args.stuff[4])
   i=0
@@ -110,8 +110,8 @@ for z in ${output_directory}/${grayscale_filename_basename_noext}*gray.png; do
     i=$(($i + 1))
     images[$i]=${image_col4} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
     i=$(($i + 1))
-    images[$i]=${image_col5} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
-    i=$(($i + 1))
+#    images[$i]=${image_col5} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
+#    i=$(($i + 1))
 
     images[$i]=${image_col6} #/SAH_1_01052014_2003_2_resaved_levelset_GRAY_${suffix}.jpg
     i=$(($i + 1))

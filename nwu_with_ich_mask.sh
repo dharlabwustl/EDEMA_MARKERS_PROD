@@ -355,7 +355,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
         call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url_ich_q} ${filename_ich_q} ${output_dirname})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
       fi
-    done < <(tail -n +2 "${output_csvfile_ICH_QUAN}")
+    done < <(tail -n +2 "${working_dir}/${output_csvfile_ICH_QUAN}")
     cp ${output_dirname}/*.mat ${output_directory}/
     cp ${output_dirname}/*.mat ${final_output_directory}/
     ######################################################################################################################

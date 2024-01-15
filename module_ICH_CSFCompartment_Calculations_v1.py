@@ -542,6 +542,16 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
             lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
             upper_thresh_normal=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8]))
             for img_idx in range(numpy_image.shape[2]):
+                ################################################################
+                subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
+                subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
+                #######################################################################################
                 #             print("I AM HERE 4")
                 if img_idx>0 and img_idx < numpy_image.shape[2] and  filename_gray_data_np_copy.shape==csf_seg_np.shape:
                     method_name="REGIS"
@@ -664,16 +674,7 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
                             slice_3_layer1 = cv2.putText(slice_3_layer1,' ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                         cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                         cv2.imwrite(image_ICH_details,img_with_line1)
-                        ################################################################
-                        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
-                        subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
-                        #######################################################################################
+
 
 
 

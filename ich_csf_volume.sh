@@ -12,6 +12,7 @@ infarctmaskimage1=${5}
 echo "grayimage=${1}::betimage=${2}::csfmaskimage=${3} ::infarctmaskimage=${4}::infarctmaskimage1=${5}"
 #lower_threshold=${5}
 #upper_threshold=${6}
+echo '$grayimage $betimage  $csfmaskimage ${infarctmaskimage}  ${npyfiledirectory}     ${output_directory}  ${infarctmaskimage1}':::$grayimage::$betimage::$csfmaskimage::${infarctmaskimage}::${npyfiledirectory}::${output_directory}::${infarctmaskimage1}
 python3 -c "
 import sys ;
 print('I AM HERE')

@@ -5,7 +5,7 @@ SESSION_ID=${1}
 XNAT_USER=${2}
 XNAT_PASS=${3}
 XNAT_HOST=${4}
-VERSION='V_08162023'
+VERSION='V_01152024'
 time_now=$(date -dnow +%m_%d_%Y)
 outputfiles_suffix=${VERSION}_${time_now}
 /software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

@@ -341,6 +341,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
     resource_dir="ICH_QUANTIFICATION"
     output_csvfile_ICH_QUAN=${sessionID}_ICH_QUAN_METADATA.csv
+    echo '${url1} ${resource_dir} ${working_dir} ${output_csvfile_ICH_QUAN}'::::::${url1}::${resource_dir}::${working_dir}::${output_csvfile_ICH_QUAN}
     call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_ICH_QUAN}
     while IFS=',' read -ra array_ich_q; do
 

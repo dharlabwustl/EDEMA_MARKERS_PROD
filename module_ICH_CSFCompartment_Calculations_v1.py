@@ -386,6 +386,7 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
 def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,niftifilenamedir):
     try:
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
         ICH_side="NA"
         NWU="NA"
         ICH_pixels_number=0 #"NA"

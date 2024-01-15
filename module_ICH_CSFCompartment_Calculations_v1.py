@@ -387,6 +387,13 @@ def measure_ICH_CLASS2_Feb_24_2023(): #niftifilename,npyfiledirectory,niftifilen
 def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,niftifilenamedir):
     try:
         subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
         ICH_side="NA"
         NWU="NA"
         ICH_pixels_number=0 #"NA"
@@ -682,8 +689,6 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
         nonICH_pixels_density=0
         overall_ICH_vol=ICH_total_voxels_volume/1000 #0
         overall_non_ICH_vol=0
-
-
         return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )

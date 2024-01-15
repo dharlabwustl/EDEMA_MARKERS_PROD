@@ -454,14 +454,7 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
         PHE_Mask_filename_part1, PHE_Mask_filename_part2 = os.path.splitext(PHE_Mask_filename)
 
         ICH_side="NONE"
-        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
-        subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
+
 
         if os.path.exists(csf_seg_maskbasename_path) and os.path.exists(ICH_Mask_filename) and os.path.exists(niftifilename) and os.path.exists(PHE_Mask_filename):
 
@@ -671,6 +664,17 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
                             slice_3_layer1 = cv2.putText(slice_3_layer1,' ICH' , org, font,  fontScale, color, thickness, cv2.LINE_AA)
                         cv2.imwrite(imagename_class1,slice_3_layer1) #img_with_line1) ##slice_3_layer1) #
                         cv2.imwrite(image_ICH_details,img_with_line1)
+                        ################################################################
+                        subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
+                        subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
+                        #######################################################################################
+
 
 
 

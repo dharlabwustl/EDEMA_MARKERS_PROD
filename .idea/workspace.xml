@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ich_csf_volume.sh" beforeDir="false" afterPath="$PROJECT_DIR$/ich_csf_volume.sh" afterDir="false" />
-    </list>
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,13 +117,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03682" summary="Flowchart commi">
-      <created>1704715033390</created>
-      <option name="number" value="03682" />
-      <option name="presentableId" value="LOCAL-03682" />
-      <option name="project" value="LOCAL" />
-      <updated>1704715033390</updated>
     </task>
     <task id="LOCAL-03683" summary="Flowchart commi">
       <created>1704715341235</created>
@@ -464,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705326984782</updated>
     </task>
-    <option name="localTasksCounter" value="3731" />
+    <task id="LOCAL-03731" summary="Flowchart commi">
+      <created>1705327329507</created>
+      <option name="number" value="03731" />
+      <option name="presentableId" value="LOCAL-03731" />
+      <option name="project" value="LOCAL" />
+      <updated>1705327329507</updated>
+    </task>
+    <option name="localTasksCounter" value="3732" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

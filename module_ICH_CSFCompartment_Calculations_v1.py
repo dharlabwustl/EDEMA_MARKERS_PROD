@@ -17,7 +17,7 @@ from skimage import exposure
 import glob,os,csv,sys
 import nibabel as nib
 import numpy as np
-import cv2 , re,subprocess,time,math
+import cv2 , re,subprocess,time,math,inspect
 sys.path.append("/software")
 #sys.path.append("/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/DOCKERIZE/DOCKERIZEPYTHON/docker_fsl/docker/fsl/fsl-v5.0")
 from utilities_simple import *
@@ -685,7 +685,7 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
 
         return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, ICH_total_voxels_volume, ICH_side,NWU,ICH_pixels_number,ICH_pixels_density,nonfarct_pixels_number,nonICH_pixels_density, overall_ICH_vol,overall_non_ICH_vol
     except:
-        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I FAILED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
 
 

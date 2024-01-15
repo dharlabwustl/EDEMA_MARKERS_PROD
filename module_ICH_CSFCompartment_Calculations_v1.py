@@ -516,7 +516,16 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
 
             if len(PHE_Mask_filename_data_np.shape) == 4:
                 PHE_Mask_filename_data_np=PHE_Mask_filename_data_np[:,:,:,0]
-
+            ################################################################
+            subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
+            subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
+            #######################################################################################
     ####################################################################################################################
             filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
             filename_gray_data_np_copy=np.copy(filename_gray_data_np)
@@ -541,16 +550,7 @@ def measure_ICH_Class1_Class2_Jan12_2024(): #niftifilename,npyfiledirectory,nift
             upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
             lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))
             upper_thresh_normal=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8]))
-            ################################################################
-            subprocess.call("echo " + "I PASSED AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[1] AT ::{}  >> error.txt".format(sys.argv[1]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[2] AT ::{}  >> error.txt".format(sys.argv[2]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[3] AT ::{}  >> error.txt".format(sys.argv[3]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[4] AT ::{}  >> error.txt".format(sys.argv[4]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[5] AT ::{}  >> error.txt".format(sys.argv[5]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[6] AT ::{}  >> error.txt".format(sys.argv[6]) ,shell=True )
-            subprocess.call("echo " + "I sys.argv[7] AT ::{}  >> error.txt".format(sys.argv[7]) ,shell=True )
-            #######################################################################################
+
             for img_idx in range(numpy_image.shape[2]):
 
                 #             print("I AM HERE 4")

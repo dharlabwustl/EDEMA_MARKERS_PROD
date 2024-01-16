@@ -166,4 +166,5 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
 
 ### CHECK IF THE PDF AND CSV AVAILABLE AT ICH_QUANTIFICATION
 # resource_dir=${2}   #"NIFTI"
+#/software/fill_redcap.sh ${SESSION_ID} ${XNAT_USER} ${XNAT_PASS}
 fi

@@ -3411,7 +3411,7 @@ def write_table_on_texfile(args):
     latex_end_table2c(latexfilename)
     values_in_table=[]
     for name, values in csvfilename_df.iteritems():
-        if 'Unnamed' not in name and 'PHE' in name and 'SIDE' not in name:
+        if 'Unnamed' not in name and 'PHE' in name and 'SIDE' not in name or 'NORMAL' in name:
             value=values[0]
             if isinstance(value, float):
                 value=round(value,2)

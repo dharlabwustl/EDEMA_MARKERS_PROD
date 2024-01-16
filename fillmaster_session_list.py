@@ -3455,7 +3455,7 @@ def add_single_column_in1Ddata(args):
     columnvalue=args.stuff[3]
     csvfilename_output=args.stuff[4]
     csvfilename_df.at[0, columnname] = columnvalue #row['NUMBEROFSLICES']
-    csvfilename_df.to_csv(csvfilename_output,index=True)
+    csvfilename_df.to_csv(csvfilename_output,index=False)
 def fill_datapoint_each_sessionn(identifier,columnname,columnvalue,csvfilename):
     returnvalue=0
     subprocess.call("echo " + "I AM BEFORE TRY AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

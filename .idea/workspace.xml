@@ -121,13 +121,6 @@
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
     </task>
-    <task id="LOCAL-03694" summary="Flowchart commi">
-      <created>1704772574693</created>
-      <option name="number" value="03694" />
-      <option name="presentableId" value="LOCAL-03694" />
-      <option name="project" value="LOCAL" />
-      <updated>1704772574693</updated>
-    </task>
     <task id="LOCAL-03695" summary="Flowchart commi">
       <created>1704772613326</created>
       <option name="number" value="03695" />
@@ -464,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705333388237</updated>
     </task>
-    <option name="localTasksCounter" value="3743" />
+    <task id="LOCAL-03743" summary="Flowchart commi">
+      <created>1705333625215</created>
+      <option name="number" value="03743" />
+      <option name="presentableId" value="LOCAL-03743" />
+      <option name="project" value="LOCAL" />
+      <updated>1705333625215</updated>
+    </task>
+    <option name="localTasksCounter" value="3744" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -43,7 +43,9 @@ call_latex_start_arguments=('call_move_one_column' ${csvfilename} 'SESSION_ID' 1
 outputfiles_present=$(python3 /software/fillmaster_session_list.py "${call_latex_start_arguments[@]}")
 ########################################
 NIFTILOCATION_FILE=$(ls /working/*NIFTILOCATION*.csv)
+
 while IFS=',' read -ra array_ich_q; do
+uri=${array_ich_q[0]}
 SELECTED_SCAN_ID=${array_ich_q[2]}
   #################
 done < <(tail -n +2 "${NIFTILOCATION_FILE}")
@@ -131,3 +133,11 @@ call_latex_end_arguments=('call_latex_end' ${latexfilename})
 pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
 outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
 pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+URI_1=${uri%/resources*}
+resource_dir='ICH_QUANTIFICATION'
+file_to_upload=${pdfilename}
+call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${file_to_upload} "${resource_dir}")
+outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+file_to_upload=${csvfilename}
+call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${file_to_upload} "${resource_dir}")
+outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

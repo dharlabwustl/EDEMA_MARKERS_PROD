@@ -6,7 +6,7 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 XNAT_HOST=${4}
 working_dir=/workinginput
-output_directory=/workingoutput
+#output_directory=/workingoutput
 final_output_directory=/outputinsidedocker
 ############## CHECK IF FILES AVAILABLE #################
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${SESSION_ID} "NIFTI_LOCATION" ${working_dir})

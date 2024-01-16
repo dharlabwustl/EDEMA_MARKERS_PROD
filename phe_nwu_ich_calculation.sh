@@ -17,6 +17,7 @@ while IFS=',' read -ra array_ich_q; do
   SELECTED_SCAN_ID=${array_ich_q[2]}
   #################
 done < <(tail -n +2 "${NIFTILOCATION_FILE}")
+URI=${uri%/resources*}
 snipr_output_foldername='ICH_PHE_QUANTIFICATION'
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${SESSION_ID} ${SELECTED_SCAN_ID} ${snipr_output_foldername} .pdf .csv)
 outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
@@ -26,7 +27,7 @@ fi
 ## START WORKING IF THE REQUIRED FILES DO NOT EXIST
 if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 ]]  ; then #
   output_csvfile=${SESSION_ID}_ICH_PHE_QUANTIFICATION_METADATA.csv #${4} #{array[1]}
-  URI=${1}                                                         #{array[0]}
+                                                     #{array[0]}
   call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
   outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
   ##################
@@ -150,7 +151,7 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
   pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
   outputfiles_present=$(python3 /software/utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
   pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-  URI=${uri%/resources*}
+
   resource_dir='ICH_PHE_QUANTIFICATION'
   file_to_upload=${pdfilename}
   call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${file_to_upload} "${resource_dir}")

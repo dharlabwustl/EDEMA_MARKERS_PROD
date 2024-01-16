@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nwucalculation_session_level_allsteps_November14_2022.sh" beforeDir="false" afterPath="$PROJECT_DIR$/nwucalculation_session_level_allsteps_November14_2022.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phe_nwu_ich_calculation.sh" beforeDir="false" afterPath="$PROJECT_DIR$/phe_nwu_ich_calculation.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,13 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03697" summary="Flowchart commi">
-      <created>1704784240213</created>
-      <option name="number" value="03697" />
-      <option name="presentableId" value="LOCAL-03697" />
-      <option name="project" value="LOCAL" />
-      <updated>1704784240213</updated>
     </task>
     <task id="LOCAL-03698" summary="Flowchart commi">
       <created>1704785287430</created>
@@ -465,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705404373746</updated>
     </task>
-    <option name="localTasksCounter" value="3746" />
+    <task id="LOCAL-03746" summary="Flowchart commi">
+      <created>1705408675922</created>
+      <option name="number" value="03746" />
+      <option name="presentableId" value="LOCAL-03746" />
+      <option name="project" value="LOCAL" />
+      <updated>1705408675922</updated>
+    </task>
+    <option name="localTasksCounter" value="3747" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

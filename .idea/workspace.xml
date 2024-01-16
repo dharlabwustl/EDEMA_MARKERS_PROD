@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phe_nwu_ich_calculation.sh" beforeDir="false" afterPath="$PROJECT_DIR$/phe_nwu_ich_calculation.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,27 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03702" summary="Flowchart commi">
-      <created>1704804993186</created>
-      <option name="number" value="03702" />
-      <option name="presentableId" value="LOCAL-03702" />
-      <option name="project" value="LOCAL" />
-      <updated>1704804993186</updated>
-    </task>
-    <task id="LOCAL-03703" summary="Flowchart commi">
-      <created>1704806188285</created>
-      <option name="number" value="03703" />
-      <option name="presentableId" value="LOCAL-03703" />
-      <option name="project" value="LOCAL" />
-      <updated>1704806188285</updated>
-    </task>
-    <task id="LOCAL-03704" summary="Flowchart commi">
-      <created>1704811516332</created>
-      <option name="number" value="03704" />
-      <option name="presentableId" value="LOCAL-03704" />
-      <option name="project" value="LOCAL" />
-      <updated>1704811516332</updated>
     </task>
     <task id="LOCAL-03705" summary="Flowchart commi">
       <created>1704812059837</created>
@@ -464,7 +442,28 @@
       <option name="project" value="LOCAL" />
       <updated>1705410706118</updated>
     </task>
-    <option name="localTasksCounter" value="3751" />
+    <task id="LOCAL-03751" summary="Flowchart commi">
+      <created>1705410759409</created>
+      <option name="number" value="03751" />
+      <option name="presentableId" value="LOCAL-03751" />
+      <option name="project" value="LOCAL" />
+      <updated>1705410759409</updated>
+    </task>
+    <task id="LOCAL-03752" summary="Flowchart commi">
+      <created>1705410789444</created>
+      <option name="number" value="03752" />
+      <option name="presentableId" value="LOCAL-03752" />
+      <option name="project" value="LOCAL" />
+      <updated>1705410789444</updated>
+    </task>
+    <task id="LOCAL-03753" summary="Flowchart commi">
+      <created>1705410847774</created>
+      <option name="number" value="03753" />
+      <option name="presentableId" value="LOCAL-03753" />
+      <option name="project" value="LOCAL" />
+      <updated>1705410847774</updated>
+    </task>
+    <option name="localTasksCounter" value="3754" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

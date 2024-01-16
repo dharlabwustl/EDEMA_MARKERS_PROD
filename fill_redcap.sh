@@ -7,4 +7,5 @@ IFS='::::' read -ra ADDR <<< "${XNAT_HOST_TOKEN}"
 XNAT_HOST=${ADDR[0]}
 redcap_token=${ADDR[2]}
 redcap_url=${ADDR[1]} #'https://redcap.wustl.edu/redcap/api/'
-python3 redcapapi.py ${redcap_token} ${redcap_url}
+echo '${redcap_token} ${redcap_url}'::"${redcap_token} ${redcap_url}"
+#python3 redcapapi.py ${redcap_token} ${redcap_url}

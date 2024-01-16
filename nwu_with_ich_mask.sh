@@ -78,8 +78,8 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-#  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-#  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  #  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+  #  echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
@@ -104,11 +104,11 @@ run_IML_NWU_CSF_CALC() {
   echo "ich_csf_volume successful" >>${output_directory}/success.txt
   thisfile_basename=$(basename $this_filename)
   # for texfile in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*.tex ;
-#  for texfile in ${output_directory}/*.tex; do
-#    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
-#    rm ${output_directory}/*.aux
-#    rm ${output_directory}/*.log
-#  done
+  #  for texfile in ${output_directory}/*.tex; do
+  #    pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} $texfile ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
+  #    rm ${output_directory}/*.aux
+  #    rm ${output_directory}/*.log
+  #  done
   #
   for filetocopy in $(/usr/lib/fsl/5.0/remove_ext ${output_directory}/$thisfile_basename)*_brain_f.nii.gz; do
     cp ${filetocopy} ${final_output_directory}/
@@ -309,8 +309,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     #resource_foldername="EDEMA_BIOMARKER"
     snipr_output_foldername="ICH_QUANTIFICATION"
     ### check if the file exists:
-#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .csv .pdf)
-#    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+    #    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .csv .pdf)
+    #    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
   done < <(tail -n +2 "${niftifile_csvfilename}")
   outputfiles_present=0000000
   ################################################
@@ -375,9 +375,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     done
     ######################################################################################################################
     echo " FILES NOT PRESENT I AM WORKING ON IT"
-#      cp /workingoutput/*.tex /working/
-#      cp /workingoutput/*.csv /working/
-#      cp /workingoutput/*.png /working/
+    #      cp /workingoutput/*.tex /working/
+    #      cp /workingoutput/*.csv /working/
+    #      cp /workingoutput/*.png /working/
   else
     echo " FILES ARE PRESENT "
   ######################################################################################################################

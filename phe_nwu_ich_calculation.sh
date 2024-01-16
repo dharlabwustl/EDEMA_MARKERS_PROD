@@ -154,9 +154,11 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
 
   resource_dir='ICH_PHE_QUANTIFICATION'
   file_to_upload=${pdfilename}
+  echo '${URI} ${file_to_upload} "${resource_dir}"'::::${URI}::${file_to_upload}::"${resource_dir}"
   call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${file_to_upload} "${resource_dir}")
   outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
   file_to_upload=${csvfilename}
+  echo '${URI} ${file_to_upload} "${resource_dir}"'::::${URI}::${file_to_upload}::"${resource_dir}"
   call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI} ${file_to_upload} "${resource_dir}")
   outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 

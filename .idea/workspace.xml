@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi">
-      <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
-    </list>
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,20 +117,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03698" summary="Flowchart commi">
-      <created>1704785287430</created>
-      <option name="number" value="03698" />
-      <option name="presentableId" value="LOCAL-03698" />
-      <option name="project" value="LOCAL" />
-      <updated>1704785287430</updated>
-    </task>
-    <task id="LOCAL-03699" summary="Flowchart commi">
-      <created>1704785404691</created>
-      <option name="number" value="03699" />
-      <option name="presentableId" value="LOCAL-03699" />
-      <option name="project" value="LOCAL" />
-      <updated>1704785404691</updated>
     </task>
     <task id="LOCAL-03700" summary="Flowchart commi">
       <created>1704785800987</created>
@@ -463,7 +447,21 @@
       <option name="project" value="LOCAL" />
       <updated>1705408675922</updated>
     </task>
-    <option name="localTasksCounter" value="3747" />
+    <task id="LOCAL-03747" summary="Flowchart commi">
+      <created>1705409036960</created>
+      <option name="number" value="03747" />
+      <option name="presentableId" value="LOCAL-03747" />
+      <option name="project" value="LOCAL" />
+      <updated>1705409036960</updated>
+    </task>
+    <task id="LOCAL-03748" summary="Flowchart commi">
+      <created>1705409178359</created>
+      <option name="number" value="03748" />
+      <option name="presentableId" value="LOCAL-03748" />
+      <option name="project" value="LOCAL" />
+      <updated>1705409178359</updated>
+    </task>
+    <option name="localTasksCounter" value="3749" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

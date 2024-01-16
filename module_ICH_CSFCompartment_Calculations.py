@@ -793,7 +793,10 @@ def measure_ICH_Class1_Class2_Jan16_2024(): #niftifilename,npyfiledirectory,nift
 
         # filename_gray_data_np_copy[csf_seg_np>min_val]=np.min(filename_gray_data_np_copy) #+10.0 #255
         ICH_side,ICH_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,ICH_Mask_filename_data_np)
+        PHE_side,PHE_Mask_filename_data_np=determine_ICH_side(numpy_image,filename_gray_data_np_copy,niftifilename,npyfiledirectory,csf_seg_np,PHE_Mask_filename_data_np)
+
         numpy_image_mask=ICH_Mask_filename_data_np
+        numpy_phe_image_mask=PHE_Mask_filename_data_np
         lower_thresh=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7])) #20 #0 # 20 #
         upper_thresh=np.max(filename_gray_data_np_copy) #int(float(sys.argv[8])) #80 # 40 # 80 #
         lower_thresh_normal=np.min(filename_gray_data_np_copy) #int(float(sys.argv[7]))

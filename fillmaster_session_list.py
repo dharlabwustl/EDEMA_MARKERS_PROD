@@ -3371,7 +3371,7 @@ def write_table_on_texfile(args):
     csvfilename_df=pd.read_csv(csvfilename) #.T
     values_in_table=[]
     for name, values in csvfilename_df.iteritems():
-        if 'Unnamed' not in name and ('SESSION' in name or 'SCAN' in name):
+        if 'Unnamed' not in name and ('SESSION' in name or 'SCAN' in name or 'SLICE_NUM' in name):
             value=values[0]
             if isinstance(value, float):
                 value=round(value,2)

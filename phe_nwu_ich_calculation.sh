@@ -21,7 +21,7 @@ URI=${uri%/resources*}
 echo '${URI} ${file_to_upload} "${resource_dir}"'::::${URI}::${NIFTILOCATION_FILE}  ##::${file_to_upload}::"${resource_dir}"
 snipr_output_foldername='ICH_PHE_QUANTIFICATION'
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${SESSION_ID} ${SELECTED_SCAN_ID} ${snipr_output_foldername} .pdf .csv)
-outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+outputfiles_present=0 #$(python3 /software/download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
   echo " I AM THE ONE"
 fi

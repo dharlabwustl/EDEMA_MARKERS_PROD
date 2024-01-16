@@ -235,7 +235,10 @@ if [[ ${TYPE_OF_PROGRAM} == "PHE_NWULIKE_RATIO" ]]; then
   SESSION_ID=${1}
 #  /software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
   /software/phe_nwu_ich_calculation.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 
-
-
+if [[ ${TYPE_OF_PROGRAM} == "REDCAP_FILL_SESSION_NAME" ]]; then
+  SESSION_ID=${1}
+  PROJECT_ID=${1}
+  /software/fill_redcap.sh   ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="Flowchart commi">
+      <change afterPath="$PROJECT_DIR$/fill_session_name.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script_to_call_main_program.sh" beforeDir="false" afterPath="$PROJECT_DIR$/script_to_call_main_program.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,13 +121,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03705" summary="Flowchart commi">
-      <created>1704812059837</created>
-      <option name="number" value="03705" />
-      <option name="presentableId" value="LOCAL-03705" />
-      <option name="project" value="LOCAL" />
-      <updated>1704812059837</updated>
     </task>
     <task id="LOCAL-03706" summary="Flowchart commi">
       <created>1704812258256</created>
@@ -463,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705410847774</updated>
     </task>
-    <option name="localTasksCounter" value="3754" />
+    <task id="LOCAL-03754" summary="Flowchart commi">
+      <created>1705413766643</created>
+      <option name="number" value="03754" />
+      <option name="presentableId" value="LOCAL-03754" />
+      <option name="project" value="LOCAL" />
+      <updated>1705413766643</updated>
+    </task>
+    <option name="localTasksCounter" value="3755" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

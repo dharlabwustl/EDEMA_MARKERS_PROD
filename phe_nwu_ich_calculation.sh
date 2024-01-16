@@ -11,7 +11,7 @@ final_output_directory=/outputinsidedocker
 ############## CHECK IF FILES AVAILABLE #################
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${SESSION_ID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-NIFTILOCATION_FILE=$(ls /working/*NIFTILOCATION*.csv)
+NIFTILOCATION_FILE=$(ls ${working_dir}/*NIFTILOCATION*.csv)
 while IFS=',' read -ra array_ich_q; do
   uri=${array_ich_q[0]}
   SELECTED_SCAN_ID=${array_ich_q[2]}

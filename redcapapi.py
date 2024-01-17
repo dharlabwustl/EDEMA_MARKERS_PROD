@@ -168,7 +168,8 @@ for each_unique_subject in unique_subjects:
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
-        this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d H:M')
+        this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
+        print(this_date_time)
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))

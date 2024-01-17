@@ -78,9 +78,9 @@ record_ids_done=[]
 counter=0
 print(type(df_scan['record_id'].tolist()))
 ########### DELETE OLD RECORDS#######################
-for each_row_id,each_row in df_scan.iterrows():
-    delete_record(each_row['record_id'])
-##############FILL RECORD ID AND SUBJECT ID##############################
+################# for each_row_id,each_row in df_scan.iterrows():
+###################     delete_record(each_row['record_id'])
+##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
 for each_row_id,each_row in copy_session_df.iterrows():
     print(type(each_row['subject_id']))
     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
@@ -88,46 +88,46 @@ for each_row_id,each_row in copy_session_df.iterrows():
     # df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
     # # time.sleep(5)
     # print(df_scan['record_id'].tolist())
-    if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
+    # if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
     #     print('I AM NOT IN THE RECORD')
-        print(type(df_scan['record_id'].tolist()[0]))
-        print('I AM NOT IN THE RECORD')
-        # break
-        if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
-            print('I AM NOT IN THE RECORD_ID_LIST')
+    # print(type(df_scan['record_id'].tolist()[0]))
+    print('I AM NOT IN THE RECORD')
+    # break
+    if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
+        print('I AM NOT IN THE RECORD_ID_LIST')
 
-    #         # print(each_row['label']+':::::'+each_row['subject_id'])
-            this_record_id=str(each_row['subject_id'])
-            this_subject=str(each_row['subject_id'])
-            this_redcap_repeat_instance=str(1)
-            this_redcap_repeat_instrument='stroke_details'
-            this_snipr_session=str(each_row['label'])
-            record = {
-                'redcap_repeat_instrument':this_redcap_repeat_instrument,
-                'redcap_repeat_instance':this_redcap_repeat_instance,
-                'record_id':this_record_id,
-                'project':project_ID,
-                'subject':this_subject,
-                'subject_number':this_subject.split('_')[1]
-                # 'snipr_session':this_snipr_session
-            }
-            print(record)
-            # break
-            data = json.dumps([record])
-            fields = {
-                'token': api_token,
-                'content': 'record',
-                'format': 'json',
-                'type': 'flat',
-                'data': data,
-            }
-            r = requests.post(api_url,data=fields)
-            print('HTTP Status: ' + str(r.status_code))
-            print(r.text)
-            record_ids_done.append(this_record_id)
-            counter=counter+1
-            if counter>20:
-                break
+#         # print(each_row['label']+':::::'+each_row['subject_id'])
+        this_record_id=str(each_row['subject_id'])
+        this_subject=str(each_row['subject_id'])
+        this_redcap_repeat_instance=str(1)
+        this_redcap_repeat_instrument='stroke_details'
+        this_snipr_session=str(each_row['label'])
+        record = {
+            'redcap_repeat_instrument':this_redcap_repeat_instrument,
+            'redcap_repeat_instance':this_redcap_repeat_instance,
+            'record_id':this_record_id,
+            'project':project_ID,
+            'subject':this_subject,
+            'subject_number':this_subject.split('_')[1]
+            # 'snipr_session':this_snipr_session
+        }
+        print(record)
+        # break
+        data = json.dumps([record])
+        fields = {
+            'token': api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat',
+            'data': data,
+        }
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
+        record_ids_done.append(this_record_id)
+        counter=counter+1
+        if counter>20:
+            break
 
 ######################## FILL SESSION LABLE ############################################
 this_project_redcapfile_latest=project_ID+'_latest.csv'

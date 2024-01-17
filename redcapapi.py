@@ -8,23 +8,38 @@ sys.path.append("/software")
 from fillmaster_session_list import *
 from download_with_session_ID import *
 from system_analysis import *
+def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
+    fields = {
+        'token':api_token, # api_token,
+        'content': 'record',
+        'format': 'json',
+        'type': 'flat'
+    }
+    r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
+    r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
+    df_scan = pd.read_json(r_json)
+    this_project_redcapfile=project_ID+'.csv'
+    df_scan.to_csv(this_project_redcapfile,index=False)
+    return df_scan
 api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
 api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
 project_ID=sys.argv[3]
 working_dir="/workinginput"
 output_directory="/workingoutput"
 final_output_directory="/outputinsidedocker"
-fields = {
-    'token':api_token, # api_token,
-    'content': 'record',
-    'format': 'json',
-    'type': 'flat'
-}
-r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
-r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
-df_scan = pd.read_json(r_json)
 this_project_redcapfile=project_ID+'.csv'
-df_scan.to_csv(this_project_redcapfile,index=False)
+df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile)
+# fields = {
+#     'token':api_token, # api_token,
+#     'content': 'record',
+#     'format': 'json',
+#     'type': 'flat'
+# }
+# r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
+# r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
+# df_scan = pd.read_json(r_json)
+# this_project_redcapfile=project_ID+'.csv'
+# df_scan.to_csv(this_project_redcapfile,index=False)
 ## GET the session name from session ID:
 # session_label=get_session_label(session_id,outputfile="NONE.csv")
 ## get subject ID:
@@ -44,7 +59,7 @@ copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP1_'+time_
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 ### fill each session with its projectname, subject name, instrument number, instance number
 
-df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
+# df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
 
 # ############FILTER TO GET THE SINGLE ROW#######################
 # for each session
@@ -93,8 +108,8 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            if counter>10:
-                break
+            # if counter>10:
+            #     break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

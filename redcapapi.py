@@ -20,16 +20,20 @@ def delete_record(record_id):
     print('HTTP Status: ' + str(r.status_code))
     print(r.text)
 def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
-    fields = {
-        'token':api_token, # api_token,
-        'content': 'record',
-        'format': 'json',
-        'type': 'flat'
-    }
-    r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
-    r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
-    df_scan = pd.read_json(r_json)
-    df_scan.to_csv(this_project_redcapfile,index=False)
+    df_scan=''
+    try:
+        fields = {
+            'token':api_token, # api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat'
+        }
+        r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
+        r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
+        df_scan = pd.read_json(r_json)
+        df_scan.to_csv(this_project_redcapfile,index=False)
+    except:
+        pass
     return df_scan
 api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
 api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
@@ -76,7 +80,7 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_ses
 copy_session_df=pd.read_csv(copy_session)
 record_ids_done=[]
 counter=0
-print(type(df_scan['record_id'].tolist()))
+# print(type(df_scan['record_id'].tolist()))
 ########### DELETE OLD RECORDS#######################
 ################# for each_row_id,each_row in df_scan.iterrows():
 ###################     delete_record(each_row['record_id'])

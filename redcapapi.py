@@ -70,10 +70,10 @@ print(type(df_scan['record_id'].tolist()))
 for each_row_id,each_row in copy_session_df.iterrows():
     print(type(each_row['subject_id']))
     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
-    this_project_redcapfile_latest=project_ID+'_latest.csv'
-    df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-    # time.sleep(5)
-    print(df_scan['record_id'].tolist())
+    # this_project_redcapfile_latest=project_ID+'_latest.csv'
+    # df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
+    # # time.sleep(5)
+    # print(df_scan['record_id'].tolist())
     if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
     #     print('I AM NOT IN THE RECORD')
         print(type(df_scan['record_id'].tolist()[0]))
@@ -110,8 +110,8 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            if counter>10:
-                break
+            # if counter>10:
+            #     break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

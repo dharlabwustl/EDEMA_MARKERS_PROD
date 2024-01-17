@@ -123,8 +123,16 @@ df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redc
 counter=0
 for each_unique_subject in unique_subjects:
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
-    subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin']>0]
-    for each_row_id,each_row in subject_df.iterrows():
+    # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
+    subject_col_name='subject_id'
+    datetime_col_name='acquisition_datetime'
+    datetime_col_name_1=datetime_col_name+"_1"
+    # df=pd.read_csv(csvfilename)
+    subject_df[datetime_col_name_1] = pd.to_datetime(subject_df[datetime_col_name], format='%m/%d/%Y %H:%M')
+    df_agg = subject_df.groupby([subject_col_name])
+    res = df_agg.apply(lambda x: x.sort_values(by=[datetime_col_name_1],ascending=True))
+    x=res.pop(datetime_col_name_1)
+    for each_row_id,each_row in res.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
     counter=counter+1

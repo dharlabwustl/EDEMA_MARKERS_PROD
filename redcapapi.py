@@ -129,10 +129,10 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            if counter>20:
-                break
         except:
             pass
+        if counter>20:
+            break
 
 ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
 this_project_redcapfile_latest=project_ID+'_latest.csv'

@@ -117,6 +117,7 @@ counter=0
 fill_subjects_records(copy_session,counter_ul=20)
 ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
 unique_subjects=copy_session['subject_id'].str.tolist()
+print(unique_subjects)
 this_project_redcapfile_latest=project_ID+'_latest.csv'
 df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
 # for each_row_id,each_row in copy_session_df.iterrows():

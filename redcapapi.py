@@ -79,22 +79,22 @@ for each_row_id,each_row in copy_session_df.iterrows():
                 # 'snipr_session':this_snipr_session
             }
             print(record)
-            break
-    #         data = json.dumps([record])
-    #         fields = {
-    #             'token': api_token,
-    #             'content': 'record',
-    #             'format': 'json',
-    #             'type': 'flat',
-    #             'data': data,
-    #         }
-    #         r = requests.post(api_url,data=fields)
-    #         print('HTTP Status: ' + str(r.status_code))
-    #         print(r.text)
-    #         record_ids_done.append(this_record_id)
-    #         counter=counter+1
-    #         if counter>10:
-    #             break
+            # break
+            data = json.dumps([record])
+            fields = {
+                'token': api_token,
+                'content': 'record',
+                'format': 'json',
+                'type': 'flat',
+                'data': data,
+            }
+            r = requests.post(api_url,data=fields)
+            print('HTTP Status: ' + str(r.status_code))
+            print(r.text)
+            record_ids_done.append(this_record_id)
+            counter=counter+1
+            if counter>10:
+                break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

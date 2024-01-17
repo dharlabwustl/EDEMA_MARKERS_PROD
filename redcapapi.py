@@ -134,25 +134,28 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_fie
     # this_record_id=str(each_row['subject_id'])
     # this_snipr_session=str(each_row['label'])
     # df_scan_latest['record_id']
-    record = {
-        'redcap_repeat_instrument':this_redcap_repeat_instrument,
-        'redcap_repeat_instance':this_redcap_repeat_instance,
-        'record_id':this_record_id,
-        this_field:this_data #this_snipr_session
-    }
-    print(record)
-    # break
-    data = json.dumps([record])
-    fields = {
-        'token': api_token,
-        'content': 'record',
-        'format': 'json',
-        'type': 'flat',
-        'data': data,
-    }
-    r = requests.post(api_url,data=fields)
-    print('HTTP Status: ' + str(r.status_code))
-    print(r.text)
+    try:
+        record = {
+            'redcap_repeat_instrument':this_redcap_repeat_instrument,
+            'redcap_repeat_instance':this_redcap_repeat_instance,
+            'record_id':this_record_id,
+            this_field:this_data #this_snipr_session
+        }
+        print(record)
+        # break
+        data = json.dumps([record])
+        fields = {
+            'token': api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat',
+            'data': data,
+        }
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
+    except:
+        pass
     return
 for each_unique_subject in unique_subjects:
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]

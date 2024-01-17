@@ -51,7 +51,7 @@ df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
 copy_session_df=pd.read_csv(copy_session)
 record_ids_done=[]
 counter=0
-print(df_scan['record_id'])
+print(df_scan['record_id'].values)
 for each_row_id,each_row in copy_session_df.iterrows():
     if each_row['subject_id'] not in df_scan['record_id']:
         if  each_row['subject_id'] not in record_ids_done:

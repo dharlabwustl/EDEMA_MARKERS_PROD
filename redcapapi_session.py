@@ -127,7 +127,7 @@ scan_selection_complete=0
 if len(str(this_session_redcap_repeat_instance_df['FileName_slice']))>3:
     nifti_file_present=1
     scan_selection_complete=1
-add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
+add_one_data_to_redcap(this_session_redcap_repeat_instance_df['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
 # print(subject_df.iloc[each_row_id,'sub'])
 
 # for each_row_id,each_row in subject_df.iterrows():

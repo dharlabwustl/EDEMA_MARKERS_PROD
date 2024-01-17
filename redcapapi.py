@@ -23,7 +23,8 @@ fields = {
 r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
 r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
 df_scan = pd.read_json(r_json)
-df_scan.to_csv('test.csv',index=False)
+this_project_redcapfile=project_ID+'.csv'
+df_scan.to_csv(this_project_redcapfile,index=False)
 ## GET the session name from session ID:
 # session_label=get_session_label(session_id,outputfile="NONE.csv")
 ## get subject ID:
@@ -43,8 +44,12 @@ copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP1_'+time_
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 ### fill each session with its projectname, subject name, instrument number, instance number
 
-# df_scan=pd.read_csv('test.csv',index_col=False, dtype=object)
+df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
 # ############FILTER TO GET THE SINGLE ROW#######################
+# for each session
+copy_session_df=pd.read_csv(copy_session)
+for each_row_id,each_row in copy_session_df.iterrows():
+    print(each_row)
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
 # df_scan_sample=df_scan[(df_scan['record_id']=="1" )].reset_index()
 # #######################################################################

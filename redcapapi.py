@@ -175,9 +175,13 @@ for each_unique_subject in unique_subjects:
         except:
             pass
         nifti_file_present=0
+        scan_selection_complete=0
         if len(str(each_row['FileName_slice']))>3:
             nifti_file_present=1
+            scan_selection_complete=1
+
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','nifti_file_present',str(nifti_file_present))
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_selection_complete',str(scan_selection_complete))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))

@@ -64,6 +64,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
         # break
         if  str(each_row['subject_id']) not in record_ids_done:
             print('I AM NOT IN THE RECORD_ID_LIST')
+            break
     #         # print(each_row['label']+':::::'+each_row['subject_id'])
     #         this_record_id=str(each_row['subject_id'])
     #         this_subject=str(each_row['subject_id'])

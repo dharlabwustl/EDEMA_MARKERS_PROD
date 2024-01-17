@@ -242,3 +242,9 @@ if [[ ${TYPE_OF_PROGRAM} == "REDCAP_FILL_SESSION_NAME" ]]; then
   PROJECT_ID=${1}
   /software/fill_redcap.sh   ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION" ]]; then
+  SESSION_ID=${1}
+  PROJECT_ID=${1}
+  /software/scan_selection_Jan17_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi

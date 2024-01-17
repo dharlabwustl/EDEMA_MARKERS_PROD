@@ -50,6 +50,7 @@ df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
 # for each session
 copy_session_df=pd.read_csv(copy_session)
 record_ids_done=[]
+counter=0
 for each_row_id,each_row in copy_session_df.iterrows():
     if each_row['subject_id'] not in df_scan['record_id'] and each_row['subject_id'] not in record_ids_done:
         # print(each_row['label']+':::::'+each_row['subject_id'])
@@ -66,7 +67,21 @@ for each_row_id,each_row in copy_session_df.iterrows():
             'snipr_session':this_snipr_session
         }
         print(record)
+        data = json.dumps([record])
+        fields = {
+            'token': api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat',
+            'data': data,
+        }
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
         record_ids_done.append(this_record_id)
+        counter=counter+1
+        if counter>10:
+            break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

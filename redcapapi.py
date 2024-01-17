@@ -168,8 +168,12 @@ for each_unique_subject in unique_subjects:
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
-        this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
-        print(this_date_time)
+        this_date_time=str(each_row['acquisition_datetime'])
+        try:
+            this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
+            print(this_date_time)
+        except:
+            pass
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))
@@ -183,8 +187,11 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scanner_name',each_row['scanner'])
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_selected',each_row['SELECTED_SCAN_ID'])
         pdf_created=0
-        if int(str(each_row['PDF_FILE_NUM'])) >0:
-            pdf_created=1
+        try:
+            if int(str(each_row['PDF_FILE_NUM'])) >0:
+                pdf_created=1
+        except:
+            pass
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pdf_created',pdf_created)
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_total',each_row['TOTAL CSF VOLUME'])
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_left',each_row['LEFT CSF VOLUME AFTER EDEMA SUB'])

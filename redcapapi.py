@@ -79,7 +79,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
         print(type(df_scan['record_id'].tolist()[0]))
         print('I AM NOT IN THE RECORD')
         # break
-        if  str(each_row['subject_id']) not in record_ids_done:
+        if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
             print('I AM NOT IN THE RECORD_ID_LIST')
 
     #         # print(each_row['label']+':::::'+each_row['subject_id'])
@@ -112,7 +112,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            if counter>10:
+            if counter>20:
                 break
 
 ######################## FILL SESSION LABLE ############################################

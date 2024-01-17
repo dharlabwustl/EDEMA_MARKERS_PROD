@@ -174,6 +174,9 @@ for each_unique_subject in unique_subjects:
             print(this_date_time)
         except:
             pass
+        nifti_file_present=0
+        if '.nii' in str(each_row['FileName_slice']):
+            nifti_file_present=1
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','nifti_file_present','1')
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))

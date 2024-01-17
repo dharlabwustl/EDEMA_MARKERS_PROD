@@ -281,7 +281,7 @@ get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 redcap_token='EC6A2206FF8C1D87D4035E61C99290FF' #${ADDR[2]}
 redcap_url='https://redcap.wustl.edu/redcap/api/' #${ADDR[1]} #'https://redcap.wustl.edu/redcap/api/'
 echo '${redcap_token} ${redcap_url}'::"${redcap_token} ${redcap_url}"
-python3 /software/redcapapi.py ${redcap_token} ${redcap_url} ${sessionID}
+python3 /software/redcapapi_session.py ${redcap_token} ${redcap_url} ${sessionID}
 #########################################
 #outputfiles_present=0
 #while IFS=',' read -ra array; do

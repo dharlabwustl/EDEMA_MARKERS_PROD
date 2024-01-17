@@ -99,7 +99,7 @@ get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_met
 get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
 sessions_list=os.path.join(working_dir,'sessions.csv')
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP1_'+time_now+'.csv'
+copy_session=sessions_list.split('.csv')[0]+project_ID+'_ANALYTICS_STEP3_'+time_now+'.csv'
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_session)
 ### fill each session with its projectname, subject name, instrument number, instance number
 
@@ -176,23 +176,27 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_date_time',this_date_time)
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_kernel',str(each_row['SCAN_DESCRIPTION']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
-
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','axial_number',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','axial_thin_number',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','kvp',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scanner_name',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_selected',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pdf_created',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_total',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_left',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_right',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_ratio',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_left',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_right',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','cranial',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_ratio',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','infarct_volume',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','nwu',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','px',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pz',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','slices',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_version',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_application_date',each_row['label'])
         this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
     if counter >10:

@@ -36,7 +36,7 @@ resource_dir=project_ID+"_SESSION_ANALYTICS_1" #${project_ID}_SESSION_ANALYTICS_
 file_path_csv=os.path.join(dir_to_receive_the_data,project_ID+"_"+resource_dir+"_resultfilepath.csv")
 get_latest_filepath_from_metadata_arguments=arguments()
 get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
-print(get_latest_filepath_from_metadata_arguments.stuff)
+# print(get_latest_filepath_from_metadata_arguments.stuff)
 get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
 sessions_list=os.path.join(working_dir,'sessions.csv')
 time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
@@ -49,7 +49,7 @@ df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
 # for each session
 copy_session_df=pd.read_csv(copy_session)
 for each_row_id,each_row in copy_session_df.iterrows():
-    print(each_row)
+    print(each_row['label']+':::::'+each_row['subject_id'])
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
 # df_scan_sample=df_scan[(df_scan['record_id']=="1" )].reset_index()
 # #######################################################################

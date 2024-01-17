@@ -83,6 +83,8 @@ def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     except:
         pass
     return df_scan
+###################################################################################################
+
 this_project_redcapfile=project_ID+'.csv'
 df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile)
 #### DOWNLOAD the result of analysis STEP1
@@ -114,18 +116,11 @@ counter=0
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
 fill_subjects_records(copy_session,counter_ul=20)
 ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
+unique_subjects=copy_session['subject_id'].str.tolist()
 this_project_redcapfile_latest=project_ID+'_latest.csv'
 df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
 # for each_row_id,each_row in copy_session_df.iterrows():
 #     print(type(each_row['subject_id']))
-#     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
-#     # this_project_redcapfile_latest=project_ID+'_latest.csv'
-#     # df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-#     # # time.sleep(5)
-#     # print(df_scan['record_id'].tolist())
-#     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
-#     #     print('I AM NOT IN THE RECORD')
-#     # print(type(df_scan['record_id'].tolist()[0]))
 #     print('I AM NOT IN THE RECORD')
 #     # break
 #     if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:

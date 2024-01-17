@@ -129,6 +129,31 @@ def sorted_subj_list(subject_df,subject_col_name,datetime_col_name):
     res_df = df_agg.apply(lambda x: x.sort_values(by=[datetime_col_name_1],ascending=True))
     x=res_df.pop(datetime_col_name_1)
     return res_df
+def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_field,this_data):
+    # this_redcap_repeat_instrument='imaging_data'
+    # this_record_id=str(each_row['subject_id'])
+    # this_snipr_session=str(each_row['label'])
+    # df_scan_latest['record_id']
+    record = {
+        'redcap_repeat_instrument':this_redcap_repeat_instrument,
+        'redcap_repeat_instance':this_redcap_repeat_instance,
+        'record_id':this_record_id,
+        this_field:this_data #this_snipr_session
+    }
+    print(record)
+    # break
+    data = json.dumps([record])
+    fields = {
+        'token': api_token,
+        'content': 'record',
+        'format': 'json',
+        'type': 'flat',
+        'data': data,
+    }
+    r = requests.post(api_url,data=fields)
+    print('HTTP Status: ' + str(r.status_code))
+    print(r.text)
+    return
 for each_unique_subject in unique_subjects:
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
     subject_col_name='subject_id'
@@ -139,29 +164,7 @@ for each_unique_subject in unique_subjects:
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
-        this_redcap_repeat_instrument='imaging_data'
-        this_record_id=str(each_row['subject_id'])
-        this_snipr_session=str(each_row['label'])
-        # df_scan_latest['record_id']
-        record = {
-            'redcap_repeat_instrument':this_redcap_repeat_instrument,
-            'redcap_repeat_instance':this_redcap_repeat_instance,
-            'record_id':this_record_id,
-            'snipr_session':this_snipr_session
-        }
-        print(record)
-        # break
-        data = json.dumps([record])
-        fields = {
-            'token': api_token,
-            'content': 'record',
-            'format': 'json',
-            'type': 'flat',
-            'data': data,
-        }
-        r = requests.post(api_url,data=fields)
-        print('HTTP Status: ' + str(r.status_code))
-        print(r.text)
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
         this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
     if counter >10:

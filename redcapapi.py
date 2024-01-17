@@ -139,7 +139,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_fie
             'redcap_repeat_instrument':this_redcap_repeat_instrument,
             'redcap_repeat_instance':this_redcap_repeat_instance,
             'record_id':this_record_id,
-            this_field:this_data #this_snipr_session
+            this_field:str(this_data) #this_snipr_session
         }
         print(record)
         # break

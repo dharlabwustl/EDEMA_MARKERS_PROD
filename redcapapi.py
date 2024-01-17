@@ -72,7 +72,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
     this_project_redcapfile_latest=project_ID+'_latest.csv'
     df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-    time.sleep(5)
+    # time.sleep(5)
     print(df_scan['record_id'].tolist())
     if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
     #     print('I AM NOT IN THE RECORD')

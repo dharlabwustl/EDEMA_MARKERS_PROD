@@ -64,8 +64,8 @@ counter=0
 
 ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
 each_unique_subject_df=copy_session_df[copy_session_df['ID']==str(session_id)].reset_index()
-each_unique_subject=each_unique_subject_df.iloc[0,'subject_id']
-session_label=each_unique_subject_df.iloc[0,'label']
+each_unique_subject=each_unique_subject_df.at[0,'subject_id']
+session_label=each_unique_subject_df.at[0,'label']
 # unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
 # print(unique_subjects)
 this_project_redcapfile_latest=project_ID+'_latest.csv'

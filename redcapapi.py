@@ -8,6 +8,12 @@ sys.path.append("/software")
 from fillmaster_session_list import *
 from download_with_session_ID import *
 from system_analysis import *
+api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
+api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
+project_ID=sys.argv[3]
+working_dir="/workinginput"
+output_directory="/workingoutput"
+final_output_directory="/outputinsidedocker"
 def delete_record(record_id):
     data = {
         'token':api_token,
@@ -35,12 +41,6 @@ def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     except:
         pass
     return df_scan
-api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
-api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
-project_ID=sys.argv[3]
-working_dir="/workinginput"
-output_directory="/workingoutput"
-final_output_directory="/outputinsidedocker"
 this_project_redcapfile=project_ID+'.csv'
 df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile)
 # fields = {
@@ -82,8 +82,8 @@ record_ids_done=[]
 counter=0
 # print(type(df_scan['record_id'].tolist()))
 ########### DELETE OLD RECORDS#######################
-for each_row_id,each_row in df_scan.iterrows():
-    delete_record(each_row['record_id'])
+##########for each_row_id,each_row in df_scan.iterrows():
+##########    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
 for each_row_id,each_row in copy_session_df.iterrows():
     print(type(each_row['subject_id']))

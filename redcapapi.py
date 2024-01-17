@@ -66,19 +66,19 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print('I AM NOT IN THE RECORD_ID_LIST')
             break
     #         # print(each_row['label']+':::::'+each_row['subject_id'])
-    #         this_record_id=str(each_row['subject_id'])
-    #         this_subject=str(each_row['subject_id'])
-    #         this_redcap_repeat_instance=str(1)
-    #         this_redcap_repeat_instrument='stroke_details'
-    #         this_snipr_session=str(each_row['label'])
-    #         record = {
-    #             'redcap_repeat_instrument':this_redcap_repeat_instrument,
-    #             'redcap_repeat_instance':this_redcap_repeat_instance,
-    #             'record_id':this_record_id,
-    #             'subject':this_subject
-    #             # 'snipr_session':this_snipr_session
-    #         }
-    #         print(record)
+            this_record_id=str(each_row['subject_id'])
+            this_subject=str(each_row['subject_id'])
+            this_redcap_repeat_instance=str(1)
+            this_redcap_repeat_instrument='stroke_details'
+            this_snipr_session=str(each_row['label'])
+            record = {
+                'redcap_repeat_instrument':this_redcap_repeat_instrument,
+                'redcap_repeat_instance':this_redcap_repeat_instance,
+                'record_id':this_record_id,
+                'subject':this_subject
+                # 'snipr_session':this_snipr_session
+            }
+            print(record)
     #         data = json.dumps([record])
     #         fields = {
     #             'token': api_token,

@@ -110,8 +110,8 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            # if counter>10:
-            #     break
+            if counter>10:
+                break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

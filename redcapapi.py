@@ -55,7 +55,9 @@ print(df_scan['record_id'].tolist())
 
 for each_row_id,each_row in copy_session_df.iterrows():
     if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
+        print('I AM NOT IN THE RECORD')
         if  str(each_row['subject_id']) not in record_ids_done:
+            print('I AM NOT IN THE RECORD_ID_LIST')
             # print(each_row['label']+':::::'+each_row['subject_id'])
             this_record_id=str(each_row['subject_id'])
             this_subject=str(each_row['subject_id'])

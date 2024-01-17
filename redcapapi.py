@@ -124,7 +124,7 @@ counter=0
 for each_unique_subject in unique_subjects:
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
     for each_row_id,each_row in subject_df.iterrows():
-        print(type(each_row['subject_id']))
+        print((each_row['subject_id']))
     counter=counter+1
     if counter >10:
         break

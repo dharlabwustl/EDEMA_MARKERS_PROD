@@ -110,7 +110,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
             'record_id':this_record_id,
             'project':project_ID,
             'subject':this_subject,
-            'subject_number':this_subject.split('_')[1]
+            'subject_number':this_subject.split('_')[1],
             'site':project_ID+'_1'
         }
         print(record)

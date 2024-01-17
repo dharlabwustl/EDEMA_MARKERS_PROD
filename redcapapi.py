@@ -63,8 +63,8 @@ for each_row_id,each_row in copy_session_df.iterrows():
             'redcap_repeat_instrument':this_redcap_repeat_instrument,
             'redcap_repeat_instance':this_redcap_repeat_instance,
             'record_id':this_record_id,
-            'subject':this_subject,
-            'snipr_session':this_snipr_session
+            'subject':this_subject
+            # 'snipr_session':this_snipr_session
         }
         print(record)
         data = json.dumps([record])

@@ -142,7 +142,7 @@ for each_unique_subject in unique_subjects:
         this_redcap_repeat_instrument='imaging_data'
         this_record_id=str(each_row['subject_id'])
         this_snipr_session=str(each_row['label'])
-        df_scan_latest['record_id']
+        # df_scan_latest['record_id']
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,
             'redcap_repeat_instance':this_redcap_repeat_instance,

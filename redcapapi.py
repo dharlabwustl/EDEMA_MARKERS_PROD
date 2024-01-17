@@ -57,7 +57,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
         this_record_id=str(each_row['subject_id'])
         this_subject=str(each_row['subject_id'])
         this_redcap_repeat_instance=str(1)
-        this_redcap_repeat_instrument='imaging_data'
+        this_redcap_repeat_instrument='stroke_details'
         this_snipr_session=str(each_row['label'])
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,

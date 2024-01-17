@@ -111,7 +111,8 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
 subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
 subject_col_name='subject_id'
 datetime_col_name='acquisition_datetime'
-# subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
+subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
+print(subject_df)
 # # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
 # this_redcap_repeat_instance=1
 # for each_row_id,each_row in subject_df.iterrows():

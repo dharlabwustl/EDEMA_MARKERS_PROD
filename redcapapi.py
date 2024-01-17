@@ -54,7 +54,7 @@ counter=0
 print(df_scan['record_id'].tolist())
 
 for each_row_id,each_row in copy_session_df.iterrows():
-    print(each_row['subject_id'])
+    print(type(each_row['subject_id']))
     break
     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
     #     print('I AM NOT IN THE RECORD')

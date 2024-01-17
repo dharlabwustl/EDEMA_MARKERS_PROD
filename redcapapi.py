@@ -4,7 +4,7 @@ import pandas as pd
 # from config import config
 import requests, hashlib, json,glob
 import os,sys,subprocess,time
-from datetime import datetime
+
 sys.path.append("/software")
 from fillmaster_session_list import *
 from download_with_session_ID import *
@@ -168,11 +168,11 @@ for each_unique_subject in unique_subjects:
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
-        this_date_time=datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d H:M')
+        this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d H:M')
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_date_time',this_date_time)
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_date_time',each_row['acquisition_datetime'])
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_kernel',str(each_row['SCAN_DESCRIPTION']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])

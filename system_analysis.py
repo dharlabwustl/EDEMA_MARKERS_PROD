@@ -496,6 +496,7 @@ def get_latest_filepath_from_metadata_for_analytics(args):
     file_location_csv=args.stuff[5]
     latest_file_path=""
     try:
+        print(URI+'::::'+resource_dir)
         metadata=get_resourcefiles_metadata(URI,resource_dir)
         df_listfile = pd.read_json(json.dumps(metadata))
         df_listfile.to_csv(os.path.join(os.path.dirname(file_location_csv),"test.csv"),index=False)

@@ -131,7 +131,7 @@ for each_row_id,each_row in copy_session_df.iterrows():
 
 ######################## FILL SESSION LABLE ############################################
 this_project_redcapfile_latest=project_ID+'_latest.csv'
-df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
+df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
 # for each_row_id,each_row in copy_session_df.iterrows():
 #     print(type(each_row['subject_id']))
 #     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :

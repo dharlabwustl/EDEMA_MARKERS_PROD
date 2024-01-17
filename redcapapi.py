@@ -14,6 +14,47 @@ project_ID=sys.argv[3]
 working_dir="/workinginput"
 output_directory="/workingoutput"
 final_output_directory="/outputinsidedocker"
+
+def fill_subjects_records(copy_session,counter_ul=99999999):
+    copy_session_df=pd.read_csv(copy_session)
+    for each_row_id,each_row in copy_session_df.iterrows():
+        if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
+            print('I AM NOT IN THE RECORD_ID_LIST')
+            this_record_id=str(each_row['subject_id'])
+            this_subject=str(each_row['subject_id'])
+            this_redcap_repeat_instance=str(1)
+            this_redcap_repeat_instrument='stroke_details'
+            this_snipr_session=str(each_row['label'])
+            record = {
+                'redcap_repeat_instrument':this_redcap_repeat_instrument,
+                'redcap_repeat_instance':this_redcap_repeat_instance,
+                'record_id':this_record_id,
+                'project':project_ID,
+                'subject':this_subject,
+                'subject_number':this_subject.split('_')[1],
+                'site':project_ID+'_1'
+            }
+            print(record)
+            # break
+            data = json.dumps([record])
+            fields = {
+                'token': api_token,
+                'content': 'record',
+                'format': 'json',
+                'type': 'flat',
+                'data': data,
+            }
+            try:
+                r = requests.post(api_url,data=fields)
+                print('HTTP Status: ' + str(r.status_code))
+                print(r.text)
+                record_ids_done.append(this_record_id)
+                counter=counter+1
+            except:
+                pass
+            if counter>counter_ul:
+                break
+
 def delete_record(record_id):
     data = {
         'token':api_token,
@@ -43,21 +84,6 @@ def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     return df_scan
 this_project_redcapfile=project_ID+'.csv'
 df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile)
-# fields = {
-#     'token':api_token, # api_token,
-#     'content': 'record',
-#     'format': 'json',
-#     'type': 'flat'
-# }
-# r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
-# r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
-# df_scan = pd.read_json(r_json)
-# this_project_redcapfile=project_ID+'.csv'
-# df_scan.to_csv(this_project_redcapfile,index=False)
-## GET the session name from session ID:
-# session_label=get_session_label(session_id,outputfile="NONE.csv")
-## get subject ID:
-
 #### DOWNLOAD the result of analysis STEP1
 URI="/data/projects/"+project_ID #${project_ID}
 dir_to_receive_the_data=working_dir #${working_dir}
@@ -85,55 +111,7 @@ counter=0
 ##########for each_row_id,each_row in df_scan.iterrows():
 ##########    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
-for each_row_id,each_row in copy_session_df.iterrows():
-    print(type(each_row['subject_id']))
-    # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
-    # this_project_redcapfile_latest=project_ID+'_latest.csv'
-    # df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-    # # time.sleep(5)
-    # print(df_scan['record_id'].tolist())
-    # if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
-    #     print('I AM NOT IN THE RECORD')
-    # print(type(df_scan['record_id'].tolist()[0]))
-    print('I AM NOT IN THE RECORD')
-    # break
-    if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
-        print('I AM NOT IN THE RECORD_ID_LIST')
-        this_record_id=str(each_row['subject_id'])
-        this_subject=str(each_row['subject_id'])
-        this_redcap_repeat_instance=str(1)
-        this_redcap_repeat_instrument='stroke_details'
-        this_snipr_session=str(each_row['label'])
-        record = {
-            'redcap_repeat_instrument':this_redcap_repeat_instrument,
-            'redcap_repeat_instance':this_redcap_repeat_instance,
-            'record_id':this_record_id,
-            'project':project_ID,
-            'subject':this_subject,
-            'subject_number':this_subject.split('_')[1],
-            'site':project_ID+'_1'
-        }
-        print(record)
-        # break
-        data = json.dumps([record])
-        fields = {
-            'token': api_token,
-            'content': 'record',
-            'format': 'json',
-            'type': 'flat',
-            'data': data,
-        }
-        try:
-            r = requests.post(api_url,data=fields)
-            print('HTTP Status: ' + str(r.status_code))
-            print(r.text)
-            record_ids_done.append(this_record_id)
-            counter=counter+1
-        except:
-            pass
-        if counter>20:
-            break
-
+fill_subjects_records(copy_session,counter_ul=20)
 ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
 this_project_redcapfile_latest=project_ID+'_latest.csv'
 df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)

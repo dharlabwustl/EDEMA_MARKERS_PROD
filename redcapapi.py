@@ -18,7 +18,6 @@ def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
     r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
     df_scan = pd.read_json(r_json)
-    this_project_redcapfile=project_ID+'.csv'
     df_scan.to_csv(this_project_redcapfile,index=False)
     return df_scan
 api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
@@ -71,7 +70,8 @@ print(type(df_scan['record_id'].tolist()))
 for each_row_id,each_row in copy_session_df.iterrows():
     print(type(each_row['subject_id']))
     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
-
+    this_project_redcapfile_latest=project_ID+'_latest.csv'
+    df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
     if str(each_row['subject_id']) not in df_scan['record_id'].tolist():
     #     print('I AM NOT IN THE RECORD')
         print(type(df_scan['record_id'].tolist()[0]))
@@ -108,8 +108,8 @@ for each_row_id,each_row in copy_session_df.iterrows():
             print(r.text)
             record_ids_done.append(this_record_id)
             counter=counter+1
-            # if counter>10:
-            #     break
+            if counter>10:
+                break
 
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

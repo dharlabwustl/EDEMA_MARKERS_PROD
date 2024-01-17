@@ -16,6 +16,14 @@ import pickle
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
+def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {
+    file_path_csv_df=pd.read_csv(file_path_csv)
+    for row_id,row in file_path_csv_df.iterrows():
+        filename=row['FILE_PATH']
+        get_latest_filepath_from_metadata_arguments=arguments()
+        get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',filename,output_filename,dir_to_save]
+        download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments) #outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+
 def get_sessions_scans_for_pipepline_image(args):
 
     csvfilename=args.stuff[1]

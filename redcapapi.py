@@ -172,7 +172,7 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',each_row['FileName_slice'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_date_time',each_row['acquisition_datetime'])
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_kernel',each_row['SCAN_DESCRIPTION'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','stroke_side',each_row['ICH SIDE'])
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','stroke_side',each_row['ICH SIDE'].lower())
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',each_row['label'])

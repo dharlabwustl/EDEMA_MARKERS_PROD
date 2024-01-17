@@ -489,13 +489,14 @@ def download_a_singlefile_with_URIString(args):
     xnatSession.close_httpsession()
     return zipfilename
 def get_latest_filepath_from_metadata_for_analytics(args):
+    print(args.stuff[1]+'::::'+args.stuff[2]+'::::'+args.stuff[3]+'::::'+args.stuff[4]+'::::'+args.stuff[5]+'::::'+args.stuff[1]+'::::')
     URI=args.stuff[1]
     resource_dir=args.stuff[2]
     extension_to_find_list=args.stuff[3]
     SCAN_URI_NIFTI_FILEPREFIX=args.stuff[4]
     file_location_csv=args.stuff[5]
     latest_file_path=""
-    print(URI+'::::'+resource_dir)
+
     try:
 
         metadata=get_resourcefiles_metadata(URI,resource_dir)

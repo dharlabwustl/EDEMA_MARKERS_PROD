@@ -120,10 +120,15 @@ unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort
 print(unique_subjects)
 this_project_redcapfile_latest=project_ID+'_latest.csv'
 df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
+counter=0
 for each_unique_subject in unique_subjects:
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
     for each_row_id,each_row in subject_df.iterrows():
         print(type(each_row['subject_id']))
+        counter=counter+1
+        if counter >10:
+            break
+    break
 #     print('I AM NOT IN THE RECORD')
 #     # break
 #     if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:

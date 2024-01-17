@@ -122,13 +122,15 @@ for each_row_id in range(subject_df.shape[0]):
 print(subject_df)
 this_session_redcap_repeat_instance_df=subject_df[subject_df['ID']==session_id]
 this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'])
-nifti_file_present=0
-scan_selection_complete=0
-if len(str(this_session_redcap_repeat_instance_df['FileName_slice']))>3:
-    nifti_file_present=1
-    scan_selection_complete=1
-add_one_data_to_redcap(this_session_redcap_repeat_instance_df['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
-add_one_data_to_redcap(this_session_redcap_repeat_instance_df['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'scan_selection_complete',str(scan_selection_complete))
+#### download the scan selection file:
+
+# nifti_file_present=0
+# scan_selection_complete=0
+# if len(str(this_session_redcap_repeat_instance_df['FileName_slice']))>3:
+#     nifti_file_present=1
+#     scan_selection_complete=1
+# add_one_data_to_redcap(this_session_redcap_repeat_instance_df['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
+# add_one_data_to_redcap(this_session_redcap_repeat_instance_df['subject_id'],'imaging_data',this_session_redcap_repeat_instance,'scan_selection_complete',str(scan_selection_complete))
 
 # print(subject_df.iloc[each_row_id,'sub'])
 

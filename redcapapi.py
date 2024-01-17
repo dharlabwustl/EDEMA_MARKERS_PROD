@@ -135,10 +135,21 @@ for each_unique_subject in unique_subjects:
     datetime_col_name='acquisition_datetime'
     subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
     # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
-
+    this_redcap_repeat_instance=1
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
+        this_redcap_repeat_instrument='imaging_data'
+        this_record_id=str(each_row['subject_id'])
+        this_snipr_session=str(each_row['label'])
+        df_scan_latest['record_id']
+        record = {
+            'redcap_repeat_instrument':this_redcap_repeat_instrument,
+            'redcap_repeat_instance':this_redcap_repeat_instance,
+            'record_id':this_record_id,
+            'snipr_session':this_snipr_session
+        }
+        this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
     if counter >10:
         break

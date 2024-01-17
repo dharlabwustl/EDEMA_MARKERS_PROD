@@ -149,6 +149,19 @@ for each_unique_subject in unique_subjects:
             'record_id':this_record_id,
             'snipr_session':this_snipr_session
         }
+        print(record)
+        # break
+        data = json.dumps([record])
+        fields = {
+            'token': api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat',
+            'data': data,
+        }
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
         this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
     if counter >10:

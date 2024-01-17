@@ -17,6 +17,7 @@ final_output_directory="/outputinsidedocker"
 
 def fill_subjects_records(copy_session,counter_ul=99999999):
     copy_session_df=pd.read_csv(copy_session)
+    counter=0
     for each_row_id,each_row in copy_session_df.iterrows():
         if  str(each_row['subject_id']) not in record_ids_done or str(each_row['subject_id'])  in record_ids_done:
             print('I AM NOT IN THE RECORD_ID_LIST')

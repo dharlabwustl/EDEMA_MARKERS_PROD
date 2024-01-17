@@ -8,6 +8,17 @@ sys.path.append("/software")
 from fillmaster_session_list import *
 from download_with_session_ID import *
 from system_analysis import *
+def delete_record(record_id):
+    data = {
+        'token':api_token,
+        'action': 'delete',
+        'content': 'record',
+        'records[0]': str(record_id),
+        'returnFormat': 'json'
+    }
+    r = requests.post('https://redcap.wustl.edu/redcap/api/',data=data)
+    print('HTTP Status: ' + str(r.status_code))
+    print(r.text)
 def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     fields = {
         'token':api_token, # api_token,
@@ -66,6 +77,9 @@ copy_session_df=pd.read_csv(copy_session)
 record_ids_done=[]
 counter=0
 print(type(df_scan['record_id'].tolist()))
+########### DELETE OLD RECORDS#######################
+for each_row_id,each_row in df_scan.iterrows():
+    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID##############################
 for each_row_id,each_row in copy_session_df.iterrows():
     print(type(each_row['subject_id']))
@@ -118,53 +132,53 @@ for each_row_id,each_row in copy_session_df.iterrows():
 ######################## FILL SESSION LABLE ############################################
 this_project_redcapfile_latest=project_ID+'_latest.csv'
 df_scan=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-for each_row_id,each_row in copy_session_df.iterrows():
-    print(type(each_row['subject_id']))
-    # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
-    this_project_redcapfile_latest=project_ID+'_latest1.csv'
-    df_scan_1=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-    this_record_subject_df=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
-    # # time.sleep(5)
-    # print(df_scan['record_id'].tolist())
-    # if str(each_row['subject_id']) not in df_scan_1['record_id'].tolist():
-    #     if str(each_row['subject_id']) not in df_scan_1['record_id'].tolist()
-    #     #     print('I AM NOT IN THE RECORD')
-    #     print(type(df_scan['record_id'].tolist()[0]))
-    #     print('I AM NOT IN THE RECORD')
-    #     # break
-    #     if  str(each_row['subject_id']) not in record_ids_done:
-    #         print('I AM NOT IN THE RECORD_ID_LIST')
-    #
-    #         #         # print(each_row['label']+':::::'+each_row['subject_id'])
-    #         this_record_id=str(each_row['subject_id'])
-    #         this_subject=str(each_row['subject_id'])
-    #         this_redcap_repeat_instance=str(1)
-    #         this_redcap_repeat_instrument='stroke_details'
-    #         this_snipr_session=str(each_row['label'])
-    #         record = {
-    #             'redcap_repeat_instrument':this_redcap_repeat_instrument,
-    #             'redcap_repeat_instance':this_redcap_repeat_instance,
-    #             'record_id':this_record_id,
-    #             'subject':this_subject
-    #             # 'snipr_session':this_snipr_session
-    #         }
-    #         print(record)
-    #         # break
-    #         data = json.dumps([record])
-    #         fields = {
-    #             'token': api_token,
-    #             'content': 'record',
-    #             'format': 'json',
-    #             'type': 'flat',
-    #             'data': data,
-    #         }
-    #         r = requests.post(api_url,data=fields)
-    #         print('HTTP Status: ' + str(r.status_code))
-    #         print(r.text)
-    #         record_ids_done.append(this_record_id)
-    #         counter=counter+1
-    #         if counter>10:
-    #             break
+# for each_row_id,each_row in copy_session_df.iterrows():
+#     print(type(each_row['subject_id']))
+#     # if str(each_row['subject_id']) not in df_scan['record_id'].tolist() :
+#     this_project_redcapfile_latest=project_ID+'_latest1.csv'
+#     df_scan_1=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
+#     this_record_subject_df=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
+#     # # time.sleep(5)
+#     # print(df_scan['record_id'].tolist())
+#     # if str(each_row['subject_id']) not in df_scan_1['record_id'].tolist():
+#     #     if str(each_row['subject_id']) not in df_scan_1['record_id'].tolist()
+#     #     #     print('I AM NOT IN THE RECORD')
+#     #     print(type(df_scan['record_id'].tolist()[0]))
+#     #     print('I AM NOT IN THE RECORD')
+#     #     # break
+#     #     if  str(each_row['subject_id']) not in record_ids_done:
+#     #         print('I AM NOT IN THE RECORD_ID_LIST')
+#     #
+#     #         #         # print(each_row['label']+':::::'+each_row['subject_id'])
+#     #         this_record_id=str(each_row['subject_id'])
+#     #         this_subject=str(each_row['subject_id'])
+#     #         this_redcap_repeat_instance=str(1)
+#     #         this_redcap_repeat_instrument='stroke_details'
+#     #         this_snipr_session=str(each_row['label'])
+#     #         record = {
+#     #             'redcap_repeat_instrument':this_redcap_repeat_instrument,
+#     #             'redcap_repeat_instance':this_redcap_repeat_instance,
+#     #             'record_id':this_record_id,
+#     #             'subject':this_subject
+#     #             # 'snipr_session':this_snipr_session
+#     #         }
+#     #         print(record)
+#     #         # break
+#     #         data = json.dumps([record])
+#     #         fields = {
+#     #             'token': api_token,
+#     #             'content': 'record',
+#     #             'format': 'json',
+#     #             'type': 'flat',
+#     #             'data': data,
+#     #         }
+#     #         r = requests.post(api_url,data=fields)
+#     #         print('HTTP Status: ' + str(r.status_code))
+#     #         print(r.text)
+#     #         record_ids_done.append(this_record_id)
+#     #         counter=counter+1
+#     #         if counter>10:
+#     #             break
 
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
 # df_scan_sample=df_scan[(df_scan['record_id']=="1" )].reset_index()

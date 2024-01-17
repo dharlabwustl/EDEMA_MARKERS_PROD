@@ -4,8 +4,16 @@ import pandas as pd
 # from config import config
 import requests, hashlib, json,glob
 import os,sys,subprocess
+sys.path.append("/software")
+from fillmaster_session_list import *
+from download_with_session_ID import *
+from system_analysis import *
 api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
 api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
+project_ID=sys.argv[3]
+working_dir="/workinginput"
+output_directory="/workingoutput"
+final_output_directory="/outputinsidedocker"
 fields = {
     'token':api_token, # api_token,
     'content': 'record',
@@ -15,8 +23,22 @@ fields = {
 r = requests.post('https://redcap.wustl.edu/redcap/api/',data=fields)
 r_json=json.dumps(r.json()) #get_niftifiles_metadata(each_axial['URI'] )) get_resourcefiles_metadata(URI,resource_dir)
 df_scan = pd.read_json(r_json)
-print(df_scan)
 df_scan.to_csv('test.csv',index=False)
+## GET the session name from session ID:
+# session_label=get_session_label(session_id,outputfile="NONE.csv")
+## get subject ID:
+
+#### DOWNLOAD the result of analysis STEP1
+URI="/data/projects/"+project_ID #${project_ID}
+dir_to_receive_the_data=working_dir #${working_dir}
+resource_dir=project_ID+"_SESSION_ANALYTICS_1" #${project_ID}_SESSION_ANALYTICS_1"
+file_path_csv=os.path.join(dir_to_receive_the_data,project_ID+"_"+resource_dir+"_resultfilepath.csv")
+get_latest_filepath_from_metadata_arguments=arguments()
+get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
+get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
+
+### fill each session with its projectname, subject name, instrument number, instance number
+
 # df_scan=pd.read_csv('test.csv',index_col=False, dtype=object)
 # ############FILTER TO GET THE SINGLE ROW#######################
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()

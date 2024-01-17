@@ -45,11 +45,14 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_ses
 ### fill each session with its projectname, subject name, instrument number, instance number
 
 df_scan=pd.read_csv(this_project_redcapfile,index_col=False, dtype=object)
+
 # ############FILTER TO GET THE SINGLE ROW#######################
 # for each session
 copy_session_df=pd.read_csv(copy_session)
 for each_row_id,each_row in copy_session_df.iterrows():
-    print(each_row['label']+':::::'+each_row['subject_id'])
+    if each_row['subject_id'] not in df_scan['record_id']:
+        print(each_row['label']+':::::'+each_row['subject_id'])
+
 # # df_scan_sample=df_scan[(df_scan['redcap_repeat_instance']=="2" ) & (df_scan['record_id']=='ATUL_001')].reset_index()
 # df_scan_sample=df_scan[(df_scan['record_id']=="1" )].reset_index()
 # #######################################################################

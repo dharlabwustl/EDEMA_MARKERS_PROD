@@ -174,7 +174,7 @@ for each_unique_subject in unique_subjects:
             print(this_date_time)
         except:
             pass
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pdf_file_path','IAMTHEPDFPATH_1')
+        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','nifti_file_present','1')
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))

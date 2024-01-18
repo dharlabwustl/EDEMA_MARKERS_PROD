@@ -248,3 +248,25 @@ if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION" ]]; then
   PROJECT_ID=${1}
   /software/scan_selection_Jan17_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
+
+###########################################################
+if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP1' ]]; then
+  PROJECT_ID=${1}
+  /software/SNIPR_ANALYTICS_STEP1.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP2' ]]; then
+  PROJECT_ID=${1}
+  python3 /software/SNIPR_ANALYTICS_STEP2.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP3' ]]; then
+  PROJECT_ID=${1}
+ python3 /software/SNIPR_ANALYTICS_STEP3.py ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP4' ]]; then
+  PROJECT_ID=${1}
+  /software/SNIPR_ANALYTICS_STEP4.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
+
+###########################################################

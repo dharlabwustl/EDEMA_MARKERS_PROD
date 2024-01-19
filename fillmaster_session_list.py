@@ -1140,9 +1140,9 @@ def append_sessionxmlinfo_to_analytics(args):
         # subj_listfile_df=pd.read_csv(subj_listfile)
         identifier=session_id
         subprocess.call("echo " + "I identifier AT ::{}  >> /workingoutput/error.txt".format(identifier) ,shell=True )
-        with open(xmlfile) as fd:
-            subprocess.call("echo " + "I xmlfile AT ::{}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
-            subprocess.call("cat " + "  {}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
+        with open(xmlfile, encoding="utf-8") as fd:
+            # subprocess.call("echo " + "I xmlfile AT ::{}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
+            # subprocess.call("cat " + "  {}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
             xmlfile_dict = xmltodict.parse(fd.read())
             subprocess.call("echo " + "I xmlfile AT ::{}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
         ## subject id:

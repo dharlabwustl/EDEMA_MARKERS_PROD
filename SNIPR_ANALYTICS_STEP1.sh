@@ -82,6 +82,7 @@ while IFS=',' read -ra array; do
 #    if [ $counter -gt 1 ]; then
 #      break
 #    fi
+  break
   fi
 done < <(tail -n +2 "${copy_session}")
 csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv

@@ -62,7 +62,7 @@ subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 csvfilename=${copy_session}
 while IFS=',' read -ra array; do
-  if [ ${array[0]} == 'SNIPR02_E03847' ] ; then ## | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
+  if [ ${array[0]} == 'SNIPR02_E03847' ]  | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
   this_session_id=${array[0]}
   xml_filename=${working_dir}/${this_session_id}.xml
   filename_xml=$(basename ${xml_filename})   #args.stuff[2]

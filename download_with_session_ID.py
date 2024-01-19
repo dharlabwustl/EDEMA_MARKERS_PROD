@@ -1630,8 +1630,10 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
         url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+str(session_ID)
+        subprocess.call("echo " + "I url AT ::{}  >> /workingoutput/error.txt".format(url) ,shell=True )
         response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
         num_files_present=0
+        subprocess.call("echo " + "I response AT ::{}  >> /workingoutput/error.txt".format(response) ,shell=True )
         if response.status_code != 200:
             xnatSession.close_httpsession()
             return num_files_present

@@ -1630,20 +1630,22 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
         # https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/SNIPR02_E03847
-        url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+str(session_ID)+'/popup/false/project/ICH'
+        url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+str(session_ID)  ##+'/popup/false/project/ICH'
         subprocess.call("echo " + "I url AT ::{}  >> /workingoutput/error.txt".format(xnatSession.host +url) ,shell=True )
         response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
         num_files_present=0
         subprocess.call("echo " + "I response AT ::{}  >> /workingoutput/error.txt".format(response) ,shell=True )
-        if response.status_code != 200:
-            xnatSession.close_httpsession()
-            return num_files_present
-
-        metadata_masks=response.text #json()['ResultSet']['Result']
         xmlfilename=os.path.join(dir_to_save,filename )
-        f = open(xmlfilename, "w")
-        f.write(metadata_masks)
-        f.close()
+        if response.status_code != 200:
+            command='curl -u '+ XNAT_USER +':'+XNAT_PASS+' -X GET '+ xnatSession.host +url + ' > '+ xmlfilename
+            subprocess.call(command,shell=True)
+            xnatSession.close_httpsession()
+            # return num_files_present
+        else:
+            metadata_masks=response.text #json()['ResultSet']['Result']
+            f = open(xmlfilename, "w")
+            f.write(metadata_masks)
+            f.close()
 
         # zipfilename=os.path.join(dir_to_save,filename ) #"/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv")) #sessionId+scanId+'.zip'
         # with open(zipfilename, "wb") as f:

@@ -62,7 +62,7 @@ subject_list=${working_dir}/'subjects.csv'
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
 csvfilename=${copy_session}
 while IFS=',' read -ra array; do
-  if [ ${array[0]} == 'SNIPR02_E03847' ] ; then # | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
+#  if [ ${array[0]} == 'SNIPR02_E03847' ] ; then # | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
   this_session_id=${array[0]}
   xml_filename=${working_dir}/${this_session_id}.xml
   filename_xml=$(basename ${xml_filename})   #args.stuff[2]
@@ -82,8 +82,8 @@ while IFS=',' read -ra array; do
 #    if [ $counter -gt 1 ]; then
 #      break
 #    fi
-  break
-  fi
+#  break
+#  fi
 done < <(tail -n +2 "${copy_session}")
 csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv
 cp ${csvfilename} ${csvfilename_before_sorting}
@@ -112,5 +112,5 @@ call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analyti
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
 
-#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
-#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename_before_sorting})" ${resource_dirname_at_snipr} $(basename ${csvfilename_before_sorting})
+copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
+copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename_before_sorting})" ${resource_dirname_at_snipr} $(basename ${csvfilename_before_sorting})

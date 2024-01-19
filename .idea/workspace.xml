@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="REDCAP INPUT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNIPR_ANALYTICS_STEP1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/SNIPR_ANALYTICS_STEP1.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fillmaster_session_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/fillmaster_session_list.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,20 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03849" summary="REDCAP INPUT">
-      <created>1705475408975</created>
-      <option name="number" value="03849" />
-      <option name="presentableId" value="LOCAL-03849" />
-      <option name="project" value="LOCAL" />
-      <updated>1705475408975</updated>
-    </task>
-    <task id="LOCAL-03850" summary="REDCAP INPUT">
-      <created>1705475701442</created>
-      <option name="number" value="03850" />
-      <option name="presentableId" value="LOCAL-03850" />
-      <option name="project" value="LOCAL" />
-      <updated>1705475701442</updated>
     </task>
     <task id="LOCAL-03851" summary="REDCAP INPUT">
       <created>1705476066519</created>
@@ -465,7 +450,21 @@
       <option name="project" value="LOCAL" />
       <updated>1705553927679</updated>
     </task>
-    <option name="localTasksCounter" value="3898" />
+    <task id="LOCAL-03898" summary="REDCAP INPUT">
+      <created>1705674034972</created>
+      <option name="number" value="03898" />
+      <option name="presentableId" value="LOCAL-03898" />
+      <option name="project" value="LOCAL" />
+      <updated>1705674034972</updated>
+    </task>
+    <task id="LOCAL-03899" summary="REDCAP INPUT">
+      <created>1705674275395</created>
+      <option name="number" value="03899" />
+      <option name="presentableId" value="LOCAL-03899" />
+      <option name="project" value="LOCAL" />
+      <updated>1705674275395</updated>
+    </task>
+    <option name="localTasksCounter" value="3900" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

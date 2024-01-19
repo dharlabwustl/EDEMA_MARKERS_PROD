@@ -1148,10 +1148,10 @@ def append_sessionxmlinfo_to_analytics(args):
             # session_list_file_df.loc[matched_session_index,"subject_id"]=each_subject_row_row["label"]
             subject_ID=str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])
             matched_session=subject_list_file_df[subject_list_file_df["ID"].astype(str)==subject_ID].reset_index()
-            if matched_session.shape[0] > 1:
-                columnvalue=str(matched_session["label"][0])
-            else:
-                columnvalue=str(matched_session["label"])
+            # if matched_session.shape[0] > 1:
+            columnvalue=str(matched_session["label"][0])
+            # else:
+            #     columnvalue=str(matched_session["label"])
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass

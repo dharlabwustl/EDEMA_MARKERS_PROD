@@ -1148,9 +1148,9 @@ def append_sessionxmlinfo_to_analytics(args):
             # session_list_file_df.loc[matched_session_index,"subject_id"]=each_subject_row_row["label"]
             subject_ID=str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])
             subprocess.call("echo " + "I PASSED AT subject_ID::{}  >> /workingoutput/error.txt".format(subject_ID) ,shell=True )
-            matched_session=subject_list_file_df[subject_list_file_df["ID"].astype(str)==subject_ID].reset_index()
+            matched_session=subject_list_file_df[subject_list_file_df["ID"].astype(str)==subject_ID] #.reset_index()
             subprocess.call("echo " + "I PASSED AT matched_session::{}  >> /workingoutput/error.txt".format(matched_session) ,shell=True )
-            columnvalue=str(matched_session["label"][0])
+            columnvalue=str(matched_session["label"]) #[0]
             subprocess.call("echo " + "I PASSED AT columnvalue::{}  >> /workingoutput/error.txt".format(columnvalue) ,shell=True )
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:

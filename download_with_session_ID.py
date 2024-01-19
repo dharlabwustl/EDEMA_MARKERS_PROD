@@ -1617,9 +1617,9 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     returnvalue=0
 
     try:
-        session_ID=args.stuff[1]
-        filename=args.stuff[2]
-        dir_to_save=args.stuff[3]
+        session_ID=str(args.stuff[1])
+        filename=str(args.stuff[2])
+        dir_to_save=str(args.stuff[3])
         subprocess.call('echo working:' +session_ID+' > /workingoutput/testatul.txt',shell=True)
         subprocess.call('echo working:' +filename+' > /workingoutput/testatul.txt',shell=True)
         subprocess.call('echo working:' +dir_to_save+' > /workingoutput/testatul.txt',shell=True)
@@ -1629,7 +1629,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
 
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
-        url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+session_ID
+        url='/app/action/XDATActionRouter/xdataction/xml_file/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/'+str(session_ID)
         response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
         num_files_present=0
         if response.status_code != 200:

@@ -121,13 +121,6 @@
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
     </task>
-    <task id="LOCAL-03878" summary="REDCAP INPUT">
-      <created>1705492280780</created>
-      <option name="number" value="03878" />
-      <option name="presentableId" value="LOCAL-03878" />
-      <option name="project" value="LOCAL" />
-      <updated>1705492280780</updated>
-    </task>
     <task id="LOCAL-03879" summary="REDCAP INPUT">
       <created>1705492360234</created>
       <option name="number" value="03879" />
@@ -464,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707486893797</updated>
     </task>
-    <option name="localTasksCounter" value="3927" />
+    <task id="LOCAL-03927" summary="REDCAP INPUT">
+      <created>1707487071684</created>
+      <option name="number" value="03927" />
+      <option name="presentableId" value="LOCAL-03927" />
+      <option name="project" value="LOCAL" />
+      <updated>1707487071684</updated>
+    </task>
+    <option name="localTasksCounter" value="3928" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

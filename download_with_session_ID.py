@@ -593,9 +593,10 @@ def get_info_from_xml(xmlfile):
     try:
         # session_id=args.stuff[1]
         # xmlfile=args.stuff[2]
+        subprocess.call("echo " + "I xmlfile AT ::{}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
         with open(xmlfile, encoding="utf-8") as fd:
             xmlfile_dict = xmltodict.parse(fd.read())
-            subprocess.call("echo " + "I xmlfile AT ::{}  >> /workingoutput/error.txt".format(xmlfile) ,shell=True )
+
         project_name=''
         subject_name=''
         session_label=''

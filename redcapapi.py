@@ -166,7 +166,7 @@ for each_unique_subject in unique_subjects:
     datetime_col_name='acquisition_datetime'
     subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
     # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
-    this_redcap_repeat_instance=1
+    # this_redcap_repeat_instance=1
     copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
@@ -215,12 +215,12 @@ for each_unique_subject in unique_subjects:
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_ratio',each_row['label'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','infarct_volume',each_row['ICH EDEMA VOLUME'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','nwu',each_row['label'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','px',each_row['px'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pz',each_row['pz'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','slices',each_row['SLICE_NUM'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_version',each_row['label'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_application_date',each_row['label'])
-        this_redcap_repeat_instance=this_redcap_repeat_instance+1
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','px',each_row['px'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','pz',each_row['pz'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','slices',each_row['SLICE_NUM'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','software_version',each_row['label'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','software_application_date',each_row['label'])
+        # this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
     if counter >10:
         break

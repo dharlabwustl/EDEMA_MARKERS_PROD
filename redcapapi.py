@@ -161,13 +161,14 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
         pass
     return
 for each_unique_subject in unique_subjects:
+    copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
     subject_df=copy_session_df[copy_session_df['subject_id']==each_unique_subject]
     subject_col_name='subject_id'
     datetime_col_name='acquisition_datetime'
     subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
     # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
     # this_redcap_repeat_instance=1
-    copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
+
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))

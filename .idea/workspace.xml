@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redcapapi.py" beforeDir="false" afterPath="$PROJECT_DIR$/redcapapi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,13 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03897" summary="REDCAP INPUT">
-      <created>1705553927679</created>
-      <option name="number" value="03897" />
-      <option name="presentableId" value="LOCAL-03897" />
-      <option name="project" value="LOCAL" />
-      <updated>1705553927679</updated>
     </task>
     <task id="LOCAL-03898" summary="REDCAP INPUT">
       <created>1705674034972</created>
@@ -464,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707492599859</updated>
     </task>
-    <option name="localTasksCounter" value="3946" />
+    <task id="LOCAL-03946" summary="&#10;New Commit">
+      <created>1707493266646</created>
+      <option name="number" value="03946" />
+      <option name="presentableId" value="LOCAL-03946" />
+      <option name="project" value="LOCAL" />
+      <updated>1707493266646</updated>
+    </task>
+    <option name="localTasksCounter" value="3947" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

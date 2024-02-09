@@ -245,12 +245,12 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-#this_session_id=${sessionID}
-#xml_filename=${working_dir}/${this_session_id}.xml
-#filename_xml=$(basename ${xml_filename})   #args.stuff[2]
-#dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
-#download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
-#outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
+this_session_id=${sessionID}
+xml_filename=${working_dir}/${this_session_id}.xml
+filename_xml=$(basename ${xml_filename})   #args.stuff[2]
+dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
+download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
+outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 #
 #session_id=${this_session_id}
 #xmlfile=${xml_filename}

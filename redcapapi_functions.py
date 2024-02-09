@@ -6,9 +6,9 @@ import requests, hashlib, json,glob
 import os,sys,subprocess,time,inspect
 
 sys.path.append("/software")
-from fillmaster_session_list import *
-from download_with_session_ID import *
-from system_analysis import *
+# from fillmaster_session_list import *
+# from download_with_session_ID import *
+# from system_analysis import *
 api_token='EC6A2206FF8C1D87D4035E61C99290FF' #sys.argv[1] #os.environ['REDCAP_API_TOKEN']
 api_url='https://redcap.wustl.edu/redcap/api/' #sys.argv[2] #
 # project_ID=sys.argv[1]

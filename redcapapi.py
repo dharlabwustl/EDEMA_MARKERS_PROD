@@ -203,8 +203,8 @@ for each_row_id,each_row in  copy_session_df.iterrows():
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'px',each_row['px'])
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'pz',each_row['pz'])
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'slices',each_row['SLICE_NUM'])
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'software_version',each_row['label'])
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'software_application_date',each_row['label'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'software_version',each_row['label'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'software_application_date',each_row['label'])
 
 
     counter=counter+1

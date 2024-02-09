@@ -3,7 +3,7 @@ import requests,json
 import pandas as pd
 # from config import config
 import requests, hashlib, json,glob
-import os,sys,subprocess,time
+import os,sys,subprocess,time,inspect
 
 sys.path.append("/software")
 from fillmaster_session_list import *
@@ -19,6 +19,7 @@ final_output_directory="/outputinsidedocker"
 
 
 def download_latest_redcapfile(api_token,this_project_redcapfile):
+    subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     df_scan=''
     try:
         fields = {

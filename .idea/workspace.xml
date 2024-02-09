@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="REDCAP INPUT">
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commit">
       <change beforePath="$PROJECT_DIR$/download_with_session_ID.py" beforeDir="false" afterPath="$PROJECT_DIR$/download_with_session_ID.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,20 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03884" summary="REDCAP INPUT">
-      <created>1705497250387</created>
-      <option name="number" value="03884" />
-      <option name="presentableId" value="LOCAL-03884" />
-      <option name="project" value="LOCAL" />
-      <updated>1705497250387</updated>
-    </task>
-    <task id="LOCAL-03885" summary="REDCAP INPUT">
-      <created>1705497607757</created>
-      <option name="number" value="03885" />
-      <option name="presentableId" value="LOCAL-03885" />
-      <option name="project" value="LOCAL" />
-      <updated>1705497607757</updated>
     </task>
     <task id="LOCAL-03886" summary="REDCAP INPUT">
       <created>1705498260335</created>
@@ -463,7 +449,21 @@
       <option name="project" value="LOCAL" />
       <updated>1707487623414</updated>
     </task>
-    <option name="localTasksCounter" value="3933" />
+    <task id="LOCAL-03933" summary="&#10;New Commit">
+      <created>1707487812592</created>
+      <option name="number" value="03933" />
+      <option name="presentableId" value="LOCAL-03933" />
+      <option name="project" value="LOCAL" />
+      <updated>1707487812592</updated>
+    </task>
+    <task id="LOCAL-03934" summary="&#10;New Commit">
+      <created>1707487909967</created>
+      <option name="number" value="03934" />
+      <option name="presentableId" value="LOCAL-03934" />
+      <option name="project" value="LOCAL" />
+      <updated>1707487909967</updated>
+    </task>
+    <option name="localTasksCounter" value="3935" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -498,7 +498,8 @@
     <MESSAGE value="Flowchart commit" />
     <MESSAGE value="Flowchart commi" />
     <MESSAGE value="REDCAP INPUT" />
-    <option name="LAST_COMMIT_MESSAGE" value="REDCAP INPUT" />
+    <MESSAGE value="&#10;New Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="&#10;New Commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

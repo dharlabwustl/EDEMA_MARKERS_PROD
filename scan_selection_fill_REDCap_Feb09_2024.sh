@@ -254,9 +254,9 @@ outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile
 
 session_id=${this_session_id}
 xmlfile=${xml_filename}
-subj_listfile=${subject_list}
-append_sessionxmlinfo_to_analytics_arguments=('append_sessionxmlinfo_to_analytics' ${session_id} ${xmlfile} ${csvfilename} ${subj_listfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${append_sessionxmlinfo_to_analytics_arguments[@]}")
+#subj_listfile=${subject_list}
+fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${session_id} ${xmlfile}  #${csvfilename} ${subj_listfile})
+outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 
 niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 #get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

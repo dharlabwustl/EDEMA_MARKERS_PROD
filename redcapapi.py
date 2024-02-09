@@ -191,7 +191,7 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_name',str(each_row['FileName_slice']))
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_date_time',this_date_time)
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_kernel',str(each_row['SCAN_DESCRIPTION']))
-        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
+        # add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','axial_number',each_row['axial_number'])
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','axial_thin_number',each_row['axial_thin_number'])
         add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','kvp',each_row['kvp'])

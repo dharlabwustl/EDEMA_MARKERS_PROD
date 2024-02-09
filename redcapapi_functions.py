@@ -19,7 +19,7 @@ final_output_directory="/outputinsidedocker"
 
 
 def download_latest_redcapfile(api_token,this_project_redcapfile):
-    subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
     df_scan=''
     try:
         fields = {

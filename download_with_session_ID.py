@@ -702,6 +702,7 @@ def get_info_from_xml(xmlfile):
     return   project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
 def fill_redcap_for_selected_scan(args):
     try:
+        subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         session_id=args.stuff[1]
         xmlfile=args.stuff[2]
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)

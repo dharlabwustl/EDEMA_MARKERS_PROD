@@ -10,7 +10,7 @@ import nibabel as nib
 import numpy as np
 # import pydicom as dicom
 import pathlib
-import argparse
+import argparse,xmltodict
 from xnatSession import XnatSession
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')

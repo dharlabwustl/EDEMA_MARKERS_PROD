@@ -167,6 +167,7 @@ for each_unique_subject in unique_subjects:
     subject_df=sorted_subj_list(subject_df,subject_col_name,datetime_col_name)
     # subject_df=subject_df[subject_df['axial_number']>0 | subject_df['axial_thin_number']>0]
     this_redcap_repeat_instance=1
+    copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
     for each_row_id,each_row in subject_df.iterrows():
         print((each_row['subject_id']))
         print((each_row['acquisition_datetime']))
@@ -184,32 +185,32 @@ for each_unique_subject in unique_subjects:
 
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'scan_selection_complete',str(scan_selection_complete))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_date_time',this_date_time)
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_kernel',str(each_row['SCAN_DESCRIPTION']))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','axial_number',each_row['axial_number'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','axial_thin_number',each_row['axial_thin_number'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','kvp',each_row['kvp'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','body_site',each_row['body_part'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scanner_name',each_row['scanner'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_selected',each_row['SELECTED_SCAN_ID'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','snipr_session',str(each_row['label']))
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_name',str(each_row['FileName_slice']))
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_date_time',this_date_time)
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_kernel',str(each_row['SCAN_DESCRIPTION']))
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','stroke_side',str(each_row['ICH SIDE']).upper()[0])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','axial_number',each_row['axial_number'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','axial_thin_number',each_row['axial_thin_number'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','kvp',each_row['kvp'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','body_site',each_row['body_part'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scanner_name',each_row['scanner'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','scan_selected',each_row['SELECTED_SCAN_ID'])
         pdf_created=0
         try:
             if int(str(each_row['PDF_FILE_NUM'])) >0:
                 pdf_created=1
         except:
             pass
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','pdf_created',pdf_created)
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_total',each_row['TOTAL CSF VOLUME'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_left',each_row['LEFT CSF VOLUME AFTER EDEMA SUBT'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_right',each_row['RIGHT CSF VOLUME AFTER EDEMA SUBT'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','csf_ratio',each_row['CSF RATIO AFTER EDEMA SUBT'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_left',each_row['LEFT BRAIN VOLUME without CSF'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_right',each_row['RIGHT BRAIN VOLUME without CSF'])
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data','cranial',each_row['BET VOLUME'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','pdf_created',pdf_created)
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','csf_total',each_row['TOTAL CSF VOLUME'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','csf_left',each_row['LEFT CSF VOLUME AFTER EDEMA SUBT'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','csf_right',each_row['RIGHT CSF VOLUME AFTER EDEMA SUBT'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','csf_ratio',each_row['CSF RATIO AFTER EDEMA SUBT'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','brain_left',each_row['LEFT BRAIN VOLUME without CSF'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','brain_right',each_row['RIGHT BRAIN VOLUME without CSF'])
+        add_one_data_to_redcap(each_row['subject_id'],each_row['redcap_repeat_instance'],'imaging_data','cranial',each_row['BET VOLUME'])
 
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_ratio',each_row['label'])
         # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','infarct_volume',each_row['ICH EDEMA VOLUME'])
@@ -221,8 +222,8 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_application_date',each_row['label'])
         this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
-    # if counter >10:
-    #     break
+    if counter >10:
+        break
     # break
 #     print('I AM NOT IN THE RECORD')
 #     # break

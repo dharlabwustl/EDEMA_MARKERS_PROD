@@ -171,7 +171,6 @@ for each_row_id,each_row in  copy_session_df.iterrows():
         pass
     print("{}::{}::{}::{}::{}".format(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label'])))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_stem',str(each_row['NIFTIFILES_PREFIX']))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_name',str(each_row['FileName_slice']))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_date_time',this_date_time)
@@ -189,14 +188,14 @@ for each_row_id,each_row in  copy_session_df.iterrows():
             pdf_created=1
     except:
         pass
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'pdf_created',pdf_created)
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_total',each_row['TOTAL CSF VOLUME'])
-    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_left',each_row['LEFT CSF VOLUME AFTER EDEMA SUBT'])
-    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_right',each_row['RIGHT CSF VOLUME AFTER EDEMA SUBT'])
-    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_ratio',each_row['CSF RATIO AFTER EDEMA SUBT'])
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'brain_left',each_row['LEFT BRAIN VOLUME without CSF'])
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'brain_right',each_row['RIGHT BRAIN VOLUME without CSF'])
-    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'cranial',each_row['BET VOLUME'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'pdf_created',pdf_created)
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_total',each_row['TOTAL CSF VOLUME'])
+    # # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_left',each_row['LEFT CSF VOLUME AFTER EDEMA SUBT'])
+    # # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_right',each_row['RIGHT CSF VOLUME AFTER EDEMA SUBT'])
+    # # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'csf_ratio',each_row['CSF RATIO AFTER EDEMA SUBT'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'brain_left',each_row['LEFT BRAIN VOLUME without CSF'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'brain_right',each_row['RIGHT BRAIN VOLUME without CSF'])
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'cranial',each_row['BET VOLUME'])
 
     # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','brain_ratio',each_row['label'])
     # add_one_data_to_redcap(each_row['subject_id'],'imaging_data','infarct_volume',each_row['ICH EDEMA VOLUME'])

@@ -11,7 +11,7 @@ from download_with_session_ID import *
 from system_analysis import *
 api_token=sys.argv[1] #os.environ['REDCAP_API_TOKEN']
 api_url=sys.argv[2] #'https://redcap.wustl.edu/redcap/api/'
-project_ID='ICH' #sys.argv[3]
+project_ID='BM' #sys.argv[3]
 session_id=sys.argv[3]
 working_dir="/workinginput"
 output_directory="/workingoutput"

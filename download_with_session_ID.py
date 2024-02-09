@@ -606,15 +606,15 @@ def get_info_from_xml(xmlfile):
         body_part_xml=''
         kvp_xml=''
         try:
-            session_label=xmlfile_dict['xnat:CTSession']['label']
+            session_label=xmlfile_dict['xnat:CTSession']['@label']
         except:
             pass
         try:
-            project_name=xmlfile_dict['xnat:CTSession']['project']
+            project_name=xmlfile_dict['xnat:CTSession']['@project']
         except:
             pass
         try:
-            subject_name=str(xmlfile_dict['xnat:dcmPatientName'])
+            subject_name=str(xmlfile_dict['xnat:CTSession']['xnat:dcmPatientName'])
         except:
             pass
         # Acquisition site

@@ -182,8 +182,8 @@ for each_unique_subject in unique_subjects:
             nifti_file_present=1
             scan_selection_complete=1
 
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
-        add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'scan_selection_complete',str(scan_selection_complete))
+        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'nifti_file_present',str(nifti_file_present))
+        # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',this_redcap_repeat_instance,'scan_selection_complete',str(scan_selection_complete))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','snipr_session',str(each_row['label']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_stem',str(each_row['NIFTIFILES_PREFIX']))
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','scan_name',str(each_row['FileName_slice']))
@@ -221,8 +221,8 @@ for each_unique_subject in unique_subjects:
         add_one_data_to_redcap(each_row['subject_id'],'imaging_data','software_application_date',each_row['label'])
         this_redcap_repeat_instance=this_redcap_repeat_instance+1
     counter=counter+1
-    if counter >10:
-        break
+    # if counter >10:
+    #     break
     # break
 #     print('I AM NOT IN THE RECORD')
 #     # break

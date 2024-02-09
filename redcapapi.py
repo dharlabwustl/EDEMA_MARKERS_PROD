@@ -163,6 +163,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
 copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
 counter=0
 for each_row_id,each_row in  copy_session_df.iterrows():
+    this_date_time=str(each_row['acquisition_datetime'])
     print("{}::{}::{}::{}::{}".format(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label'])))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))
     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))

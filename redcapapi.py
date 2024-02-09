@@ -55,8 +55,8 @@ def fill_subjects_records(copy_session,counter_ul=99999999):
                 counter=counter+1
             except:
                 pass
-            if counter>counter_ul:
-                break
+            # if counter>counter_ul:
+            #     break
 
 
 def delete_record(record_id):

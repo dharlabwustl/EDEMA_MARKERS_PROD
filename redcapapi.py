@@ -33,7 +33,7 @@ def fill_subjects_records(copy_session,counter_ul=99999999):
                 'record_id':this_record_id,
                 'project':project_ID,
                 'subject':this_subject,
-                'subject_number':this_subject.split('_')[1],
+                'subject_number':this_subject , #.split('_')[1],
                 'site':project_ID+'_1'
             }
             print(record)

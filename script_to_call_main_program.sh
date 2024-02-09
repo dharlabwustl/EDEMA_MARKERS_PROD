@@ -248,7 +248,10 @@ if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION" ]]; then
   PROJECT_ID=${1}
   /software/scan_selection_Jan17_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
-
+if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION_FILL_RC" ]]; then
+  SESSION_ID=${1}
+  /software/scan_selection_fill_REDCap_Feb09_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi
 ###########################################################
 if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP1' ]]; then
   PROJECT_ID=${1}

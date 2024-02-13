@@ -741,18 +741,26 @@ def select_scan_for_analysis(args):
     jsonStr = json.dumps(this_session_metadata)
     # print(jsonStr)
     df = pd.read_json(jsonStr)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_axial_num=0
-    if df_axial.shape[0]>0:
-        df_axial_num=df_axial.shape[0]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_axial_thin_num=0
-    if df_thin.shape[0]>0:
-        df_axial_thin_num=df_thin.shape[0]
-    # list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
-    # list_values_df=list_values_df.T
-    # list_values_df.columns=['axial_number','axial_thin_number']
-    df.to_csv(csvfilename,index=False)
+    df['DICOM_COUNT']=0
+    df=df.loc[((df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')) | ((df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable'))]
+    for each_id in range(df.shape[0]):
+        URI=df.at[each_id,'URI']
+        resource_dir='DICOM'
+        scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
+        df.at[each_id,'DICOM_COUNT']=scan_meta_data.shape[0]
+    # # get_resourcefiles_metadata(URI,resource_dir)
+    # df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    # df_axial_num=0
+    # if df_axial.shape[0]>0:
+    #     df_axial_num=df_axial.shape[0]
+    # df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    # df_axial_thin_num=0
+    # if df_thin.shape[0]>0:
+    #     df_axial_thin_num=df_thin.shape[0]
+    # # list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
+    # # list_values_df=list_values_df.T
+    # # list_values_df.columns=['axial_number','axial_thin_number']
+    # df.to_csv(csvfilename,index=False)
     return
 def fill_redcap_for_selected_scan(args):
     try:

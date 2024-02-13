@@ -737,34 +737,64 @@ def find_num_axial_thin(args):
 def select_scan_for_analysis(args):
     sessionId=args.stuff[1]
     csvfilename=args.stuff[2]
+    dir_to_receive_the_data=args.stuff[3]
     this_session_metadata=get_metadata_session(sessionId)
     jsonStr = json.dumps(this_session_metadata)
     # print(jsonStr)
     df = pd.read_json(jsonStr)
-    df['DICOM_COUNT']=0
-    df=df.loc[((df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')) | ((df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable'))]
-    df=df.reset_index()
-    for each_id in range(df.shape[0]):
-        subprocess.call("echo " + "I PASSED AT each_id::{}  >> /workingoutput/error.txt".format(each_id) ,shell=True )
-        URI=df.at[each_id,'URI']
-        resource_dir='DICOM'
-        scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
-        jsonStr_scan = json.dumps(scan_meta_data)
-        # print(jsonStr)
-        df_scan = pd.read_json(jsonStr_scan)
-        df.at[each_id,'DICOM_COUNT']=df_scan.shape[0]
-    # # get_resourcefiles_metadata(URI,resource_dir)
-    # df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
-    # df_axial_num=0
-    # if df_axial.shape[0]>0:
-    #     df_axial_num=df_axial.shape[0]
-    # df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
-    # df_axial_thin_num=0
-    # if df_thin.shape[0]>0:
-    #     df_axial_thin_num=df_thin.shape[0]
-    # # list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
-    # # list_values_df=list_values_df.T
-    # # list_values_df.columns=['axial_number','axial_thin_number']
+    df['NUMBEROFSLICES']=0
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    try:
+        df_axial=df_axial.reset_index()
+        for each_id in range(df_axial.shape[0]):
+            subprocess.call("echo " + "I PASSED AT each_id::{}  >> /workingoutput/error.txt".format(each_id) ,shell=True )
+            URI=df_axial.at[each_id,'URI']
+            resource_dir='DICOM'
+            scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
+            jsonStr_scan = json.dumps(scan_meta_data)
+            # print(jsonStr)
+            df_scan = pd.read_json(jsonStr_scan)
+            df_axial.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
+    except:
+        pass
+    try:
+
+        df_thin=df_thin.reset_index()
+        for each_id in range(df_thin.shape[0]):
+            subprocess.call("echo " + "I PASSED AT each_id::{}  >> /workingoutput/error.txt".format(each_id) ,shell=True )
+            URI=df_thin.at[each_id,'URI']
+            resource_dir='DICOM'
+            scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
+            jsonStr_scan = json.dumps(scan_meta_data)
+            # print(jsonStr)
+            df_scan = pd.read_json(jsonStr_scan)
+            df_thin.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
+    except:
+        pass
+    if df_axial.shape[0]>0:
+        df_maxes = df_axial[df_axial['NUMBEROFSLICES']==df_axial['NUMBEROFSLICES'].max()]
+    elif df_thin.shape[0]>0:
+        df_maxes = df_thin[df_thin['NUMBEROFSLICES']==df_thin['NUMBEROFSLICES'].max()]
+######################
+    # return df_maxes
+    final_ct_file=''
+    if df_maxes.shape[0]>0:
+        final_ct_file=df_maxes.iloc[:1]
+        for item_id, each_scan in df_maxes.iterrows():
+            if "tilt" in each_scan['Name']:
+                final_ct_file=each_scan
+                break
+    if final_ct_file.shape[0] >= 1:
+        final_ct_file_df= final_ct_file #pd.DataFrame(final_ct_file)
+        for row_id, row_item in final_ct_file.iterrows():
+            niftifile_location=os.path.join(dir_to_receive_the_data,row_item['Name'].split(".nii")[0]+"_NIFTILOCATION.csv")
+            final_ct_file_df.to_csv(niftifile_location,index=False)
+            resource_dirname="NIFTI_LOCATION"
+            url = (("/data/experiments/%s") % (sessionId))
+            uploadsinglefile_with_URI(url,niftifile_location,resource_dirname)
+
+#############################
     df.to_csv(csvfilename,index=False)
     return
 def fill_redcap_for_selected_scan(args):

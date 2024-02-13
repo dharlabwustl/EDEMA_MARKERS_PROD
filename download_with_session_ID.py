@@ -713,7 +713,7 @@ def fill_single_val_redcap(args):
     add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,each_colname,csv_file_df[each_colname])
     return
 
-def find_num_axial(args):
+def find_num_axial_thin(args):
     sessionId=args.stuff[1]
     csvfilename=args.stuff[2]
     this_session_metadata=get_metadata_session(sessionId)
@@ -742,11 +742,6 @@ def fill_redcap_for_selected_scan(args):
         xmlfile=args.stuff[1]
         csv_file_df=pd.read_csv(args.stuff[2])
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
-        # # each_unique_subject_df=copy_session_df[copy_session_df['ID']==str(session_id)].reset_index()
-        # each_unique_subject=subject_name #each_unique_subject_df.at[0,'subject_id']
-        # # session_label=session_label #each_unique_subject_df.at[0,'label']
-        # # unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
-        # # print(unique_subjects)
         this_project_redcapfile_latest=project_name+'_latest.csv'
         api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)

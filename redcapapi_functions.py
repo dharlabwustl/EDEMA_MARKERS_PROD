@@ -45,6 +45,7 @@ def sorted_subj_list(subject_df,subject_col_name,datetime_col_name):
     return res_df
 def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data):
     try:
+        subprocess.call("echo " + "I PASSED AT session_label::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data) ,shell=True )
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,
             'redcap_repeat_instance':this_redcap_repeat_instance,

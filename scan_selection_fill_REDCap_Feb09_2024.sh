@@ -265,7 +265,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${find_num_axial_argu
 ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
 
 
-fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${csvfilename} ) #${subj_listfile})
+fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #
 #niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'

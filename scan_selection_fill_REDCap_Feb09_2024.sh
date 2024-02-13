@@ -255,8 +255,17 @@ outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile
 #session_id=${this_session_id}
 #xmlfile=${xml_filename}
 ##subj_listfile=${subject_list}
-fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${this_session_id} ${xml_filename}  ) #${csvfilename} ${subj_listfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+## Find number of axial-scan, thin-scan, select the scan
+this_csvfilename=${dir_to_save_xml}/axialthinnum.csv
+find_num_axial_arguments=('find_num_axial' ${this_session_id} ${this_csvfilename})
+outputfiles_present=$(python3 download_with_session_ID.py "${find_num_axial_arguments[@]}")
+
+
+## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
+
+
+#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${this_session_id} ${xml_filename}  ) #${csvfilename} ${subj_listfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #
 #niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 #get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

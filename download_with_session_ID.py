@@ -701,37 +701,73 @@ def get_info_from_xml(xmlfile):
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return   project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
+def fill_single_val_redcap(args):
+    xmlfile=args.stuff[1]
+    csvfilename=args.stuff[2]
+    project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
+    this_project_redcapfile_latest=project_name+'_latest.csv'
+    api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+    df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
+    this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
+    this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'])
+    add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,each_colname,csv_file_df[each_colname])
+    return
+
+def find_num_axial(args):
+    sessionId=args.stuff[1]
+    csvfilename=args.stuff[2]
+    this_session_metadata=get_metadata_session(sessionId)
+    jsonStr = json.dumps(this_session_metadata)
+    # print(jsonStr)
+    df = pd.read_json(jsonStr)
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial_num=0
+    if df_axial.shape[1]>0:
+        df_axial_num=df_axial.shape[1]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial_thin_num=0
+    if df_thin.shape[1]>0:
+        df_axial_thin_num=df_thin.shape[1]
+    list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
+    list_values_df=list_values_df.T
+    list_values_df.columns=['axial_number','axial_thin_number']
+    list_values_df.to_csv(csvfilename,index=False)
+    return
+
 def fill_redcap_for_selected_scan(args):
     try:
 
-        session_id=args.stuff[1]
+        # session_id=args.stuff[1]
         subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
-        xmlfile=args.stuff[2]
-
+        xmlfile=args.stuff[1]
+        csv_file_df=pd.read_csv(args.stuff[2])
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
-        # each_unique_subject_df=copy_session_df[copy_session_df['ID']==str(session_id)].reset_index()
-        each_unique_subject=subject_name #each_unique_subject_df.at[0,'subject_id']
-        # session_label=session_label #each_unique_subject_df.at[0,'label']
-        # unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
-        # print(unique_subjects)
+        # # each_unique_subject_df=copy_session_df[copy_session_df['ID']==str(session_id)].reset_index()
+        # each_unique_subject=subject_name #each_unique_subject_df.at[0,'subject_id']
+        # # session_label=session_label #each_unique_subject_df.at[0,'label']
+        # # unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
+        # # print(unique_subjects)
         this_project_redcapfile_latest=project_name+'_latest.csv'
         api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
         this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
         this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'])
+        for each_colname in csv_file_df.columns:
+            add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,each_colname,csv_file_df[each_colname])
+
         #fill scan base
         ## fill scan complete name
         ## fill number of slices,kvp,px,pz, scanner detail
 
-        subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT acquisition_site_xml::{}  >> /workingoutput/error.txt".format(acquisition_site_xml) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT acquisition_datetime_xml::{}  >> /workingoutput/error.txt".format(acquisition_datetime_xml) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT scanner_from_xml::{}  >> /workingoutput/error.txt".format(scanner_from_xml) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT body_part_xml::{}  >> /workingoutput/error.txt".format(body_part_xml) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT kvp_xml::{}  >> /workingoutput/error.txt".format(kvp_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT acquisition_site_xml::{}  >> /workingoutput/error.txt".format(acquisition_site_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT acquisition_datetime_xml::{}  >> /workingoutput/error.txt".format(acquisition_datetime_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT scanner_from_xml::{}  >> /workingoutput/error.txt".format(scanner_from_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT body_part_xml::{}  >> /workingoutput/error.txt".format(body_part_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT kvp_xml::{}  >> /workingoutput/error.txt".format(kvp_xml) ,shell=True )
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass

@@ -746,8 +746,8 @@ def select_scan_for_analysis(args):
     for each_id in range(df.shape[0]):
         URI=df.at[each_id,'URI']
         resource_dir='DICOM'
-        scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
-        df.at[each_id,'DICOM_COUNT']=scan_meta_data.shape[0]
+        # scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
+        # df.at[each_id,'DICOM_COUNT']=scan_meta_data.shape[0]
     # # get_resourcefiles_metadata(URI,resource_dir)
     # df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
     # df_axial_num=0

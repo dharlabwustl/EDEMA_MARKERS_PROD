@@ -750,6 +750,7 @@ def fill_redcap_for_selected_scan(args):
         for each_colname in csv_file_df.columns:
             # print(each_colname)
             # print(csv_file_df[each_colname])
+            subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
             subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
             subprocess.call("echo " + "I PASSED AT each_colname::{}  >> /workingoutput/error.txt".format(each_colname) ,shell=True )
             subprocess.call("echo " + "I PASSED AT each_colname_value::{}  >> /workingoutput/error.txt".format(csv_file_df[each_colname][0]) ,shell=True )

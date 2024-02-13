@@ -743,6 +743,7 @@ def select_scan_for_analysis(args):
     df = pd.read_json(jsonStr)
     df['DICOM_COUNT']=0
     df=df.loc[((df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')) | ((df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable'))]
+    df=df.reset_index()
     for each_id in range(df.shape[0]):
         subprocess.call("echo " + "I PASSED AT each_id::{}  >> /workingoutput/error.txt".format(each_id) ,shell=True )
         # URI=df.at[each_id,'URI']

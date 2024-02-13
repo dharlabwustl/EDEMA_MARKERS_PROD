@@ -64,6 +64,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
         r = requests.post(api_url,data=fields)
         print('HTTP Status: ' + str(r.status_code))
         print(r.text)
+        subprocess.call("echo " + "I PASSED AT status_code::{}  >> /workingoutput/error.txt".format(str(r.status_code)) ,shell=True )
     except:
         pass
     return

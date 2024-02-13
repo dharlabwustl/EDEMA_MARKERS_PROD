@@ -723,11 +723,11 @@ def find_num_axial(args):
     df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
     df_axial_num=0
     if df_axial.shape[0]>0:
-        df_axial_num=df_axial.shape[1]
+        df_axial_num=df_axial.shape[0]
     df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     df_axial_thin_num=0
     if df_thin.shape[0]>0:
-        df_axial_thin_num=df_thin.shape[1]
+        df_axial_thin_num=df_thin.shape[0]
     list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
     list_values_df=list_values_df.T
     list_values_df.columns=['axial_number','axial_thin_number']

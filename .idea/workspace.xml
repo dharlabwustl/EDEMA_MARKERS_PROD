@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/download_with_session_ID.py" beforeDir="false" afterPath="$PROJECT_DIR$/download_with_session_ID.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scan_selection_fill_REDCap_Feb09_2024.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scan_selection_fill_REDCap_Feb09_2024.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,27 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-03927" summary="REDCAP INPUT">
-      <created>1707487071684</created>
-      <option name="number" value="03927" />
-      <option name="presentableId" value="LOCAL-03927" />
-      <option name="project" value="LOCAL" />
-      <updated>1707487071684</updated>
-    </task>
-    <task id="LOCAL-03928" summary="REDCAP INPUT">
-      <created>1707487119103</created>
-      <option name="number" value="03928" />
-      <option name="presentableId" value="LOCAL-03928" />
-      <option name="project" value="LOCAL" />
-      <updated>1707487119103</updated>
-    </task>
-    <task id="LOCAL-03929" summary="REDCAP INPUT">
-      <created>1707487260177</created>
-      <option name="number" value="03929" />
-      <option name="presentableId" value="LOCAL-03929" />
-      <option name="project" value="LOCAL" />
-      <updated>1707487260177</updated>
     </task>
     <task id="LOCAL-03930" summary="REDCAP INPUT">
       <created>1707487436157</created>
@@ -465,7 +442,28 @@
       <option name="project" value="LOCAL" />
       <updated>1707820491351</updated>
     </task>
-    <option name="localTasksCounter" value="3976" />
+    <task id="LOCAL-03976" summary="&#10;New Commit">
+      <created>1707821429187</created>
+      <option name="number" value="03976" />
+      <option name="presentableId" value="LOCAL-03976" />
+      <option name="project" value="LOCAL" />
+      <updated>1707821429187</updated>
+    </task>
+    <task id="LOCAL-03977" summary="&#10;New Commit">
+      <created>1707821510971</created>
+      <option name="number" value="03977" />
+      <option name="presentableId" value="LOCAL-03977" />
+      <option name="project" value="LOCAL" />
+      <updated>1707821510971</updated>
+    </task>
+    <task id="LOCAL-03978" summary="&#10;New Commit">
+      <created>1707821702904</created>
+      <option name="number" value="03978" />
+      <option name="presentableId" value="LOCAL-03978" />
+      <option name="project" value="LOCAL" />
+      <updated>1707821702904</updated>
+    </task>
+    <option name="localTasksCounter" value="3979" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

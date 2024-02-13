@@ -137,6 +137,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
     # this_record_id=str(each_row['subject_id'])
     # this_snipr_session=str(each_row['label'])
     # df_scan_latest['record_id']
+    subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format('add_one_data_to_redcap') ,shell=True )
     try:
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,

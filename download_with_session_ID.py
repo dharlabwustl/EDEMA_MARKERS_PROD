@@ -731,7 +731,7 @@ def find_num_axial(args):
     list_values_df=pd.DataFrame([df_axial_num,df_axial_thin_num])
     list_values_df=list_values_df.T
     list_values_df.columns=['axial_number','axial_thin_number']
-    list_values_df.to_csv(csvfilename,index=False)
+    df.to_csv(csvfilename,index=False)
     return
 
 def fill_redcap_for_selected_scan(args):

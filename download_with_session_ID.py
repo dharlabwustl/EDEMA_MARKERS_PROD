@@ -749,7 +749,10 @@ def select_scan_for_analysis(args):
         URI=df.at[each_id,'URI']
         resource_dir='DICOM'
         scan_meta_data=get_resourcefiles_metadata(URI,resource_dir)
-        df.at[each_id,'DICOM_COUNT']=scan_meta_data.shape[0]
+        jsonStr_scan = json.dumps(scan_meta_data)
+        # print(jsonStr)
+        df_scan = pd.read_json(jsonStr_scan)
+        df.at[each_id,'DICOM_COUNT']=df_scan.shape[0]
     # # get_resourcefiles_metadata(URI,resource_dir)
     # df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
     # df_axial_num=0

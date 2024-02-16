@@ -63,21 +63,21 @@ download_a_single_file() {
 }
 URI="/data/projects/"${project_ID}
 dir_to_receive_the_data=${working_dir}
-resource_dir="${project_ID}_SESSION_ANALYTICS_2"
+resource_dir="${project_ID}_SESSION_ANALYTICS_3"
 file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP2_" ${file_path_csv})
+get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP3_" ${file_path_csv})
 outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
-copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
+copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP4_${time_now}.csv
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
 counter=0
 dir_to_save=${output_directory}
 while IFS=',' read -ra array; do
   echo array::${array[15]}
-  pdf_file_location=${array[14]}
-  csv_file_location=${array[15]}
-  this_session_id=${array[1]}
+  pdf_file_location=${array[30]} #14]}
+  csv_file_location=${array[33]}#15]}
+  this_session_id=${array[4]} #1]}
   n_pdffilename_length=${#pdf_file_location}
   echo ${n_pdffilename_length}
   n_csvfilename_length=${#csv_file_location}

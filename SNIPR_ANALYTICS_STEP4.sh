@@ -82,7 +82,7 @@ while IFS=',' read -ra array; do
   csv_file_location=${array[23]} #33]}#15]}
 #  this_session_id=${array[4]} #1]}
   n_pdffilename_length=${#pdf_file_location}
-  echo ${n_pdffilename_length}
+  echo pdf_file_location::${pdf_file_location}
   n_csvfilename_length=${#csv_file_location}
   echo ${n_csvfilename_length}
     if [ ${n_pdffilename_length} -gt 1 ]; then

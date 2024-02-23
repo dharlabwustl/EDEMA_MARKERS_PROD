@@ -65,7 +65,10 @@ URI="/data/projects/"${project_ID}
 dir_to_receive_the_data=${working_dir}
 resource_dir="${project_ID}_SESSION_ANALYTICS_3"
 file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
-get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions${project_ID}_ANALYTICS_STEP3_" ${file_path_csv})
+#get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions${project_ID}_ANALYTICS_STEP3_" ${file_path_csv})
+get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "${project_ID}_SESSIONS_RESULTS_METRICS" ${file_path_csv})
+
+#BJH_SESSIONS_RESULTS_METRICS_20240211000149
 outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)

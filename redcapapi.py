@@ -120,7 +120,7 @@ counter=0
 for each_row_id,each_row in df_scan.iterrows():
    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
-fill_subjects_records(copy_session,counter_ul=5000)
+# fill_subjects_records(copy_session,counter_ul=5000)
 # ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
 # unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
 # print(unique_subjects)

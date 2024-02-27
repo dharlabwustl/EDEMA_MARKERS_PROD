@@ -266,15 +266,15 @@ outputfiles_present=$(python3 download_with_session_ID.py "${find_num_axial_argu
 fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 # select the scan for analysis:
-this_csvfilename=${dir_to_save_xml}/selected_scan.csv
-select_scan_for_analysis_arguments=('select_scan_for_analysis' ${this_session_id} ${this_csvfilename})
-outputfiles_present=$(python3 download_with_session_ID.py "${select_scan_for_analysis_arguments[@]}")
-
-## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
-fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
-#niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
-#get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
+#this_csvfilename=${dir_to_save_xml}/selected_scan.csv
+#select_scan_for_analysis_arguments=('select_scan_for_analysis' ${this_session_id} ${this_csvfilename})
+#outputfiles_present=$(python3 download_with_session_ID.py "${select_scan_for_analysis_arguments[@]}")
+#
+### in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
+#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+##niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
+##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 
 #########################################
 #outputfiles_present=0

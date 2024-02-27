@@ -121,64 +121,64 @@ counter=0
 #    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
 fill_subjects_records(copy_session,counter_ul=5000)
-# ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
-# unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
-# print(unique_subjects)
-# this_project_redcapfile_latest=project_ID+'_latest.csv'
-# df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
-# counter=0
-# def sorted_subj_list(subject_df,subject_col_name,datetime_col_name):
-#     datetime_col_name_1=datetime_col_name+"_1"
-#     # df=pd.read_csv(csvfilename)
-#     subject_df[datetime_col_name_1] = pd.to_datetime(subject_df[datetime_col_name], format='%m/%d/%Y %H:%M')
-#     df_agg = subject_df.groupby([subject_col_name])
-#     res_df = df_agg.apply(lambda x: x.sort_values(by=[datetime_col_name_1],ascending=True))
-#     x=res_df.pop(datetime_col_name_1)
-#     return res_df
-# def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data):
-#     # this_redcap_repeat_instrument='imaging_data'
-#     # this_record_id=str(each_row['subject_id'])
-#     # this_snipr_session=str(each_row['label'])
-#     # df_scan_latest['record_id']
-#     subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format('add_one_data_to_redcap') ,shell=True )
-#     try:
-#         record = {
-#             'redcap_repeat_instrument':this_redcap_repeat_instrument,
-#             'redcap_repeat_instance':this_redcap_repeat_instance,
-#             'record_id':this_record_id,
-#             this_field:str(this_data) #this_snipr_session
-#         }
-#         print(record)
-#         # break
-#         data = json.dumps([record])
-#         fields = {
-#             'token': api_token,
-#             'content': 'record',
-#             'format': 'json',
-#             'type': 'flat',
-#             'data': data,
-#         }
-#         r = requests.post(api_url,data=fields)
-#         print('HTTP Status: ' + str(r.status_code))
-#         print(r.text)
-#     except:
-#         pass
-#     return
-# copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
-# counter=0
-# for each_row_id,each_row in  copy_session_df.iterrows():
-#     this_date_time=str(each_row['acquisition_datetime'])
-#     try:
-#         this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
-#         print(this_date_time)
-#     except:
-#         pass
-#     print("{}::{}::{}::{}::{}".format(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label'])))
-#     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))
-#     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_stem',str(each_row['NIFTIFILES_PREFIX']))
-#     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_name',str(each_row['FileName_slice']))
-#     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_date_time',this_date_time)
-#     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_kernel',str(each_row['SCAN_DESCRIPTION']))
+######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################
+unique_subjects=sorted(list(set(copy_session_df['subject_id'].tolist()))) #.sort()
+print(unique_subjects)
+this_project_redcapfile_latest=project_ID+'_latest.csv'
+df_scan_latest=download_latest_redcapfile(project_ID,api_token,this_project_redcapfile_latest)
+counter=0
+def sorted_subj_list(subject_df,subject_col_name,datetime_col_name):
+    datetime_col_name_1=datetime_col_name+"_1"
+    # df=pd.read_csv(csvfilename)
+    subject_df[datetime_col_name_1] = pd.to_datetime(subject_df[datetime_col_name], format='%m/%d/%Y %H:%M')
+    df_agg = subject_df.groupby([subject_col_name])
+    res_df = df_agg.apply(lambda x: x.sort_values(by=[datetime_col_name_1],ascending=True))
+    x=res_df.pop(datetime_col_name_1)
+    return res_df
+def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data):
+    # this_redcap_repeat_instrument='imaging_data'
+    # this_record_id=str(each_row['subject_id'])
+    # this_snipr_session=str(each_row['label'])
+    # df_scan_latest['record_id']
+    subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format('add_one_data_to_redcap') ,shell=True )
+    try:
+        record = {
+            'redcap_repeat_instrument':this_redcap_repeat_instrument,
+            'redcap_repeat_instance':this_redcap_repeat_instance,
+            'record_id':this_record_id,
+            this_field:str(this_data) #this_snipr_session
+        }
+        print(record)
+        # break
+        data = json.dumps([record])
+        fields = {
+            'token': api_token,
+            'content': 'record',
+            'format': 'json',
+            'type': 'flat',
+            'data': data,
+        }
+        r = requests.post(api_url,data=fields)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
+    except:
+        pass
+    return
+copy_session_df['redcap_repeat_instance'] = copy_session_df.groupby('subject_id').cumcount() + 1
+counter=0
+for each_row_id,each_row in  copy_session_df.iterrows():
+    this_date_time=str(each_row['acquisition_datetime'])
+    try:
+        this_date_time=datetime.datetime.strptime(str(each_row['acquisition_datetime']),'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
+        print(this_date_time)
+    except:
+        pass
+    print("{}::{}::{}::{}::{}".format(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label'])))
+    add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'snipr_session',str(each_row['label']))
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_stem',str(each_row['NIFTIFILES_PREFIX']))
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_name',str(each_row['FileName_slice']))
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_date_time',this_date_time)
+    # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'scan_kernel',str(each_row['SCAN_DESCRIPTION']))
 #     # add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'stroke_side',str(each_row['ICH SIDE']).upper()[0])
 #     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'axial_number',each_row['axial_number'])
 #     add_one_data_to_redcap(each_row['subject_id'],'imaging_data',each_row['redcap_repeat_instance'],'axial_thin_number',each_row['axial_thin_number'])

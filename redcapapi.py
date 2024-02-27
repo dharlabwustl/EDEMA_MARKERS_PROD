@@ -26,7 +26,7 @@ def fill_subjects_records(copy_session,counter_ul=99999999):
             this_record_id=str(each_row['subject_id'])
             this_subject=str(each_row['subject_id'])
             this_redcap_repeat_instance=str(each_row['redcap_repeat_instance']) #str(1)
-            this_redcap_repeat_instrument='imaging_data' #'stroke_details'
+            this_redcap_repeat_instrument='stroke_details'
             this_snipr_session=str(each_row['label'])
             record = {
                 'redcap_repeat_instrument':this_redcap_repeat_instrument,
@@ -117,8 +117,8 @@ copy_session_df=pd.read_csv(copy_session)
 counter=0
 # print(type(df_scan['record_id'].tolist()))
 ########### DELETE OLD RECORDS#######################
-for each_row_id,each_row in df_scan.iterrows():
-   delete_record(each_row['record_id'])
+# for each_row_id,each_row in df_scan.iterrows():
+#    delete_record(each_row['record_id'])
 ##############FILL RECORD ID AND SUBJECT ID , project and subject number , VERY FIRST TIME ##############################
 fill_subjects_records(copy_session,counter_ul=5000)
 # ######################## FILL SESSION LABEL in IMAGING INSTRUMENT ############################################

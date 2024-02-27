@@ -60,16 +60,19 @@ def fill_subjects_records(copy_session,counter_ul=99999999):
 
 
 def delete_record(record_id):
-    data = {
-        'token':api_token,
-        'action': 'delete',
-        'content': 'record',
-        'records[0]': str(record_id),
-        'returnFormat': 'json'
-    }
-    r = requests.post('https://redcap.wustl.edu/redcap/api/',data=data)
-    print('HTTP Status: ' + str(r.status_code))
-    print(r.text)
+    try:
+        data = {
+            'token':api_token,
+            'action': 'delete',
+            'content': 'record',
+            'records[0]': str(record_id),
+            'returnFormat': 'json'
+        }
+        r = requests.post('https://redcap.wustl.edu/redcap/api/',data=data)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
+    except:
+        pass
 def download_latest_redcapfile(project_ID,api_token,this_project_redcapfile):
     df_scan=''
     try:

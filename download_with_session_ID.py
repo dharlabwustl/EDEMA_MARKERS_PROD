@@ -758,6 +758,7 @@ def select_scan_for_analysis(args):
             df_axial.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
     except:
         pass
+    df_axial.to_csv('test_df_scan.csv')
     try:
 
         df_thin=df_thin.reset_index()
@@ -779,7 +780,7 @@ def select_scan_for_analysis(args):
         df_maxes = df_thin[df_thin['NUMBEROFSLICES']==df_thin['NUMBEROFSLICES'].max()]
 ######################
     # return df_maxes
-    df_maxes.to_csv('test_df_scan.csv')
+
     final_ct_file=''
     if df_maxes.shape[0]>0:
         final_ct_file=df_maxes.iloc[:1]

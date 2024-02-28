@@ -772,7 +772,7 @@ def select_scan_for_analysis(args):
             df_thin.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
     except:
         pass
-    df_scan.to_csv('test_df_scan.csv')
+
     if df_axial.shape[0]>0:
         df_maxes = df_axial[df_axial['NUMBEROFSLICES']==df_axial['NUMBEROFSLICES'].max()]
     elif df_thin.shape[0]>0:
@@ -783,6 +783,7 @@ def select_scan_for_analysis(args):
     if df_maxes.shape[0]>0:
         final_ct_file=df_maxes.iloc[:1]
         for item_id, each_scan in df_maxes.iterrows():
+            df_maxes.to_csv('test_df_scan.csv')
             if "tilt" in each_scan['Name']:
                 final_ct_file=each_scan
                 break

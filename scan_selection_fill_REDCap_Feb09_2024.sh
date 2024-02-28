@@ -547,9 +547,9 @@ niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 
 ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
-#this_csvfilename=
-#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
-#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv)
+fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
+outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #########################################
 #outputfiles_present=0
 #while IFS=',' read -ra array; do

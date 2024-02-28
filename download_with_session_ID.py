@@ -772,6 +772,7 @@ def select_scan_for_analysis(args):
             df_thin.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
     except:
         pass
+    df_scan.to_csv('test_df_scan.csv')
     if df_axial.shape[0]>0:
         df_maxes = df_axial[df_axial['NUMBEROFSLICES']==df_axial['NUMBEROFSLICES'].max()]
     elif df_thin.shape[0]>0:

@@ -758,7 +758,7 @@ def select_scan_for_analysis(args):
             df_axial.at[each_id,'NUMBEROFSLICES']=df_scan.shape[0]
     except:
         pass
-    df_axial.to_csv('test_df_scan.csv')
+    df_scan.to_csv('test_df_scan.csv')
     try:
 
         df_thin=df_thin.reset_index()

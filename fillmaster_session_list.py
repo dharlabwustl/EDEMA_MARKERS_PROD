@@ -3618,6 +3618,7 @@ def csvfile_scan_selection_for_redcap(args):
         # scan_datetime=
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(scan_name) ,shell=True )
         scan_stem="_".join(scan_name.split('_')[0:(len(scan_name.split('_'))-1)])
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(scan_stem) ,shell=True )
         outputdf=pd.DataFrame([scan_name,scan_stem])
         outputdf.columns=['scan_name','scan_stem']
         outputdf.to_csv(csvoutputfilename,index=False)

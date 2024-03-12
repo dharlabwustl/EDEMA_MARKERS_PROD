@@ -551,12 +551,17 @@ get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 
 ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
 this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv )
+csvfile_for_redcap=${working_dir}/scan_selection.csv
 ########## change column names:
-call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'PDF_FILE_NUM' pdf_created)
-outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ) # 'Name' scan_name)
+outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
 
-fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+#call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)
+#outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+
+
+#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #########################################
 #outputfiles_present=0
 #while IFS=',' read -ra array; do

@@ -560,8 +560,8 @@ outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selecti
 #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 
 
-#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${this_csvfilename} ) #${subj_listfile})
-#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan'  ${xml_filename}  ${csvfile_for_redcap} ) #${subj_listfile})
+outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #########################################
 #outputfiles_present=0
 #while IFS=',' read -ra array; do

@@ -245,25 +245,25 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
-this_session_id=${sessionID}
-xml_filename=${working_dir}/${this_session_id}.xml
-filename_xml=$(basename ${xml_filename})   #args.stuff[2]
-dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
-download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
-outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
+#this_session_id=${sessionID}
+#xml_filename=${working_dir}/${this_session_id}.xml
+#filename_xml=$(basename ${xml_filename})   #args.stuff[2]
+#dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
+#download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
+#outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 #
 #session_id=${this_session_id}
 #xmlfile=${xml_filename}
 ##subj_listfile=${subject_list}
 ## Find number of axial-scan, thin-scan, select the scan
-echo "SESSION_ID::${this_session_id}"
-this_csvfilename=${dir_to_save_xml}/axialthinnum.csv
-find_num_axial_arguments=('find_num_axial_thin' ${this_session_id} ${this_csvfilename})
-outputfiles_present=$(python3 download_with_session_ID.py "${find_num_axial_arguments[@]}")
+#echo "SESSION_ID::${this_session_id}"
+#this_csvfilename=${dir_to_save_xml}/axialthinnum.csv
+#find_num_axial_arguments=('find_num_axial_thin' ${this_session_id} ${this_csvfilename})
+#outputfiles_present=$(python3 download_with_session_ID.py "${find_num_axial_arguments[@]}")
 
 ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
-fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${this_csvfilename}) #${subj_listfile})
-outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+#fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${this_csvfilename}) #${subj_listfile})
+#outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 
 #!/bin/bash
 export XNAT_USER=${2}

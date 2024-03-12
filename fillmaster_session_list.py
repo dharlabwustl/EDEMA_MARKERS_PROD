@@ -3619,8 +3619,12 @@ def csvfile_scan_selection_for_redcap(args):
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(scan_name) ,shell=True )
         scan_stem="_".join(scan_name.split('_')[0:(len(scan_name.split('_'))-1)])
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(scan_stem) ,shell=True )
-        outputdf=pd.DataFrame([scan_name,scan_stem]).transpose()
-        outputdf.columns=['scan_name','scan_stem']
+        scan_selection_complete=0
+        if '.nii' in scan_name:
+            scan_selection_complete=1
+
+        outputdf=pd.DataFrame([scan_name,scan_stem,scan_selection_complete]).transpose()
+        outputdf.columns=['scan_name','scan_stem','scan_selection_complete']
         outputdf.to_csv(csvoutputfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

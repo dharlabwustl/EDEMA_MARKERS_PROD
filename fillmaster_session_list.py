@@ -3607,7 +3607,17 @@ def call_fill_single_row_each_scan(args):
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass
     return  returnvalue
-
+def csvfile_scan_selection_for_redcap(args):
+    niftifilename_csv=args.stuff[1]
+    csvoutputfilename=args.stuff[2]
+    niftifilename_csv_df=pd.read_csv(niftifilename_csv)
+    scan_name=niftifilename_csv_df.at[0,'Name']
+    # scan_datetime=
+    scan_stem="_".join(scan_name.split('_')[0:(len(scan_name.split('_'))-1)])
+    outputdf=pd.DataFrame([scan_name,scan_stem])
+    outputdf.columns=['scan_name','scan_stem']
+    outputdf.to_csv(csvoutputfilename,index=False)
+    return
 
 def main():
     parser = argparse.ArgumentParser()

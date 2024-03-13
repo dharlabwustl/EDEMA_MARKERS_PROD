@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commit" />
+    <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commit">
+      <change beforePath="$PROJECT_DIR$/dicom2nifiti_03132024.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom2nifiti_03132024.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,20 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669653838154</updated>
-    </task>
-    <task id="LOCAL-04015" summary="&#10;New Commit">
-      <created>1709063831963</created>
-      <option name="number" value="04015" />
-      <option name="presentableId" value="LOCAL-04015" />
-      <option name="project" value="LOCAL" />
-      <updated>1709063831963</updated>
-    </task>
-    <task id="LOCAL-04016" summary="&#10;New Commit">
-      <created>1709064376793</created>
-      <option name="number" value="04016" />
-      <option name="presentableId" value="LOCAL-04016" />
-      <option name="project" value="LOCAL" />
-      <updated>1709064376793</updated>
     </task>
     <task id="LOCAL-04017" summary="&#10;New Commit">
       <created>1709064900671</created>
@@ -461,7 +449,21 @@
       <option name="project" value="LOCAL" />
       <updated>1710364482340</updated>
     </task>
-    <option name="localTasksCounter" value="4064" />
+    <task id="LOCAL-04064" summary="&#10;New Commit">
+      <created>1710365046095</created>
+      <option name="number" value="04064" />
+      <option name="presentableId" value="LOCAL-04064" />
+      <option name="project" value="LOCAL" />
+      <updated>1710365046095</updated>
+    </task>
+    <task id="LOCAL-04065" summary="&#10;New Commit">
+      <created>1710365178613</created>
+      <option name="number" value="04065" />
+      <option name="presentableId" value="LOCAL-04065" />
+      <option name="project" value="LOCAL" />
+      <updated>1710365178613</updated>
+    </task>
+    <option name="localTasksCounter" value="4066" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

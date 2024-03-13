@@ -81,7 +81,7 @@ def get_dicom_from_filesystem(sessionId, scanId):
     subprocess.call(command,shell=True)
 
 def get_dicom_using_xnat(sessionId, scanId):
-    total_niftifiles=0
+    # total_niftifiles=0
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     
     # Handle DICOM files that are not stored in a directory matching their XNAT scanId
@@ -128,7 +128,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     subprocess.call(command,shell=True)
     ## rename nifti file:
     for niftifile in glob.glob("/output/*.nii"):
-        total_niftifiles=total_niftifiles+1
+        # total_niftifiles=total_niftifiles+1
         current_filename=os.path.basename(niftifile).split('.nii')[0]
         new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
         new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
@@ -151,17 +151,13 @@ def get_dicom_using_xnat(sessionId, scanId):
 
         command= 'rm  ' + eachniftifile
         subprocess.call(command,shell=True)
-    dcm2nifti_complete=0
-    if total_niftifiles>0:
-        dcm2nifti_complete=1
-    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles]).transpose()
-    total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
-    total_niftifiles_df.to_csv('total_niftifiles.csv',index=False)
+
     return True 
 
 
 if __name__ == '__main__':
     sessionId=sys.argv[1]
+    total_niftifiles=0
     metadata_session=get_metadata_session(sessionId)
     for x in metadata_session:
         # if int(x['ID']) == scanId:
@@ -192,6 +188,7 @@ if __name__ == '__main__':
                 xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
                 xnatSession.renew_httpsession()
                 outcome=get_dicom_using_xnat(sessionId, scanId)
+                total_niftifiles=total_niftifiles+1
                 message_text="If true decision: scanId: " + scanId
                 command="echo " + message_text +"  >>  logmessage.txt"
                 subprocess.call(command,shell=True)
@@ -224,6 +221,12 @@ if __name__ == '__main__':
 
         else:
             print("FILES PRESENT")
+    dcm2nifti_complete=0
+    if total_niftifiles>0:
+        dcm2nifti_complete=1
+    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles]).transpose()
+    total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
+    total_niftifiles_df.to_csv('/output/total_niftifiles.csv',index=False)
         # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         # xnatSession.renew_httpsession()
         # url = ("/data/experiments/%s/resources/TEST/files/" % (sessionId, scanId))

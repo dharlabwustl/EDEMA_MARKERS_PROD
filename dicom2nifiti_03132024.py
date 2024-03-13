@@ -226,7 +226,7 @@ if __name__ == '__main__':
         dcm2nifti_complete=1
     total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles]).transpose()
     total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
-    total_niftifiles_df.to_csv('/output/total_niftifiles.csv',index=False)
+    total_niftifiles_df.to_csv('total_niftifiles.csv',index=False)
         # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         # xnatSession.renew_httpsession()
         # url = ("/data/experiments/%s/resources/TEST/files/" % (sessionId, scanId))

@@ -272,5 +272,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP4' ]]; then
   PROJECT_ID=${1}
   /software/SNIPR_ANALYTICS_STEP4.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-
+if [[ ${TYPE_OF_PROGRAM} == 'DICOM2NIFTI' ]]; then
+  /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 ###########################################################

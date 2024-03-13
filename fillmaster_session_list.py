@@ -3650,7 +3650,8 @@ def csvfile_scan_selection_for_redcap(args):
         px=""
         pz=""
         kvp=""
-        px,py,pz,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
+        body_site=""
+        px,py,pz,scanner_model,scanner_manufacturer,dateandtime,body_site,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
         scanner_name= scanner_model + ' ' +scanner_manufacturer
         scan_date_time=dateandtime
         #####################
@@ -3661,8 +3662,8 @@ def csvfile_scan_selection_for_redcap(args):
         scan_selection_complete=0
         if '.nii' in scan_name:
             scan_selection_complete=1
-        row_values=[scan_date_time,scan_selected,scan_stem,scan_name,scan_kernel,kvp,scanner_name,px,pz,slices,scan_selection_complete]
-        columnames=['scan_date_time','scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
+        row_values=[body_site,scan_date_time,scan_selected,scan_stem,scan_name,scan_kernel,kvp,scanner_name,px,pz,slices,scan_selection_complete]
+        columnames=['body_site','scan_date_time','scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
         outputdf=pd.DataFrame(row_values).transpose()
         outputdf.columns=columnames
         outputdf.to_csv(csvoutputfilename,index=False)

@@ -3611,10 +3611,43 @@ def csvfile_scan_selection_for_redcap(args):
     try:
         niftifilename_csv=args.stuff[1]
         csvoutputfilename=args.stuff[2]
+        session_id=args.stuff[3]
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(niftifilename_csv) ,shell=True )
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
         niftifilename_csv_df=pd.read_csv(niftifilename_csv)
         scan_name=niftifilename_csv_df.at[0,'Name']
+        ####################
+
+        scan_id=niftifilename_csv_df.at[0,'ID']
+        scan_selected=scan_id
+        identifier=session_id
+        resource_foldername="DICOM"
+        URI='/data/experiments/'+identifier+'/scans/'+scan_id
+        dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
+        df_scan = pd.read_json(dicom_metadata)
+        dicom_number_files=df_scan.shape[0]
+        ###############
+        session_ID_metadata=get_metadata_session(session_id)
+        session_ID_metadata_1=json.dumps(session_ID_metadata)
+        session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+        scan_kernel=""
+        try:
+            scan_kernel=session_ID_metadata_1_df[session_ID_metadata_1_df["ID"].astype(str)==str(scan_id)].reset_index().at[0,'series_description']
+        except:
+            pass
+        ####################
+        # Number of slices
+        columnname="SLICE_NUM"
+        slice_num=dicom_number_files
+        slices=slice_num
+        # voxel resolution.#         Slice thickness
+        px=""
+        pz=""
+        kvp=""
+        px,py,pz,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
+        scanner_name= scanner_model + scanner_manufacturer
+        scan_date_time=dateandtime
+        #####################
         # scan_datetime=
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(scan_name) ,shell=True )
         scan_stem="_".join(scan_name.split('_')[0:(len(scan_name.split('_'))-1)])
@@ -3622,9 +3655,10 @@ def csvfile_scan_selection_for_redcap(args):
         scan_selection_complete=0
         if '.nii' in scan_name:
             scan_selection_complete=1
-
-        outputdf=pd.DataFrame([scan_name,scan_stem,scan_selection_complete]).transpose()
-        outputdf.columns=['scan_name','scan_stem','scan_selection_complete']
+        row_values=[scan_date_time,scan_selected,scan_stem,scan_name,scan_kernel,kvp,scanner_name,px,pz,slices,scan_selection_complete]
+        columnames=['scan_date_time','scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
+        outputdf=pd.DataFrame(row_values).transpose()
+        outputdf.columns=columnames
         outputdf.to_csv(csvoutputfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:

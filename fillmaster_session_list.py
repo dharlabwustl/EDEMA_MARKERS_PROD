@@ -3615,23 +3615,23 @@ def csvfile_scan_selection_for_redcap(args):
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
     try:
         x=1
-        # niftifilename_csv=args.stuff[1]
-        # csvoutputfilename=args.stuff[2]
-        # session_id=args.stuff[3]
-        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(niftifilename_csv) ,shell=True )
-        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
-        # niftifilename_csv_df=pd.read_csv(niftifilename_csv)
-        # scan_name=niftifilename_csv_df.at[0,'Name']
-        # ####################
-        #
-        # scan_id=niftifilename_csv_df.at[0,'ID']
-        # scan_selected=scan_id
-        # identifier=session_id
-        # resource_foldername="DICOM"
-        # URI='/data/experiments/'+identifier+'/scans/'+scan_id
-        # dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
-        # df_scan = pd.read_json(dicom_metadata)
-        # dicom_number_files=df_scan.shape[0]
+        niftifilename_csv=args.stuff[1]
+        csvoutputfilename=args.stuff[2]
+        session_id=args.stuff[3]
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(niftifilename_csv) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
+        niftifilename_csv_df=pd.read_csv(niftifilename_csv)
+        scan_name=niftifilename_csv_df.at[0,'Name']
+        ####################
+
+        scan_id=niftifilename_csv_df.at[0,'ID']
+        scan_selected=scan_id
+        identifier=session_id
+        resource_foldername="DICOM"
+        URI='/data/experiments/'+identifier+'/scans/'+scan_id
+        dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
+        df_scan = pd.read_json(dicom_metadata)
+        dicom_number_files=df_scan.shape[0]
         # ###############
         # session_ID_metadata=get_metadata_session(session_id)
         # session_ID_metadata_1=json.dumps(session_ID_metadata)

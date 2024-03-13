@@ -154,7 +154,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     dcm2nifti_complete=0
     if total_niftifiles>0:
         dcm2nifti_complete=1
-    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles])
+    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles]).transpose()
     total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
     total_niftifiles_df.to_csv(os.path.join('/output/','total_niftifiles.csv'),index=False)
     return True 

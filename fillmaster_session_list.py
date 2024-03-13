@@ -3608,6 +3608,11 @@ def call_fill_single_row_each_scan(args):
         pass
     return  returnvalue
 def csvfile_scan_selection_for_redcap(args):
+    niftifilename_csv=args.stuff[1]
+    csvoutputfilename=args.stuff[2]
+    session_id=args.stuff[3]
+    subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(niftifilename_csv) ,shell=True )
+    subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
     try:
         niftifilename_csv=args.stuff[1]
         csvoutputfilename=args.stuff[2]

@@ -6,7 +6,7 @@ import glob
 import re,time
 import requests
 import pydicom as dicom
-
+import pandas as pd
 from xnatSession import XnatSession
 from download_with_session_ID import *;
 import DecompressDCM
@@ -16,7 +16,8 @@ catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = os.environ['XNAT_HOST'] #XNAT_HOST_URL #
 XNAT_USER =os.environ['XNAT_USER']
-XNAT_PASS =os.environ['XNAT_PASS'] 
+XNAT_PASS =os.environ['XNAT_PASS']
+total_niftifiles=0
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 
@@ -126,6 +127,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     subprocess.call(command,shell=True)
     ## rename nifti file:
     for niftifile in glob.glob("/output/*.nii"):
+        total_niftifiles=total_niftifiles+1
         current_filename=os.path.basename(niftifile).split('.nii')[0]
         new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
         new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
@@ -145,8 +147,15 @@ def get_dicom_using_xnat(sessionId, scanId):
         print(response)
     xnatSession.close_httpsession()
     for eachniftifile in glob.glob('/output/' +  '*.nii'):
+
         command= 'rm  ' + eachniftifile
         subprocess.call(command,shell=True)
+    dcm2nifti_complete=0
+    if total_niftifiles>0:
+        dcm2nifti_complete=1
+    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles])
+    total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
+    total_niftifiles_df.to_csv(os.path.join('/output/','total_niftifiles.csv'),index=False)
     return True 
 
 

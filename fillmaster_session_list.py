@@ -3651,7 +3651,7 @@ def csvfile_scan_selection_for_redcap(args):
         pz=""
         kvp=""
         px,py,pz,scanner_model,scanner_manufacturer,dateandtime,bodypart,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
-        scanner_name= scanner_model + scanner_manufacturer
+        scanner_name= scanner_model + ' ' +scanner_manufacturer
         scan_date_time=dateandtime
         #####################
         # scan_datetime=

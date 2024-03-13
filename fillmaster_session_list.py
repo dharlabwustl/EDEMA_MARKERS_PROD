@@ -3628,8 +3628,8 @@ def csvfile_scan_selection_for_redcap(args):
         scan_selected=scan_id
         identifier=session_id
         resource_foldername="DICOM"
-        # URI='/data/experiments/'+identifier+'/scans/'+scan_id
-        # dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
+        URI='/data/experiments/'+identifier+'/scans/'+scan_id
+        dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
         # df_scan = pd.read_json(dicom_metadata)
         # dicom_number_files=df_scan.shape[0]
         # ###############

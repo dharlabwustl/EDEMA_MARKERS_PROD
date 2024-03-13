@@ -17,7 +17,7 @@ XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = os.environ['XNAT_HOST'] #XNAT_HOST_URL #
 XNAT_USER =os.environ['XNAT_USER']
 XNAT_PASS =os.environ['XNAT_PASS']
-total_niftifiles=0
+
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 
@@ -81,6 +81,7 @@ def get_dicom_from_filesystem(sessionId, scanId):
     subprocess.call(command,shell=True)
 
 def get_dicom_using_xnat(sessionId, scanId):
+    total_niftifiles=0
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     
     # Handle DICOM files that are not stored in a directory matching their XNAT scanId

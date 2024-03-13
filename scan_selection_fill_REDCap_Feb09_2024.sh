@@ -530,7 +530,7 @@ else
   this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv)
   csvfile_for_redcap=${working_dir}/scan_selection.csv
   ########## change column names:
-  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap}) # 'Name' scan_name)
+  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${this_session_id}) # 'Name' scan_name)
   outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
 
   #call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)
@@ -542,7 +542,7 @@ else
   download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
   outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 
-  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap}) #${subj_listfile})
+  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
   outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 fi
 #########################################

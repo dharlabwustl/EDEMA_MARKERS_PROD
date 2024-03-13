@@ -3624,10 +3624,10 @@ def csvfile_scan_selection_for_redcap(args):
         scan_name=niftifilename_csv_df.at[0,'Name']
         ####################
 
-        # scan_id=niftifilename_csv_df.at[0,'ID']
-        # scan_selected=scan_id
-        # identifier=session_id
-        # resource_foldername="DICOM"
+        scan_id=niftifilename_csv_df.at[0,'ID']
+        scan_selected=scan_id
+        identifier=session_id
+        resource_foldername="DICOM"
         # URI='/data/experiments/'+identifier+'/scans/'+scan_id
         # dicom_metadata=json.dumps(get_resourcefiles_metadata(URI,resource_foldername ))
         # df_scan = pd.read_json(dicom_metadata)

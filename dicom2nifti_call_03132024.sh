@@ -5,6 +5,8 @@ export XNAT_HOST=${4} #"https://snipr-dev-test1.nrg.wustl.edu"
 sessionID=${1}
 niftipresentornot_arguments=('niftipresentornot' ${sessionID} )
 outputfiles_present=$(python3 fillmaster_session_list.py "${niftipresentornot_arguments[@]}")
+if [ ! -f /workinginput/number_nifti_check.csv ]; then
+
 python3 /software/dicom2nifiti_03132024.py  ${1}
 
 working_dir=/workinginput
@@ -17,4 +19,5 @@ outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile
 csvfile_for_redcap=${working_dir}/total_niftifiles.csv
 fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
 outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
-
+    echo "File not found!"
+fi

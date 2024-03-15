@@ -3679,14 +3679,17 @@ def niftipresentornot(args):
     session_ID_metadata_1=json.dumps(session_ID_metadata)
     session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
     number_nifti=0
-    for each_row_id,each_row in session_ID_metadata_1_df.iterrows():
-        scanID=str(each_row["ID"])
-        URI="/data/experiments/"+sessionID+"/scans/"+scanID
-        extension_to_find_list='.nii'
-        resource_dir='NIFTI'
-        file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
-        if file_present >0:
-            number_nifti=number_nifti+1
+    try:
+        for each_row_id,each_row in session_ID_metadata_1_df.iterrows():
+            scanID=str(each_row["ID"])
+            URI="/data/experiments/"+sessionID+"/scans/"+scanID
+            extension_to_find_list='.nii'
+            resource_dir='NIFTI'
+            file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+            if file_present >0:
+                number_nifti=number_nifti+1
+    except:
+        pass
     if number_nifti>0:
         number_nifti_df=pd.DataFrame([number_nifti])
         number_nifti_df.columns=['number_nifti_check']

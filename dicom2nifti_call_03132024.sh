@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4} #"https://snipr-dev-test1.nrg.wustl.edu"
 sessionID=${1}
 niftipresentornot_arguments=('niftipresentornot' ${sessionID} )
-outputfiles_present=$(python3 download_with_session_ID.py "${niftipresentornot_arguments[@]}")
+outputfiles_present=$(python3 fillmaster_session_list.py "${niftipresentornot_arguments[@]}")
 python3 /software/dicom2nifiti_03132024.py  ${1}
 
 working_dir=/workinginput

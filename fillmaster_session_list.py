@@ -3673,7 +3673,24 @@ def csvfile_scan_selection_for_redcap(args):
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
-
+def niftipresentornot(args):
+    sessionID=args.stuff[1]
+    session_ID_metadata=get_metadata_session(sessionID)
+    session_ID_metadata_1=json.dumps(session_ID_metadata)
+    session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+    number_nifti=0
+    for each_row_id,each_row in session_ID_metadata_1_df.iterrows():
+        scanID=each_row["ID"]
+        URI="/data/experiments/"+sessionID+"/scans/"+scanID
+        extension_to_find_list='.nii'
+        resource_dir='NIFTI'
+        file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+        if file_present >0:
+            number_nifti=number_nifti+1
+    number_nifti_df=pd.DataFrame([number_nifti])
+    number_nifti_df.columns=['number_nifti_check']
+    number_nifti_df.to_csv('/workinginput/number_nifti_check.csv',index=False)
+    return
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')

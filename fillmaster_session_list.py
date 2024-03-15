@@ -3687,9 +3687,10 @@ def niftipresentornot(args):
         file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
         if file_present >0:
             number_nifti=number_nifti+1
-    number_nifti_df=pd.DataFrame([number_nifti])
-    number_nifti_df.columns=['number_nifti_check']
-    number_nifti_df.to_csv('/workinginput/number_nifti_check.csv',index=False)
+    if number_nifti>0:
+        number_nifti_df=pd.DataFrame([number_nifti])
+        number_nifti_df.columns=['number_nifti_check']
+        number_nifti_df.to_csv('/workinginput/number_nifti_check.csv',index=False)
     return
 def main():
     parser = argparse.ArgumentParser()

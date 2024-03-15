@@ -3680,7 +3680,7 @@ def niftipresentornot(args):
     session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
     number_nifti=0
     for each_row_id,each_row in session_ID_metadata_1_df.iterrows():
-        scanID=each_row["ID"]
+        scanID=str(each_row["ID"])
         URI="/data/experiments/"+sessionID+"/scans/"+scanID
         extension_to_find_list='.nii'
         resource_dir='NIFTI'

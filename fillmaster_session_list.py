@@ -3674,7 +3674,7 @@ def csvfile_scan_selection_for_redcap(args):
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
 def niftipresentornot(args):
-    sessionID=args.stuff[1]
+    sessionID=str(args.stuff[1])
     session_ID_metadata=get_metadata_session(sessionID)
     session_ID_metadata_1=json.dumps(session_ID_metadata)
     session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)

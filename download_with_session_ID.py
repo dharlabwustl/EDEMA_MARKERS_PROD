@@ -1750,12 +1750,23 @@ def call_check_if_a_file_exist_in_snipr( args):
         URI="/data/experiments/"+sessionID+"/scans/"+scanID
         extension_to_find_list=args.stuff[4:]
         file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+        ############
+        all_files_present_flag=0
         if file_present < len(extension_to_find_list):
-            pass
+            return 0
         else:
-            returnvalue=1
+            all_files_present_flag=1
+        all_files_present_flag_df=pd.DataFrame([all_files_present_flag])
+        all_files_present_flag_df.columns=['all_files_present_flag']
+        all_files_present_flag_df.to_csv('/workinginput/all_files_present_flag_df.csv',index=False)
+        returnvalue=1
+        ########
+        # if file_present < len(extension_to_find_list):
+        #     pass
+        # else:
+        #     returnvalue=1
         # return 1
-            print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
     except:
         print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
         pass

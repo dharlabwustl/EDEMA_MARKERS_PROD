@@ -1766,9 +1766,9 @@ def call_check_if_a_file_exist_in_snipr( args):
         # else:
         #     returnvalue=1
         # return 1
-        print("I SUCCEEDED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return  returnvalue
 

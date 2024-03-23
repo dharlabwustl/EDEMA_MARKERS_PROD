@@ -1753,6 +1753,7 @@ def call_check_if_a_file_exist_in_snipr( args):
         ############
         all_files_present_flag=0
         if file_present < len(extension_to_find_list):
+            subprocess.call("echo " + "I PASSED 0 AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             return 0
         else:
             all_files_present_flag=1

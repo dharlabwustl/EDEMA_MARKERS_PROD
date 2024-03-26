@@ -311,7 +311,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
           ##############################################################
-          csvfile_with_biomarkers=$(ls '/workinginput/'*columndropped.csv)
+          csvfile_with_biomarkers=$(ls '/workingoutput/'*columndropped.csv)
           csvfile_for_redcap_1='/workinginput/csvfile_for_redcap_edema_biom_values.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_values_for_redcap' ${csvfile_with_biomarkers} ${csvfile_for_redcap_1}) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")

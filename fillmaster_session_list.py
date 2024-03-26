@@ -3702,6 +3702,35 @@ def csvfile_edema_biomarkers_for_redcap(args):
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
+def csvfile_edema_biomarkers_values_for_redcap(args):
+    preprocessing_filename_csv=args.stuff[1]
+    csvoutputfilename=args.stuff[2]
+    # session_id=args.stuff[3]
+    subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(preprocessing_filename_csv) ,shell=True )
+    subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
+    try:
+        # x=1
+        preprocessing_filename_csv=args.stuff[1]
+        csvoutputfilename=args.stuff[2]
+
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(preprocessing_filename_csv) ,shell=True )
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
+        preprocessing_filename_csv_df=pd.read_csv(preprocessing_filename_csv)
+        # # all_files_present=preprocessing_filename_csv_df.at[0,'all_files_present_flag']
+        #
+        # pre_processing_complete=1 #0
+        #
+        # pre_processing_complete=1
+        row_values=[preprocessing_filename_csv_df.at[0,'LEFT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'RIGHT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'TOTAL CSF VOLUME'],preprocessing_filename_csv_df.at[0,'INFARCT SIDE'],preprocessing_filename_csv_df.at[0,'NWU'],preprocessing_filename_csv_df.at[0,'INFARCT VOLUME'],preprocessing_filename_csv_df.at[0,'BET VOLUME'],preprocessing_filename_csv_df.at[0,'CSF RATIO'],preprocessing_filename_csv_df.at[0,'LEFT BRAIN VOLUME without CSF'],preprocessing_filename_csv_df.at[0,'RIGHT BRAIN VOLUME without CSF']]
+        # row_values=[preprocessing_filename_csv_df.at[0,'LEFT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'RIGHT CSF VOLUME']] #body_site,scan_date_time,scan_selected,scan_stem,scan_name,scan_kernel,kvp,scanner_name,px,pz,slices,scan_selection_complete]
+        columnames=['csf_left','csf_right','csf_total','stroke_side','nwu','infarct_volume','cranial','csf_ratio','brain_left','brain_right'] #,'scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
+        outputdf=pd.DataFrame(row_values).transpose()
+        outputdf.columns=columnames
+        outputdf.to_csv(csvoutputfilename,index=False)
+        subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    return
 
 def niftipresentornot(args):
     sessionID=str(args.stuff[1])

@@ -71,3 +71,31 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
 
         pass
     return
+
+
+def add_one_file_to_redcap(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data_file):
+    try:
+        api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+        subprocess.call("echo " + "I PASSED AT session_label::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data_file) ,shell=True )
+        fields = {
+            'token': api_token,
+            'content': 'file',
+            'action': 'import',
+            'repeat_instrument':this_redcap_repeat_instrument, #str(df_scan_sample.loc[0,'redcap_repeat_instrument']),
+            'repeat_instance':this_redcap_repeat_instance, #str(df_scan_sample.loc[0,'redcap_repeat_instance']),
+            'record': this_record_id, #str(df_scan_sample.loc[0,'record_id']),
+            'field': this_field, #'session_pdf' , #'photo_as_pdf',
+            'returnFormat': 'json'
+        }
+        file_path=this_data_file #file
+        file_obj = open(file_path, 'rb')
+        r = requests.post(api_url,data=fields,files={'file':file_obj})
+        file_obj.close()
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.text)
+        subprocess.call("echo " + "I PASSED AT status_code::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except:
+        subprocess.call("echo " + "I FAILED AT status_code::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
+        pass
+    return

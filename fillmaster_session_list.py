@@ -3705,6 +3705,9 @@ def csvfile_edema_biomarkers_for_redcap(args):
 def csvfile_edema_biomarkers_values_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]
     csvoutputfilename=args.stuff[2]
+    pdffilename_basename=os.path.basename(args.stuff[3])
+    software_version=datetime.strptime(str(pdffilename_basename.split('.pdf')[0].split('_')[-4].split('VersionDate-')[1]), '%m%d%Y').strftime('%Y-%m-%d %H:%M')
+    software_application_date=datetime.strptime(str( pdffilename_basename.split('.pdf')[0][-10:]), '%m_%d_%Y').strftime('%Y-%m-%d %H:%M')
     # session_id=args.stuff[3]
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(preprocessing_filename_csv) ,shell=True )
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )
@@ -3721,9 +3724,9 @@ def csvfile_edema_biomarkers_values_for_redcap(args):
         # pre_processing_complete=1 #0
         #
         # pre_processing_complete=1
-        row_values=[preprocessing_filename_csv_df.at[0,'LEFT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'RIGHT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'TOTAL CSF VOLUME'],preprocessing_filename_csv_df.at[0,'INFARCT SIDE'],preprocessing_filename_csv_df.at[0,'NWU'],preprocessing_filename_csv_df.at[0,'INFARCT VOLUME'],preprocessing_filename_csv_df.at[0,'BET VOLUME'],preprocessing_filename_csv_df.at[0,'CSF RATIO'],preprocessing_filename_csv_df.at[0,'LEFT BRAIN VOLUME without CSF'],preprocessing_filename_csv_df.at[0,'RIGHT BRAIN VOLUME without CSF']]
+        row_values=[software_version ,software_application_date, preprocessing_filename_csv_df.at[0,'LEFT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'RIGHT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'TOTAL CSF VOLUME'],preprocessing_filename_csv_df.at[0,'INFARCT SIDE'],preprocessing_filename_csv_df.at[0,'NWU'],preprocessing_filename_csv_df.at[0,'INFARCT VOLUME'],preprocessing_filename_csv_df.at[0,'BET VOLUME'],preprocessing_filename_csv_df.at[0,'CSF RATIO'],preprocessing_filename_csv_df.at[0,'LEFT BRAIN VOLUME without CSF'],preprocessing_filename_csv_df.at[0,'RIGHT BRAIN VOLUME without CSF']]
         # row_values=[preprocessing_filename_csv_df.at[0,'LEFT CSF VOLUME'],preprocessing_filename_csv_df.at[0,'RIGHT CSF VOLUME']] #body_site,scan_date_time,scan_selected,scan_stem,scan_name,scan_kernel,kvp,scanner_name,px,pz,slices,scan_selection_complete]
-        columnames=['csf_left','csf_right','csf_total','stroke_side','nwu','infarct_volume','cranial','csf_ratio','brain_left','brain_right'] #,'scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
+        columnames=['software_version', 'software_application_date','csf_left','csf_right','csf_total','stroke_side','nwu','infarct_volume','cranial','csf_ratio','brain_left','brain_right'] #,'scan_selected','scan_stem','scan_name','scan_kernel','kvp','scanner_name','px','pz','slices','scan_selection_complete']
         outputdf=pd.DataFrame(row_values).transpose()
         outputdf.columns=columnames
         outputdf.to_csv(csvoutputfilename,index=False)

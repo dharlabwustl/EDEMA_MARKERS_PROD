@@ -312,8 +312,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       echo " FILES NOT PRESENT I AM WORKING ON IT"
           ##############################################################
           csvfile_with_biomarkers=$(ls '/workingoutput/'*columndropped.csv)
+          pdffilename=$(ls '/workingoutput/'*.pdf)
           csvfile_for_redcap_1='/workinginput/csvfile_for_redcap_edema_biom_values.csv'
-          csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_values_for_redcap' ${csvfile_with_biomarkers} ${csvfile_for_redcap_1}) # 'Name' scan_name)
+          csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_values_for_redcap' ${csvfile_with_biomarkers} ${csvfile_for_redcap_1} ${pdffilename} ) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
 
 
@@ -336,7 +337,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 
           fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap}) #${subj_listfile})
           outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
-          pdffilename=$(ls '/workingoutput/'*.pdf)
+
           fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
           outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 

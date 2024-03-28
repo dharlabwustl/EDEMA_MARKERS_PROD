@@ -520,30 +520,30 @@ echo '$outputfiles_present'::$outputfiles_present
 if  ls ${working_dir}/*_NIFTILOCATION.csv 1> /dev/null 2>&1; then
   echo " I AM ALREADY PRESENT"
 else
+
   niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
   get_nifti_scan_uri ${sessionID} ${working_dir} ${niftifile_csvfilename}
-#
-#  ## make REDCap compatible csvfile:
-#
-#  ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
-#  this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv)
-#  csvfile_for_redcap=${working_dir}/scan_selection.csv
-#  ########## change column names:
-#  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${sessionID} ) # 'Name' scan_name)
-#  echo '${csvfile_scan_selection_for_redcap_call[@]}'::"${csvfile_scan_selection_for_redcap_call[@]}"
-#  outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
-#
-#  #call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)
-#  #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
-#  this_session_id=${sessionID}
-#  xml_filename=${working_dir}/${this_session_id}.xml
-#  filename_xml=$(basename ${xml_filename})   #args.stuff[2]
-#  dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
-#  download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
-#  outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
-#
-#  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
-#  outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+
+  ## make REDCap compatible csvfile:
+
+  ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.
+  this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv)
+  csvfile_for_redcap=${working_dir}/scan_selection.csv
+  ########## change column names:
+  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${sessionID}) # 'Name' scan_name)
+  outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
+
+  #call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)
+  #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
+  this_session_id=${sessionID}
+  xml_filename=${working_dir}/${this_session_id}.xml
+  filename_xml=$(basename ${xml_filename})   #args.stuff[2]
+  dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
+  download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
+  outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
+
+  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
+  outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 fi
 #########################################
 #outputfiles_present=0

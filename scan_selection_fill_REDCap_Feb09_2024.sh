@@ -530,7 +530,8 @@ else
   this_csvfilename=$(ls ${working_dir}/*_NIFTILOCATION.csv)
   csvfile_for_redcap=${working_dir}/scan_selection.csv
   ########## change column names:
-  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${sessionID}) # 'Name' scan_name)
+  csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${sessionID} ) # 'Name' scan_name)
+  echo '${csvfile_scan_selection_for_redcap_call[@]}'::"${csvfile_scan_selection_for_redcap_call[@]}"
   outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
 
   #call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)

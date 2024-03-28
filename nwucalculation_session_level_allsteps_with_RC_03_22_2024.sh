@@ -267,7 +267,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     echo scanId::${scanID}
     snipr_output_foldername="EDEMA_BIOMARKER"
     ### check if the file exists:
-    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
+    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv .mat)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 
     ################################################
@@ -319,7 +319,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 
 
           this_csvfilename='/workinginput/all_files_present_flag_df.csv'
-          call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
+          call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv .mat)
           outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
           csvfile_for_redcap='/workinginput/csvfile_for_redcap_segm.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_for_redcap' ${this_csvfilename} ${csvfile_for_redcap}) # 'Name' scan_name)

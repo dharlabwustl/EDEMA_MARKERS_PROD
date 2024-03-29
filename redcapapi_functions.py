@@ -101,7 +101,7 @@ def add_one_file_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
             subprocess.call("echo " + "I could not write AT this_record_id::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_field) ,shell=True )
 
 
-except:
+    except:
         subprocess.call("echo " + "I FAILED AT status_code::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         pass

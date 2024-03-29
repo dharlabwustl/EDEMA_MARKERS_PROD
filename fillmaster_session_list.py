@@ -3706,8 +3706,8 @@ def csvfile_edema_biomarkers_values_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]
     csvoutputfilename=args.stuff[2]
     pdffilename_basename=os.path.basename(args.stuff[3])
-    software_version=datetime.strptime(str(pdffilename_basename.split('.pdf')[0].split('_')[-4].split('VersionDate-')[1]), '%m%d%Y').strftime('%Y-%m-%d')
-    software_application_date=datetime.strptime(str( pdffilename_basename.split('.pdf')[0][-10:]), '%m_%d_%Y').strftime('%Y-%m-%d')
+    software_version=datetime.datetime.strptime(str(pdffilename_basename.split('.pdf')[0].split('_')[-4].split('VersionDate-')[1]), '%m%d%Y').strftime('%Y-%m-%d')
+    software_application_date=datetime.datetime.strptime(str( pdffilename_basename.split('.pdf')[0][-10:]), '%m_%d_%Y').strftime('%Y-%m-%d')
     # session_id=args.stuff[3]
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(preprocessing_filename_csv) ,shell=True )
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )

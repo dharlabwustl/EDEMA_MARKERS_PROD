@@ -3654,7 +3654,7 @@ def csvfile_scan_selection_for_redcap(args):
         px,py,pz,scanner_model,scanner_manufacturer,dateandtime,body_site,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
         scanner_name= scanner_model + ' ' +scanner_manufacturer
         subprocess.call("echo " + "I PASSED AT dateandtime ::{}  >> /workingoutput/error.txt".format(dateandtime) ,shell=True )
-        scan_date_time=this_date_time=datetime.datetime.strptime(dateandtime,'%m/%d/%Y').strftime('%Y-%m-%d')
+        scan_date_time=this_date_time=datetime.datetime.strptime(dateandtime,'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
         #
         #####################
         # scan_datetime=

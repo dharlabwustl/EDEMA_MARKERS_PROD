@@ -97,7 +97,11 @@ def add_one_file_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
         print('HTTP Status: ' + str(r.status_code))
         print(r.text)
         subprocess.call("echo " + "I PASSED AT status_code::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-    except:
+        if r !=200:
+            subprocess.call("echo " + "I could not write AT this_record_id::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_field) ,shell=True )
+
+
+except:
         subprocess.call("echo " + "I FAILED AT status_code::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         pass

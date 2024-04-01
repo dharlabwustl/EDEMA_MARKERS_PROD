@@ -5,12 +5,14 @@ import pandas as pd
 import requests, hashlib, json,glob
 import os,sys,subprocess,time,inspect
 import numbers,decimal
+api_url = os.environ['REDCAP_HOST']#
+api_token =os.environ['REDCAP_API'] #
 sys.path.append("/software")
 # from fillmaster_session_list import *
 # from download_with_session_ID import *
 # from system_analysis import *
 # api_token='EC6A2206FF8C1D87D4035E61C99290FF' #sys.argv[1] #os.environ['REDCAP_API_TOKEN']
-api_url='https://redcap.wustl.edu/redcap/api/' #sys.argv[2] #
+# api_url='https://redcap.wustl.edu/redcap/api/' #sys.argv[2] #
 # project_ID=sys.argv[1]
 # session_id=sys.argv[2]
 working_dir="/workinginput"
@@ -48,7 +50,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
         if  isinstance(this_data, (int, float, complex)):
             this_data=round(this_data,2)
 
-        api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+        # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         subprocess.call("echo " + "I PASSED AT session_label::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data) ,shell=True )
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,

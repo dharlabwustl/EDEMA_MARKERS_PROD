@@ -80,7 +80,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
 
 def add_one_file_to_redcap(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data_file):
     try:
-        api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+        # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         subprocess.call("echo " + "I PASSED AT session_label::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data_file) ,shell=True )
         fields = {
             'token': api_token,

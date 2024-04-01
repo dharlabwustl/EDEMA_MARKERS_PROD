@@ -5,14 +5,14 @@ import pandas as pd
 import requests, hashlib, json,glob
 import os,sys,subprocess,time,inspect
 import numbers,decimal
-# api_url = os.environ['REDCAP_HOST']#
+api_url = os.environ['REDCAP_HOST']#
 api_token =os.environ['REDCAP_API'] #
 sys.path.append("/software")
 # from fillmaster_session_list import *
 # from download_with_session_ID import *
 # from system_analysis import *
-api_token='EC6A2206FF8C1D87D4035E61C99290FF' #sys.argv[1] #os.environ['REDCAP_API_TOKEN']
-api_url='https://redcap.wustl.edu/redcap/api/' #sys.argv[2] #
+# api_token='EC6A2206FF8C1D87D4035E61C99290FF' #sys.argv[1] #os.environ['REDCAP_API_TOKEN']
+# api_url='https://redcap.wustl.edu/redcap/api/' #sys.argv[2] #
 # project_ID=sys.argv[1]
 # session_id=sys.argv[2]
 working_dir="/workinginput"

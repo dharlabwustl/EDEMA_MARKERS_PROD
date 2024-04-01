@@ -48,7 +48,7 @@ def add_one_data_to_redcap(this_record_id,this_redcap_repeat_instrument,this_red
         if  isinstance(this_data, (int, float, complex)):
             this_data=round(this_data,2)
 
-        api_token='36F3BA05DE0507BEBDFB94CC5DA13F93' #'EC6A2206FF8C1D87D4035E61C99290FF'
+        api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         subprocess.call("echo " + "I PASSED AT session_label::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(this_record_id,this_redcap_repeat_instrument,this_redcap_repeat_instance,this_field,this_data) ,shell=True )
         record = {
             'redcap_repeat_instrument':this_redcap_repeat_instrument,

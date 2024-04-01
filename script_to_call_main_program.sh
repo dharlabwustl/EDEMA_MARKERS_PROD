@@ -4,9 +4,8 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}
 echo TYPE_OF_PROGRAM::${TYPE_OF_PROGRAM}
-export XNAT_HOST=${5}
-export REDCAP_HOST=${6}  #'https://redcap.wustl.edu/redcap/api/' #
-export REDCAP_API=${7}
+export XNAT_HOST=${5} #'https://redcap.wustl.edu/redcap/api/' #
+export REDCAP_API=${6}
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
   /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
@@ -275,7 +274,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP4' ]]; then
   /software/SNIPR_ANALYTICS_STEP4.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'DICOM2NIFTI' ]]; then
-  /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST ${REDCAP_HOST} ${REDCAP_API}
+  /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST  ${REDCAP_API}
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMABIOMARKERS' ]]; then
   /software/nwucalculation_session_level_allsteps_with_RC_03_22_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

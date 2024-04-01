@@ -5,7 +5,8 @@ XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}
 echo TYPE_OF_PROGRAM::${TYPE_OF_PROGRAM}
 export XNAT_HOST=${5} #'https://redcap.wustl.edu/redcap/api/' #
-export REDCAP_API=${6}
+export REDCAP_API=${7}
+
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
   /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output

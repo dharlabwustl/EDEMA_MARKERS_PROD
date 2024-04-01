@@ -275,7 +275,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP4' ]]; then
   /software/SNIPR_ANALYTICS_STEP4.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'DICOM2NIFTI' ]]; then
-  /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST ${REDCAP_HOST} ${REDCAP_API}
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMABIOMARKERS' ]]; then
   /software/nwucalculation_session_level_allsteps_with_RC_03_22_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

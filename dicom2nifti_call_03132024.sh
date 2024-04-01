@@ -2,6 +2,8 @@
 export XNAT_USER=${2}
 export XNAT_PASS=${3}
 export XNAT_HOST=${4} #"https://snipr-dev-test1.nrg.wustl.edu"
+export REDCAP_HOST='https://redcap.wustl.edu/redcap/api/' #${5}
+export REDCAP_API='EC6A2206FF8C1D87D4035E61C99290FF' #${6}
 sessionID=${1}
 niftipresentornot_arguments=('niftipresentornot' ${sessionID})
 outputfiles_present=$(python3 fillmaster_session_list.py "${niftipresentornot_arguments[@]}")

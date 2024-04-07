@@ -3758,6 +3758,35 @@ def niftipresentornot(args):
         number_nifti_df.columns=['number_nifti_check']
         number_nifti_df.to_csv('/workinginput/number_nifti_check.csv',index=False)
     return
+def numberofniftipresent(args):
+    sessionID=str(args.stuff[1])
+    session_ID_metadata=get_metadata_session(sessionID)
+    session_ID_metadata_1=json.dumps(session_ID_metadata)
+    session_ID_metadata_1_df = pd.read_json(session_ID_metadata_1)
+    number_nifti=0
+    try:
+        for each_row_id,each_row in session_ID_metadata_1_df.iterrows():
+            scanID=str(each_row["ID"])
+            URI="/data/experiments/"+sessionID+"/scans/"+scanID
+            extension_to_find_list='.nii'
+            resource_dir='NIFTI'
+            file_present=check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list)
+            if file_present >0:
+                number_nifti=number_nifti+1
+    except:
+        pass
+    # if number_nifti>0:
+    dcm2nifti_complete=0
+    if number_nifti>0:
+        dcm2nifti_complete=1
+    total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,number_nifti]).transpose()
+    total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
+    total_niftifiles_df.to_csv('/workinginput/total_niftifiles.csv',index=False)
+        # number_nifti_df=pd.DataFrame([number_nifti])
+        # number_nifti_df.columns=['number_nifti_check']
+        # number_nifti_df.to_csv('/workinginput/number_nifti_check.csv',index=False)
+    return
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')

@@ -282,4 +282,8 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMABIOMARKERS' ]]; then
   /software/nwucalculation_session_level_allsteps_with_RC_03_22_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'FILLREDCAPONLY' ]]; then
+  /software/fill_redcap_only_04_06_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 ###########################################################

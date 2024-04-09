@@ -214,6 +214,20 @@ def masks_on_grayscale_colored_v1(args):
 def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory=""):
     returnvalue=0
     try:
+        command="echo successful at :: {}::grayscale_filename::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::contrast_limits::{} >> /software/error.txt".format(inspect.stack()[0][3],contrast_limits)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::mask_filename_list::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_filename_list)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::mask_color_list::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_color_list)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::outputfile_dir::{} >> /software/error.txt".format(inspect.stack()[0][3],outputfile_dir)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::outputfile_suffix::{} >> /software/error.txt".format(inspect.stack()[0][3],outputfile_suffix)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::npyfiledirectory::{} >> /software/error.txt".format(inspect.stack()[0][3],npyfiledirectory)
+        subprocess.call(command,shell=True)
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])

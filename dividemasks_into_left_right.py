@@ -242,9 +242,9 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
 
             for mask_filename_list_id in range(len(mask_filename_list)):
                 mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
-                command="echo successful at :: {}::sizemask_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_filename_np.shape)
+                command="echo successful at :: {}::sizemask_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_filename_np.shape[1])
                 subprocess.call(command,shell=True)
-                command="echo successful at :: {}::sizegrayscale_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename_np.shape)
+                command="echo successful at :: {}::sizegrayscale_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename_np.shape[1])
                 subprocess.call(command,shell=True)
                 slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
                 slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]

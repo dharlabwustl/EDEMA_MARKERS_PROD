@@ -889,7 +889,7 @@ while IFS=',' read -ra array; do
     split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
     split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
 
-    # grayscale_filename=${working_dir_1}/${filename_nifti}
+    grayscale_filename_2=${working_dir_1}/${filename_nifti}
     grayscale_filename=${working_dir}/${filename_nifti%.nii*}.nii.gz
     grayscale_filename_basename=$(basename ${grayscale_filename}) #%.nii*})
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}   

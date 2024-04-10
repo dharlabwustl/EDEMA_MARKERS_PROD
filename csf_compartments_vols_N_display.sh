@@ -1233,7 +1233,7 @@ while IFS=',' read -ra array; do
     < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-#
+# 
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ##done
 ##################################################################################################################################

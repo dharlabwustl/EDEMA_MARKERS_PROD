@@ -295,7 +295,7 @@ def call_masks_on_grayscale_colored(args):
         outputfile_suffix=args.stuff[4]
         npyfiledirectory=args.stuff[6]
         mask_filename_list=args.stuff[7:]
-        masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory)
+        # masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
         subprocess.call(command,shell=True)
     except:

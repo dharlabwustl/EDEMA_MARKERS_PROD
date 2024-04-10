@@ -891,7 +891,7 @@ while IFS=',' read -ra array; do
 
     grayscale_filename=${working_dir_1}/${filename_nifti}
 
-    grayscale_filename_basename=$(basename ${grayscale_filename})
+    grayscale_filename_basename=$(basename ${grayscale_filename%.nii*}.nii.gz)
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
@@ -1233,7 +1233,7 @@ while IFS=',' read -ra array; do
     < <(tail -n +2 "${dir_to_save}/${filename}")
 
 done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-# 
+#
 ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
 ##done
 ##################################################################################################################################

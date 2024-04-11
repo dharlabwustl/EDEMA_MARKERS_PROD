@@ -897,9 +897,9 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-    grayscale_filename_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset.nii.gz #${grayscale_filename_basename_ext}
+    # grayscale_filename_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset.nii.gz #${grayscale_filename_basename_ext}
     split_masks_into_two_halves "_resaved_levelset.nii.gz"
-    # cp ${grayscale_filename} ${grayscale_filename_1}
+    cp ${grayscale_filename} ${grayscale_filename_1}
     latexfilename_prefix=${grayscale_filename%.nii*}
     #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
     latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex

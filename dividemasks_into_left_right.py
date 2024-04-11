@@ -345,12 +345,13 @@ def call_masks_subtraction(args):
 def call_calculate_volume_mask_from_yasheng(args):
 
     returnvalue=0
-    command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
-    subprocess.call(command,shell=True)
+
     try:
         mask_np=nib.load(args.stuff[1]).get_fdata()
         single_voxel_volume=np.prod(np.array(nib.load(args.stuff[2]).header["pixdim"][1:4]))
         # righthalf_np=nib.load(args.stuff[2]).get_fdata()
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_calculate_volume')
+        subprocess.call(command,shell=True)
         column_name=args.stuff[3]
         column_name=column_name.replace('levelset_','')
         column_name=column_name.replace('unet_','')

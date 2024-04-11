@@ -623,7 +623,8 @@ def divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledi
                             righthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
                         if xx<0: ## LEFT
                             lefthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
-        if numpy_image.shape[1] == 512 :
+        # if numpy_image.shape[1] == 512 :
+        if nib.load(niftifilename).get_fdata().shape[1]==512:
             whenOFsize512x512_new_flip_np(lefthalf_mask_np_3d,niftifilename,left_half_filename,OUTPUT_DIRECTORY)
             whenOFsize512x512_new_flip_np(righthalf_mask_np_3d,niftifilename,right_half_filename,OUTPUT_DIRECTORY)
         else:

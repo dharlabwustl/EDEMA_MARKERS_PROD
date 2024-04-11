@@ -1071,7 +1071,7 @@ while IFS=',' read -ra array; do
     #    echo ${call_combine_csv_horizontally_arguments[@]}
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
-  contrast_limits=1000_1100
+  # contrast_limits=1000_1100
     outputfile_suffix="GRAY"
     color_list='purple_maroon_black_black'
     #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})

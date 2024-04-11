@@ -919,7 +919,7 @@ while IFS=',' read -ra array; do
     outputfile_dir=${output_directory}
     grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_left_half_originalRF.nii.gz
     grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_right_half_originalRF.nii.gz
-    
+
     mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
     mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
     mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
@@ -1071,7 +1071,7 @@ while IFS=',' read -ra array; do
     #    echo ${call_combine_csv_horizontally_arguments[@]}
     call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
-
+  contrast_limits=1000_1100
     outputfile_suffix="GRAY"
     color_list='purple_maroon_black_black'
     #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})

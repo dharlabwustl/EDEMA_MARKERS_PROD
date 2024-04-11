@@ -459,6 +459,8 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
   # done
 
 }
+
+
 split_masks_into_two_halves() {
 
   eachfile_basename_noext=''
@@ -494,6 +496,16 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
     run_divide_mask_into_left_right ${grayimage} ${csf_mask_filename} ${output_directory} ${working_dir}
 
   done
+
+}
+bringtooriginalRF(){
+local original_ct_file=${1}
+local levelset_csf_mask_file=${2}
+local output_directory=${3}
+  python3 -c "
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
 
 }
 nwucalculation_each_scan() {
@@ -897,8 +909,10 @@ while IFS=',' read -ra array; do
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-    grayscale_filename_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset.nii.gz #${grayscale_filename_basename_ext}
+    grayscale_filename_2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset.nii.gz #${grayscale_filename_basename_ext}
     # cp ${grayscale_filename} ${grayscale_filename_1}
+    bringtooriginalRF ${grayscale_filename} ${grayscale_filename_2} ${output_directory}
+    grayscale_filename_1=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset.nii.gz 
     latexfilename_prefix=${grayscale_filename%.nii*}
     #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
     latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
@@ -912,7 +926,7 @@ while IFS=',' read -ra array; do
     ##  echo ${latexfilename}
     call_latex_start_arguments=('call_latex_start' ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-    contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+    contrast_limits=1020_1100 #0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
     # mask_color_list=args.stuff[4]
     ## GRAY SCALE WITH BET MASK with CSF subtracted.
     outputfile_dir=${output_directory}
@@ -1066,7 +1080,8 @@ while IFS=',' read -ra array; do
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
 
     #    echo ${call_combine_csv_horizontally_arguments[@]}
-    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
+    # call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
+    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename_1} ${working_dir})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 
     outputfile_suffix="GRAY"

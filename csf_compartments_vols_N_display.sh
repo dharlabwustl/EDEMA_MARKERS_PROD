@@ -889,9 +889,9 @@ while IFS=',' read -ra array; do
     split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
     split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
 
-    grayscale_filename_2=${working_dir_1}/${filename_nifti}
-    grayscale_filename=${working_dir}/${filename_nifti%.nii*}.nii.gz
-    grayscale_filename_basename=$(basename ${grayscale_filename}) #%.nii*})
+    grayscale_filename=${working_dir_1}/${filename_nifti}
+
+    grayscale_filename_basename=$(basename ${grayscale_filename%.nii*})
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}   
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
@@ -1169,7 +1169,15 @@ while IFS=',' read -ra array; do
 
       y=${x%.*}
       echo $y
-
+      echo "DEBUGGING STARTS"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg"
+      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg"
+      echo"${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg"
+      echo "DEBUGGING ENDS"
       suffix=${y##*_}
       if [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg" ]; then
         images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
@@ -1191,15 +1199,6 @@ while IFS=',' read -ra array; do
         #    i=$(($i + 1))
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
         echo outputfiles_present::${outputfiles_present}
-      echo "DEBUGGING STARTS"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg"
-      echo "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg"
-      echo"${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg"
-      echo "DEBUGGING ENDS"
       fi
     done
 

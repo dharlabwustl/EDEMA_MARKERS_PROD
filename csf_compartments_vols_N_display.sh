@@ -917,7 +917,9 @@ while IFS=',' read -ra array; do
     # mask_color_list=args.stuff[4]
     ## GRAY SCALE WITH BET MASK with CSF subtracted.
     outputfile_dir=${output_directory}
-
+    grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_left_half_originalRF.nii.gz
+    grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_right_half_originalRF.nii.gz
+    
     mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
     mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
     mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz

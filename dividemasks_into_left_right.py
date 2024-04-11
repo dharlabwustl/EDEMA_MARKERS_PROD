@@ -42,6 +42,7 @@ Version_Date="_VersionDate-" +'08102023' # dt.strftime("%m%d%Y")
 
 
 now=time.localtime()
+
 def insert_one_col_with_colname_colidx(csvfilename,csvfilename_output,colname,colvalue):
     returnvalue=0
     try:
@@ -140,6 +141,7 @@ def draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slic
         pass
     print(returnvalue)
     return slice_3_layer
+
 
 def masks_on_grayscale_colored_v1(args):
     grayscale_filename=args.stuff[1]
@@ -560,7 +562,8 @@ def divide_a_mask_into_left_right_submasks_v1(niftifilename,Mask_filename,npyfil
                             righthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
                         if xx<0: ## LEFT
                             lefthalf_mask_np_3d[:,:,img_idx][non_zero_pixel[0],non_zero_pixel[1]]=1
-        if numpy_image.shape[1] == 512 :
+        # if numpy_image.shape[1] == 512 :
+        if nib.load(niftifilename).get_fdata().shape[1]==512:
             whenOFsize512x512_new_flip_np(lefthalf_mask_np_3d,niftifilename,left_half_filename,OUTPUT_DIRECTORY)
             whenOFsize512x512_new_flip_np(righthalf_mask_np_3d,niftifilename,right_half_filename,OUTPUT_DIRECTORY)
         else:

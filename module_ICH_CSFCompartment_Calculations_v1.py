@@ -1177,6 +1177,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     # $grayimage $betimage  $csfmaskimage ${ICHmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
     print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
     print("code added on July 15 2022")
+    # subprocess.call("echo " + "I AM AT ::{}  >> error.txt".format(inspect.stack()[0][3]) ,shell=True )
     niftifilename=sys.argv[1] ## THis is the  gray file:
     ICH_Class2_Mask_filename=sys.argv[7]
     ICH_Class1_Mask_filename=sys.argv[4]

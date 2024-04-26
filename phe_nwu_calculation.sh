@@ -283,7 +283,6 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-  print(niftifile_csvfilename::$niftifile_csvfilename)
   # rm ${final_output_directory}/*.*
   # rm ${output_directory}/*.*
   outputfiles_present=0

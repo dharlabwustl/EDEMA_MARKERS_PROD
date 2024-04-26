@@ -35,13 +35,13 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
   VERSION='V_01152024'
   time_now=$(date -dnow +%m_%d_%Y)
   outputfiles_suffix=${VERSION}_${time_now}
-  /software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
-  #  cp /workingoutput/*.tex /working/
-  cp /workingoutput/*_ICHCSF*.csv /working/
-  cp /workingoutput/*.png /working/
+  # /software/nwu_with_ich_mask.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  # #  cp /workingoutput/*.tex /working/
+  # cp /workingoutput/*_ICHCSF*.csv /working/
+  # cp /workingoutput/*.png /working/
 
-    cp /workingoutput/*_ICHCSF*.csv /outputinsidedocker/
-    cp /workingoutput/*_class1.png /outputinsidedocker/
+  #   cp /workingoutput/*_ICHCSF*.csv /outputinsidedocker/
+  #   cp /workingoutput/*_class1.png /outputinsidedocker/
 
  /software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
  #  cp /workingoutput/*.tex /working/

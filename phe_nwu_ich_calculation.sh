@@ -116,10 +116,10 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
     image_col4="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}_class1.png"
     image_col5="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}_class2.png"
     image_col6="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}.png"
-    echo " I AM ABOVE IF STATEMENT"
+    echo " I AM ABOVE IF STATEMENT"  ########&& [ -f "${image_col4}" ]
     echo ${image_col1}::${image_col2}::${image_col3}::${image_col4}::${image_col5}::${image_col6}::
     #   && [ -f "${image_col5}" ]
-    if [ -f "${image_col1}" ] && [ -f "${image_col2}" ] && [ -f "${image_col3}" ] && [ -f "${image_col4}" ] && [ -f "${image_col6}" ]; then
+    if [ -f "${image_col1}" ] && [ -f "${image_col2}" ] && [ -f "${image_col3}" ]  && [ -f "${image_col6}" ]; then
       echo " I AM INSIDE IF STATEMENT"
       echo $y
       #      images[$i]=${image_col1} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg

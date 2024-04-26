@@ -132,8 +132,8 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
 
       images[$i]=${image_col3} #/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
       i=$(($i + 1))
-      images[$i]=${image_col4} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-      i=$(($i + 1))
+#      images[$i]=${image_col4} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+#      i=$(($i + 1))
       #    images[$i]=${image_col5} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
       #    i=$(($i + 1))
 

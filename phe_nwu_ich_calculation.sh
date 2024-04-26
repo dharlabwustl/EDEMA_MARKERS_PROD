@@ -43,7 +43,7 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
     cp /workingoutput/*_ICHCSF*.csv /outputinsidedocker/
     cp /workingoutput/*_class1.png /outputinsidedocker/
 
-#  /software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+ /software/phe_nwu_calculation.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 #  #  cp /workingoutput/*.tex /working/
 #  cp /workinginput/*NIFTILOCATION*.csv /working/
 #  cp /workingoutput/*_PHENWU*.csv /working/

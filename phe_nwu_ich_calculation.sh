@@ -116,11 +116,9 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
     image_col4="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}_class1.png"
     image_col5="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}_class2.png"
     image_col6="${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}.png"
-    echo " I AM ABOVE IF STATEMENT"  ########&& [ -f "${image_col4}" ]
     echo ${image_col1}::${image_col2}::${image_col3}::${image_col4}::${image_col5}::${image_col6}::
     #   && [ -f "${image_col5}" ]
-    if [ -f "${image_col1}" ] && [ -f "${image_col2}" ] && [ -f "${image_col3}" ]  && [ -f "${image_col6}" ]; then
-      echo " I AM INSIDE IF STATEMENT"
+    if [ -f "${image_col1}" ] && [ -f "${image_col2}" ] && [ -f "${image_col3}" ] && [ -f "${image_col4}" ] && [ -f "${image_col6}" ]; then
       echo $y
       #      images[$i]=${image_col1} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
       #      i=$(($i + 1))
@@ -132,8 +130,8 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
 
       images[$i]=${image_col3} #/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
       i=$(($i + 1))
-#      images[$i]=${image_col4} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
-#      i=$(($i + 1))
+      images[$i]=${image_col4} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_TOTAL_${suffix}.jpg
+      i=$(($i + 1))
       #    images[$i]=${image_col5} #/${grayscale_filename_basename_noext}_resaved_levelset_SAH_COMPARTMENTS_${suffix}.jpg
       #    i=$(($i + 1))
 

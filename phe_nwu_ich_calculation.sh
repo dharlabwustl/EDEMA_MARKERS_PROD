@@ -52,7 +52,7 @@ if [[ "${outputfiles_present: -1}" -eq 0 ]]; then                  ##[[ 1 -gt 0 
    cp /workinginput/*NIFTILOCATION*.csv /outputinsidedocker/
    cp /workingoutput/*_PHENWU*.csv /outputinsidedocker/
    cp /workingoutput/*.png /outputinsidedocker/
-
+output_directory='/workingoutput'
  #echo "HELLO" > /working/atulTOTAL.csv
  counter=0
  x=$(ls ${output_directory}/*_PHENWU*.csv)

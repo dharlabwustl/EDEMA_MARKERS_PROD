@@ -50,6 +50,10 @@ for row_id,row in copy_session_df.iterrows():
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
             fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
             counter=counter+1
+        elif "SAH"  in project_ID:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_SAH',copy_session ,row['ID']]
+            fill_sniprsession_list_SAH(call_fill_sniprsession_list_arguments)
+            counter=counter+1  
         else:
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)

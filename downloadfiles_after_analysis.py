@@ -68,9 +68,10 @@ for row_id,row in copy_session_df.iterrows():
             latest_file_df=get_latest_file(df_scan)
             print('{}::{}'.format('latest_file_df',latest_file_df))
             latest_file_df.to_csv('latest_file_df.csv',index=False)
-            # get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
-            # download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
             if latest_file_df.shape[0] >0:
+                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
+                download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+
                 counter=counter+1
             if counter > 1 : #; then
                 break

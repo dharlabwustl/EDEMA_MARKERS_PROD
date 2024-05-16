@@ -65,8 +65,8 @@ for row_id,row in copy_session_df.iterrows():
         extension=str(sys.argv[6]) #'.nii.gz'#=sys.argv[6] #
         if extension in item['Name']:
             get_latest_filepath_from_metadata_arguments=arguments()
-            # get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
-            # download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+            get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
+            download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
     # except:
     #     pass
 

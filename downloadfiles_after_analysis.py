@@ -101,10 +101,10 @@ print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys
     #     # append_results_to_analytics_arguments.stuff=['append_results_to_analytics',copy_session,os.path.join(dir_to_save,csv_output_filename), this_session_id, copy_session]
     #     # append_results_to_analytics(append_results_to_analytics_arguments)
 
-    counter=counter+1
+    # counter=counter+1
 
-    if counter > 10 : #; then
-        break
+    # if counter > 10 : #; then
+    #     break
 
 #
 # #

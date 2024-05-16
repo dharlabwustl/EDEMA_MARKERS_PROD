@@ -64,25 +64,25 @@ for row_id,row in copy_session_df.iterrows():
         metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
         df_scan = pd.read_json(json.dumps(metadata_masks))
         pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-        if '.pdf' in extension or '.csv' in extension:
-            if df_scan.shape[0] >0:
-                latest_file_df=get_latest_file(df_scan)
-                print('{}::{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0],latest_file_df['URI'] ))
-                latest_file_df.to_csv('latest_file_df.csv',index=False)
-            # if latest_file_df.shape[0] >0:
+        # if '.pdf' in extension or '.csv' in extension:
+        #     if df_scan.shape[0] >0:
+        #         latest_file_df=get_latest_file(df_scan)
+        #         print('{}::{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0],latest_file_df['URI'] ))
+        #         latest_file_df.to_csv('latest_file_df.csv',index=False)
+        #     # if latest_file_df.shape[0] >0:
 
-                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
+        #         get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
+        #         download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+
+        #         counter=counter+1
+        #     if counter > 1 : #; then
+        #         break
+        # else:
+        for id,item in df_scan.iterrows():
+            if extension in item['Name']:
+                get_latest_filepath_from_metadata_arguments=arguments()
+                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
                 download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-
-                counter=counter+1
-            if counter > 1 : #; then
-                break
-        else:
-            for id,item in df_scan.iterrows():
-                if extension in item['Name']:
-                    get_latest_filepath_from_metadata_arguments=arguments()
-                    get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
-                    download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
                     
     except:
         pass

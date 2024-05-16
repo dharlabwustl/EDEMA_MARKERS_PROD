@@ -289,4 +289,9 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'FILLREDCAPONLY' ]]; then
   /software/fill_redcap_only_04_06_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
+    PROJECT_ID=${1}
+  /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 ###########################################################

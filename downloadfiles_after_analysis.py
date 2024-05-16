@@ -41,8 +41,16 @@ copy_session_df=pd.read_csv(copy_session)
 counter=0
 dir_to_save=output_directory
 resource_dir='MASKS'
+def convert_if_numeric(s):
+    try:
+        # Try to convert the string to an integer
+        return int(s)
+    except ValueError:
+        # If conversion fails, return the original string
+        return s
 for row_id,row in copy_session_df.iterrows():
-    URI=row['URI']+'/scans/' +row['SELECTED_SCAN_ID']
+    if numer
+    URI=row['URI']+'/scans/' +convert_if_numeric(row['SELECTED_SCAN_ID']
     # try:
     output_csvfile=row['ID']+ '_'+ row['SELECTED_SCAN_ID'].replace('.','_') + '.csv'
     print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))

@@ -69,6 +69,7 @@ for row_id,row in copy_session_df.iterrows():
         if '.pdf' in extension or '.csv' in extension:
             latest_file_df=get_latest_file(df_scan)
             print('{}::{}'.format('latest_file_df',latest_file_df))
+            latest_file_df.to_csv('latest_file_df.csv',index=False)
             # get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
             # download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
         else:

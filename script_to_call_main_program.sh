@@ -8,6 +8,19 @@ export XNAT_HOST=${5} #'https://redcap.wustl.edu/redcap/api/' #
 echo ${REDCAP_API}
 #export REDCAP_API=${6}
 #echo REDCAP_API::${REDCAP_API}
+# The input string
+input=$XNAT_HOST ##"one::two::three::four"
+# Check if '::' is present
+if echo "$input" | grep -q "::"; then
+  # Set the delimiter
+  IFS='::'
+
+  # Read the split words into an array
+  read -ra ADDR <<< "$input"
+else
+    echo "'::' is not present in the string"
+fi
+
 
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
@@ -290,8 +303,11 @@ if [[ ${TYPE_OF_PROGRAM} == 'FILLREDCAPONLY' ]]; then
   /software/fill_redcap_only_04_06_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
+
+
+
 if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
-    PROJECT_ID=${1}
-  /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  PROJECT_ID=${1}
+  /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}"
 fi
 ###########################################################

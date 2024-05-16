@@ -11,14 +11,14 @@ echo ${REDCAP_API}
 # The input string
 input=$XNAT_HOST ##"one::two::three::four"
 # Check if '::' is present
-if echo "$input" | grep -q "::"; then
+if echo "$input" | grep -q "+"; then
   # Set the delimiter
-  IFS='::'
+  IFS='+'
 
   # Read the split words into an array
   read -ra ADDR <<< "$input"
 else
-    echo "'::' is not present in the string"
+    echo "'+' is not present in the string"
 fi
 
 

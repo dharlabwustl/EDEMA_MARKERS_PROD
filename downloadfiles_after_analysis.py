@@ -54,7 +54,9 @@ for row_id,row in copy_session_df.iterrows():
     # # try:
     output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
     print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
-    get_resourcefiles_metadata(URI,resource_dir)
+    metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
+    df_scan = pd.read_json(json.dumps(metadata_masks))
+    pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
     # # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
     # get_latest_filepath_from_metadata_arguments1=arguments()
     # get_latest_filepath_from_metadata_arguments1.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]

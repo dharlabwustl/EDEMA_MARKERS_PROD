@@ -49,7 +49,7 @@ def convert_if_numeric(s):
         # If conversion fails, return the original string
         return s
 for row_id,row in copy_session_df.iterrows():
-    if numer
+
     URI=row['URI']+'/scans/' +convert_if_numeric(row['SELECTED_SCAN_ID']
     # try:
     output_csvfile=row['ID']+ '_'+ row['SELECTED_SCAN_ID'].replace('.','_') + '.csv'

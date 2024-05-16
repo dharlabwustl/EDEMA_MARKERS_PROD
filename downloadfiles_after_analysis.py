@@ -40,30 +40,37 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_ses
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 dir_to_save=output_directory
+resource_dir='MASKS'
 for row_id,row in copy_session_df.iterrows():
-    # while IFS=',' read -ra array; do
-    #   echo array::${array[22]}
-    pdf_file_location=row['PDF_FILE_PATH'] #${array[22]}
-    csv_file_location=row['CSV_FILE_PATH'] #${array[23]}
-    infarct_mask_location=row['INFARCT_MASK_FILE_PATH'] #${array[23]}
-    this_session_id=row['ID'] #${array[1]}
-    print(row['label'])
-    print(pdf_file_location)
-    n_pdffilename_length=len(str(pdf_file_location)) #${#pdf_file_location}
-    #   echo ${n_pdffilename_length}
+    URI=row['URI']+'/scans/' +row['SELECTED_SCAN_ID']
+    output_csvfile=os.path.basename(row['URI'])+ '_'+ row['SELECTED_SCAN_ID'] + '.csv'
+    get_latest_filepath_from_metadata_arguments=arguments()
+    get_latest_filepath_from_metadata_arguments.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]
+    get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)
+    # get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)
+    # # while IFS=',' read -ra array; do
+    # #   echo array::${array[22]}
+    # pdf_file_location=row['PDF_FILE_PATH'] #${array[22]}
+    # csv_file_location=row['CSV_FILE_PATH'] #${array[23]}
+    # infarct_mask_location=row['INFARCT_MASK_FILE_PATH'] #${array[23]}
+    # this_session_id=row['ID'] #${array[1]}
+    # print(row['label'])
+    # print(pdf_file_location)
+    # n_pdffilename_length=len(str(pdf_file_location)) #${#pdf_file_location}
+    # #   echo ${n_pdffilename_length}
 
-    n_csvfilename_length=len(str(csv_file_location)) #${#csv_file_location}
-    n_maskfilename_length=len(str(infarct_mask_location))
-    #   echo ${n_csvfilename_length}
-    if ".nii.gz" in str(infarct_mask_location) : #]; then
-        infarct_mask_location_basename=os.path.basename(infarct_mask_location) #$(basename ${csv_file_location})
-        get_latest_filepath_from_metadata_arguments=arguments()
-        get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',infarct_mask_location,infarct_mask_location_basename,dir_to_save]
-        download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+    # n_csvfilename_length=len(str(csv_file_location)) #${#csv_file_location}
+    # n_maskfilename_length=len(str(infarct_mask_location))
+    # #   echo ${n_csvfilename_length}
+    # if ".nii.gz" in str(infarct_mask_location) : #]; then
+    #     infarct_mask_location_basename=os.path.basename(infarct_mask_location) #$(basename ${csv_file_location})
+    #     get_latest_filepath_from_metadata_arguments=arguments()
+    #     get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',infarct_mask_location,infarct_mask_location_basename,dir_to_save]
+    #     download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
 
-        # append_results_to_analytics_arguments=arguments()
-        # append_results_to_analytics_arguments.stuff=['append_results_to_analytics',copy_session,os.path.join(dir_to_save,csv_output_filename), this_session_id, copy_session]
-        # append_results_to_analytics(append_results_to_analytics_arguments)
+    #     # append_results_to_analytics_arguments=arguments()
+    #     # append_results_to_analytics_arguments.stuff=['append_results_to_analytics',copy_session,os.path.join(dir_to_save,csv_output_filename), this_session_id, copy_session]
+    #     # append_results_to_analytics(append_results_to_analytics_arguments)
 
         counter=counter+1
 

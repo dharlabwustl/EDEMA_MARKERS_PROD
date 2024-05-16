@@ -57,6 +57,13 @@ for row_id,row in copy_session_df.iterrows():
     metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
     df_scan = pd.read_json(json.dumps(metadata_masks))
     pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+    for id,item in df_scan.iterrows():
+        extension='.nii.gz'
+        if extension in item['Name']:
+            get_latest_filepath_from_metadata_arguments=arguments()
+            get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
+            download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+
     # # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
     # get_latest_filepath_from_metadata_arguments1=arguments()
     # get_latest_filepath_from_metadata_arguments1.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]

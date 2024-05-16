@@ -40,7 +40,7 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,copy_ses
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 dir_to_save=output_directory
-resource_dir=str(sys.argv[5]) #'MASKS'
+resource_dir='MASKS' #str(sys.argv[5]) #'MASKS'
 subject_lower_limit=sys.argv[7]
 subject_upper_limit=sys.argv[8]
 print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys.argv[8],sys.argv[2] ,sys.argv[3]  ))
@@ -62,7 +62,7 @@ for row_id,row in copy_session_df.iterrows():
     df_scan = pd.read_json(json.dumps(metadata_masks))
     pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
     for id,item in df_scan.iterrows():
-        extension=str(sys.argv[6]) #'.nii.gz'#=sys.argv[6] #
+        extension='.nii.gz' #str(sys.argv[6]) #'.nii.gz'#=sys.argv[6] #
         if extension in item['Name']:
             get_latest_filepath_from_metadata_arguments=arguments()
             get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]

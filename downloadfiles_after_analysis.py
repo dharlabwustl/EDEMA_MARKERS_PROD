@@ -45,7 +45,7 @@ for row_id,row in copy_session_df.iterrows():
     URI=row['URI']+'/scans/' +row['SELECTED_SCAN_ID']
     try:
         output_csvfile=row['ID']+ '_'+ row['SELECTED_SCAN_ID'] + '.csv'
-        print("{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
+        print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
         # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
         get_latest_filepath_from_metadata_arguments=arguments()
         get_latest_filepath_from_metadata_arguments.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]

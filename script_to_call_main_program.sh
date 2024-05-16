@@ -4,7 +4,7 @@ XNAT_USER=${2}
 XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}
 echo TYPE_OF_PROGRAM::${TYPE_OF_PROGRAM}
-export XNAT_HOST=${5} #'https://redcap.wustl.edu/redcap/api/' #
+#'https://redcap.wustl.edu/redcap/api/' #
 echo ${REDCAP_API}
 #export REDCAP_API=${6}
 #echo REDCAP_API::${REDCAP_API}
@@ -17,7 +17,9 @@ if echo "$input" | grep -q "+"; then
 
   # Read the split words into an array
   read -ra ADDR <<< "$input"
+  export XNAT_HOST=${ADDR[0]} 
 else
+export XNAT_HOST=${5} 
     echo "'+' is not present in the string"
 fi
 

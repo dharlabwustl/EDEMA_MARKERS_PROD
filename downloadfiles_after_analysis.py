@@ -54,6 +54,10 @@ def convert_if_numeric(s):
         return s
 for row_id,row in copy_session_df.iterrows():
     try:
+        counter=counter+1
+        if counter > 10 : #; then
+            break
+
 
         URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
         # # try:
@@ -107,10 +111,8 @@ for row_id,row in copy_session_df.iterrows():
     #     # append_results_to_analytics_arguments.stuff=['append_results_to_analytics',copy_session,os.path.join(dir_to_save,csv_output_filename), this_session_id, copy_session]
     #     # append_results_to_analytics(append_results_to_analytics_arguments)
 
-    # counter=counter+1
 
-    if counter > 10 : #; then
-        break
+
 
 #
 # #

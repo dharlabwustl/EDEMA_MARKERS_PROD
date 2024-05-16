@@ -43,7 +43,7 @@ dir_to_save=output_directory
 resource_dir=sys.argv[5] #'MASKS'
 subject_lower_limit=sys.argv[7]
 subject_upper_limit=sys.argv[8]
-print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys.argv[8],sys.argv[4] ,sys.argv[3]  ))
+print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys.argv[8],sys.argv[9] ,sys.argv[3]  ))
 # def convert_if_numeric(s):
 #     try:
 #         # Try to convert the string to an integer

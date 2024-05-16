@@ -43,31 +43,32 @@ dir_to_save=output_directory
 resource_dir=sys.argv[5] #'MASKS'
 subject_lower_limit=sys.argv[7]
 subject_upper_limit=sys.argv[8]
-def convert_if_numeric(s):
-    try:
-        # Try to convert the string to an integer
-        return int(s)
-    except ValueError:
-        # If conversion fails, return the original string
-        return s
-for row_id,row in copy_session_df.iterrows():
-    try:
+print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys.argv[8],sys.argv[4] ,sys.argv[3]  ))
+# def convert_if_numeric(s):
+#     try:
+#         # Try to convert the string to an integer
+#         return int(s)
+#     except ValueError:
+#         # If conversion fails, return the original string
+#         return s
+# for row_id,row in copy_session_df.iterrows():
+#     # try:
 
-        URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
-        # # try:
-        output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
-        print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
-        metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
-        df_scan = pd.read_json(json.dumps(metadata_masks))
-        pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-        for id,item in df_scan.iterrows():
-            extension=sys.argv[6] #'.nii.gz'#=sys.argv[6] #
-            if extension in item['Name']:
-                get_latest_filepath_from_metadata_arguments=arguments()
-                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
-                download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-    except:
-        pass
+#     URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
+#     # # try:
+#     output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
+#     print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
+#     metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
+#     df_scan = pd.read_json(json.dumps(metadata_masks))
+#     pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+#     for id,item in df_scan.iterrows():
+#         extension=sys.argv[6] #'.nii.gz'#=sys.argv[6] #
+#         if extension in item['Name']:
+#             get_latest_filepath_from_metadata_arguments=arguments()
+#             get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
+#             download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+    # except:
+    #     pass
 
     # # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
     # get_latest_filepath_from_metadata_arguments1=arguments()

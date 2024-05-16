@@ -53,28 +53,28 @@ def convert_if_numeric(s):
         # If conversion fails, return the original string
         return s
 for row_id,row in copy_session_df.iterrows():
-    # try:
+    try:
 
-    URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
-    # # try:
-    output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
-    print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
-    metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
-    df_scan = pd.read_json(json.dumps(metadata_masks))
-    pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-    if '.pdf' in extension or '.csv' in extension:
-        # latest_file_df=get_latest_file(df_scan)
-        print('{}::{}'.format('latest_file_df',df_scan))
-        # get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
-        # download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-    else:
-        for id,item in df_scan.iterrows():
-            if extension in item['Name']:
-                get_latest_filepath_from_metadata_arguments=arguments()
-                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
-                download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-    # except:
-    #     pass
+        URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
+        # # try:
+        output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
+        print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
+        metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
+        df_scan = pd.read_json(json.dumps(metadata_masks))
+        pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+        if '.pdf' in extension or '.csv' in extension:
+            # latest_file_df=get_latest_file(df_scan)
+            print('{}::{}'.format('latest_file_df',df_scan))
+            # get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
+            # download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+        else:
+            for id,item in df_scan.iterrows():
+                if extension in item['Name']:
+                    get_latest_filepath_from_metadata_arguments=arguments()
+                    get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
+                    download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+    except:
+        pass
 
     # # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
     # get_latest_filepath_from_metadata_arguments1=arguments()

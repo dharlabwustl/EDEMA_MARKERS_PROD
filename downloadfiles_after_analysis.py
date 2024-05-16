@@ -51,13 +51,13 @@ def convert_if_numeric(s):
 for row_id,row in copy_session_df.iterrows():
 
     URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
-    # try:
+    # # try:
     output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
     print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
-    # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
-    get_latest_filepath_from_metadata_arguments1=arguments()
-    get_latest_filepath_from_metadata_arguments1.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]
-    get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments1)
+    # # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments)))
+    # get_latest_filepath_from_metadata_arguments1=arguments()
+    # get_latest_filepath_from_metadata_arguments1.stuff=['get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile]
+    # get_resourcefiles_metadata_saveascsv(get_latest_filepath_from_metadata_arguments1)
     # except:
     #     pass
     # get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile)

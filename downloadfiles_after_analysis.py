@@ -67,7 +67,7 @@ for row_id,row in copy_session_df.iterrows():
         if '.pdf' in extension or '.csv' in extension:
             if df_scan.shape[0] >0:
                 latest_file_df=get_latest_file(df_scan)
-                print('{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0] ))
+                print('{}::{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0],latest_file_df['URI'] ))
                 latest_file_df.to_csv('latest_file_df.csv',index=False)
             # if latest_file_df.shape[0] >0:
 

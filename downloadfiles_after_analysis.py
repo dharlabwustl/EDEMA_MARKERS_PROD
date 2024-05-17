@@ -88,8 +88,8 @@ for row_id,row in copy_session_df.iterrows():
                     download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
             counter=counter+1
             print('{}::{}'.format('counter',counter))
-            if counter > 1 : #; then
-                break
+            # if counter > 1 : #; then
+            #     break
     except:
         pass
 

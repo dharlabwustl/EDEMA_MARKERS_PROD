@@ -87,7 +87,7 @@ for row_id,row in copy_session_df.iterrows():
                     get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
                     download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
             counter=counter+1
-            print('{}::{}'.format('counter',counter))
+            print('{}::{}::{}'.format('counter',counter,subjec_id))
             # if counter > 1 : #; then
             #     break
     except:

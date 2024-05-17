@@ -16,7 +16,7 @@ working_dir="/workinginput"
 output_directory="/workingoutput"
 
 final_output_directory="/outputinsidedocker"
-
+a='a'
 def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename): # {
     file_path_csv_df=pd.read_csv(file_path_csv)
     for row_id,row in file_path_csv_df.iterrows():

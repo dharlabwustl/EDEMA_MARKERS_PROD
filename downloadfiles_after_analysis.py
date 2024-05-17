@@ -42,9 +42,15 @@ counter=0
 dir_to_save=output_directory
 resource_dir=str(sys.argv[5]) #'MASKS'
 extension=str(sys.argv[6]) #'.nii.gz'#=sys.argv[6] #
-subject_lower_limit=sys.argv[7]
-subject_upper_limit=sys.argv[8]
+subject_lower_limit=int(sys.argv[7])
+subject_upper_limit=int(sys.argv[8])
 print("{}::{}::{}::{}::{}::{}".format(sys.argv[5] ,sys.argv[6] ,sys.argv[7] ,sys.argv[8],sys.argv[2] ,sys.argv[3]  ))
+def combine_digits(text):
+    # Regular expression to find all digits
+    digits = re.findall(r'\d', text)
+    # Combine all digits into one number
+    combined_number = int(''.join(digits))
+    return combined_number
 def convert_if_numeric(s):
     try:
         # Try to convert the string to an integer
@@ -54,36 +60,35 @@ def convert_if_numeric(s):
         return s
 for row_id,row in copy_session_df.iterrows():
     try:
+        subjec_id=int(combine_digits(row['subject_id']))
+        if subjec_id >=subject_lower_limit and subjec_id <=subject_upper_limit:
+            URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
+            # # try:
+            output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
+            print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
+            metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
+            df_scan = pd.read_json(json.dumps(metadata_masks))
+            pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+            # if '.pdf' in extension or '.csv' in extension:
+            #     if df_scan.shape[0] >0:
+            #         latest_file_df=get_latest_file(df_scan)
+            #         print('{}::{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0],latest_file_df['URI'] ))
+            #         latest_file_df.to_csv('latest_file_df.csv',index=False)
+            #     # if latest_file_df.shape[0] >0:
+
+            #         get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
+            #         download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
 
 
-
-        URI=row['URI']+'/scans/' +str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0]))
-        # # try:
-        output_csvfile=row['ID']+ '_'+ str(convert_if_numeric(str(row['SELECTED_SCAN_ID']).split('.')[0])) + '.csv'
-        print("{}::{}::{}::{}::{}".format('get_resourcefiles_metadata_saveascsv',URI,resource_dir,dir_to_receive_the_data,output_csvfile))
-        metadata_masks=get_resourcefiles_metadata(URI,resource_dir)
-        df_scan = pd.read_json(json.dumps(metadata_masks))
-        pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-        # if '.pdf' in extension or '.csv' in extension:
-        #     if df_scan.shape[0] >0:
-        #         latest_file_df=get_latest_file(df_scan)
-        #         print('{}::{}::{}::{}'.format('latest_file_df',latest_file_df,latest_file_df.shape[0],latest_file_df['URI'] ))
-        #         latest_file_df.to_csv('latest_file_df.csv',index=False)
-        #     # if latest_file_df.shape[0] >0:
-
-        #         get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',latest_file_df['URI'],latest_file_df['Name'],dir_to_save]
-        #         download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-
-        #         counter=counter+1
-        #     if counter > 1 : #; then
-        #         break
-        # else:
-        for id,item in df_scan.iterrows():
-            if extension in item['Name']:
-                get_latest_filepath_from_metadata_arguments=arguments()
-                get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
-                download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
-                    
+            # else:
+            for id,item in df_scan.iterrows():
+                if extension in item['Name']:
+                    get_latest_filepath_from_metadata_arguments=arguments()
+                    get_latest_filepath_from_metadata_arguments.stuff=['download_a_singlefile_with_URIString',item['URI'],item['Name'],dir_to_save]
+                    download_a_singlefile_with_URIString(get_latest_filepath_from_metadata_arguments)
+            counter=counter+1
+            if counter > 1 : #; then
+                break
     except:
         pass
 

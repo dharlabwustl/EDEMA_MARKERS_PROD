@@ -312,6 +312,6 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
   PROJECT_ID=${1}
   echo "${PROJECT_ID}::$XNAT_USER::$XNAT_PASS::${ADDR[0]}::${ADDR[1]}::${ADDR[2]}::${ADDR[3]}::${ADDR[4]}"
 #  "${ADDR[0]}:HOST" "${ADDR[1]}:RESOURCE" "${ADDR[2]}:FILE EXTENSION" "${ADDR[3]}:LOWER LIMIT OF SUBJ NAME" "${ADDR[4]}:UPPER LIMIT OF SUBJ NAME"
-  /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}" "${ADDR[4]}"
+ python3 /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}" "${ADDR[4]}"
 fi
 #############################################################################################################

@@ -70,7 +70,7 @@ outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_met
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
-download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} ${copy_session}
+download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} $(basename ${copy_session})
 counter=0
 dir_to_save=${output_directory}
 call_edit_session_analytics_file_arguments=('remove_columns' ${copy_session} ${copy_session} 'scanner_from_xml'  )

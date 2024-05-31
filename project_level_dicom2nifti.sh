@@ -20,12 +20,12 @@ rm  -r    ${working_dir_1}/*
 rm  -r    ${output_directory}/*
 rm  -r    ${final_output_directory}/*
 # rm  -r    ${software}/*
-# rm  -r    ${ZIPFILEDIR}/*
-# rm  -r    ${NIFTIFILEDIR}/*
-# rm  -r    ${DICOMFILEDIR}/*
+rm  -r    ${ZIPFILEDIR}/*
+rm  -r    ${NIFTIFILEDIR}/*
+rm  -r    ${DICOMFILEDIR}/*
 # rm  -r    ${working}/*
-# rm  -r    ${input}/*
-# rm  -r    ${output}/*
+rm  -r    ${input}/*
+rm  -r    ${output}/*
 
 
 }
@@ -48,7 +48,7 @@ count=0
 
     # echo SESSION_NAME::${SESSION_NAME}
     directory_to_create_destroy
-    /software/scan_selection_May18_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+    /software/dicom2nifti_call_sessionlevel_selected.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
     # echo snipr_step::${snipr_step}
     # scan_selection ${SESSION_ID}  
 

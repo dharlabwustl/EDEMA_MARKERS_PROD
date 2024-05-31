@@ -315,3 +315,6 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
  python3 /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}" "${ADDR[4]}"
 fi
 #############################################################################################################
+if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
+  /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi

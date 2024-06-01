@@ -2350,7 +2350,7 @@ def fill_sniprsession_list_ICH_V0(args):
                 # SCAN_URI_NIFTI_FILEPREFIX_1=nifti_file_list_row['Name'].split("_"+str(nifti_file_list_row['ID'])+'.nii')[0] #"_".join(SCAN_URI_NIFTI_FILEPREFIX_SPLIT[0:len(SCAN_URI_NIFTI_FILEPREFIX_SPLIT)-1])
                 subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
                 try:
-                    resource_dir="ICH_QUANTIFICATION" #"EDEMA_BIOMARKER"
+                    resource_dir='ICH_PHE_QUANTIFICATION' #"ICH_QUANTIFICATION" #"EDEMA_BIOMARKER"
                     extension_to_find_list=".pdf" #_infarct_auto_removesmall.nii.gz"
                     _infarct_auto_removesmall_path=""
                     _infarct_auto_removesmall_path=str(get_latest_filepath_from_metadata_SAH(SCAN_URI,resource_dir,extension_to_find_list,SCAN_URI_NIFTI_FILEPREFIX))
@@ -2592,7 +2592,7 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                 except:
                     pass
                 ######################
-                resource_dir="ICH_QUANTIFICATION"
+                resource_dir='ICH_PHE_QUANTIFICATION' #"ICH_QUANTIFICATION"
                 try:
                     subprocess.call("echo " + "SCAN_URI_NIFTI_FILEPREFIX::{}  >> /workingoutput/error.txt".format(SCAN_URI_NIFTI_FILEPREFIX) ,shell=True )
 

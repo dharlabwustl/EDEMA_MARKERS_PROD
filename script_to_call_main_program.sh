@@ -316,7 +316,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
 fi
 #############################################################################################################
 if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
-  /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}"
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
   /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

@@ -3,6 +3,8 @@ export XNAT_USER=${2}
 export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 project_ID=${1}
+counter_start=${5}
+counter_end=${6}
 working_dir=/workinginput
 output_directory=/workingoutput
 final_output_directory=/outputinsidedocker
@@ -42,6 +44,7 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 ######################################
 count=0
   while IFS=',' read -ra array; do
+  if [ ${count} -ge ${counter_start} ]; then
     echo SESSION_ID::${array[0]}
     SESSION_ID=${array[0]}  #SNIPR02_E10218 ##SNIPR02_E10112 #
     SESSION_NAME=${array[5]} 
@@ -53,9 +56,10 @@ count=0
     # scan_selection ${SESSION_ID}  
 
     # echo "$SESSION_ID,$SESSION_NAME" >> ${list_accomplished}
+  fi 
     count=$((count+1))
 #     fi
-    if [ ${count} -gt 3 ]; then
+    if [ ${count} -ge ${counter_end} ]; then
     break
     fi
 done < <(tail -n +2 "${sessions_list}")

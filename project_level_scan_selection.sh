@@ -44,7 +44,7 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/expe
 ######################################
 count=0
   while IFS=',' read -ra array; do
-  if [ ${count} -ge ${counter_start} ]; then
+  # if [ ${count} -ge ${counter_start} ]; then
     echo SESSION_ID::${array[0]}
     SESSION_ID=${array[0]}  #SNIPR02_E10218 ##SNIPR02_E10112 #
     SESSION_NAME=${array[5]} 
@@ -56,10 +56,10 @@ count=0
     # scan_selection ${SESSION_ID}  
 
     # echo "$SESSION_ID,$SESSION_NAME" >> ${list_accomplished}
-  fi 
+  # fi 
     count=$((count+1))
 #     fi
-    if [ ${count} -ge ${counter_end} ]; then
+    if [ ${count} -ge 0]; then
     break
     fi
 done < <(tail -n +2 "${sessions_list}")

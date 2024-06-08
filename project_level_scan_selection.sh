@@ -25,7 +25,7 @@ rm  -r    ${software}/*
 rm  -r    ${ZIPFILEDIR}/*
 rm  -r    ${NIFTIFILEDIR}/*
 rm  -r    ${DICOMFILEDIR}/*
-rm  -r    ${working}/*
+# rm  -r    ${working}/*
 rm  -r    ${input}/*
 rm  -r    ${output}/*
 

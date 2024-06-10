@@ -25,7 +25,7 @@ export XNAT_HOST=${5}
 fi
 
 
-echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM
+echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[1]}::${ADDR[2]}
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
   /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi

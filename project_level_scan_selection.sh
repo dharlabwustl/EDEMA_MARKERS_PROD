@@ -60,7 +60,7 @@ count=0
     count=$((count+1))
     echo "THIS COUNT NUMBER IS "::${count}::${counter_end}
 #     fi
-    if [ ${count} -ge ${counter_end}]; then
+    if [ ${count} -ge ${counter_end} ]; then
     break
     fi
 done < <(tail -n +2 "${sessions_list}")

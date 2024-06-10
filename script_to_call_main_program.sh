@@ -25,7 +25,7 @@ export XNAT_HOST=${5}
 fi
 
 
-echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[1]}::${ADDR[2]}
+echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
   /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
@@ -306,29 +306,26 @@ if [[ ${TYPE_OF_PROGRAM} == 'FILLREDCAPONLY' ]]; then
   /software/fill_redcap_only_04_06_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
-
-
-
 if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
   PROJECT_ID=${1}
   echo "${PROJECT_ID}::$XNAT_USER::$XNAT_PASS::${ADDR[0]}::${ADDR[1]}::${ADDR[2]}::${ADDR[3]}::${ADDR[4]}"
 #  "${ADDR[0]}:HOST" "${ADDR[1]}:RESOURCE" "${ADDR[2]}:FILE EXTENSION" "${ADDR[3]}:LOWER LIMIT OF SUBJ NAME" "${ADDR[4]}:UPPER LIMIT OF SUBJ NAME"
  python3 /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}" "${ADDR[4]}"
 fi
-#############################################################################################################
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL' ]]; then
-  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
-    /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
-  fi
-  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
-    /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
-  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
-    /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-  fi
-  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
-    /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-  fi
-  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
-    /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-  fi
-fi
+# #############################################################################################################
+# if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL' ]]; then
+#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
+#     /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
+#   fi
+#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
+#     /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
+#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
+#     /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+#   fi
+#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
+#     /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+#   fi
+#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
+#     /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+#   fi
+# fi

@@ -18,6 +18,7 @@ if echo "$input" | grep -q "+"; then
   # Read the split words into an array
   read -ra ADDR <<< "$input"
   export XNAT_HOST=${ADDR[0]} 
+  SUBTYPE_OF_PROGRAM=${ADDR[1]} 
 else
 export XNAT_HOST=${5} 
     echo "'+' is not present in the string"
@@ -315,18 +316,19 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
  python3 /software/downloadfiles_after_analysis.py   ${PROJECT_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}" "${ADDR[3]}" "${ADDR[4]}"
 fi
 #############################################################################################################
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
-  /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST   ## "${ADDR[0]}" "${ADDR[1]}" "${ADDR[2]}"
+if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL' ]]; then
+if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
+  /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
-  /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
+  /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
+if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
+  /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
-  /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
+  /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
-  /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
+  /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
-  /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

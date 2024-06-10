@@ -314,7 +314,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOADFILESAFTERANALYSIS' ]]; then
 fi
 # #############################################################################################################
 if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL' ]]; then
-echo "I AM HERE
+echo "I AM HERE"
 #   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
 #     /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
 #   fi
@@ -329,4 +329,5 @@ echo "I AM HERE
 #   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
 #     /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
 #   fi
+
 fi

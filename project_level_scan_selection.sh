@@ -22,12 +22,12 @@ rm  -r    ${working_dir_1}/*
 rm  -r    ${output_directory}/*
 rm  -r    ${final_output_directory}/*
 # rm  -r    ${software}/*
-# rm  -r    ${ZIPFILEDIR}/*
-# rm  -r    ${NIFTIFILEDIR}/*
-# rm  -r    ${DICOMFILEDIR}/*
-# rm  -r    ${working}/*
-# rm  -r    ${input}/*
-# rm  -r    ${output}/*
+rm  -r    ${ZIPFILEDIR}/*
+rm  -r    ${NIFTIFILEDIR}/*
+rm  -r    ${DICOMFILEDIR}/*
+rm  -r    ${working}/*
+rm  -r    ${input}/*
+rm  -r    ${output}/*
 
 
 }

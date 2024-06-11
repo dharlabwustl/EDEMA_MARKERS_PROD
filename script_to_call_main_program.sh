@@ -321,16 +321,17 @@ fi
   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_MULTIPLE_SCAN_SELECTION' ]]; then
     /software/project_level_multiple_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
 fi
-#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
-#     /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
-#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
-#     /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-#   fi
-#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
-#     /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-#   fi
-#   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
-#     /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
-#   fi
+  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
+    /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
+fi
+  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then
+    /software/project_level_infarct_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+  fi
+  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_ICH_BIOMARKER' ]]; then
+    /software/project_level_ich_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+  fi
+  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SAH_BIOMARKER' ]]; then
+    /software/project_level_sah_biomarker.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}"  "${ADDR[2]}" "${ADDR[3]}"
+  fi
 
 fi

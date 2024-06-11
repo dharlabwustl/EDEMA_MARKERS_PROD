@@ -317,7 +317,10 @@ if [[ ${TYPE_OF_PROGRAM} == 'PROJECT_LEVEL' ]]; then
 echo "I AM HERE"
   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_SCAN_SELECTION' ]]; then
     /software/project_level_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
-  fi
+fi
+  if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_MULTIPLE_SCAN_SELECTION' ]]; then
+    /software/project_level_multiple_scan_selection.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
+fi
 #   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_DICOM2NIFTI' ]]; then
 #     /software/project_level_dicom2nifti.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS "${ADDR[0]}" "${ADDR[2]}" "${ADDR[3]}"
 #   if [[ ${SUBTYPE_OF_PROGRAM} == 'PROJECT_LEVEL_INFARCT_BIOMARKER' ]]; then

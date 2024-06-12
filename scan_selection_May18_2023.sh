@@ -271,7 +271,25 @@ sys.path.append('/software');
 from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId}  ${scanId}  ${resource_foldername} ${dir_to_save} ${csvfilename} 
 }
+# ####################
+# this_session_id=${sessionID}
+# xml_filename=${working_dir}/${this_session_id}.xml
+# filename_xml=$(basename ${xml_filename})   #args.stuff[2]
+# dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
+# download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
+# outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 
+# URI="/data/projects/"${project_ID}
+# dir_to_receive_the_data=${working_dir}
+# resource_dir="${project_ID}_SESSION_ANALYTICS_2"
+# file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
+# get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "sessions_${project_ID}_ANALYTICS_STEP2_" ${file_path_csv})
+# outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+# sessions_list=${working_dir}/'sessions.csv'
+# time_now=$(date -dnow +%Y%m%d%H%M%S)
+# copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP3_${time_now}.csv
+# download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} $(basename ${copy_session})
+# ###############
 #########################################################################
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'

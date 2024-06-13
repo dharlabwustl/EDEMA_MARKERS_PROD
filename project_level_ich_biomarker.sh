@@ -113,7 +113,7 @@ if (( $(echo "$value1 < $value2" | bc -l) )); then
     SESSION_ID=${array2[${SESSION_ID_COL_NUM}]} #${array[0]}  #SNIPR02_E10218 ##SNIPR02_E10112 #
     echo SESSION_ID::${SESSION_ID}
     directory_to_create_destroy
-    /software/phe_nwu_calculation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+    /software/phe_nwu_ich_calculation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 else
     echo "$value1 is not less than $value2"
 fi

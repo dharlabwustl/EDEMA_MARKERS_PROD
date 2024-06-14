@@ -94,7 +94,7 @@ filename=$(basename ${incomplete_file_uri})
 dir_to_save=${software}
 call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${incomplete_file_uri} ${filename} ${dir_to_save})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-PDF_FILE_SIZE_COL_NUM=$(get_column_number ${software}/$filename PDF_FILE_SIZE )
+PDF_FILE_SIZE_COL_NUM=$(get_column_number ${software}/$filename COMPLETE )
 PDF_FILE_SIZE_COL_NUM=$((PDF_FILE_SIZE_COL_NUM - 1 ))
 SESSION_ID_COL_NUM=$(get_column_number ${software}/$filename ID )
 SESSION_ID_COL_NUM=$((SESSION_ID_COL_NUM - 1 ))
@@ -103,10 +103,10 @@ while IFS=',' read -ra array2; do
 value1=${array2[${PDF_FILE_SIZE_COL_NUM}]}
 echo ${value1}
 if [ -z "$value1" ]; then
-value1=0
+# value1=0
     echo "The value is empty."
 fi
-value2=3
+value2=1 #3
 if (( $(echo "$value1 < $value2" | bc -l) )); then
 # if [[ 1 -gt 0 ]] ; then 
     echo "$value1 is less than $value2"

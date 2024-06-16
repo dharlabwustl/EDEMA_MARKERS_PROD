@@ -95,8 +95,8 @@ for row_id,row in copy_session_df.iterrows():
             columnvalue="1"
             fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
             counter=counter+1
-    # if counter>5:
-    #     break
+    if counter>5:
+        break
     command='rm  ' + working_dir + '/*.nii'
     subprocess.call(command,shell=True)
     command='rm  ' + working_dir+ '/*.dcm'
@@ -118,8 +118,8 @@ for row_id,row in copy_session_df.iterrows():
         call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
         add_file_size(call_edit_session_analytics_file_arguments)
         counter=counter+1
-    # if counter>2:
-    #     break
+    if counter>2:
+        break
     #     csvfilename=args.stuff[1]
     # columnname=args.stuff[2]
     # neighboring_col=args.stuff[3]

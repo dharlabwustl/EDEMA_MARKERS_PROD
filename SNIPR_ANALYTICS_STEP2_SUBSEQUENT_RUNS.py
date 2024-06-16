@@ -63,8 +63,8 @@ for row_id,row in copy_session_df.iterrows():
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
             counter=counter+1
-    if counter>2:
-        break
+    # if counter>2:
+    break
     command='rm  ' + working_dir + '/*.nii'
     subprocess.call(command,shell=True)
     command='rm  ' + working_dir+ '/*.dcm'

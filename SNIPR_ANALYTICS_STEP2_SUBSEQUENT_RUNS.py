@@ -43,7 +43,7 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,os.path.
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 for row_id,row in copy_session_df.iterrows():
-    if row['xsiType']=="xnat:ctSessionData":
+    if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5:
         call_fill_sniprsession_list_arguments=arguments()
          ##
         if  "ICH" in project_ID:

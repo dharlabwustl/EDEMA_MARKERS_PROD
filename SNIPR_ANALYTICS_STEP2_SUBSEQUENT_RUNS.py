@@ -50,7 +50,8 @@ counter=0
 for row_id,row in copy_session_df.iterrows():
     session_id=str(row['ID'])
     columnname="SELECTED_SCAN_ID"
-    columnvalue=SELECTED_SCAN_ID
+    # columnvalue=SELECTED_SCAN_ID
+    columnvalue=get_scan_id_given_session_id_N_niftiname(session_id,str(row['NIFTIFILES_PREFIX']))
     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
     if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5 and counter > 3:
         call_fill_sniprsession_list_arguments=arguments()

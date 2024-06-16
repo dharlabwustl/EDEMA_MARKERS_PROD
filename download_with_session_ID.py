@@ -22,6 +22,18 @@ api_token=os.environ['REDCAP_API']
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
+def get_scan_id_given_session_id_N_niftiname(session_id,niftiname):
+    this_session_metadata=get_metadata_session(session_id)
+    this_session_metadata_df = pd.read_json(json.dumps(this_session_metadata))
+    this_scan_id=''
+    for session_each_metadata_id, session_each_metadata in this_session_metadata_df.iterrows():
+        URL='/data/experiments/'+session_id+'/scans/'+str(session_each_metadata['ID'])
+        metadata_nifti=get_resourcefiles_metadata(URL,'NIFTI')
+        df_scan = pd.read_json(json.dumps(metadata_nifti))
+        for df_scan_each_id, df_scan_each in df_scan.iterrows():
+            if niftiname in str(df_scan_each['Name']): #.split('.ni')[0]==niftiname:
+                this_scan_id=str(session_each_metadata['ID'])
+    return this_scan_id
 def get_scan_quality(session_id,scan_id,scan_assessor_name):
     try:
         url = ("/data/experiments/%s/scans/%s/assessors?format=json" %    (session_id,scan_id))

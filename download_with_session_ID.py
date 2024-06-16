@@ -22,6 +22,39 @@ api_token=os.environ['REDCAP_API']
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
+def get_scan_quality(session_id,scan_id,scan_assessor_name):
+    try:
+        url = ("/data/experiments/%s/scans/%s/assessors?format=json" %    (session_id,scan_id))
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        xnatSession.renew_httpsession()
+        response = xnatSession.httpsess.get(xnatSession.host + url)
+        xnatSession.close_httpsession()
+        print(get_field_from_nested_dict(response.json(), scan_assessor_name))
+        return get_field_from_nested_dict(response.json(), scan_assessor_name)
+    except Exception as e:
+        print(e)
+    return None
+def get_field_from_nested_dict(data, target_field):
+    try:
+        if isinstance(data, dict):
+            # Check if the target field is in the dictionary
+            if target_field in data:
+                return data[target_field]
+            # Recursively search in the dictionary
+            for key, value in data.items():
+                result = get_field_from_nested_dict(value, target_field)
+                if result is not None:
+                    return result
+        elif isinstance(data, list):
+            # Iterate through the list and search in each element
+            for item in data:
+                result = get_field_from_nested_dict(item, target_field)
+                if result is not None:
+                    return result
+    except Exception as e:
+        print(e)
+        pass
+    return None
 def change_type_of_scan(sessionId, scanId,label):
     returnvalue=0
     try:

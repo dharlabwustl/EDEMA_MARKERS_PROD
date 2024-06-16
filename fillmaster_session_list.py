@@ -2085,6 +2085,20 @@ def fill_sniprsession_list_SAH(args):
         #         file_basename_prefix="_".join(file_basename_split[0:len(file_basename_split)-1])
         #         columnvalue=file_basename_prefix #"_".join(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_")[0:len(os.path.basename(nifti_file_list_row.at[0,"URI"]).split("_"))-1])
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+        try:
+            # columnname="NIFTIFILES_PREFIX"
+            # columnvalue=SCAN_URI_NIFTI_FILEPREFIX_1 #"" #str(niftifiles_num[1]) #str(0)
+            # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+            columnname="SELECTED_SCAN_ID"
+            columnvalue=SELECTED_SCAN_ID
+            fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+            squality=''
+            squality=get_scan_quality(session_id,columnvalue,'quality')
+            columnname="SELECTED_SCAN_QUALITY"
+            columnvalue=SELECTED_SCAN_ID
+            fill_datapoint_each_session_sniprcsv(session_id,columnname,squality,csvfilename)
+        except:
+            pass
         axial_thin_count=count_brainaxial_or_thin(session_id)
         columnname="AXIAL_SCAN_NUM"
         columnvalue=axial_thin_count[0]
@@ -2575,6 +2589,11 @@ def fill_sniprsession_list_ICH(args): #sessionlist_filename,session_id):
                     columnname="SELECTED_SCAN_ID"
                     columnvalue=SELECTED_SCAN_ID
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    squality=''
+                    squality=get_scan_quality(session_id,columnvalue,'quality')
+                    columnname="SELECTED_SCAN_QUALITY"
+                    columnvalue=SELECTED_SCAN_ID
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,squality,csvfilename)
                 except:
                     pass
                 ############################
@@ -3058,6 +3077,11 @@ def fill_sniprsession_list_1(args): #sessionlist_filename,session_id):
                     columnname="SELECTED_SCAN_ID"
                     columnvalue=SELECTED_SCAN_ID
                     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
+                    squality=''
+                    squality=get_scan_quality(session_id,columnvalue,'quality')
+                    columnname="SELECTED_SCAN_QUALITY"
+                    columnvalue=SELECTED_SCAN_ID
+                    fill_datapoint_each_session_sniprcsv(session_id,columnname,squality,csvfilename)
                     #####################
                     check_preprocessing_step(session_id,SELECTED_SCAN_ID,csvfilename)
                     check_infarct_csf_seg_step(session_id,SELECTED_SCAN_ID,csvfilename)

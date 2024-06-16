@@ -73,29 +73,29 @@ for row_id,row in copy_session_df.iterrows():
 dir_to_save=working_dir
 resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_2"
 #
-# ##############################
-copy_session_df=pd.read_csv(copy_session)
-counter=0
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-for row_id,row in copy_session_df.iterrows():
-    if '.pdf' in str(row['PDF_FILE_PATH']):
-        file_url=row['PDF_FILE_PATH']
-        session_ID=row['ID']
-        temp_dir=working_dir
-        call_edit_session_analytics_file_arguments=arguments()
-        call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
-        add_file_size(call_edit_session_analytics_file_arguments)
-        counter=counter+1
-    # if counter>2:
-    #     break
-    #     csvfilename=args.stuff[1]
-    # columnname=args.stuff[2]
-    # neighboring_col=args.stuff[3]
-    # csvfilename_edited=args.stuff[4]
-call_edit_session_analytics_file_arguments=arguments()
-call_edit_session_analytics_file_arguments.stuff=['move_one_column_after_another' , copy_session, 'PDF_FILE_NUM', "REGISTRATION_SUCCESS",copy_session]
-rename_columns(call_edit_session_analytics_file_arguments)
-uploadsinglefile_projectlevel_args_arguments=arguments()
-uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
-uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
-# copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})
+# # ##############################
+# copy_session_df=pd.read_csv(copy_session)
+# counter=0
+# time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+# for row_id,row in copy_session_df.iterrows():
+#     if '.pdf' in str(row['PDF_FILE_PATH']):
+#         file_url=row['PDF_FILE_PATH']
+#         session_ID=row['ID']
+#         temp_dir=working_dir
+#         call_edit_session_analytics_file_arguments=arguments()
+#         call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
+#         add_file_size(call_edit_session_analytics_file_arguments)
+#         counter=counter+1
+#     # if counter>2:
+#     #     break
+#     #     csvfilename=args.stuff[1]
+#     # columnname=args.stuff[2]
+#     # neighboring_col=args.stuff[3]
+#     # csvfilename_edited=args.stuff[4]
+# call_edit_session_analytics_file_arguments=arguments()
+# call_edit_session_analytics_file_arguments.stuff=['move_one_column_after_another' , copy_session, 'PDF_FILE_NUM', "REGISTRATION_SUCCESS",copy_session]
+# rename_columns(call_edit_session_analytics_file_arguments)
+# uploadsinglefile_projectlevel_args_arguments=arguments()
+# uploadsinglefile_projectlevel_args_arguments.stuff=['uploadsinglefile_projectlevel_args',project_ID,os.path.dirname(copy_session),resource_dirname_at_snipr, os.path.basename(copy_session)]
+# uploadsinglefile_projectlevel_args(uploadsinglefile_projectlevel_args_arguments)
+# # copysinglefile_to_sniprproject ${project_ID} "$(dirname ${copy_session})" ${resource_dirname_at_snipr} $(basename ${copy_session})

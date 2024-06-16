@@ -48,6 +48,10 @@ counter=0
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 for row_id,row in copy_session_df.iterrows():
+    
+    columnname="SELECTED_SCAN_ID"
+    columnvalue=SELECTED_SCAN_ID
+    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,csvfilename)
     if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5 and counter > 3:
         call_fill_sniprsession_list_arguments=arguments()
          ##

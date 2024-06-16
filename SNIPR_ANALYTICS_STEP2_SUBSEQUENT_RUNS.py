@@ -53,7 +53,7 @@ for row_id,row in copy_session_df.iterrows():
     # columnvalue=SELECTED_SCAN_ID
     columnvalue=get_scan_id_given_session_id_N_niftiname(session_id,str(row['NIFTIFILES_PREFIX']))
     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
-    scan_quality=get_scan_quality(session_id,scan_id,scan_assessor_name)
+    scan_quality=get_scan_quality(session_id,SELECTED_SCAN_QUALITY,'quality')
     columnname="SELECTED_SCAN_QUALITY"
     columnvalue=scan_quality
     fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)

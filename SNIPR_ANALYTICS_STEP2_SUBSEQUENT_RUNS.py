@@ -30,7 +30,7 @@ def download_a_single_file(file_path_csv,dir_to_save,projectid,output_filename):
 
 URI="/data/projects/"+project_ID #${project_ID}
 dir_to_receive_the_data=working_dir #${working_dir}
-resource_dir=project_ID+"_SESSION_ANALYTICS_2" #${project_ID}_SESSION_ANALYTICS_1"
+resource_dir=project_ID+"_SESSION_ANALYTICS_1" #${project_ID}_SESSION_ANALYTICS_1"
 file_path_csv=os.path.join(dir_to_receive_the_data,project_ID+"_"+resource_dir+"_resultfilepath.csv") #${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
 get_latest_filepath_from_metadata_arguments=arguments()
 get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
@@ -43,28 +43,27 @@ download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,os.path.
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 for row_id,row in copy_session_df.iterrows():
-    if '.csv' not in str(copy_session_df['CSV_FILE_PATH']) or '.pdf' not in str(copy_session_df['PDF_FILE_PATH']):
-        if row['xsiType']=="xnat:ctSessionData":
-            call_fill_sniprsession_list_arguments=arguments()
-            ##
-            if  "ICH" in project_ID:
-                call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
-                fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
-                counter=counter+1
-            elif "SAH"  in project_ID:
-                call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_SAH',copy_session ,row['ID']]
-                fill_sniprsession_list_SAH(call_fill_sniprsession_list_arguments)
-                counter=counter+1  
-            else:
-                call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
-                fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
-                counter=counter+1
-        # if counter>2:
-        #     break
-        command='rm  ' + working_dir + '/*.nii'
-        subprocess.call(command,shell=True)
-        command='rm  ' + working_dir+ '/*.dcm'
-        subprocess.call(command,shell=True)
+    if row['xsiType']=="xnat:ctSessionData":
+        call_fill_sniprsession_list_arguments=arguments()
+         ##
+        if  "ICH" in project_ID:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_ICH',copy_session ,row['ID']]
+            fill_sniprsession_list_ICH(call_fill_sniprsession_list_arguments)
+            counter=counter+1
+        elif "SAH"  in project_ID:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_SAH',copy_session ,row['ID']]
+            fill_sniprsession_list_SAH(call_fill_sniprsession_list_arguments)
+            counter=counter+1  
+        else:
+            call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
+            fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
+            counter=counter+1
+    # if counter>2:
+    #     break
+    command='rm  ' + working_dir + '/*.nii'
+    subprocess.call(command,shell=True)
+    command='rm  ' + working_dir+ '/*.dcm'
+    subprocess.call(command,shell=True)
 
 dir_to_save=working_dir
 resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_2"

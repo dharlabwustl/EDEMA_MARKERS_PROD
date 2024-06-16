@@ -81,8 +81,8 @@ for row_id,row in copy_session_df.iterrows():
             columnvalue="1"
             fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
             counter=counter+1
-    if counter>5:
-        break
+    # if counter>5:
+    #     break
     command='rm  ' + working_dir + '/*.nii'
     subprocess.call(command,shell=True)
     command='rm  ' + working_dir+ '/*.dcm'

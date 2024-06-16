@@ -49,14 +49,28 @@ copy_session_df=pd.read_csv(copy_session)
 counter=0
 for row_id,row in copy_session_df.iterrows():
     session_id=str(row['ID'])
-    columnname="SELECTED_SCAN_ID"
-    # columnvalue=SELECTED_SCAN_ID
-    columnvalue=get_scan_id_given_session_id_N_niftiname(session_id,str(row['NIFTIFILES_PREFIX']))
-    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
-    scan_quality=get_scan_quality(session_id,columnvalue,'quality')
-    columnname="SELECTED_SCAN_QUALITY"
-    columnvalue=scan_quality
-    fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
+    session_metadata=get_metadata_session(session_id)
+    df_this_session = pd.read_json(json.dumps(session_metadata))
+    df_axial=df.loc[(df_this_session['type'] == 'Z-Axial-Brain')] ##| (df['type'] == 'Z-Brain-Thin')]
+    if df_axial.shape[0]>0:
+        df_axial=df_axial.reset_index()
+        columnname="z_axial_brain_quality"
+        columnvalue=df_axial.at[0,'quality']
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
+    df_thin=df.loc[(df_this_session['type'] == 'Z-Brain-Thin') & (df_this_session['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    if df_thin.shape[0]>0:
+        df_thin=df_thin.reset_index()
+        columnname="z_thin_brain_quality"
+        columnvalue=df_thin.at[0,'quality']
+        fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
+    # columnname="SELECTED_SCAN_ID"
+    # # columnvalue=SELECTED_SCAN_ID
+    # columnvalue=get_scan_id_given_session_id_N_niftiname(session_id,str(row['NIFTIFILES_PREFIX']))
+    # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
+    # scan_quality=get_scan_quality(session_id,columnvalue,'quality')
+    # columnname="SELECTED_SCAN_QUALITY"
+    # columnvalue=scan_quality
+    # fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
     if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5 and counter > 3:
         call_fill_sniprsession_list_arguments=arguments()
          ##

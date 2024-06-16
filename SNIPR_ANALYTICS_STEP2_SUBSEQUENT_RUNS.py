@@ -51,13 +51,13 @@ for row_id,row in copy_session_df.iterrows():
     session_id=str(row['ID'])
     session_metadata=get_metadata_session(session_id)
     df_this_session = pd.read_json(json.dumps(session_metadata))
-    df_axial=df.loc[(df_this_session['type'] == 'Z-Axial-Brain')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df_this_session.loc[(df_this_session['type'] == 'Z-Axial-Brain')] ##| (df['type'] == 'Z-Brain-Thin')]
     if df_axial.shape[0]>0:
         df_axial=df_axial.reset_index()
         columnname="z_axial_brain_quality"
         columnvalue=df_axial.at[0,'quality']
         fill_datapoint_each_session_sniprcsv(session_id,columnname,columnvalue,copy_session)
-    df_thin=df.loc[(df_this_session['type'] == 'Z-Brain-Thin') & (df_this_session['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df_this_session.loc[(df_this_session['type'] == 'Z-Brain-Thin') & (df_this_session['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
     if df_thin.shape[0]>0:
         df_thin=df_thin.reset_index()
         columnname="z_thin_brain_quality"

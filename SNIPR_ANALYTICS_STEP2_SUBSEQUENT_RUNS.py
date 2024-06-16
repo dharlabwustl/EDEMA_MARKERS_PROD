@@ -48,7 +48,7 @@ counter=0
 copy_session_df=pd.read_csv(copy_session)
 counter=0
 for row_id,row in copy_session_df.iterrows():
-    if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5:
+    if row['xsiType']=="xnat:ctSessionData" and len(str(row['PDF_FILE_PATH'])) < 5 and counter > 3:
         call_fill_sniprsession_list_arguments=arguments()
          ##
         if  "ICH" in project_ID:
@@ -63,7 +63,7 @@ for row_id,row in copy_session_df.iterrows():
             call_fill_sniprsession_list_arguments.stuff=['fill_sniprsession_list_1',copy_session ,row['ID']]
             fill_sniprsession_list_1(call_fill_sniprsession_list_arguments)
             counter=counter+1
-    if counter>1:
+    if counter>5:
         break
     command='rm  ' + working_dir + '/*.nii'
     subprocess.call(command,shell=True)

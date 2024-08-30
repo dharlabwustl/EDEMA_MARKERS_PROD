@@ -788,8 +788,8 @@ def select_scan_for_analysis(args):
     # print(jsonStr)
     df = pd.read_json(jsonStr)
     df['NUMBEROFSLICES']=0
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     try:
         df_axial=df_axial.reset_index()
         for each_id in range(df_axial.shape[0]):

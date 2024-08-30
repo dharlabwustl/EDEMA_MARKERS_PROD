@@ -551,8 +551,8 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
     # # df = pd.read_csv(sessionId+'_scans.csv')
     # sorted_df = df.sort_values(by=['type'], ascending=False)
     # # sorted_df.to_csv('scan_sorted.csv', index=False)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] # | (df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')] # | (df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
@@ -765,11 +765,11 @@ def find_num_axial_thin(args):
     jsonStr = json.dumps(this_session_metadata)
     # print(jsonStr)
     df = pd.read_json(jsonStr)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')] ##| (df['type'] == 'Z-Brain-Thin')]
     df_axial_num=0
     if df_axial.shape[0]>0:
         df_axial_num=df_axial.shape[0]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     df_axial_thin_num=0
     if df_thin.shape[0]>0:
         df_axial_thin_num=df_thin.shape[0]
@@ -921,8 +921,8 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
     # # df = pd.read_csv(sessionId+'_scans.csv')
     # sorted_df = df.sort_values(by=['type'], ascending=False)
     # # sorted_df.to_csv('scan_sorted.csv', index=False)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]
@@ -1105,8 +1105,8 @@ def get_relevantfile_from_NIFTIDIR():
     # # df = pd.read_csv(sessionId+'_scans.csv') 
     # sorted_df = df.sort_values(by=['type'], ascending=False)
     # # sorted_df.to_csv('scan_sorted.csv', index=False)
-    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable') ] ##| (df['type'] == 'Z-Brain-Thin')]
-    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'usable')] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
+    df_thin=df.loc[(df['type'] == 'Z-Brain-Thin') & (df['quality'] != 'unusable')] ##| (df['type'] == 'Z-Brain-Thin')]
     # print(df_axial)
     list_of_usables=[] 
     if len(df_axial)>0:
@@ -1613,7 +1613,7 @@ def decide_image_conversion(metadata_session,scanId):
             # result_usability = response.json()['ResultSet']['Result'][0]['quality']
             result_usability = x['quality']
 #             print(result)
-            if 'usable' in result_usability.lower():
+            if 'unusable' not in result_usability.lower():
                 print(True)
                 usable=True
             result_type= x['type']

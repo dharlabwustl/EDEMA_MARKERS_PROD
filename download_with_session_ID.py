@@ -923,17 +923,22 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
     # # sorted_df.to_csv('scan_sorted.csv', index=False)
     df_axial_all=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')] ##| (df['type'] == 'Z-Brain-Thin')]
     df_axial=df.loc[(df['type'] == 'Z-Axial-Brain') & (df['quality'] != 'unusable')]
-
-    if df_axial_all.shape[0]>0:
-        df_axial_all_num_usable = df_axial_all[df_axial_all['quality'] == 'usable' ].shape[0]
-        if df_axial_all_num_usable.shape[0]>0:
-            df_axial=df_axial_all_num_usable
+    try:
+        if df_axial_all.shape[0]>0:
+            df_axial_all_num_usable = df_axial_all[df_axial_all['quality'] == 'usable' ].shape[0]
+            if df_axial_all_num_usable.shape[0]>0:
+                df_axial=df_axial_all_num_usable
+    except:
+        pass
     df_thin_all=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ] ##| (df['type'] == 'Z-Brain-Thin')]
     df_thin=df.loc[(df['type'] == 'Z-Brain-Thin')  & (df['quality'] != 'unusable') ]
-    if df_thin_all.shape[0]>0:
-        df_thin_all_num_usable = df_thin_all[df_thin_all['quality'] == 'usable' ].shape[0]
-        if df_thin_all_num_usable.shape[0]>0:
-            df_thin=df_thin_all_num_usable
+    try:
+        if df_thin_all.shape[0]>0:
+            df_thin_all_num_usable = df_thin_all[df_thin_all['quality'] == 'usable' ].shape[0]
+            if df_thin_all_num_usable.shape[0]>0:
+                df_thin=df_thin_all_num_usable
+    except:
+        pass
     # print(df_axial)
     list_of_usables=[]
     list_of_usables_withsize=[]

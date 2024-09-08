@@ -1687,9 +1687,9 @@ def downloadfiletolocaldir():
     resource_dir_url=(("/data/experiments/%s/scans/%s")  % 
         (sessionId, scanId))
     print('resource_dir_url::{}'.format(resource_dir_url))
-    # resource_metadata=get_resourcefiles_metadata(resource_dir_url,resource_dirname)
+    resource_metadata=get_resourcefiles_metadata(resource_dir_url,resource_dirname)
     # df_scan = pd.read_json(json.dumps(resource_metadata))
-    # print('df_scan::{}'.format(df_scan))
+    print('df_scan::{}'.format(resource_metadata))
     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  % 
         (sessionId, scanId))
 

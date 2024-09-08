@@ -1681,7 +1681,7 @@ def downloadfiletolocaldir():
     scanId=str(sys.argv[2])
     resource_dirname=str(sys.argv[3])
     output_dirname=str(sys.argv[4])
-
+    print('sessionId,scanId,resource_dirname,output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  % 
         (sessionId, scanId))

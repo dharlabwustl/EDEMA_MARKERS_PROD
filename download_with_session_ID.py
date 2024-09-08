@@ -1163,6 +1163,7 @@ def downloadniftiwithuri_withcsv():
     csvfilename=sys.argv[1]
     dir_to_save=sys.argv[2]
     df=pd.read_csv(csvfilename) 
+    print('csvfilename::{}::dir_to_save::{}'.format(csvfilename,dir_to_save))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     for x in range(df.shape[0]):
         print(df.iloc[x])

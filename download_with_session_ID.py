@@ -1684,9 +1684,9 @@ def downloadfiletolocaldir():
     
     print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    resource_dir_url=(("/data/experiments/%s/scans/%s/resources/" + resource_dirname")  % 
+    resource_dir_url=(("/data/experiments/%s/scans/%s")  % 
         (sessionId, scanId))
-    resource_metadata=get_resourcefiles_metadata(URI,resource_dir)
+    resource_metadata=get_resourcefiles_metadata(resource_dir_url,resource_dirname)
     df_scan = pd.read_json(json.dumps(resource_metadata))
     print('df_scan::{}'.format(df_scan))
     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  % 

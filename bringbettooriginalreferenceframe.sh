@@ -305,9 +305,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
       snipr_output_foldername="EDEMA_BIOMARKER"
       file_suffixes=(.pdf .mat .csv) #sys.argv[5]
-      for file_suffix in ${file_suffixes[@]}; do
-        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
-      done
+      # for file_suffix in ${file_suffixes[@]}; do
+      #   copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
+      # done
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else

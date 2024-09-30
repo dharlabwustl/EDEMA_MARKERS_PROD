@@ -29,7 +29,7 @@ echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${A
 
 
 if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
-  /software/bringbettooriginalreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
 

@@ -301,7 +301,12 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan
-      cp ${working_dir}/*.*  ${output_directory}/
+      cp ${working_dir}/*.mat  ${output_directory}/
+      cp ${working_dir}/*.nii  ${output_directory}/
+      cp ${working_dir}/*_resaved_csf_unet.nii.gz  ${output_directory}/
+      cp ${working_dir}/*resaved_levelset_brain_f.nii.gz ${output_directory}/
+      cp ${working_dir}/*resaved_levelset_bet.nii.gz ${output_directory}/
+      cp ${working_dir}/*resaved_levelset_auto_removesmall.nii.gz ${output_directory}/
       # we have template image and we need have transformation matrix (inv) for transforming template to the target reference frame.
 #      template_dir='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DOCKERIZE/templates'
       template_file='scct_strippedResampled1.nii.gz'

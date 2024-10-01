@@ -1315,7 +1315,25 @@ def uploadfile():
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
     return True
-
+def uploadfile_withprefix():
+    sessionId=str(sys.argv[1])
+    scanId=str(sys.argv[2])
+    input_dirname=str(sys.argv[3])
+    resource_dirname=str(sys.argv[4])
+    file_suffix=str(sys.argv[5])
+    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    xnatSession.renew_httpsession()
+    url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
+    allniftifiles=glob.glob(os.path.join(input_dirname,file_suffix+'*') ) #input_dirname + '/*'+file_suffix)
+    for eachniftifile in allniftifiles:
+        files={'file':open(eachniftifile,'rb')}
+        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        print(response)
+    xnatSession.close_httpsession()
+    # for eachniftifile in allniftifiles:
+    #     command= 'rm  ' + eachniftifile
+    #     subprocess.call(command,shell=True)
+    return True
 def uploadsinglefile():
     sessionId=str(sys.argv[1])
     scanId=str(sys.argv[2])

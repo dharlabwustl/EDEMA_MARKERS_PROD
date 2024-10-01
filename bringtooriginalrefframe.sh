@@ -301,6 +301,21 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan
+
+      # we have template image and we need have transformation matrix (inv) for transforming template to the target reference frame.
+#      template_dir='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DOCKERIZE/templates'
+      template_file='scct_strippedResampled1.nii.gz'
+      template_file_path=${template_file} #${template_dir}/${template_file}
+      template_T_OUTPUT_dir='/workingoutput'
+      target_file_path=$( ls '/input/'*'.nii' )
+      inv_transformmatrix_file=$(ls '/workingoutput/'*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
+      inv_file=${inv_transformmatrix_file}
+      inv_file_basename=$(basename ${inv_file})
+      betfilename=${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz
+      transformed_output_file=${template_T_OUTPUT_dir}/${template_file%.nii*}${betfilename} ##"/storage1/fs1/dharr/Active/ATUL/PROJECTS/DeepReg/DATA/COLESIUM_SAMPLEDATA/workingoutput/atul.nii.gz"
+      # /usr/lib/fsl/5.0/flirt -ref  "${img}"  -in "${template_image}"  -dof 12 -out "${output_filename}${exten}lin1_1" -omat ${output_filename}_${exten}lin1_1.mat
+      /usr/lib/fsl/5.0/flirt -in ${template_file_path} -ref ${target_file_path} -out ${transformed_output_file} -init ${inv_transformmatrix_file} -applyxfm
+      #
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
       snipr_output_foldername="EDEMA_BIOMARKER"

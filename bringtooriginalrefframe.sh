@@ -321,7 +321,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       template_file_path=${template_file} #${template_dir}/${template_file}
 #      template_T_OUTPUT_dir='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DeepReg/DATA/COLESIUM_SAMPLEDATA/workingoutput'
 #      target_file_path='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DeepReg/DATA/COLESIUM_SAMPLEDATA/workingoutput/SAH_10_02092014_1114_1.nii'
-      inv_transformmatrix_file='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DeepReg/DATA/COLESIUM_SAMPLEDATA/workingoutput/SAH_10_02092014_1114_1_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat'
+#      inv_transformmatrix_file='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DeepReg/DATA/COLESIUM_SAMPLEDATA/workingoutput/SAH_10_02092014_1114_1_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat'
 #      inv_file=${inv_transformmatrix_file}
 #      inv_file_basename=$(basename ${inv_file})
 #      betfilename=${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz

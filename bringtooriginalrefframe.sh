@@ -306,8 +306,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #      template_dir='/storage1/fs1/dharr/Active/ATUL/PROJECTS/DOCKERIZE/templates'
       template_file='scct_strippedResampled1.nii.gz'
       template_file_path=${template_file} #${template_dir}/${template_file}
-      template_T_OUTPUT_dir='/workingoutput'
-      target_file_path=$( ls '/input/'*'.nii' )
+      template_T_OUTPUT_dir=${output_directory} ##'/workingoutput'
+      target_file_path=$( ls ${working_dir_1}/*'.nii' )
       inv_transformmatrix_file=$(ls '/workingoutput/'*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
       inv_file=${inv_transformmatrix_file}
       inv_file_basename=$(basename ${inv_file})

@@ -23,6 +23,21 @@ from download_with_session_ID import *;
 uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_suffix} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
+copyoutput_with_prefix_to_snipr() {
+  sessionID=$1
+  scanID=$2
+  resource_dirname=$4 #"MASKS" #sys.argv[4]
+  file_suffix=$5
+  output_dir=$3
+  echo " I AM IN copyoutput_to_snipr "
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadfile_withprefix()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_suffix} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
+
 
 copy_masks_data() {
   echo " I AM IN copy_masks_data "
@@ -337,11 +352,11 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-      snipr_output_foldername="EDEMA_BIOMARKER"
-      file_suffixes=(.pdf .mat .csv) #sys.argv[5]
-#      for file_suffix in ${file_suffixes[@]}; do
-#        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
-#      done
+      snipr_output_foldername="PREPROCESS_SEGM"
+      file_suffixes=( scct_strippedResampled ) #sys.argv[5]
+      for file_suffix in ${file_suffixes[@]}; do
+        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
+      done
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else

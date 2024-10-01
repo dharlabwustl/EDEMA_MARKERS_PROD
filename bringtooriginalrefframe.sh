@@ -355,7 +355,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       snipr_output_foldername="PREPROCESS_SEGM"
       file_suffixes=( scct_strippedResampled ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
-        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
+        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
       done
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"

@@ -353,10 +353,10 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
       snipr_output_foldername="PREPROCESS_SEGM"
-      file_suffixes=( scct_strippedResampled ) #sys.argv[5]
-      for file_suffix in ${file_suffixes[@]}; do
-        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
-      done
+#      file_suffixes=( scct_strippedResampled ) #sys.argv[5]
+#      for file_suffix in ${file_suffixes[@]}; do
+#        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+#      done
       file_suffixes=( _brain_f.nii.gz ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
         copyoutput_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}

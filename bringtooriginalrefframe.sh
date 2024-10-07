@@ -330,7 +330,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       target_file_path=$( ls ${working_dir_1}/*'.nii' )
       target_file_path_without_ext=$(basename ${target_file_path} )
       target_file_path_without_ext=${target_file_path_without_ext%.nii*}
-      inv_transformmatrix_file=$(ls '/workingoutput/'*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
+      inv_transformmatrix_file=$(ls '/workingoutput/'*${target_file_path_without_ext}*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
       inv_file=${inv_transformmatrix_file}
       inv_file_basename=$(basename ${inv_file})
       betfilename=${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz

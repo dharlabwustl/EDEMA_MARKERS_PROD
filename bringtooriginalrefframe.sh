@@ -328,6 +328,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       template_file_path=${template_file} #${template_dir}/${template_file}
       template_T_OUTPUT_dir=${output_directory} ##'/workingoutput'
       target_file_path=$( ls ${working_dir_1}/*'.nii' )
+      target_file_path_without_ext=$(basename ${target_file_path} )
+      target_file_path_without_ext=${target_file_path_without_ext%.nii*}
       inv_transformmatrix_file=$(ls '/workingoutput/'*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
       inv_file=${inv_transformmatrix_file}
       inv_file_basename=$(basename ${inv_file})

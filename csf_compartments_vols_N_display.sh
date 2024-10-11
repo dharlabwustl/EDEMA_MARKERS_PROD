@@ -1214,11 +1214,17 @@ while IFS=',' read -ra array; do
 
     call_latex_end_arguments=('call_latex_end' ${latexfilename})
     pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)
+    timestampnow=$(date +"%Y-%m-%d-%H-%M-%S")
+
+    pdfilename_1_1=${output_directory}/$(basename ${latexfilename%.tex*}_${timestampnow}.pdf)
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
     pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
     URI_1=${url1%/resources*}
     resource_dirname="SAH_CSF_ANALYSIS"
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
+    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    cp ${pdfilename} ${pdfilename_1_1}
+    call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename_1_1} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

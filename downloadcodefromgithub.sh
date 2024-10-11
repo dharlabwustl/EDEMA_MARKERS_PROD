@@ -17,5 +17,4 @@ echo XNAT_PASS=$XNAT_PASS
 TYPE_OF_PROGRAM=${5}
 export XNAT_HOST=${6}
 export REDCAP_API=${7}
-
 /software/script_to_call_main_program.sh $SESSION_ID $XNAT_USER $XNAT_PASS ${TYPE_OF_PROGRAM} ${6}

@@ -14,6 +14,16 @@ import nibabel as nib
 from skimage import exposure 
 import smtplib,math
 import matplotlib.pyplot as plt
+def bet_gray_when_bet_binary_given():
+    grayfilename_nib=nib.load(sys.argv[1] ) #grayfilename)
+    betfilename_nib=nib.load(sys.argv[2] ) #betfilename)
+    outputfilename=sys.argv[3]
+    betfilename_nib_data=betfilename_nib.get_fdata()
+    grayfilename_nib_data=grayfilename_nib.get_fdata()
+    grayfilename_nib_data[betfilename_nib_data<1]=np.min(grayfilename_nib_data) #.split(".nii")[0]+"RESIZED.nii.gz")
+    array_mask = nib.Nifti1Image(grayfilename_nib_data, affine=grayfilename_nib.affine, header=grayfilename_nib.header)
+    nib.save(array_mask, outputfilename)
+
 def demo():
     print(" i m in demo")
 def histogram_sidebyside(infarct_data,noninfarct_data,image_filename):

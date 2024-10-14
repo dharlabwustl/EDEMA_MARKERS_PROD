@@ -27,6 +27,9 @@ fi
 
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 
+if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_REF_FRAME' ]]; then
+  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
   /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output

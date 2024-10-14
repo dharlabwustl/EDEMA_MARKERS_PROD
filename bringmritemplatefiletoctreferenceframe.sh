@@ -262,9 +262,25 @@ sys.path.append('/software');
 from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
-this_mri_filename_brain=/software/${5}
+bet_gray_when_bet_binary_given() {
+  # def get_maskfile_scan_metadata():
+  local this_mri_filename_brain=${1}           #sys.argv[1]
+  local this_mri_filename_brain_bet=${2}              # sys.argv[2]
+  local outputfilename=${3} # sys.argv[3]
+
+  python3 -c "
+import sys
+sys.path.append('/software');
+from utilities_simple import *;
+bet_gray_when_bet_binary_given()" ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${outputfilename}
+}
+
+this_mri_filename_brain=/software/mni_icbm152_t1_tal_nlin_sym_55_ext.nii
+this_mri_filename_brain_bet=/software/mni_icbm152_t1_tal_nlin_sym_55_ext_mask.nii
+this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
+bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${this_mri_filename_brain_bet_gray}
 echo "LINEAR REGISTRATION TO TEMPLATE"
-/software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+/software/linear_rigid_registration.sh ${this_mri_filename_brain_bet_gray} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 
 #
 ##########################################################################

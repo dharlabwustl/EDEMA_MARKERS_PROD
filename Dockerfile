@@ -30,5 +30,8 @@ RUN pip3 install \
   PyGithub \
   SimpleITK \
   h5py \
-  webcolors
+  webcolors \
+  trimesh \
+  shapely \
+  rtree
 

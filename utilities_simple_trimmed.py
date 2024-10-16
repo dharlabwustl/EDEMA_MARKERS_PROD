@@ -80,7 +80,7 @@ def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
             region_img = nib.Nifti1Image(region_mask, affine=nifti_image.affine, header=nifti_image.header)
 
             # Save the region image
-            region_output_path = os.path.join(output_dir, f'region_{int(region_value)}.nii.gz')
+            region_output_path = os.path.join(output_dir, f'mri_region_{int(region_value)}.nii.gz')
             nib.save(region_img, region_output_path)
             print(f'Saved region {int(region_value)} as {region_output_path}')
     ########################

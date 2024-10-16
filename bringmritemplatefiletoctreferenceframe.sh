@@ -288,16 +288,16 @@ echo $(ls ${individual_mask_dir})
 function_with_arguments=('call_separate_mask_regions_into_individual_image' ${this_mri_regions_mask_filename} ${individual_mask_dir})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 #############################################################################################################################
-#this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
+this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
 #
 #echo "BEGIN LINEAR REGISTRATION  of MRI TO CT TEMPLATE"
-#bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${this_mri_filename_brain_bet_gray}
+bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${this_mri_filename_brain_bet_gray}
 #
-#moving_image_filename="${this_mri_filename_brain_bet_gray}"
-#fixed_image_filename="/software/scct_strippedResampled1.nii.gz"
-#linear_reg_output_dir='/workinginput'
-#output_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1
-#T_output_filename=${output_filename}.mat
+moving_image_filename="${this_mri_filename_brain_bet_gray}"
+fixed_image_filename="/software/scct_strippedResampled1.nii.gz"
+linear_reg_output_dir='/workinginput'
+output_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1
+T_output_filename=${output_filename}.mat
 #/software/linear_rigid_registration_v10162024.sh ${moving_image} ${fixed_image} ${linear_reg_output_dir}#${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 #############################################################################################################################
 #get the transformation matrix

@@ -44,6 +44,7 @@ def separate_mask_regions_into_individual_image(args):
 
         # Load the NIfTI file
         nifti_file_path = args.stuff[1] #'path_to_your_mask_file.nii.gz'  # Replace with your actual file path
+        output_dir=args.stuff[2]
         nifti_image = nib.load(nifti_file_path)
         nifti_data = nifti_image.get_fdata()
 

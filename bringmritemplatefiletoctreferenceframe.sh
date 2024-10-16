@@ -274,14 +274,19 @@ sys.path.append('/software');
 from utilities_simple import *;
 bet_gray_when_bet_binary_given()" ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${outputfilename}
 }
-
+###########################################################################################################################
 this_mri_filename_brain=/software/mritemplate/mni_icbm152_t1_tal_nlin_sym_55_ext.nii
 this_mri_filename_brain_bet=/software/mritemplate/mni_icbm152_t1_tal_nlin_sym_55_ext_mask.nii
 this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
 bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${this_mri_filename_brain_bet_gray}
 echo "LINEAR REGISTRATION TO TEMPLATE"
-/software/linear_rigid_registration.sh ${this_mri_filename_brain_bet_gray} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
-
+#############################################################################################################################
+moving_image_filename="${this_mri_filename_brain_bet_gray}"
+fixed_image_filename="/software/scct_strippedResampled1.nii.gz"
+output_filename='mov_'${moving_image_filename%.nii*}_fixed_${fixed_image_filename%.nii*}_lin1
+T_output_filename=${output_filename}.mat
+/software/linear_rigid_registration.sh ${moving_image} ${fixed_image} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+#get the transformation matrix
 #
 ##########################################################################
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR

@@ -310,8 +310,8 @@ for each_mri_mask_file in /workinginput/mri_region* ;
 do
 echo ${each_mri_mask_file}
 moving_image=${each_mri_mask_file}
-echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${mask_binary_output_dir}"
-/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${mask_binary_output_dir}
+echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${this_mri_filename_brain_bet_gray} ${mask_binary_output_dir}"
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${this_mri_filename_brain_bet_gray} ${mask_binary_output_dir}
 done
 #for each_mri_mask_file in /workinginput/mri* ;
 #do

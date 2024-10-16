@@ -284,9 +284,9 @@ this_mri_filename_brain_bet=/software/mritemplate/mni_icbm152_t1_tal_nlin_sym_55
 individual_mask_dir='/workinginput'
 this_mri_regions_mask_filename='/software/mritemplate/mni_icbm152_CerebrA_tal_nlin_sym_55_ext.nii'
 echo $(ls $this_this_mri_regions_mask_filename)
-echo $(ls ${individual_mask_dir})
-function_with_arguments=('call_separate_mask_regions_into_individual_image' ${this_mri_regions_mask_filename} ${individual_mask_dir})
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+#echo $(ls ${individual_mask_dir})
+#function_with_arguments=('call_separate_mask_regions_into_individual_image' ${this_mri_regions_mask_filename} ${individual_mask_dir})
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 #############################################################################################################################
 #this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
 #

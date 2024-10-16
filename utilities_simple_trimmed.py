@@ -39,10 +39,20 @@ def demo():
 #     fig.savefig(image_filename)
 def call_separate_mask_regions_into_individual_image(args):
     success=0
-    nifti_file_path=args.stuff[1]
-    output_dir=args.stuff[2]
-    separate_mask_regions_into_individual_image(nifti_file_path,output_dir)
+
+    try:
+        nifti_file_path=args.stuff[1]
+        output_dir=args.stuff[2]
+        separate_mask_regions_into_individual_image(nifti_file_path,output_dir)
+        command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        success=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
     return success
+
 def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
     success=0
     try:

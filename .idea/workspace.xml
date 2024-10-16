@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commitdgfdgf">
-      <change beforePath="$PROJECT_DIR$/bringmritemplatefiletoctreferenceframe.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bringmritemplatefiletoctreferenceframe.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities_simple_trimmed.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities_simple_trimmed.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -475,7 +475,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4092" />
+    <option name="localTasksCounter" value="4093" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -513,5 +513,16 @@
     <MESSAGE value="&#10;New Commit" />
     <MESSAGE value="&#10;New Commitdgfdgf" />
     <option name="LAST_COMMIT_MESSAGE" value="&#10;New Commitdgfdgf" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utilities_simple_trimmed.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -304,14 +304,15 @@ output_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filenam
 T_output_filename=${output_filename}.mat
 echo ${output_filename}
 echo ${T_output_filename}
-###########################################################################
-#for each_mri_mask_file in /workinginput/mri* ;
-#do
-#echo ${each_mri_mask_file}
-#moving_image=${each_mri_mask_file}
-#echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}"
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}
-#done
+##########################################################################
+mask_binary_output_dir='/software/mritemplate'
+for each_mri_mask_file in /workinginput/mri_region* ;
+do
+echo ${each_mri_mask_file}
+moving_image=${each_mri_mask_file}
+echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${mask_binary_output_dir}"
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${mask_binary_output_dir}
+done
 #for each_mri_mask_file in /workinginput/mri* ;
 #do
 #function_with_arguments=('call_gray2binary' ${filename} ${threshold} ${output_directory})

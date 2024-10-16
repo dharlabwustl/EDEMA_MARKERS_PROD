@@ -75,7 +75,7 @@ def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
         # Loop through each unique region value and create individual masks
         for region_value in unique_values:
             region_mask = (nifti_data == region_value).astype(np.float32)
-
+            region_mask[region_mask>0]=1
             # Create a new NIfTI image for the region
             region_img = nib.Nifti1Image(region_mask, affine=nifti_image.affine, header=nifti_image.header)
 

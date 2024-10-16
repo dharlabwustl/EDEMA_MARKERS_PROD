@@ -296,8 +296,8 @@ bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_br
 moving_image_filename="${this_mri_filename_brain_bet_gray}"
 fixed_image_filename="/software/scct_strippedResampled1.nii.gz"
 linear_reg_output_dir='/workinginput'
-echo "RUNNING:: /software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir}#${templatefilename}" ### #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz"
-/software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir}#${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+echo "RUNNING:: /software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir} " ########### #${templatefilename}" ### #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz"
+/software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir}  #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 #############################################################################################################################
 #get the transformation matrix
 output_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1

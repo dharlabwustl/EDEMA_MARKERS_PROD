@@ -37,14 +37,20 @@ def demo():
 #     dflux.hist('INFARCT', bins=255, ax=axes[0])
 #     dflux2.hist('NONINFARCT', bins=255, ax=axes[1])
 #     fig.savefig(image_filename)
-def separate_mask_regions_into_individual_image(args):
+def call_separate_mask_regions_into_individual_image(args):
+    success=0
+    nifti_file_path=args.stuff[1]
+    output_dir=args.stuff[2]
+    separate_mask_regions_into_individual_image(nifti_file_path,output_dir)
+    return success
+def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
     success=0
     try:
         ##############################
 
         # Load the NIfTI file
-        nifti_file_path = args.stuff[1] #'path_to_your_mask_file.nii.gz'  # Replace with your actual file path
-        output_dir=args.stuff[2]
+        # nifti_file_path = args.stuff[1] #'path_to_your_mask_file.nii.gz'  # Replace with your actual file path
+        # output_dir=args.stuff[2]
         nifti_image = nib.load(nifti_file_path)
         nifti_data = nifti_image.get_fdata()
 
@@ -52,9 +58,9 @@ def separate_mask_regions_into_individual_image(args):
         unique_values = np.unique(nifti_data)
         unique_values = unique_values[unique_values != 0]  # Exclude background value if needed
 
-        # Directory to save individual region files
-        output_dir = 'output_regions'
-        os.makedirs(output_dir, exist_ok=True)
+        # # Directory to save individual region files
+        # output_dir = 'output_regions'
+        # os.makedirs(output_dir, exist_ok=True)
 
         # Loop through each unique region value and create individual masks
         for region_value in unique_values:
@@ -70,6 +76,7 @@ def separate_mask_regions_into_individual_image(args):
     ########################
         command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
+        success=1
     except:
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
@@ -1911,7 +1918,9 @@ def main():
     if name_of_the_function == "call_gray2binary":
         return_value=call_gray2binary(args)
     if name_of_the_function == "call_createh5file":
-        return_value=call_createh5file(args)
+        return_value=call_createh5file(args) #
+    if name_of_the_function == "call_separate_mask_regions_into_individual_image":
+        return_value=call_separate_mask_regions_into_individual_image(args)
     if "call" not in name_of_the_function:
         return_value=0
         globals()[args.stuff[0]](args)

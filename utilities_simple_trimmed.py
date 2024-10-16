@@ -37,7 +37,43 @@ def demo():
 #     dflux.hist('INFARCT', bins=255, ax=axes[0])
 #     dflux2.hist('NONINFARCT', bins=255, ax=axes[1])
 #     fig.savefig(image_filename)
+def separate_mask_regions_into_individual_image(args):
+    success=0
+    try:
+        ##############################
 
+        # Load the NIfTI file
+        nifti_file_path = args.stuff[1] #'path_to_your_mask_file.nii.gz'  # Replace with your actual file path
+        nifti_image = nib.load(nifti_file_path)
+        nifti_data = nifti_image.get_fdata()
+
+        # Get unique region values (excluding zero, if it represents the background)
+        unique_values = np.unique(nifti_data)
+        unique_values = unique_values[unique_values != 0]  # Exclude background value if needed
+
+        # Directory to save individual region files
+        output_dir = 'output_regions'
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Loop through each unique region value and create individual masks
+        for region_value in unique_values:
+            region_mask = (nifti_data == region_value).astype(np.float32)
+
+            # Create a new NIfTI image for the region
+            region_img = nib.Nifti1Image(region_mask, affine=nifti_image.affine, header=nifti_image.header)
+
+            # Save the region image
+            region_output_path = os.path.join(output_dir, f'region_{int(region_value)}.nii.gz')
+            nib.save(region_img, region_output_path)
+            print(f'Saved region {int(region_value)} as {region_output_path}')
+    ########################
+        command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+    return success
 def coninuous2binary0_255(coninuous_image_file):
     coninuous_image_file_nib=nib.load(coninuous_image_file)
     coninuous_image_file_nib_data=coninuous_image_file_nib.dataobj.get_unscaled() #""

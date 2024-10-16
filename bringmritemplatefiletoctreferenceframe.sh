@@ -307,8 +307,8 @@ for each_mri_mask_file in /workinginput/mri* ;
 do
 echo ${each_mri_mask_file}
 moving_image=${each_mri_mask_file}
-echo "RUNNING linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}"
-linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}
+echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}"
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}
 done
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 ##niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'

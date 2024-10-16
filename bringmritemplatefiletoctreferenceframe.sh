@@ -296,6 +296,7 @@ bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_br
 moving_image_filename="${this_mri_filename_brain_bet_gray}"
 fixed_image_filename="/software/scct_strippedResampled1.nii.gz"
 linear_reg_output_dir='/workinginput'
+echo "RUNNING:: /software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir}#${templatefilename}" ### #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz"
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename} ${fixed_image_filename} ${linear_reg_output_dir}#${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 #############################################################################################################################
 #get the transformation matrix
@@ -306,6 +307,7 @@ for each_mri_mask_file in /workinginput/mri* ;
 do
 echo ${each_mri_mask_file}
 moving_image=${each_mri_mask_file}
+echo "RUNNING linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}"
 linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}
 done
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR

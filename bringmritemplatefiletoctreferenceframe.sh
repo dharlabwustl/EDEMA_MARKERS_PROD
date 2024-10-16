@@ -310,6 +310,11 @@ moving_image=${each_mri_mask_file}
 echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}"
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image} ${linear_reg_output_dir}
 done
+for each_mri_mask_file in /workinginput/mri* ;
+do
+function_with_arguments=('call_gray2binary' ${filename} ${threshold} ${output_directory})
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+done
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 ##niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 ##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

@@ -39,7 +39,6 @@ def demo():
 #     fig.savefig(image_filename)
 def call_separate_mask_regions_into_individual_image(args):
     success=0
-
     try:
         nifti_file_path=args.stuff[1]
         output_dir=args.stuff[2]

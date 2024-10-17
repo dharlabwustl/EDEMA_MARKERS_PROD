@@ -1818,7 +1818,32 @@ def flipnifti3Dslicebysclie(numpy3D,flipdir=0):
     for x in range(numpy3D_copy.shape[2]):
         numpy3D_copy[:,:,x]=cv2.flip(numpy3D_copy[:,:,x],flipdir)
     return numpy3D_copy
-
+def call_continous_to_binary_identical_ouputname(args):
+    returnvalue=0
+    try:
+        filename=args.stuff[1]
+        threshold=float(args.stuff[2])
+        continous_to_binary_identical_ouputname(filename,threshold)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_gray2binary')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    # print(returnvalue)
+    return  returnvalue
+def continous_to_binary_identical_ouputname(filename_template,threshold=0):
+    #     filename_template='/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/brain/scct_strippedResampled1.nii.gz'
+    I=nib.load(filename_template)
+    I_data=I.get_fdata()
+    min_val=0 #np.min(I_data)
+    print(min_val)
+    I_data[I_data>threshold]=1
+    I_data[I_data<1]=0
+    array_mask = nib.Nifti1Image(I_data, affine=I.affine, header=I.header)
+    niigzfilenametosave2=filename_template #os.path.join(output_directory,os.path.basename(filename_template).split('.nii')[0]+ '_BET.nii.gz' )#os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
+    nib.save(array_mask, niigzfilenametosave2)
+    return niigzfilenametosave2
 def gray2binary(filename_template,output_directory,threshold=0):
     #     filename_template='/home/atul/Documents/DEEPREG/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/brain/scct_strippedResampled1.nii.gz'
     I=nib.load(filename_template)

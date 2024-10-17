@@ -324,7 +324,7 @@ moving_image_filename=${each_mri_mask_file}
 #output_directory=${mask_binary_output_dir}
 moved_mask_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 threshold=0
-function_with_arguments=('call_gray2binary' ${moved_mask_filename} ${threshold} ${mask_binary_output_dir})
+function_with_arguments=('call_gray2binary' ${moved_mask_filename}  ${mask_binary_output_dir} ${threshold})
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 done
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR

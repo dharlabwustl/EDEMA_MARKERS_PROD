@@ -5,110 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commitdgfdgf">
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_1.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_10.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_100.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_101.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_102.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_11.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_12.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_13.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_14.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_15.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_16.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_17.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_18.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_19.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_2.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_20.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_21.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_22.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_23.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_24.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_25.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_26.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_27.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_28.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_29.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_3.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_30.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_31.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_32.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_33.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_34.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_35.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_36.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_37.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_38.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_39.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_4.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_40.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_41.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_42.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_43.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_44.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_45.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_46.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_47.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_48.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_49.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_5.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_50.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_51.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_52.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_53.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_54.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_55.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_56.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_57.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_58.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_59.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_6.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_60.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_61.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_62.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_63.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_64.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_65.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_66.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_67.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_68.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_69.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_7.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_70.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_71.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_72.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_73.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_74.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_75.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_76.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_77.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_78.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_79.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_8.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_80.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_81.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_82.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_83.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_84.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_85.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_86.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_87.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_88.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_89.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_9.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_90.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_91.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_92.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_93.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_94.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_95.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_96.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_97.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_98.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mritemplate/LINREGTOCT/mri_region_99.nii.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities_simple_trimmed.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities_simple_trimmed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bringmritemplatefiletoctreferenceframe.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bringmritemplatefiletoctreferenceframe.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -578,7 +475,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4123" />
+    <option name="localTasksCounter" value="4128" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

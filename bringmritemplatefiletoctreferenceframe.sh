@@ -315,7 +315,7 @@ echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162
 done
 
 
-for each_mri_mask_file in /workinginput/mri* ;
+for each_mri_mask_file in /workinginput/mov* ;
 do
 
 moving_image_filename=${each_mri_mask_file}

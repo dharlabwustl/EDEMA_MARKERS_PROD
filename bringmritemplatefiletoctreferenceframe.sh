@@ -321,6 +321,13 @@ function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 done
+for each_mri_mask_file in /workinginput/mov* ;
+do
+threshold=0
+function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+done
 ### GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 ##niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 ##get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}

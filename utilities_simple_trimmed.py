@@ -1860,8 +1860,8 @@ def call_gray2binary(args):
     returnvalue=0
     try:
         filename=args.stuff[1]
-        threshold=float(args.stuff[3])
         output_directory=args.stuff[2]
+        threshold=float(args.stuff[3])
         gray2binary(filename,output_directory,threshold)
         command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_gray2binary')
         subprocess.call(command,shell=True)

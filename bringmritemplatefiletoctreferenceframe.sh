@@ -278,11 +278,11 @@ bet_gray_when_bet_binary_given()" ${this_mri_filename_brain} ${this_mri_filename
 
 
 ###########################################################################################################################
-this_mri_filename_brain=/software/mritemplate/mni_icbm152_t1_tal_nlin_sym_55_ext.nii
-this_mri_filename_brain_bet=/software/mritemplate/mni_icbm152_t1_tal_nlin_sym_55_ext_mask.nii
+this_mri_filename_brain=/software/mritemplate/ORIGINAL/mni_icbm152_t1_tal_nlin_sym_55_ext.nii
+this_mri_filename_brain_bet=/software/mritemplate/ORIGINAL/mni_icbm152_t1_tal_nlin_sym_55_ext_mask.nii
 ## separate masks regions from MRI:
 individual_mask_dir='/workinginput'
-this_mri_regions_mask_filename='/software/mritemplate/mni_icbm152_CerebrA_tal_nlin_sym_55_ext.nii'
+this_mri_regions_mask_filename='/software/mritemplate/ORIGINAL/mni_icbm152_CerebrA_tal_nlin_sym_55_ext.nii'
 echo $(realpath ${this_mri_regions_mask_filename})
 echo $(ls ${individual_mask_dir})
 function_with_arguments=('call_separate_mask_regions_into_individual_image' ${this_mri_regions_mask_filename} ${individual_mask_dir})

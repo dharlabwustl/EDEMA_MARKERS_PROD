@@ -317,13 +317,6 @@ done
 
 for each_mri_mask_file in /workinginput/* ;
 do
-
-#moving_image_filename=${each_mri_mask_file}
-#fixed_image_filename=${2}
-#T_output_filename=${3}
-#output_directory=${mask_binary_output_dir}
-#moved_mask_filename=${linear_reg_output_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
-
 threshold=0
 function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

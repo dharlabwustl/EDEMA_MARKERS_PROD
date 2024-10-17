@@ -314,8 +314,7 @@ echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
 done
 
-
-for each_mri_mask_file in /workinginput/* ;
+for each_mri_mask_file in ${mask_binary_output_dir}/* ;
 do
 threshold=0
 function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})

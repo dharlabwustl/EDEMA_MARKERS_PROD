@@ -377,13 +377,14 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       done
 
 #
-#      for each_mri_mask_file in ${mask_binary_output_dir}/* ;
-#      do
-#      threshold=0
-#      function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
-#      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#      done
+      for each_mri_mask_file in ${mask_binary_output_dir}/mov_warped* ;
+      do
+      threshold=0
+      function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
+      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+      break
+      done
 #
 #
 #      #######################

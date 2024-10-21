@@ -1,0 +1,6 @@
+1. We have templates: CT and its corresponding locations mask located at /mritemplate/NONLINREGTOCT/warped_mov_mri_region*.: Done
+2. Display the masks overlayed on template CT just to check.: Will do it later.
+3. Register the template CT to a SESSION's scan CT : Linear registration and then deepreg registration. Get the linear and deepreg registration matrix.
+4. Apply those linear and deepreg registration matrix on the masks. and get the registered mask files
+5. Get the infarct mask from Yasheng's algorithm. Find the intersection of the infarct mask and the masks from different regions. Make a table : Name the regions as numbers 1,2,3,4,5 etc. , The columns of the table will be like region_1,region_2 etc. fill each column for its volume in that  CT scan. 
+6. Keep MLS,CED,NIHSS and other scoring system as the Y-variable. Then Fit a linear model with the volumes as x-variables and find the significance of the linear equation.  

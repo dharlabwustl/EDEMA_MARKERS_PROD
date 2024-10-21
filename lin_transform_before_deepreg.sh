@@ -366,6 +366,14 @@ session_ct_bet_gray=$(ls ${output_directory}/*_brain_f.nii.gz ) ## which we will
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
       done
+      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni* ;
+      do
+      echo ${each_mri_mask_file}
+      moving_image=${each_mri_mask_file}
+      echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
+      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+      done
+
 #
 #      for each_mri_mask_file in ${mask_binary_output_dir}/* ;
 #      do

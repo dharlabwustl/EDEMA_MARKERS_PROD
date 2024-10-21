@@ -413,7 +413,7 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #
 #      done
       snipr_output_foldername="PREPROCESS_SEGM"
-      file_suffixes=( warped_1_ ) #sys.argv[5]
+      file_suffixes=( mov_warped ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
         copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
       done

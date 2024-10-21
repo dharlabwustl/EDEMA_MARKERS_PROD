@@ -325,7 +325,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       session_ct=$( ls ${working_dir_1}/*'.nii' )
       template_ct='/software/scct_strippedResampled1.nii.gz'
       template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
-      bet_mask_from_yasheng=$(ls ${working_dir}/*_resaved_levelset_bet.nii.gz)
+      bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
       echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
       python3 -c "
 
@@ -337,7 +337,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 # now let us make bet gray for session ct:
  /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
 ## output relevant file is which we will use for non-linear registration:
-session_ct_bet_gray=$(ls ${output_directory}/*_brain_f.nii.gz ) ## which we will use for non-linear registration
+session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.nii.gz ) ## which we will use for non-linear registration
 #      template_file='scct_strippedResampled1.nii.gz'
 #      template_file_path=${template_file} #${template_dir}/${template_file}
 #      template_T_OUTPUT_dir=${working_dir} ##'/workingoutput'
@@ -357,7 +357,7 @@ session_ct_bet_gray=$(ls ${output_directory}/*_brain_f.nii.gz ) ## which we will
       mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
       mask_binary_output_dir='/software/mritemplate/NONLINREGTOCT/BETS'
       fixed_image_filename=${session_ct_bet_gray}
-      T_output_filename=$(ls ${working_dir}/*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
+      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
       mask_binary_output_dir=${output_directory}
       for each_mri_mask_file in ${mask_binary_input_dir}/warped_1* ;
       do

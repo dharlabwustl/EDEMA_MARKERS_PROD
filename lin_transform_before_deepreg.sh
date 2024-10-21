@@ -359,21 +359,21 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       fixed_image_filename=${session_ct_bet_gray}
       T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
       mask_binary_output_dir=${output_directory}
-      for each_mri_mask_file in ${mask_binary_input_dir}/warped_1* ;
+      for each_mri_mask_file in ${mask_binary_input_dir}/warped_1*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-      break
+#      break
       done
-      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni* ;
+      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-      break
+#      break
       done
 
 #

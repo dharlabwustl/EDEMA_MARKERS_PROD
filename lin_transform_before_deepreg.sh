@@ -16,7 +16,7 @@ copyoutput_to_snipr() {
   file_suffix=$5
   output_dir=$3
   echo " I AM IN copyoutput_to_snipr "
-   /opt/conda/envs/deepreg/bin/python3 -c "
+  python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -30,7 +30,7 @@ copyoutput_with_prefix_to_snipr() {
   file_suffix=$5
   output_dir=$3
   echo " I AM IN copyoutput_to_snipr "
-   /opt/conda/envs/deepreg/bin/python3 -c "
+   python3 -c "
 import sys
 sys.path.append('/software');
 from download_with_session_ID import *;
@@ -47,7 +47,7 @@ copy_masks_data() {
   resource_dirname=${3} #str(sys.argv[4])
   output_dirname=${4}   #str(sys.argv[3])
   echo output_dirname::${output_dirname}
-  /opt/conda/envs/deepreg/bin/python3 -c "
+  python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -241,7 +241,7 @@ copy_scan_data() {
   # rm -r ${output_dir}/*
   # sessionID=$1
   # # scanID=$2
-  /opt/conda/envs/deepreg/bin/python3 -c "
+  python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -268,7 +268,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 #niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 #get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
-outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
@@ -283,7 +283,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     snipr_output_foldername="PREPROCESS_SEGM"
     ### check if the file exists:
     call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-    outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 
     ################################################
 #    outputfiles_present=0
@@ -327,7 +327,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
       bet_mask_from_yasheng=$(ls ${working_dir}/*_resaved_levelset_bet.nii.gz)
       echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-      /opt/conda/envs/deepreg/bin/python3 -c "
+      python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
@@ -381,12 +381,12 @@ session_ct_bet_gray=$(ls ${output_directory}/*_brain_f.nii.gz ) ## which we will
 #      echo templatefile_after_linear_transformation::${templatefile_after_linear_transformation}
 #      target_bet_grayscale=${working_dir}/${betfilename}
 #      echo target_bet_grayscale:${target_bet_grayscale}
-#      /opt/conda/envs/deepreg/bin/python3 create_datah5files_May24_2023.py ${templatefile_after_linear_transformation} ${target_bet_grayscale}
+#      python3 create_datah5files_May24_2023.py ${templatefile_after_linear_transformation} ${target_bet_grayscale}
 ##      mkdir /rapids/notebooks/DeepReg/demos/classical_mr_prostate_nonrigid/dataset
 #      cp -r /rapids/notebooks/DeepReg /software/
 #      cp /software/data.h5 /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/
 #      cp /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/
-#      /opt/conda/envs/deepreg/bin/python3 /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/data.h5 ${output_directory}
+#      python3 /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/data.h5 ${output_directory}
 #       ### here we iterate through all the masks in the mritemplate/NONLINREGTOCT/warped_mov_mri_region*.
 #      for each_mov_region_mask in /software/mritemplate/NONLINREGTOCT/BETS/warped_1_mov_m* ;  do
 #
@@ -394,7 +394,7 @@ session_ct_bet_gray=$(ls ${output_directory}/*_brain_f.nii.gz ) ## which we will
 #       template_csf_file_path=${template_csf_file}
 #       template_csf_file_after_linear_transformation=${template_T_OUTPUT_dir}/${template_csf_file_path%.nii*}${betfilename}
 #      original_nifti_filename=$(ls ${working_dir_1}/*.nii)
-#      /opt/conda/envs/deepreg/bin/python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
+#      python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
 #
 #      done
 #      snipr_output_foldername="PREPROCESS_SEGM"

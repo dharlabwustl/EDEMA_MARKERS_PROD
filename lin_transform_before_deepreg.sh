@@ -355,12 +355,12 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #      ######################linear transformation with given matrix file:
       ##########################################################################
       mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
-      mask_binary_output_dir='/software/mritemplate/NONLINREGTOCT/BETS'
+      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
       fixed_image_filename=${session_ct_bet_gray}
       T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
       mask_binary_output_dir=${output_directory}
             count=0
-      for each_mri_mask_file in ${mask_binary_input_dir}/warped_1*nii* ;
+      for each_mri_mask_file in ${mask_binary_input_dir}/warped*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
@@ -372,7 +372,7 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
             count=$((count+1))
       done
             count=0
-      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/*nii* ;
+      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/mov*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
@@ -420,11 +420,11 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #      python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
 #
 #      done
-      snipr_output_foldername="PREPROCESS_SEGM"
-      file_suffixes=( warped_1 ) #sys.argv[5]
-      for file_suffix in ${file_suffixes[@]}; do
-        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
-      done
+#      snipr_output_foldername="PREPROCESS_SEGM"
+#      file_suffixes=( mov ) #sys.argv[5]
+#      for file_suffix in ${file_suffixes[@]}; do
+#        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+#      done
 #      ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else

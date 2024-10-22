@@ -355,7 +355,7 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #      ######################linear transformation with given matrix file:
       ##########################################################################
       mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
-      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+#      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
       fixed_image_filename=${session_ct_bet_gray}
       T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
       mask_binary_output_dir=${output_directory}

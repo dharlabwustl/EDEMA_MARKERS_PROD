@@ -420,11 +420,11 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #      python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
 #
 #      done
-#      snipr_output_foldername="PREPROCESS_SEGM"
-#      file_suffixes=( mov ) #sys.argv[5]
-#      for file_suffix in ${file_suffixes[@]}; do
-#        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
-#      done
+      snipr_output_foldername="PREPROCESS_SEGM"
+      file_suffixes=( mov ) #sys.argv[5]
+      for file_suffix in ${file_suffixes[@]}; do
+        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+      done
 #      ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else

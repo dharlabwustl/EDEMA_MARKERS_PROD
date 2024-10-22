@@ -359,32 +359,40 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       fixed_image_filename=${session_ct_bet_gray}
       T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
       mask_binary_output_dir=${output_directory}
+            count=0
       for each_mri_mask_file in ${mask_binary_input_dir}/warped_1*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-      break
+            if [[ $count -gt 10 ]] ; then
+            break
+            fi
+            count=$((count+1))
       done
-      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni*nii* ;
+            count=0
+      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-      break
+            if [[ $count -gt 10 ]] ; then
+            break
+            fi
+            count=$((count+1))
       done
 
 #
       count=0
-      for each_mri_mask_file in ${mask_binary_output_dir}/mov_warped* ;
+      for each_mri_mask_file in ${mask_binary_output_dir}/*nii* ;
       do
       threshold=0
       function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-      if [[ $count -gt 0 ]] ; then
+      if [[ $count -gt 10 ]] ; then
       break
       fi
       count=$((count+1))
@@ -413,7 +421,7 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #
 #      done
       snipr_output_foldername="PREPROCESS_SEGM"
-      file_suffixes=( mov_warped ) #sys.argv[5]
+      file_suffixes=( warped_1 ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
         copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
       done

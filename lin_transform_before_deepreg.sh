@@ -366,9 +366,9 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-            if [[ $count -gt 10 ]] ; then
-            break
-            fi
+#            if [[ $count -gt 10 ]] ; then
+#            break
+#            fi
             count=$((count+1))
       done
 
@@ -379,9 +379,9 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       moving_image=${each_mri_mask_file}
       echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-            if [[ $count -gt 10 ]] ; then
-            break
-            fi
+#            if [[ $count -gt 10 ]] ; then
+#            break
+#            fi
             count=$((count+1))
       done
 
@@ -393,9 +393,9 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
       function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
       outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-      if [[ $count -gt 10 ]] ; then
-      break
-      fi
+#      if [[ $count -gt 10 ]] ; then
+#      break
+#      fi
       count=$((count+1))
       done
 #

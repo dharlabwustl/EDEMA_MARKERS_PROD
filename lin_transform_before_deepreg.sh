@@ -371,8 +371,9 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
             fi
             count=$((count+1))
       done
+
             count=0
-      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/mov*nii* ;
+      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni_icbm152_t1_tal_nlin_sym_55_ext_bet_gray_fixed_scct_strippedResampled1_lin1.nii.gz ; #mov*nii* ;
       do
       echo ${each_mri_mask_file}
       moving_image=${each_mri_mask_file}

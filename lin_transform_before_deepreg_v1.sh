@@ -334,6 +334,13 @@ import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${infarct_mask_from_yasheng}" "${output_directory}"
 
+      python3 -c "
+
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${bet_mask_from_yasheng}" "${output_directory}"
+
+
 
 # now let us make bet gray for session ct:
 # /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
@@ -346,20 +353,29 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 #      inv_transformmatrix_file=$(ls '/workinginput/'*${nifti_file_without_ext}*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
 #      inv_file=${inv_transformmatrix_file}
 #      inv_file_basename=$(basename ${inv_file})
-#      betfilename=${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz
-#      ###################### GET THE BET OF THE SESSION CT
-#      this_mri_filename_brain_bet_gray=${this_mri_filename_brain%.nii*}_bet_gray.nii
-#      #
-#      echo "BEGIN LINEAR REGISTRATION  of MRI TO CT TEMPLATE"
-#      bet_gray_when_bet_binary_given ${this_mri_filename_brain} ${this_mri_filename_brain_bet} ${this_mri_filename_brain_bet_gray}
+#      betfilename=${bet_mask_from_yasheng} #${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz
+      ###################### GET THE BET OF THE SESSION CT
+      session_ct_bet_gray_ORF=${this_mri_filename_brain%.nii*}_bet_gray.nii
+      #
+      echo "BEGIN LINEAR REGISTRATION  of MRI TO CT TEMPLATE"
+      bet_gray_when_bet_binary_given ${session_ct} ${bet_mask_from_yasheng} ${session_ct_bet_gray_ORF}
 #      #
 #      ######################linear transformation with given matrix file:
       ##########################################################################
 #      mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
       mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+#      Transform grayscale bet
+
       fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+      moving_image_filename=${session_ct_bet_gray_ORF}
+            T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+
+
+# transform infarct mask
+#      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
       moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
-      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+#      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
       moving_image_output_filename=$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
       threshold=0

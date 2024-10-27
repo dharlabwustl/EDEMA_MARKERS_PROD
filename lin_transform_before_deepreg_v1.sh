@@ -323,21 +323,22 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
       ## and the mat files especially the Inv.mat file let us keep the sensible names from here:
       session_ct=$( ls ${working_dir_1}/*'.nii' )
-      template_ct='/software/scct_strippedResampled1.nii.gz'
-      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
+      fixed_image_filename='/software/scct_strippedResampled1.nii.gz'
+      infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
+#      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
       bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
       echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
       python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
-from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${bet_mask_from_yasheng}" "${output_directory}"
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${infarct_mask_from_yasheng}" "${output_directory}"
 
 
 # now let us make bet gray for session ct:
- /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
+# /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
 ## output relevant file is which we will use for non-linear registration:
-session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.nii.gz ) ## which we will use for non-linear registration
+# session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.nii.gz ) ## which we will use for non-linear registration
 #      template_file='scct_strippedResampled1.nii.gz'
 #      template_file_path=${template_file} #${template_dir}/${template_file}
 #      template_T_OUTPUT_dir=${working_dir} ##'/workingoutput'
@@ -354,79 +355,85 @@ session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.
 #      #
 #      ######################linear transformation with given matrix file:
       ##########################################################################
-      mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
-#      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
-      fixed_image_filename=${session_ct_bet_gray}
-      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat )
-
-      mask_binary_output_dir=${output_directory}
-            count=0
-      for each_mri_mask_file in ${mask_binary_input_dir}/warped*nii* ;
-      do
-      echo ${each_mri_mask_file}
-      moving_image=${each_mri_mask_file}
-      echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
-      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-#            if [[ $count -gt 10 ]] ; then
-#            break
-#            fi
-            count=$((count+1))
-      done
-
-            count=0
-      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni_icbm152_t1_tal_nlin_sym_55_ext_bet_gray_fixed_scct_strippedResampled1_lin1.nii.gz ; #mov*nii* ;
-      do
-      echo ${each_mri_mask_file}
-      moving_image=${each_mri_mask_file}
-      echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
-      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-#            if [[ $count -gt 10 ]] ; then
-#            break
-#            fi
-            count=$((count+1))
-      done
-
-#
-      count=0
-      for each_mri_mask_file in ${mask_binary_output_dir}/*nii* ;
-      do
+#      mask_binary_input_dir='/software/mritemplate/NONLINREGTOCT/BETS'
+      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+      moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
+      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+      moving_image_output_filename=$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall.nii.gz)
       threshold=0
-      function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
+      function_with_arguments=('call_gray2binary' ${moving_image_output_filename}  ${mask_binary_output_dir} ${threshold})
       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#      if [[ $count -gt 10 ]] ; then
-#      break
-#      fi
-      count=$((count+1))
-      done
-#
-#
-#      #######################
-#      templatefile_after_linear_transformation=${template_T_OUTPUT_dir}/${template_file%.nii*}${betfilename}
-#      echo templatefile_after_linear_transformation::${templatefile_after_linear_transformation}
-#      target_bet_grayscale=${working_dir}/${betfilename}
-#      echo target_bet_grayscale:${target_bet_grayscale}
-#      python3 create_datah5files_May24_2023.py ${templatefile_after_linear_transformation} ${target_bet_grayscale}
-##      mkdir /rapids/notebooks/DeepReg/demos/classical_mr_prostate_nonrigid/dataset
-#      cp -r /rapids/notebooks/DeepReg /software/
-#      cp /software/data.h5 /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/
-#      cp /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/
-#      python3 /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/data.h5 ${output_directory}
-#       ### here we iterate through all the masks in the mritemplate/NONLINREGTOCT/warped_mov_mri_region*.
-#      for each_mov_region_mask in /software/mritemplate/NONLINREGTOCT/BETS/warped_1_mov_m* ;  do
-#
-#       template_csf_file=${each_mov_region_mask} #'scct_strippedResampled1_onlyventricle.nii.gz'
-#       template_csf_file_path=${template_csf_file}
-#       template_csf_file_after_linear_transformation=${template_T_OUTPUT_dir}/${template_csf_file_path%.nii*}${betfilename}
-#      original_nifti_filename=$(ls ${working_dir_1}/*.nii)
-#      python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
-#
+
+#      mask_binary_output_dir=${output_directory}
+#            count=0
+#      for each_mri_mask_file in ${mask_binary_input_dir}/warped*nii* ;
+#      do
+#      echo ${each_mri_mask_file}
+#      moving_image=${each_mri_mask_file}
+#      echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
+#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+##            if [[ $count -gt 10 ]] ; then
+##            break
+##            fi
+#            count=$((count+1))
 #      done
-      snipr_output_foldername="PREPROCESS_SEGM"
-      file_suffixes=( mov ) #sys.argv[5]
-      for file_suffix in ${file_suffixes[@]}; do
-        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
-      done
+#
+#            count=0
+#      for each_mri_mask_file in $(dirname ${mask_binary_input_dir})/warped_mov_mni_icbm152_t1_tal_nlin_sym_55_ext_bet_gray_fixed_scct_strippedResampled1_lin1.nii.gz ; #mov*nii* ;
+#      do
+#      echo ${each_mri_mask_file}
+#      moving_image=${each_mri_mask_file}
+#      echo "RUNNING /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename}  ${mask_binary_output_dir}"
+#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+##            if [[ $count -gt 10 ]] ; then
+##            break
+##            fi
+#            count=$((count+1))
+#      done
+#
+##
+#      count=0
+#      for each_mri_mask_file in ${mask_binary_output_dir}/*nii* ;
+#      do
+#      threshold=0
+#      function_with_arguments=('call_gray2binary' ${each_mri_mask_file}  ${mask_binary_output_dir} ${threshold})
+#      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+##      if [[ $count -gt 10 ]] ; then
+##      break
+##      fi
+#      count=$((count+1))
+#      done
+##
+##
+##      #######################
+##      templatefile_after_linear_transformation=${template_T_OUTPUT_dir}/${template_file%.nii*}${betfilename}
+##      echo templatefile_after_linear_transformation::${templatefile_after_linear_transformation}
+##      target_bet_grayscale=${working_dir}/${betfilename}
+##      echo target_bet_grayscale:${target_bet_grayscale}
+##      python3 create_datah5files_May24_2023.py ${templatefile_after_linear_transformation} ${target_bet_grayscale}
+###      mkdir /rapids/notebooks/DeepReg/demos/classical_mr_prostate_nonrigid/dataset
+##      cp -r /rapids/notebooks/DeepReg /software/
+##      cp /software/data.h5 /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/
+##      cp /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/
+##      python3 /software/demo_register_batch_atul.py /software/DeepReg/demos/classical_mr_prostate_nonrigid/dataset/data.h5 ${output_directory}
+##       ### here we iterate through all the masks in the mritemplate/NONLINREGTOCT/warped_mov_mri_region*.
+##      for each_mov_region_mask in /software/mritemplate/NONLINREGTOCT/BETS/warped_1_mov_m* ;  do
+##
+##       template_csf_file=${each_mov_region_mask} #'scct_strippedResampled1_onlyventricle.nii.gz'
+##       template_csf_file_path=${template_csf_file}
+##       template_csf_file_after_linear_transformation=${template_T_OUTPUT_dir}/${template_csf_file_path%.nii*}${betfilename}
+##      original_nifti_filename=$(ls ${working_dir_1}/*.nii)
+##      python3 /software/runoncsfmask_atul09272024.py ${template_csf_file_after_linear_transformation} ${output_directory} ${sessionID} ${scanID} $(basename  ${original_nifti_filename})
+##
+##      done
+#      snipr_output_foldername="PREPROCESS_SEGM"
+#      file_suffixes=( mov ) #sys.argv[5]
+#      for file_suffix in ${file_suffixes[@]}; do
+#        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+#      done
 #      ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else

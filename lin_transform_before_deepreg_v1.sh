@@ -323,6 +323,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
       ## and the mat files especially the Inv.mat file let us keep the sensible names from here:
       session_ct=$( ls ${working_dir_1}/*'.nii' )
+      session_ct_bname_noext=$(basename ${session_ct})
+      session_ct_bname_noext=${session_ct_bname_noext%.nii*}
       fixed_image_filename='/software/scct_strippedResampled1.nii.gz'
       infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
 #      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
@@ -353,11 +355,11 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 #      inv_transformmatrix_file=$(ls '/workinginput/'*${nifti_file_without_ext}*'_resaved_levelset_brain_f_scct_strippedResampled1lin1Inv.mat' )
 #      inv_file=${inv_transformmatrix_file}
 #      inv_file_basename=$(basename ${inv_file})
-      betfilename=${output_directory}/$( basename ${bet_mask_from_yasheng} )#${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz
-      ###################### GET THE BET OF THE SESSION CT
-      session_ct_bet_gray_ORF=${this_mri_filename_brain%.nii*}_bet_gray.nii
+#      betfilename=${output_directory}/$( basename ${bet_mask_from_yasheng} )#${inv_file_basename%_scct_strippedResampled1lin1Inv.mat}.nii.gz
+#      ###################### GET THE BET OF THE SESSION CT
+#      session_ct_bet_gray_ORF=${this_mri_filename_brain%.nii*}_bet_gray.nii
       #
-      echo "BEGIN LINEAR REGISTRATION  of MRI TO CT TEMPLATE"
+#      echo "BEGIN LINEAR REGISTRATION  of MRI TO CT TEMPLATE"
 
 #      #
 #      ######################linear transformation with given matrix file:
@@ -367,7 +369,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 #      Transform grayscale bet
 
       fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-      moving_image_filename=${session_ct_bet_gray_ORF}
+      moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
             T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
       /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
 

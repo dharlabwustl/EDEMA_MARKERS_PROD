@@ -363,7 +363,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
       moving_image_output_filename=$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
       threshold=0
-      function_with_arguments=('call_gray2binary' ${moving_image_output_filename}  ${mask_binary_output_dir} ${threshold})
+      function_with_arguments=('call_gray2binary' ${moving_image_output_filename}  ${output_directory} ${threshold})
       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 
 #      mask_binary_output_dir=${output_directory}

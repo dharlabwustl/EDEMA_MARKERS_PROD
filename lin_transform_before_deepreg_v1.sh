@@ -351,6 +351,12 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
        function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
        outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+
+#              fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+        moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
+        function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
+        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+        outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 ### output relevant file is which we will use for non-linear registration:
 ## session_ct_bet_gray=$(ls ${output_directory}/${nifti_file_without_ext}*_brain_f.nii.gz ) ## which we will use for non-linear registration
 ##      template_file='scct_strippedResampled1.nii.gz'

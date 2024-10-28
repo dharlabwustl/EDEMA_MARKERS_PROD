@@ -44,44 +44,53 @@ def demo():
 ################## REGISTRATION STEPS #####################################
 
 # Function for Z-score normalization
-def z_score_normalization(image):
-    image_array = sitk.GetArrayFromImage(image)
-    mean = np.mean(image_array)
-    std = np.std(image_array)
-    normalized_array = (image_array - mean) / std
-    # Convert back to a SimpleITK image
-    normalized_image = sitk.GetImageFromArray(normalized_array)
-    normalized_image.CopyInformation(image)
-    return normalized_image
+def z_score_normalization(image_data):
+    mean = np.mean(image_data)
+    std = np.std(image_data)
+    normalized_data = (image_data - mean) / std
+    return normalized_data
 
-# Function for resampling to match a reference image's voxel size
-def resample_image_to_reference(image, reference_image):
-    reference_spacing = reference_image.GetSpacing()
-    reference_size = reference_image.GetSize()
+# Function for Min-Max normalization
+def min_max_normalization(image_data, new_min=0, new_max=1):
+    min_val = np.min(image_data)
+    max_val = np.max(image_data)
+    normalized_data = (image_data - min_val) / (max_val - min_val) * (new_max - new_min) + new_min
+    return normalized_data
 
-    resample = sitk.ResampleImageFilter()
-    resample.SetOutputSpacing(reference_spacing)
-    resample.SetSize(reference_size)
-    resample.SetOutputDirection(reference_image.GetDirection())
-    resample.SetOutputOrigin(reference_image.GetOrigin())
-    resample.SetInterpolator(sitk.sitkLinear)
-
-    resampled_image = resample.Execute(image)
-    return resampled_image
+# Function for resampling to a specified voxel size
+def resample_image_to_voxel_size(image_data, current_voxel_size, target_voxel_size):
+    # Calculate the zoom factors for each dimension
+    zoom_factors = [current / target for current, target in zip(current_voxel_size, target_voxel_size)]
+    # Resample the image using scipy.ndimage.zoom
+    resampled_data = zoom(image_data, zoom_factors, order=1)  # Linear interpolation
+    return resampled_data
 def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
-    # Load the moving and fixed images using SimpleITK
-    moving_image = sitk.ReadImage(moving_image_file) #'moving_image.nii.gz')
-    fixed_image = sitk.ReadImage(fixed_image_file) #'fixed_image.nii.gz')
-    #
-    # Step 1: Normalize both images using Z-score normalization
-    moving_image_normalized = z_score_normalization(moving_image)
-    fixed_image_normalized = z_score_normalization(fixed_image)
+# Load the NIfTI file and extract the image data
+    moving_image_nii = nib.load(moving_image_file) #'moving_image.nii.gz')
+    fixed_image_nii = nib.load(fixed_image_file) ##'fixed_image.nii.gz')
 
-    # Step 2: Resample the moving image to match the resolution of the fixed image
-    moving_image_resampled = resample_image_to_reference(moving_image_normalized, fixed_image_normalized)
-    sitk.WriteImage(fixed_image_normalized, fixed_image.split('.nii')[0]+'normalized.nii.gz')
-    sitk.WriteImage(moving_image_resampled, moving_image.split('.nii')[0]+'normalized_resampled_to_'+os.path.basename(fixed_image).split('.nii')[0]+'.nii.gz')
+    # Extract image data as NumPy arrays
+    moving_image_data = moving_image_nii.get_fdata()
+    fixed_image_data = fixed_image_nii.get_fdata()
 
+    # Extract voxel sizes from the NIfTI headers
+    moving_voxel_size = moving_image_nii.header.get_zooms()[:3]
+    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3]
+
+    # Step 1: Normalize intensities
+    moving_image_normalized = z_score_normalization(moving_image_data)
+    fixed_image_normalized = z_score_normalization(fixed_image_data)
+
+    # Step 2: Resample the moving image to match the fixed image voxel size
+    resampled_moving_image_data = resample_image_to_voxel_size(moving_image_normalized, moving_voxel_size, fixed_voxel_size)
+
+    # Convert resampled data back to a NIfTI image using the fixed image's affine matrix and header
+    resampled_moving_image_nii = nib.Nifti1Image(resampled_moving_image_data, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
+    fixed_image_normalized_nii = nib.Nifti1Image(fixed_image_normalized, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
+
+# Save the normalized and resampled image
+    nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_normalized_mov.nii.gz')
+    nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
 def call_normalization_N_resample_to_fixed(args):
     success=0
     try:

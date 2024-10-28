@@ -21,6 +21,7 @@ import h5py
 
 import SimpleITK as sitk
 import numpy as np
+from scipy.ndimage import zoom
 # g = Github()
 # repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
 # contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")

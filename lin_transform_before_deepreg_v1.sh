@@ -392,7 +392,7 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
-}
+
 
 #file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}; do

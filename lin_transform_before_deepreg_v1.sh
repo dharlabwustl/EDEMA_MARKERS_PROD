@@ -358,7 +358,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
         echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
-#       /software/linear_rigid_registration_v10162024.sh ${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz
+       /software/linear_rigid_registration_v10162024.sh ${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz /software/scct_strippedResampled1_normalized_fix.nii.gz
 
 
 

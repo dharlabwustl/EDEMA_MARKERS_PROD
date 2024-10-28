@@ -248,7 +248,20 @@ from download_with_session_ID import *;
 downloadniftiwithuri_withcsv()" ${csvfilename} ${dir_to_save}
 
 }
+uploadsinglefile(){
+local sessionID=${1}
+local scanID=${2}
+local mask_binary_output_dir=${3}
+local snipr_output_foldername=${4}
+local mask_binary_output_filename=${5}
 
+echo ${mask_binary_output_dir}/${mask_binary_output_filename}
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+}
 getmaskfilesscanmetadata() {
 # def get_maskfile_scan_metadata():
 sessionId=${1}           #sys.argv[1]
@@ -373,6 +386,7 @@ session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${session_ct_bname_no
 #       normalized_fixed_file_name
 moving_image_filename=$(basename ${moving_image_filename})
 registration_mat_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_scct_strippedResampled1_normalized_fix_lin1.mat
+registration_nii_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 fixed_image_filename=${normalized_fixed_file_name}
 moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_mov.nii.gz
@@ -386,30 +400,30 @@ snipr_output_foldername="PREPROCESS_SEGM"
 #    input_dirname=str(sys.argv[3])
 #    resource_dirname=str(sys.argv[4])
 #    file_name=str(sys.argv[5])
-echo ${mask_binary_output_dir}/${mask_binary_output_filename}
-python3 -c "
-import sys
-sys.path.append('/software');
-from download_with_session_ID import *;
-uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
-#file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
-#for file_suffix in ${file_suffixes[@]}; do
-#copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
-#done
+
+uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
+uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
+uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
+#
+##file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
+##for file_suffix in ${file_suffixes[@]}; do
+##copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
+##done
 #file_suffixes=( $(basename  ${fixed_image_filename%.nii*} ) ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}; do
 #copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "/software" ${snipr_output_foldername} ${file_suffix}
 #done
-#file_suffixes=( $(basename  ${registration_mat_file%.nii*} ) ) #sys.argv[5]
+#file_suffixes=( $(basename  ${registration_mat_file%.mat*} ) ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}; do
 #copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
 #done
-#      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
-#      Transform grayscale bet
-
-
-#T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
-#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+##      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+##      Transform grayscale bet
+#
+#
+##T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+##      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
 
 
 # transform infarct mask

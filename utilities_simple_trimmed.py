@@ -68,10 +68,10 @@ def resample_image_to_reference(image, reference_image):
 
     resampled_image = resample.Execute(image)
     return resampled_image
-def normalization_N_resample_to_fixed(moving_image,fixed_image):
+def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
     # Load the moving and fixed images using SimpleITK
-    # moving_image = sitk.ReadImage('moving_image.nii.gz')
-    # fixed_image = sitk.ReadImage('fixed_image.nii.gz')
+    moving_image = sitk.ReadImage(moving_image_file) #'moving_image.nii.gz')
+    fixed_image = sitk.ReadImage(fixed_image_file) #'fixed_image.nii.gz')
     #
     # Step 1: Normalize both images using Z-score normalization
     moving_image_normalized = z_score_normalization(moving_image)

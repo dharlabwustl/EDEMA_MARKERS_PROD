@@ -384,14 +384,14 @@ file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}; do
 copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
 done
-file_suffixes=( $(basename  ${fixed_image_filename%.nii*} ) ) #sys.argv[5]
-for file_suffix in ${file_suffixes[@]}; do
-copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "/software" ${snipr_output_foldername} ${file_suffix}
-done
-file_suffixes=( $(basename  ${registration_mat_file%.nii*} ) ) #sys.argv[5]
-for file_suffix in ${file_suffixes[@]}; do
-copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
-done
+#file_suffixes=( $(basename  ${fixed_image_filename%.nii*} ) ) #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}; do
+#copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "/software" ${snipr_output_foldername} ${file_suffix}
+#done
+#file_suffixes=( $(basename  ${registration_mat_file%.nii*} ) ) #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}; do
+#copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+#done
 #      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
 #      Transform grayscale bet
 

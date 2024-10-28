@@ -380,7 +380,7 @@ mask_binary_output_dir='/input'
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 snipr_output_foldername="PREPROCESS_SEGM"
-file_suffixes=( mov_${mask_binary_output_filename%.nii*} ) #sys.argv[5]
+file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
 for file_suffix in ${file_suffixes[@]}; do
 copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
 done

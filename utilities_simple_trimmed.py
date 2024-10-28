@@ -18,6 +18,9 @@ from github import Github
 from dateutil.parser import parse
 import pandas as pd
 import h5py
+
+import SimpleITK as sitk
+import numpy as np
 # g = Github()
 # repo = g.get_repo("dharlabwustl/EDEMA_MARKERS")
 # contents = repo.get_contents("module_NWU_CSFCompartment_Calculations.py")
@@ -37,6 +40,100 @@ def demo():
 #     dflux.hist('INFARCT', bins=255, ax=axes[0])
 #     dflux2.hist('NONINFARCT', bins=255, ax=axes[1])
 #     fig.savefig(image_filename)
+
+################## REGISTRATION STEPS #####################################
+
+# Function for Z-score normalization
+def z_score_normalization(image):
+    image_array = sitk.GetArrayFromImage(image)
+    mean = np.mean(image_array)
+    std = np.std(image_array)
+    normalized_array = (image_array - mean) / std
+    # Convert back to a SimpleITK image
+    normalized_image = sitk.GetImageFromArray(normalized_array)
+    normalized_image.CopyInformation(image)
+    return normalized_image
+
+# Function for resampling to match a reference image's voxel size
+def resample_image_to_reference(image, reference_image):
+    reference_spacing = reference_image.GetSpacing()
+    reference_size = reference_image.GetSize()
+
+    resample = sitk.ResampleImageFilter()
+    resample.SetOutputSpacing(reference_spacing)
+    resample.SetSize(reference_size)
+    resample.SetOutputDirection(reference_image.GetDirection())
+    resample.SetOutputOrigin(reference_image.GetOrigin())
+    resample.SetInterpolator(sitk.sitkLinear)
+
+    resampled_image = resample.Execute(image)
+    return resampled_image
+def normalization_N_resample_to_fixed(moving_image,fixed_image):
+    # Load the moving and fixed images using SimpleITK
+    # moving_image = sitk.ReadImage('moving_image.nii.gz')
+    # fixed_image = sitk.ReadImage('fixed_image.nii.gz')
+    #
+    # Step 1: Normalize both images using Z-score normalization
+    moving_image_normalized = z_score_normalization(moving_image)
+    fixed_image_normalized = z_score_normalization(fixed_image)
+
+    # Step 2: Resample the moving image to match the resolution of the fixed image
+    moving_image_resampled = resample_image_to_reference(moving_image_normalized, fixed_image_normalized)
+    sitk.WriteImage(fixed_image_normalized, fixed_image.split('.nii')[0]+'normalized.nii.gz')
+    sitk.WriteImage(moving_image_resampled, moving_image.split('.nii')[0]+'normalized_resampled_to_'+os.path.basename(fixed_image).split('.nii')[0]+'.nii.gz')
+
+def call_normalization_N_resample_to_fixed(args):
+    success=0
+    try:
+        moving_image=args.stuff[1]
+        fixed_image=args.stuff[2]
+        normalization_N_resample_to_fixed(moving_image,fixed_image)
+        command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        success=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+    return success
+# # Step 3: Perform initial affine registration for a rough alignment
+# affine_transform = sitk.CenteredTransformInitializer(
+#     fixed_image_normalized,
+#     moving_image_resampled,
+#     sitk.Euler3DTransform(),
+#     sitk.CenteredTransformInitializerFilter.GEOMETRY
+# )
+#
+# # Use Mutual Information as the similarity metric for the affine registration
+# affine_registration = sitk.ImageRegistrationMethod()
+# affine_registration.SetMetricAsMattesMutualInformation(numberOfHistogramBins=50)
+# affine_registration.SetOptimizerAsGradientDescent(learningRate=1.0, numberOfIterations=300, convergenceMinimumValue=1e-6, convergenceWindowSize=10)
+# affine_registration.SetInitialTransform(affine_transform, inPlace=False)
+# affine_registration.SetInterpolator(sitk.sitkLinear)
+#
+# # Execute the affine registration
+# affine_transform = affine_registration.Execute(fixed_image_normalized, moving_image_resampled)
+#
+# # Step 4: Perform non-linear registration using the affine result as initialization
+# nonlinear_registration = sitk.ImageRegistrationMethod()
+# nonlinear_registration.SetMetricAsMattesMutualInformation(numberOfHistogramBins=50)
+# nonlinear_registration.SetOptimizerAsLBFGSB(gradientConvergenceTolerance=1e-5, numberOfIterations=200)
+# nonlinear_registration.SetInitialTransformAsBSpline(affine_transform,
+#                                                     numberOfControlPoints=[8, 8, 8], order=3)
+# nonlinear_registration.SetInterpolator(sitk.sitkLinear)
+#
+# # Execute the non-linear registration
+# nonlinear_transform = nonlinear_registration.Execute(fixed_image_normalized, moving_image_resampled)
+#
+# # Step 5: Apply the transformation to warp the moving image to the fixed image space
+# warped_image = sitk.Resample(moving_image, fixed_image, nonlinear_transform, sitk.sitkLinear, 0.0, moving_image.GetPixelID())
+#
+# # Step 6: Save the resulting registered image
+# sitk.WriteImage(warped_image, 'registered_moving_image_to_fixed.nii.gz')
+#
+# print("Non-linear registration completed. Registered image saved as 'registered_moving_image_to_fixed.nii.gz'.")
+
+
 def call_separate_mask_regions_into_individual_image(args):
     success=0
     try:
@@ -1953,7 +2050,9 @@ def main():
     if name_of_the_function == "call_createh5file":
         return_value=call_createh5file(args) #
     if name_of_the_function == "call_separate_mask_regions_into_individual_image":
-        return_value=call_separate_mask_regions_into_individual_image(args)
+        return_value=call_separate_mask_regions_into_individual_image(args) #
+    if name_of_the_function == "call_normalization_N_resample_to_fixed":
+        return_value=call_normalization_N_resample_to_fixed(args)
     if "call" not in name_of_the_function:
         return_value=0
         globals()[args.stuff[0]](args)

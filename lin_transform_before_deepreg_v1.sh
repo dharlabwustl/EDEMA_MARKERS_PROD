@@ -380,10 +380,24 @@ mask_binary_output_dir='/input'
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 snipr_output_foldername="PREPROCESS_SEGM"
-file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
-for file_suffix in ${file_suffixes[@]}; do
-copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
-done
+#    sessionId=str(sys.argv[1])
+#    scanId=str(sys.argv[2])
+#    input_dirname=str(sys.argv[3])
+#    resource_dirname=str(sys.argv[4])
+#    file_name=str(sys.argv[5])
+echo ${mask_binary_output_dir}/${mask_binary_output_filename}
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+
+}
+
+#file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
+#for file_suffix in ${file_suffixes[@]}; do
+#copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
+#done
 #file_suffixes=( $(basename  ${fixed_image_filename%.nii*} ) ) #sys.argv[5]
 #for file_suffix in ${file_suffixes[@]}; do
 #copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "/software" ${snipr_output_foldername} ${file_suffix}

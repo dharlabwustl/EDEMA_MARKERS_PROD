@@ -377,8 +377,17 @@ moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall
 moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-
-
+moving_image_filename=$(basename ${moving_image_filename})
+mask_binary_output_filename=mov_${moving_image_filename%.nii*}resampled_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+       snipr_output_foldername="PREPROCESS_SEGM"
+      file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
+      for file_suffix in ${file_suffixes[@]}; do
+        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${mask_binary_output_dir}" ${snipr_output_foldername} ${file_suffix}
+      done
+      file_suffixes=( $(basename  ${registration_mat_file%.nii*} ) ) #sys.argv[5]
+      for file_suffix in ${file_suffixes[@]}; do
+        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
+      done
 
 #      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
 #      Transform grayscale bet

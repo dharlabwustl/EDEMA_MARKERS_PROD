@@ -92,6 +92,49 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
 # Save the normalized and resampled image
     nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_normalized_mov.nii.gz')
     nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
+def only_resample_to_fixed(moving_image_file,fixed_image_file):
+    # Load the NIfTI file and extract the image data
+    moving_image_nii = nib.load(moving_image_file) #'moving_image.nii.gz')
+    fixed_image_nii = nib.load(fixed_image_file) ##'fixed_image.nii.gz')
+
+    # Extract image data as NumPy arrays
+    moving_image_data = moving_image_nii.get_fdata()
+    fixed_image_data = fixed_image_nii.get_fdata()
+
+    # Extract voxel sizes from the NIfTI headers
+    moving_voxel_size = moving_image_nii.header.get_zooms()[:3]
+    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3]
+
+    # # Step 1: Normalize intensities
+    # moving_image_normalized = z_score_normalization(moving_image_data)
+    # fixed_image_normalized = z_score_normalization(fixed_image_data)
+
+    # Step 2: Resample the moving image to match the fixed image voxel size
+    resampled_moving_image_data = resample_image_to_voxel_size(moving_image_data, moving_voxel_size, fixed_voxel_size)
+
+    # Convert resampled data back to a NIfTI image using the fixed image's affine matrix and header
+    resampled_moving_image_nii = nib.Nifti1Image(resampled_moving_image_data, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
+    # fixed_image_normalized_nii = nib.Nifti1Image(fixed_image_normalized, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
+
+    # Save the normalized and resampled image
+    nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_mov.nii.gz')
+    # nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
+def call_only_resample_to_fixed(args):
+    success=0
+    try:
+        moving_image=args.stuff[1]
+        fixed_image=args.stuff[2]
+        normalization_N_resample_to_fixed(moving_image,fixed_image)
+        command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        success=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+        pass
+    return success
+
+
 def call_normalization_N_resample_to_fixed(args):
     success=0
     try:

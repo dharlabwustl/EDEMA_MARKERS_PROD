@@ -357,27 +357,27 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
         function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
         echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-
-       /software/linear_rigid_registration_v10162024.sh ${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz /software/scct_strippedResampled1_normalized_fix.nii.gz  ${output_directory}
-
-
+        normalized_fixed_file_name='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+       /software/linear_rigid_registration_v10162024.sh ${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz ${normalized_fixed_file_name}  ${output_directory}
 
 
-#      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
-##      Transform grayscale bet
-#
-#
+
+
+      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+#      Transform grayscale bet
+
+
+      T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
+
+
+# transform infarct mask
+#      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+      moving_image_filename=${output_directory}/${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov.nii.gz #$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
 #      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
-#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-#
-#
-## transform infarct mask
-##      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-#      moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
-##      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
-#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
-#      moving_image_output_filename=$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
-#      threshold=0
+      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_imnormalized_fixed_file_nameage_filename} ${T_output_filename} ${mask_binary_output_dir}
+      moving_image_output_filename=$(ls ${output_directory}/mov_*${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov* ) ## #$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
+      threshold=0
 #      function_with_arguments=('call_gray2binary' ${moving_image_output_filename}  ${mask_binary_output_dir} ${threshold})
 #      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
@@ -386,7 +386,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 #      for file_suffix in ${file_suffixes[@]}; do
 #        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${working_dir_1}" ${snipr_output_foldername} ${file_suffix}
 #      done
-#      ######################################################################################################################
+      ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"
     else
       echo " FILES ARE PRESENT "

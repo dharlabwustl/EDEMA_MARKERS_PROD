@@ -10,13 +10,13 @@ output_directory=/workingoutput
 final_output_directory=/outputinsidedocker
 
 copyoutput_to_snipr() {
-  sessionID=$1
-  scanID=$2
-  resource_dirname=$4 #"MASKS" #sys.argv[4]
-  file_suffix=$5
-  output_dir=$3
-  echo " I AM IN copyoutput_to_snipr "
-  python3 -c "
+sessionID=$1
+scanID=$2
+resource_dirname=$4 #"MASKS" #sys.argv[4]
+file_suffix=$5
+output_dir=$3
+echo " I AM IN copyoutput_to_snipr "
+python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -24,13 +24,13 @@ uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_su
 
 }
 copyoutput_with_prefix_to_snipr() {
-  sessionID=$1
-  scanID=$2
-  resource_dirname=$4 #"MASKS" #sys.argv[4]
-  file_suffix=$5
-  output_dir=$3
-  echo " I AM IN copyoutput_to_snipr "
-   python3 -c "
+sessionID=$1
+scanID=$2
+resource_dirname=$4 #"MASKS" #sys.argv[4]
+file_suffix=$5
+output_dir=$3
+echo " I AM IN copyoutput_to_snipr "
+python3 -c "
 import sys
 sys.path.append('/software');
 from download_with_session_ID import *;
@@ -40,14 +40,14 @@ uploadfile_withprefix()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname
 
 
 copy_masks_data() {
-  echo " I AM IN copy_masks_data "
-  # rm -r /ZIPFILEDIR/*
-  sessionID=${1}
-  scanID=${2}
-  resource_dirname=${3} #str(sys.argv[4])
-  output_dirname=${4}   #str(sys.argv[3])
-  echo output_dirname::${output_dirname}
-  python3 -c "
+echo " I AM IN copy_masks_data "
+# rm -r /ZIPFILEDIR/*
+sessionID=${1}
+scanID=${2}
+resource_dirname=${3} #str(sys.argv[4])
+output_dirname=${4}   #str(sys.argv[3])
+echo output_dirname::${output_dirname}
+python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -56,18 +56,18 @@ downloadfiletolocaldir()" ${sessionID} ${scanID} ${resource_dirname} ${output_di
 }
 
 copy_scan_data() {
-  echo " I AM IN copy_scan_data "
-  # rm -r /ZIPFILEDIR/*
-  # rm -r ${working_dir}/*
-  # rm -r ${output_dir}/*
-  sessionID=$1
-  dir_to_receive_the_data=${2}
-  resource_dir=${3}
-  # sessionId=sys.argv[1]
-  # dir_to_receive_the_data=sys.argv[2]
-  # resource_dir=sys.argv[3]
-  # scanID=$2
-  python -c "
+echo " I AM IN copy_scan_data "
+# rm -r /ZIPFILEDIR/*
+# rm -r ${working_dir}/*
+# rm -r ${output_dir}/*
+sessionID=$1
+dir_to_receive_the_data=${2}
+resource_dir=${3}
+# sessionId=sys.argv[1]
+# dir_to_receive_the_data=sys.argv[2]
+# resource_dir=sys.argv[3]
+# scanID=$2
+python -c "
 import sys 
 sys.path.append('/Stroke_CT_Processing');
 from download_with_session_ID import *; 
@@ -76,13 +76,13 @@ get_relevantfile_in_A_DIRECTORY()" ${sessionID} ${dir_to_receive_the_data} ${res
 }
 
 run_IML_NWU_CSF_CALC() {
-  this_filename=${1}
-  this_betfilename=${2}
-  this_csfmaskfilename=${3}
-  this_infarctmaskfilename=${4}
-  echo "BET USING LEVELSET MASK"
+this_filename=${1}
+this_betfilename=${2}
+this_csfmaskfilename=${3}
+this_infarctmaskfilename=${4}
+echo "BET USING LEVELSET MASK"
 
-  /software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
+/software/bet_withlevelset.sh $this_filename ${this_betfilename} #${output_directory} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
 
 #  echo "bet_withlevelset successful" >${output_directory}/success.txt
 #  this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
@@ -129,102 +129,102 @@ run_IML_NWU_CSF_CALC() {
 
 nwucalculation_each_scan() {
 
-  eachfile_basename_noext=''
-  originalfile_basename=''
-  original_ct_file=''
-  #  for eachfile in ${working_dir}/*.nii*; do
-  for eachfile in ${working_dir_1}/*.nii*; do
-    original_ct_file=${eachfile}
-    eachfile_basename=$(basename ${eachfile})
-    originalfile_basename=${eachfile_basename}
-    eachfile_basename_noext=${eachfile_basename%.nii*}
+eachfile_basename_noext=''
+originalfile_basename=''
+original_ct_file=''
+#  for eachfile in ${working_dir}/*.nii*; do
+for eachfile in ${working_dir_1}/*.nii*; do
+original_ct_file=${eachfile}
+eachfile_basename=$(basename ${eachfile})
+originalfile_basename=${eachfile_basename}
+eachfile_basename_noext=${eachfile_basename%.nii*}
 
-    ############## files basename ##################################
-    grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
-    if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
-      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
-    fi
-    betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
-    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
-    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
-    ################################################
-    ############## copy those files to the docker image ##################################
-    cp ${working_dir}/${betfilename} ${output_directory}/
-    cp ${working_dir}/${csffilename} ${output_directory}/
-    cp ${working_dir}/${infarctfilename} ${output_directory}/
-    ####################################################################################
-    source /software/bash_functions_forhost.sh
+############## files basename ##################################
+grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
+if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
+grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
+fi
+betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
+csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
+infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
+################################################
+############## copy those files to the docker image ##################################
+cp ${working_dir}/${betfilename} ${output_directory}/
+cp ${working_dir}/${csffilename} ${output_directory}/
+cp ${working_dir}/${infarctfilename} ${output_directory}/
+####################################################################################
+source /software/bash_functions_forhost.sh
 
-    cp ${original_ct_file} ${output_directory}/${grayfilename}
-    grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
-    ###########################################################################
+cp ${original_ct_file} ${output_directory}/${grayfilename}
+grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
+###########################################################################
 
-    #### originalfiel: .nii
-    #### betfile: *bet.nii.gz
+#### originalfiel: .nii
+#### betfile: *bet.nii.gz
 
-    # original_ct_file=$original_CT_directory_names/
-    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
-    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
-    ## preprocessing infarct mask:
-    python3 -c "
+# original_ct_file=$original_CT_directory_names/
+levelset_infarct_mask_file=${output_directory}/${infarctfilename}
+echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
+## preprocessing infarct mask:
+python3 -c "
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
 
-    ## preprocessing bet mask:
-    levelset_bet_mask_file=${output_directory}/${betfilename}
-    echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-    python3 -c "
+## preprocessing bet mask:
+levelset_bet_mask_file=${output_directory}/${betfilename}
+echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
+python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
 
-    #### preprocessing csf mask:
-    levelset_csf_mask_file=${output_directory}/${csffilename}
-    echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
-    python3 -c "
+#### preprocessing csf mask:
+levelset_csf_mask_file=${output_directory}/${csffilename}
+echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
+python3 -c "
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
 
-    lower_threshold=0
-    upper_threshold=20
-    templatefilename=scct_strippedResampled1.nii.gz
-    mask_on_template=midlinecssfResampled1.nii.gz
+lower_threshold=0
+upper_threshold=20
+templatefilename=scct_strippedResampled1.nii.gz
+mask_on_template=midlinecssfResampled1.nii.gz
 
-    x=$grayimage
-    bet_mask_filename=${output_directory}/${betfilename}
-    infarct_mask_filename=${output_directory}/${infarctfilename}
-    csf_mask_filename=${output_directory}/${csffilename}
-    run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
+x=$grayimage
+bet_mask_filename=${output_directory}/${betfilename}
+infarct_mask_filename=${output_directory}/${infarctfilename}
+csf_mask_filename=${output_directory}/${csffilename}
+run_IML_NWU_CSF_CALC $x ${bet_mask_filename} ${csf_mask_filename} ${infarct_mask_filename}
 
-  done
+done
 
-  # for f in ${output_directory}/*; do
-  #     # if [ -d "$f" ]; then
-  #         # $f is a directory
-  #         rm -r $f
-  #     # fi
-  # done
+# for f in ${output_directory}/*; do
+#     # if [ -d "$f" ]; then
+#         # $f is a directory
+#         rm -r $f
+#     # fi
+# done
 
 }
 
 # #####################################################
 get_nifti_scan_uri() {
-  # csvfilename=sys.argv[1]
-  # dir_to_save=sys.argv[2]
-  # echo " I AM IN copy_scan_data "
-  # rm -r /ZIPFILEDIR/*
+# csvfilename=sys.argv[1]
+# dir_to_save=sys.argv[2]
+# echo " I AM IN copy_scan_data "
+# rm -r /ZIPFILEDIR/*
 
-  sessionID=$1
-  working_dir=${2}
-  output_csvfile=${3}
-  rm -r ${working_dir}/*
-  output_dir=$(dirname ${output_csvfile})
-  rm -r ${output_dir}/*
-  # scanID=$2
-  python3 -c "
+sessionID=$1
+working_dir=${2}
+output_csvfile=${3}
+rm -r ${working_dir}/*
+output_dir=$(dirname ${output_csvfile})
+rm -r ${output_dir}/*
+# scanID=$2
+python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -233,15 +233,15 @@ call_decision_which_nifti()" ${sessionID} ${working_dir} ${output_csvfile}
 }
 
 copy_scan_data() {
-  csvfilename=${1} #sys.argv[1]
-  dir_to_save=${2} #sys.argv[2]
-  # 		echo " I AM IN copy_scan_data "
-  # rm -r /ZIPFILEDIR/*
-  # rm -r ${working_dir}/*
-  # rm -r ${output_dir}/*
-  # sessionID=$1
-  # # scanID=$2
-  python3 -c "
+csvfilename=${1} #sys.argv[1]
+dir_to_save=${2} #sys.argv[2]
+# 		echo " I AM IN copy_scan_data "
+# rm -r /ZIPFILEDIR/*
+# rm -r ${working_dir}/*
+# rm -r ${output_dir}/*
+# sessionID=$1
+# # scanID=$2
+python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -250,13 +250,13 @@ downloadniftiwithuri_withcsv()" ${csvfilename} ${dir_to_save}
 }
 
 getmaskfilesscanmetadata() {
-  # def get_maskfile_scan_metadata():
-  sessionId=${1}           #sys.argv[1]
-  scanId=${2}              # sys.argv[2]
-  resource_foldername=${3} # sys.argv[3]
-  dir_to_save=${4}         # sys.argv[4]
-  csvfilename=${5}         # sys.argv[5]
-  python3 -c "
+# def get_maskfile_scan_metadata():
+sessionId=${1}           #sys.argv[1]
+scanId=${2}              # sys.argv[2]
+resource_foldername=${3} # sys.argv[3]
+dir_to_save=${4}         # sys.argv[4]
+csvfilename=${5}         # sys.argv[5]
+python3 -c "
 import sys 
 sys.path.append('/software');
 from download_with_session_ID import *; 
@@ -272,112 +272,118 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-  rm ${final_output_directory}/*.*
-  rm ${output_directory}/*.*
-  outputfiles_present=0
-  echo $niftifile_csvfilename
-  while IFS=',' read -ra array; do
-    scanID=${array[2]}
-    echo sessionId::${sessionID}
-    echo scanId::${scanID}
-    snipr_output_foldername="PREPROCESS_SEGM"
-    ### check if the file exists:
-    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-    outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+rm ${final_output_directory}/*.*
+rm ${output_directory}/*.*
+outputfiles_present=0
+echo $niftifile_csvfilename
+while IFS=',' read -ra array; do
+scanID=${array[2]}
+echo sessionId::${sessionID}
+echo scanId::${scanID}
+snipr_output_foldername="PREPROCESS_SEGM"
+### check if the file exists:
+call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
+outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 
-    ################################################
+################################################
 #    outputfiles_present=0
-    echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-    #echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
-    if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
-      echo " I AM THE ONE"
-    fi
-    if  [[ "${outputfiles_present: -1}" -eq 0 ]]; then ## [[ 1 -gt 0 ]]  ; then #
+echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+#echo "outputfiles_present::ATUL${outputfiles_present}::outputfiles_present"
+if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
+echo " I AM THE ONE"
+fi
+if  [[ "${outputfiles_present: -1}" -eq 0 ]]; then ## [[ 1 -gt 0 ]]  ; then #
 
-      echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
-      ## GET THE SESSION CT image
-      copy_scan_data ${niftifile_csvfilename} ${working_dir_1} #${working_dir}
-      nifti_file_without_ext=$(basename $(ls ${working_dir_1}/*.nii))
-      nifti_file_without_ext=${nifti_file_without_ext%.nii*}
-      ##############################################################################################################
+echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
+## GET THE SESSION CT image
+copy_scan_data ${niftifile_csvfilename} ${working_dir_1} #${working_dir}
+nifti_file_without_ext=$(basename $(ls ${working_dir_1}/*.nii))
+nifti_file_without_ext=${nifti_file_without_ext%.nii*}
+##############################################################################################################
 
-      ## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
+## GET THE RESPECTIVS MASKS NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 
-      #####################################################################################
-      resource_dirname='MASKS'
-      output_dirname=${working_dir}
-      while IFS=',' read -ra array; do
-        scanID=${array[2]}
-        echo sessionId::${sessionID}
-        echo scanId::${scanID}
-      done < <(tail -n +2 "${niftifile_csvfilename}")
-      echo working_dir::${working_dir}
-      echo output_dirname::${output_dirname}
-      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-      resource_dirname='PREPROCESS_SEGM'
-      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-      resource_dirname='EDEMA_BIOMARKER'
-      copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+#####################################################################################
+resource_dirname='MASKS'
+output_dirname=${working_dir}
+while IFS=',' read -ra array; do
+scanID=${array[2]}
+echo sessionId::${sessionID}
+echo scanId::${scanID}
+done < <(tail -n +2 "${niftifile_csvfilename}")
+echo working_dir::${working_dir}
+echo output_dirname::${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+resource_dirname='PREPROCESS_SEGM'
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+resource_dirname='EDEMA_BIOMARKER'
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 
-      ###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
-      ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
-      ## and the mat files especially the Inv.mat file let us keep the sensible names from here:
-      session_ct=$( ls ${working_dir_1}/*'.nii' )
-      session_ct_bname_noext=$(basename ${session_ct})
-      session_ct_bname_noext=${session_ct_bname_noext%.nii*}
-      fixed_image_filename='/software/scct_strippedResampled1.nii.gz'
-      infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
+###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
+## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
+## and the mat files especially the Inv.mat file let us keep the sensible names from here:
+session_ct=$( ls ${working_dir_1}/*'.nii' )
+session_ct_bname_noext=$(basename ${session_ct})
+session_ct_bname_noext=${session_ct_bname_noext%.nii*}
+fixed_image_filename='/software/scct_strippedResampled1.nii.gz'
+infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
 #      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
-      bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
-      echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-      python3 -c "
+bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
+echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
+python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${infarct_mask_from_yasheng}" "${output_directory}"
 
-      python3 -c "
+python3 -c "
 
 import sys ;
 sys.path.append('/software/') ;
 from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${bet_mask_from_yasheng}" "${output_directory}"
 
 
-
 # now let us make bet gray for session ct:
- /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
-       fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-       moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
-       function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
-       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-       outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+/software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
+fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
+function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
 #              fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-        moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
-        function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
-        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-        outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-        normalized_fixed_file_name='/software/scct_strippedResampled1_normalized_fix.nii.gz'
-       /software/linear_rigid_registration_v10162024.sh ${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz ${normalized_fixed_file_name}  ${output_directory}
+moving_image_filename=$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
+function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+
+############################### REGISTRATION## image and matrxi
+fixed_image_filename=${normalized_fixed_file_name}
+moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_fresampled_normalized_mov.nii.gz
+normalized_fixed_file_name='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
+session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+#####
+#       normalized_fixed_file_name
+moving_image_filename=${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 
 
 
-
-      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+#      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
 #      Transform grayscale bet
 
 
-      T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
 #      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
 
 
 # transform infarct mask
 #      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-      moving_image_filename=${output_directory}/${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov.nii.gz #$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
-#      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
-      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_imnormalized_fixed_file_nameage_filename} ${T_output_filename} ${mask_binary_output_dir}
-      moving_image_output_filename=$(ls ${output_directory}/mov_*${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov* ) ## #$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
-      threshold=0
+#      moving_image_filename=${output_directory}/${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov.nii.gz #$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
+##      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+#      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_imnormalized_fixed_file_nameage_filename} ${T_output_filename} ${mask_binary_output_dir}
+#      moving_image_output_filename=$(ls ${output_directory}/mov_*${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov* ) ## #$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
+#      threshold=0
 #      function_with_arguments=('call_gray2binary' ${moving_image_output_filename}  ${mask_binary_output_dir} ${threshold})
 #      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #      outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
@@ -386,13 +392,13 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 #      for file_suffix in ${file_suffixes[@]}; do
 #        copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${working_dir_1}" ${snipr_output_foldername} ${file_suffix}
 #      done
-      ######################################################################################################################
-      echo " FILES NOT PRESENT I AM WORKING ON IT"
-    else
-      echo " FILES ARE PRESENT "
-    ######################################################################################################################
-    fi
-    ##
+######################################################################################################################
+echo " FILES NOT PRESENT I AM WORKING ON IT"
+else
+echo " FILES ARE PRESENT "
+######################################################################################################################
+fi
+##
 
-  done < <(tail -n +2 "${niftifile_csvfilename}")
+done < <(tail -n +2 "${niftifile_csvfilename}")
 done

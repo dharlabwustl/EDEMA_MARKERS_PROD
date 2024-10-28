@@ -124,7 +124,7 @@ def call_only_resample_to_fixed(args):
     try:
         moving_image=args.stuff[1]
         fixed_image=args.stuff[2]
-        normalization_N_resample_to_fixed(moving_image,fixed_image)
+        only_resample_to_fixed(moving_image,fixed_image)
         command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         success=1
@@ -2106,6 +2106,8 @@ def main():
         return_value=call_separate_mask_regions_into_individual_image(args) #
     if name_of_the_function == "call_normalization_N_resample_to_fixed":
         return_value=call_normalization_N_resample_to_fixed(args)
+    if name_of_the_function == "call_only_resample_to_fixed":
+        return_value=call_only_resample_to_fixed(args)
     if "call" not in name_of_the_function:
         return_value=0
         globals()[args.stuff[0]](args)

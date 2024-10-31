@@ -280,6 +280,7 @@ mri_gray_image_basename='BCI-DNI_brain_bfc.nii.gz'
 fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
 moving_image_filename=/software/mritemplate1/original/${mri_gray_image_basename}   #${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
 session_ct_bname_noext=${mri_gray_image_basename%.nii*}
+mri_dir=$(dirname ${moving_image_filename})
 cp ${moving_image_filename} $(dirname ${moving_image_filename})/${session_ct_bname_noext}_brain_f.nii.gz
 moving_image_filename=$(dirname ${moving_image_filename})/${session_ct_bname_noext}_brain_f.nii.gz
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
@@ -293,14 +294,14 @@ function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename} 
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
-################################ REGISTRATION## image and get matrix
-#normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
-#fixed_image_filename=${normalized_fixed_file_name}
-#moving_image_filename=${session_ct_bname_noext}_brain_f.nii.gz
-##cp $fixed_image_filename $moving_image_filename
-#moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_normalized_mov.nii.gz
-#/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
-#session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+############################### REGISTRATION## image and get matrix
+normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
+fixed_image_filename=${normalized_fixed_file_name}
+moving_image_filename=${session_ct_bname_noext}_brain_f.nii.gz
+#cp $fixed_image_filename $moving_image_filename
+moving_image_filename=${mri_dir}/${moving_image_filename%.nii*}resampled_normalized_mov.nii.gz
+/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
+session_ct_bet_gray_lin_reg_output=${mri_dir}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 ######
 #### apply the matrix to the infarct mask
 ##       normalized_fixed_file_name

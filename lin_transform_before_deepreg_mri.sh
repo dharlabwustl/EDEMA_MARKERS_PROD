@@ -288,7 +288,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 
 
 #### resample the infarct image
-moving_image_filename=/software/mritemplate/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+moving_image_filename=/software/mritemplate1/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")

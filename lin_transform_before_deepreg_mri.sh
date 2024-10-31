@@ -285,14 +285,14 @@ moving_image_filename=$(dirname ${moving_image_filename})/${session_ct_bname_noe
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#
-#
-##### resample the infarct image
-#moving_image_filename=/software/mritemplate/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
-#function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#
+
+
+#### resample the infarct image
+moving_image_filename=/software/mritemplate/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+
 ################################ REGISTRATION## image and get matrix
 #normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
 #fixed_image_filename=${normalized_fixed_file_name}

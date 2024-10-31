@@ -34,7 +34,8 @@ if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V1' ]]; then
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_REF_FRAME' ]]; then
-  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_mri.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then

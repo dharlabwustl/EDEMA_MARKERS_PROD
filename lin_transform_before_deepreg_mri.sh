@@ -278,7 +278,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 #### normalize and resample the grayscale image
 mri_gray_image_basename='BCI-DNI_brain_bfc.nii.gz'
 fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-moving_image_filename=/software/mritemplate/original/${mri_gray_image_basename}   #${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
+moving_image_filename=/software/mritemplate1/original/${mri_gray_image_basename}   #${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
 session_ct_bname_noext=${mri_gray_image_basename%.nii*}
 cp ${moving_image_filename} $(dirname ${moving_image_filename})/${session_ct_bname_noext}_brain_f.nii.gz
 moving_image_filename=$(dirname ${moving_image_filename})/${session_ct_bname_noext}_brain_f.nii.gz

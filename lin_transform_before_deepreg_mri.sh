@@ -286,18 +286,25 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 #
 #
 ##### resample the infarct image
-#moving_image_filename=/software/mritemplate1/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
-#function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#
-################################ REGISTRATION## image and get matrix
-#normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
-#fixed_image_filename=${normalized_fixed_file_name}
-#moving_image_filename=/software/mritemplate1/original/BCI-DNI_brain_bfc.nii.gz  ##${session_ct_bname_noext}_brain_f.nii.gz
-##cp $fixed_image_filename $moving_image_filename
-#moving_image_filename=${moving_image_filename%.nii*}resampled_normalized_mov.nii.gz
-#/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
+moving_image_filename_mrilabel=/software/mritemplate1/original/BCI-DNI_brain_label.nii.gz  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename_mrilabel}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+moving_image_filename_mrilabel_resample=${moving_image_filename_mrilabel%.nii*}_resampled_mov.nii.gz
+############################### REGISTRATION## image and get matrix
+normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
+
+moving_image_filename_mrigray_norm=${moving_image_filename_mrigray%.nii*}resampled_normalized_mov.nii.gz
+/software/linear_rigid_registration_v10162024.sh ${moving_image_filename_mrigray_norm}  ${normalized_fixed_file_name} ${output_directory}
+moving_image_filename_mrigray_reg_output=$(dirname ${moving_image_filename_mrigray_norm})/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.nii.gz))
+moving_image_filename_mrigray_reg_mat_output=$(dirname ${moving_image_filename_mrigray_norm})/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.mat))
+
+#############################
+mask_binary_output_dir='/input'
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
+
+
+#echo ${moving_image_filename_mrigray_reg_output}
 #moving_image_prefix=${moving_image_filename%.nii*}
 #moving_image_prefix=$(basename ${moving_image_prefix})
 #

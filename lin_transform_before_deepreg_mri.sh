@@ -276,6 +276,8 @@ from download_with_session_ID import *;
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
 #### normalize and resample the grayscale image
+## DOWNLOAD TEMPLATE FILES FROM SNIPR
+
 moving_image_filename_mrigray=/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
 fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename_mrigray}  ${fixed_image_filename} )

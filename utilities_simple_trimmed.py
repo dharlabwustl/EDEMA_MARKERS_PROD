@@ -45,6 +45,23 @@ def demo():
 ################## REGISTRATION STEPS #####################################
 
 # Function for Z-score normalization
+def call_separate_masks_from_multivalue_mask(args):
+    multivaluemaskfile=args.stuff[1]
+    separate_masks_from_multivalue_mask(multivaluemaskfile)
+
+def separate_masks_from_multivalue_mask(multivaluemaskfile):
+    multivaluemaskfile_nib=nib.load(multivaluemaskfile)
+    multivaluemaskfile_nib_data=multivaluemaskfile_nib.get_fdata()
+    multivaluemaskfile_nib_data=np.rint(multivaluemaskfile_nib_data).astype(int)
+    unique_values=np.unique(multivaluemaskfile_nib_data)
+    for x in unique_values:
+        if x !=0:
+            this_mask_filename=multivaluemaskfile.split('.nii')[0]+'_'+str(x)+'.nii.gz'
+            this_mask_data=np.copy(multivaluemaskfile_nib_data)
+            this_mask_data[this_mask_data!=x]=0
+            this_mask_data[this_mask_data==x]=1
+            arraynib=nib.Nifti1Image(this_mask_data,affine=multivaluemaskfile_nib.affine,header=multivaluemaskfile_nib.header)
+            nib.save(arraynib,this_mask_filename)
 def z_score_normalization(image_data):
     mean = np.mean(image_data)
     std = np.std(image_data)
@@ -2107,7 +2124,9 @@ def main():
     if name_of_the_function == "call_normalization_N_resample_to_fixed":
         return_value=call_normalization_N_resample_to_fixed(args)
     if name_of_the_function == "call_only_resample_to_fixed":
-        return_value=call_only_resample_to_fixed(args)
+        return_value=call_only_resample_to_fixed(args) #
+    if name_of_the_function == "call_separate_masks_from_multivalue_mask":
+        return_value=call_separate_masks_from_multivalue_mask(args)
     if "call" not in name_of_the_function:
         return_value=0
         globals()[args.stuff[0]](args)

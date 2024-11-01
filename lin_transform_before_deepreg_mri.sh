@@ -316,12 +316,13 @@ moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii
 
 fi
 done
-
-for file in ${}/*_lin1.nii.gz ; do
+snipr_output_foldername='PREPROCESS_SEGM'
+for file in ${mask_binary_output_dir}/*_lin1.nii.gz ; do
+echo $file
 uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )
 #
 done
-
+uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name}) ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )
 
 #echo ${moving_image_filename_mrigray_reg_output}
 #moving_image_prefix=${moving_image_filename%.nii*}

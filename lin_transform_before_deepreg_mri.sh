@@ -319,10 +319,12 @@ fi
 done
 scanID='MRI1'
 snipr_output_foldername='PREPROCESS_SEGM'
-#for file in ${mask_binary_output_dir}/*_lin1.nii.gz ; do
-#echo $file
-#echo "uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )"
-#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )
+all_moved_files=$(find ./ -name 'mov_'* )
+for file in ${all_moved_files}/*_lin1.nii.gz ; do
+echo $file
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${all_moved_files}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${all_moved_files}) ${snipr_output_foldername} $(basename ${file} )
+done
 ##
 #
 #done

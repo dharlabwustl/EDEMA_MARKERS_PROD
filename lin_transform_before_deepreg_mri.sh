@@ -280,9 +280,9 @@ scanID='MRI1'
 # download the niftifile
 #sessionID=$sessionID, scanID=$scanID , resource_dir=NIFTI
 # get metadata of this session
-function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionId}  ${scanId} 'NIFTI' ${working_dir_1})
+function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionId}  ${scanId} NIFTI ${working_dir_1})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}"}
 # Get the scan ID
 #### normalize and resample the grayscale image
 ## DOWNLOAD TEMPLATE FILES FROM SNIPR

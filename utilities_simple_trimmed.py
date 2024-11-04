@@ -62,7 +62,7 @@ def separate_masks_from_multivalue_mask(multivaluemaskfile,masks_output_director
             this_mask_data[this_mask_data!=x]=0
             this_mask_data[this_mask_data==x]=1
             arraynib=nib.Nifti1Image(this_mask_data,affine=multivaluemaskfile_nib.affine,header=multivaluemaskfile_nib.header)
-            nib.save(arraynib,os.path.join(masks_output_directory,os.path.basename(this_mask_filename))
+            nib.save(arraynib,os.path.join(masks_output_directory,os.path.basename(this_mask_filename)))
 def z_score_normalization(image_data):
     mean = np.mean(image_data)
     std = np.std(image_data)

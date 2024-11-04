@@ -348,6 +348,9 @@ echo $file
 echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
 done
+file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
+
 ##
 #
 #done

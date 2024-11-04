@@ -331,7 +331,13 @@ fi
 done
 
 snipr_output_foldername='PREPROCESS_SEGM'
-all_moved_files=$(find ./ -name 'mov_'* )
+all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
+for file in ${all_moved_files} ; do
+echo $file
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
+done
+all_moved_files=$(find ${output_directory} -name 'mov_'* )
 for file in ${all_moved_files} ; do
 echo $file
 echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"

@@ -47,9 +47,10 @@ def demo():
 # Function for Z-score normalization
 def call_separate_masks_from_multivalue_mask(args):
     multivaluemaskfile=args.stuff[1]
-    separate_masks_from_multivalue_mask(multivaluemaskfile)
+    masks_output_directory=args.stuff[2]
+    separate_masks_from_multivalue_mask(multivaluemaskfile,masks_output_directory)
 
-def separate_masks_from_multivalue_mask(multivaluemaskfile):
+def separate_masks_from_multivalue_mask(multivaluemaskfile,masks_output_directory):
     multivaluemaskfile_nib=nib.load(multivaluemaskfile)
     multivaluemaskfile_nib_data=multivaluemaskfile_nib.get_fdata()
     multivaluemaskfile_nib_data=np.rint(multivaluemaskfile_nib_data).astype(int)
@@ -61,7 +62,7 @@ def separate_masks_from_multivalue_mask(multivaluemaskfile):
             this_mask_data[this_mask_data!=x]=0
             this_mask_data[this_mask_data==x]=1
             arraynib=nib.Nifti1Image(this_mask_data,affine=multivaluemaskfile_nib.affine,header=multivaluemaskfile_nib.header)
-            nib.save(arraynib,this_mask_filename)
+            nib.save(arraynib,os.path.join(masks_output_directory,os.path.basename(this_mask_filename))
 def z_score_normalization(image_data):
     mean = np.mean(image_data)
     std = np.std(image_data)

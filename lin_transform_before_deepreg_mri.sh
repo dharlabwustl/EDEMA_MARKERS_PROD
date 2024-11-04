@@ -275,10 +275,19 @@ sys.path.append('/software');
 from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
+## KEEP THE SCAN ID FIXED as 'MRI1, KEEP MASKSLABEL name fixed, NIFTI is already fixed. Session ID is given
+scanID='MRI1'
+# download the niftifile
+#sessionID=$sessionID, scanID=$scanID , resource_dir=NIFTI
+# get metadata of this session
+function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionId}  ${scanId} 'NIFTI' ${working_dir_1})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+
+# Get the scan ID
 #### normalize and resample the grayscale image
 ## DOWNLOAD TEMPLATE FILES FROM SNIPR
 ###################NORMALIZE THE MOVING IMAGE#######################
-moving_image_filename_mrigray=/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
+moving_image_filename_mrigray=$(ls ${working_dir_1}/*_bfc.nii.gz) #/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
 fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename_mrigray}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -294,7 +303,7 @@ moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename 
 ######################### REGISTRATION OF THE MASKS #####################
 #
 ##### resample the region masks image
-moving_image_filename_mrilabel=/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+moving_image_filename_mrilabel=$(ls ${working_dir_1}/*_label.nii.gz) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #############################
 masks_output_directory=${working_dir}
 function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )
@@ -317,7 +326,7 @@ moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
 fi
 done
-scanID='MRI1'
+
 snipr_output_foldername='PREPROCESS_SEGM'
 all_moved_files=$(find ./ -name 'mov_'* )
 for file in ${all_moved_files}/*_lin1.nii.gz ; do

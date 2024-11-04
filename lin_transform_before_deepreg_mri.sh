@@ -296,67 +296,38 @@ moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename 
 ##### resample the region masks image
 moving_image_filename_mrilabel=/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #############################
+masks_output_directory=${working_dir}
 function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel}   )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-masks_label_pattern=${moving_image_filename_mrilabel%.nii*}
-file_count=1
-mask_binary_output_dir='/input'
-for each_mask_label_file in ${masks_label_pattern}_*.nii.gz ; do
-this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz
-if [[ -f ${this_mask_file} ]] ; then
-  echo ${this_mask_file}
-function_with_arguments=('call_only_resample_to_fixed' ${this_mask_file}  ${fixed_image_filename} )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii.gz
-/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
+#
+#masks_label_pattern=${masks_output_directory}/$(basename ${moving_image_filename_mrilabel%.nii*})
+#file_count=1
+#mask_binary_output_dir='/input'
+#for each_mask_label_file in ${masks_label_pattern}_*.nii.gz ; do
+#this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz
+#if [[ -f ${this_mask_file} ]] ; then
+#  echo ${this_mask_file}
+#function_with_arguments=('call_only_resample_to_fixed' ${this_mask_file}  ${fixed_image_filename} )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+##moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii.gz
+##mv ${moving_image_filename_mrilabel_resample} ${working_dir}/
+#moving_image_filename_mrilabel_resample=${working_dir}/$(basename ${this_mask_file%.nii*}resampled_mov.nii.gz)
+#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
 
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${this_mask_file} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
 
 fi
 done
+scanID='MRI1'
 snipr_output_foldername='PREPROCESS_SEGM'
-for file in ${mask_binary_output_dir}/*_lin1.nii.gz ; do
-echo $file
-uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )
-#
-done
-uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name}) ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )
-
-#echo ${moving_image_filename_mrigray_reg_output}
-#moving_image_prefix=${moving_image_filename%.nii*}
-#moving_image_prefix=$(basename ${moving_image_prefix})
-#
-#session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${moving_image_prefix}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
-#session_ct_bet_gray_lin_reg_output=
-######
-#### apply the matrix to the infarct mask
-##       normalized_fixed_file_name
-#moving_image_filename=$(basename ${moving_image_filename})
-#registration_mat_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}).mat
-#registration_nii_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_$(basename ${normalized_fixed_file_name})  #scct_strippedResampled1_normalized_fix_lin1.nii.gz
-#fixed_image_filename=${normalized_fixed_file_name}
-#
-#moving_image_filename=/software/mritemplate1/original/BCI-DNI_brain_label.nii.gz #${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
-#moving_image_filename=${moving_image_filename%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input'
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#
-#moving_image_filename=$(basename ${moving_image_filename%.nii*})
-#mask_binary_output_filename=mov_${moving_image_filename}_fixed_$(basename ${normalized_fixed_file_name%.nii*})_lin1.nii.gz
-#snipr_output_foldername="PREPROCESS_SEGM"
-#
-#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
-#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
-#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
-#uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
-#
-#######################################################################################################################
+#for file in ${mask_binary_output_dir}/*_lin1.nii.gz ; do
+#echo $file
+#echo "uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )"
+#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} $(basename ${file} )
 ##
-########################################################################################################################
-###fi
-#####
-###
-###done < <(tail -n +2 "${niftifile_csvfilename}")
-###done
+#
+#done
+#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name})  ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )"
+#uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name}) ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )
+

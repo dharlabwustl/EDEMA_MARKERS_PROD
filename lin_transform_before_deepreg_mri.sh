@@ -317,8 +317,8 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 #/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
 
 
-fi
-done
+#fi
+#done
 scanID='MRI1'
 snipr_output_foldername='PREPROCESS_SEGM'
 #for file in ${mask_binary_output_dir}/*_lin1.nii.gz ; do

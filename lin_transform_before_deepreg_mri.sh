@@ -332,7 +332,7 @@ done
 
 snipr_output_foldername='PREPROCESS_SEGM'
 all_moved_files=$(find ./ -name 'mov_'* )
-for file in ${all_moved_files}/*_lin1.nii.gz ; do
+for file in ${all_moved_files} ; do
 echo $file
 echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${all_moved_files}) ${snipr_output_foldername} $(basename ${file} )"
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${all_moved_files}) ${snipr_output_foldername} $(basename ${file} )

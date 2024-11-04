@@ -334,6 +334,10 @@ snipr_output_foldername='PREPROCESS_SEGM'
 all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
 for file in ${all_moved_files} ; do
 echo $file
+
+function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+
 echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
 done

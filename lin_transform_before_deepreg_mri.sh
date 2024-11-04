@@ -290,7 +290,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 #### normalize and resample the grayscale image
 ## DOWNLOAD TEMPLATE FILES FROM SNIPR
 ###################NORMALIZE THE MOVING IMAGE#######################
-moving_image_filename_mrigray=$(ls ${working_dir_1}/*bfc.nii.gz) #/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
+moving_image_filename_mrigray=$(ls ${working_dir_1}/*bfc.nii*) #/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
 fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename_mrigray}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -306,7 +306,7 @@ moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename 
 ######################### REGISTRATION OF THE MASKS #####################
 #
 ##### resample the region masks image
-moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label.nii.gz) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label*) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #############################
 masks_output_directory=${working_dir}
 function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )

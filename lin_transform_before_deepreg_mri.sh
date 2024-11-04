@@ -297,7 +297,7 @@ moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename 
 moving_image_filename_mrilabel=/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #############################
 masks_output_directory=${working_dir}
-function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel}   )
+function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 #

@@ -297,7 +297,7 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 #
 ############################### REGISTRATION OF THE MOVING IMAGE## image and get matrix
-normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'
+normalized_fixed_file_name=${fixed_image_filename} ##%.nii*}'_normalized_fix.nii.gz'
 moving_image_filename_mrigray_norm=${moving_image_filename_mrigray%.nii*}resampled_normalized_mov.nii.gz
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename_mrigray_norm}  ${normalized_fixed_file_name} ${output_directory}
 moving_image_filename_mrigray_reg_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.nii.gz))
@@ -349,8 +349,8 @@ echo $file
 echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
 done
-file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
+#file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
 
 ##
 #

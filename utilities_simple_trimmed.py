@@ -97,8 +97,8 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
     fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3]
 
     # Step 1: Normalize intensities
-    moving_image_normalized = z_score_normalization(moving_image_data)
-    fixed_image_normalized = z_score_normalization(fixed_image_data)
+    moving_image_normalized = z_score_normalization(moving_image_data)*np.max(fixed_image_data)
+    # fixed_image_normalized = z_score_normalization(fixed_image_data)
 
     # Step 2: Resample the moving image to match the fixed image voxel size
     resampled_moving_image_data = resample_image_to_voxel_size(moving_image_normalized, moving_voxel_size, fixed_voxel_size)
@@ -109,7 +109,7 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
 
 # Save the normalized and resampled image
     nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_normalized_mov.nii.gz')
-    nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
+    # nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
 def only_resample_to_fixed(moving_image_file,fixed_image_file):
     # Load the NIfTI file and extract the image data
     moving_image_nii = nib.load(moving_image_file) #'moving_image.nii.gz')

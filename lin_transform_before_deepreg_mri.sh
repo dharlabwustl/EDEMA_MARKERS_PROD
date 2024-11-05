@@ -316,7 +316,8 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 masks_label_pattern=${masks_output_directory}/$(basename ${moving_image_filename_mrilabel%.nii*})
 file_count=1
 mask_binary_output_dir='/input'
-for each_mask_label_file in ${masks_label_pattern}_*.nii  ; do  ###*.gz
+for each_mask_label_file in ${masks_label_pattern}_*.nii*  ; do  ###*.gz
+echo each_mask_label_file::${each_mask_label_file}
 this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz
 if [[ -f ${this_mask_file} ]] ; then
   echo ${this_mask_file}

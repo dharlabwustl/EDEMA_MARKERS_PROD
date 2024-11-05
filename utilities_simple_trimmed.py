@@ -91,14 +91,15 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
     # Extract image data as NumPy arrays
     moving_image_data = moving_image_nii.get_fdata()
     fixed_image_data = fixed_image_nii.get_fdata()
+    fixed_image_nii_max=np.max(fixed_image_nii.get_fdata())
 
     # Extract voxel sizes from the NIfTI headers
     moving_voxel_size = moving_image_nii.header.get_zooms()[:3]
     fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3]
 
     # Step 1: Normalize intensities
-    moving_image_normalized = z_score_normalization(moving_image_data)*np.max(fixed_image_data)
-    fixed_image_normalized = z_score_normalization(fixed_image_data)*np.max(fixed_image_data)
+    moving_image_normalized = z_score_normalization(moving_image_data)*fixed_image_nii_max
+    fixed_image_normalized = z_score_normalization(fixed_image_data)*fixed_image_nii_max
 
     # Step 2: Resample the moving image to match the fixed image voxel size
     resampled_moving_image_data = resample_image_to_voxel_size(moving_image_normalized, moving_voxel_size, fixed_voxel_size)

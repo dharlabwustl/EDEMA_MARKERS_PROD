@@ -105,7 +105,7 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
 
     # Convert resampled data back to a NIfTI image using the fixed image's affine matrix and header
     resampled_moving_image_nii = nib.Nifti1Image(resampled_moving_image_data, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
-    fixed_image_normalized_nii = nib.Nifti1Image(fixed_image_normalized, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
+    # fixed_image_normalized_nii = nib.Nifti1Image(fixed_image_normalized, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
 
 # Save the normalized and resampled image
     nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_normalized_mov.nii.gz')

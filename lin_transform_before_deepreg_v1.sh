@@ -394,6 +394,16 @@ mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+
+moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
+mask_binary_output_dir='/input'
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+moving_image_filename=$(basename ${moving_image_filename%.nii*})
+bet_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+
+
+
+
 snipr_output_foldername="PREPROCESS_SEGM"
 #    sessionId=str(sys.argv[1])
 #    scanId=str(sys.argv[2])
@@ -401,10 +411,13 @@ snipr_output_foldername="PREPROCESS_SEGM"
 #    resource_dirname=str(sys.argv[4])
 #    file_name=str(sys.argv[5])
 
+uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename}
+
 uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
 uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
+
 #
 ##file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
 ##for file_suffix in ${file_suffixes[@]}; do

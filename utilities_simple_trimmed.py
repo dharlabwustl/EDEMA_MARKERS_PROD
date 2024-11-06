@@ -118,15 +118,20 @@ def only_resample_to_fixed(moving_image_file,fixed_image_file):
     command="echo I AM  at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
     subprocess.call(command,shell=True)
     # Extract image data as NumPy arrays
+
     moving_image_data = moving_image_nii.get_fdata()
+    print(moving_image_data.shape)
+    fixed_image_data = fixed_image_nii.get_fdata()
+    print(fixed_image_data.shape)
+
     if len(moving_image_data.shape) >3:
         moving_image_data=moving_image_data[:,:,:,0]
     print(moving_image_data.shape)
-    fixed_image_data = fixed_image_nii.get_fdata()
+
 
     # Extract voxel sizes from the NIfTI headers
-    moving_voxel_size = moving_image_nii.header.get_zooms()[:3].astype('float')
-    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3].astype('float')
+    moving_voxel_size = moving_image_nii.header.get_zooms()[:3] #.astype('float')
+    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3] #.astype('float')
 
     # # Step 1: Normalize intensities
     # moving_image_normalized = z_score_normalization(moving_image_data)

@@ -277,6 +277,10 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 }
 ## KEEP THE SCAN ID FIXED as 'MRI1, KEEP MASKSLABEL name fixed, NIFTI is already fixed. Session ID is given
 scanID='MRI1'
+snipr_output_foldername='PREPROCESS_LINR'
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '*.nii.gz' 'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 # download the niftifile
 #sessionID=$sessionID, scanID=$scanID , resource_dir=NIFTI
 # get metadata of this session
@@ -352,7 +356,12 @@ done
 file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
 
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '*.nii.gz' 'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+#
 ##
+
 #
 #done
 #echo "uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name})  ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )"

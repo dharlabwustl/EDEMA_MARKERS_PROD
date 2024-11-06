@@ -2324,6 +2324,42 @@ def project_resource_latest_analytic_file(args):
     # if file_present < len(extension_to_find_list):
     #     return
 # def get_file_for_second_round():
+def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=''):
+    #         resource_dir='MASKS' #'NIFTI_LOCATION'
+    try:
+        URL='/data/experiments/'+session_id+'/scans/'+scan_id
+        metadata_masks=get_resourcefiles_metadata(URL,resource_dir)
+        df_scan = pd.read_json(json.dumps(metadata_masks))
+        #         extensions_to_delete=['_resaved_levelset_sulci_above_ventricle.nii.gz','_resaved_levelset_sulci_at_ventricle.nii.gz','_resaved_levelset_sulci_below_ventricle.nii.gz',
+        #                                  '_resaved_levelset_sulci_total.nii.gz','_resaved_levelset_ventricle_total.nii.gz']
+        for each_extension in extensions_to_delete:
+            matched_rows = df_scan[df_scan['URI'].str.contains(each_extension, case=False, na=False)]
+            if len(prefix_if_any)>0:
+                matched_rows = matched_rows[matched_rows['URI'].str.contains(prefix_if_any, case=False, na=False)]
+
+            if matched_rows.shape[0]>0:
+                matched_rows=matched_rows.reset_index()
+                print(matched_rows)
+                url=matched_rows.at[0,'URI']
+                print(url)
+                delete_a_file_with_URIString(url)
+                print("DELETED::{}".format(url))
+    except:
+        pass
+def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions_to_delete):
+    try:
+        session_id=args.stuff[1]
+        scan_id=args.stuff[2]
+        resource_dir=args.stuff[3]
+        extensions_to_delete=args.stuff[4]
+        prefix_if_any=args.stuff[5]
+        delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=prefix_if_any)
+        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        return 1
+    except:
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        pass
+        return 0
 
 def main():
     print("WO ZAI ::{}".format("main"))
@@ -2366,7 +2402,9 @@ def main():
     if name_of_the_function=="call_get_session_label":
         return_value=call_get_session_label(args) #
     if name_of_the_function=="call_downloadfiletolocaldir_py":
-        return_value=call_downloadfiletolocaldir_py(args)
+        return_value=call_downloadfiletolocaldir_py(args) #
+    if name_of_the_function=="call_delete_file_with_ext":
+        return_value=call_delete_file_with_ext(args)
     print(return_value)
     if "call" not in name_of_the_function:
         globals()[args.stuff[0]](args)

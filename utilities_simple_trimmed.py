@@ -120,7 +120,7 @@ def only_resample_to_fixed(moving_image_file,fixed_image_file):
     # Extract image data as NumPy arrays
     moving_image_data = moving_image_nii.get_fdata()
     if len(moving_image_data.shape) >3:
-        moving_image_data=moving_image_data[:,:,:,1]
+        moving_image_data=moving_image_data[:,:,:,0]
     print(moving_image_data.shape)
     fixed_image_data = fixed_image_nii.get_fdata()
 

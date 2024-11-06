@@ -395,6 +395,7 @@ mask_binary_output_dir='/input'
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 
+
 moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}

@@ -115,14 +115,18 @@ def only_resample_to_fixed(moving_image_file,fixed_image_file):
     # Load the NIfTI file and extract the image data
     moving_image_nii = nib.load(moving_image_file) #'moving_image.nii.gz')
     fixed_image_nii = nib.load(fixed_image_file) ##'fixed_image.nii.gz')
-
+    command="echo I AM  at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+    subprocess.call(command,shell=True)
     # Extract image data as NumPy arrays
     moving_image_data = moving_image_nii.get_fdata()
+    if len(moving_image_data.shape) >3:
+        moving_image_data=moving_image_data[:,:,:,1]
+    print(moving_image_data.shape)
     fixed_image_data = fixed_image_nii.get_fdata()
 
     # Extract voxel sizes from the NIfTI headers
-    moving_voxel_size = moving_image_nii.header.get_zooms()[:3]
-    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3]
+    moving_voxel_size = moving_image_nii.header.get_zooms()[:3].astype('float')
+    fixed_voxel_size = fixed_image_nii.header.get_zooms()[:3].astype('float')
 
     # # Step 1: Normalize intensities
     # moving_image_normalized = z_score_normalization(moving_image_data)
@@ -247,7 +251,7 @@ def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
             region_img = nib.Nifti1Image(region_mask, affine=nifti_image.affine, header=nifti_image.header)
 
             # Save the region image
-            region_output_path = os.path.join(output_dir, f'mri_region_{int(region_value)}.nii.gz')
+            region_output_path = os.path.join(output_dir, f"mri_region_{int(region_value)}.nii.gz")
             nib.save(region_img, region_output_path)
             print(f'Saved region {int(region_value)} as {region_output_path}')
     ########################
@@ -2092,6 +2096,8 @@ def call_createh5file(args):
     # print(returnvalue)
     return  returnvalue
 def main():
+    command="echo i am main at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+    subprocess.call(command,shell=True)
     parser = argparse.ArgumentParser()
     parser.add_argument('stuff', nargs='+')
     args = parser.parse_args()

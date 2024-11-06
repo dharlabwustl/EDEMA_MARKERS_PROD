@@ -331,7 +331,7 @@ moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii
 fi
 done
 
-snipr_output_foldername='PREPROCESS_SEGM'
+snipr_output_foldername='PREPROCESS_LINR'
 all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
 for file in ${all_moved_files} ; do
 echo $file

@@ -2327,8 +2327,7 @@ def project_resource_latest_analytic_file(args):
 def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=''):
     #         resource_dir='MASKS' #'NIFTI_LOCATION'
     try:
-        command = "echo  success at  DELETED: " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
-        subprocess.call(command,shell=True)
+
         URL='/data/experiments/'+session_id+'/scans/'+scan_id
         metadata_masks=get_resourcefiles_metadata(URL,resource_dir)
         df_scan = pd.read_json(json.dumps(metadata_masks))
@@ -2336,6 +2335,8 @@ def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,pr
         #                                  '_resaved_levelset_sulci_total.nii.gz','_resaved_levelset_ventricle_total.nii.gz']
         for each_extension in extensions_to_delete:
             matched_rows = df_scan[df_scan['URI'].str.contains(each_extension, case=False, na=False)]
+            command = "echo  success at  DELETED: " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+            subprocess.call(command,shell=True)
             if len(prefix_if_any)>0:
                 matched_rows = matched_rows[matched_rows['URI'].str.contains(prefix_if_any, case=False, na=False)]
 

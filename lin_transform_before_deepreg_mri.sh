@@ -339,8 +339,8 @@ snipr_output_foldername='PREPROCESS_LINR'
 all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
 for file in ${all_moved_files} ; do
 echo $file
-
-function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
+thresh=0
+function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) thresh )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 file1=${file%.nii*}_BET.nii.gz

@@ -281,89 +281,89 @@ snipr_output_foldername='PREPROCESS_SEGM'
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' 'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-## download the niftifile
-##sessionID=$sessionID, scanID=$scanID , resource_dir=NIFTI
-## get metadata of this session
-#function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionID}  ${scanID} NIFTI ${working_dir_1})
-#echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-#function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionID}  ${scanID} MASKLABEL ${working_dir_1})
-#echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-## Get the scan ID
-##### normalize and resample the grayscale image
-### DOWNLOAD TEMPLATE FILES FROM SNIPR
-####################NORMALIZE THE MOVING IMAGE#######################
-#moving_image_filename_mrigray=$(ls ${working_dir_1}/*bfc.nii*) #/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
-#fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
-#function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename_mrigray}  ${fixed_image_filename} )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-##
-################################ REGISTRATION OF THE MOVING IMAGE## image and get matrix
-#normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'  #} ##
-#moving_image_filename_mrigray_norm=${moving_image_filename_mrigray%.nii*}resampled_normalized_mov.nii.gz
-#/software/linear_rigid_registration_v10162024.sh ${moving_image_filename_mrigray_norm}  ${normalized_fixed_file_name} ${output_directory}
-#moving_image_filename_mrigray_reg_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.nii.gz))
-#moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.mat))
+# download the niftifile
+#sessionID=$sessionID, scanID=$scanID , resource_dir=NIFTI
+# get metadata of this session
+function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionID}  ${scanID} NIFTI ${working_dir_1})
+echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+function_with_arguments=('call_downloadfiletolocaldir_py' ${sessionID}  ${scanID} MASKLABEL ${working_dir_1})
+echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+# Get the scan ID
+#### normalize and resample the grayscale image
+## DOWNLOAD TEMPLATE FILES FROM SNIPR
+###################NORMALIZE THE MOVING IMAGE#######################
+moving_image_filename_mrigray=$(ls ${working_dir_1}/*bfc.nii*) #/software/mritemplate1/original/'BCI-DNI_brain_bfc.nii.gz'
+fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename_mrigray}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 #
-########################## REGISTRATION OF THE MASKS #####################
-##
-###### resample the region masks image
-#moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label*) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
-##############################
-#masks_output_directory=${working_dir}
-#function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+############################### REGISTRATION OF THE MOVING IMAGE## image and get matrix
+normalized_fixed_file_name=${fixed_image_filename%.nii*}'_normalized_fix.nii.gz'  #} ##
+moving_image_filename_mrigray_norm=${moving_image_filename_mrigray%.nii*}resampled_normalized_mov.nii.gz
+/software/linear_rigid_registration_v10162024.sh ${moving_image_filename_mrigray_norm}  ${normalized_fixed_file_name} ${output_directory}
+moving_image_filename_mrigray_reg_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.nii.gz))
+moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.mat))
+
+######################### REGISTRATION OF THE MASKS #####################
 #
-#masks_label_pattern=${masks_output_directory}/$(basename ${moving_image_filename_mrilabel%.nii*})
-#file_count=1
-#mask_binary_output_dir='/input'
-#for each_mask_label_file in ${masks_label_pattern}_*.nii*  ; do  ###*.gz
-#echo each_mask_label_file::${each_mask_label_file}
-#this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz
-#if [[ -f ${this_mask_file} ]] ; then
-#  echo ${this_mask_file}
-#function_with_arguments=('call_only_resample_to_fixed' ${this_mask_file}  ${fixed_image_filename} )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii.gz
-##mv ${moving_image_filename_mrilabel_resample} ${working_dir}/
-##moving_image_filename_mrilabel_resample=${working_dir}/$(basename ${this_mask_file%.nii*}resampled_mov.nii.gz)
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
-#fi
+##### resample the region masks image
+moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label*) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+#############################
+masks_output_directory=${working_dir}
+function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+
+masks_label_pattern=${masks_output_directory}/$(basename ${moving_image_filename_mrilabel%.nii*})
+file_count=1
+mask_binary_output_dir='/input'
+for each_mask_label_file in ${masks_label_pattern}_*.nii*  ; do  ###*.gz
+echo each_mask_label_file::${each_mask_label_file}
+this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz
+if [[ -f ${this_mask_file} ]] ; then
+  echo ${this_mask_file}
+function_with_arguments=('call_only_resample_to_fixed' ${this_mask_file}  ${fixed_image_filename} )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii.gz
+#mv ${moving_image_filename_mrilabel_resample} ${working_dir}/
+#moving_image_filename_mrilabel_resample=${working_dir}/$(basename ${this_mask_file%.nii*}resampled_mov.nii.gz)
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
+fi
+done
+
+snipr_output_foldername='PREPROCESS_LINR'
+all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
+for file in ${all_moved_files} ; do
+echo $file
+
+function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+file1=${file%.nii*}_BET.nii.gz
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file1}) ${snipr_output_foldername} $(basename ${file1} )
+done
+all_moved_files=$(find ${output_directory} -name 'mov_'* )
+for file in ${all_moved_files} ; do
+echo $file
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
+done
+file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
+
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '*.nii.gz' 'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+#
+##
+
+#
 #done
-#
-#snipr_output_foldername='PREPROCESS_LINR'
-#all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
-#for file in ${all_moved_files} ; do
-#echo $file
-#
-#function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#file1=${file%.nii*}_BET.nii.gz
-#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file1}) ${snipr_output_foldername} $(basename ${file1} )
-#done
-#all_moved_files=$(find ${output_directory} -name 'mov_'* )
-#for file in ${all_moved_files} ; do
-#echo $file
-#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
-#done
-#file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
-#
-#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '*.nii.gz' 'warped_1_mov_mri_region_' )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-##
-###
-#
-##
-##done
-##echo "uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name})  ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )"
-##uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name}) ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )
-#
+#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name})  ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )"
+#uploadsinglefile ${sessionID} ${scanID} $(dirname  ${normalized_fixed_file_name}) ${snipr_output_foldername} $(basename ${normalized_fixed_file_name} )
+

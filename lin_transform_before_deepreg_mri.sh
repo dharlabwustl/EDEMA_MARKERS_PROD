@@ -278,7 +278,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 ## KEEP THE SCAN ID FIXED as 'MRI1, KEEP MASKSLABEL name fixed, NIFTI is already fixed. Session ID is given
 scanID='MRI1'
 snipr_output_foldername='PREPROCESS_SEGM'
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '*.nii.gz' 'warped_1_mov_mri_region_' )
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' 'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 ## download the niftifile

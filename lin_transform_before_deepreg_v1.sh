@@ -401,9 +401,10 @@ mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 bet_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
-
-
-
+threshold=0
+function_with_arguments=('call_gray2binary' ${bet_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
 snipr_output_foldername="PREPROCESS_SEGM"
 #    sessionId=str(sys.argv[1])

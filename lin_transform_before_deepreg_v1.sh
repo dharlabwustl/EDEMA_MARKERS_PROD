@@ -412,7 +412,7 @@ snipr_output_foldername="PREPROCESS_SEGM"
 #    resource_dirname=str(sys.argv[4])
 #    file_name=str(sys.argv[5])
 /software/bet_withlevelset.sh ${registration_nii_file} ${mask_binary_output_dir}/${bet_binary_output_filename}
-full_image_filename={registration_nii_file}
+full_image_filename=${registration_nii_file}
 full_image_filename_betgray=${full_image_filename%.nii*}_brain_f.nii.gz
 
 uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename}

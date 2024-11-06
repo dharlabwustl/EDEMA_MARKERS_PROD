@@ -2344,6 +2344,8 @@ def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,pr
             matched_rows=matched_rows.reset_index()
             print(matched_rows)
             for each_row_id,each_row in matched_rows.iterrows():
+                command = "echo  success at  DELETED each_row_id: " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+                subprocess.call(command,shell=True)
                 url=each_row['URI'] #matched_rows.at[0,'URI']
                 print(url)
                 delete_a_file_with_URIString(url)

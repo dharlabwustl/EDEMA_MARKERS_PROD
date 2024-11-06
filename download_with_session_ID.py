@@ -2354,10 +2354,12 @@ def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions
         extensions_to_delete=args.stuff[4]
         prefix_if_any=args.stuff[5]
         delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=prefix_if_any)
-        print("I SUCCEED AT ::{}".format(inspect.stack()[0][3]))
+        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
         return 1
     except:
-        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
         pass
         return 0
 

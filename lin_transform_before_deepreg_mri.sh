@@ -302,7 +302,7 @@ moving_image_filename_mrigray_norm=${moving_image_filename_mrigray%.nii*}resampl
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename_mrigray_norm}  ${normalized_fixed_file_name} ${output_directory}
 moving_image_filename_mrigray_reg_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.nii.gz))
 moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename ${moving_image_filename_mrigray_norm%.nii*}_fixed_$(basename ${normalized_fixed_file_name%.nii*}_lin1.mat))
-#cp ../mov_MNI152_T1_1mm_brain_181x217x181_bfcresampled_normalized_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.* ${output_directory}/
+
 ######################### REGISTRATION OF THE MASKS #####################
 #
 ##### resample the region masks image
@@ -327,30 +327,30 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 moving_image_filename_mrilabel_resample=${this_mask_file%.nii*}resampled_mov.nii.gz
 #mv ${moving_image_filename_mrilabel_resample} ${working_dir}/
 #moving_image_filename_mrilabel_resample=${working_dir}/$(basename ${this_mask_file%.nii*}resampled_mov.nii.gz)
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename_mrilabel_resample} ${normalized_fixed_file_name} ${moving_image_filename_mrigray_reg_mat_output} ${mask_binary_output_dir}
 fi
 done
-#
-#snipr_output_foldername='PREPROCESS_SEGM'
-#all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
-#for file in ${all_moved_files} ; do
-#echo $file
-#
-#function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#file1=${file%.nii*}_BET.nii.gz
-#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file1}) ${snipr_output_foldername} $(basename ${file1} )
-#done
-#all_moved_files=$(find ${output_directory} -name 'mov_'* )
-#for file in ${all_moved_files} ; do
-#echo $file
-#echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
-#done
-#file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
+
+snipr_output_foldername='PREPROCESS_SEGM'
+all_moved_files=$(find ${mask_binary_output_dir} -name 'mov_'* )
+for file in ${all_moved_files} ; do
+echo $file
+
+function_with_arguments=('call_gray2binary' ${file}  $(dirname ${file}) 1 )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+file1=${file%.nii*}_BET.nii.gz
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file1}) ${snipr_output_foldername} $(basename ${file1} )
+done
+all_moved_files=$(find ${output_directory} -name 'mov_'* )
+for file in ${all_moved_files} ; do
+echo $file
+echo "uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )"
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) ${snipr_output_foldername} $(basename ${file} )
+done
+file='/software/scct_strippedResampled1_normalized_fix.nii.gz'
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${file}) NIFTI $(basename ${file} )
 
 ##
 #

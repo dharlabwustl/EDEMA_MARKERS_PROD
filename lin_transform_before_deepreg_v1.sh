@@ -416,13 +416,13 @@ snipr_output_foldername="PREPROCESS_SEGM"
 full_image_filename=${registration_nii_file}
 full_image_filename_betgray=${full_image_filename%.nii*}_brain_f.nii.gz
 
-uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename}
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${full_image_filename_betgray}) ${snipr_output_foldername} $(basename  ${full_image_filename_betgray})
-
-uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
-uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
-uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
-uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
+#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename}
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${full_image_filename_betgray}) ${snipr_output_foldername} $(basename  ${full_image_filename_betgray})
+#
+#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
+#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
+#uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
 
 #
 ##file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]

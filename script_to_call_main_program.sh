@@ -32,6 +32,9 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V1' ]]; then
  source /software/lin_transform_before_deepreg_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
+if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
+ source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_REF_FRAME' ]]; then
   /software/lin_transform_before_deepreg_mri.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output

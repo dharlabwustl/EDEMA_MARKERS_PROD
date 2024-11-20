@@ -252,7 +252,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 ## GET THE SINGLE CT NIFTI FILE NAME AND COPY IT TO THE WORKING_DIR
 #niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
 #get_nifti_scan_uri ${sessionID}  ${working_dir} ${niftifile_csvfilename}
-call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
+call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID}  ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 echo '$outputfiles_present'::$outputfiles_present
 ########################################
@@ -303,6 +303,12 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       nwucalculation_each_scan
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+      registration_files=$(find ../ -name   *'lin1.nii.gz')
+      snipr_output_foldername='PREPROCESS_SEGM'
+      file_suffixes=(lin1.nii.gz lin1_1.nii.gz )
+      for x in $file_suffixes; do
+      copyoutput_to_snipr ${sessionID} ${scanID} $(dirname "${x}") ${snipr_output_foldername} ${file_suffix}
+      done
       snipr_output_foldername="EDEMA_BIOMARKER"
       file_suffixes=(.pdf .mat .csv) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do

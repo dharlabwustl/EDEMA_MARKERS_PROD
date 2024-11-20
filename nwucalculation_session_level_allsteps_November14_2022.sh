@@ -194,7 +194,20 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
   # done
 
 }
+uploadsinglefile(){
+local sessionID=${1}
+local scanID=${2}
+local mask_binary_output_dir=${3}
+local snipr_output_foldername=${4}
+local mask_binary_output_filename=${5}
 
+echo ${mask_binary_output_dir}/${mask_binary_output_filename}
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+}
 # #####################################################
 get_nifti_scan_uri() {
   # csvfilename=sys.argv[1]
@@ -307,8 +320,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       registration_files=$(find ../ -name   *'lin1.nii.gz')
       snipr_output_foldername='PREPROCESS_SEGM'
       file_suffixes=(lin1.nii.gz lin1_1.nii.gz )
-      for x in $file_suffixes; do
-      copyoutput_to_snipr ${sessionID} ${scanID} $(dirname "${x}") ${snipr_output_foldername} ${file_suffix}
+      for x in $registration_files; do
+#      copyoutput_to_snipr ${sessionID} ${scanID} $(dirname "${x}") ${snipr_output_foldername} ${file_suffix}
+      uploadsinglefile ${sessionID} ${scanID} $(dirname "${x}")  ${snipr_output_foldername} $(basename "${x}")
       done
       snipr_output_foldername="EDEMA_BIOMARKER"
       file_suffixes=(.pdf .mat .csv) #sys.argv[5]

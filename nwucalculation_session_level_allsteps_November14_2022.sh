@@ -317,7 +317,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       nwucalculation_each_scan
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
-      registration_files=$(find ../ -name   *'lin1.nii.gz')
+      registration_files=$(find ../ -name '*lin1*nii.gz')
       snipr_output_foldername='PREPROCESS_SEGM'
       file_suffixes=(lin1.nii.gz lin1_1.nii.gz )
       for x in $registration_files; do

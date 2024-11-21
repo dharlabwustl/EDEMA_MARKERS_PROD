@@ -2361,7 +2361,7 @@ def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions
         resource_dir=args.stuff[3]
         extensions_to_delete=args.stuff[4]
         prefix_if_any=''
-        if len(args.stuff)==5:
+        if len(args.stuff)>5:
 
             prefix_if_any=args.stuff[5]
         delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=prefix_if_any)

@@ -360,7 +360,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
 
 #### normalize and resample the grayscale image
-fixed_image_filename=/software/COLIHM620406202215542.nii.gz'  ####scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+fixed_image_filename=/software/COLIHM620406202215542.nii.gz ##'  ####scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
 moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -409,7 +409,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 snipr_output_foldername="PREPROCESS_SEGM"
 #snipr_output_foldername='PREPROCESS_SEGM'
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
+#echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}")
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
 #    sessionId=str(sys.argv[1])

@@ -295,6 +295,12 @@ echo sessionId::${sessionID}
 echo scanId::${scanID}
 snipr_output_foldername="PREPROCESS_SEGM"
 ### check if the file exists:
+snipr_output_foldername="PREPROCESS_SEGM"
+#snipr_output_foldername='PREPROCESS_SEGM'
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
 outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
 
@@ -407,11 +413,11 @@ function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_bina
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
-snipr_output_foldername="PREPROCESS_SEGM"
-#snipr_output_foldername='PREPROCESS_SEGM'
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#snipr_output_foldername="PREPROCESS_SEGM"
+##snipr_output_foldername='PREPROCESS_SEGM'
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #
 ##    sessionId=str(sys.argv[1])
 ##    scanId=str(sys.argv[2])

@@ -375,8 +375,9 @@ moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.
 #outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 #
 ################################ REGISTRATION## image and get matrix
-normalized_fixed_file_name=${fixed_image_filename} ###%.nii*}'_normalized_fix.nii.gz'
-fixed_image_filename=${normalized_fixed_file_name}
+#normalized_fixed_file_name=${fixed_image_filename} ###%.nii*}'_normalized_fix.nii.gz'
+#fixed_image_filename=${normalized_fixed_file_name}
+## REGISTRATION OF THE GRAY LEVEL CT
 moving_image_filename=${session_ct_bname_noext}_brain_f.nii.gz
 #cp $fixed_image_filename $moving_image_filename
 moving_image_filename=${output_directory}/${moving_image_filename} ##%.nii*}resampled_normalized_mov.nii.gz
@@ -391,27 +392,34 @@ moving_image_filename=$(basename ${moving_image_filename})
 registration_mat_file=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.mat
 
 #${output_directory}/mov_${moving_image_filename%.nii*}_fixed_${template_prefix}_normalized_fix_lin1.mat
-registration_nii_file=output_filename=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
+registration_nii_file=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 
 #${output_directory}/mov_${moving_image_filename%.nii*}_fixed_${template_prefix}_normalized_fix_lin1.nii.gz
-fixed_image_filename=${normalized_fixed_file_name}
+#fixed_image_filename=${normalized_fixed_file_name}
+## REGISTRATION OF THE INFARCT MASK
 moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 moving_image_filename=${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-moving_image_filename=$(basename ${moving_image_filename%.nii*})
-mask_binary_output_filename=mov_${moving_image_filename}_fixed_${template_prefix}_lin1.nii.gz
+#moving_image_filename=$(basename ${moving_image_filename%.nii*})
+mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 
-
+## REGISTRATION OF THE BET MASK
 moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-moving_image_filename=$(basename ${moving_image_filename%.nii*})
-bet_binary_output_filename=mov_${moving_image_filename}_fixed_${template_prefix}_lin1.nii.gz
+#moving_image_filename=$(basename ${moving_image_filename%.nii*})
+bet_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+BET_bet_binary_output_filename=${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
 
 snipr_output_foldername="PREPROCESS_SEGM"
 #snipr_output_foldername='PREPROCESS_SEGM'
@@ -424,17 +432,18 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 #    input_dirname=str(sys.argv[3])
 #    resource_dirname=str(sys.argv[4])
 #    file_name=str(sys.argv[5])
-/software/bet_withlevelset.sh ${registration_nii_file} ${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
-full_image_filename=${registration_nii_file}
-full_image_filename_betgray=${mask_binary_output_dir}/$(basename ${full_image_filename%.nii*}_brain_f.nii.gz)
+#/software/bet_withlevelset.sh ${registration_nii_file} ${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
+#full_image_filename=${registration_nii_file}
+#full_image_filename_betgray=${mask_binary_output_dir}/$(basename ${full_image_filename%.nii*}_brain_f.nii.gz)
 
-uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename%.nii*}_BET.nii.gz
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${full_image_filename_betgray}) ${snipr_output_foldername} $(basename  ${full_image_filename_betgray})
+#uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename%.nii*}_BET.nii.gz
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_nii_file}) ${snipr_output_foldername} $(basename  ${registration_nii_file})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_bet_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_bet_binary_output_filename})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 
-uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
-uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
-uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
+#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
+#uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
 
 #
 ##file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]

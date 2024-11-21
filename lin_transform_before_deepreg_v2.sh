@@ -471,8 +471,8 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 #else
 #echo " FILES ARE PRESENT "
 #######################################################################################################################
-#fi
-###
-#
-#done < <(tail -n +2 "${niftifile_csvfilename}")
-#done
+fi
+##
+
+done < <(tail -n +2 "${niftifile_csvfilename}")
+done

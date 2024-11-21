@@ -190,7 +190,7 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
 
 lower_threshold=0
 upper_threshold=20
-templatefilename=scct_strippedResampled1.nii.gz
+templatefilename=${template_prefix}.nii.gz
 mask_on_template=midlinecssfResampled1.nii.gz
 
 x=$grayimage
@@ -338,7 +338,7 @@ copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 session_ct=$( ls ${working_dir_1}/*'.nii' )
 session_ct_bname_noext=$(basename ${session_ct})
 session_ct_bname_noext=${session_ct_bname_noext%.nii*}
-fixed_image_filename='/software/COLIHM620406202215542.nii.gz'  ####scct_strippedResampled1.nii.gz'
+fixed_image_filename='/software/COLIHM620406202215542.nii.gz'  ####${template_prefix}.nii.gz'
 infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
 #      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
 bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
@@ -360,13 +360,14 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
 
 #### normalize and resample the grayscale image
-fixed_image_filename=/software/COLIHM620406202215542.nii.gz ##'  ####scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+fixed_image_filename=/software/COLIHM620406202215542.nii.gz ##'  ####${template_prefix}.nii.gz ##${session_ct_bet_gray}
+template_prefix='COLIHM620406202215542'
 moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
 function_with_arguments=('call_normalization_N_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
-#              fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+#              fixed_image_filename=/software/${template_prefix}.nii.gz ##${session_ct_bet_gray}
 #### resample the infarct image
 moving_image_filename=${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 function_with_arguments=('call_only_resample_to_fixed' ${moving_image_filename}  ${fixed_image_filename} )
@@ -380,27 +381,27 @@ moving_image_filename=${session_ct_bname_noext}_brain_f.nii.gz
 #cp $fixed_image_filename $moving_image_filename
 moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_normalized_mov.nii.gz
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
-session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+session_ct_bet_gray_lin_reg_output=${output_directory}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_${template_prefix}_normalized_fix_lin1.nii.gz
 #####
 ### apply the matrix to the infarct mask
 #       normalized_fixed_file_name
 moving_image_filename=$(basename ${moving_image_filename})
-registration_mat_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_scct_strippedResampled1_normalized_fix_lin1.mat
-registration_nii_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+registration_mat_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_${template_prefix}_normalized_fix_lin1.mat
+registration_nii_file=${output_directory}/mov_${moving_image_filename%.nii*}_fixed_${template_prefix}_normalized_fix_lin1.nii.gz
 fixed_image_filename=${normalized_fixed_file_name}
 moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
-mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+mask_binary_output_filename=mov_${moving_image_filename}_fixed_${template_prefix}_normalized_fix_lin1.nii.gz
 
 
 moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
-bet_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+bet_binary_output_filename=mov_${moving_image_filename}_fixed_${template_prefix}_normalized_fix_lin1.nii.gz
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -446,14 +447,14 @@ uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $
 ##      Transform grayscale bet
 #
 #
-##T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+##T_output_filename=$(ls ${output_directory}/mov_${nifti_file_without_ext}*.mat) #$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_${template_prefix}lin1.mat )
 ##      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${T_output_filename} ${mask_binary_output_dir}
 
 
 # transform infarct mask
-#      fixed_image_filename=/software/scct_strippedResampled1.nii.gz ##${session_ct_bet_gray}
+#      fixed_image_filename=/software/${template_prefix}.nii.gz ##${session_ct_bet_gray}
 #      moving_image_filename=${output_directory}/${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov.nii.gz #$(ls ${output_directory}/*_resaved_infarct_auto_removesmall.nii.gz)
-##      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat )
+##      T_output_filename=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_brain_f_${template_prefix}lin1.mat )
 #      /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_imnormalized_fixed_file_nameage_filename} ${T_output_filename} ${mask_binary_output_dir}
 #      moving_image_output_filename=$(ls ${output_directory}/mov_*${nifti_file_without_ext}_resaved_infarct_auto_removesmallresampled_normalized_mov* ) ## #$(ls ${mask_binary_output_dir}/mov*_resaved_infarct_auto_removesmall*.nii.gz)
 #      threshold=0

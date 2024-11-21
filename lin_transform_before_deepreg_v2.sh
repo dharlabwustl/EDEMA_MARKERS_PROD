@@ -433,7 +433,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 #    resource_dirname=str(sys.argv[4])
 #    file_name=str(sys.argv[5])
 /software/bet_withlevelset.sh ${registration_nii_file} ${BET_bet_binary_output_filename}  ##${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
-betgray_of_session_ct_regis=${registration_nii_file%.nii*}_BET.nii.gz
+betgray_of_session_ct_regis=${registration_nii_file%.nii*}_brain_f.nii.gz
 #full_image_filename=${registration_nii_file}
 #full_image_filename_betgray=${mask_binary_output_dir}/$(basename ${full_image_filename%.nii*}_brain_f.nii.gz)
 

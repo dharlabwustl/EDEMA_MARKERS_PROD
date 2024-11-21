@@ -19,6 +19,7 @@ XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 api_token=os.environ['REDCAP_API']
+xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
@@ -2359,7 +2360,10 @@ def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions
         scan_id=args.stuff[2]
         resource_dir=args.stuff[3]
         extensions_to_delete=args.stuff[4]
-        prefix_if_any=args.stuff[5]
+        prefix_if_any=''
+        if len(args.stuff)==5:
+
+            prefix_if_any=args.stuff[5]
         delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=prefix_if_any)
         command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
         subprocess.call(command,shell=True)

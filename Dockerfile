@@ -33,5 +33,7 @@ RUN pip3 install \
   webcolors \
   trimesh \
   shapely \
-  rtree
+  rtree \
+  natsort \
+  pytablewriter
 

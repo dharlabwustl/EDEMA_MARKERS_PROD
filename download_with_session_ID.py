@@ -1727,8 +1727,8 @@ def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
     command = 'unzip -d /ZIPFILEDIR ' + zipfilename
     subprocess.call(command,shell=True)
     xnatSession.close_httpsession()
-    copy_nifti_to_a_dir(output_dirname)
-    copy_mat_to_a_dir(output_dirname)
+    # copy_nifti_to_a_dir(output_dirname)
+    # copy_mat_to_a_dir(output_dirname)
     copy_allfile_to_a_dir(output_dirname)
 
     return True

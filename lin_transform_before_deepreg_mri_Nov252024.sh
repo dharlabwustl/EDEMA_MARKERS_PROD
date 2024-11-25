@@ -313,7 +313,7 @@ moving_image_filename_mrigray_reg_mat_output=${output_directory}/mov_$(basename 
 ######################### REGISTRATION OF THE MASKS #####################
 #
 ##### resample the region masks image
-moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label*) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
+moving_image_filename_mrilabel=$(ls ${working_dir_1}/*label*.nii.gz) #/software/mritemplate1/original/'BCI-DNI_brain_label.nii.gz'  #${output_directory}/${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #############################
 masks_output_directory=${working_dir}
 function_with_arguments=('call_separate_masks_from_multivalue_mask' ${moving_image_filename_mrilabel} ${masks_output_directory}  )

@@ -1790,11 +1790,11 @@ def copy_allfile_to_a_dir(dir_name):
     for dirpath, dirnames, files in os.walk('/ZIPFILEDIR'):
         #                print(f'Found directory: {dirpath}')
         for file_name in files:
-            file_extension = pathlib.Path(file_name).suffix
-            if  file_extension:
-                command='cp ' + os.path.join(dirpath,file_name) + '  ' + dir_name + '/'
-                subprocess.call(command,shell=True)
-                print(os.path.join(dirpath,file_name))
+            # file_extension = pathlib.Path(file_name).suffix
+        # if  file_extension:
+            command='cp ' + os.path.join(dirpath,file_name) + '  ' + dir_name + '/'
+            subprocess.call(command,shell=True)
+            print(os.path.join(dirpath,file_name))
 
 #     return True
 def copy_nifti_to_a_dir(dir_name):

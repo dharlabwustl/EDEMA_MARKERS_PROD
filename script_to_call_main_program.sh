@@ -40,7 +40,11 @@ if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_REF_FRAME' ]]; then
   /software/lin_transform_before_deepreg_mri.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 #  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
-
+#lin_transform_before_deepreg_mri_Nov252024.sh
+if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_COLIHLP62_REF_FRAME' ]]; then
+  /software/lin_transform_before_deepreg_mri_Nov252024.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi
 if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
   /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi

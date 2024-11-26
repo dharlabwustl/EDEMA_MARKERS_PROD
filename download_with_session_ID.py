@@ -2165,7 +2165,7 @@ def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #u
 
 
 def listoffile_witha_URI_as_df(URI):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     response = xnatSession.httpsess.get(xnatSession.host + URI)
@@ -2173,11 +2173,11 @@ def listoffile_witha_URI_as_df(URI):
     num_files_present=0
     df_scan=[]
     if response.status_code != 200:
-        xnatSession.close_httpsession()
+        # xnatSession.close_httpsession()
         return num_files_present
     metadata_masks=response.json()['ResultSet']['Result']
     df_listfile = pd.read_json(json.dumps(metadata_masks))
-    xnatSession.close_httpsession()
+    # xnatSession.close_httpsession()
     return df_listfile
 def download_files_in_a_resource(URI,dir_to_save):
     try:

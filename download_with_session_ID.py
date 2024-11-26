@@ -1296,6 +1296,21 @@ def findthetargetscan():
      ## Is axial available? If yes, focus on axial, if not go for thin
      ## Is tilt available ? If yes, get the tilt, if not go for non-tilt
      return target_scan
+def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,file_suffix):
+    try:
+        print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
+        url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
+        df_listfile=listoffile_witha_URI_as_df(url)
+        for item_id, row in df_listfile.iterrows():
+            if row['URI'].str.contains(file_suffix):
+                download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)
+                print("DOWNLOADED ::{}".format(row))
+                return True
+    except Exception as exception:
+        print("FAILED AT ::{}".format(exception))
+        pass
+    return  False
+
 
 def uploadfile():
     sessionId=str(sys.argv[1])
@@ -1316,6 +1331,7 @@ def uploadfile():
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
     return True
+
 def uploadfile_withprefix():
     sessionId=str(sys.argv[1])
     scanId=str(sys.argv[2])
@@ -1727,8 +1743,8 @@ def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
     command = 'unzip -d /ZIPFILEDIR ' + zipfilename
     subprocess.call(command,shell=True)
     xnatSession.close_httpsession()
-    # copy_nifti_to_a_dir(output_dirname)
-    # copy_mat_to_a_dir(output_dirname)
+    copy_nifti_to_a_dir(output_dirname)
+    copy_mat_to_a_dir(output_dirname)
     copy_allfile_to_a_dir(output_dirname)
 
     return True

@@ -1302,10 +1302,10 @@ def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,fi
         url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
         df_listfile=listoffile_witha_URI_as_df(url)
         for item_id, row in df_listfile.iterrows():
-            if row['URI'].str.contains(file_suffix):
+            if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)
                 print("DOWNLOADED ::{}".format(row))
-                return True
+        return True
     except Exception as exception:
         print("FAILED AT ::{}".format(exception))
         pass

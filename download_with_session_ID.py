@@ -2046,7 +2046,7 @@ def delete_a_file_with_URIString(url):
 
 def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     xnatSession.renew_httpsession()
     # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
     # subprocess.call(command,shell=True)
@@ -2057,7 +2057,7 @@ def download_a_singlefile_with_URIString(url,filename,dir_to_save):
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
-    xnatSession.close_httpsession()
+    # xnatSession.close_httpsession()
     return zipfilename
 def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     returnvalue=0

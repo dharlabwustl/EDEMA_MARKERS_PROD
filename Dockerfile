@@ -1,5 +1,6 @@
 FROM sharmaatul11/fsl502py369ltx-full:latest
 RUN apt update
+RUN apt -y install iputils-ping
 RUN mkdir /templateventricle
 COPY scct_strippedResampled1.nii.gz   /templatenifti/
 COPY  midlinecssfResampled1.nii.gz   /templatemasks/
@@ -35,5 +36,7 @@ RUN pip3 install \
   shapely \
   rtree \
   natsort \
-  pytablewriter
+  pytablewriter \
+  mysql-connector-python==8.0.27
+
 

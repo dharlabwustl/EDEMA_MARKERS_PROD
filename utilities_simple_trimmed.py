@@ -2226,7 +2226,7 @@ def escape_latex(value):
 # Convert the DataFrame into a LaTeX table
 def df_to_latex(df):
     # Escape special characters in headers and cells
-    headers = [escape_latex(col) for col in df.columns]
+    headers = [escape_latex(str(col)) for col in df.columns]  # Convert to string
     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
     # Begin LaTeX table
     latex = "\\begin{tabular}{" + " | ".join(["l"] * len(headers)) + "}\n\\hline\n"
@@ -2239,3 +2239,41 @@ def df_to_latex(df):
     # End LaTeX table
     latex += "\\hline\n\\end{tabular}"
     return latex
+
+def df_to_latex(df):
+    # Ensure all headers are strings
+    headers = [escape_latex(str(col)) for col in df.columns]  # Convert to string
+    rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
+
+    # Begin LaTeX table
+    latex = "\\begin{tabular}{" + " | ".join(["l"] * len(headers)) + "}\n\\hline\n"
+
+    # Add headers
+    latex += " & ".join(headers) + " \\\\\n\\hline\n"
+
+    # Add rows
+    for row in rows:
+        latex += " & ".join(row) + " \\\\\n"
+        latex += "\\hline\n"
+
+    # End LaTeX table
+    latex += "\\hline\n\\end{tabular}"
+    return latex
+
+# def escape_latex(value):
+#     """Escape special LaTeX characters in a string."""
+#     special_chars = {
+#         '&': r'\&',
+#         '%': r'\%',
+#         '$': r'\$',
+#         '#': r'\#',
+#         '_': r'\_',
+#         '{': r'\{',
+#         '}': r'\}',
+#         '~': r'\textasciitilde{}',
+#         '^': r'\textasciicircum{}',
+#         '\\': r'\textbackslash{}'
+#     }
+#     for char, replacement in special_chars.items():
+#         value = value.replace(char, replacement)
+#     return value

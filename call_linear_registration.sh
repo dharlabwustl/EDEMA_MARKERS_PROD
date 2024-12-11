@@ -897,6 +897,11 @@ while IFS=',' read -ra array; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
+        for matfiles in ${output_directory}/*.nii*; do
+
+          call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+          outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+        done
     template_gray_filename=${final_output_directory}/${filename_nifti%.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1.nii.gz
     template_bet_maskfilename=${final_output_directory}/${filename_nifti%.nii*}_resaved_levelset_brain_fscct_strippedResampled1lin1_1_BET.nii.gz
     thisfile_bet_gray_filename=${final_output_directory}/${filename_nifti%.nii*}_resaved_levelset_brain_f.nii.gz

@@ -342,6 +342,15 @@ fixed_image_filename='/software/scct_strippedResampled1.nii.gz'
 infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
 #      template_masks_dir='/software/mritemplate/NONLINREGTOCT/'
 bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
+total_ventricle_mask=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_ventricle_total.nii.gz)
+echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
+python3 -c "
+
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${total_ventricle_mask}" "${output_directory}"
+
+
 echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
 python3 -c "
 
@@ -406,6 +415,18 @@ function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_bina
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 
+#######################################
+
+moving_image_filename=${output_directory}/$(basename ${total_ventricle_mask})
+mask_binary_output_dir='/input'
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+moving_image_filename=$(basename ${moving_image_filename%.nii*})
+total_ventricle_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${total_ventricle_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+###########################################
 snipr_output_foldername="PREPROCESS_SEGM"
 #snipr_output_foldername='PREPROCESS_SEGM'
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
@@ -423,8 +444,8 @@ full_image_filename_betgray=${mask_binary_output_dir}/$(basename ${full_image_fi
 
 uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${full_image_filename_betgray}) ${snipr_output_foldername} $(basename  ${full_image_filename_betgray})
-
 uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${total_ventricle_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
 uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )

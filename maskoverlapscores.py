@@ -1,14 +1,42 @@
+import trimesh
+from skimage import measure
+from scipy.spatial import ConvexHull
+import cv2
 import csv,sys,os
 import nibabel as nib
 import numpy as np
 from scipy.spatial.distance import directed_hausdorff
 import SimpleITK as sitk
-
+from scipy.spatial import Delaunay
 import nibabel as nib
 import numpy as np
 from sklearn.metrics import mutual_info_score
 import numpy as np
 from scipy.spatial.distance import cdist
+def load_nii_mask(input_nii_path):
+    """
+    Load a binary mask from a NIfTI file.
+
+    Parameters:
+        input_nii_path (str): Path to the NIfTI mask file.
+
+    Returns:
+        binary_mask (numpy.ndarray): Binary mask data (1 for mask, 0 for background).
+        affine (numpy.ndarray): Affine transformation matrix of the NIfTI file.
+        header (nibabel.Nifti1Header): Header information of the NIfTI file.
+    """
+    # Load the NIfTI file
+    nii_img = nib.load(input_nii_path)
+
+    # Extract data, affine, and header
+    mask_data = nii_img.get_fdata()
+    affine = nii_img.affine
+    header = nii_img.header
+
+    # Convert the mask to binary (ensure only 1s and 0s)
+    binary_mask = np.where(mask_data > 0, 1, 0).astype(np.uint8)
+
+    return binary_mask, affine, header
 def load_nifti_mask(file_path):
     """
     Load a NIfTI mask file and return the binary mask array.
@@ -452,3 +480,186 @@ def mean_directed_hausdorff_distance_3d(mask_a, mask_b):
     distances = cdist(points_a, points_b)
     min_distances = np.min(distances, axis=1)
     return np.mean(min_distances)
+
+
+def binarymask_to_convexhull_mask(input_nii_path,output_nii_path):
+    # Step 1: Load the input binary mask from a NIfTI file
+    # input_nii_path = 'workinginput/ventricle.nii'
+    binary_mask, affine, header = load_nii_mask(input_nii_path)
+
+    # Step 2: Create 3D model from binary mask and save the STL file
+    surface_mesh_stl = 'surface_model.stl'
+    surface_mesh = create_3d_model_from_mask(binary_mask, surface_mesh_stl)
+
+    # Step 3: Create convex hull from the 3D model and fix the normals
+    convex_hull_stl = 'convex_hull_fixed_normals.stl'
+    convex_hull_mesh = create_convex_hull_and_fix_normals(surface_mesh, convex_hull_stl)
+    scale_mesh_fixed_center(convex_hull_stl, 'convex_hull_stl_1.stl', 1.05)
+    # Step 4: Create binary mask from convex hull aligned with the original mask
+    # convex_hull_binary_mask = create_binary_mask_from_hull(convex_hull_mesh, binary_mask.shape, affine)
+
+    # # Step 5: Save the binary mask as a new NIfTI file
+    # output_nii_path = 'convex_hull_binary_mask.nii'
+    # save_nii_mask(convex_hull_binary_mask, affine, header, output_nii_path)
+    #
+    # print(f"Convex hull binary mask saved to: {output_nii_path}")
+
+    convex_hull_mesh = trimesh.load('convex_hull_stl_1.stl') #'convex_hull_fixed_normals.stl')
+    stl_to_binary_mask('convex_hull_stl_1.stl',input_nii_path, output_nii_path, binary_mask.shape)
+def create_3d_model_from_mask(binary_mask, stl_filename):
+    """
+    Step 1: Create a 3D model (STL) from the binary mask using Marching Cubes
+    """
+    verts, faces, _, _ = marching_cubes(binary_mask, level=0) #measure.marching_cubes_lewiner(binary_mask, level=0) ##marching_cubes(binary_mask, level=0)
+
+    # Create a trimesh object
+    mesh = trimesh.Trimesh(vertices=verts, faces=faces)
+
+    # Save the mesh as an STL file
+    mesh.export(stl_filename)
+    print(f"3D surface model saved as {stl_filename}")
+
+    return mesh
+def create_convex_hull_and_fix_normals(mesh, output_stl_filename):
+    """
+    Step 2: Compute the convex hull and ensure that all normals are pointing outwards.
+    """
+    # Create the convex hull of the mesh
+    hull_mesh = mesh.convex_hull
+
+    # Ensure normals are outward
+    hull_mesh.fix_normals()
+
+    # Save the convex hull mesh as an STL file
+    hull_mesh.export(output_stl_filename)
+    print(f"Convex hull with fixed normals saved as {output_stl_filename}")
+
+    return hull_mesh
+def scale_mesh_fixed_center(stl_filename, output_filename, scale_factor):
+    """
+    Scales a 3D mesh from an STL file, keeping the center fixed, and saves the scaled mesh as a new STL file.
+
+    Parameters:
+    - stl_filename: str, path to the input STL file.
+    - output_filename: str, path to save the scaled STL file.
+    - scale_factor: float or list of 3 floats (x, y, z scaling factors).
+                    If a single float is provided, it scales uniformly in all directions.
+    """
+    # Load the STL file
+    mesh = trimesh.load_mesh(stl_filename)
+
+    # Find the centroid of the mesh
+    centroid = mesh.centroid
+
+    # Translate the mesh to the origin (centroid becomes [0, 0, 0])
+    mesh.vertices -= centroid
+
+    # Apply scaling to the mesh
+    if isinstance(scale_factor, (float, int)):  # Uniform scaling
+        mesh.apply_scale(scale_factor)
+    elif isinstance(scale_factor, (list, tuple)) and len(scale_factor) == 3:  # Non-uniform scaling (x, y, z)
+        mesh.vertices *= scale_factor
+    else:
+        raise ValueError("scale_factor must be a float (uniform scaling) or a list of 3 floats (x, y, z scaling).")
+
+    # Translate the mesh back to its original position
+    mesh.vertices += centroid
+
+    # Save the scaled mesh as an STL file
+    mesh.export(output_filename)
+    print(f"Scaled mesh (with fixed center) saved as {output_filename}")
+def stl_to_binary_mask(stl_filename,inputniftifilename, output_nifti_filename, volume_shape):
+    """
+    Converts an STL file to a binary mask and saves it as a NIfTI file (no affine required).
+
+    Parameters:
+    - stl_filename: str, path to the input STL file.
+    - output_nifti_filename: str, path to save the binary mask as a NIfTI file.
+    - volume_shape: tuple, shape of the output binary mask (e.g., (x, y, z)).
+    """
+    # Load the STL file
+    inputniftifilename_nib=nib.load(inputniftifilename)
+    mesh = trimesh.load_mesh(stl_filename)
+
+    # Create an empty binary mask with the given volume shape
+    binary_mask = np.zeros(volume_shape, dtype=bool)
+
+    # Create a grid of voxel coordinates
+    grid = np.indices(volume_shape).reshape(3, -1).T
+
+    # Check which of the voxel grid coordinates are inside the mesh (assuming voxel size is 1 unit)
+    inside = mesh.contains(grid)
+
+    # Update the binary mask with the points that are inside the mesh
+    binary_mask[tuple(grid[inside].T)] = 1
+
+    # Save the binary mask as a NIfTI file
+    nifti_img = nib.Nifti1Image(binary_mask.astype(np.uint8), affine=inputniftifilename_nib.affine,header=inputniftifilename_nib.header) #np.eye(4))  # Identity affine (default)
+    nib.save(nifti_img, output_nifti_filename)
+
+    print(f"Binary mask saved as {output_nifti_filename}")
+def create_convex_hull_mask_3d(input_nii_path):
+    """
+    Create a 3D convex hull mask for a given binary mask.
+
+    Parameters:
+        binary_mask (numpy.ndarray): Input binary mask (3D).
+
+    Returns:
+        convex_hull_mask (numpy.ndarray): Convex hull mask (3D).
+    """
+    # Get the coordinates of non-zero points in the binary mask
+    binary_mask, affine, header = load_nii_mask(input_nii_path)
+    points = np.argwhere(binary_mask > 0)
+
+    # Compute the 3D convex hull
+    hull = ConvexHull(points)
+
+    # Create an empty mask
+    convex_hull_mask = np.zeros_like(binary_mask, dtype=np.uint8)
+
+    # Fill the convex hull by iterating over simplices
+    for simplex in hull.simplices:
+        simplex_points = points[simplex]
+        # Approximate a filled convex hull by marking the vertices in the mask
+        for point in simplex_points:
+            convex_hull_mask[tuple(point)] = 1
+
+    return convex_hull_mask
+
+
+def create_convex_hull_mask_filled_3d(input_nii_path,output_nifti_filename):
+    """
+    Create a 3D convex hull mask for a given binary mask and fill it.
+
+    Parameters:
+        binary_mask (numpy.ndarray): Input binary mask (3D).
+
+    Returns:
+        convex_hull_mask (numpy.ndarray): Filled convex hull mask (3D).
+    """
+    # Get the coordinates of non-zero points in the binary mask
+    binary_mask, affine, header = load_nii_mask(input_nii_path)
+    points = np.argwhere(binary_mask > 0)
+
+    # Compute the 3D convex hull
+    hull = ConvexHull(points)
+
+    # Create a Delaunay triangulation for efficient point inclusion checks
+    delaunay = Delaunay(points[hull.vertices])
+
+    # Create a grid of all voxel indices in the binary mask
+    x, y, z = np.indices(binary_mask.shape)
+
+    # Flatten the grid into a list of points
+    grid_points = np.vstack([x.ravel(), y.ravel(), z.ravel()]).T
+
+    # Check which grid points are inside the convex hull
+    inside_hull = delaunay.find_simplex(grid_points) >= 0
+
+    # Create the convex hull mask
+    convex_hull_mask = np.zeros_like(binary_mask, dtype=np.uint8)
+    convex_hull_mask[x.ravel()[inside_hull], y.ravel()[inside_hull], z.ravel()[inside_hull]] = 1
+    nifti_img = nib.Nifti1Image(convex_hull_mask.astype(np.uint8), affine=nib.load(input_nii_path).affine,header=nib.load(input_nii_path).header) #np.eye(4))  # Identity affine (default)
+    nib.save(nifti_img, output_nifti_filename)
+    return convex_hull_mask

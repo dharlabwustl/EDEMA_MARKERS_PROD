@@ -445,10 +445,10 @@ snipr_output_foldername="PREPROCESS_SEGM"
 #snipr_output_foldername='PREPROCESS_SEGM'
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
 #    sessionId=str(sys.argv[1])
 #    scanId=str(sys.argv[2])

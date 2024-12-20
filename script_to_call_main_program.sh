@@ -64,7 +64,9 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 1 ]]; then
   /software/dicom2nifti_call_sessionlevel_selected.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
-
+if [[ ${TYPE_OF_PROGRAM} == "DICOM2NIFTIDEC202024" ]]; then
+  /software/dicom2nifti_call_sessionlevel_selectedDec20204.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 if [[ ${TYPE_OF_PROGRAM} == 3 ]]; then
   PROJECT_ID=${1}
   /software/combine_csvs_and_copy_pdfs_projectlevel_Jan9_2023.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

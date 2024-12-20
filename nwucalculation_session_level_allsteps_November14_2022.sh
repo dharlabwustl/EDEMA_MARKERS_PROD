@@ -318,7 +318,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 
-      registration_files=$(find ../ -name '*lin1*nii.gz')
+      registration_files=$(find ${output_directory} -name '*lin1*nii.gz')
       snipr_output_foldername='PREPROCESS_SEGM'
       function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'lin1' ) ##'warped_1_mov_mri_region_' )
       echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

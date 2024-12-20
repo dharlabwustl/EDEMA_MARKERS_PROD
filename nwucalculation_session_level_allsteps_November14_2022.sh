@@ -317,8 +317,16 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       nwucalculation_each_scan
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
+
       registration_files=$(find ../ -name '*lin1*nii.gz')
       snipr_output_foldername='PREPROCESS_SEGM'
+      function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'lin1' ) ##'warped_1_mov_mri_region_' )
+      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+
+      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+      function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
+      echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
       file_suffixes=(lin1.nii.gz lin1_1.nii.gz )
       for x in $registration_files; do
 #      copyoutput_to_snipr ${sessionID} ${scanID} $(dirname "${x}") ${snipr_output_foldername} ${file_suffix}

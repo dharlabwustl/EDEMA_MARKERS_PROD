@@ -36,6 +36,8 @@ def dicom2nifti(session_id):
                 download_a_singlefile_with_URIString(df_scan_each['URI'],df_scan_each['Name'],DICOMFILEDIR)
 
             break
+            command="dcm2niix "
+
 
 
     return this_scan_id

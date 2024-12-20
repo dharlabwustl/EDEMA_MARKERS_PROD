@@ -127,13 +127,34 @@ def get_dicom_using_xnat(sessionId, scanId):
     command='dcm2niix -o /output/ -f ' + "%t" + '  -m 1 ' + '    /output/*'
     subprocess.call(command,shell=True)
     ## rename nifti file:
-    for niftifile in glob.glob("/output/*.nii"):
-        # total_niftifiles=total_niftifiles+1
-        current_filename=os.path.basename(niftifile).split('.nii')[0]
-        new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
-        new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
-        command = "mv "  + niftifile + "  " + new_filename_path
-        subprocess.call(command,shell=True)
+    ####################################################
+    folder_path = "/output"
+
+    # List all NIFTI files in the folder
+    nifti_files = [f for f in os.listdir(folder_path) if f.endswith(".nii") or f.endswith(".nii.gz")]
+
+    # Find the largest file by size
+    largest_file = max(nifti_files, key=lambda f: os.path.getsize(os.path.join(folder_path, f)))
+
+    # # Print the result
+    # print(f"Largest file: {largest_file}")
+    largest_file_path = os.path.join(folder_path, largest_file)
+    print(f"Path to largest file: {largest_file_path}")
+    niftifile=largest_file_path #
+    current_filename=os.path.basename(niftifile).split('.nii')[0]
+    new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
+    new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
+    command = "mv "  + niftifile + "  " + new_filename_path
+    subprocess.call(command,shell=True)
+    #####################################################
+
+    # for niftifile in glob.glob("/output/*.nii"):
+    #     # total_niftifiles=total_niftifiles+1
+    #     current_filename=largest_file_path #os.path.basename(niftifile).split('.nii')[0]
+    #     new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
+    #     new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
+    #     command = "mv "  + niftifile + "  " + new_filename_path
+    #     subprocess.call(command,shell=True)
     # command='dcm2niix -o /output/ -f ' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '  -m 1 ' + '    /output/*'
     # subprocess.call(command,shell=True)
     # command = 'cp /output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '.nii   ' + '/output/'

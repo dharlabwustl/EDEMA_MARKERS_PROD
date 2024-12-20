@@ -159,14 +159,14 @@ def get_dicom_using_xnat(sessionId, scanId):
     # subprocess.call(command,shell=True)
     # command = 'cp /output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '.nii   ' + '/output/'
     # subprocess.call(command,shell=True)
-        url = ("/data/experiments/%s/scans/%s/resources/NIFTI/files/" % 
-            (sessionId, scanId))
+    url = ("/data/experiments/%s/scans/%s/resources/NIFTI/files/" %
+        (sessionId, scanId))
     # allniftifiles=glob.glob('/output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '*.nii')
     # for eachniftifile in allniftifiles:
-        eachniftifile=new_filename_path
-        files={'file':open(eachniftifile,'rb')}
-        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
-        print(response)
+    eachniftifile=new_filename_path
+    files={'file':open(eachniftifile,'rb')}
+    response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+    print(response)
     xnatSession.close_httpsession()
     for eachniftifile in glob.glob('/output/' +  '*.nii'):
 

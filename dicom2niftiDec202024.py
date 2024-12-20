@@ -35,7 +35,7 @@ def dicom2nifti(session_id):
             for df_scan_each_id, df_scan_each in df_scan.iterrows():
                 download_a_singlefile_with_URIString(df_scan_each['URI'],df_scan_each['Name'],DICOMFILEDIR)
 
-        break
+            break
 
 
     return this_scan_id

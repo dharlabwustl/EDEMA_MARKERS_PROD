@@ -2093,7 +2093,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         except:
             command='curl -u '+ XNAT_USER +':'+XNAT_PASS+' -X GET '+ xnatSession.host +url + ' > '+ xmlfilename
             subprocess.call(command,shell=True)
-            subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+            subprocess.call("echo " + "I LINE 2096 AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
         # xnatSession.close_httpsession()
             # return num_files_present
@@ -2112,7 +2112,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     except:
 
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
+        print("I FAILED AT ::{}".format(inspect.stack()[0][3]))
     return returnvalue
 
 def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #url,filename,dir_to_save):

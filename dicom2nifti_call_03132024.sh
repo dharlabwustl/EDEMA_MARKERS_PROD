@@ -7,7 +7,7 @@ export XNAT_HOST=${4} #"https://snipr-dev-test1.nrg.wustl.edu"
 sessionID=${1}
 niftipresentornot_arguments=('niftipresentornot' ${sessionID})
 outputfiles_present=$(python3 fillmaster_session_list.py "${niftipresentornot_arguments[@]}")
-if [ 1>0 ]; then ##! -f /workinginput/number_nifti_check.csv ]; then
+if [ 1 -gt 0 ]; then ##! -f /workinginput/number_nifti_check.csv ]; then
 
   python3 /software/dicom2nifiti_03132024.py ${1}
 

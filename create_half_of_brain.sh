@@ -315,6 +315,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       echo output_dirname::${output_dirname}
       copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
       copy_masks_data ${sessionID} ${scanID} EDEMA_BIOMARKER ${output_dirname}
+      copy_masks_data ${sessionID} ${scanID} PREPROCESS_SEGM ${output_dirname}
+
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan

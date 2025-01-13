@@ -344,7 +344,7 @@ copy_nifti_parameters_sh()" ${left_brain_file} ${output_directory} $( ls ${worki
 #      uploadsinglefile ${sessionID} ${scanID} $(dirname "${x}")  ${snipr_output_foldername} $(basename "${x}")
       done
       snipr_output_foldername="MASKS"
-      file_suffixes=(  _half_brain_nib_img.nii.gz ) #sys.argv[5]
+      file_suffixes=(  left_half_brain_nib_img.nii.gz ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
 #        a=1
         copyoutput_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}

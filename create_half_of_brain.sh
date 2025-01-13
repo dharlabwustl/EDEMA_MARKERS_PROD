@@ -343,11 +343,11 @@ copy_nifti_parameters_sh()" ${left_brain_file} ${output_directory} $( ls ${worki
 #      copyoutput_to_snipr ${sessionID} ${scanID} $(dirname "${x}") ${snipr_output_foldername} ${file_suffix}
 #      uploadsinglefile ${sessionID} ${scanID} $(dirname "${x}")  ${snipr_output_foldername} $(basename "${x}")
       done
-      snipr_output_foldername="EDEMA_BIOMARKER"
-      file_suffixes=(.pdf .mat .csv) #sys.argv[5]
+      snipr_output_foldername="MASKS"
+      file_suffixes=(  _half_brain_nib_img.nii.gz ) #sys.argv[5]
       for file_suffix in ${file_suffixes[@]}; do
-        a=1
-#        copyoutput_to_snipr ${sessionID} ${scanID} "${final_output_directory}" ${snipr_output_foldername} ${file_suffix}
+#        a=1
+        copyoutput_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
       done
       ######################################################################################################################
       echo " FILES NOT PRESENT I AM WORKING ON IT"

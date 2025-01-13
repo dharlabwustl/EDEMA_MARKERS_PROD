@@ -10,6 +10,8 @@ output_directory=${output_directory} #/output #/CSF_RL_VOL_OUTPUT #/outputdirect
 # mkdir -p $output_directory
 lower_threshold=${5}
 upper_threshold=${6}
+
+
 python3 -c "
 import sys ;
 print('I AM HERE')

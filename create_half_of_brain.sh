@@ -318,6 +318,13 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan
+left_brain_file=${output_directory}/left_half_brain_nib_img.nii.gz
+  python3 -c "
+import sys
+sys.path.append('/software');
+from utilities_simple_trimmed import *;
+copy_nifti_parameters_sh()" ${left_brain_file} ${output_directory} $( ls ${working_dir}/*_resaved_levelset.nii.gz )
+
       ######################################################################################################################
       ## COPY IT TO THE SNIPR RESPECTIVE SCAN RESOURCES
 

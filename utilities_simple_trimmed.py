@@ -820,6 +820,27 @@ def angle_bet_two_vectorRad(v1,v2):
 #    angle = np.arctan2(np.linalg.norm(np.cross(v1,v2)), np.dot(v1,v2))
     angle =np.arctan2(v2[1], v2[0]) -  np.arctan2(v1[1], v1[0])
     return angle
+def copy_nifti_parameters_sh():
+    file = sys.argv[1]
+    file1=sys.argv[3]
+    output_directoryname=  sys.argv[2]
+    #    files=glob.glob(directoryname+"/*_levelset.nii.gz")
+    #    for file in files:
+    print(file)
+    #        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
+    target= file #sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTswithObviousMLS/datafromyasheng/NIIGZFILES/Helsinki2000_414_02052013_1437_Head_4.0_ax_Tilt_1_levelset.nii.gz"
+    #savefile_extension=sys.argv[3] #"gray" #sys.argv[3]
+    #        template_nii=nib.load(template)
+    target_nii= nib.load(target)
+    affine_source_nii= nib.load(file1)
+    target_save=os.path.basename(target)#.split(".nii")[0] + savefile_extension + ".nii.gz"
+    print(os.path.join(output_directoryname,target_save))
+    new_header=affine_source_nii.header
+    #        new_header['dim']= target_nii.header['dim']
+    #        new_header['pixdim']= target_nii.header['pixdim']
+    array_img = nib.Nifti1Image(target_nii.get_fdata(),affine=affine_source_nii.affine, header=new_header)
+    nib.save(array_img, os.path.join(output_directoryname,target_save))
+    return "x"
 
 def copy_nifti_parameters_scaleintensity_1(file,output_directoryname):
 #     file = sys.argv[1]

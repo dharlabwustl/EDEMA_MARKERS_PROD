@@ -839,7 +839,7 @@ def copy_nifti_parameters_sh():
     #        new_header['dim']= target_nii.header['dim']
     #        new_header['pixdim']= target_nii.header['pixdim']
     array_img = nib.Nifti1Image(target_nii.get_fdata(),affine=affine_source_nii.affine, header=new_header)
-    nib.save(array_img, os.path.join(output_directoryname,target_save))
+    nib.save(array_img, os.path.join(output_directoryname,os.path.basename(file1).split('_resaved')[0]+'_'+target_save))
     return "x"
 
 def copy_nifti_parameters_scaleintensity_1(file,output_directoryname):

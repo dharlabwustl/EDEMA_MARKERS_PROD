@@ -793,146 +793,146 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                                 left_brain_voxel_count = left_brain_voxel_count + 1
                                 left_half_brain[non_zero_pixel[0],non_zero_pixel[1],img_idx]=1
 
-
-                        lineThickness = 2
-
-                        this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-                        this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-
-                        this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-                        this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
-                        this_slice_gray_left_volume=this_slice_gray_left_volume/1000
-                        this_slice_gray_right_volume=this_slice_gray_right_volume/1000
-
-                        #######################
-                        slice_3_layer[:,:,0][Infarct_Mask_filename_June20_data_512_idx>0]=255
-                        print("values of pixels")
-                        slice_3_layer[:,:,1][Infarct_Mask_filename_June20_data_512_idx>0]=0
-                        slice_3_layer[:,:,2][Infarct_Mask_filename_June20_data_512_idx>0]=0
-
-                        img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-
-                        img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
-                        slice_number="{0:0=3d}".format(img_idx)
-
-
-                        imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
-                        imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
-                        image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
-                        image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
-                        image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
-
-
-                        cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
-                        cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
-                        nect_file_basename_forimagename=imagefilename
-
-                        ## get the mask image:
-                        this_slice_left_volume=this_slice_left_volume/1000
-                        this_slice_right_volume=this_slice_right_volume/1000
-
-                        ################################
-                        # upper_slice_num=0
-                        # lower_slice_num=0
-                        # found_lower_slice=0
-                        # for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
-
-                        #     if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
-                        #         lower_slice_num=slice_num_csf
-                        #         found_lower_slice=1
-                        #     if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
-                        #         upper_slice_num=slice_num_csf
-                        ##########################
-
-                        image_list=[]
-                        print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
-                        if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
-                            latex_start_tableNc_noboundary(latexfilename,5)
-
-                            image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
-                            image_list.append(image_left_right_brain)
-                            image_list.append(imagefilename_infarct)
-                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
-                            image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
-                            latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)
-                            latex_end_table2c(latexfilename)
-
-                        elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
-                            latex_start_tableNc_noboundary(latexfilename,2)
-
-                            image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
-                            # image_list.append(imagefilename_infarct)
-                            # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
-                            image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
-                            latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
-
-                            latex_end_table2c(latexfilename)
-
-                        left_pixels_num=left_pixels_num+this_slice_left_volume
-                        right_pixels_num=right_pixels_num+this_slice_right_volume
-
-                        left_brain_volume=left_brain_volume + this_slice_gray_left_volume
-                        right_brain_volume=right_brain_volume + this_slice_gray_right_volume
-            image_array=np.asarray(filename_bet_gray_data_np)
-            print("image_array MINIMUM")
-            print(np.min(image_array))
-            BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
-            # CSF_RATIO=left_pixels_num/right_pixels_num
-            # if left_pixels_num > right_pixels_num :
-            #     CSF_RATIO=right_pixels_num/left_pixels_num
-                # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
-            # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-            left_pixels_num_after_edema_subt,right_pixels_num_after_edema_subt,CSF_RATIO_after_edema_subt=csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
-            left_pixels_num=left_pixels_num_after_edema_subt
-            right_pixels_num=right_pixels_num_after_edema_subt
-            CSF_RATIO=CSF_RATIO_after_edema_subt
-            row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
-
-            values_in_col=np.array(row2)
-
-
-            with open(csvfile_with_vol_total, 'a') as f1:
-                writer = csv.writer(f1)
-                writer.writerow(row2)
-            this_nii_filename_list=[]
-            # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
-            this_nii_filename_list.append(thisfilebasename)
-            this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
-            this_nii_filename_df.columns=['FILENAME']
-
-            latex_start_tableNc_noboundary(latexfilename,1)
-            latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
-            latex_end_table2c(latexfilename)
-
-            #             latex_insert_line_nodek(latexfilename,"\\newpage")
-            #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
-
-            values_in_table=[]
-
-            #             text1=[]
-            #             text1.append(" Regions ")
-            #             text1.append("Volume  (ml)")
-            #             latex_start_tableNc(latexfilename,2)
-            #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-
-            for x in range(0,col_names.shape[0]):
-                #                 text1=[]
-                values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
-            #                 text1.append((str(col_names[x])).replace("_"," "))
-            #                 text1.append((str(values_in_col[x])).replace("_",""))
-
-            #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
-            #             latex_end_table2c(latexfilename)
-            values_in_table.pop(0)
-            values_in_table_df=pd.DataFrame(values_in_table)
-            values_in_table_df.columns=[" Regions ","Volume  (ml)"]
-            latex_start_tableNc_noboundary(latexfilename,1)
-            latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
-            latex_end_table2c(latexfilename)
-        latex_end(latexfilename)
+        #
+        #                 lineThickness = 2
+        #
+        #                 this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+        #                 this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+        #
+        #                 this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+        #                 this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+        #                 this_slice_gray_left_volume=this_slice_gray_left_volume/1000
+        #                 this_slice_gray_right_volume=this_slice_gray_right_volume/1000
+        #
+        #                 #######################
+        #                 slice_3_layer[:,:,0][Infarct_Mask_filename_June20_data_512_idx>0]=255
+        #                 print("values of pixels")
+        #                 slice_3_layer[:,:,1][Infarct_Mask_filename_June20_data_512_idx>0]=0
+        #                 slice_3_layer[:,:,2][Infarct_Mask_filename_June20_data_512_idx>0]=0
+        #
+        #                 img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+        #
+        #                 img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+        #                 slice_number="{0:0=3d}".format(img_idx)
+        #
+        #
+        #                 imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
+        #                 imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+        #                 image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
+        #                 image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+        #                 image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
+        #
+        #
+        #                 cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
+        #                 cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
+        #                 nect_file_basename_forimagename=imagefilename
+        #
+        #                 ## get the mask image:
+        #                 this_slice_left_volume=this_slice_left_volume/1000
+        #                 this_slice_right_volume=this_slice_right_volume/1000
+        #
+        #                 ################################
+        #                 # upper_slice_num=0
+        #                 # lower_slice_num=0
+        #                 # found_lower_slice=0
+        #                 # for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+        #
+        #                 #     if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+        #                 #         lower_slice_num=slice_num_csf
+        #                 #         found_lower_slice=1
+        #                 #     if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+        #                 #         upper_slice_num=slice_num_csf
+        #                 ##########################
+        #
+        #                 image_list=[]
+        #                 print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
+        #                 if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+        #                     latex_start_tableNc_noboundary(latexfilename,5)
+        #
+        #                     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+        #                     image_list.append(image_left_right_brain)
+        #                     image_list.append(imagefilename_infarct)
+        #                     # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+        #                     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+        #                     latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)
+        #                     latex_end_table2c(latexfilename)
+        #
+        #                 elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+        #                     latex_start_tableNc_noboundary(latexfilename,2)
+        #
+        #                     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+        #                     # image_list.append(imagefilename_infarct)
+        #                     # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+        #                     image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+        #                     latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
+        #
+        #                     latex_end_table2c(latexfilename)
+        #
+        #                 left_pixels_num=left_pixels_num+this_slice_left_volume
+        #                 right_pixels_num=right_pixels_num+this_slice_right_volume
+        #
+        #                 left_brain_volume=left_brain_volume + this_slice_gray_left_volume
+        #                 right_brain_volume=right_brain_volume + this_slice_gray_right_volume
+        #     image_array=np.asarray(filename_bet_gray_data_np)
+        #     print("image_array MINIMUM")
+        #     print(np.min(image_array))
+        #     BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+        #     # CSF_RATIO=left_pixels_num/right_pixels_num
+        #     # if left_pixels_num > right_pixels_num :
+        #     #     CSF_RATIO=right_pixels_num/left_pixels_num
+        #         # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
+        #     # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+        #     left_pixels_num_after_edema_subt,right_pixels_num_after_edema_subt,CSF_RATIO_after_edema_subt=csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
+        #     left_pixels_num=left_pixels_num_after_edema_subt
+        #     right_pixels_num=right_pixels_num_after_edema_subt
+        #     CSF_RATIO=CSF_RATIO_after_edema_subt
+        #     row2 = [thisfilebasename , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+        #
+        #     values_in_col=np.array(row2)
+        #
+        #
+        #     with open(csvfile_with_vol_total, 'a') as f1:
+        #         writer = csv.writer(f1)
+        #         writer.writerow(row2)
+        #     this_nii_filename_list=[]
+        #     # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
+        #     this_nii_filename_list.append(thisfilebasename)
+        #     this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
+        #     this_nii_filename_df.columns=['FILENAME']
+        #
+        #     latex_start_tableNc_noboundary(latexfilename,1)
+        #     latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
+        #     latex_end_table2c(latexfilename)
+        #
+        #     #             latex_insert_line_nodek(latexfilename,"\\newpage")
+        #     #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
+        #
+        #     values_in_table=[]
+        #
+        #     #             text1=[]
+        #     #             text1.append(" Regions ")
+        #     #             text1.append("Volume  (ml)")
+        #     #             latex_start_tableNc(latexfilename,2)
+        #     #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+        #
+        #     for x in range(0,col_names.shape[0]):
+        #         #                 text1=[]
+        #         values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
+        #     #                 text1.append((str(col_names[x])).replace("_"," "))
+        #     #                 text1.append((str(values_in_col[x])).replace("_",""))
+        #
+        #     #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+        #     #             latex_end_table2c(latexfilename)
+        #     values_in_table.pop(0)
+        #     values_in_table_df=pd.DataFrame(values_in_table)
+        #     values_in_table_df.columns=[" Regions ","Volume  (ml)"]
+        #     latex_start_tableNc_noboundary(latexfilename,1)
+        #     latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+        #     latex_end_table2c(latexfilename)
+        # latex_end(latexfilename)
         left_half_brain_nib_img = nib.Nifti1Image(left_half_brain, affine=np.eye(4)) #, header=fixed_image_nii.header)
         nib.save(left_half_brain_nib_img, '/workingoutput/left_half_brain_nib_img.nii.gz')
-        remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+        # remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0

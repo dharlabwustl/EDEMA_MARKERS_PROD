@@ -774,7 +774,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                                 slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
                                 slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=255
                                 current_left_num = current_left_num + 1
-                                left_half_brain[non_zero_pixel[0],non_zero_pixel[1],img_idx]=1
+                                #
                         brainarea_with_nonzero_id = np.transpose(np.nonzero(filename_brain_data_np_minus_CSF[:,:,img_idx]))
 
                         left_brain_voxel_count=0
@@ -791,6 +791,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                                 slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=0
                                 slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=255
                                 left_brain_voxel_count = left_brain_voxel_count + 1
+                                left_half_brain[non_zero_pixel[0],non_zero_pixel[1],img_idx]=1
 
 
                         lineThickness = 2

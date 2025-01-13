@@ -318,7 +318,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
       ######################################################################################################################
       ## CALCULATE EDEMA BIOMARKERS
       nwucalculation_each_scan
-left_brain_file=${output_directory}/left_half_brain_nib_img.nii.gz
+left_brain_file=$(ls ${output_directory}/*left_half_brain_nib_img.nii.gz)
   python3 -c "
 import sys
 sys.path.append('/software');

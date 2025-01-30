@@ -40,7 +40,7 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V1' ]]; then
  source /software/lin_transform_before_deepreg_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'c' ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_FOR_VENT_SEP' ]]; then
  source /software/lin_transform_before_deepreg_for_vent_separation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then

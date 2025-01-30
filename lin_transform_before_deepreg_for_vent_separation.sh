@@ -463,11 +463,11 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 #uploadsinglefile ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${bet_binary_output_filename%.nii*}_BET.nii.gz
 #uploadsinglefile ${sessionID} ${scanID} $(dirname ${betgray_of_session_ct_regis}) ${snipr_output_foldername} $(basename  ${betgray_of_session_ct_regis})
 snipr_output_foldername="PREPROCESS_SEGM_1"
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_bet_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_bet_binary_output_filename})
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_csf_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_csf_binary_output_filename})
-uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
-uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_bet_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_bet_binary_output_filename})
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_csf_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_csf_binary_output_filename})
+#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
+#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
 #uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
 
 #

@@ -417,23 +417,23 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 
 ## REGISTRATION OF THE BET MASK
-moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
-mask_binary_output_dir='/input'
-/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#moving_image_filename=$(basename ${moving_image_filename%.nii*})
-bet_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-threshold=0
-function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-BET_bet_binary_output_filename=${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
-#########################################
+#moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
+#mask_binary_output_dir='/input'
+#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${output_directory}
+##moving_image_filename=$(basename ${moving_image_filename%.nii*})
+#bet_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${fixed_image_filename}_lin1.nii.gz
+#threshold=0
+#function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${bet_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+#BET_bet_binary_output_filename=${mask_binary_output_dir}/${bet_binary_output_filename%.nii*}_BET.nii.gz
+##########################################
 ## REGISTRATION OF THE CSF MASK
 moving_image_filename='/software/scct_strippedResampled1_onlyventricle.nii.gz' ##${output_directory}/$(basename ${csf_mask_from_yasheng})
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 #moving_image_filename=$(basename ${moving_image_filename%.nii*})
-csf_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${fixed_image_filename}_lin1.nii.gz
+csf_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_$(basename ${fixed_image_filename%.nii*})_lin1.nii.gz
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${csf_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -465,9 +465,9 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 snipr_output_foldername="PREPROCESS_SEGM_1"
 #uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_bet_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_bet_binary_output_filename})
 #uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_csf_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_csf_binary_output_filename})
-#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
-#uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${BET_csf_binary_output_filename}) ${snipr_output_foldername} $(basename  ${BET_csf_binary_output_filename})
+uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename ${registration_mat_file})
+uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
 #uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
 
 #

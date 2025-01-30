@@ -37,6 +37,7 @@ RUN pip3 install \
   rtree \
   natsort \
   pytablewriter \
-  mysql-connector-python==8.0.27
+  mysql-connector-python==8.0.27 \
+  jupyterlab
 ENV REDCAP_API='36F3BA05DE0507BEBDFB94CC5DA13F93'
 

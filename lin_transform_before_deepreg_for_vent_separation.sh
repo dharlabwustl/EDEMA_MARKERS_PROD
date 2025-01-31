@@ -470,6 +470,7 @@ uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_folde
 uploadsinglefile ${sessionID} ${scanID} ${output_directory} ${snipr_output_foldername} $(basename  ${registration_nii_file})
 #uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $(basename  ${fixed_image_filename} )
 
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
 #
 ##file_suffixes=( ${mask_binary_output_filename%.nii*} ) #sys.argv[5]
 ##for file_suffix in ${file_suffixes[@]}; do

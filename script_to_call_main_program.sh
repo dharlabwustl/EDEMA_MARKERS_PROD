@@ -190,6 +190,9 @@ if [[ ${TYPE_OF_PROGRAM} == 20 ]]; then
   /software/csf_compartments_vols_N_display.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG' ]]; then
+  /software/csf_compartments_vols_N_display_Feb23_2025.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 if [[ ${TYPE_OF_PROGRAM} == 21 ]]; then
   /software/EDIT_COMBINED_CSV_OF_EDEMABIOMARKERS.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

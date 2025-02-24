@@ -514,7 +514,9 @@ nwucalculation_each_scan() {
       grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
     fi
     betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
-    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
+#    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
+    csffilename=${eachfile_basename_noext}_resaved_csf_unet_with_sah.nii.gz
+
     infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
     ################################################
     ############## copy those files to the docker image ##################################
@@ -803,7 +805,9 @@ while IFS=',' read -ra array; do
         betfile=${dir_to_save}/${filename2}
         echo "${betfile}"
       fi
-      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+      if [[ ${url2} == *"_resaved_csf_unet_with_sah.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+
         echo "It's there!"
         echo "${array2[6]}"
         filename2=$(basename ${url2})
@@ -876,7 +880,8 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
     #
-    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+    split_masks_into_two_halves "_resaved_csf_unet_with_sah.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
@@ -948,7 +953,9 @@ while IFS=',' read -ra array; do
 
     ###################
     mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
-    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah.nii.gz
+
     mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
     mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
     mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz

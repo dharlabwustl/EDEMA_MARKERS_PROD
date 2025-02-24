@@ -925,9 +925,10 @@ while IFS=',' read -ra array; do
     mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
     mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
     
-    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_left_half_originalRF.nii.gz
-    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_right_half_originalRF.nii.gz
-
+#    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_left_half_originalRF.nii.gz
+#    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_right_half_originalRF.nii.gz
+    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_left_half_originalRF.nii.gz
+    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
     mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
     mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
     mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz

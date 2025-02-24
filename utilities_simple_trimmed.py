@@ -2245,21 +2245,125 @@ def escape_latex(value):
             value = value.replace(old, new)
     return value
 # Convert the DataFrame into a LaTeX table
-def df_to_latex(df):
-    # Escape special characters in headers and cells
-    headers = [escape_latex(str(col)) for col in df.columns]  # Convert to string
+# def df_to_latex_1(df):
+#     """
+#     Converts a Pandas DataFrame to a LaTeX longtable format for multi-page tables.
+#
+#     Parameters:
+#         df (pd.DataFrame): The DataFrame to convert.
+#
+#     Returns:
+#         str: The LaTeX longtable representation of the DataFrame.
+#     """
+#     def escape_latex(text):
+#         """Escapes special LaTeX characters in a string."""
+#         replacements = {
+#             "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#",
+#             "_": r"\_", "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}",
+#             "^": r"\textasciicircum{}", "\\": r"\textbackslash{}"
+#         }
+#         for key, val in replacements.items():
+#             text = text.replace(key, val)
+#         return text
+#
+#     headers = [escape_latex(str(col)) for col in df.columns]  # Convert headers to string
+#     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]  # Convert each cell
+#
+#     # Begin LaTeX longtable
+#     latex = "\\begin{longtable}{" + " | ".join(["l"] * len(headers)) + "}\n\\hline\n"
+#
+#     # First page header
+#     latex += " & ".join(headers) + " \\\\\n\\hline\n"
+#     latex += "\\endfirsthead\n\n"
+#
+#     # Header for subsequent pages
+#     latex += "\\hline\n" + " & ".join(headers) + " \\\\\n\\hline\n"
+#     latex += "\\endhead\n\n"
+#
+#     # Footer for all but the last page
+#     latex += "\\hline\n\\multicolumn{" + str(len(headers)) + "}{r}{\\textit{Continued on next page}} \\\\\n\\hline\n"
+#     latex += "\\endfoot\n\n"
+#
+#     # Footer for the last page
+#     latex += "\\hline\n\\endlastfoot\n\n"
+#
+#     # Add rows
+#     for row in rows:
+#         latex += " & ".join(row) + " \\\\\n\\hline\n"
+#
+#     # End LaTeX longtable
+#     latex += "\\end{longtable}"
+#
+#     return latex
+#
+def df_to_latex_1(df):
+    """
+    Converts a Pandas DataFrame to a LaTeX longtable in landscape mode.
+
+    Parameters:
+        df (pd.DataFrame): The DataFrame to convert.
+
+    Returns:
+        str: The LaTeX longtable representation in landscape.
+    """
+    # def escape_latex(text):
+    #     replacements = {
+    #         "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#",
+    #         "_": r"\_", "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}",
+    #         "^": r"\textasciicircum{}", "\\": r"\textbackslash{}"
+    #     }
+    #     for key, val in replacements.items():
+    #         text = text.replace(key, val)
+    #     return text.strip()  # Ensure no extra spaces
+
+    headers = [escape_latex(str(col)) for col in df.columns]
     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
-    # Begin LaTeX table
-    latex = "\\begin{tabular}{" + " | ".join(["l"] * len(headers)) + "}\n\\hline\n"
-    # Add headers
-    latex += " & ".join(headers) + " \\\\\n\\hline\n"
+
+    # Define proper column format with fixed width
+    column_format = "| " + " p{4.5cm} |" * len(headers)
+
+    # Wrap in landscape environment
+    latex = "\\begin{landscape}\n\\begin{longtable}{" + column_format + "}\n\\hline\n"
+
+    # First page header
+    latex += "\\hline\n" + " & ".join(headers) + " \\\\\n\\hline\n"
+    latex += "\\endfirsthead\n\n"
+
+    # Header for subsequent pages
+    latex += "\\hline\n" + " & ".join(headers) + " \\\\\n\\hline\n"
+    latex += "\\endhead\n\n"
+
+    # Footer for all but the last page
+    latex += "\\hline\n\\multicolumn{" + str(len(headers)) + "}{r}{\\textit{Continued on next page}} \\\\\n\\hline\n"
+    latex += "\\endfoot\n\n"
+
+    # Footer for the last page
+    latex += "\\hline\n\\endlastfoot\n\n"
+
     # Add rows
     for row in rows:
-        latex += " & ".join(row) + " \\\\\n"
-        latex += "\\hline\n"
-    # End LaTeX table
-    latex += "\\hline\n\\end{tabular}"
+        latex += " & ".join(row) + " \\\\\n\\hline\n"
+
+    # End LaTeX longtable and landscape mode
+    latex += "\\end{longtable}\n\\end{landscape}"
+
     return latex
+
+# def df_to_latex(df):
+#     # Escape special characters in headers and cells
+#     headers = [escape_latex(str(col)) for col in df.columns]  # Convert to string
+#     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
+#     # Begin LaTeX table
+#     latex = "\\begin{tabular}{" + " | ".join(["l"] * len(headers)) + "}\n\\hline\n"
+#     # Add headers
+#     latex += " & ".join(headers) + " \\\\\n\\hline\n"
+#     # Add rows
+#     for row in rows:
+#         latex += " & ".join(row) + " \\\\\n"
+#         latex += "\\hline\n"
+#     # End LaTeX table
+#     latex += "\\hline\n\\end{tabular}"
+#     return latex
 
 def df_to_latex(df):
     # Ensure all headers are strings

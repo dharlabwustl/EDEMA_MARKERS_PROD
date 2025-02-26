@@ -2384,7 +2384,8 @@ def df_to_latex(df):
     # End LaTeX table
     latex += "\\hline\n\\end{tabular}"
     return latex
-
+def round_mixed_column(column, decimals=2):
+    return column.apply(lambda x: round(x, decimals) if isinstance(x, (int, float)) else x)
 # def escape_latex(value):
 #     """Escape special LaTeX characters in a string."""
 #     special_chars = {

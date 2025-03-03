@@ -382,7 +382,7 @@ registration_nii_file=${output_directory}/'mov_'$(basename ${moving_image_filena
 moving_image_filename=/software/scct_strippedResampled1_onlyventricle.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#moving_image_filename=$(basename ${moving_image_filename%.nii*})
+
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
@@ -401,9 +401,11 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-uploadsinglefile ${sessionID} ${scanID} $(dirname ${session_ct_bet_gray_lin_reg_output}) ${snipr_output_foldername} $(basename  ${session_ct_bet_gray_lin_reg_output})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_mat_file}) ${snipr_output_foldername} $(basename  ${registration_mat_file})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_nii_file}) ${snipr_output_foldername} $(basename  ${registration_nii_file})
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${mask_binary_output_dir}/${mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-
+#registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else
 echo " FILES ARE PRESENT "

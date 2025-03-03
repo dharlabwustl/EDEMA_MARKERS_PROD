@@ -28,7 +28,7 @@ echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${A
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
-#  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'ARTERIAL_REGIONS' ]]; then

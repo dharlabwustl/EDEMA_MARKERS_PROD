@@ -444,7 +444,7 @@ BET_csf_binary_output_filename=${mask_binary_output_dir}/${csf_binary_output_fil
 
 
 #########################################
-snipr_output_foldername="PREPROCESS_SEGM"
+snipr_output_foldername="PREPROCESS_SEGM_1"
 #snipr_output_foldername='PREPROCESS_SEGM'
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

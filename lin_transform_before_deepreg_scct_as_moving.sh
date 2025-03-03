@@ -366,9 +366,9 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 # now let us make bet gray for session ct:
 /software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
 
-#### normalize and resample the grayscale image
+
 moving_image_filename=/software/scct_strippedResampled1.nii.gz ###COLIHM620406202215542.nii.gz ##'  ####${template_prefix}.nii.gz ##${session_ct_bet_gray}
-template_prefix=scct_strippedResampled1 ##'COLIHM620406202215542'
+template_prefix=${session_ct_bname_noext} ##'COLIHM620406202215542'
 fixed_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
 
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}

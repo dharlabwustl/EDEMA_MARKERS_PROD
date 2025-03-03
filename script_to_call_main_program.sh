@@ -36,7 +36,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_WITH_MNI_TEMPLATE' ]]; then
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
-  echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
+  echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
 #  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 

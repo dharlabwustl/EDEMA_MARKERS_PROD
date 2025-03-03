@@ -370,7 +370,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ses
 moving_image_filename=/software/scct_strippedResampled1.nii.gz ###COLIHM620406202215542.nii.gz ##'  ####${template_prefix}.nii.gz ##${session_ct_bet_gray}
 ##'COLIHM620406202215542'
 fixed_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
-template_prefix=$(basename ${session_ct_bname_noext%.nii*})
+template_prefix=$(basename ${fixed_image_filename%.nii*})
 /software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
 #session_ct_bet_gray_lin_reg_output=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 #movingimage_gray_registered=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz

@@ -406,6 +406,9 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_mat_file}) ${sn
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_nii_file}) ${snipr_output_foldername} $(basename  ${registration_nii_file})
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${mask_binary_output_dir}/${mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
+
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
+
 #registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else

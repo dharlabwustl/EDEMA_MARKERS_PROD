@@ -29,7 +29,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'ARTERIAL_REGIONS' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
-if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_WITH_MNI_TEMPLATE_THIS' ]]; then
+if [[ ${TYPE_OF_PROGRAM} == '1000' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 

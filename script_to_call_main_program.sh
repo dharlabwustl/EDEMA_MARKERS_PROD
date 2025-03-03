@@ -25,6 +25,12 @@ export XNAT_HOST=${5}
 fi
 
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
+if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
+  echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
+  echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
+#  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+fi
+
 if [[ ${TYPE_OF_PROGRAM} == 'ARTERIAL_REGIONS' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
@@ -38,10 +44,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_WITH_MNI_TEMPLATE' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
-if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
-  echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
-#  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
-fi
+
 
 if [[ ${TYPE_OF_PROGRAM} == 'CREATE_HEMISPHERE_MASK' ]]; then
   /software/create_half_of_brain.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output

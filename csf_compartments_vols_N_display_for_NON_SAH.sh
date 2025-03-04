@@ -880,7 +880,7 @@ while IFS=',' read -ra array; do
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
     #
-#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
 #    split_masks_into_two_halves "_resaved_csf_unet_with_sah.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
@@ -889,10 +889,10 @@ while IFS=',' read -ra array; do
     split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
 
-    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+#    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+#    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+#    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+#    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
 
     grayscale_filename=${working_dir_1}/${filename_nifti}
 
@@ -956,7 +956,7 @@ while IFS=',' read -ra array; do
 
     ###################
     mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
-#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
 #    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah.nii.gz
 
     mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz

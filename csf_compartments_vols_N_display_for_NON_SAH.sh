@@ -1126,15 +1126,16 @@ while IFS=',' read -ra array; do
 #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #############################################################
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
-    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT ) ## SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
+    cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
+#    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT ) ## SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
     ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
     ############# FILL THE LATEX FILE #################
     #echo outputfiles_present::${outputfiles_present}
     call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" "SAH Blood Segm")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "Original NCCT" "Brain Extraction" "CSF" "CSF Compartments" ) ##"SAH Blood Segm")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')

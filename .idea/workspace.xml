@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commitdgfdgf">
+      <change afterPath="$PROJECT_DIR$/cistern_area.nii.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/csf_compartments_vols_N_display_for_NON_SAH.sh" beforeDir="false" afterPath="$PROJECT_DIR$/csf_compartments_vols_N_display_for_NON_SAH.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -477,7 +478,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4416" />
+    <option name="localTasksCounter" value="4418" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

@@ -888,6 +888,7 @@ while IFS=',' read -ra array; do
     split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
+    split_masks_into_two_halves "_resaved_levelset_ventricle_cistern.nii.gz"
 
 #    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
 #    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
@@ -968,6 +969,10 @@ while IFS=',' read -ra array; do
     mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
     mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
     #######################################
+    mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern.nii.gz
+    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_right_half_originalRF.nii.gz
+    mask_filename31=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_left_half_originalRF.nii.gz
+
     calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
     ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
@@ -992,6 +997,8 @@ while IFS=',' read -ra array; do
     call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+    call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
+    call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
     ####################################################
 
     #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
@@ -1018,7 +1025,7 @@ while IFS=',' read -ra array; do
     call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
-
+    call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     ## combine all volumes data:
     call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
@@ -1078,7 +1085,8 @@ while IFS=',' read -ra array; do
     ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename29%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
@@ -1104,9 +1112,9 @@ while IFS=',' read -ra array; do
 
     ###################################################################
     outputfile_suffix="CSF_COMPARTMENTS"
-    color_list='green_green_yellow_yellow_red_red_aqua_aqua'
+    color_list='green_green_yellow_yellow_red_red_aqua_aqua_maroon_maroon'
     #mask_filename=(${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
-    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10})
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     #############################################################
     ###################################################################

@@ -2462,6 +2462,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         raise e
 
     finally:
+        print('Hello world')
         # Close the XNAT session
         #xnatSession.close_httpsession())
 

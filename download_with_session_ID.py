@@ -20,6 +20,7 @@ XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 api_token=os.environ['REDCAP_API']
 xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+xnatSession.renew_httpsession()
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
@@ -38,10 +39,10 @@ def get_scan_id_given_session_id_N_niftiname(session_id,niftiname):
 def get_scan_quality(session_id,scan_id,scan_assessor_name):
     try:
         url = ("/data/experiments/%s/scans/%s/assessors?format=json" %    (session_id,scan_id))
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         response = xnatSession.httpsess.get(xnatSession.host + url)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         print(get_field_from_nested_dict(response.json(), scan_assessor_name))
         return get_field_from_nested_dict(response.json(), scan_assessor_name)
     except Exception as e:
@@ -72,12 +73,12 @@ def change_type_of_scan(sessionId, scanId,label):
     returnvalue=0
     try:
 
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
         url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&type=%s" % (sessionId, scanId, label))
-        xnatSession.renew_httpsession()
+        #xnatSession.renew_httpsession()
         response = xnatSession.httpsess.put(xnatSession.host + url)
         url = ("/data/experiments/%s/scans/%s?xsiType=xnat:ctScanData&quality=%s" % (sessionId, scanId, 'usable'))
-        xnatSession.renew_httpsession()
+        #xnatSession.renew_httpsession()
         response1 = xnatSession.httpsess.put(xnatSession.host + url)
         if response.status_code == 200 or response1.status_code == 200:
             print("Successfully set type for %s scan %s to '%s'" % (sessionId, scanId, label))
@@ -447,10 +448,10 @@ def get_all_selected_scan_in_a_project(projectId,dir_to_receive_the_data):
 def get_allsessionlist_in_a_project(projectId):
     # projectId="BJH" #sys.argv[1]
     url = ("/data/projects/%s/experiments/?format=json" %    (projectId))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     sessions_list=response.json()['ResultSet']['Result']
 
     return sessions_list
@@ -1056,21 +1057,21 @@ def nifti_number_slice(niftifilename):
 
     # pd.DataFrame(final_ct_file).T.to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
 # def downloadniftiwithuri(URI,dir_to_save,niftioutput_filename):
-#     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+#     #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
 #     # for x in range(df.shape[0]):
 #     #     print(df.iloc[x])
 
 #     url =   URI #  df.iloc[0][0] #URI_name[0] #("/data/experiments/%s/scans/%s/resources/NIFTI/files?format=zip" %
 #         # (sessionId, scanId))
 #     print(url)
-#     xnatSession.renew_httpsession()
+#     #xnatSession.renew_httpsession()
 #     response = xnatSession.httpsess.get(xnatSession.host + url)
 #     zipfilename=os.path.join(dir_to_save,niftioutput_filename) #sessionId+scanId+'.zip'
 #     with open(zipfilename, "wb") as f:
 #         for chunk in response.iter_content(chunk_size=512):
 #             if chunk:  # filter out keep-alive new chunks
 #                 f.write(chunk)
-#     xnatSession.close_httpsession()
+#     #xnatSession.close_httpsession())
 
 # def get_urls_csvfiles_in_EDEMA_BIOMARKER_inaproject(sessions_list):
 #     jsonStr = json.dumps(sessions_list)
@@ -1167,27 +1168,27 @@ def downloadniftiwithuri_withcsv():
     dir_to_save=sys.argv[2]
     df=pd.read_csv(csvfilename)
     print('csvfilename::{}::dir_to_save::{}'.format(csvfilename,dir_to_save))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     for x in range(df.shape[0]):
         print(df.iloc[x])
 
         url =     df.iloc[x][0] #URI_name[0] #("/data/experiments/%s/scans/%s/resources/NIFTI/files?format=zip" %
             # (sessionId, scanId))
         print(url)
-        xnatSession.renew_httpsession()
+        #xnatSession.renew_httpsession()
         response = xnatSession.httpsess.get(xnatSession.host + url)
         zipfilename=os.path.join(dir_to_save,df.iloc[x][1]) #sessionId+scanId+'.zip'
         with open(zipfilename, "wb") as f:
             for chunk in response.iter_content(chunk_size=512):
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
 
 def downloadmaskswithuri_withcsv():
     csvfilename=sys.argv[1]
     dir_to_save=sys.argv[2]
     df=pd.read_csv(csvfilename)
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     for item_id, each_scan in df.iterrows():
         # print("each_scan['URI'] {}".format(each_scan['URI']))
     # for x in range(df.shape[0]):
@@ -1196,64 +1197,64 @@ def downloadmaskswithuri_withcsv():
         url =  each_scan['URI'] #   df.iloc[0][0] #URI_name[0] #("/data/experiments/%s/scans/%s/resources/NIFTI/files?format=zip" %
             # (sessionId, scanId))
         print(url)
-        xnatSession.renew_httpsession()
+        #xnatSession.renew_httpsession()
         response = xnatSession.httpsess.get(xnatSession.host + url)
         zipfilename=os.path.join(dir_to_save,each_scan['Name']) #sessionId+scanId+'.zip'
         with open(zipfilename, "wb") as f:
             for chunk in response.iter_content(chunk_size=512):
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
 def downloadresourcefilewithuri_py(url,dir_to_save):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url['URI'])
     zipfilename=os.path.join(dir_to_save,url['Name']) #sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
 
 def downloadniftiwithuri(URI_name,dir_to_save):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     url = URI_name[0] #("/data/experiments/%s/scans/%s/resources/NIFTI/files?format=zip" %
         # (sessionId, scanId))
     print(url)
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     zipfilename=os.path.join(dir_to_save,URI_name[1]) #sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
 
 def get_niftifiles_metadata(URI):
     url = (URI+'/resources/NIFTI/files?format=json')
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_nifti=response.json()['ResultSet']['Result']
     return metadata_nifti
 def get_resourcefiles_metadata(URI,resource_dir):
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
     print(url)
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_masks=response.json()['ResultSet']['Result']
     return metadata_masks
 def get_resourcefiles_metadata_saveascsv(URI,resource_dir,dir_to_receive_the_data,output_csvfile):
 
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
     # print("url::{}".format(url))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_masks=response.json()['ResultSet']['Result']
     # print("metadata_masks::{}".format(metadata_masks))
     df_scan = pd.read_json(json.dumps(metadata_masks))
@@ -1320,15 +1321,15 @@ def uploadfile():
     input_dirname=str(sys.argv[3])
     resource_dirname=str(sys.argv[4])
     file_suffix=str(sys.argv[5])
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
     allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
     for eachniftifile in allniftifiles:
         files={'file':open(eachniftifile,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
         print(response)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     # for eachniftifile in allniftifiles:
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
@@ -1340,15 +1341,15 @@ def uploadfile_withprefix():
     input_dirname=str(sys.argv[3])
     resource_dirname=str(sys.argv[4])
     file_suffix=str(sys.argv[5])
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
     allniftifiles=glob.glob(os.path.join(input_dirname,file_suffix+'*') ) #input_dirname + '/*'+file_suffix)
     for eachniftifile in allniftifiles:
         files={'file':open(eachniftifile,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
         print(response)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     # for eachniftifile in allniftifiles:
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
@@ -1359,8 +1360,8 @@ def uploadsinglefile():
     input_dirname=str(sys.argv[3])
     resource_dirname=str(sys.argv[4])
     file_name=str(sys.argv[5])
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
     # allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
     # for eachniftifile in allniftifiles:
@@ -1368,19 +1369,19 @@ def uploadsinglefile():
     files={'file':open(eachniftifile,'rb')}
     response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
     print(response)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     # for eachniftifile in allniftifiles:
     #     command= 'rm  ' + eachniftifile
     #     subprocess.call(command,shell=True)
     return True
 def uploadsinglefile_X_level(X_level,projectId,eachniftifile,resource_dirname):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     url = (("/data/"+X_level+"/%s/resources/"+resource_dirname+"/files/") % (projectId))
     files={'file':open(eachniftifile,'rb')}
     response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
     print(response)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
 
 def uploadfile_projectlevel():
     try:
@@ -1388,15 +1389,15 @@ def uploadfile_projectlevel():
         input_dirname=str(sys.argv[2])
         resource_dirname=str(sys.argv[3])
         file_suffix=str(sys.argv[4])
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         url = (("/data/projects/%s/resources/"+resource_dirname+"/files/") % (projectId))
         allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
         for eachniftifile in allniftifiles:
             files={'file':open(eachniftifile,'rb')}
             response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
             print(response)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         # for eachniftifile in allniftifiles:
         #     command= 'rm  ' + eachniftifile
         #     subprocess.call(command,shell=True)
@@ -1415,13 +1416,13 @@ def uploadsinglefile_with_URI(url,file_name,resource_dirname):
     try:
 
         url = url+"/resources/"+resource_dirname+"/files/"
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         files={'file':open(file_name,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
         print("response::{}".format(response))
 
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         print("I UPLOADED FILE WITH  uploadsinglefile_with_URI")
     except:
         print("I FAILED AT uploadsinglefile_with_URI")
@@ -1453,8 +1454,8 @@ def uploadsinglefile_projectlevel_args(args):
         input_dirname=args.stuff[2] #str(sys.argv[2])
         resource_dirname=args.stuff[3] #str(sys.argv[3])
         file_name=args.stuff[4] # str(sys.argv[4])
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         url = (("/data/projects/%s/resources/"+resource_dirname+"/files/") % (projectId))
         # allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
         eachniftifile=os.path.join(input_dirname,file_name)
@@ -1463,7 +1464,7 @@ def uploadsinglefile_projectlevel_args(args):
         #     files={'file':open(eachniftifile,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
         print(response)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         # for eachniftifile in allniftifiles:
         #     command= 'rm  ' + eachniftifile
         #     subprocess.call(command,shell=True)
@@ -1477,8 +1478,8 @@ def uploadsinglefile_projectlevel():
         input_dirname=str(sys.argv[2])
         resource_dirname=str(sys.argv[3])
         file_name=str(sys.argv[4])
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         url = (("/data/projects/%s/resources/"+resource_dirname+"/files/") % (projectId))
         # allniftifiles=glob.glob(os.path.join(input_dirname,'*'+file_suffix) ) #input_dirname + '/*'+file_suffix)
         eachniftifile=os.path.join(input_dirname,file_name)
@@ -1487,7 +1488,7 @@ def uploadsinglefile_projectlevel():
         #     files={'file':open(eachniftifile,'rb')}
         response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
         print(response)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         # for eachniftifile in allniftifiles:
         #     command= 'rm  ' + eachniftifile
         #     subprocess.call(command,shell=True)
@@ -1503,12 +1504,12 @@ def downloadandcopyfile():
     command= 'rm -r /ZIPFILEDIR/*'
     subprocess.call(command,shell=True)
     if decision==True:
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         outcome=get_nifti_using_xnat(sessionId, scanId)
         if outcome==False:
             print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         try :
             copy_nifti()
             print("COPIED TO WORKINGDIRECTORY")
@@ -1522,12 +1523,12 @@ def downloadandcopyallniftifiles():
     command= 'rm -r /ZIPFILEDIR/*'
     subprocess.call(command,shell=True)
     # if decision==True:
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     outcome=get_nifti_using_xnat(sessionId, scanId)
     if outcome==False:
         print("NO DICOM FILE %s:%s:%s:%s" % (sessionId, scanId))
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     try :
         copy_nifti()
         print("COPIED TO WORKINGDIRECTORY")
@@ -1550,10 +1551,10 @@ def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 def get_metadata_subject(project_id,subject_id,outputfile="NONE.csv"):
     url = ("/data/projects/%s/subjects/%s/experiments/?format=json" %    (project_id,subject_id))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_subj=response.json()['ResultSet']['Result']
     metadata_subj_1=json.dumps(metadata_subj)
     df_scan = pd.read_json(metadata_subj_1)
@@ -1561,10 +1562,10 @@ def get_metadata_subject(project_id,subject_id,outputfile="NONE.csv"):
     return metadata_subj
 def get_metadata_session(sessionId,outputfile="NONE.csv"):
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_session=response.json()['ResultSet']['Result']
     metadata_session_1=json.dumps(metadata_session)
     df_scan = pd.read_json(metadata_session_1)
@@ -1573,10 +1574,10 @@ def get_metadata_session(sessionId,outputfile="NONE.csv"):
 def get_metadata_project_sessionlist(project_ID,outputfile="NONE.csv"):
     url = ("/data/projects/%s/experiments/?format=json" %    (project_ID))
     # /data/projects/${project_ID}/experiments/
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_session=response.json()['ResultSet']['Result']
     metadata_session_1=json.dumps(metadata_session)
     df_scan = pd.read_json(metadata_session_1)
@@ -1585,13 +1586,13 @@ def get_metadata_project_sessionlist(project_ID,outputfile="NONE.csv"):
 def get_session_label(sessionId,outputfile="NONE.csv"):
     returnvalue=''
     try:
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         # sessionId='SNIPR02_E02933'
 
         url = ("/data/experiments/%s/?format=json" %    (sessionId)) #scans/
         response = xnatSession.httpsess.get(xnatSession.host + url)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         session_label=response.json()['items'][0]['data_fields']['label']
         df_session=pd.DataFrame([session_label])
         df_session.columns=['SESSION_LABEL']
@@ -1640,10 +1641,10 @@ def call_get_metadata_session(args):
 def get_metadata_session_forbash():
     sessionId=sys.argv[1]
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     metadata_session=response.json()['ResultSet']['Result']
     print(metadata_session)
     data_file = open('this_sessionmetadata.csv', 'w')
@@ -1691,11 +1692,11 @@ def decide_image_conversion(metadata_session,scanId):
 
 
 def get_nifti_using_xnat(sessionId, scanId):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     url = ("/data/experiments/%s/scans/%s/resources/NIFTI/files?format=zip" %
         (sessionId, scanId))
 
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     zipfilename=os.path.join('/workinginput',sessionId+scanId+'.zip')
     with open(zipfilename, "wb") as f:
@@ -1723,7 +1724,7 @@ def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
     # output_dirname=str(sys.argv[4])
 
     print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     resource_dir_url=(("/data/experiments/%s/scans/%s")  %
                       (sessionId, scanId))
     print('resource_dir_url::{}'.format(resource_dir_url))
@@ -1733,7 +1734,7 @@ def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  %
            (sessionId, scanId))
 
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     zipfilename=sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
@@ -1744,7 +1745,7 @@ def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
     subprocess.call(command,shell=True)
     command = 'unzip -d /ZIPFILEDIR ' + zipfilename
     subprocess.call(command,shell=True)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     copy_nifti_to_a_dir(output_dirname)
     copy_mat_to_a_dir(output_dirname)
     copy_allfile_to_a_dir(output_dirname)
@@ -1760,7 +1761,7 @@ def downloadfiletolocaldir():
     output_dirname=str(sys.argv[4])
 
     print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     resource_dir_url=(("/data/experiments/%s/scans/%s")  %
         (sessionId, scanId))
     print('resource_dir_url::{}'.format(resource_dir_url))
@@ -1770,7 +1771,7 @@ def downloadfiletolocaldir():
     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  %
         (sessionId, scanId))
 
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     zipfilename=sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
@@ -1781,17 +1782,17 @@ def downloadfiletolocaldir():
     subprocess.call(command,shell=True)
     command = 'unzip -d /ZIPFILEDIR ' + zipfilename
     subprocess.call(command,shell=True)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     copy_nifti_to_a_dir(output_dirname)
     copy_mat_to_a_dir(output_dirname)
 
     return True
 # def downloadfiletolocaldir_py(sessionId,scanId,resource_dirname,output_dirname):
-#     xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+#     #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
 #     url = (("/data/experiments/%s/scans/%s/resources/" + resource_dirname+ "/files?format=zip")  %
 #         (sessionId, scanId))
 
-#     xnatSession.renew_httpsession()
+#     #xnatSession.renew_httpsession()
 #     response = xnatSession.httpsess.get(xnatSession.host + url)
 #     zipfilename=sessionId+scanId+'.zip'
 #     with open(zipfilename, "wb") as f:
@@ -1802,7 +1803,7 @@ def downloadfiletolocaldir():
 #     subprocess.call(command,shell=True)
 #     command = 'unzip -d /ZIPFILEDIR ' + zipfilename
 #     subprocess.call(command,shell=True)
-#     xnatSession.close_httpsession()
+#     #xnatSession.close_httpsession())
 #     copy_nifti_to_a_dir(output_dirname)
 def copy_allfile_to_a_dir(dir_name):
     for dirpath, dirnames, files in os.walk('/ZIPFILEDIR'):
@@ -1884,12 +1885,12 @@ def call_list_analyzed_session():
 def check_if_a_file_exist_in_snipr(URI, resource_dir,extension_to_find_list):
     url = (URI+'/resources/' + resource_dir +'/files?format=json')
     # print("url::{}".format(url))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     num_files_present=0
     if response.status_code != 200:
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         return num_files_present
     metadata_masks=response.json()['ResultSet']['Result']
     # print("metadata_masks::{}".format(metadata_masks))
@@ -1984,8 +1985,8 @@ def get_latest_file(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     return x_df
 
 def download_a_singlefile_with_URLROW(url,dir_to_save):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
     # subprocess.call(command,shell=True)
     response = xnatSession.httpsess.get(xnatSession.host +url.loc[0,"URI"]) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
@@ -1995,7 +1996,7 @@ def download_a_singlefile_with_URLROW(url,dir_to_save):
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession())
     return zipfilename
 def get_latest_file_SAH(df_listfile): ##,SCAN_URI_NIFTI_FILEPREFIX=""):
     allfileswithprefix1_df=df_listfile
@@ -2038,8 +2039,8 @@ def call_download_a_singlefile_with_URIString(args):
     return
 def delete_a_file_with_URIString(url):
     try:
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
         response = xnatSession.httpsess.delete(xnatSession.host +url)
         subprocess.call("echo " + "I PASSED AT ::{}::RESPONSE::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],response) ,shell=True )
     except:
@@ -2048,8 +2049,8 @@ def delete_a_file_with_URIString(url):
 
 def download_a_singlefile_with_URIString(url,filename,dir_to_save):
     print("url::{}::filename::{}::dir_to_save::{}".format(url,filename,dir_to_save))
-    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    # #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
     # subprocess.call(command,shell=True)
     response = xnatSession.httpsess.get(xnatSession.host +url) #/data/projects/ICH/resources/179772/files/ICH_CTSESSIONS_202305170753.csv") #
@@ -2059,7 +2060,7 @@ def download_a_singlefile_with_URIString(url,filename,dir_to_save):
         for chunk in response.iter_content(chunk_size=512):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
-    # xnatSession.close_httpsession()
+    # #xnatSession.close_httpsession())
     return zipfilename
 def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
     returnvalue=0
@@ -2072,8 +2073,8 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         subprocess.call('echo working:' +filename+' > /workingoutput/testatul.txt',shell=True)
         subprocess.call('echo working:' +dir_to_save+' > /workingoutput/testatul.txt',shell=True)
         print("url::{}::filename::{}::dir_to_save::{}".format(session_ID,filename,dir_to_save))
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
 
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True) https://snipr.wustl.edu/app/action/XDATActionRouter/xdataction/xml/search_element/xnat%3ActSessionData/search_field/xnat%3ActSessionData.ID/search_value/SNIPR01_E07665
@@ -2095,7 +2096,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
             subprocess.call(command,shell=True)
             subprocess.call("echo " + "I LINE 2096 AT ::{}::{}  >> /workingoutput/error.txt".format(xmlfilename,inspect.stack()[0][3]) ,shell=True )
             print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
-        # xnatSession.close_httpsession()
+        # #xnatSession.close_httpsession())
             # return num_files_present
 
 
@@ -2105,7 +2106,7 @@ def download_an_xmlfile_with_URIString(args): #url,filename,dir_to_save):
         #     for chunk in response.iter_content(chunk_size=512):
         #         if chunk:  # filter out keep-alive new chunks
         #             f.write(chunk)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         returnvalue=1
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
@@ -2126,8 +2127,8 @@ def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #u
         subprocess.call('echo working:' +filename+' > /workingoutput/testatul.txt',shell=True)
         subprocess.call('echo working:' +dir_to_save+' > /workingoutput/testatul.txt',shell=True)
         print("url::{}::filename::{}::dir_to_save::{}".format(session_ID,filename,dir_to_save))
-        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        xnatSession.renew_httpsession()
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
 
         # command="echo  " + url['URI'] + " >> " +  os.path.join(dir_to_save,"test.csv")
         # subprocess.call(command,shell=True)
@@ -2147,7 +2148,7 @@ def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #u
         except:
             command='curl -u '+ XNAT_USER +':'+XNAT_PASS+' -X GET '+ xnatSession.host +url + ' > '+ xmlfilename
             subprocess.call(command,shell=True)
-        # xnatSession.close_httpsession()
+        # #xnatSession.close_httpsession())
         # return num_files_present
 
 
@@ -2157,7 +2158,7 @@ def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #u
         #     for chunk in response.iter_content(chunk_size=512):
         #         if chunk:  # filter out keep-alive new chunks
         #             f.write(chunk)
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
         returnvalue=1
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         print("I PASSED AT ::{}".format(inspect.stack()[0][3]))
@@ -2169,19 +2170,19 @@ def download_an_xmlfile_with_URIString_func(session_ID,filename,dir_to_save): #u
 
 
 def listoffile_witha_URI_as_df(URI):
-    # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    # #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     response = xnatSession.httpsess.get(xnatSession.host + URI)
     # print("I AM IN :: listoffile_witha_URI_as_df::URI::{}".format(URI))
     num_files_present=0
     df_scan=[]
     if response.status_code != 200:
-        # xnatSession.close_httpsession()
+        # #xnatSession.close_httpsession())
         return num_files_present
     metadata_masks=response.json()['ResultSet']['Result']
     df_listfile = pd.read_json(json.dumps(metadata_masks))
-    # xnatSession.close_httpsession()
+    # #xnatSession.close_httpsession())
     return df_listfile
 def download_files_in_a_resource(URI,dir_to_save):
     try:
@@ -2418,8 +2419,8 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
     url = f"{URI}/resources/NIFTI_LOCATION/files?format=json"
 
     # Initialize XNAT session
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession.renew_httpsession()
 
     try:
         # Make a GET request to the XNAT server
@@ -2462,7 +2463,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
 
     finally:
         # Close the XNAT session
-        xnatSession.close_httpsession()
+        #xnatSession.close_httpsession())
 
 
 def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,prefix_if_any=''):

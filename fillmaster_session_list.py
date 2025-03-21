@@ -1228,21 +1228,10 @@ def append_sessionxmlinfo_to_analytics(args):
                         ## fetch one dicom
                                 columnvalue=get_dicom_datetime(os.path.basename(dicom_image))
                                 subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
-
-
                                 break
                         except:
                             pass
-
-
-
-
-
-
-                    ## get its date time.
-
-                    ##
-                    print(columnname)
+                    # print(columnname)
             except:
                 pass
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)

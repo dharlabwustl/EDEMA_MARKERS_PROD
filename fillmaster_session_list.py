@@ -1212,7 +1212,6 @@ def append_sessionxmlinfo_to_analytics(args):
             # sdkfjl=0
             if len(columnvalue)<10:
                 ## get metadata
-                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],'checking_length') ,shell=True )
                 metadata_session=get_metadata_session(session_id)
                 metadata_session_1=json.dumps(metadata_session)
                 df_scan = pd.read_json(metadata_session_1)
@@ -1220,6 +1219,8 @@ def append_sessionxmlinfo_to_analytics(args):
                 for each_item_idx, each_item in df_scan.iterrows():
                     scan_uri=str(each_item['URI'])
                     resource_dir='DICOM'
+                    subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_uri) ,shell=True )
+
                     try:
                         metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
                         metadata_resrource_1=json.dumps(metadata_resources)

@@ -1219,13 +1219,13 @@ def append_sessionxmlinfo_to_analytics(args):
                 for each_item_idx, each_item in df_scan.iterrows():
                     scan_uri=str(each_item['URI'])
                     resource_dir='DICOM'
-                    subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_uri) ,shell=True )
 
                     try:
                         metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
                         metadata_resrource_1=json.dumps(metadata_resources)
                         if metadata_resrource_1.shape[0]>2:
                             dicom_image=metadata_resrource_1.loc[0,'URI']
+                            subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],dicom_image) ,shell=True )
                             download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')
                             ## fetch one dicom
                             columnvalue=get_dicom_datetime(os.path.basename(dicom_image))

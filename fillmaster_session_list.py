@@ -80,6 +80,38 @@ def get_latest_csvfile_singlefilename_infarct(df1,extens='columndropped.csv'):
     filetocopy=x_df['URI'][0]
     # print(filetocopy)
     return filetocopy
+def get_dicom_datetime(dicom_path):
+    """
+    Reads a DICOM file and returns the Study Date and Time as a datetime object.
+
+    Parameters:
+        dicom_path (str): Path to the DICOM file
+
+    Returns:
+        datetime or None: Combined Study Date and Time as a datetime object, or None if not found
+    """
+    try:
+        reader = sitk.ImageFileReader()
+        reader.SetFileName(dicom_path)
+        reader.LoadPrivateTagsOn()
+        reader.ReadImageInformation()
+
+        study_date = reader.GetMetaData("0008|0020")  # Study Date
+        study_time = reader.GetMetaData("0008|0030")  # Study Time
+
+        # Clean and format time (ignore fractional seconds)
+        time_str = study_time.split('.')[0]  # Trim off any fractional seconds
+
+        # Pad time if needed (e.g., "930" -> "093000")
+        time_str = time_str.ljust(6, '0')
+
+        # Combine and parse to datetime 04/20/2015 10:13
+        dt = datetime.strptime(study_date + time_str, "%m/%d/%Y %H:%M")
+        return dt
+
+    except Exception as e:
+        print(f"Error reading DICOM datetime: {e}")
+        return None
 
 def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename,file_prefix):
     returnvalue=0
@@ -1153,38 +1185,6 @@ def append_sessionxmlinfo_to_analytics(args):
             subject_ID=str(xmlfile_dict['xnat:CTSession']['xnat:subject_ID'])
             matched_session=subject_list_file_df[subject_list_file_df["ID"].astype(str)==subject_ID].reset_index()
             columnvalue=str(matched_session["label"][0])
-            ###################################
-            try:
-                # sdkfjl=0
-                if len(columnvalue)<10:
-                    ## get metadata
-                    session_id
-                    metadata_session=get_metadata_session(session_id)
-                    metadata_session_1=json.dumps(metadata_session)
-                    df_scan = pd.read_json(metadata_session_1)
-                    ## go to the dicom recources
-                    for each_item_idx, each_item in df_scan.iterrows():
-                        scan_uri=str(each_item['URI'])
-                        resource_dir='DICOM'
-                        try:
-                            metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
-                            metadata_resrource_1=json.dumps(metadata_resources)
-                            if metadata_resrource_1.shape[0]>2:
-                                dicom_image=metadata_resrource_1.loc[0,'URI']
-                                download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')
-                        ## fetch one dicom
-                                columnvalue=get_dicom_datetime(os.path.basename(dicom_image))
-                                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
-                                break
-                        except:
-                            pass
-                    # print(columnname)
-            except:
-                pass
-
-            ############################################
-
-
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
 
         except:
@@ -1204,6 +1204,39 @@ def append_sessionxmlinfo_to_analytics(args):
             columnvalue_1="/".join([date_split[1],date_split[2],date_split[0]])
             columnvalue_2=":".join(str(xmlfile_dict['xnat:CTSession']['xnat:time']).split(':')[0:2])
             columnvalue=columnvalue_1+" "+ columnvalue_2
+            ###################################
+            try:
+                # sdkfjl=0
+                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],'checking_length') ,shell=True )
+
+
+                if len(columnvalue)<10:
+                    ## get metadata
+                    session_id
+                    metadata_session=get_metadata_session(session_id)
+                    metadata_session_1=json.dumps(metadata_session)
+                    df_scan = pd.read_json(metadata_session_1)
+                    ## go to the dicom recources
+                    for each_item_idx, each_item in df_scan.iterrows():
+                        scan_uri=str(each_item['URI'])
+                        resource_dir='DICOM'
+                        try:
+                            metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
+                            metadata_resrource_1=json.dumps(metadata_resources)
+                            if metadata_resrource_1.shape[0]>2:
+                                dicom_image=metadata_resrource_1.loc[0,'URI']
+                                download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')
+                                ## fetch one dicom
+                                columnvalue=get_dicom_datetime(os.path.basename(dicom_image))
+                                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
+                                break
+                        except:
+                            pass
+                    # print(columnname)
+            except:
+                pass
+
+            ############################################
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass

@@ -107,7 +107,7 @@ def get_dicom_datetime(dicom_path):
         time_str = time_str.ljust(6, '0')
 
         # Combine and parse to datetime 04/20/2015 10:13
-        dt = datetime.strptime(study_date + time_str, "%Y%m%d%H%M%S")
+        dt = datetime.datetime.strptime(study_date + time_str, "%Y%m%d%H%M%S")
         return dt.strftime("%m/%d/%Y %H:%M")
 
     except Exception as e:

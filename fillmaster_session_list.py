@@ -113,6 +113,39 @@ def get_dicom_datetime(dicom_path):
     except Exception as e:
         print(f"Error reading DICOM datetime: {e}")
         return None
+import SimpleITK as sitk
+
+def get_dicom_scanner_info(dicom_path):
+    """
+    Extracts the scanner's manufacturer and model name from a DICOM file.
+
+    Parameters:
+        dicom_path (str): Path to the DICOM file
+
+    Returns:
+        dict: {'manufacturer': str or None, 'model': str or None}
+    """
+    info = {
+        "manufacturer": None,
+        "model": None
+    }
+
+    try:
+        reader = sitk.ImageFileReader()
+        reader.SetFileName(dicom_path)
+        reader.LoadPrivateTagsOn()
+        reader.ReadImageInformation()
+
+        if reader.HasMetaDataKey("0008|0070"):
+            info["manufacturer"] = reader.GetMetaData("0008|0070")
+
+        if reader.HasMetaDataKey("0008|1090"):
+            info["model"] = reader.GetMetaData("0008|1090")
+
+    except Exception as e:
+        print(f"Error reading DICOM scanner info: {e}")
+
+    return info["manufacturer"] + " " + info["model"]
 
 def get_latest_file_from_metadata(metadata_filename,column_name,file_ext,outputfile_with_latestfilename,file_prefix):
     returnvalue=0
@@ -1271,6 +1304,43 @@ def append_sessionxmlinfo_to_analytics(args):
             fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
         except:
             pass
+            ###################################
+        try:
+            # sdkfjl=0
+            if len(columnvalue)<10:
+                ## get metadata
+                metadata_session=get_metadata_session(session_id)
+                metadata_session_1=json.dumps(metadata_session)
+                df_scan = pd.read_json(metadata_session_1)
+                ## go to the dicom recources
+                for each_item_idx, each_item in df_scan.iterrows():
+                    scan_uri=str(each_item['URI'])
+                    resource_dir='DICOM'
+
+                    try:
+                        metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
+                        metadata_resrource_1=json.dumps(metadata_resources)
+                        df_metadata_resrource_1 = pd.read_json(metadata_resrource_1)
+                        subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_uri) ,shell=True )
+
+                        if df_metadata_resrource_1.shape[0]>2:
+                            dicom_image=df_metadata_resrource_1.loc[0,'URI']
+                            subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],dicom_image) ,shell=True )
+
+
+                            download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')
+                            ## fetch one dicom
+                            columnvalue=get_dicom_datetime(os.path.basename(dicom_image))
+                            subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
+                            fill_datapoint_each_sessionn_1(identifier,columnname,columnvalue,csvfilename)
+                            break
+                    except:
+                        pass
+                # print(columnname)
+        except:
+            pass
+
+        ############################################
         ################
         columnname='body_part_xml'
         columnvalue=""

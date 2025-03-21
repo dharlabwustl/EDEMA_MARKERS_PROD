@@ -11,6 +11,7 @@ import os,sys,glob,json,subprocess
 import datetime
 import argparse
 import SimpleITK as sitk
+
 # sys.path.append('/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/NWU/PYCHARM/EDEMA_MARKERS_PROD');
 from utilities_simple import *
 from download_with_session_ID import *
@@ -106,8 +107,8 @@ def get_dicom_datetime(dicom_path):
         time_str = time_str.ljust(6, '0')
 
         # Combine and parse to datetime 04/20/2015 10:13
-        dt = datetime.strptime(study_date + time_str, "%m/%d/%Y %H:%M")
-        return dt
+        dt = datetime.strptime(study_date + time_str, "%Y%m%d%H%M%S")
+        return dt.strftime("%m/%d/%Y %H:%M")
 
     except Exception as e:
         print(f"Error reading DICOM datetime: {e}")

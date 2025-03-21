@@ -1210,10 +1210,9 @@ def append_sessionxmlinfo_to_analytics(args):
             ###################################
         try:
             # sdkfjl=0
-            subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],'checking_length') ,shell=True )
             if len(columnvalue)<10:
                 ## get metadata
-                session_id
+                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],'checking_length') ,shell=True )
                 metadata_session=get_metadata_session(session_id)
                 metadata_session_1=json.dumps(metadata_session)
                 df_scan = pd.read_json(metadata_session_1)

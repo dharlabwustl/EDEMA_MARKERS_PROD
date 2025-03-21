@@ -1227,7 +1227,7 @@ def append_sessionxmlinfo_to_analytics(args):
                                 download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')
                         ## fetch one dicom
                                 columnvalue=get_dicom_datetime(os.path.basename(dicom_image))
-                                subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+                                subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],columnvalue) ,shell=True )
 
 
                                 break

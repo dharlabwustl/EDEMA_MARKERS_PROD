@@ -82,7 +82,7 @@ while IFS=',' read -ra array; do
 #    if [ $counter -gt 1 ]; then
 #      break
 #    fi
-#  break
+  break
 #  fi
 done < <(tail -n +2 "${copy_session}")
 csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv
@@ -112,5 +112,5 @@ call_edit_session_analytics_file_arguments=('call_move_one_column' ${new_analyti
 outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
 resource_dirname_at_snipr=${project_ID}"_SESSION_ANALYTICS_1"
 
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
-copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename_before_sorting})" ${resource_dirname_at_snipr} $(basename ${csvfilename_before_sorting})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${new_analytics_file})" ${resource_dirname_at_snipr} $(basename ${new_analytics_file})
+#copysinglefile_to_sniprproject ${project_ID} "$(dirname ${csvfilename_before_sorting})" ${resource_dirname_at_snipr} $(basename ${csvfilename_before_sorting})

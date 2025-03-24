@@ -63,7 +63,7 @@ curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subj
 csvfilename=${copy_session}
 while IFS=',' read -ra array; do
 #  if [ ${array[0]} == 'SNIPR02_E03847' ] ; then # | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
-  this_session_id=SNIPR02_E02819 ##${array[0]}  ###SNIPR02_E02101 #
+  this_session_id=${array[0]}  ###SNIPR02_E02101 #SNIPR02_E02819 ##
   xml_filename=${working_dir}/${this_session_id}.xml
   filename_xml=$(basename ${xml_filename})   #args.stuff[2]
   dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]
@@ -82,7 +82,7 @@ while IFS=',' read -ra array; do
 #    if [ $counter -gt 1 ]; then
 #      break
 #    fi
-  break
+#  break
 #  fi
 done < <(tail -n +2 "${copy_session}")
 csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv

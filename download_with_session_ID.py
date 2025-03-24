@@ -2563,6 +2563,7 @@ def main():
     print(return_value)
     if "call" not in name_of_the_function:
         globals()[args.stuff[0]](args)
+    xnatSession.close_httpsession()
     return return_value
 if __name__ == '__main__':
     main()

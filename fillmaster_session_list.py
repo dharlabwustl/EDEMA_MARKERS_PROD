@@ -1258,11 +1258,11 @@ def append_sessionxmlinfo_to_analytics(args):
                         metadata_resources=get_resourcefiles_metadata(scan_uri,resource_dir)
                         metadata_resrource_1=json.dumps(metadata_resources)
                         df_metadata_resrource_1 = pd.read_json(metadata_resrource_1)
-                        subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_uri) ,shell=True )
+                        # subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],scan_uri) ,shell=True )
 
                         if df_metadata_resrource_1.shape[0]>2:
                             dicom_image=df_metadata_resrource_1.loc[0,'URI']
-                            subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],dicom_image) ,shell=True )
+                            # subprocess.call("echo " + "I SUCCESS AT ::{}::datetime::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3],dicom_image) ,shell=True )
 
 
                             download_a_singlefile_with_URIString(dicom_image,os.path.basename(dicom_image),'./')

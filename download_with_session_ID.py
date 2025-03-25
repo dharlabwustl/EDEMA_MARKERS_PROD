@@ -2558,7 +2558,7 @@ def main():
         return_value=call_get_session_label(args) #
     if name_of_the_function=="call_downloadfiletolocaldir_py":
         return_value=call_downloadfiletolocaldir_py(args) #
-    if name_of_the_function=="call_delete_file_with_ext":
+    # if name_of_the_function=="call_delete_file_with_ext":
     if name_of_the_function=="call_delete_file_with_ext":
         return_value=call_delete_file_with_ext(args)
     print(return_value)

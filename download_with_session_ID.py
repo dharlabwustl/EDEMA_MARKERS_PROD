@@ -624,7 +624,7 @@ def decision_which_nifti_multiplescans(sessionId,dir_to_receive_the_data="",outp
                     number_slice=nifti_number_slice(os.path.join(dir_to_receive_the_data,x[1]))
                     # final_ct_file=[[each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice]]
                     list_of_usables_withsize=[]
-                    if number_slice <=200:
+                    if number_slice >=20 and number_slice <=200:
                         list_of_usables_withsize.append([each_nifti['URI'],each_nifti['Name'],each_axial['ID'],number_slice])
                         jsonStr = json.dumps(list_of_usables_withsize)
                         # print(jsonStr)
@@ -2558,6 +2558,7 @@ def main():
         return_value=call_get_session_label(args) #
     if name_of_the_function=="call_downloadfiletolocaldir_py":
         return_value=call_downloadfiletolocaldir_py(args) #
+    if name_of_the_function=="call_delete_file_with_ext":
     if name_of_the_function=="call_delete_file_with_ext":
         return_value=call_delete_file_with_ext(args)
     print(return_value)

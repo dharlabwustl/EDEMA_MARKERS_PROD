@@ -207,7 +207,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
     SCAN_ID,SCAN_NAME=get_selected_scan_info(SESSION_ID,file_output_dir)
     print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
-    working_dir_1='input'
+    working_dir_1='/input'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
@@ -322,14 +322,14 @@ def arterial_region_volumes_n_display(SESSION_ID):
     template_nifti_file_nib_data[template_nifti_file_nib_data<=np.min(template_nifti_file_nib_data)]=0
     template_nifti_file_nib_data[template_nifti_file_nib_data>0]=1
     template_nifti_file_nib_data_volume=(np.sum(template_nifti_file_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
-    moving_file_after_reg=os.path.join('input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
+    moving_file_after_reg=os.path.join('/input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
     moving_file_after_reg_nib=nib.load(moving_file_after_reg)
     moving_file_after_reg_nib_data=moving_file_after_reg_nib.get_fdata()
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data<1]=0
     template_nifti_file_nib=nib.load(template_nifti_file)
     moving_file_after_reg_nib_data_nib=nib.Nifti1Image(moving_file_after_reg_nib_data,affine=template_nifti_file_nib.affine,header=template_nifti_file_nib.header)
-    nib.save(moving_file_after_reg_nib_data_nib,os.path.join('input',os.path.basename(moving_file_after_reg).split('.nii')[0]+'_BET.nii.gz'))
+    nib.save(moving_file_after_reg_nib_data_nib,os.path.join('/input',os.path.basename(moving_file_after_reg).split('.nii')[0]+'_BET.nii.gz'))
     moving_file_after_reg_nib_data_volume=(np.sum(moving_file_after_reg_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
     df1['brain_volume_after_reg']=moving_file_after_reg_nib_data_volume
     df1['infarct_fraction_after_reg']=infarct_volume_after_reg/moving_file_after_reg_nib_data_volume #template_nifti_file_nib_data_volume
@@ -555,7 +555,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='input'
+    working_dir_1='/input'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     # download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)

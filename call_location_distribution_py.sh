@@ -28,8 +28,6 @@ while IFS=',' read -ra array; do
   done < <(tail -n +2 "${niftifile_csvfilename}")
 done
 ## download the NIFTI file
-
-
 function_with_arguments=('call_download_a_singlefile_with_URIString' ${scan_uri} ${working_dir_1}) #${scanID} ${snipr_output_foldername} 'cistern_area' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")

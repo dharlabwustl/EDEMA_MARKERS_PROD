@@ -3,27 +3,27 @@
 import sys,os,glob,subprocess,argparse
 from infarct_in_each_arterial_regionsNov262024 import *
 def clean_dirs():
-    command='rm -r workinginput/*'
+    command='rm -r /workinginput/*'
     subprocess.call(command,shell=True)
-    command='rm -r maskonly/*'
+    command='rm -r /maskonly/*'
     subprocess.call(command,shell=True)
-    command="rm -r workingoutput/*"
+    command="rm -r /workingoutput/*"
     subprocess.call(command,shell=True)
-    command="rm -r input/*"
+    command="rm -r /input/*"
     subprocess.call(command,shell=True)
-    command="rm -r working/*"
+    command="rm -r /working/*"
     subprocess.call(command,shell=True)
-    command="rm -r ZIPFILEDIR/*"
+    command="rm -r /ZIPFILEDIR/*"
     subprocess.call(command,shell=True)
     command="rm -r output/*"
     subprocess.call(command,shell=True)
-    command="rm -r ZIPFILEDIR/*"
+    command="rm -r /ZIPFILEDIR/*"
     subprocess.call(command,shell=True)
-    command="rm -r NIFTIFILEDIR/*"
+    command="rm -r /NIFTIFILEDIR/*"
     subprocess.call(command,shell=True)
     command="rm -r DICOMFILEDIR/*"
     subprocess.call(command,shell=True)
-    command="rm -r outputinsidedocker/*"
+    command="rm -r /outputinsidedocker/*"
     subprocess.call(command,shell=True)
 
 def call_arterial_location_distribution(args): #SESSION_ID):

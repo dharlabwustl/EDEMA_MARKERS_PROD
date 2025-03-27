@@ -23,10 +23,16 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 while IFS=',' read -ra array; do
   echo ${array[0]}
   scanID=${array[2]}
+  scan_uri=${array[0]}
   echo "scanID=${array[2]}"
   done < <(tail -n +2 "${niftifile_csvfilename}")
 done
+## download the NIFTI file
 
+
+function_with_arguments=('call_download_a_singlefile_with_URIString' ${sessionID} ${working_dir_1}) #${scanID} ${snipr_output_foldername} 'cistern_area' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #rm ${final_output_directory}/*.*
 #rm ${output_directory}/*.*
 #outputfiles_present=0

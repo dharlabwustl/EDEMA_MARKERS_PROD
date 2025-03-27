@@ -194,7 +194,7 @@ def trace_lines(frame, event, arg):
     return trace_lines
 sys.settrace(trace_lines)
 def arterial_region_volumes_n_display(SESSION_ID):
-    software_dir='software'
+    software_dir='/software'
     region_mask_type='arterial'
     working='/maskonly'
     mri_mask_dir=working #'/maskonly' #'www_nitrc_org_frs//maskonly'
@@ -254,7 +254,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
     # Intensity levels
     # min_intensity=np.min(gray_img[gray_img>10]) #np.min(gray_img)]) #20
     # max_intensity=np.max(gray_img[gray_img>np.min(gray_img)]) #60
-    template_nifti_file='software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
+    template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
     template_nifti_file_base_noext=os.path.basename(template_nifti_file).split('.nii')[0]
     # Find infarct mask
     # scct_strippedResampled1='scct_strippedResampled1'
@@ -541,7 +541,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
 
-    software_dir='software'
+    software_dir='/software'
     region_mask_type='arterial'
     working='/maskonly'
     mri_mask_dir=working #'/maskonly' #'www_nitrc_org_frs//maskonly'
@@ -585,7 +585,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
     directory_of_files_after_deepreg=working_dir_1
     # return
-    grayscale_img_path=template_nifti_file='software/COLIHM620406202215542.nii.gz' ##os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
+    grayscale_img_path=template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
     SCAN_NAME=os.path.basename(grayscale_img_path)
     file_without_ext=SCAN_NAME.split('.nii')[0] ##os.path.basename(session_ct_path).split('.nii')[0]
     predefined_legend=os.path.join(working_dir_1,'legend.csv') # '/software/legend.csv'

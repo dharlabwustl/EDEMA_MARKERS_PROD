@@ -22,6 +22,8 @@ echo '$outputfiles_present'::$outputfiles_present
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 while IFS=',' read -ra array; do
   echo ${array[0]}
+  scanID=${array[2]}
+  echo "scanID=${array[2]}"
   done < <(tail -n +2 "${niftifile_csvfilename}")
 done
 

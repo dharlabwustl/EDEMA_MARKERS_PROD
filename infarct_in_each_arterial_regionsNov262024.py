@@ -15,11 +15,11 @@ import mysql.connector
 import random
 import linecache
 import csv
+XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
+XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
+XNAT_USER = os.environ['XNAT_USER']#
+XNAT_PASS =os.environ['XNAT_PASS'] #
 
-XNAT_USER='atulkumar'
-XNAT_PASS='Mrityor1!'
-XNAT_HOST='https://snipr.wustl.edu'
-# SESSION_ID='SNIPR01_E00193' ## #'${1} #str(each_row['ID'])
 def process_csv_and_update_database(csv_file):
     try:
         # Open and read the CSV file
@@ -196,11 +196,11 @@ sys.settrace(trace_lines)
 def arterial_region_volumes_n_display(SESSION_ID):
     software_dir='software'
     region_mask_type='arterial'
-    working='maskonly'
-    mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
-    file_output_dir='workinginput'
-    SLICE_OUTPUT_DIRECTORY='workingoutput'
-    output_directory='workingoutput'
+    working='/maskonly'
+    mri_mask_dir=working #'/maskonly' #'www_nitrc_org_frs//maskonly'
+    file_output_dir='/workinginput'
+    SLICE_OUTPUT_DIRECTORY='/workingoutput'
+    output_directory='/workingoutput'
     splitter='_fixed'
     output_dir=output_directory
     # return
@@ -214,11 +214,11 @@ def arterial_region_volumes_n_display(SESSION_ID):
     # print('ATUL')
     # return
     resource_dir='MASKLABEL'
-    subprocess.call("echo " + "I FAILED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I FAILED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
     downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.nii')
     downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.csv')
-    subprocess.call("echo " + "I PASSED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I PASSED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     #
     # return
     resource_dir='PREPROCESS_SEGM_1'
@@ -242,7 +242,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
     command='mv ' + os.path.join(mri_mask_dir,'*bfc'+splitter+'*.nii.gz') + '  ' + output_dir
     subprocess.call(command,shell=True)
     #
-    #  ## '/software/www_nitrc_org_frs/maskonly'
+    #  ## '/software/www_nitrc_org_frs//maskonly'
     mask_img_paths=glob.glob(os.path.join(mri_mask_dir,'warped_1*_fixed_COLIHM620406202215542_lin1_BET.nii.gz')) #glob.glob(os.path.join(mri_mask_dir,'warped_1*BET.nii.gz'))  #glob.glob(os.path.join(mri_mask_dir,'*.nii.gz'))
     grayscale_img_path=os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
     min_intensity,max_intensity=get_min_max_intensity(grayscale_img_path)
@@ -526,7 +526,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
     latex_end(latexfilename)
     command = f"sed -i 's/color\\\\_/color_/g' {latexfilename}"
     subprocess.call(command, shell=True)    #subprocess.call(command,shell=True)
-    os.chdir('workingoutput')
+    os.chdir('/workingoutput')
     print(glob.glob("./*"))
 
     command="pdflatex *.tex  " #+ 'lobar_output/'
@@ -543,11 +543,11 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     software_dir='software'
     region_mask_type='arterial'
-    working='maskonly'
-    mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
-    file_output_dir='workinginput'
-    SLICE_OUTPUT_DIRECTORY='workingoutput'
-    output_directory='workingoutput'
+    working='/maskonly'
+    mri_mask_dir=working #'/maskonly' #'www_nitrc_org_frs//maskonly'
+    file_output_dir='/workinginput'
+    SLICE_OUTPUT_DIRECTORY='/workingoutput'
+    output_directory='/workingoutput'
     splitter='_fixed'
     output_dir=output_directory
     # return
@@ -562,11 +562,11 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # print('ATUL')
     # return
     resource_dir='MASKLABEL'
-    subprocess.call("echo " + "I FAILED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I FAILED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     # downloadfiletolocaldir_py('SNIPR02_E14665',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
     downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.nii')
     downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.csv')
-    subprocess.call("echo " + "I PASSED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I PASSED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     #
     # return
     resource_dir='PREPROCESS_SEGM_1'
@@ -592,7 +592,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     command='mv ' + os.path.join(mri_mask_dir,'*bfc'+splitter+'*.nii.gz') + '  ' + output_dir
     subprocess.call(command,shell=True)
     #
-    #  ## '/software/www_nitrc_org_frs/maskonly'
+    #  ## '/software/www_nitrc_org_frs//maskonly'
     mask_img_paths=glob.glob(os.path.join(mri_mask_dir,'warped_1*_fixed_COLIHM620406202215542_lin1_BET.nii.gz')) #glob.glob(os.path.join(mri_mask_dir,'warped_1*BET.nii.gz'))  #glob.glob(os.path.join(mri_mask_dir,'*.nii.gz'))
 
     min_intensity,max_intensity=get_min_max_intensity(grayscale_img_path)
@@ -819,7 +819,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     latex_end(latexfilename)
 
-    os.chdir('workingoutput')
+    os.chdir('/workingoutput')
     print(glob.glob("./*"))
     command="pdflatex *.tex  " #+ 'lobar_output/'
     subprocess.call(command,shell=True)

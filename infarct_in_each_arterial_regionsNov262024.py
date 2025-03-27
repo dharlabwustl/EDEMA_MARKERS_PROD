@@ -268,18 +268,20 @@ def arterial_region_volumes_n_display(SESSION_ID):
     project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(os.path.join(working_dir_1,f'{SESSION_ID}.xml'))
     print(f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")
     subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
-#     # return
-#     # df['session_name']
-#     # print("ATUL")
-#     # return
-#     # variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
-#     # globals_copy = globals().copy()
-#     # # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
-#     # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}
-#     # df1 = pd.DataFrame([variable_dict])
-#     variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
-#     print(variables)
-#     # globals_copy = globals().copy()
+    # return
+    # df['session_name']
+    # print("ATUL")
+    # return
+    # variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
+    # globals_copy = globals().copy()
+    # # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
+    # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}
+    # df1 = pd.DataFrame([variable_dict])
+    variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
+    print(variables)
+    subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
+
+    # globals_copy = globals().copy()
 #     # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
 #     # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}
 #     variable_dict={"project_name":project_name,"subject_name":subject_name, "session_label":session_label,"acquisition_site_xml":acquisition_site_xml,"acquisition_datetime_xml":acquisition_datetime_xml,"scanner_from_xml":scanner_from_xml,"body_part_xml":body_part_xml,"kvp_xml":kvp_xml}

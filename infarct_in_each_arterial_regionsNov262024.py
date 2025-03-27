@@ -777,6 +777,9 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     # latexfilename=create_a_latex_filename(filename_prefix,filename_to_write)
     latex_start(latexfilename)
+#     \usepackage{pdflscape}
+# \usepackage{longtable}
+    latex_additionalPackages(latexfilename,["pdflscape","longtable"])
     latex_begin_document(latexfilename)
 
     # latex_start_table1c(latexfilename)
@@ -834,7 +837,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     os.chdir('/workingoutput')
     print(glob.glob("./*"))
-    command="pdflatex *.tex  " #+ 'lobar_output/'
+    command="pdflatex -interaction=nonstopmode *.tex  " #+ 'lobar_output/'
     subprocess.call(command,shell=True)
     command="mv *.csv   " + '../lobar_output/'
     subprocess.call(command,shell=True)

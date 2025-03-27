@@ -887,7 +887,7 @@ def volumes_regions_overlapping_infarct_on_ct( mask_img_paths,infarct_mask_filen
     df = pd.DataFrame(index=range(1))
     print("MAIN YAHAN HOON")
     for mask_img_path in mask_img_paths:
-        command="echo I am  at :: {} >> software/error.txt".format(inspect.stack()[0][3])
+        command="echo I am  at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
 
         

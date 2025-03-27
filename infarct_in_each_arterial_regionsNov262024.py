@@ -506,7 +506,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         latex_insert_line_nodek(latexfilename,text=latex_table)
         # latex_end_table2c(latexfilename)
-        command="echo " + "start" + " > error.txt"
+        command="echo " + "start" + " >> /workingoutput/error.txt"
         subprocess.call(command,shell=True)
 
         for slice_num in range(nib.load(grayscale_img_path).get_fdata().shape[2]):
@@ -517,7 +517,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
             image_list.append(os.path.join('regional_infarct_'+"{:03}".format(slice_num)+'.png'))
             image_list.append(os.path.join('infarct_only_'+"{:03}".format(slice_num)+'.png'))
             print(os.path.join('levelset_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png'))
-            command="echo " + os.path.join('original_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png') + " >> error.txt"
+            command="echo " + os.path.join('original_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png') + " >> /workingoutput/error.txt"
             subprocess.call(command,shell=True)
             if os.path.exists(os.path.join(output_dir,'original_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png')):
                 image_list.append(os.path.join('original_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png'))
@@ -807,7 +807,7 @@ def arterial_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     latex_insert_line_nodek(latexfilename,text=latex_table)
     # latex_end_table2c(latexfilename)
-    command="echo " + "start" + " > error.txt"
+    command="echo " + "start" + " >> /workingoutput/error.txt"
     subprocess.call(command,shell=True)
 
     for slice_num in range(nib.load(grayscale_img_path).get_fdata().shape[2]):

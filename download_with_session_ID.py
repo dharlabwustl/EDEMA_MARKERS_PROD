@@ -2411,7 +2411,7 @@ def project_resource_latest_analytic_file(args):
 # def get_file_for_second_round():
 def get_selected_scan_info(SESSION_ID, dir_to_save):
     # Log failure message for debugging
-    command = f"echo failed at each_row_id: {inspect.stack()[0][3]} >> output/error.txt"
+    command = f"echo failed at each_row_id: {inspect.stack()[0][3]} >> /output/error.txt"
     subprocess.call(command, shell=True)
 
     # Define the URI and URL for the request
@@ -2432,7 +2432,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         df_scan = pd.read_json(json.dumps(metadata_masks))
 
         # Log additional debug information
-        command = f"echo failed_1 at each_row_id: {df_scan['URI'].iloc[0]} >> output/error.txt"
+        command = f"echo failed_1 at each_row_id: {df_scan['URI'].iloc[0]} >> /output/error.txt"
         subprocess.call(command, shell=True)
 
         # Download the file specified by the URI
@@ -2450,14 +2450,14 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         SCAN_NAME = str(nifti_location.loc[nifti_location.index[0], 'Name'])
 
         # Log success message
-        command = f"echo passed at each_row_id: {inspect.stack()[0][3]} >> output/error.txt"
+        command = f"echo passed at each_row_id: {inspect.stack()[0][3]} >> /output/error.txt"
         subprocess.call(command, shell=True)
 
         return SCAN_ID, SCAN_NAME
 
     except Exception as e:
         # Log exception details for debugging
-        command = f"echo exception at {inspect.stack()[0][3]}: {str(e)} >> output/error.txt"
+        command = f"echo exception at {inspect.stack()[0][3]}: {str(e)} >> /output/error.txt"
         subprocess.call(command, shell=True)
         raise e
 

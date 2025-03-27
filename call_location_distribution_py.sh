@@ -20,7 +20,7 @@ echo '$outputfiles_present'::$outputfiles_present
 ########################################
 ## donwload the relevant nifti file and masks
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
-whie IFS=',' read -ra array; do
+while IFS=',' read -ra array; do
   echo ${array[0]}
   done < <(tail -n +2 "${niftifile_csvfilename}")
 done

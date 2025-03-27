@@ -33,10 +33,18 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         print(SESSION_ID)
         arterial_region_volumes_n_display(SESSION_ID)
     except Exception as e :
-        command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
-        subprocess.call(command,shell=True)
-        print(e)
-        pass
+        # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
+        # subprocess.call(command,shell=True)
+        # print(e)
+        # pass
+        # except Exception as e :
+        # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
+        # subprocess.call(command,shell=True)
+        # print(e)
+        # pass
+        # except Exception as e:
+        error_msg = traceback.format_exc()
+        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
 def main():
     print("WO ZAI ::{}".format("main"))
     parser = argparse.ArgumentParser()

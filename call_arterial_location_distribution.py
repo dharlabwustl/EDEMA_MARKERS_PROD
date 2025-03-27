@@ -33,7 +33,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         print(SESSION_ID)
         arterial_region_volumes_n_display(SESSION_ID)
         # error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
+        # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
     except Exception as e :
         # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
         # subprocess.call(command,shell=True)

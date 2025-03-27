@@ -15,13 +15,13 @@ def clean_dirs():
     subprocess.call(command,shell=True)
     command="rm -r /ZIPFILEDIR/*"
     subprocess.call(command,shell=True)
-    command="rm -r output/*"
+    command="rm -r /output/*"
     subprocess.call(command,shell=True)
     command="rm -r /ZIPFILEDIR/*"
     subprocess.call(command,shell=True)
     command="rm -r /NIFTIFILEDIR/*"
     subprocess.call(command,shell=True)
-    command="rm -r DICOMFILEDIR/*"
+    command="rm -r /DICOMFILEDIR/*"
     subprocess.call(command,shell=True)
     command="rm -r /outputinsidedocker/*"
     subprocess.call(command,shell=True)
@@ -32,6 +32,8 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
         arterial_region_volumes_n_display(SESSION_ID)
+        # error_msg = traceback.format_exc()
+        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
     except Exception as e :
         # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
         # subprocess.call(command,shell=True)

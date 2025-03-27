@@ -331,29 +331,29 @@ def arterial_region_volumes_n_display(SESSION_ID):
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data<1]=0
     template_nifti_file_nib=nib.load(template_nifti_file)
-#     moving_file_after_reg_nib_data_nib=nib.Nifti1Image(moving_file_after_reg_nib_data,affine=template_nifti_file_nib.affine,header=template_nifti_file_nib.header)
-#     nib.save(moving_file_after_reg_nib_data_nib,os.path.join('/input',os.path.basename(moving_file_after_reg).split('.nii')[0]+'_BET.nii.gz'))
-#     moving_file_after_reg_nib_data_volume=(np.sum(moving_file_after_reg_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
-#     df1['brain_volume_after_reg']=moving_file_after_reg_nib_data_volume
-#     df1['infarct_fraction_after_reg']=infarct_volume_after_reg/moving_file_after_reg_nib_data_volume #template_nifti_file_nib_data_volume
-#     df1['template_brain_volume']=template_nifti_file_nib_data_volume
-#     print('{}::{}::{}::{}'.format(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type))
-#     df2=volumes_regions_overlapping_infarct_on_ct(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type,infarct_volume_after_reg,infarct_volume_before_reg=infarct_volume_before_reg,splitter=splitter)
-#     df1.update(df2)
-#     # df1=df1.drop('lobar_regionbrain.bfc', axis=1)
-#     # print(df1)
-#
-#     #
-#
-#     now=time.localtime()
-#     date_time = time.strftime("_%m_%d_%Y",now)
-#     thisfilebasename=file_without_ext
-#     latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + region_mask_type+Version_Date + date_time+".tex")
-#     csvfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + region_mask_type+Version_Date + date_time+".csv")
-#     df1.to_csv(csvfilename,index=False)
-#     process_csv_and_update_database(csvfilename)
-#     # update_or_create_column(session_id, scan_id, column_name, column_value, session_name, scan_name)
-#     start_column="session_id"
+    moving_file_after_reg_nib_data_nib=nib.Nifti1Image(moving_file_after_reg_nib_data,affine=template_nifti_file_nib.affine,header=template_nifti_file_nib.header)
+    nib.save(moving_file_after_reg_nib_data_nib,os.path.join('/input',os.path.basename(moving_file_after_reg).split('.nii')[0]+'_BET.nii.gz'))
+    moving_file_after_reg_nib_data_volume=(np.sum(moving_file_after_reg_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
+    df1['brain_volume_after_reg']=moving_file_after_reg_nib_data_volume
+    df1['infarct_fraction_after_reg']=infarct_volume_after_reg/moving_file_after_reg_nib_data_volume #template_nifti_file_nib_data_volume
+    df1['template_brain_volume']=template_nifti_file_nib_data_volume
+    print('{}::{}::{}::{}'.format(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type))
+    df2=volumes_regions_overlapping_infarct_on_ct(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type,infarct_volume_after_reg,infarct_volume_before_reg=infarct_volume_before_reg,splitter=splitter)
+    df1.update(df2)
+    # df1=df1.drop('lobar_regionbrain.bfc', axis=1)
+    # print(df1)
+
+    #
+
+    now=time.localtime()
+    date_time = time.strftime("_%m_%d_%Y",now)
+    thisfilebasename=file_without_ext
+    latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + region_mask_type+Version_Date + date_time+".tex")
+    csvfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + region_mask_type+Version_Date + date_time+".csv")
+    df1.to_csv(csvfilename,index=False)
+    process_csv_and_update_database(csvfilename)
+    # update_or_create_column(session_id, scan_id, column_name, column_value, session_name, scan_name)
+    start_column="session_id"
 #     df_for_pdf = df1.loc[:, start_column:]
 #     df_for_pdf['session_label']=session_label
 #     column_to_front = 'session_label'

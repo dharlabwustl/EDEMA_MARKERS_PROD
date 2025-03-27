@@ -281,56 +281,56 @@ def arterial_region_volumes_n_display(SESSION_ID):
     print(variables)
     subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
 
-    # globals_copy = globals().copy()
-#     # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
-#     # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}
-#     variable_dict={"project_name":project_name,"subject_name":subject_name, "session_label":session_label,"acquisition_site_xml":acquisition_site_xml,"acquisition_datetime_xml":acquisition_datetime_xml,"scanner_from_xml":scanner_from_xml,"body_part_xml":body_part_xml,"kvp_xml":kvp_xml}
-#     import pandas as pd
-#     df1 = pd.DataFrame([variable_dict])
-#
-#     ## session_name, session_id,scan_name, volumes region wise, volume total, normal volume of region.
-#     df1['session_id']=SESSION_ID
-#     df1['scan_id']=SCAN_ID
-#     df1['scan_name']=SCAN_NAME
-#     df1['session_label']=session_label
-#
-#     ## create arterial region columns with 0 value:
-#     mask_num_list = natsorted([
-#         os.path.basename(mask_img_path).split(splitter)[0].split('_')[-1]
-#         for mask_img_path in mask_img_paths
-#     ])
-#     new_columns = {f"{region_mask_type}_region{num}": 0 for num in mask_num_list}
-#     df1 = df1.assign(**new_columns)
-#     print(df1)
-#     # # from utilities_simple_trimmed import * ;
-#     levelset2originalRF_new_flip_with_params(original_gray_filename,infarct_mask_from_yasheng,output_dir) #"${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
-#     infarct_mask_in_ORF=os.path.join(output_dir,os.path.basename(infarct_mask_from_yasheng))
-#     infarct_volume_before_reg=measure_mask_volume(infarct_mask_in_ORF,original_gray_filename) ##([infarct_mask_filename],infarct_mask_filename,template_nifti_file,region_mask_type)
-#     ##
-#     infarct_volume_after_reg=measure_mask_volume(infarct_mask_filename,template_nifti_file) ##([infarct_mask_filename],infarct_mask_filename,template_nifti_file,region_mask_type)
-#     df1['infarct_volume_before_reg']=infarct_volume_before_reg
-#     bet_mask_from_yasheng=os.path.join(working_dir_1,file_without_ext + '_resaved_levelset_bet.nii.gz')
-#     # original_gray_filename=os.path.join(working_dir_1,SCAN_NAME)
-#     original_gray_filename_nib=nib.load(original_gray_filename)
-#     bet_mask_from_yasheng_nib=nib.load(bet_mask_from_yasheng)
-#     bet_mask_from_yasheng_nib_data=bet_mask_from_yasheng_nib.get_fdata()
-#     bet_mask_from_yasheng_nib_data[bet_mask_from_yasheng_nib_data<=np.min(bet_mask_from_yasheng_nib_data)]=0
-#     bet_mask_from_yasheng_nib_data[bet_mask_from_yasheng_nib_data>0]=1
-#     bet_mask_from_yasheng_nib_data_volume=(np.sum(bet_mask_from_yasheng_nib_data)*np.product(original_gray_filename_nib.header["pixdim"][1:4]))/1000
-#     df1['brain_volume_before_reg']=bet_mask_from_yasheng_nib_data_volume
-#     df1['infarct_fraction_before_reg']=infarct_volume_before_reg/bet_mask_from_yasheng_nib_data_volume
-#     df1['infarct_volume_after_reg']=infarct_volume_after_reg
-#     template_nifti_file_nib=nib.load(template_nifti_file)
-#     template_nifti_file_nib_data=template_nifti_file_nib.get_fdata()
-#     template_nifti_file_nib_data[template_nifti_file_nib_data<=np.min(template_nifti_file_nib_data)]=0
-#     template_nifti_file_nib_data[template_nifti_file_nib_data>0]=1
-#     template_nifti_file_nib_data_volume=(np.sum(template_nifti_file_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
-#     moving_file_after_reg=os.path.join('/input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
-#     moving_file_after_reg_nib=nib.load(moving_file_after_reg)
-#     moving_file_after_reg_nib_data=moving_file_after_reg_nib.get_fdata()
-#     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
-#     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data<1]=0
-#     template_nifti_file_nib=nib.load(template_nifti_file)
+    globals_copy = globals().copy()
+    # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
+    # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}
+    variable_dict={"project_name":project_name,"subject_name":subject_name, "session_label":session_label,"acquisition_site_xml":acquisition_site_xml,"acquisition_datetime_xml":acquisition_datetime_xml,"scanner_from_xml":scanner_from_xml,"body_part_xml":body_part_xml,"kvp_xml":kvp_xml}
+    import pandas as pd
+    df1 = pd.DataFrame([variable_dict])
+
+    ## session_name, session_id,scan_name, volumes region wise, volume total, normal volume of region.
+    df1['session_id']=SESSION_ID
+    df1['scan_id']=SCAN_ID
+    df1['scan_name']=SCAN_NAME
+    df1['session_label']=session_label
+
+    ## create arterial region columns with 0 value:
+    mask_num_list = natsorted([
+        os.path.basename(mask_img_path).split(splitter)[0].split('_')[-1]
+        for mask_img_path in mask_img_paths
+    ])
+    new_columns = {f"{region_mask_type}_region{num}": 0 for num in mask_num_list}
+    df1 = df1.assign(**new_columns)
+    print(df1)
+    # # from utilities_simple_trimmed import * ;
+    levelset2originalRF_new_flip_with_params(original_gray_filename,infarct_mask_from_yasheng,output_dir) #"${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
+    infarct_mask_in_ORF=os.path.join(output_dir,os.path.basename(infarct_mask_from_yasheng))
+    infarct_volume_before_reg=measure_mask_volume(infarct_mask_in_ORF,original_gray_filename) ##([infarct_mask_filename],infarct_mask_filename,template_nifti_file,region_mask_type)
+    ##
+    infarct_volume_after_reg=measure_mask_volume(infarct_mask_filename,template_nifti_file) ##([infarct_mask_filename],infarct_mask_filename,template_nifti_file,region_mask_type)
+    df1['infarct_volume_before_reg']=infarct_volume_before_reg
+    bet_mask_from_yasheng=os.path.join(working_dir_1,file_without_ext + '_resaved_levelset_bet.nii.gz')
+    # original_gray_filename=os.path.join(working_dir_1,SCAN_NAME)
+    original_gray_filename_nib=nib.load(original_gray_filename)
+    bet_mask_from_yasheng_nib=nib.load(bet_mask_from_yasheng)
+    bet_mask_from_yasheng_nib_data=bet_mask_from_yasheng_nib.get_fdata()
+    bet_mask_from_yasheng_nib_data[bet_mask_from_yasheng_nib_data<=np.min(bet_mask_from_yasheng_nib_data)]=0
+    bet_mask_from_yasheng_nib_data[bet_mask_from_yasheng_nib_data>0]=1
+    bet_mask_from_yasheng_nib_data_volume=(np.sum(bet_mask_from_yasheng_nib_data)*np.product(original_gray_filename_nib.header["pixdim"][1:4]))/1000
+    df1['brain_volume_before_reg']=bet_mask_from_yasheng_nib_data_volume
+    df1['infarct_fraction_before_reg']=infarct_volume_before_reg/bet_mask_from_yasheng_nib_data_volume
+    df1['infarct_volume_after_reg']=infarct_volume_after_reg
+    template_nifti_file_nib=nib.load(template_nifti_file)
+    template_nifti_file_nib_data=template_nifti_file_nib.get_fdata()
+    template_nifti_file_nib_data[template_nifti_file_nib_data<=np.min(template_nifti_file_nib_data)]=0
+    template_nifti_file_nib_data[template_nifti_file_nib_data>0]=1
+    template_nifti_file_nib_data_volume=(np.sum(template_nifti_file_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
+    moving_file_after_reg=os.path.join('/input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
+    moving_file_after_reg_nib=nib.load(moving_file_after_reg)
+    moving_file_after_reg_nib_data=moving_file_after_reg_nib.get_fdata()
+    moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
+    moving_file_after_reg_nib_data[moving_file_after_reg_nib_data<1]=0
+    template_nifti_file_nib=nib.load(template_nifti_file)
 #     moving_file_after_reg_nib_data_nib=nib.Nifti1Image(moving_file_after_reg_nib_data,affine=template_nifti_file_nib.affine,header=template_nifti_file_nib.header)
 #     nib.save(moving_file_after_reg_nib_data_nib,os.path.join('/input',os.path.basename(moving_file_after_reg).split('.nii')[0]+'_BET.nii.gz'))
 #     moving_file_after_reg_nib_data_volume=(np.sum(moving_file_after_reg_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000

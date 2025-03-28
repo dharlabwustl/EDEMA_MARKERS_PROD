@@ -1616,8 +1616,8 @@ def latex_additionalPackages(filename,packagename_list):
     file1 = open(filename,"a")
     file1.writelines("\n")
     for package_name in packagename_list:
-        # package_name_str=
-        file1.writelines(f"\\usepackage{{package_name}}\n")
+        package_name_str="\\usepackage{{"+package_name+"}}\n"
+        file1.writelines(package_name_str ) ##f"\\usepackage{{package_name}}\n")
     return file1
 
 def latex_end_table2c(filename):

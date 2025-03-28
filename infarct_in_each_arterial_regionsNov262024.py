@@ -204,6 +204,7 @@ def binarized_region_artery(f):
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+            subprocess.call("echo " + "I  of try 1_3 ::{}  >> /workingoutput/error.txt".format(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv") ,shell=True )
 
 
             # In[6]:

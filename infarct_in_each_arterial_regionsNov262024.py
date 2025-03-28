@@ -7,7 +7,7 @@ import pandas as pd
 from natsort import natsorted
 import  time,os,glob,subprocess
 import nibabel as nib
-import pandas as pd
+# import pandas as pd
 import numpy as np
 from pytablewriter import LatexTableWriter
 import inspect,subprocess,sys
@@ -19,12 +19,12 @@ XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'ht
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
-def binarized_region_artery():
+def binarized_region_artery(f):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     try:
-        subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
-        subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+        # subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
+        # subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         df = pd.read_csv(f)
         subprocess.call("echo " + "I end of try 2  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         total_volume=df['Value']
@@ -762,7 +762,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         command="mv *.pdf   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
         os.chdir('../')
-        binarized_region_artery()
+        binarized_region_artery(csvfilename.split('.csv')[0]+'_Transpose.csv')
         return 1
 
     except Exception as e:

@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
 
-# In[1]:
 
 
 import pandas as pd
@@ -18,7 +15,7 @@ import pandas as pd
 # File path and loading the DataFrame
 def binarized_region_artery():
     try:
-        f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
+        f = glob.glob('workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
         df = pd.read_csv(f)
         total_volume=df['Value']
         # Broad regions to process
@@ -224,7 +221,9 @@ def binarized_region_artery():
             # In[ ]:
     except Exception as e :
         error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+
 
 
 

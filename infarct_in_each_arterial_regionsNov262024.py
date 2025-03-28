@@ -74,7 +74,7 @@ def binarized_region_artery(f):
         # total_volume=df.loc[df['Column_Name']=='infarct_volume_after_reg','Value']
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_percentages=[25,30,35,40,45,50]
-        subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+
         for thresh_percentage in thresh_percentages:
             # thresh_percentage=30 ##10
             # Process each broad region infarct_volume_after_reg
@@ -98,6 +98,7 @@ def binarized_region_artery(f):
                 df.loc[df['Regions'] == 'Total Regions Percentage', each_broad_region] = (this_region_sum/total_volume) * 100
                 broad_regions_df.loc[0,each_broad_region]=this_region_sum
                 total_volume_all_regions=total_volume_all_regions+this_region_sum
+                subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
                 # if (this_region_sum/total_volume) >0:
                 #     print(this_region_sum/total_volume)
                 #     break

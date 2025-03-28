@@ -36,9 +36,9 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         return_value=arterial_region_volumes_n_display(SESSION_ID)
         subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
 
-        if return_value==1:
-            subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
-            binarized_region_artery()
+        # if return_value==1:
+        #     subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
+        #     binarized_region_artery()
         return  return_value
 
         # error_msg = traceback.format_exc()

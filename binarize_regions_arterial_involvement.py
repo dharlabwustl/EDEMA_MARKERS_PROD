@@ -47,7 +47,7 @@ def binarized_region_artery():
         #     'posterior cerebral right', 'choroidal and thalamoperfurators right',
         #     'basilar right', 'cerebellar right', 'ventricle right'
         # ]
-
+        subprocess.call("echo " + "I end of try   ::{}  >> /workingoutput/error.txt".format('end_of_try') ,shell=True )
         # Initialize columns for each broad region with 0
         for each_broad_region in broad_regions:
             df[each_broad_region] = 0
@@ -219,7 +219,7 @@ def binarized_region_artery():
 
             # df['Regions']
 
-        subprocess.call("echo " + "I end of try   ::{}  >> /workingoutput/error.txt".format('end_of_try') ,shell=True )
+
             # In[ ]:
     except Exception as e :
         error_msg = traceback.format_exc()

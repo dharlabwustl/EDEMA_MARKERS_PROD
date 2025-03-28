@@ -14,8 +14,9 @@ import pandas as pd
 import  inspect
 # File path and loading the DataFrame
 def binarized_region_artery():
-    subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     try:
+        subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
         df = pd.read_csv(f)
         total_volume=df['Value']

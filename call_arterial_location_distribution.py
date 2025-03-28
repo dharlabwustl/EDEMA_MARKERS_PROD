@@ -34,10 +34,10 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
         return_value=arterial_region_volumes_n_display(SESSION_ID)
-        subprocess.call("echo " + "I call_arterial_location_distribution error  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
+        subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
 
         if return_value==1:
-            subprocess.call("echo " + "I call_arterial_location_distribution error  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
+            subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
             binarized_region_artery()
         return  return_value
 
@@ -55,7 +55,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         # pass
         # except Exception as e:
         error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        subprocess.call("echo " + "I traceback error_msg  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
         return 0
 def main():
     print("WO ZAI ::{}".format("main"))

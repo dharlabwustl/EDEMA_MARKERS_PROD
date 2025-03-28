@@ -204,8 +204,8 @@ def binarized_region_artery(f,latexfilename):
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))
-            # latex_table = df_to_latex_1(all_regions_df)
-            latex_insert_line_nodek(latexfilename,text=all_regions_df.to_latex(index=False))
+            latex_table = df_to_latex_1(all_regions_df)
+            latex_insert_line_nodek(latexfilename,text=latex_table) ##all_regions_df.to_latex(index=False))
 
             subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             subprocess.call("echo " + "I  of try 1_3 ::{}  >> /workingoutput/error.txt".format(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv") ,shell=True )

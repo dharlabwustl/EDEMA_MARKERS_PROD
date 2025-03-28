@@ -2,6 +2,7 @@
 # from infarct_in_each_aretrial_regions_v2 import *
 import sys,os,glob,subprocess,argparse
 from infarct_in_each_arterial_regionsNov262024 import *
+from binarize_regions_arterial_involvement import *
 def clean_dirs():
     command='rm -r /workinginput/*'
     subprocess.call(command,shell=True)
@@ -32,6 +33,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
         arterial_region_volumes_n_display(SESSION_ID)
+        binarized_region_artery()
         # error_msg = traceback.format_exc()
         # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
     except Exception as e :

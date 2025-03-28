@@ -219,7 +219,7 @@ def binarized_region_artery():
 
             # df['Regions']
 
-
+        subprocess.call("echo " + "I end of try   ::{}  >> /workingoutput/error.txt".format('end_of_try') ,shell=True )
             # In[ ]:
     except Exception as e :
         error_msg = traceback.format_exc()

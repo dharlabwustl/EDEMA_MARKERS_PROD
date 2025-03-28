@@ -28,11 +28,16 @@ def clean_dirs():
     subprocess.call(command,shell=True)
 
 def call_arterial_location_distribution(args): #SESSION_ID):
+    return_value=0
     try:
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
-        arterial_region_volumes_n_display(SESSION_ID)
+        return_value=arterial_region_volumes_n_display(SESSION_ID)
+        if return_value==1:
+            subprocess.call("echo " + "I call_arterial_location_distribution error  ::{}  >> /workingoutput/error.txt".format("return_value") ,shell=True )
+            binarized_region_artery()
+        return  return_value
 
         # error_msg = traceback.format_exc()
         # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
@@ -49,6 +54,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         # except Exception as e:
         error_msg = traceback.format_exc()
         subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        return 0
 def main():
     print("WO ZAI ::{}".format("main"))
     parser = argparse.ArgumentParser()
@@ -58,7 +64,7 @@ def main():
     return_value=0
     if name_of_the_function=="call_arterial_location_distribution":
         return_value=call_arterial_location_distribution(args)
-        binarized_region_artery()
+
     return  return_value
 if __name__ == "__main__":
     main()

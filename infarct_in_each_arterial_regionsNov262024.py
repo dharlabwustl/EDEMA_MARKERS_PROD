@@ -543,10 +543,12 @@ def arterial_region_volumes_n_display(SESSION_ID):
         command="mv *.pdf   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
         os.chdir('../')
+        return 1
 
     except Exception as e:
         error_msg = traceback.format_exc()
         subprocess.call("echo " + "I traceback error ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        return 0
         # subprocess.run(
         #     ['tee', 'error_log.txt'],
         #     input=error_msg.encode(),

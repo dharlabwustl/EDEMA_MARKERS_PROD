@@ -51,7 +51,7 @@ def binarized_region_artery(f):
                           ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)
-        subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+
         # broad_regions = [
         #     'anterior cerebral left', 'lenticulostriate left', 'middle cerebral left',
         #     'posterior cerebral left', 'choroidal and thalamoperfurators left',
@@ -74,6 +74,7 @@ def binarized_region_artery(f):
         # total_volume=df.loc[df['Column_Name']=='infarct_volume_after_reg','Value']
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_percentages=[25,30,35,40,45,50]
+        subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         for thresh_percentage in thresh_percentages:
             # thresh_percentage=30 ##10
             # Process each broad region infarct_volume_after_reg

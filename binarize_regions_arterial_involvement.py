@@ -222,7 +222,7 @@ def binarized_region_artery():
             # In[ ]:
     except Exception as e :
         error_msg = traceback.format_exc()
-        # # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
         # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
 
 

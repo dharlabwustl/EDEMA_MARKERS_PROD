@@ -33,7 +33,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
         arterial_region_volumes_n_display(SESSION_ID)
-        binarized_region_artery()
+
         # error_msg = traceback.format_exc()
         # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
     except Exception as e :
@@ -58,6 +58,7 @@ def main():
     return_value=0
     if name_of_the_function=="call_arterial_location_distribution":
         return_value=call_arterial_location_distribution(args)
+        binarized_region_artery()
     return  return_value
 if __name__ == "__main__":
     main()

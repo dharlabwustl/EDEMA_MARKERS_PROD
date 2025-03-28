@@ -19,7 +19,7 @@ XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'ht
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
-def binarized_region_artery(f):
+def binarized_region_artery(f,latexfilename):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     try:
         # subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -203,6 +203,9 @@ def binarized_region_artery(f):
             print(all_regions_df)
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
+            latex_table = df_to_latex_1(all_regions_df)
+            latex_insert_line_nodek(latexfilename,text=latex_table)
+
             subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             subprocess.call("echo " + "I  of try 1_3 ::{}  >> /workingoutput/error.txt".format(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv") ,shell=True )
 
@@ -714,6 +717,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         df_for_pdf.to_csv(csvfilename.split('.csv')[0]+'_Transpose.csv',index=False)
         latex_table = df_to_latex_1(df_for_pdf)
+        #latex_insert_line_nodek(latexfilename,text=latex_table)
 
         # # Save to a .tex file
         # with open("basic_latex_table.tex", "w") as file:
@@ -731,6 +735,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         #                            .replace(r'\textbackslash includegraphics',r'\includegraphics'))
 
         latex_insert_line_nodek(latexfilename,text=latex_table)
+        binarized_region_artery(csvfilename.split('.csv')[0]+'_Transpose.csv',binarized_region_artery)
         # latex_end_table2c(latexfilename)
         command="echo " + "start" + " >> /workingoutput/error.txt"
         subprocess.call(command,shell=True)
@@ -761,6 +766,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         os.makedirs('/workingoutput/lobar_output/',exist_ok=True)
         command="cp *.csv   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
+
         command="pdflatex -interaction=nonstopmode *.tex  " #+ 'lobar_output/'
         subprocess.call(command,shell=True)
         # command="cp *.csv   " + '/workingoutput/lobar_output/'
@@ -770,7 +776,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         command="mv *.pdf   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
         os.chdir('../')
-        binarized_region_artery(csvfilename.split('.csv')[0]+'_Transpose.csv')
+
         return 1
 
     except Exception as e:

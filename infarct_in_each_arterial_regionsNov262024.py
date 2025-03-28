@@ -51,6 +51,7 @@ def binarized_region_artery(f):
                           ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)
+        subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         # broad_regions = [
         #     'anterior cerebral left', 'lenticulostriate left', 'middle cerebral left',
         #     'posterior cerebral left', 'choroidal and thalamoperfurators left',

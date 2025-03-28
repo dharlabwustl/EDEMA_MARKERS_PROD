@@ -27,8 +27,8 @@ def binarized_region_artery(f):
         # subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         import pandas as pd
         df = pd.read_csv(f)
-        subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
-        subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(df) ,shell=True )
+        # subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+        # subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(df) ,shell=True )
         total_volume=df['Value']
         # Broad regions to process
         broad_regions = [ "anterior cerebral artery left",

@@ -19,6 +19,13 @@ XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'ht
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
+def to_2_sigfigs(x):
+    if isinstance(x, (int, float, np.number)):
+        if x == 0:
+            return 0
+        else:
+            return float(f"{x:.2g}")
+    return x  # Non-numeric entries remain unchanged
 def binarized_region_artery(f,latexfilename):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     try:
@@ -201,6 +208,7 @@ def binarized_region_artery(f,latexfilename):
             # all_regions_df.loc[all_regions_df["region"] == "total_sum", numeric_cols] = all_regions_df[numeric_cols].sum(skipna=True)
 
             print(all_regions_df)
+            all_regions_df = all_regions_df.applymap(to_2_sigfigs)
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))

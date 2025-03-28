@@ -440,6 +440,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         # latexfilename=create_a_latex_filename(filename_prefix,filename_to_write)
         latex_start(latexfilename)
+        latex_additionalPackages(latexfilename,["pdflscape","longtable"])
         latex_begin_document(latexfilename)
 
         # latex_start_table1c(latexfilename)

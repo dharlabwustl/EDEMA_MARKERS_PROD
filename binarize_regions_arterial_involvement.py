@@ -18,7 +18,7 @@ def binarized_region_artery():
     try:
         subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0] ## COLI_HLP45_02152022_1123_6arterial_VersionDate-11122024_01_24_2025_Transpose.csv'
-        subprocess.call("echo " + "I end of try   ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+
         df = pd.read_csv(f)
 
         total_volume=df['Value']
@@ -41,6 +41,7 @@ def binarized_region_artery():
         "ventricle left",
         "ventricle right"
         ]
+        subprocess.call("echo " + "I end of try   ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         broad_regions_df = pd.DataFrame(columns=broad_regions)
         # broad_regions = [
         #     'anterior cerebral left', 'lenticulostriate left', 'middle cerebral left',

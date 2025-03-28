@@ -98,7 +98,7 @@ def binarized_region_artery(f):
                 df.loc[df['Regions'] == 'Total Regions Percentage', each_broad_region] = (this_region_sum/total_volume) * 100
                 broad_regions_df.loc[0,each_broad_region]=this_region_sum
                 total_volume_all_regions=total_volume_all_regions+this_region_sum
-                subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+
                 # if (this_region_sum/total_volume) >0:
                 #     print(this_region_sum/total_volume)
                 #     break
@@ -201,7 +201,9 @@ def binarized_region_artery(f):
             # all_regions_df.loc[all_regions_df["region"] == "total_sum", numeric_cols] = all_regions_df[numeric_cols].sum(skipna=True)
 
             print(all_regions_df)
+            subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
+            subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
 
 
             # In[6]:

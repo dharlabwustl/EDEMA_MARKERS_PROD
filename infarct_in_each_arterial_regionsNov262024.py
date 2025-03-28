@@ -533,7 +533,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         subprocess.call(command, shell=True)    #subprocess.call(command,shell=True)
         os.chdir('/workingoutput')
         print(glob.glob("./*"))
-
+        os.makedirs('/workingoutput/lobar_output/',exist_ok=True)
         command="pdflatex -interaction=nonstopmode *.tex  " #+ 'lobar_output/'
         subprocess.call(command,shell=True)
         command="mv *.csv   " + '/workingoutput/lobar_output/'

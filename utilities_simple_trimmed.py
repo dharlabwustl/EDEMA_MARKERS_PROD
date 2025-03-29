@@ -2381,7 +2381,7 @@ def df_to_latex_2(df,colmn_width):
     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
 
     # Define proper column format with fixed width
-    column_format = "| " + " p{"+ str(colmn_width)+"cm} |" * len(headers)
+    column_format = "| " + (" p{"+ str(colmn_width)+"cm} |" ) * len(headers)
 # column_format = "| " + " p{4.5cm} |" * len(headers)
     # Wrap in landscape environment
     latex = "\\begin{landscape}\n\\begin{longtable}{" + column_format + "}\n\\hline\n"

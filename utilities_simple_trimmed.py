@@ -2357,7 +2357,7 @@ def df_to_latex_1(df):
 
     return latex
 
-def df_to_latex_2(df,colmn_width):
+def df_to_latex_2(df,colmn_width,thiscaption='table'):
     """
     Converts a Pandas DataFrame to a LaTeX longtable in landscape mode.
 
@@ -2384,7 +2384,7 @@ def df_to_latex_2(df,colmn_width):
     column_format = "| " + (" p{"+ str(colmn_width)+"cm} |" ) * len(headers)
 # column_format = "| " + " p{4.5cm} |" * len(headers)
     # Wrap in landscape environment
-    latex = "\\begin{landscape}\n\\begin{longtable}{" + column_format + "}\n\\hline\n"
+    latex = "\\begin{landscape}\n\\tiny\n\\begin{longtable}{" + column_format + "}\n\\caption{"+thiscaption+"}\n\\hline\n"
 
     # First page header
     latex += "\\hline\n" + " & ".join(headers) + " \\\\\n\\hline\n"

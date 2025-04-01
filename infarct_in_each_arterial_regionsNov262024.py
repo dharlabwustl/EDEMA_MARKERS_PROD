@@ -782,10 +782,15 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # subprocess.call(command,shell=True)
         # command="mv *.csv   " + '/workingoutput/lobar_output/'
         # subprocess.call(command,shell=True)
-        command="mv *.pdf   " + '/workingoutput/lobar_output/'
+        command="cp *.pdf   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
         os.chdir('../')
-
+        url=f'/data/experiments/{SESSION_ID}'
+        resource_dirname='LOCATION_DISTRIBUTION_ARTERY'
+        file_name=latexfilename.split('.tex')[0] +'.pdf'
+        uploadsinglefile_with_URI(url,file_name,resource_dirname)
+        file_name=latexfilename.split('.tex')[0] +'.csv'
+        uploadsinglefile_with_URI(url,file_name,resource_dirname)
         return 1
 
     except Exception as e:

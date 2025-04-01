@@ -322,7 +322,7 @@ sys.settrace(trace_lines)
 def lobar_region_volumes_n_display(SESSION_ID):
 
 
-    software_dir='software'
+    software_dir='/software'
     region_mask_type='lobar'
     working='/maskonly'
     mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
@@ -343,7 +343,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     # print('ATUL')
     # return
     resource_dir='MASKLABEL'
-    subprocess.call("echo " + "I FAILED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I FAILED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     # downloadfiletolocaldir_py('SNIPR02_E14665',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.nii')
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.csv')
@@ -652,7 +652,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     latex_end(latexfilename)
     command = f"sed -i 's/color\\\\_/color_/g' {latexfilename}"
     subprocess.call(command, shell=True)    #subprocess.call(command,shell=True)
-    os.chdir('workingoutput')
+    os.chdir('/workingoutput')
     print(glob.glob("./*"))
     os.makedirs('/workingoutput/lobar_output/',exist_ok=True)
     command="cp *.csv   " + '/workingoutput/lobar_output/'
@@ -682,7 +682,7 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='input'
+    working_dir_1='/input'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     # download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
@@ -962,13 +962,13 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 def dowload_files_for_evaluation(SESSION_ID):
 
 
-    software_dir='software'
+    software_dir='/software'
     region_mask_type='lobar'
-    working='maskonly'
+    working='/maskonly'
     mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
-    file_output_dir='workinginput'
-    SLICE_OUTPUT_DIRECTORY='workingoutput'
-    output_directory='workingoutput'
+    file_output_dir='/workinginput'
+    SLICE_OUTPUT_DIRECTORY='/workingoutput'
+    output_directory='/workingoutput'
     splitter='_fixed'
     output_dir=output_directory
     # return
@@ -976,7 +976,7 @@ def dowload_files_for_evaluation(SESSION_ID):
     print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='input'
+    working_dir_1='/input'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)

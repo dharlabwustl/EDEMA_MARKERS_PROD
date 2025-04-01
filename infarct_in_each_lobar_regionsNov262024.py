@@ -387,7 +387,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     template_nifti_file_base_noext=os.path.basename(template_nifti_file).split('.nii')[0]
     # Find infarct mask
     # scct_strippedResampled1='scct_strippedResampled1'
-    infarct_mask_pattern=f'warped_mov_{file_without_ext}_resaved_infarct_auto_removesmall_fixed_{template_nifti_file_base_noext}_lin1_BET.nii.gz'
+    infarct_mask_pattern=f'warped_1_mov_{file_without_ext}_resaved_infarct_auto_removesmall_fixed_{template_nifti_file_base_noext}_lin1_BET.nii.gz'
     infarct_mask_list=glob.glob(os.path.join(directory_of_files_after_deepreg,infarct_mask_pattern)) ##f'warped_1_mov_{file_without_ext}*_resaved_infarct_auto_removesmallresampled_mov_fixed_{template_nifti_file_base_noext}_lin1.nii.gz'))
     print(infarct_mask_list)
 

@@ -315,11 +315,11 @@ def lobar_region_volumes_n_display(SESSION_ID):
 
     software_dir='software'
     region_mask_type='lobar'
-    working='maskonly'
+    working='/maskonly'
     mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
-    file_output_dir='workinginput'
-    SLICE_OUTPUT_DIRECTORY='workingoutput'
-    output_directory='workingoutput'
+    file_output_dir='/workinginput'
+    SLICE_OUTPUT_DIRECTORY='/workingoutput'
+    output_directory='/workingoutput'
     splitter='_fixed'
     output_dir=output_directory
     # return
@@ -327,7 +327,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='input'
+    working_dir_1='/input'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
@@ -338,7 +338,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     # downloadfiletolocaldir_py('SNIPR02_E14665',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.nii')
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.csv')
-    subprocess.call("echo " + "I PASSED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I PASSED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     #
     # return
     resource_dir='PREPROCESS_SEGM_1'
@@ -374,7 +374,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     # Intensity levels
     # min_intensity=np.min(gray_img[gray_img>10]) #np.min(gray_img)]) #20
     # max_intensity=np.max(gray_img[gray_img>np.min(gray_img)]) #60
-    template_nifti_file='software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
+    template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
     template_nifti_file_base_noext=os.path.basename(template_nifti_file).split('.nii')[0]
     # Find infarct mask
     # scct_strippedResampled1='scct_strippedResampled1'
@@ -447,7 +447,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     template_nifti_file_nib_data[template_nifti_file_nib_data>0]=1
     template_nifti_file_nib_data_volume=(np.sum(template_nifti_file_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
     # df1['infarct_fraction_after_reg']=infarct_volume_after_reg/template_nifti_file_nib_data_volume
-    moving_file_after_reg=os.path.join('input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
+    moving_file_after_reg=os.path.join('/input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
     moving_file_after_reg_nib=nib.load(moving_file_after_reg)
     moving_file_after_reg_nib_data=moving_file_after_reg_nib.get_fdata()
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
@@ -619,7 +619,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     latex_insert_line_nodek(latexfilename,text=latex_table)
     binarized_region_lobar(csvfilename.split('.csv')[0]+'_Transpose.csv',latexfilename)
     # latex_end_table2c(latexfilename)
-    command="echo " + "start" + " > error.txt"
+    command="echo " + "start" + " >> /workingoutput/error.txt"
     subprocess.call(command,shell=True)
 
     for slice_num in range(nib.load(grayscale_img_path).get_fdata().shape[2]):
@@ -659,13 +659,13 @@ def lobar_region_volumes_n_display(SESSION_ID):
 def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
 
-    software_dir='software'
+    software_dir='/software'
     region_mask_type='lobar'
-    working='maskonly'
+    working='/maskonly'
     mri_mask_dir=working #'maskonly' #'www_nitrc_org_frs/maskonly'
-    file_output_dir='workinginput'
-    SLICE_OUTPUT_DIRECTORY='workingoutput'
-    output_directory='workingoutput'
+    file_output_dir='/workinginput'
+    SLICE_OUTPUT_DIRECTORY='/workingoutput'
+    output_directory='/workingoutput'
     splitter='_fixed'
     output_dir=output_directory
     # return
@@ -680,11 +680,11 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # print('ATUL')
     # return
     resource_dir='MASKLABEL'
-    subprocess.call("echo " + "I FAILED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I FAILED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     # downloadfiletolocaldir_py('SNIPR02_E14665',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.nii')
     downloadfile_withasuffix('SNIPR02_E14665',"MRI1",working_dir_1,resource_dir,'.csv')
-    subprocess.call("echo " + "I PASSED  AT ::{}  >> workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    subprocess.call("echo " + "I PASSED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     #
     # return
     resource_dir='PREPROCESS_SEGM_1'
@@ -703,7 +703,7 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
     directory_of_files_after_deepreg=working_dir_1
     # return
-    grayscale_img_path=template_nifti_file='software/COLIHM620406202215542.nii.gz' ##os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
+    grayscale_img_path=template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
     SCAN_NAME=os.path.basename(grayscale_img_path)
     file_without_ext=SCAN_NAME.split('.nii')[0] ##os.path.basename(session_ct_path).split('.nii')[0]
     predefined_legend=os.path.join(working_dir_1,'legend.csv') # '/software/legend.csv'
@@ -911,7 +911,7 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     latex_insert_line_nodek(latexfilename,text=latex_table)
     # latex_end_table2c(latexfilename)
-    command="echo " + "start" + " > error.txt"
+    command="echo " + "start" + " >> /workingoutput/error.txt"
     subprocess.call(command,shell=True)
 
     for slice_num in range(nib.load(grayscale_img_path).get_fdata().shape[2]):
@@ -922,7 +922,8 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
         image_list.append(os.path.join('regions_'+"{:03}".format(slice_num)+'.png'))
 
         # image_list.append(os.path.join('infarct_only_'+"{:03}".format(slice_num)+'.png'))
-        image_list.append(os.path.join('../heatmapoutput_v1','slice_'+"{:03}".format(slice_num)+'.png'))
+        os.makedirs('/workingoutput/heatmapoutput_v1/',exist_ok=True)
+        image_list.append(os.path.join('/workingoutput/heatmapoutput_v1','slice_'+"{:03}".format(slice_num)+'.png'))
         # print(os.path.join('levelset_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png'))
         # command="echo " + os.path.join('original_ct_with_infarct_only_'+"{:03}".format(slice_num)+'.png') + " >> error.txt"
         # subprocess.call(command,shell=True)
@@ -936,13 +937,16 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 
     latex_end(latexfilename)
 
-    os.chdir('workingoutput')
+    os.chdir('/workingoutput')
     print(glob.glob("./*"))
-    command="pdflatex *.tex  " #+ 'lobar_output/'
+    command="cp *.csv   " + '/workingoutput/lobar_output/'
     subprocess.call(command,shell=True)
-    command="mv *.csv   " + '../lobar_output/'
+    os.makedirs('/workingoutput/lobar_output/',exist_ok=True)
+    command="pdflatex -interaction=nonstopmode *.tex  " #+ 'lobar_output/'
     subprocess.call(command,shell=True)
-    command="mv *.pdf   " + '../lobar_output/'
+    command="mv *.csv   " + '/workingoutput/lobar_output/'
+    subprocess.call(command,shell=True)
+    command="mv *.pdf   " + '/workingoutput/lobar_output/'
     subprocess.call(command,shell=True)
     os.chdir('../')
 

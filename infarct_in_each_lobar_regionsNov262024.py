@@ -626,7 +626,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     #                            .replace(r'\textbackslash includegraphics',r'\includegraphics'))
 
     latex_insert_line_nodek(latexfilename,text=latex_table)
-    binarized_region_lobar(csvfilename.split('.csv')[0]+'_Transpose.csv',latexfilename)
+    # binarized_region_lobar(csvfilename.split('.csv')[0]+'_Transpose.csv',latexfilename)
     # latex_end_table2c(latexfilename)
     command="echo " + "start" + " >> /workingoutput/error.txt"
     subprocess.call(command,shell=True)

@@ -785,7 +785,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         command="cp *.pdf   " + '/workingoutput/lobar_output/'
         subprocess.call(command,shell=True)
         os.chdir('../')
-        url=f'/data/experiments/{SESSION_ID}'
+        url=f'/data/experiments/{SESSION_ID}/scans/{SCAN_ID}'
         resource_dirname='LOCATION_DISTRIBUTION_ARTERY'
         file_name=latexfilename.split('.tex')[0] +'.pdf'
         uploadsinglefile_with_URI(url,file_name,resource_dirname)

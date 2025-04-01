@@ -157,8 +157,8 @@ def binarized_region_artery(f,latexfilename):
             # all_regions_df['each_region_perc_label'][all_regions_df['each_region_perc']>5.0]=1
             # all_regions_df['right_perc']=all_regions_df['right_perc']*all_regions_df['each_region_perc_label']
             # all_regions_df['left_perc']=all_regions_df['left_perc']*all_regions_df['each_region_perc_label']
-            side_percent_thresh=5.0
-            each_region_percent_thresh=1.0
+            side_percent_thresh=each_region_percent_thresh=thresh_percentage #5.0
+            # each_region_percent_thresh=1.0
             all_regions_df['left_perc']=all_regions_df['left']/(all_regions_df['left_plus_right']) * 100
             all_regions_df['right_perc']=all_regions_df['right']/(all_regions_df['left_plus_right']) * 100
             all_regions_df['each_region_perc']=all_regions_df['left_plus_right']/total_volume_all_regions *100

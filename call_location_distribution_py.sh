@@ -14,8 +14,8 @@ final_output_directory=/outputinsidedocker
 #outputfiles_present=$(python3 call_arterial_location_distribution.py "${function_with_arguments[@]}")
 
 function_with_arguments=('call_lobar_location_distribution' ${sessionID} ) ## ${scanID} ${snipr_output_foldername} 'cistern_area' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 call_lobar_location_distribution.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 call_lobar_location_distribution.py "${function_with_arguments[@]}")
+echo "outputfiles_present="'$(python3 call_arterial_location_distribution.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 call_arterial_location_distribution.py "${function_with_arguments[@]}")
 #
 ### get the scan used in this session
 #

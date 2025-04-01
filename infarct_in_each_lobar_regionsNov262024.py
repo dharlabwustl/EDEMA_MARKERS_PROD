@@ -12,11 +12,20 @@ import pandas as pd
 import numpy as np
 from pytablewriter import LatexTableWriter
 import inspect,subprocess,sys
-XNAT_USER='atulkumar'
-XNAT_PASS='Mrityor1!'
-XNAT_HOST='https://snipr.wustl.edu'
+XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
+XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
+XNAT_USER = os.environ['XNAT_USER']#
+XNAT_PASS =os.environ['XNAT_PASS'] #
 # SESSION_ID='SNIPR01_E00193' ## #'${1} #str(each_row['ID'])
 import linecache
+def to_2_sigfigs(x):
+    if isinstance(x, (int, float, np.number)):
+        if x == 0:
+            return 0
+        else:
+            return float(f"{x:.2g}")
+    return x  # Non-numeric entries remain unchanged
+
 def binarized_region_lobar(f,latexfilename):
     # File path and loading the DataFrame
     # f = './lobar_output/COLI_HLP45_02152022_1123_6lobar_VersionDate-11122024_02_27_2025_Transpose.csv' ##COLI_HLP45_02152022_1123_6lobar_VersionDate-11122024_01_24_2025_Transpose.csv'

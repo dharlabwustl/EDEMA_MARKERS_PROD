@@ -238,7 +238,8 @@ def binarized_region_lobar(f,latexfilename):
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_plus_right'] = all_regions_df['left_plus_right'].sum(skipna=True)
             # print(all_regions_df)
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
-            all_regions_df.to_csv(f.split('.csv')[0]+"_binarized.csv",index=False)
+            # all_regions_df.to_csv(f.split('.csv')[0]+"_binarized.csv",index=False)
+            all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             latex_table = df_to_latex_2(all_regions_df,2.0,'THRESHOLD::{}\n'.format(str(thresh_percentage)))
             latex_insert_line_nodek(latexfilename,text=latex_table) ##all_regions_df.to_latex(index=False))
 

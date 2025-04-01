@@ -35,8 +35,8 @@ def binarized_region_lobar(f,latexfilename):
         # subprocess.call("echo " + "I  of try 1  ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         import pandas as pd
         df = pd.read_csv(f)
-        f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0]
-        df = pd.read_csv(f)
+        # f = glob.glob('/workingoutput/lobar_output/*_Transpose.csv')[0]
+        # df = pd.read_csv(f)
         total_volume=df['Value']
         # Broad regions to process
         broad_regions = [

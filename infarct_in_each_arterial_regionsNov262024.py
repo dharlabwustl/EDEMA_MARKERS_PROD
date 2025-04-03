@@ -214,6 +214,10 @@ def binarized_region_artery(f,latexfilename):
             all_regions_df['dominant_region_left']=0
             dominant_region_idx=all_regions_df['each_region_perc'].idxmax()
             all_regions_df.loc[dominant_region_idx,'dominant_region']=1
+            if all_regions_df.loc[dominant_region_idx,'left_perc'] > all_regions_df.loc[dominant_region_idx,'right_perc']:
+                all_regions_df.loc[dominant_region_idx,'dominant_region_left']=1
+            if all_regions_df.loc[dominant_region_idx,'left_perc'] < all_regions_df.loc[dominant_region_idx,'right_perc']:
+                all_regions_df.loc[dominant_region_idx,'dominant_region_right']=1
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             # latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))

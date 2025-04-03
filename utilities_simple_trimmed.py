@@ -2377,7 +2377,7 @@ def df_to_latex_2(df,colmn_width,thiscaption='table'):
     #         text = text.replace(key, val)
     #     return text.strip()  # Ensure no extra spaces
 
-    headers = [escape_latex(str(col)) for col in df.columns]
+    headers = ["\\rotatebox{90}" + escape_latex(str(col)) for col in df.columns]
     rows = [[escape_latex(str(cell)) for cell in row] for row in df.values]
 
     # Define proper column format with fixed width

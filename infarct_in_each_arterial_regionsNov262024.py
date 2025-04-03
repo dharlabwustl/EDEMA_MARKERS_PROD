@@ -19,6 +19,22 @@ XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'ht
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
 XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
+def transpose_with_column_names(df, index_col_name="Original Column Name", row_prefix="Row"):
+    """
+    Transposes the DataFrame so that original column names become the first column.
+
+    Parameters:
+    - df: pandas DataFrame to transpose
+    - index_col_name: name of the first column after transpose (default: "Original Column Name")
+    - row_prefix: prefix for the new column names (default: "Row")
+
+    Returns:
+    - A transposed DataFrame with original column names as the first column
+    """
+    df_transposed = df.transpose().reset_index()
+    df_transposed.columns = [index_col_name] + [f"{row_prefix}{i+1}" for i in range(len(df_transposed.columns) - 1)]
+    return df_transposed
+
 def to_2_sigfigs(x):
     if isinstance(x, (int, float, np.number)):
         if x == 0:
@@ -218,6 +234,7 @@ def binarized_region_artery(f,latexfilename):
                 all_regions_df.loc[dominant_region_idx,'dominant_region_left']=1
             if all_regions_df.loc[dominant_region_idx,'left_perc'] < all_regions_df.loc[dominant_region_idx,'right_perc']:
                 all_regions_df.loc[dominant_region_idx,'dominant_region_right']=1
+            all_regions_df=transpose_with_column_names(df, index_col_name="Side_Labels", row_prefix="")
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             # latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))

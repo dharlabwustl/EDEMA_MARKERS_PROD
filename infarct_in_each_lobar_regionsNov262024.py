@@ -265,7 +265,7 @@ def binarized_region_lobar(f,latexfilename):
             if all_regions_df.loc[dominant_region_idx,'left_perc'] < all_regions_df.loc[dominant_region_idx,'right_perc']:
                 all_regions_df.loc[dominant_region_idx,'dominant_region_right']=1
             # all_regions_df.to_csv(f.split('.csv')[0]+"_binarized.csv",index=False)
-            all_regions_df=transpose_with_column_names(df, index_col_name="Side_Labels", row_prefix="")
+            # all_regions_df=transpose_with_column_names(df, index_col_name="Side_Labels", row_prefix="")
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             latex_table = df_to_latex_2(all_regions_df,1.0,'THRESHOLD::{}\n'.format(str(thresh_percentage)))
             latex_insert_line_nodek(latexfilename,text=latex_table) ##all_regions_df.to_latex(index=False))

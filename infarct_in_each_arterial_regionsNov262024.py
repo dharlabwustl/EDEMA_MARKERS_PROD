@@ -787,6 +787,8 @@ def arterial_region_volumes_n_display(SESSION_ID):
         os.chdir('../')
         url=f'/data/experiments/{SESSION_ID}/scans/{SCAN_ID}'
         resource_dirname='LOCATION_DISTRIBUTION_ARTERY'
+        delete_file_with_ext(SESSION_ID,SCAN_ID,resource_dirname,'.pdf')
+        delete_file_with_ext(SESSION_ID,SCAN_ID,resource_dirname,'.csv')
         file_name=latexfilename.split('.tex')[0] +'.pdf'
         uploadsinglefile_with_URI(url,file_name,resource_dirname)
         file_name=latexfilename.split('.tex')[0] +'.csv'

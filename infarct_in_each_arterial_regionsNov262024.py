@@ -209,15 +209,6 @@ def binarized_region_artery(f,latexfilename):
 
             print(all_regions_df)
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
-            # all_regions_df['dominant_region']=0
-            # all_regions_df['dominant_region_left']=0
-            # all_regions_df['dominant_region_right']=0
-            # max_idx = all_regions_df['each_region_perc'].idxmax()
-            # all_regions_df.at[max_idx, 'dominant_region'] = 1
-            # if all_regions_df.at[max_idx, 'left_perc'] > all_regions_df.at[max_idx, 'right_perc']:
-            #     all_regions_df.at[max_idx, 'dominant_region_left'] = 1
-            # if all_regions_df.at[max_idx, 'left_perc'] < all_regions_df.at[max_idx, 'right_perc']:
-            #     all_regions_df.at[max_idx, 'dominant_region_right'] = 1
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             # latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))
@@ -796,10 +787,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         os.chdir('../')
         url=f'/data/experiments/{SESSION_ID}/scans/{SCAN_ID}'
         resource_dirname='LOCATION_DISTRIBUTION_ARTERY'
-        delete_file_with_ext(SESSION_ID,SCAN_ID,resource_dirname,'.pdf')
-        delete_file_with_ext(SESSION_ID,SCAN_ID,resource_dirname,'.csv')
-        # call_delete_file_with_ext(${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
-        # echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
         file_name=latexfilename.split('.tex')[0] +'.pdf'
         uploadsinglefile_with_URI(url,file_name,resource_dirname)
         file_name=latexfilename.split('.tex')[0] +'.csv'

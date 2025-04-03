@@ -209,15 +209,15 @@ def binarized_region_artery(f,latexfilename):
 
             print(all_regions_df)
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
-            all_regions_df['dominant_region']=0
-            all_regions_df['dominant_region_left']=0
-            all_regions_df['dominant_region_right']=0
-            max_idx = all_regions_df['each_region_perc'].idxmax()
-            all_regions_df.at[max_idx, 'dominant_region'] = 1
-            if all_regions_df.at[max_idx, 'left_perc'] > all_regions_df.at[max_idx, 'right_perc']:
-                all_regions_df.at[max_idx, 'dominant_region_left'] = 1
-            if all_regions_df.at[max_idx, 'left_perc'] < all_regions_df.at[max_idx, 'right_perc']:
-                all_regions_df.at[max_idx, 'dominant_region_right'] = 1
+            # all_regions_df['dominant_region']=0
+            # all_regions_df['dominant_region_left']=0
+            # all_regions_df['dominant_region_right']=0
+            # max_idx = all_regions_df['each_region_perc'].idxmax()
+            # all_regions_df.at[max_idx, 'dominant_region'] = 1
+            # if all_regions_df.at[max_idx, 'left_perc'] > all_regions_df.at[max_idx, 'right_perc']:
+            #     all_regions_df.at[max_idx, 'dominant_region_left'] = 1
+            # if all_regions_df.at[max_idx, 'left_perc'] < all_regions_df.at[max_idx, 'right_perc']:
+            #     all_regions_df.at[max_idx, 'dominant_region_right'] = 1
             subprocess.call("echo " + "I  of try 1_1 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             # latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))

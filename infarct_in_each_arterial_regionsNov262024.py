@@ -150,24 +150,19 @@ def binarized_region_artery(f, latexfilename):
         broad_regions_df = pd.DataFrame(columns=broad_regions)
         broad_regions_df_territory = pd.DataFrame(columns=broad_regions)
 
-        # Add columns for each region and initialization
         for region in broad_regions:
             df[region] = 0
 
-        # Add special rows for totals and percentages
         df.loc[len(df)] = [None] * len(df.columns)
         df.loc[len(df) - 1, 'Regions'] = 'Total Regions Volume'
         df.loc[len(df), 'Regions'] = 'Total Regions Percentage'
         df['infarct_present'] = 0
 
-        # Ensure numeric columns
         df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
         df['territory'] = pd.to_numeric(df['territory'], errors='coerce').fillna(0)
 
-        # Extract total infarct volume after registration
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
 
-        # Thresholds to assess dominance and labels
         thresh_percentages = [25, 30, 35, 40, 45, 50]
 
         for thresh in thresh_percentages:
@@ -179,11 +174,9 @@ def binarized_region_artery(f, latexfilename):
                 region_value_sum = df_region['Value'].sum()
                 region_territory_sum = df_region['territory'].sum()
 
-                # Store volume and percentage in special rows
                 df.loc[df['Regions'] == 'Total Regions Volume', region] = region_value_sum
                 df.loc[df['Regions'] == 'Total Regions Percentage', region] = (region_value_sum / total_volume) * 100
 
-                # Store for left/right comparative processing
                 broad_regions_df.loc[0, region] = region_value_sum
                 broad_regions_df_territory.loc[0, region] = region_territory_sum
                 total_volume_all_regions += region_value_sum
@@ -191,68 +184,61 @@ def binarized_region_artery(f, latexfilename):
                 for index in df_region.index:
                     df.loc[index, region] = region_value_sum
 
-            # Compute left/right summary from broad_regions_df
             regions = [col.replace(" left", "") for col in broad_regions_df.columns if " left" in col]
-            left_values = [broad_regions_df[f"{r} left"].iloc[0] for r in regions]
-            right_values = [broad_regions_df[f"{r} right"].iloc[0] for r in regions]
-
+            left_infarct = [broad_regions_df[f"{r} left"].iloc[0] for r in regions]
+            right_infarct = [broad_regions_df[f"{r} right"].iloc[0] for r in regions]
             left_territory = [broad_regions_df_territory[f"{r} left"].iloc[0] for r in regions]
             right_territory = [broad_regions_df_territory[f"{r} right"].iloc[0] for r in regions]
 
             all_regions_df = pd.DataFrame({
                 "region": regions,
-                "left": left_values,
-                "right": right_values,
+                "left_infarct": left_infarct,
+                "right_infarct": right_infarct,
                 "left_territory": left_territory,
                 "right_territory": right_territory
             })
 
-            all_regions_df['left_plus_right'] = all_regions_df['left'] + all_regions_df['right']
+            all_regions_df['infarct_sum'] = all_regions_df['left_infarct'] + all_regions_df['right_infarct']
             all_regions_df['territory_sum'] = all_regions_df['left_territory'] + all_regions_df['right_territory']
 
-            all_regions_df['left_perc'] = all_regions_df['left'] / all_regions_df['left_plus_right'] * 100
-            all_regions_df['right_perc'] = all_regions_df['right'] / all_regions_df['left_plus_right'] * 100
-            all_regions_df['each_region_perc'] = all_regions_df['left_plus_right'] / all_regions_df['territory_sum'] * 100 #total_volume_all_regions * 100
+            all_regions_df['left_infarct_perc'] = all_regions_df['left_infarct'] / all_regions_df['infarct_sum'] * 100
+            all_regions_df['right_infarct_perc'] = all_regions_df['right_infarct'] / all_regions_df['infarct_sum'] * 100
+            all_regions_df['each_region_infarct_perc'] = all_regions_df['infarct_sum'] / all_regions_df['territory_sum'] * 100
 
-            # Labeling
-            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_perc'] > 1.0).astype(int)
-            all_regions_df['right_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['right_perc_label'] = (all_regions_df['right_perc'] > thresh).astype(int)
-            all_regions_df['left_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['left_perc_label'] = (all_regions_df['left_perc'] > thresh).astype(int)
+            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > 1.0).astype(int)
+            all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['right_perc_label'] = (all_regions_df['right_infarct_perc'] > thresh).astype(int)
+            all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['left_perc_label'] = (all_regions_df['left_infarct_perc'] > thresh).astype(int)
 
-            # Handle cases with no side dominant but large overall percentage
             all_regions_df['noside_perc_label'] = 0
             all_regions_df.loc[
-                (all_regions_df['left_perc'].isna()) &
-                (all_regions_df['right_perc'].isna()) &
+                (all_regions_df['left_infarct_perc'].isna()) &
+                (all_regions_df['right_infarct_perc'].isna()) &
                 (all_regions_df['each_region_perc_label'] > 0),
                 'noside_perc_label'
             ] = 1
 
-            # Add total summary row
             all_regions_df.loc[len(all_regions_df)] = ["total_sum"] + [None] * (len(all_regions_df.columns) - 1)
-            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left'] = all_regions_df['left'].sum()
-            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right'] = all_regions_df['right'].sum()
-            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_plus_right'] = all_regions_df['left_plus_right'].sum()
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_infarct'] = all_regions_df['left_infarct'].sum()
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_infarct'] = all_regions_df['right_infarct'].sum()
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'infarct_sum'] = all_regions_df['infarct_sum'].sum()
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_territory'] = all_regions_df['left_territory'].sum()
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_territory'] = all_regions_df['right_territory'].sum()
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'territory_sum'] = all_regions_df['territory_sum'].sum()
 
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
 
-            # Mark dominant region
             all_regions_df['dominant_region'] = 0
             all_regions_df['dominant_region_left'] = 0
             all_regions_df['dominant_region_right'] = 0
-            dom_idx = all_regions_df['each_region_perc'].idxmax()
+            dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
             all_regions_df.loc[dom_idx, 'dominant_region'] = 1
-            if all_regions_df.loc[dom_idx, 'left_perc'] > all_regions_df.loc[dom_idx, 'right_perc']:
+            if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
-            elif all_regions_df.loc[dom_idx, 'left_perc'] < all_regions_df.loc[dom_idx, 'right_perc']:
+            elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
 
-            # Export CSV and LaTeX
             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
             all_regions_df.to_csv(binarized_csv, index=False)
 

@@ -42,7 +42,91 @@ def to_2_sigfigs(x):
         else:
             return float(f"{x:.2g}")
     return x  # Non-numeric entries remain unchanged
+import pandas as pd
+
+def add_relative_infarct_percentage(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds two percentage columns to the DataFrame:
+    1. 'relative_infarct_percent': % of each 'territory' within its 'broad_region'.
+    2. 'combined_broad_region_percentage': % of the total 'combined_broad_region_volume'
+       with respect to total infarct volume ('infarct_volume_after_reg').
+
+    Args:
+        df (pd.DataFrame): DataFrame with 'territory', 'combined_broad_region_volume',
+                           and 'infarct_volume_after_reg'.
+
+    Returns:
+        pd.DataFrame: DataFrame with added percentage columns.
+    """
+    # Calculate % of each region within its broad_region
+    df['relative_infarct_percent'] = (
+            df['territory'] / df['combined_broad_region_volume'] * 100
+    ).round(2)
+
+    # Extract total infarct volume from the appropriate row (e.g., where Column_Name == 'infarct_volume_after_reg')
+    total_infarct_volume = pd.to_numeric(
+        df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'], errors='coerce'
+    ).values[0]  # assuming only one such row exists
+
+    # Compute % of each combined_broad_region_volume with respect to total infarct volume
+    df['combined_broad_region_percentage'] = (
+            df['combined_broad_region_volume'] / total_infarct_volume * 100
+    ).round(2)
+
+    return df
+
+def add_infarct_analysis_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds infarct-related columns to a DataFrame:
+    - 'side_infarct': 'L' if left, 'R' if right, based on 'Regions'.
+    - 'broad_region': region name without 'left' or 'right'.
+    - 'combined_broad_region_volume': total infarct volume for each broad region.
+
+    Args:
+        df (pd.DataFrame): DataFrame with 'Regions' and 'territory' columns.
+
+    Returns:
+        pd.DataFrame: DataFrame with additional columns added.
+    """
+    # Side infarct determination
+    df['side_infarct'] = pd.NA
+    df.loc[df['Regions'].str.contains(r'\bleft\b', case=False, na=False), 'side_infarct'] = 'L'
+    df.loc[df['Regions'].str.contains(r'\bright\b', case=False, na=False), 'side_infarct'] = 'R'
+
+    # Broad region extraction
+    df['broad_region'] = df['Regions'].str.replace(r'\b(left|right)\b', '', case=False, regex=True).str.strip()
+
+    # Convert territory to numeric
+    df['territory'] = pd.to_numeric(df['territory'], errors='coerce')
+
+    # Compute combined volume for each broad region
+    broad_region_sums = df.groupby('broad_region')['territory'].sum()
+    df['combined_broad_region_volume'] = df['broad_region'].map(broad_region_sums)
+
+    return df
+
 def binarized_region_artery(f,latexfilename):
+    subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    try:
+        import pandas as pd
+        df = pd.read_csv(f)
+        df=add_infarct_analysis_columns(df)
+        df=add_relative_infarct_percentage(df)
+        all_regions_df=df
+        thresh_percentage=25
+        all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
+        # latex_insert_line_nodek(latexfilename,text='THRESHOLD::{}\n'.format(str(thresh_percentage)))
+        latex_table = df_to_latex_2(all_regions_df,1.0,'THRESHOLD::{}\n'.format(str(thresh_percentage)))
+        latex_insert_line_nodek(latexfilename,text=latex_table) ##all_regions_df.to_latex(index=False))
+        subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
+        subprocess.call("echo " + "I  of try 1_3 ::{}  >> /workingoutput/error.txt".format(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv") ,shell=True )
+    except Exception as e :
+        error_msg = traceback.format_exc()
+        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+
+
+def binarized_region_artery_0(f,latexfilename):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     try:
         # subprocess.call("echo " + "I  inside try binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

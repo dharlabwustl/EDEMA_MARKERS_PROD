@@ -333,6 +333,12 @@ def binarized_region_lobar_0(f,latexfilename):
         subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
         # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
 
+import subprocess
+import inspect
+import pandas as pd
+import numpy as np
+import traceback
+
 def binarized_region_lobar(f, latexfilename):
     subprocess.call(f"echo I binarized_region_lobar ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
 
@@ -350,6 +356,7 @@ def binarized_region_lobar(f, latexfilename):
         ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)
+        broad_regions_df_territory = pd.DataFrame(columns=broad_regions)
 
         for region in broad_regions:
             df[region] = 0
@@ -360,6 +367,7 @@ def binarized_region_lobar(f, latexfilename):
         df['lobar_present'] = 0
 
         df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
+        df['territory'] = pd.to_numeric(df['territory'], errors='coerce').fillna(0)
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
 
         thresh_percentages = [25, 30, 35, 40, 45, 50]
@@ -370,10 +378,12 @@ def binarized_region_lobar(f, latexfilename):
             for region in broad_regions:
                 df_region = df[df['Regions'].str.contains(region, na=False)]
                 region_value_sum = df_region['Value'].sum()
+                region_territory_sum = df_region['territory'].sum()
                 df.loc[df['Regions'] == 'Total Regions Volume', region] = region_value_sum
                 df.loc[df['Regions'] == 'Total Regions Percentage', region] = (region_value_sum / total_volume) * 100
 
                 broad_regions_df.loc[0, region] = region_value_sum
+                broad_regions_df_territory.loc[0, region] = region_territory_sum
                 total_volume_all_regions += region_value_sum
 
                 for index in df_region.index:
@@ -383,6 +393,8 @@ def binarized_region_lobar(f, latexfilename):
             regions = [col.replace("L. ", "") for col in columns if "L. " in col]
             left_lobar = [broad_regions_df[f"L. {r}"].iloc[0] for r in regions]
             right_lobar = [broad_regions_df[f"R. {r}"].iloc[0] for r in regions]
+            left_territory = [broad_regions_df_territory[f"L. {r}"].iloc[0] for r in regions]
+            right_territory = [broad_regions_df_territory[f"R. {r}"].iloc[0] for r in regions]
 
             for col in columns:
                 if not ("L." in col or "R." in col):
@@ -392,29 +404,33 @@ def binarized_region_lobar(f, latexfilename):
             all_regions_df = pd.DataFrame({
                 "region": regions + [np.nan] * (max_len - len(regions)),
                 "left_lobar": left_lobar + [np.nan] * (max_len - len(left_lobar)),
-                "right_lobar": right_lobar + [np.nan] * (max_len - len(right_lobar))
+                "right_lobar": right_lobar + [np.nan] * (max_len - len(right_lobar)),
+                "left_territory": left_territory + [np.nan] * (max_len - len(left_territory)),
+                "right_territory": right_territory + [np.nan] * (max_len - len(right_territory))
             })
 
             all_regions_df['lobar_sum'] = all_regions_df['left_lobar'] + all_regions_df['right_lobar']
+            all_regions_df['territory_sum'] = all_regions_df['left_territory'] + all_regions_df['right_territory']
 
             merged_df = all_regions_df.merge(df[['Regions', 'Value']], left_on='region', right_on='Regions', how='left')
             merged_df['lobar_sum'] = merged_df['Value'].combine_first(merged_df['lobar_sum'])
             merged_df.drop(columns=['Regions', 'Value'], inplace=True)
             all_regions_df = merged_df
 
-            all_regions_df['left_perc'] = all_regions_df['left_lobar'] / all_regions_df['lobar_sum'] * 100
-            all_regions_df['right_perc'] = all_regions_df['right_lobar'] / all_regions_df['lobar_sum'] * 100
-            all_regions_df['each_region_perc'] = all_regions_df['lobar_sum'] / total_volume_all_regions * 100
+            all_regions_df['left_lobar_perc'] = all_regions_df['left_lobar'] / all_regions_df['left_territory'] * 100
+            all_regions_df['right_lobar_perc'] = all_regions_df['right_lobar'] / all_regions_df['right_territory'] * 100
+            all_regions_df['each_region_lobar_perc'] = all_regions_df['lobar_sum'] / all_regions_df['territory_sum'] * 100
 
-            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_perc'] > 1.0).astype(int)
-            all_regions_df['right_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['right_perc_label'] = (all_regions_df['right_perc'] > thresh).astype(int)
-            all_regions_df['left_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['left_perc_label'] = (all_regions_df['left_perc'] > thresh).astype(int)
+            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_lobar_perc'] > 1.0).astype(int)
+            all_regions_df['right_lobar_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['right_perc_label'] = (all_regions_df['right_lobar_perc'] > thresh).astype(int)
+            all_regions_df['left_lobar_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['left_perc_label'] = (all_regions_df['left_lobar_perc'] > thresh).astype(int)
+
             all_regions_df['noside_perc_label'] = 0
             all_regions_df.loc[
-                (pd.isna(all_regions_df['left_perc'])) &
-                (pd.isna(all_regions_df['right_perc'])) &
+                (all_regions_df['left_lobar_perc'].isna()) &
+                (all_regions_df['right_lobar_perc'].isna()) &
                 (all_regions_df['each_region_perc_label'] > 0),
                 'noside_perc_label'
             ] = 1
@@ -423,17 +439,20 @@ def binarized_region_lobar(f, latexfilename):
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_lobar'] = all_regions_df['left_lobar'].sum(skipna=True)
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_lobar'] = all_regions_df['right_lobar'].sum(skipna=True)
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'lobar_sum'] = all_regions_df['lobar_sum'].sum(skipna=True)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_territory'] = all_regions_df['left_territory'].sum(skipna=True)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_territory'] = all_regions_df['right_territory'].sum(skipna=True)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'territory_sum'] = all_regions_df['territory_sum'].sum(skipna=True)
 
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
 
             all_regions_df['dominant_region'] = 0
             all_regions_df['dominant_region_left'] = 0
             all_regions_df['dominant_region_right'] = 0
-            dom_idx = all_regions_df['each_region_perc'].idxmax()
+            dom_idx = all_regions_df['each_region_lobar_perc'].idxmax()
             all_regions_df.loc[dom_idx, 'dominant_region'] = 1
-            if all_regions_df.loc[dom_idx, 'left_perc'] > all_regions_df.loc[dom_idx, 'right_perc']:
+            if all_regions_df.loc[dom_idx, 'left_lobar_perc'] > all_regions_df.loc[dom_idx, 'right_lobar_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
-            elif all_regions_df.loc[dom_idx, 'left_perc'] < all_regions_df.loc[dom_idx, 'right_perc']:
+            elif all_regions_df.loc[dom_idx, 'left_lobar_perc'] < all_regions_df.loc[dom_idx, 'right_lobar_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
 
             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
@@ -445,7 +464,6 @@ def binarized_region_lobar(f, latexfilename):
     except Exception as e:
         error_msg = traceback.format_exc()
         subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
-
 
 
 def trace_lines(frame, event, arg):

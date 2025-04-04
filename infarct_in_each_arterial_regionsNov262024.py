@@ -69,8 +69,11 @@ def add_relative_infarct_percentage(df: pd.DataFrame) -> pd.DataFrame:
     ).values[0]  # assuming only one such row exists
 
     # Compute % of each combined_broad_region_volume with respect to total infarct volume
-    df['combined_broad_region_percentage'] = (
-            df['combined_broad_region_volume'] / total_infarct_volume * 100
+    # df['combined_broad_region_percentage'] = (
+    #         df['combined_broad_region_volume'] / total_infarct_volume * 100
+    # ).round(2)
+    df['combined_broad_region_infarct_volume_perc'] = (
+            df['combined_broad_region_infarct_volume'] / total_infarct_volume * 100
     ).round(2)
 
     return df
@@ -98,11 +101,12 @@ def add_infarct_analysis_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     # Convert territory to numeric
     df['territory'] = pd.to_numeric(df['territory'], errors='coerce')
-
+    df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
     # Compute combined volume for each broad region
     broad_region_sums = df.groupby('broad_region')['territory'].sum()
     df['combined_broad_region_volume'] = df['broad_region'].map(broad_region_sums)
-
+    broad_region_infarct_sums = df.groupby('broad_region')['Value'].sum()
+    df['combined_broad_region_infarct_volume'] = df['broad_region'].map(broad_region_infarct_sums)
     return df
 
 def binarized_region_artery(f,latexfilename):

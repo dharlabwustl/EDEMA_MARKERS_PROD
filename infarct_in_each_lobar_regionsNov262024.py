@@ -43,7 +43,7 @@ def transpose_with_column_names(df, index_col_name="Original Column Name", row_p
     df_transposed.columns = [index_col_name] + [f"{row_prefix}{i+1}" for i in range(len(df_transposed.columns) - 1)]
     return df_transposed
 
-def binarized_region_lobar(f,latexfilename):
+def binarized_region_lobar_0(f,latexfilename):
     # File path and loading the DataFrame
     # f = './lobar_output/COLI_HLP45_02152022_1123_6lobar_VersionDate-11122024_02_27_2025_Transpose.csv' ##COLI_HLP45_02152022_1123_6lobar_VersionDate-11122024_01_24_2025_Transpose.csv'
     try:
@@ -332,6 +332,119 @@ def binarized_region_lobar(f,latexfilename):
         error_msg = traceback.format_exc()
         subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
         # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+
+def binarized_region_lobar(f, latexfilename):
+    subprocess.call(f"echo I binarized_region_lobar ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
+
+    try:
+        df = pd.read_csv(f)
+
+        broad_regions = [
+            'white matter', 'R. Frontal Lobe', 'L. Frontal Lobe',
+            'R. cingulate gyrus', 'L. cingulate gyrus',
+            'R. Parietal Lobe', 'L. Parietal Lobe',
+            'R. Temporal Lobe', 'L. Temporal Lobe',
+            'R. Occipital Lobe', 'L. Occipital Lobe',
+            'R. Insula', 'L. Insula',
+            'Brainstem', 'Corpus Callosum', 'Cerebellum'
+        ]
+
+        broad_regions_df = pd.DataFrame(columns=broad_regions)
+
+        for region in broad_regions:
+            df[region] = 0
+
+        df.loc[len(df)] = [None] * len(df.columns)
+        df.loc[len(df) - 1, 'Regions'] = 'Total Regions Volume'
+        df.loc[len(df), 'Regions'] = 'Total Regions Percentage'
+        df['lobar_present'] = 0
+
+        df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
+        total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
+
+        thresh_percentages = [25, 30, 35, 40, 45, 50]
+
+        for thresh in thresh_percentages:
+            total_volume_all_regions = 0
+
+            for region in broad_regions:
+                df_region = df[df['Regions'].str.contains(region, na=False)]
+                region_value_sum = df_region['Value'].sum()
+                df.loc[df['Regions'] == 'Total Regions Volume', region] = region_value_sum
+                df.loc[df['Regions'] == 'Total Regions Percentage', region] = (region_value_sum / total_volume) * 100
+
+                broad_regions_df.loc[0, region] = region_value_sum
+                total_volume_all_regions += region_value_sum
+
+                for index in df_region.index:
+                    df.loc[index, region] = region_value_sum
+
+            columns = broad_regions_df.columns
+            regions = [col.replace("L. ", "") for col in columns if "L. " in col]
+            left_lobar = [broad_regions_df[f"L. {r}"].iloc[0] for r in regions]
+            right_lobar = [broad_regions_df[f"R. {r}"].iloc[0] for r in regions]
+
+            for col in columns:
+                if not ("L." in col or "R." in col):
+                    regions.append(col)
+
+            max_len = max(len(regions), len(left_lobar), len(right_lobar))
+            all_regions_df = pd.DataFrame({
+                "region": regions + [np.nan] * (max_len - len(regions)),
+                "left_lobar": left_lobar + [np.nan] * (max_len - len(left_lobar)),
+                "right_lobar": right_lobar + [np.nan] * (max_len - len(right_lobar))
+            })
+
+            all_regions_df['lobar_sum'] = all_regions_df['left_lobar'] + all_regions_df['right_lobar']
+
+            merged_df = all_regions_df.merge(df[['Regions', 'Value']], left_on='region', right_on='Regions', how='left')
+            merged_df['lobar_sum'] = merged_df['Value'].combine_first(merged_df['lobar_sum'])
+            merged_df.drop(columns=['Regions', 'Value'], inplace=True)
+            all_regions_df = merged_df
+
+            all_regions_df['left_perc'] = all_regions_df['left_lobar'] / all_regions_df['lobar_sum'] * 100
+            all_regions_df['right_perc'] = all_regions_df['right_lobar'] / all_regions_df['lobar_sum'] * 100
+            all_regions_df['each_region_perc'] = all_regions_df['lobar_sum'] / total_volume_all_regions * 100
+
+            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_perc'] > 1.0).astype(int)
+            all_regions_df['right_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['right_perc_label'] = (all_regions_df['right_perc'] > thresh).astype(int)
+            all_regions_df['left_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['left_perc_label'] = (all_regions_df['left_perc'] > thresh).astype(int)
+            all_regions_df['noside_perc_label'] = 0
+            all_regions_df.loc[
+                (pd.isna(all_regions_df['left_perc'])) &
+                (pd.isna(all_regions_df['right_perc'])) &
+                (all_regions_df['each_region_perc_label'] > 0),
+                'noside_perc_label'
+            ] = 1
+
+            all_regions_df.loc[len(all_regions_df)] = ["total_sum"] + [None] * (len(all_regions_df.columns) - 1)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_lobar'] = all_regions_df['left_lobar'].sum(skipna=True)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_lobar'] = all_regions_df['right_lobar'].sum(skipna=True)
+            all_regions_df.loc[all_regions_df["region"] == "total_sum", 'lobar_sum'] = all_regions_df['lobar_sum'].sum(skipna=True)
+
+            all_regions_df = all_regions_df.applymap(to_2_sigfigs)
+
+            all_regions_df['dominant_region'] = 0
+            all_regions_df['dominant_region_left'] = 0
+            all_regions_df['dominant_region_right'] = 0
+            dom_idx = all_regions_df['each_region_perc'].idxmax()
+            all_regions_df.loc[dom_idx, 'dominant_region'] = 1
+            if all_regions_df.loc[dom_idx, 'left_perc'] > all_regions_df.loc[dom_idx, 'right_perc']:
+                all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
+            elif all_regions_df.loc[dom_idx, 'left_perc'] < all_regions_df.loc[dom_idx, 'right_perc']:
+                all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
+
+            binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
+            all_regions_df.to_csv(binarized_csv, index=False)
+
+            latex_table = df_to_latex_2(all_regions_df, 1.0, f'THRESHOLD::{thresh}\n')
+            latex_insert_line_nodek(latexfilename, text=latex_table)
+
+    except Exception as e:
+        error_msg = traceback.format_exc()
+        subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
 
 
 

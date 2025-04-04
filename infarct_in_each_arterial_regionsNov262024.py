@@ -201,8 +201,8 @@ def binarized_region_artery(f, latexfilename):
             all_regions_df['infarct_sum'] = all_regions_df['left_infarct'] + all_regions_df['right_infarct']
             all_regions_df['territory_sum'] = all_regions_df['left_territory'] + all_regions_df['right_territory']
 
-            all_regions_df['left_infarct_perc'] = all_regions_df['left_infarct'] / all_regions_df['infarct_sum'] * 100
-            all_regions_df['right_infarct_perc'] = all_regions_df['right_infarct'] / all_regions_df['infarct_sum'] * 100
+            all_regions_df['left_infarct_perc'] = all_regions_df['left_infarct'] / all_regions_df['left_territory'] * 100 # all_regions_df['infarct_sum'] * 100
+            all_regions_df['right_infarct_perc'] = all_regions_df['right_infarct'] / all_regions_df['right_territory'] * 100 # all_regions_df['infarct_sum'] * 100
             all_regions_df['each_region_infarct_perc'] = all_regions_df['infarct_sum'] / all_regions_df['territory_sum'] * 100
 
             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > 1.0).astype(int)

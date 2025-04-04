@@ -74,6 +74,7 @@ def binarized_region_artery(f,latexfilename):
                           ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)
+        broad_regions_df_total = pd.DataFrame(columns=broad_regions)
 
         # broad_regions = [
         #     'anterior cerebral left', 'lenticulostriate left', 'middle cerebral left',
@@ -94,6 +95,7 @@ def binarized_region_artery(f,latexfilename):
         df['infarct_present']=0
         # Ensure the 'Value' column is numeric, replacing non-convertible values with 0
         df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
+        df['territory'] = pd.to_numeric(df['territory'], errors='coerce').fillna(0)
         # total_volume=df.loc[df['Column_Name']=='infarct_volume_after_reg','Value']
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_percentages=[25,30,35,40,45,50]
@@ -113,12 +115,14 @@ def binarized_region_artery(f,latexfilename):
 
                 # Calculate the sum of the 'Value' column for this region
                 this_region_sum = np.sum(df_each_region['Value'])
+                this_region_sum_territory = np.sum(df_each_region['territory'])
                 print(f"Sum of 'Value' for {each_broad_region}: {this_region_sum}")
                 print("-" * 50)  # Separator for better readability
 
                 # Populate the Total Regions Volume row for this region
                 df.loc[df['Regions'] == 'Total Regions Volume', each_broad_region] = this_region_sum
                 df.loc[df['Regions'] == 'Total Regions Percentage', each_broad_region] = (this_region_sum/total_volume) * 100
+
                 broad_regions_df.loc[0,each_broad_region]=this_region_sum
                 total_volume_all_regions=total_volume_all_regions+this_region_sum
 

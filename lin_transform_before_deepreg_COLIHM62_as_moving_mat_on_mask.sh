@@ -410,6 +410,21 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
+
+## RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
+GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
+#output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
+#OUTPUT_DIRECTORY=${output_directory}
+#TRANSFORMED_MASK_DIRECTORY=$(dirname ${infarct_mask_binary_output_filename})  ##${2} #${output_directory}
+#basename_grayfilenifti=$(basename -- $GRAYSCALENIFTI_FILE)
+transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
+
+/software/ideal_midline_pythonpart_any_template.sh ${session_ct} ${transformed_output_file}
+snipr_output_foldername="MIDLINE_NPY"
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
 #################################################################################################
 moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input'

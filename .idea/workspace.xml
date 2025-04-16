@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="&#10;New Commitdgfdgf">
-      <change afterPath="$PROJECT_DIR$/ideal_midline_fslpart_any_template.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ideal_midline_pythonpart_any_template.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask.sh" beforeDir="false" afterPath="$PROJECT_DIR$/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -479,7 +476,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4602" />
+    <option name="localTasksCounter" value="4603" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

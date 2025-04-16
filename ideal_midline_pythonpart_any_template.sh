@@ -28,7 +28,7 @@ method_type_name=$5
 python3 -c "
 import sys 
 sys.path.append('/software');
-from module_midline2 import * ;   fit_line_to_midlinepixels_ORF_sh()" $this_image $midline_nifti_file $SAVE_DIRECTORY $method_type  $method_type_name # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
+from module_midline1 import * ;   fit_line_to_midlinepixels_ORF_sh()" $this_image $midline_nifti_file $SAVE_DIRECTORY $method_type  $method_type_name # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 }
 ####################################################################################################################
 # input_for_BET=${output_directory}  #/output #/preprocessing_output/grayctimage

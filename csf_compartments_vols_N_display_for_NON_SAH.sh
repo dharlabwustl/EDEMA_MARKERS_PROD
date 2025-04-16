@@ -118,6 +118,7 @@ run_Registration() {
   #  done
 
 }
+
 run_IML() {
   this_filename=${1}
   this_betfilename=${2}
@@ -177,6 +178,9 @@ run_IML() {
   #  done
 
 }
+
+
+
 run_divide_mask_into_left_right() {
   local grayimage=${1}
   local csf_mask_filename=${2}

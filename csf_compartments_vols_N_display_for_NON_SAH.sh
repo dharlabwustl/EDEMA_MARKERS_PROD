@@ -890,7 +890,7 @@ while IFS=',' read -ra array; do
         echo "It's there!"
         echo "${array2[6]}"
         filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${working_dir_1})
+        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
         outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
         greyfile=${dir_to_save}/${filename2}
         echo "${greyfile}"
@@ -899,7 +899,7 @@ while IFS=',' read -ra array; do
     done \
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
-    midlineonly_each_scan ${filename_nifti}
+#    midlineonly_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do
 
@@ -1285,11 +1285,11 @@ while IFS=',' read -ra array; do
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #    URI_1=${url1%/resources*}
-    resource_dirname="MIDLINE_NPY"
-    for npyfilename in ${working_dir_1}/*.npy; do
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
+#    resource_dirname="MIDLINE_NPY"
+#    for npyfilename in ${working_dir_1}/*.npy; do
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
 
 #    URI_1=${url1%/resources*}
     resource_dirname="MASKS"

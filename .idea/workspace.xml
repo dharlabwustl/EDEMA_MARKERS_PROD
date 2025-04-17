@@ -77,7 +77,7 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2IBTAyvSRFAPUXT9t7jiTgp9aCO" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -476,7 +476,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4612" />
+    <option name="localTasksCounter" value="4613" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

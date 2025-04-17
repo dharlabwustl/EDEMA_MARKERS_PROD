@@ -899,6 +899,7 @@ while IFS=',' read -ra array; do
     done \
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
+    cp ${output_directory}/*_V2.npy ${working_dir_1}/
 #    midlineonly_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do

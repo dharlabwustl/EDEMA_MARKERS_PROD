@@ -744,6 +744,39 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 
 }
 echo " I AM RUNNING "
+#######################################
+#----------------------------------------
+# Step 1: Download NIFTI_LOCATION Metadata
+#----------------------------------------
+URI="/data/experiments/${sessionID}"
+resource_dir="NIFTI_LOCATION"
+output_csvfile="${sessionID}_SCANSELECTION_METADATA.csv"
+call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
+#  call_download_a_singlefile_with_URIString_arguments=("call_get_resourcefiles_metadata_saveascsv_args" ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#----------------------------------------
+# Step 2: Download file(s) from metadata URLs
+#----------------------------------------
+while IFS=',' read -ra array; do
+  url=${array[6]}
+  filename=$(basename ${url})
+  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+
+#----------------------------------------
+# Step 3: Extract scanID from downloaded CSV
+#----------------------------------------
+get_scanID_from_sessionID ${sessionID} ${working_dir}
+echo ${sessionID}::${scanID}
+dir_to_save=${working_dir}
+resource_dir="MIDLINE_NPY"
+call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+
+
+#################################
+
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}
@@ -876,30 +909,33 @@ while IFS=',' read -ra array; do
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
 
-    ################################################################
-    resource_dir="MIDLINE_NPY"
-    output_csvfile_1=${sessionID}_MASK_METADATA.csv
-    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
+ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
 
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
-      #################
-
-      if [[ ${url2} == *".npy"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
-      fi
-
-    done \
-      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
-    ################################################################
-    cp ${output_directory}/*_V2.npy ${working_dir_1}/
+#    ################################################################
+#    resource_dir="MIDLINE_NPY"
+#    output_csvfile_1=${sessionID}_MASK_METADATA.csv
+#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+#
+#    while IFS=',' read -ra array2; do
+#
+#      url2=${array2[6]}
+#      #################
+#
+#      if [[ ${url2} == *".npy"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        greyfile=${dir_to_save}/${filename2}
+#        echo "${greyfile}"
+#      fi
+#
+#    done \
+#      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+#    ################################################################
+#    cp ${output_directory}/*_V2.npy ${working_dir_1}/
 #    midlineonly_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do

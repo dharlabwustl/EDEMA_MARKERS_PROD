@@ -728,23 +728,55 @@ overlapped_mask_on_otherimage() {
 }
 #for grayscale_filename in ${working_dir_1}/*.nii*; do
 
-function call_get_resourcefiles_metadata_saveascsv_args() {
-
-  local resource_dir=${2}   #"NIFTI"
-  local output_csvfile=${4} #{array[1]}
-
-  local URI=${1} #{array[0]}
-  #  local file_ext=${5}
-  #  local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
-
-  local final_output_directory=${3}
-  local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-  echo " I AM AT call_get_resourcefiles_metadata_saveascsv_args"
-
-}
+#function call_get_resourcefiles_metadata_saveascsv_args() {
+#
+#  local resource_dir=${2}   #"NIFTI"
+#  local output_csvfile=${4} #{array[1]}
+#
+#  local URI=${1} #{array[0]}
+#  #  local file_ext=${5}
+#  #  local output_csvfile=${output_csvfile%.*}${resource_dir}.csv
+#
+#  local final_output_directory=${3}
+#  local call_download_files_in_a_resource_in_a_session_arguments=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+#  echo " I AM AT call_get_resourcefiles_metadata_saveascsv_args"
+#
+#}
 echo " I AM RUNNING "
 #######################################
+#----------------------------------------
+# Function to get resource file metadata
+#----------------------------------------
+function call_get_resourcefiles_metadata_saveascsv_args() {
+  local URI=${1}
+  local resource_dir=${2}
+  local final_output_directory=${3}
+  local output_csvfile=${4}
+
+  call_get_resourcefiles_metadata_saveascsv_args=('call_get_resourcefiles_metadata_saveascsv_args' ${URI} ${resource_dir} ${final_output_directory} ${output_csvfile})
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_get_resourcefiles_metadata_saveascsv_args[@]}")
+  echo ">> Retrieved metadata for ${resource_dir}"
+}
+
+#----------------------------------------
+# Function to extract scanID given a sessionID
+#----------------------------------------
+
+function get_scanID_from_sessionID() {
+  local sessionID=$1
+  local working_dir=$2
+  local URI="/data/experiments/${sessionID}"
+  local resource_dir="NIFTI_LOCATION"
+  local output_csvfile="${sessionID}_SCANSELECTION_METADATA.csv"
+
+  call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
+
+  local niftifile_csvfilename=$(ls ${working_dir}/*NIFTILOCATION.csv)
+  scanID=$(tail -n +2 "${niftifile_csvfilename}" | cut -d',' -f3 | head -n 1)
+  echo ${scanID}
+}
+
 #----------------------------------------
 # Step 1: Download NIFTI_LOCATION Metadata
 #----------------------------------------
@@ -773,9 +805,6 @@ dir_to_save=${working_dir}
 resource_dir="MIDLINE_NPY"
 call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-
-#################################
 
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
@@ -908,10 +937,8 @@ while IFS=',' read -ra array; do
     done \
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
-
 for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
  for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
-
 #    ################################################################
 #    resource_dir="MIDLINE_NPY"
 #    output_csvfile_1=${sessionID}_MASK_METADATA.csv

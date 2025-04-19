@@ -1232,7 +1232,7 @@ def dowload_a_folder_as_zip(sessionId, scanId,resource_dir):
                     f.write(chunk)
         command = 'unzip -d /ZIPFILEDIR ' + zipfilename
         subprocess.call(command,shell=True)
-        command='rm -r ' + zipfilename
+        # command='rm -r ' + zipfilename
         # command = 'unzip -d /ZIPFILEDIR ' + zipfilename
         # subprocess.call(command,shell=True)
         command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"

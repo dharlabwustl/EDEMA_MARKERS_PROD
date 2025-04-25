@@ -17,16 +17,17 @@ XNAT_HOST_URL='https://snipr.wustl.edu'
 XNAT_HOST = os.environ['XNAT_HOST'] #XNAT_HOST_URL #
 XNAT_USER =os.environ['XNAT_USER']
 XNAT_PASS =os.environ['XNAT_PASS']
-
+xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+xnatSession.renew_httpsession()
 def get_slice_idx(nDicomFiles):
     return min(nDicomFiles-1, math.ceil(nDicomFiles*0.7)) # slice 70% through the brain
 
 def get_metadata_session(sessionId):
     url = ("/data/experiments/%s/scans/?format=json" %    (sessionId))
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    xnatSession.renew_httpsession()
+    # #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    # #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    xnatSession.close_httpsession()
+    # #xnatSession.close_httpsession()
     metadata_session=response.json()['ResultSet']['Result']
     return metadata_session
 
@@ -56,10 +57,10 @@ def decide_image_conversion(metadata_session,scanId):
 def get_dicom_from_filesystem(sessionId, scanId):
     # Handle DICOM files that are not stored in a directory matching their XNAT scanId
     print("No DICOM found in %s directory, querying XNAT for DICOM path" % scanId)
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" % 
         (sessionId, scanId))
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     if response.status_code != 200:
         raise Exception("Error querying XNAT for %s DICOM files: %s %s %s" % (scanId, 
@@ -82,13 +83,13 @@ def get_dicom_from_filesystem(sessionId, scanId):
 
 def get_dicom_using_xnat(sessionId, scanId):
     # total_niftifiles=0
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+    #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     
     # Handle DICOM files that are not stored in a directory matching their XNAT scanId
 #####################################################################
     url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" % 
         (sessionId, scanId))
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     if response.status_code != 200:
 
@@ -115,7 +116,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     url = ("/data/experiments/%s/scans/%s/resources/DICOM/files?format=zip" % 
         (sessionId, scanId))
 
-    xnatSession.renew_httpsession()
+    #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
     zipfilename=sessionId+scanId+'.zip'
     with open(zipfilename, "wb") as f:
@@ -167,7 +168,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     files={'file':open(eachniftifile,'rb')}
     response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
     print(response)
-    xnatSession.close_httpsession()
+    #xnatSession.close_httpsession()
     for eachniftifile in glob.glob('/output/' +  '*.nii'):
 
         command= 'rm  ' + eachniftifile
@@ -206,8 +207,8 @@ if __name__ == '__main__':
             subprocess.call(command,shell=True)
             # print("Decision::{}".format(decision))
             if decision==True:
-                xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-                xnatSession.renew_httpsession()
+                #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+                #xnatSession.renew_httpsession()
                 outcome=get_dicom_using_xnat(sessionId, scanId)
                 total_niftifiles=total_niftifiles+1
                 message_text="If true decision: scanId: " + scanId
@@ -236,7 +237,7 @@ if __name__ == '__main__':
                     message_text="If false decision: scanId: " + scanId
                     command="echo " + message_text +"  >>  logmessage.txt"
                     subprocess.call(command,shell=True)
-                xnatSession.close_httpsession()
+                #xnatSession.close_httpsession()
             else:
                 print("This was not axial brain image::{}".format(URI))
 
@@ -248,10 +249,11 @@ if __name__ == '__main__':
     total_niftifiles_df=pd.DataFrame([dcm2nifti_complete,total_niftifiles]).transpose()
     total_niftifiles_df.columns=['dcm2nifti_complete','nifti_files_num']
     total_niftifiles_df.to_csv('/workinginput/total_niftifiles.csv',index=False)
-        # xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-        # xnatSession.renew_httpsession()
+        # #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        # #xnatSession.renew_httpsession()
         # url = ("/data/experiments/%s/resources/TEST/files/" % (sessionId, scanId))
         # files={'file':open('logmessage.txt','rb')}
         # response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
-        # xnatSession.close_httpsession()
+        # #xnatSession.close_httpsession()
         # print(response)
+    xnatSession.close_httpsession()

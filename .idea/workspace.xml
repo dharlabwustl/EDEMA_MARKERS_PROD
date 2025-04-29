@@ -476,7 +476,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4628" />
+    <option name="localTasksCounter" value="4629" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -514,5 +514,16 @@
     <MESSAGE value="&#10;New Commit" />
     <MESSAGE value="&#10;New Commitdgfdgf" />
     <option name="LAST_COMMIT_MESSAGE" value="&#10;New Commitdgfdgf" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/download_with_session_ID.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -35,7 +35,7 @@ class BiomarkerDB:
         )
         self.cursor = self.conn.cursor()
         self.initialized = True
-        self.create_table()
+        # self.create_table()
     def create_database_if_missing(self):
         """Create the database if it does not exist."""
         self.server_cursor.execute("SHOW DATABASES;")
@@ -83,17 +83,73 @@ class BiomarkerDB:
     #
     #     except Exception as e:
     #         print(f"Failed to delete database '{target_db}': {e}")
+    #
+    def delete_table(self, table_name):
+        """Delete a table from the current database."""
+        if not self.initialized:
+            print("Database not initialized.")
+            return
 
-    def create_table(self):
-        create_query = f"""
-        CREATE TABLE IF NOT EXISTS ALL_BIOMARKERS (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            session_id VARCHAR(255) UNIQUE
-        );
-        """
-        self.cursor.execute(create_query)
-        self.conn.commit()
-        print("Table 'ALL_BIOMARKERS' is ready.")
+        try:
+            self.cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`;")
+            self.conn.commit()
+            print(f"Table '{table_name}' deleted successfully.")
+        except Exception as e:
+            print(f"Failed to delete table '{table_name}': {e}")
+    # def create_table(self):
+    #     create_query = f"""
+    #     CREATE TABLE IF NOT EXISTS ALL_BIOMARKERS (
+    #         id INT AUTO_INCREMENT PRIMARY KEY,
+    #         session_id VARCHAR(255) UNIQUE
+    #     );
+    #     """
+    #     self.cursor.execute(create_query)
+    #     self.conn.commit()
+        # print("Table 'ALL_BIOMARKERS' is ready.")
+    def get_row_by_id_across_tables(self, id_value, include_fields=None, exclude_fields=None):
+        """Search for the ID in all tables and return row with selected/excluded fields."""
+        if not self.initialized:
+            print("Database not initialized.")
+            return None
+
+        try:
+            self.cursor.execute("SHOW TABLES;")
+            tables = [row[0] for row in self.cursor.fetchall()]
+
+            for table in tables:
+                self.cursor.execute(f"SHOW COLUMNS FROM `{table}` LIKE 'ID';")
+                if not self.cursor.fetchone():
+                    continue
+
+                self.cursor.execute(f"SHOW COLUMNS FROM `{table}`;")
+                all_columns = [row[0] for row in self.cursor.fetchall()]
+
+                if include_fields:
+                    selected_columns = [col for col in include_fields if col in all_columns]
+                elif exclude_fields:
+                    selected_columns = [col for col in all_columns if col not in exclude_fields]
+                else:
+                    selected_columns = all_columns
+
+                if not selected_columns:
+                    continue
+
+                select_clause = ", ".join([f"`{col}`" for col in selected_columns])
+                query = f"SELECT {select_clause} FROM `{table}` WHERE `ID` = %s;"
+                self.cursor.execute(query, (id_value,))
+                row = self.cursor.fetchone()
+
+                if row:
+                    print(f"Found in table '{table}': {row}")
+                    return {"table": table, "columns": selected_columns, "row": row}
+
+            print(f"ID '{id_value}' not found in any table.")
+            return None
+
+        except Exception as e:
+            print(f"Error while searching for ID across tables: {e}")
+            return None
+
 
     def insert_session(self, session_id):
         if not self.initialized:

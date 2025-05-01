@@ -1,7 +1,7 @@
 import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine
-
+import re
 # class BiomarkerDB:
 class BiomarkerDB:
     def __init__(self, host, user, password, database):
@@ -55,35 +55,25 @@ class BiomarkerDB:
         self.server_cursor.close()
         self.server_conn.close()
         return self.database in dbs
-    # def delete_database(self, db_name=None):
-    #     """Delete the specified database. If none provided, deletes the current database."""
-    #     try:
-    #         # Use provided database name or default to self.database
-    #         target_db = db_name or self.database
-    #
-    #         # Reconnect to MySQL server (not any DB)
-    #         conn = mysql.connector.connect(
-    #             host=self.host,
-    #             user=self.user,
-    #             password=self.password
-    #         )
-    #         cursor = conn.cursor()
-    #
-    #         # Execute DROP DATABASE
-    #         cursor.execute(f"DROP DATABASE IF EXISTS `{target_db}`;")
-    #         conn.commit()
-    #         print(f"Database '{target_db}' deleted successfully.")
-    #
-    #         cursor.close()
-    #         conn.close()
-    #
-    #         # If we deleted the current DB, update state
-    #         if target_db == self.database:
-    #             self.initialized = False
-    #
-    #     except Exception as e:
-    #         print(f"Failed to delete database '{target_db}': {e}")
-    #
+    def delete_database(self, db_name=None):
+        confirm = input("Are you sure you want to delete the database? Type 'yes' to confirm: ")
+        if confirm.lower() != 'yes':
+            print("Database deletion cancelled.")
+            return
+        """Delete the specified database. If none provided, deletes the current database."""
+        try:
+            target_db = db_name or self.database
+            conn = mysql.connector.connect(host=self.host, user=self.user, password=self.password)
+            cursor = conn.cursor()
+            cursor.execute(f"DROP DATABASE IF EXISTS `{target_db}`;")
+            conn.commit()
+            print(f"Database '{target_db}' deleted successfully.")
+            cursor.close()
+            conn.close()
+            if target_db == self.database:
+                self.initialized = False
+        except Exception as e:
+            print(f"Failed to delete database '{target_db}': {e}")
     def delete_table(self, table_name):
         """Delete a table from the current database."""
         if not self.initialized:
@@ -205,44 +195,34 @@ class BiomarkerDB:
         self.conn.close()
         print("Connection closed.")
 
-    def create_table_from_csv(self, csv_file_path, table_name):
-        """Create a new table from CSV file, and insert data."""
+    def create_table_from_csv(self, csv_file_path, table_name, unique_not_null_field=None):
+        """Create a new table from a CSV file and insert data using SQLAlchemy."""
         if not self.initialized:
             print("Database not initialized. Cannot create table from CSV.")
             return
 
-        # Step 1: Read CSV
-        df = pd.read_csv(csv_file_path)
-        print(f"CSV '{csv_file_path}' loaded successfully.")
+        try:
+            df = pd.read_csv(csv_file_path)
+            print(f"CSV '{csv_file_path}' loaded successfully.")
 
-        # Step 2: Build CREATE TABLE SQL dynamically
-        columns_with_types = []
-        for col in df.columns:
-            columns_with_types.append(f"`{col}` VARCHAR(255)")
-        columns_sql = ", ".join(columns_with_types)
+            # Use SQLAlchemy to create and insert table
+            conn_str = f"mysql+mysqlconnector://{self.user}:{self.password}@{self.host}/{self.database}"
+            engine = create_engine(conn_str)
+            df.to_sql(name=table_name, con=engine, if_exists='replace', index=False)
+            print(f"Table '{table_name}' created and {len(df)} rows inserted using SQLAlchemy.")
 
-        create_query = f"""
-        CREATE TABLE IF NOT EXISTS {table_name} (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            {columns_sql}
-        );
-        """
-        self.cursor.execute(create_query)
-        self.conn.commit()
-        print(f"Table '{table_name}' created based on CSV.")
+            # Apply UNIQUE NOT NULL constraint if requested
+            if unique_not_null_field and unique_not_null_field in df.columns:
+                alter_query = f"""
+                ALTER TABLE `{table_name}` 
+                MODIFY `{unique_not_null_field}` VARCHAR(255) UNIQUE NOT NULL;
+                """
+                self.cursor.execute(alter_query)
+                self.conn.commit()
+                print(f"Field '{unique_not_null_field}' set as UNIQUE NOT NULL in '{table_name}'.")
 
-        # Step 3: Insert data
-        for _, row in df.iterrows():
-            placeholders = ", ".join(["%s"] * len(df.columns))
-            insert_query = f"INSERT INTO {table_name} ({', '.join(df.columns)}) VALUES ({placeholders});"
-            self.cursor.execute(insert_query, tuple(row))
-
-        self.conn.commit()
-        print(f"Inserted {len(df)} rows into '{table_name}'.")
-
-
-    # ... existing methods ...
-
+        except Exception as e:
+            print(f"Failed to create table from CSV: {e}")
     def import_csv_with_alchemy(self, csv_file_path, table_name):
         """Automatically create table from CSV and insert using pandas + SQLAlchemy."""
         if not self.initialized:

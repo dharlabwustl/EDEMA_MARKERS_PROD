@@ -17,13 +17,14 @@ class BiomarkerDB:
             password=self.password
         )
         self.server_cursor = self.server_conn.cursor()
+        self.create_database_if_missing()
 
-        if not self.database_exists():
-            print(f"Database '{self.database}' does not exist. Aborting connection.")
-            self.initialized = False
-            return
-        else:
-            print(f"Database '{self.database}' exists. Proceeding...")
+        # if not self.database_exists():
+        #     print(f"Database '{self.database}' does not exist. Aborting connection.")
+        #     self.initialized = False
+        #     return
+        # else:
+        #     print(f"Database '{self.database}' exists. Proceeding...")
 
         # Step 2: Connect to the actual database
         self.conn = mysql.connector.connect(
@@ -35,6 +36,18 @@ class BiomarkerDB:
         self.cursor = self.conn.cursor()
         self.initialized = True
         self.create_table()
+    def create_database_if_missing(self):
+        """Create the database if it does not exist."""
+        self.server_cursor.execute("SHOW DATABASES;")
+        dbs = [row[0] for row in self.server_cursor.fetchall()]
+        if self.database not in dbs:
+            self.server_cursor.execute(f"CREATE DATABASE `{self.database}`;")
+            print(f"Database '{self.database}' created.")
+        else:
+            print(f"Database '{self.database}' already exists.")
+
+        self.server_cursor.close()
+        self.server_conn.close()
 
     def database_exists(self):
         self.server_cursor.execute("SHOW DATABASES;")
@@ -42,6 +55,34 @@ class BiomarkerDB:
         self.server_cursor.close()
         self.server_conn.close()
         return self.database in dbs
+    # def delete_database(self, db_name=None):
+    #     """Delete the specified database. If none provided, deletes the current database."""
+    #     try:
+    #         # Use provided database name or default to self.database
+    #         target_db = db_name or self.database
+    #
+    #         # Reconnect to MySQL server (not any DB)
+    #         conn = mysql.connector.connect(
+    #             host=self.host,
+    #             user=self.user,
+    #             password=self.password
+    #         )
+    #         cursor = conn.cursor()
+    #
+    #         # Execute DROP DATABASE
+    #         cursor.execute(f"DROP DATABASE IF EXISTS `{target_db}`;")
+    #         conn.commit()
+    #         print(f"Database '{target_db}' deleted successfully.")
+    #
+    #         cursor.close()
+    #         conn.close()
+    #
+    #         # If we deleted the current DB, update state
+    #         if target_db == self.database:
+    #             self.initialized = False
+    #
+    #     except Exception as e:
+    #         print(f"Failed to delete database '{target_db}': {e}")
 
     def create_table(self):
         create_query = f"""
@@ -378,6 +419,7 @@ class BiomarkerDB:
         except Exception as e:
             print("Simple merge operation failed:")
             print(e)
+            pass
 
     def upsert_single_field_by_id(self, table_name, id_value, column_name, new_value):
         """Upsert a single field into the table by ID. Insert new or update existing."""

@@ -791,6 +791,8 @@ col_index=$(awk -F, -v col="$column_name" 'NR==1 {
 first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
 database_table_name=${first_value}
 echo $database_table_name
+echo  $GOOGLE_MYSQL_DB_IP
+echo  $GOOGLE_MYSQL_DB_PASS
 
 #######################################
 ##----------------------------------------

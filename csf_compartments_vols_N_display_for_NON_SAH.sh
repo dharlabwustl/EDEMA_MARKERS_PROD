@@ -777,7 +777,20 @@ function get_scanID_from_sessionID() {
   echo ${scanID}
 }
 ##############################
+call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/THIS_SESSION_PROJECT.csv)
+outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+csv_file=${output_directory}/THIS_SESSION_PROJECT.csv
+column_name="SESSION_PROJECT"
 
+# Get the index (column number) of the desired column
+col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+}')
+
+# Get the first value under that column (excluding header)
+first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+database_table_name=${first_value}
+echo $database_table_name
 
 #######################################
 ##----------------------------------------

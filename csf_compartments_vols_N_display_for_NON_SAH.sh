@@ -776,187 +776,165 @@ function get_scanID_from_sessionID() {
   scanID=$(tail -n +2 "${niftifile_csvfilename}" | cut -d',' -f3 | head -n 1)
   echo ${scanID}
 }
+##############################
 
-#----------------------------------------
-# Step 1: Download NIFTI_LOCATION Metadata
-#----------------------------------------
-URI="/data/experiments/${sessionID}"
-resource_dir="NIFTI_LOCATION"
-output_csvfile="${sessionID}_SCANSELECTION_METADATA.csv"
-call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
-#  call_download_a_singlefile_with_URIString_arguments=("call_get_resourcefiles_metadata_saveascsv_args" ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
+
+#######################################
+##----------------------------------------
+## Step 1: Download NIFTI_LOCATION Metadata
+##----------------------------------------
+#URI="/data/experiments/${sessionID}"
+#resource_dir="NIFTI_LOCATION"
+#output_csvfile="${sessionID}_SCANSELECTION_METADATA.csv"
+#call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
+##  call_download_a_singlefile_with_URIString_arguments=("call_get_resourcefiles_metadata_saveascsv_args" ${URI} ${resource_dir} ${working_dir} ${output_csvfile})
+##  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+##----------------------------------------
+## Step 2: Download file(s) from metadata URLs
+##----------------------------------------
+#while IFS=',' read -ra array; do
+#  url=${array[6]}
+#  filename=$(basename ${url})
+#  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
 #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#----------------------------------------
-# Step 2: Download file(s) from metadata URLs
-#----------------------------------------
-while IFS=',' read -ra array; do
-  url=${array[6]}
-  filename=$(basename ${url})
-  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-done < <(tail -n +2 "${working_dir}/${output_csvfile}")
-
-#----------------------------------------
-# Step 3: Extract scanID from downloaded CSV
-#----------------------------------------
-get_scanID_from_sessionID ${sessionID} ${working_dir}
-echo ${sessionID}::${scanID}
-dir_to_save=${working_dir}
-resource_dir="MIDLINE_NPY"
-call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
-outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-################ DOWNLOAD MASKS ###############################
-## METADATA in the MASK directory
-URI=/data/experiments/${sessionID}
-
-resource_dir="NIFTI_LOCATION"
-output_csvfile=${sessionID}_SCANSELECTION_METADATA.csv
-call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
-dir_to_save=${working_dir}
-#for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
-# for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
-
-greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
-betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
-csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
-NIFTI_SCAN_URI=''
-while IFS=',' read -ra array; do
-  #xx=0
-  #
-  ##if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
-  #  echo "${array[6]}"
-  url=${array[6]}
-  NIFTI_SCAN_URI=url
-  filename=$(basename ${url})
-
-  #def call_download_a_singlefile_with_URIString(args):
-  #    url=args.stuff[1]
-  #    filename=args.stuff[2]
-  #    dir_to_save=args.stuff[3]
-  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
-  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-  while IFS=',' read -ra array1; do
-    #      echo "${array1[0]}"
-    url1=${array1[0]}
-    filename_nifti=$(basename ${url1})
-    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${working_dir_1})
-    outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-    resource_dir="MASKS"
-    output_csvfile_1=${sessionID}_MASK_METADATA.csv
-    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
-    #      filename1=$(basename ${url1})
-    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
-    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
-      #################
-
-      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
-      fi
-      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        betfile=${dir_to_save}/${filename2}
-        echo "${betfile}"
-      fi
-      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-#      if [[ ${url2} == *"_resaved_csf_unet_with_sah.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        csffile=${dir_to_save}/${filename2}
-        echo "${csffile}"
-      fi
-
-    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
-    ##################################################
-#    resource_dir="SAH_SEGM"
+#done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+#
+##----------------------------------------
+## Step 3: Extract scanID from downloaded CSV
+##----------------------------------------
+#get_scanID_from_sessionID ${sessionID} ${working_dir}
+#echo ${sessionID}::${scanID}
+#dir_to_save=${working_dir}
+#resource_dir="MIDLINE_NPY"
+#call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#
+################# DOWNLOAD MASKS ###############################
+### METADATA in the MASK directory
+#URI=/data/experiments/${sessionID}
+#
+#resource_dir="NIFTI_LOCATION"
+#output_csvfile=${sessionID}_SCANSELECTION_METADATA.csv
+#call_get_resourcefiles_metadata_saveascsv_args ${URI} ${resource_dir} ${working_dir} ${output_csvfile}
+#dir_to_save=${working_dir}
+##for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
+## for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
+#
+#greyfile="NONE" ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset.nii.gz'
+#betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_levelset_bet.nii.gz'
+#csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
+#NIFTI_SCAN_URI=''
+#while IFS=',' read -ra array; do
+#  #xx=0
+#  #
+#  ##if [ ${array[1]} == "SNIPR01_E00894" ]  ; then
+#  #  echo "${array[6]}"
+#  url=${array[6]}
+#  NIFTI_SCAN_URI=url
+#  filename=$(basename ${url})
+#
+#  #def call_download_a_singlefile_with_URIString(args):
+#  #    url=args.stuff[1]
+#  #    filename=args.stuff[2]
+#  #    dir_to_save=args.stuff[3]
+#  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${dir_to_save})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#
+#  while IFS=',' read -ra array1; do
+#    #      echo "${array1[0]}"
+#    url1=${array1[0]}
+#    filename_nifti=$(basename ${url1})
+#    call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename_nifti} ${working_dir_1})
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#
+#    resource_dir="MASKS"
 #    output_csvfile_1=${sessionID}_MASK_METADATA.csv
 #    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
 #    #      filename1=$(basename ${url1})
-    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
-    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
-    while IFS=',' read -ra array2; do
-
-      url2=${array2[6]}
-      #################
-
-      if [[ ${url2} == *".nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
-        echo "It's there!"
-        echo "${array2[6]}"
-        filename2=$(basename ${url2})
-        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-        greyfile=${dir_to_save}/${filename2}
-        echo "${greyfile}"
-      fi
-
-    done \
-      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
-    ################################################################
-for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
- for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
-#    ################################################################
-#    resource_dir="MIDLINE_NPY"
-#    output_csvfile_1=${sessionID}_MASK_METADATA.csv
-#    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+#    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
+#    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 #
 #    while IFS=',' read -ra array2; do
 #
 #      url2=${array2[6]}
 #      #################
 #
-#      if [[ ${url2} == *".npy"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#      if [[ ${url2} == *"_levelset.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        greyfile=${dir_to_save}/${filename2}
+#        echo "${greyfile}"
+#      fi
+#      if [[ ${url2} == *"_levelset_bet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        betfile=${dir_to_save}/${filename2}
+#        echo "${betfile}"
+#      fi
+#      if [[ ${url2} == *"_csf_unet.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+##      if [[ ${url2} == *"_resaved_csf_unet_with_sah.nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"sulci"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *"ventricle"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#      if [[ ${url2} == *".mat"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
 #        echo "It's there!"
 #        echo "${array2[6]}"
 #        filename2=$(basename ${url2})
 #        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#        csffile=${dir_to_save}/${filename2}
+#        echo "${csffile}"
+#      fi
+#
+#    done < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+#    ##################################################
+##    resource_dir="SAH_SEGM"
+##    output_csvfile_1=${sessionID}_MASK_METADATA.csv
+##    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+##    #      filename1=$(basename ${url1})
+#    #  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url1} ${filename1} ${dir_to_save})
+#    #  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#
+#    while IFS=',' read -ra array2; do
+#
+#      url2=${array2[6]}
+#      #################
+#
+#      if [[ ${url2} == *".nii.gz"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+#        echo "It's there!"
+#        echo "${array2[6]}"
+#        filename2=$(basename ${url2})
+#        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${dir_to_save})
 #        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 #        greyfile=${dir_to_save}/${filename2}
 #        echo "${greyfile}"
@@ -965,194 +943,218 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
 #    done \
 #      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 #    ################################################################
-#    cp ${output_directory}/*_V2.npy ${working_dir_1}/
-#    midlineonly_each_scan ${filename_nifti}
-    URI_1=${url1%/resources*}
-    for matfiles in ${output_directory}/*.mat; do
-
-      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
-      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
-    #
-    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
-#    split_masks_into_two_halves "_resaved_csf_unet_with_sah.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
-    split_masks_into_two_halves "_resaved_levelset_ventricle_cistern.nii.gz"
-
-#    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-#    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-
-    grayscale_filename=${working_dir_1}/${filename_nifti}
-
-    grayscale_filename_basename=$(basename ${grayscale_filename})
-    # grayscale_filename_basename=$(basename ${grayscale_filename%.nii*})
-    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
-    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
-    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
-    grayscale_filename_1=${working_dir_1}/${grayscale_filename_basename_noext}_resaved_levelset.${grayscale_filename_basename_ext}
-    # split_masks_into_two_halves "_resaved_levelset.nii.gz"
-    cp ${grayscale_filename} ${grayscale_filename_1}
-    latexfilename_prefix=${grayscale_filename%.nii*}
-    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
-    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
-    csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
-    ##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
-    ##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
-    ##echo outputfiles_present::${outputfiles_present}
-    ############################# create the latex file ##################
-    ##while IFS=',' read -ra array; do
-    ##  latexfilename=${array[0]}
-    ##  echo ${latexfilename}
-    call_latex_start_arguments=('call_latex_start' ${latexfilename})
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-    contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
-    # mask_color_list=args.stuff[4]
-    ## GRAY SCALE WITH BET MASK with CSF subtracted.
-    outputfile_dir=${output_directory}
-#    grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_left_half_originalRF.nii.gz
-#    grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_right_half_originalRF.nii.gz
-    grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_left_half_originalRF.nii.gz
-    grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_right_half_originalRF.nii.gz
-    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
-    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
-    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
-    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
-#    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah_left_half_originalRF.nii.gz
-#    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah_right_half_originalRF.nii.gz
-
-
-#    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_left_half_originalRF.nii.gz
-#    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_right_half_originalRF.nii.gz
-    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_left_half_originalRF.nii.gz
-    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
-    mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
-    mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
-    mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
-    mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
-    mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
-    mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
-
-    mask_filename11=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_right_half_originalRF.nii.gz
-    mask_filename12=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_left_half_originalRF.nii.gz
-    mask_filename13=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_right_half_originalRF.nii.gz
-    mask_filename14=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_left_half_originalRF.nii.gz
-    mask_filename15=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_right_half_originalRF.nii.gz
-    mask_filename16=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_left_half_originalRF.nii.gz
-    mask_filename17=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_right_half_originalRF.nii.gz
-    mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
-
-    ###################
-    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
-    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
-#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah.nii.gz
-
-    mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
-    mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
-    mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz
-    mask_filename24=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz
-    mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz
-    mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
-    mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
-    mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
-    #######################################
-    mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern.nii.gz
-    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_right_half_originalRF.nii.gz
-    mask_filename31=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_left_half_originalRF.nii.gz
-
-    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
-    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
-    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
-    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
-    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
-    ########################################
-    ####################################################
-    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
-    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
-    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
-    column_name_this="bet_mask_WITHOUT_csf"
-    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
-    call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
-    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
-    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"total_ventricle"
-    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
-    call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
-    ####################################################
-
-    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
-    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
-
-    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
-
-    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
-    ## combine all volumes data:
-    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-
-        call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
-    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
-    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
-    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-
-    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv)
-    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-####################### GET PROJECT NAME ###############################
+#for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
+# for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
+##    ################################################################
+##    resource_dir="MIDLINE_NPY"
+##    output_csvfile_1=${sessionID}_MASK_METADATA.csv
+##    call_get_resourcefiles_metadata_saveascsv_args ${url1} ${resource_dir} ${working_dir} ${output_csvfile_1}
+##
+##    while IFS=',' read -ra array2; do
+##
+##      url2=${array2[6]}
+##      #################
+##
+##      if [[ ${url2} == *".npy"* ]]; then #  || [[ ${url2} == *"_levelset_bet"* ]]  || [[ ${url2} == *"csf_unet"* ]]  ; then ##[[ $string == *"My long"* ]]; then
+##        echo "It's there!"
+##        echo "${array2[6]}"
+##        filename2=$(basename ${url2})
+##        call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url2} ${filename2} ${output_directory})
+##        outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+##        greyfile=${dir_to_save}/${filename2}
+##        echo "${greyfile}"
+##      fi
+##
+##    done \
+##      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
+##    ################################################################
+##    cp ${output_directory}/*_V2.npy ${working_dir_1}/
+##    midlineonly_each_scan ${filename_nifti}
+#    URI_1=${url1%/resources*}
+#    for matfiles in ${output_directory}/*.mat; do
 #
-csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
-column_name="SESSION_PROJECT"
-
-# Get the index (column number) of the desired column
-col_index=$(awk -F, -v col="$column_name" 'NR==1 {
-  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-}')
-
-# Get the first value under that column (excluding header)
-first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
-database_table_name=${first_value}
-echo $database_table_name
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${matfiles} "MASKS")
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
+#    #
+#    split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+##    split_masks_into_two_halves "_resaved_csf_unet_with_sah.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_sulci_below_ventricle.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_ventricle_total.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
+#    split_masks_into_two_halves "_resaved_levelset_ventricle_cistern.nii.gz"
+#
+##    split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+##    split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+##    split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+##    split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+#
+#    grayscale_filename=${working_dir_1}/${filename_nifti}
+#
+#    grayscale_filename_basename=$(basename ${grayscale_filename})
+#    # grayscale_filename_basename=$(basename ${grayscale_filename%.nii*})
+#    grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
+#    grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
+#    call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
+#    grayscale_filename_1=${working_dir_1}/${grayscale_filename_basename_noext}_resaved_levelset.${grayscale_filename_basename_ext}
+#    # split_masks_into_two_halves "_resaved_levelset.nii.gz"
+#    cp ${grayscale_filename} ${grayscale_filename_1}
+#    latexfilename_prefix=${grayscale_filename%.nii*}
+#    #csv_file_tostore_latexfilename=${latexfilename_prefix}_latex.csv
+#    latexfilename=${latexfilename_prefix}_${outputfiles_suffix}.tex
+#    csvfilename=${latexfilename_prefix}_${outputfiles_suffix}.csv
+#    ##call_create_a_latex_filename_arguments=('call_create_a_latex_filename' ${latexfilename_prefix} ${csv_file_tostore_latexfilename})
+#    ##outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_create_a_latex_filename_arguments[@]}")
+#    ##echo outputfiles_present::${outputfiles_present}
+#    ############################# create the latex file ##################
+#    ##while IFS=',' read -ra array; do
+#    ##  latexfilename=${array[0]}
+#    ##  echo ${latexfilename}
+#    call_latex_start_arguments=('call_latex_start' ${latexfilename})
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
+#    contrast_limits=0_200 ##(args.stuff[2].split('_')[0],args.stuff[2].split('_')[1])
+#    # mask_color_list=args.stuff[4]
+#    ## GRAY SCALE WITH BET MASK with CSF subtracted.
+#    outputfile_dir=${output_directory}
+##    grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_left_half_originalRF.nii.gz
+##    grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}__resaved_levelset_right_half_originalRF.nii.gz
+#    grayscale_left_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_left_half_originalRF.nii.gz
+#    grayscale_right_half=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_right_half_originalRF.nii.gz
+#    mask_filename1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_left_half_originalRF.nii.gz
+#    mask_filename2=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet_right_half_originalRF.nii.gz
+#    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_left_half_originalRF.nii.gz
+#    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_right_half_originalRF.nii.gz
+##    mask_filename3=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah_left_half_originalRF.nii.gz
+##    mask_filename4=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah_right_half_originalRF.nii.gz
+#
+#
+##    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_left_half_originalRF.nii.gz
+##    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset__ventricle_total_right_half_originalRF.nii.gz
+#    mask_filename3_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_left_half_originalRF.nii.gz
+#    mask_filename4_1=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total_right_half_originalRF.nii.gz
+#    mask_filename5=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_left_half_originalRF.nii.gz
+#    mask_filename6=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle_right_half_originalRF.nii.gz
+#    mask_filename7=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_left_half_originalRF.nii.gz
+#    mask_filename8=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle_right_half_originalRF.nii.gz
+#    mask_filename9=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_left_half_originalRF.nii.gz
+#    mask_filename10=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle_right_half_originalRF.nii.gz
+#
+#    mask_filename11=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_right_half_originalRF.nii.gz
+#    mask_filename12=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal_left_half_originalRF.nii.gz
+#    mask_filename13=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_right_half_originalRF.nii.gz
+#    mask_filename14=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri_left_half_originalRF.nii.gz
+#    mask_filename15=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_right_half_originalRF.nii.gz
+#    mask_filename16=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern_left_half_originalRF.nii.gz
+#    mask_filename17=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_right_half_originalRF.nii.gz
+#    mask_filename18=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total_left_half_originalRF.nii.gz
+#
+#    ###################
+#    mask_filename19=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_bet.nii.gz
+#    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet.nii.gz
+##    mask_filename20=${working_dir}/${grayscale_filename_basename_noext}_resaved_csf_unet_with_sah.nii.gz
+#
+#    mask_filename21=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_above_ventricle.nii.gz
+#    mask_filename22=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_at_ventricle.nii.gz
+#    mask_filename23=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_sulci_below_ventricle.nii.gz
+#    mask_filename24=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_total.nii.gz
+#    mask_filename25=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_sulcal.nii.gz
+#    mask_filename26=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_ventri.nii.gz
+#    mask_filename27=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_cistern.nii.gz
+#    mask_filename28=${working_dir}/${grayscale_filename_basename_noext}_resaved_4DL_seg_total.nii.gz
+#    #######################################
+#    mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern.nii.gz
+#    mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_right_half_originalRF.nii.gz
+#    mask_filename31=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_left_half_originalRF.nii.gz
+#
+#    calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
+#    #calculate_left_right_ratio  ${mask_filename1} ${mask_filename2}  ${grayscale_filename_basename_noext}
+#    ##calculate_left_right_ratio  "_resaved_levelset_sulci_total.nii.gz" "CSF_SULCI_TOTAL"
+#    ##calculate_left_right_ratio  "_resaved_levelset_ventricle_total.nii.gz" "CSF_VENTRICLE_TOTAL"
+#    ##calculate_left_right_ratio  "_resaved_levelset_bet.nii.gz" "BET_TOTAL"
+#    ########################################
+#    ####################################################
+#    mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
+#    bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
+#    #    call_calculate_volume_mask_from_yasheng ${bet_mask_WITHOUT_csf} ${grayscale_filename}
+#    column_name_this="bet_mask_WITHOUT_csf"
+#    filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
+#    call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+#    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
+#    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"total_ventricle"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
+#    ####################################################
+#
+#    #split_masks_into_two_halves "_resaved_4DL_seg_sulcal.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_ventri.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_cistern.nii.gz"
+#    #split_masks_into_two_halves "_resaved_4DL_seg_total.nii.gz"
+#
+#    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+#
+#    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
+#    ## combine all volumes data:
+#    call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
+#    outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+#
+#        call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
+#        outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
+#    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
+#    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
+#    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
+#    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#
+#    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
+#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+#    #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv)
+#    #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+######################## GET PROJECT NAME ###############################
+##
+#csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
+#column_name="SESSION_PROJECT"
+#
+## Get the index (column number) of the desired column
+#col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+#  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+#}')
+#
+## Get the first value under that column (excluding header)
+#first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+#database_table_name=${first_value}
 ######################################################
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
 #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
@@ -1394,12 +1396,12 @@ echo $database_table_name
 #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
 #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #    done
-
-  done \
-    < <(tail -n +2 "${dir_to_save}/${filename}")
-
-done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 #
-##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
-##done
-##################################################################################################################################
+#  done \
+#    < <(tail -n +2 "${dir_to_save}/${filename}")
+#
+#done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+##
+###done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
+###done
+###################################################################################################################################

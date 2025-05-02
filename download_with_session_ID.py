@@ -12,6 +12,8 @@ import numpy as np
 import pathlib
 import argparse,xmltodict
 from xnatSession import XnatSession
+
+from biomarkerdbclass import  BiomarkerDB
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
@@ -24,6 +26,70 @@ xnatSession.renew_httpsession()
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
+def call_fill_google_mysql_db_with_single_value(args):
+    db_table_name=args.stuff[1]
+    session_id=args.stuff[2]
+    column_name=args.stuff[3]
+    column_value=args.stuff[4]
+    try:
+        fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,column_value)
+    except:
+        pass
+
+def call_fill_google_mysql_db_from_csv(args):
+    db_table_name=args.stuff[1]
+    csv_file_path=args.stuff[2]
+    id_column=args.stuff[3]
+    # column_value=args.stuff[4]
+    try:
+        fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column)
+    except:
+        pass
+
+def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="session_id"):
+    from biomarker_db_module import BiomarkerDB  # Replace with actual module path
+
+    try:
+        df = pd.read_csv(csv_file_path)
+    except Exception as e:
+        print(f"Failed to load CSV: {e}")
+        return
+
+    db = BiomarkerDB(
+        host=os.environ["GOOGLE_MYSQL_DB_IP"],
+        user="root",
+        password=os.environ["GOOGLE_MYSQL_DB_PASS"],
+        database="BIOMARKERS"
+    )
+
+    if not db.initialized:
+        print("Database initialization failed.")
+        return
+
+    for index, row in df.iterrows():
+        session_id = row[id_column]
+        for column_name in df.columns:
+            if column_name == id_column:
+                continue  # Skip ID column
+            column_value = row[column_name]
+            try:
+                db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
+            except Exception as e:
+                print(f"Failed to insert {column_name}={column_value} for session_id={session_id}: {e}")
+
+    db.close()
+
+
+def fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,column_value):
+    db = BiomarkerDB(
+        host=os.environ["GOOGLE_MYSQL_DB_IP"],             # Replace with your instance IP
+        user="root",                     # Replace if using a different user
+        password=os.environ["GOOGLE_MYSQL_DB_PASS"] , ##"dharlabwustl1!",   # Replace with your actual password
+        database="BIOMARKERS"
+    )
+    if db.initialized:
+        db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
+        db.close()
 def get_scan_id_given_session_id_N_niftiname(session_id,niftiname):
     this_session_metadata=get_metadata_session(session_id)
     this_session_metadata_df = pd.read_json(json.dumps(this_session_metadata))
@@ -1640,6 +1706,29 @@ def get_session_label(sessionId,outputfile="NONE.csv"):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return returnvalue
+def get_session_project(sessionId,outputfile="NONE.csv"):
+    returnvalue=''
+    try:
+        #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+        #xnatSession.renew_httpsession()
+        # sessionId='SNIPR02_E02933'
+
+        url = ("/data/experiments/%s/?format=json" %    (sessionId)) #scans/
+        response = xnatSession.httpsess.get(xnatSession.host + url)
+        #xnatSession.close_httpsession())
+        session_label=response.json()['items'][0]['data_fields']['project']
+        df_session=pd.DataFrame([session_label])
+        df_session.columns=['SESSION_PROJECT']
+        df_session.to_csv(outputfile,index=False)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'get_session_project')
+        subprocess.call(command,shell=True)
+        returnvalue=session_label
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
+
+
 def call_get_session_label(args):
     returnvalue=0
     try:
@@ -1653,6 +1742,20 @@ def call_get_session_label(args):
         command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
     return returnvalue
+def call_get_session_project(args):
+    returnvalue=0
+    try:
+        sessionId=args.stuff[1]
+        outputfile=args.stuff[2]
+        get_session_project(sessionId,outputfile=outputfile)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_get_session_project')
+        subprocess.call(command,shell=True)
+        returnvalue=1
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    return returnvalue
+
 
 def call_get_metadata_session(args):
     returnvalue=0
@@ -2598,7 +2701,13 @@ def main():
         return_value=call_delete_file_with_ext(args)
     if name_of_the_function=="call_dowload_a_folder_as_zip":
         return_value=call_dowload_a_folder_as_zip(args)
-    print(return_value)
+    if name_of_the_function=="call_fill_google_mysql_db_with_single_value":
+        return_value=call_fill_google_mysql_db_with_single_value(args)
+    if name_of_the_function=="call_fill_google_mysql_db_from_csv":
+        return_value=call_fill_google_mysql_db_from_csv(args) #
+    if name_of_the_function=="call_get_session_project":
+        return_value=call_get_session_project(args)
+    print(return_value) #
     if "call" not in name_of_the_function:
         globals()[args.stuff[0]](args)
     xnatSession.close_httpsession()

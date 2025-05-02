@@ -12,7 +12,7 @@ import numpy as np
 import pathlib
 import argparse,xmltodict
 from xnatSession import XnatSession
-
+# from biomarker_db_module import BiomarkerDB
 from biomarkerdbclass import  BiomarkerDB
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
@@ -51,7 +51,7 @@ def call_fill_google_mysql_db_from_csv(args):
         pass
 
 def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="session_id"):
-    from biomarker_db_module import BiomarkerDB  # Replace with actual module path
+      # Replace with actual module path
 
     try:
         df = pd.read_csv(csv_file_path)

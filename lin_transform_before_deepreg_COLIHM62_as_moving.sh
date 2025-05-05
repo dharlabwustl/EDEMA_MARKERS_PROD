@@ -409,8 +409,33 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
 
+call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv)
+outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+####################### GET PROJECT NAME ###############################
+#
+csv_file=${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv
+column_name="SESSION_PROJECT"
+
+# Get the index (column number) of the desired column
+col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+}')
+
+# Get the first value under that column (excluding header)
+first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+database_table_name=${first_value}
 
 
+#def call_pipeline_step_completed(args):
+#    db_table_name=args.stuff[1]
+#    session_id=args.stuff[2]
+#    scan_id=args.stuff[3]
+#    column_name=args.stuff[4]
+#    column_value=args.stuff[5]
+#    resource_dir=args.stuff[6]
+#    list_of_file_ext_tobe_checked=args.stuff[7:]
+function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGISTRATION_WITH_COLIHM62_COMPLETE" 0 $(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 #registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else

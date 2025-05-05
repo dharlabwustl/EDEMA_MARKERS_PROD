@@ -114,7 +114,7 @@ def pipeline_step_completed(db_table_name,session_id,scan_id,column_name,column_
         all_found = int(all(ext_found))
         if all_found==1:
         # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
-            fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,column_value)
+            fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,all_found)
         command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
         subprocess.call(command,shell=True)
     except:

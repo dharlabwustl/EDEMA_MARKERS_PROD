@@ -1167,7 +1167,8 @@ column_name="SESSION_PROJECT"
 # Get the index (column number) of the desired column
 col_index=$(awk -F, -v col="$column_name" 'NR==1 {
   for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-}')
+}' "$csv_file")
+
 
 # Get the first value under that column (excluding header)
 first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")

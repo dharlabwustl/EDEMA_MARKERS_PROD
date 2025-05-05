@@ -91,9 +91,55 @@ def fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name
         password=os.environ["GOOGLE_MYSQL_DB_PASS"] , ##"dharlabwustl1!",   # Replace with your actual password
         database="BIOMARKERS"
     )
-    if db.initialized:
-        db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
-        db.close()
+    try:
+        if db.initialized:
+            db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
+            db.close()
+    except:
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+        pass
+
+def pipeline_step_completed(db_table_name,session_id,scan_id,column_name,column_value,resource_dir,list_of_file_ext_tobe_checked):
+    try:
+        # list_of_file_ext_tobe_checked_len=len(list_of_file_ext_tobe_checked)
+        count=0
+        URI=f'/data/experiments/{session_id}/scans/{scan_id}'
+        list_of_files_in_resource_dir=get_resourcefiles_metadata(URI,resource_dir)
+        df_scan_resource = pd.read_json(json.dumps(list_of_files_in_resource_dir)) #pd.read_json(json.dumps(metadata_masks))
+        # Check if each extension exists in **any** row in the url column
+        ext_found = [any(df_scan_resource['URI'].str.contains(ext, case=False)) for ext in list_of_file_ext_tobe_checked]
+
+        # Final decision: are all extensions found at least once in any row?
+        all_found = int(all(ext_found))
+        if all_found==1:
+        # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
+            fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,column_value)
+        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+    except:
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+        pass
+    return 1
+def call_pipeline_step_completed(args):
+    db_table_name=args.stuff[1]
+    session_id=args.stuff[2]
+    scan_id=args.stuff[3]
+    column_name=args.stuff[4]
+    column_value=args.stuff[5]
+    resource_dir=args.stuff[6]
+    list_of_file_ext_tobe_checked=args.stuff[7:]
+    try:
+        pipeline_step_completed(db_table_name,session_id,scan_id,column_name,column_value,resource_dir,list_of_file_ext_tobe_checked)
+        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+    except:
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        subprocess.call(command,shell=True)
+        pass
+    return 1
+
 def get_scan_id_given_session_id_N_niftiname(session_id,niftiname):
     this_session_metadata=get_metadata_session(session_id)
     this_session_metadata_df = pd.read_json(json.dumps(this_session_metadata))
@@ -2711,6 +2757,8 @@ def main():
         return_value=call_fill_google_mysql_db_from_csv(args) #
     if name_of_the_function=="call_get_session_project":
         return_value=call_get_session_project(args)
+    if name_of_the_function=="call_pipeline_step_completed":
+        return_value=call_pipeline_step_completed(args)
     print(return_value) #
     if "call" not in name_of_the_function:
         globals()[args.stuff[0]](args)

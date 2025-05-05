@@ -425,7 +425,7 @@ col_index=$(awk -F, -v col="$column_name" 'NR==1 {
 # Get the first value under that column (excluding header)
 first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
 database_table_name=${first_value}
-
+echo "database_table_name::${database_table_name}"
 
 #def call_pipeline_step_completed(args):
 #    db_table_name=args.stuff[1]

@@ -435,7 +435,7 @@ echo "database_table_name::${database_table_name}"
 #    column_value=args.stuff[5]
 #    resource_dir=args.stuff[6]
 #    list_of_file_ext_tobe_checked=args.stuff[7:]
-function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGISTRATION_WITH_COLIHM62_COMPLETE" 0 ${snipr_output_foldername} $(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
+function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_WITH_COLIHM62_COMPLETE" 0 ${snipr_output_foldername} $(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename

@@ -457,8 +457,39 @@ class BiomarkerDB:
             print(e)
             pass
 
-    def upsert_single_field_by_id(self, table_name, id_value, column_name, new_value):
-        """Upsert a single field into the table by ID. Insert new or update existing."""
+    def upsert_single_field_by_id(self, table_name, id_value, column_name, new_value, value_type="VARCHAR(255)"):
+        """
+        Insert or update a single column value for a given row identified by its ID.
+
+        This method checks whether the specified column exists in the given table. If the column
+        does not exist, it adds the column with the specified SQL data type (default is VARCHAR(255)).
+        It then performs an upsert: inserts the row if it does not exist, or updates the column value
+        if the row with the given ID already exists.
+
+        Parameters
+        ----------
+        table_name : str
+            Name of the target database table.
+
+        id_value : str or int
+            The unique identifier (primary key) value for the row.
+
+        column_name : str
+            The name of the column to insert or update.
+
+        new_value : any
+            The value to set for the specified column in the identified row.
+
+        value_type : str, optional (default = "VARCHAR(255)")
+            The SQL data type to use if the column does not exist and needs to be added.
+            Examples: "VARCHAR(255)", "INT", "FLOAT", "DATE", etc.
+
+        Returns
+        -------
+        None
+            This method commits changes to the database and prints status messages
+            for success or failure.
+        """
         if not self.initialized:
             print("Database not initialized. Cannot upsert single field.")
             return
@@ -468,10 +499,10 @@ class BiomarkerDB:
             self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             column_exists = self.cursor.fetchone()
             if not column_exists:
-                # If column doesn't exist, add it
-                self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
+                # If column doesn't exist, add it with specified type
+                self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` {value_type};")
                 self.conn.commit()
-                print(f"Added new column '{column_name}' to '{table_name}'.")
+                print(f"🆕 Added new column '{column_name}' with type {value_type} to '{table_name}'.")
 
             # Step 2: Prepare UPSERT query
             insert_query = f"""
@@ -487,9 +518,43 @@ class BiomarkerDB:
             print(f"✅ Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
 
         except Exception as e:
-            print("Upsert single field operation failed:")
+            print("❌ Upsert single field operation failed:")
             print(e)
 
+
+    # def upsert_single_field_by_id(self, table_name, id_value, column_name, new_value):
+    #     """Upsert a single field into the table by ID. Insert new or update existing."""
+    #     if not self.initialized:
+    #         print("Database not initialized. Cannot upsert single field.")
+    #         return
+    #
+    #     try:
+    #         # Step 1: Check if the column exists
+    #         self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
+    #         column_exists = self.cursor.fetchone()
+    #         if not column_exists:
+    #             # If column doesn't exist, add it
+    #             self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
+    #             self.conn.commit()
+    #             print(f"Added new column '{column_name}' to '{table_name}'.")
+    #
+    #         # Step 2: Prepare UPSERT query
+    #         insert_query = f"""
+    #         INSERT INTO `{table_name}` (`ID`, `{column_name}`)
+    #         VALUES (%s, %s)
+    #         ON DUPLICATE KEY UPDATE `{column_name}` = VALUES(`{column_name}`);
+    #         """
+    #
+    #         # Step 3: Execute
+    #         self.cursor.execute(insert_query, (id_value, new_value))
+    #         self.conn.commit()
+    #
+    #         print(f"✅ Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
+    #
+    #     except Exception as e:
+    #         print("Upsert single field operation failed:")
+    #         print(e)
+    #
 # ---------------------- MAIN USAGE ---------------------- #
 #
 # if __name__ == "__main__":

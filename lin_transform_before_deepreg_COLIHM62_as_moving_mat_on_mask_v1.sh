@@ -481,7 +481,7 @@ resource_dirname='PREPROCESS_SEGM_3'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 resource_dirname='EDEMA_BIOMARKER'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-
+cp ${output_dirname}/*.mat ${output_directory}
 ###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
 ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
 ## and the mat files especially the Inv.mat file let us keep the sensible names from here:
@@ -574,8 +574,9 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 mkdir ${output_directory}/MIDLINENPYFILES
 cp ${output_directory}/*.npy ${output_directory}/MIDLINENPYFILES/
 zip -r ${output_directory}/MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
+resource_dirname="MIDLINE_NPY"
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${output_directory}/MIDLINENPYFILES.zip ) ${snipr_output_foldername} $(basename  ${output_directory}/MIDLINENPYFILES.zip)
-#    resource_dirname="MIDLINE_NPY"
+
 #    for npyfilename in ${working_dir_1}/*.npy; do
 #      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
 #

@@ -440,9 +440,9 @@ scanID=${array[2]}
 echo sessionId::${sessionID}
 echo scanId::${scanID}
 snipr_output_foldername="PREPROCESS_SEGM_3"
-#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 snipr_output_foldername="PREPROCESS_SEGM_3"
 ### check if the file exists:
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
@@ -542,7 +542,6 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-template_csf_mask_binary_output_filename=${infarct_mask_binary_output_filename}
 #######################################################################################################
 #################################################################################################
 moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
@@ -550,7 +549,6 @@ mask_binary_output_dir='/input'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-midline_mask_binary_output_filename=${mask_binary_output_filename}
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
@@ -569,82 +567,58 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
 #/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
 midlineonly_each_scan ${session_ct}
-#snipr_output_foldername="MIDLINE_NPY"
-#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-##    resource_dirname="MIDLINE_NPY"
-#    for npyfilename in ${working_dir_1}/*.npy; do
-#      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-#
-##      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-##      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    done
-#
-#        for npyfilename in ${output_directory}/*.npy; do
-#          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-#
-#    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-#    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#        done
-##################################################################################################
-#moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input'
+snipr_output_foldername="MIDLINE_NPY"
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#    resource_dirname="MIDLINE_NPY"
+    for npyfilename in ${working_dir_1}/*.npy; do
+      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
+
+        for npyfilename in ${output_directory}/*.npy; do
+          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+
+    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+        done
+#################################################################################################
+moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
+mask_binary_output_dir='/input'
+snipr_output_foldername="PREPROCESS_SEGM_3"
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
+#######################################################################################################
+##########################################
 #snipr_output_foldername="PREPROCESS_SEGM_3"
-#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
+##snipr_output_foldername='PREPROCESS_SEGM'
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
 #echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-#
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-#threshold=0
-#function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+##outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
 #echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+##outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_mat_file}) ${snipr_output_foldername} $(basename  ${registration_mat_file})
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_nii_file}) ${snipr_output_foldername} $(basename  ${registration_nii_file})
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${mask_binary_output_dir}/${mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})
 #uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #
-#
-##################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
-#
-#call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv)
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-#csv_file=${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv
-#column_name="SESSION_PROJECT"
-## Get the index (column number) of the desired column
-#col_index=$(awk -F, -v col="$column_name" 'NR==1 {
-#  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-#}' "$csv_file")
-## Get the first value under that column (excluding header)
-#first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
-#database_table_name=${first_value}
-#echo "database_table_name::${database_table_name}"
-#function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_OF_MASKS_WITH_COLIHM62_COMPLETE" 0 ${snipr_output_foldername}  $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${template_csf_mask_binary_output_filename}) $(basename  ${midline_mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
-#echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-##registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
-########################################################################################################
-#
-#
-#
-########################################################################################################
-###########################################
-##snipr_output_foldername="PREPROCESS_SEGM_3"
-###snipr_output_foldername='PREPROCESS_SEGM'
-##function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
-##echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-###outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-##function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
-##echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-###outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-##uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_mat_file}) ${snipr_output_foldername} $(basename  ${registration_mat_file})
-##uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_nii_file}) ${snipr_output_foldername} $(basename  ${registration_nii_file})
-##uploadsinglefile ${sessionID} ${scanID} $(dirname ${mask_binary_output_dir}/${mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})
-##uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-##
-##uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
-#
-##registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
+
+#registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else
 echo " FILES ARE PRESENT "

@@ -107,7 +107,7 @@ run_IML() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
+  mat_file_num=$(ls ${working_dir}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
@@ -469,107 +469,107 @@ nifti_file_without_ext=${nifti_file_without_ext%.nii*}
 
 #####################################################################################
 resource_dirname='MASKS'
-output_dirname=${working_dir}
+#output_dirname=${working_dir}
 while IFS=',' read -ra array; do
 scanID=${array[2]}
 echo sessionId::${sessionID}
 echo scanId::${scanID}
 done < <(tail -n +2 "${niftifile_csvfilename}")
 echo working_dir::${working_dir}
-echo output_dirname::${output_dirname}
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+#echo output_dirname::${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
 resource_dirname='PREPROCESS_SEGM_3'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
 resource_dirname='EDEMA_BIOMARKER'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
 
-####################### BY NOW WE HAVE EVERYTHIN WE NEED #############
-### RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
-### and the mat files especially the Inv.mat file let us keep the sensible names from here:
-#session_ct=$( ls ${working_dir_1}/*'.nii' )
-#session_ct_bname_noext=$(basename ${session_ct})
-#session_ct_bname_noext=${session_ct_bname_noext%.nii*}
-##fixed_image_filename='/software/COLIHM620406202215542.nii.gz'  ####${template_prefix}.nii.gz'
-##infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
-##      template_masks_dir='/software/mritemplate/NONLINREGTOCT/' 	COLI_HM62_04062022_1554_2_resaved_csf_unet.nii.gz
-#bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
-##csf_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_csf_unet.nii.gz)
-##echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-##python3 -c "
-##
-##import sys ;
-##sys.path.append('/software/') ;
-##from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${infarct_mask_from_yasheng}" "${output_directory}"
-#
+###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
+## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
+## and the mat files especially the Inv.mat file let us keep the sensible names from here:
+session_ct=$( ls ${working_dir_1}/*'.nii' )
+session_ct_bname_noext=$(basename ${session_ct})
+session_ct_bname_noext=${session_ct_bname_noext%.nii*}
+#fixed_image_filename='/software/COLIHM620406202215542.nii.gz'  ####${template_prefix}.nii.gz'
+#infarct_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_infarct_auto_removesmall.nii.gz)
+#      template_masks_dir='/software/mritemplate/NONLINREGTOCT/' 	COLI_HM62_04062022_1554_2_resaved_csf_unet.nii.gz
+bet_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_levelset_bet.nii.gz)
+#csf_mask_from_yasheng=$(ls ${working_dir}/${nifti_file_without_ext}*_resaved_csf_unet.nii.gz)
+#echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
 #python3 -c "
 #
 #import sys ;
 #sys.path.append('/software/') ;
-#from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${bet_mask_from_yasheng}" "${output_directory}"
+#from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${infarct_mask_from_yasheng}" "${output_directory}"
+
+python3 -c "
+
+import sys ;
+sys.path.append('/software/') ;
+from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${bet_mask_from_yasheng}" "${output_directory}"
+
+#python3 -c "
 #
-##python3 -c "
-##
-##import sys ;
-##sys.path.append('/software/') ;
-##from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${csf_mask_from_yasheng}" "${output_directory}"
-#
-#
-## now let us make bet gray for session ct:
-#/software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
-#
-#
-#moving_image_filename=/software/COLIHM620406202215542.nii.gz ###COLIHM620406202215542.nii.gz ##'  ####${template_prefix}.nii.gz ##${session_ct_bet_gray}
-###'COLIHM620406202215542'
-#fixed_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
-#template_prefix=$(basename ${fixed_image_filename%.nii*})
-##/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
-##session_ct_bet_gray_lin_reg_output=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
-##movingimage_gray_registered=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
-#
-#moving_image_filename=$(basename ${moving_image_filename})
-#registration_mat_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.mat
-#
-#registration_nii_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
-##################################################################################################
-#moving_image_filename=/software/VENTRICLE_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input'
-#snipr_output_foldername="PREPROCESS_SEGM_3"
-#
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-#threshold=0
-#function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-#template_csf_mask_binary_output_filename=${infarct_mask_binary_output_filename}
+#import sys ;
+#sys.path.append('/software/') ;
+#from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${session_ct}" "${csf_mask_from_yasheng}" "${output_directory}"
+
+
+# now let us make bet gray for session ct:
+/software/bet_withlevelset.sh ${session_ct} ${output_directory}/$(basename ${bet_mask_from_yasheng})
+
+
+moving_image_filename=/software/COLIHM620406202215542.nii.gz ###COLIHM620406202215542.nii.gz ##'  ####${template_prefix}.nii.gz ##${session_ct_bet_gray}
+##'COLIHM620406202215542'
+fixed_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.gz
+template_prefix=$(basename ${fixed_image_filename%.nii*})
+#/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
+#session_ct_bet_gray_lin_reg_output=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
+#movingimage_gray_registered=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
+
+moving_image_filename=$(basename ${moving_image_filename})
+registration_mat_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.mat
+
+registration_nii_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
+#################################################################################################
+moving_image_filename=/software/VENTRICLE_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
+mask_binary_output_dir='/input'
+snipr_output_foldername="PREPROCESS_SEGM_3"
+
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
+template_csf_mask_binary_output_filename=${infarct_mask_binary_output_filename}
+#######################################################################################################
+#################################################################################################
+moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
+mask_binary_output_dir='/input'
+snipr_output_foldername="PREPROCESS_SEGM_3"
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
+midline_mask_binary_output_filename=${mask_binary_output_filename}
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 ########################################################################################################
-##################################################################################################
-#moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input'
-#snipr_output_foldername="PREPROCESS_SEGM_3"
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-#midline_mask_binary_output_filename=${mask_binary_output_filename}
-#threshold=0
-#function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-#########################################################################################################
-##
-### RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
-##GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
-###output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
-###OUTPUT_DIRECTORY=${output_directory}
-###TRANSFORMED_MASK_DIRECTORY=$(dirname ${infarct_mask_binary_output_filename})  ##${2} #${output_directory}
-###basename_grayfilenifti=$(basename -- $GRAYSCALENIFTI_FILE)
-##transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
-##cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
-##/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
-#midlineonly_each_scan ${session_ct}
+#
+## RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
+#GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
+##output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
+##OUTPUT_DIRECTORY=${output_directory}
+##TRANSFORMED_MASK_DIRECTORY=$(dirname ${infarct_mask_binary_output_filename})  ##${2} #${output_directory}
+##basename_grayfilenifti=$(basename -- $GRAYSCALENIFTI_FILE)
+#transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
+#cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
+#/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
+midlineonly_each_scan ${session_ct}
 #snipr_output_foldername="MIDLINE_NPY"
 #function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
 #echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

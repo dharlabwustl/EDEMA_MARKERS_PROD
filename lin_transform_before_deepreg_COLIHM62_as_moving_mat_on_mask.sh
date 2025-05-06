@@ -606,6 +606,8 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 
 
 #################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
+call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv)
+outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
 csv_file=${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv
 column_name="SESSION_PROJECT"
 # Get the index (column number) of the desired column

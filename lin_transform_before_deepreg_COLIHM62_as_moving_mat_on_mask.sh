@@ -107,7 +107,7 @@ run_IML() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  mat_file_num=$(ls ${working_dir}/*.mat | wc -l)
+  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
@@ -478,7 +478,7 @@ echo working_dir::${working_dir}
 echo output_dirname::${output_dirname}
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 resource_dirname='PREPROCESS_SEGM_3'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_directory}
 resource_dirname='EDEMA_BIOMARKER'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 

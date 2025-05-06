@@ -39,7 +39,7 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
-  /software/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_scct_as_moving_mat_on_mask_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then

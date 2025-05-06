@@ -108,7 +108,7 @@ run_IML() {
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
-  if [[ ${mat_file_num} -gt 1 ]]; then
+  if [[ ${mat_file_num} -gt 0 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
     /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
@@ -455,6 +455,7 @@ echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
 echo " I AM THE ONE"
 fi
+outputfiles_present=0
 if  [[ "${outputfiles_present: -1}" -eq 0 ]]; then ## [[ 1 -gt 0 ]]  ; then #
 
 echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"

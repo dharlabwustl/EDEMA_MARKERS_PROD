@@ -557,15 +557,15 @@ infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_outp
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
 
-# RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
-GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
-#output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
-#OUTPUT_DIRECTORY=${output_directory}
-#TRANSFORMED_MASK_DIRECTORY=$(dirname ${infarct_mask_binary_output_filename})  ##${2} #${output_directory}
-#basename_grayfilenifti=$(basename -- $GRAYSCALENIFTI_FILE)
-transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
-cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
-/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
+## RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
+#GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
+##output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
+##OUTPUT_DIRECTORY=${output_directory}
+##TRANSFORMED_MASK_DIRECTORY=$(dirname ${infarct_mask_binary_output_filename})  ##${2} #${output_directory}
+##basename_grayfilenifti=$(basename -- $GRAYSCALENIFTI_FILE)
+#transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
+#cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
+#/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
 midlineonly_each_scan ${session_ct}
 #snipr_output_foldername="MIDLINE_NPY"
 #function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )

@@ -107,7 +107,7 @@ run_IML() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  mat_file_num=$(ls ${working_dir}/*.mat | wc -l)
+  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
@@ -455,7 +455,6 @@ echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
 if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
 echo " I AM THE ONE"
 fi
-outputfiles_present=0
 if  [[ "${outputfiles_present: -1}" -eq 0 ]]; then ## [[ 1 -gt 0 ]]  ; then #
 
 echo "outputfiles_present:: "${outputfiles_present: -1}"::outputfiles_present"
@@ -469,19 +468,19 @@ nifti_file_without_ext=${nifti_file_without_ext%.nii*}
 
 #####################################################################################
 resource_dirname='MASKS'
-#output_dirname=${working_dir}
+output_dirname=${working_dir}
 while IFS=',' read -ra array; do
 scanID=${array[2]}
 echo sessionId::${sessionID}
 echo scanId::${scanID}
 done < <(tail -n +2 "${niftifile_csvfilename}")
 echo working_dir::${working_dir}
-#echo output_dirname::${output_dirname}
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
+echo output_dirname::${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 resource_dirname='PREPROCESS_SEGM_3'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 resource_dirname='EDEMA_BIOMARKER'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${working_dir}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 
 ###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
 ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
@@ -558,8 +557,8 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-########################################################################################################
-#
+#######################################################################################################
+
 ## RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
 #GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/
 ##output_directory=$(dirname ${GRAYSCALENIFTI_FILE})
@@ -574,7 +573,7 @@ midlineonly_each_scan ${session_ct}
 #function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
 #echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-#    resource_dirname="MIDLINE_NPY"
+##    resource_dirname="MIDLINE_NPY"
 #    for npyfilename in ${working_dir_1}/*.npy; do
 #      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
 #
@@ -582,12 +581,12 @@ midlineonly_each_scan ${session_ct}
 ##      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
 #    done
 #
-##        for npyfilename in ${output_directory}/*.npy; do
-##          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-##
-##    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-##    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-##        done
+#        for npyfilename in ${output_directory}/*.npy; do
+#          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+#
+#    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#        done
 ##################################################################################################
 #moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 #mask_binary_output_dir='/input'
@@ -607,6 +606,7 @@ midlineonly_each_scan ${session_ct}
 #
 #
 ##################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
+#
 #call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv)
 #outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
 #csv_file=${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv
@@ -644,7 +644,7 @@ midlineonly_each_scan ${session_ct}
 ##
 ##uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
 #
-#registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
+##registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else
 echo " FILES ARE PRESENT "

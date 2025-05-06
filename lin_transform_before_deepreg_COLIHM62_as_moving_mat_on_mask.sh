@@ -567,17 +567,17 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
 #/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
 midlineonly_each_scan ${session_ct}
-#snipr_output_foldername="MIDLINE_NPY"
-#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-##    resource_dirname="MIDLINE_NPY"
-#    for npyfilename in ${working_dir_1}/*.npy; do
-#      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-#
-##      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-##      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-#    done
+snipr_output_foldername="MIDLINE_NPY"
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#    resource_dirname="MIDLINE_NPY"
+    for npyfilename in ${working_dir_1}/*.npy; do
+      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+
+#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    done
 #
 #        for npyfilename in ${output_directory}/*.npy; do
 #          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})

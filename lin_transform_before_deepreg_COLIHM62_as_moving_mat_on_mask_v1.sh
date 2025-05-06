@@ -636,7 +636,7 @@ function_with_arguments=('call_pipeline_step_completed' ${database_table_name} $
 echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
-function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_OF_MASKS_WITH_COLIHM62_COMPLETE" 0  $(basename ${infarct_mask_binary_output_filename_1})  $(basename ${infarct_mask_binary_output_filename_2}) $(basename ${infarct_mask_binary_output_filename}) ) ##'warped_1_mov_mri_region_' )
+function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_OF_MASKS_WITH_COLIHM62_COMPLETE" 0  ${snipr_output_foldername}  $(basename ${infarct_mask_binary_output_filename_1})  $(basename ${infarct_mask_binary_output_filename_2}) $(basename ${infarct_mask_binary_output_filename}) ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 

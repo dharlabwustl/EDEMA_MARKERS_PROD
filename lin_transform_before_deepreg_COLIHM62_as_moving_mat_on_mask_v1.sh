@@ -477,10 +477,11 @@ done < <(tail -n +2 "${niftifile_csvfilename}")
 echo working_dir::${working_dir}
 echo output_dirname::${output_dirname}
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
+copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_directory}
 resource_dirname='PREPROCESS_SEGM_3'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-resource_dirname='PREPROCESS_SEGM_3'
-copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_directory}
+
+
 resource_dirname='EDEMA_BIOMARKER'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 #cp ${output_dirname}/*.mat ${output_directory}

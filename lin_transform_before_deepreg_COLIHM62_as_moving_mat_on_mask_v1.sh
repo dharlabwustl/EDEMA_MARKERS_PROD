@@ -484,7 +484,9 @@ copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_directory}
 
 resource_dirname='EDEMA_BIOMARKER'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-#cp ${output_dirname}/*.mat ${output_directory}
+brain_fBET=$(ls  ${output_directory}/mov_midlinecssfResampled1_fixed_*brain_f_lin1_BET.nii.gz)
+brain_f=${brain_fBET%_BET.nii*}.nii.gz
+cp ${brain_fBET} ${brain_f}
 ###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
 ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
 ## and the mat files especially the Inv.mat file let us keep the sensible names from here:

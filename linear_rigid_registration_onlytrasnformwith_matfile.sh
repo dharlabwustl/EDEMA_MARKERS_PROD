@@ -8,7 +8,7 @@ echo " I AM WORKING IN DOCKER"
 output_directory=$(dirname ${filename})
 input_directory=${output_directory} #/output # /BET_OUTPUT 
 output_directory=${output_directory} ###/output #/LINEAR_REGISTRATION_OUTPUT  
-echo " I am in LINEAR_REGISTRATION"
+echo " I am in LINEAR_REGISTRATION AFTER MAT FILE"
 # mkdir -p $output_directory
 template_directory=/templatenifti
 template_ventricle_directory=/templateventricle

@@ -546,6 +546,7 @@ function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_bin
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+infarct_mask_binary_output_filename_2=${infarct_mask_binary_output_filename}
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
 #################################################################################################
@@ -559,6 +560,7 @@ function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_bin
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+infarct_mask_binary_output_filename_1=${infarct_mask_binary_output_filename}
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
 
@@ -630,6 +632,11 @@ echo "database_table_name::${database_table_name}"
 function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "MIDLINEFILES_PRESENT" 0 MIDLINE_NPY MIDLINENPYFILES.zip ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
+function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_OF_MASKS_WITH_COLIHM62_COMPLETE" 0  $(basename ${infarct_mask_binary_output_filename_1})  $(basename ${infarct_mask_binary_output_filename_2}) $(basename ${infarct_mask_binary_output_filename}) ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
 #registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
 #######################################################################################################
 ##########################################

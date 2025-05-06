@@ -113,7 +113,7 @@ def pipeline_step_completed(db_table_name,session_id,scan_id,column_name,column_
         # Final decision: are all extensions found at least once in any row?
         all_found = int(all(ext_found))
         if all_found==1:
-            column_value=all_found
+            column_value=1 #all_found
         # pd.DataFrame(df_scan).to_csv(os.path.join(dir_to_receive_the_data,output_csvfile),index=False)
             fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name,column_value)
         command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"

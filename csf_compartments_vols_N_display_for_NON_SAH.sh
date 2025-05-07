@@ -1401,6 +1401,34 @@ database_table_name=${first_value}
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    all_files_toupload=()
+    all_files_toupload+=("${pdfilename}")
+    all_files_toupload+=("${pdfilename_1_1}")
+    all_files_toupload+=("${csvfilename}")
+
+###      ######################################################################################################################
+      call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
+      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+      ####################### GET PROJECT NAME ###############################
+      #################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
+      csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
+      column_name="SESSION_PROJECT"
+      # Get the index (column number) of the desired column
+      col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+        for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+      }' "$csv_file")
+      # Get the first value under that column (excluding header)
+      first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+      database_table_name=${first_value}
+      echo "database_table_name::${database_table_name}"
+      function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "COMPARTMENT_SEPARATION_PDF_COMPLETE" 0 ${resource_dirname} ) ##$(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
+      # Append all warped files to the arguments array
+      for f in "${all_files_to_upload[@]}"; do
+        function_with_arguments+=("$f")
+      done
+
+      echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
+      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #    URI_1=${url1%/resources*}
 #    resource_dirname="MIDLINE_NPY"
 #    for npyfilename in ${working_dir_1}/*.npy; do
@@ -1410,6 +1438,7 @@ database_table_name=${first_value}
 
 #    URI_1=${url1%/resources*}
     resource_dirname="MASKS"
+
     for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

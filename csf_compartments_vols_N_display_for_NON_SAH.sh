@@ -833,7 +833,7 @@ filename='MIDLINENPYFILES.zip'
 #outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
- unzip -r  ${working_dir}/*MIDLINE_NPY.zip -d ${working_dir_1}
+ unzip  ${working_dir}/*MIDLINE_NPY.zip -d ${working_dir_1}
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}

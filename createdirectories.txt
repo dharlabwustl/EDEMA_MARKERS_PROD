@@ -1,5 +1,5 @@
-RUN mkdir -p  /input_directory
-RUN chmod -R 777 /input_directory
+RUN mkdir -p  /input1_directory
+RUN chmod -R 777 /input1_directory
 RUN mkdir -p /DATA/CSV/
 RUN chmod -R 777 /DATA/CSV/
 RUN mkdir -p /DATA/ZIP/
@@ -20,8 +20,8 @@ RUN mkdir -p /SMOOTH_IML_OUTPUT/
 RUN chmod -R 777 /SMOOTH_IML_OUTPUT/
 RUN mkdir -p /CSF_RL_VOL_OUTPUT/
 RUN chmod -R 777 /CSF_RL_VOL_OUTPUT/
-RUN mkdir -p /input_directory
-RUN chmod -R 777 /input_directory
+RUN mkdir -p /input1_directory
+RUN chmod -R 777 /input1_directory
 RUN mkdir -p /preprocessing_output/grayctimage
 RUN chmod -R 777 /preprocessing_output/grayctimage
 RUN mkdir -p /preprocessing_output/csfmask

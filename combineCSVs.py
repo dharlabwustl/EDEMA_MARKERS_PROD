@@ -90,7 +90,7 @@ def get_dicom_from_filesystem(sessionId, scanId):
     selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
     selDicomAbs_split=selDicomAbs.split('/')
     print(selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3])
-    command='dcm2niix -o /output/ -f ' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '  -m 1 ' + '    /input/DICOM'
+    command='dcm2niix -o /output/ -f ' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '  -m 1 ' + '    /input1/DICOM'
     subprocess.call(command,shell=True)
 
 

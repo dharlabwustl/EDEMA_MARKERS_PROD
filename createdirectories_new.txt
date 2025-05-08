@@ -1,5 +1,5 @@
-echo "RUN mkdir -p  /input_directory
-echo "RUN chmod -R 777 /input_directory
+echo "RUN mkdir -p  /input1_directory
+echo "RUN chmod -R 777 /input1_directory
 echo "RUN mkdir -p /DATA/CSV/
 echo "RUN chmod -R 777 /DATA/CSV/
 echo "RUN mkdir -p /DATA/ZIP/
@@ -20,8 +20,8 @@ echo "RUN mkdir -p /SMOOTH_IML_OUTPUT/
 echo "RUN chmod -R 777 /SMOOTH_IML_OUTPUT/
 echo "RUN mkdir -p /CSF_RL_VOL_OUTPUT/
 echo "RUN chmod -R 777 /CSF_RL_VOL_OUTPUT/
-echo "RUN mkdir -p /input_directory
-echo "RUN chmod -R 777 /input_directory
+echo "RUN mkdir -p /input1_directory
+echo "RUN chmod -R 777 /input1_directory
 echo "RUN mkdir -p /preprocessing_output/grayctimage
 echo "RUN chmod -R 777 /preprocessing_output/grayctimage
 echo "RUN mkdir -p /preprocessing_output/csfmask

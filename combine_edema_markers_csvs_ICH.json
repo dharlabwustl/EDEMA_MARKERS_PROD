@@ -16,7 +16,7 @@
     {
       "name": "in",
       "writable": false,
-      "path": "/input"
+      "path": "/input1"
     },
     {
       "name": "ZIPFILEDIR",

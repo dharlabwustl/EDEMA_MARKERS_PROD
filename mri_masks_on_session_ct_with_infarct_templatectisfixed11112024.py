@@ -987,7 +987,7 @@ import numpy as np
 
 def post_process_smooothing_closing(file_path,binary_threshold=0.5,smooth_sigma=2.0):
     # Load the NIfTI file
-    # file_path = '/media/atul/WDJan20222/WASHU_WORKS/PROJECTS/SNIPR/TESTDEEPREGBASEDREGISTRATION/input/warped_1_mov_COLI_HLP45_02152022_1123_6_resaved_infarct_auto_removesmall_fixed_COLIHM620406202215542_lin1_BET.nii.gz'
+    # file_path = '/media/atul/WDJan20222/WASHU_WORKS/PROJECTS/SNIPR/TESTDEEPREGBASEDREGISTRATION/input1/warped_1_mov_COLI_HLP45_02152022_1123_6_resaved_infarct_auto_removesmall_fixed_COLIHM620406202215542_lin1_BET.nii.gz'
     deformed_mask = sitk.ReadImage(file_path, sitk.sitkFloat32)
     deformed_mask = sitk.Cast(deformed_mask, sitk.sitkUInt8)
 

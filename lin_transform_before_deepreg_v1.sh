@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -399,14 +399,14 @@ registration_nii_file=${output_directory}/mov_${moving_image_filename%.nii*}_fix
 fixed_image_filename=${normalized_fixed_file_name}
 moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 moving_image_filename=${output_directory}/${moving_image_filename%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
 
 
 moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 bet_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
@@ -418,7 +418,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 #######################################
 
 moving_image_filename=${output_directory}/$(basename ${total_ventricle_mask})
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 moving_image_filename=$(basename ${moving_image_filename%.nii*})
 total_ventricle_binary_output_filename=mov_${moving_image_filename}_fixed_scct_strippedResampled1_normalized_fix_lin1.nii.gz
@@ -463,7 +463,7 @@ uploadsinglefile ${sessionID} ${scanID} "/software" ${snipr_output_foldername} $
 #for file_suffix in ${file_suffixes[@]}; do
 #copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
 #done
-##      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+##      mask_binary_output_dir='/input1' ##/software/mritemplate/NONLINREGTOCT/BETS'
 ##      Transform grayscale bet
 #
 #

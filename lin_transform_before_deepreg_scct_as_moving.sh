@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -381,7 +381,7 @@ registration_mat_file=${output_directory}/'mov_'$(basename ${moving_image_filena
 registration_nii_file=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 
 moving_image_filename=/software/scct_strippedResampled1_onlyventricle.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz

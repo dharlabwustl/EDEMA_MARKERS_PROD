@@ -55,11 +55,11 @@ this_betfilename=${2}
 this_csfmaskfilename=${3}
 this_infarctmaskfilename=${4}
 # echo "BET USING ORIGINAL FILES WITH FSL"
-# docker run   -v ${YashengFolder}:/input -v ${result_output_directory}:/output  -v ${template_directory}:/templatenifti -v ${template_mask_directory}:/templatemasks -v ${yasheng_bet_directory}:/yasheng_bet_directory   sharmaatul11/fsl502only   /software/bet_fsl.sh ${this_filename} #  #$6 # $7 $8 $9 ${10}
+# docker run   -v ${YashengFolder}:/input1 -v ${result_output_directory}:/output  -v ${template_directory}:/templatenifti -v ${template_mask_directory}:/templatemasks -v ${yasheng_bet_directory}:/yasheng_bet_directory   sharmaatul11/fsl502only   /software/bet_fsl.sh ${this_filename} #  #$6 # $7 $8 $9 ${10}
 echo "BET USING LEVELSET MASK"
 # #Krak_089_04132015_0952_MOZG_3.0_H31s_do_3D_Tilt_1_levelset.nii.gz 
 # start=`date +%s`
-# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks   ${csf_mask_directory}:/csf_mask_directory  ${infarct_mask_directory}:/infarct_mask_directory  ${yasheng_bet_directory}:/yasheng_bet_directory"
+# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input1  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks   ${csf_mask_directory}:/csf_mask_directory  ${infarct_mask_directory}:/infarct_mask_directory  ${yasheng_bet_directory}:/yasheng_bet_directory"
 
 # bsub -G compute-dharr -g /atulkumar/group2 -Is -a 'docker(sharmaatul11/pythononly)'     
 /software/bet_withlevelset.sh $this_filename ${this_betfilename} #Helsinki2000_1019_10132014_1048_Head_2.0_ax_Tilt_1_levelset # ${3} # Helsinki2000_702_12172013_2318_Head_2.0_ax_levelset.nii.gz #${3} # $6 $7 $8 $9 ${10}
@@ -71,7 +71,7 @@ this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
 # BET_OUTPUT_DIR=${result_output_directory}/BET_OUTPUT #$data_master_folder/OUTPUT/BET_OUTPUT
 echo "LINEAR REGISTRATION TO TEMPLATE"
 # start=`date +%s` 
-# export LSF_DOCKER_VOLUMES="${BET_OUTPUT_DIR}:/input  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks"
+# export LSF_DOCKER_VOLUMES="${BET_OUTPUT_DIR}:/input1  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks"
 # # bsub -G compute-dharr -g /atulkumar/group2 -Is -a 'docker(sharmaatul11/fsl502only)'    
 /software/linear_rigid_registration.sh ${this_filename_brain} ${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz 
 # end=`date +%s`
@@ -80,7 +80,7 @@ echo "LINEAR REGISTRATION TO TEMPLATE"
 
 echo "RUNNING IML FSL PART"
 # # start=`date +%s` 
-# # export LSF_DOCKER_VOLUMES="${YashengFolder}:/input  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks "
+# # export LSF_DOCKER_VOLUMES="${YashengFolder}:/input1  ${result_output_directory}:/output   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks "
 # # # bsub -G compute-dharr -g /atulkumar/group2 -Is -a 'docker(sharmaatul11/fsl502only)'  
 /software/ideal_midline_fslpart.sh ${this_filename}  ${templatefilename} ${mask_on_template}  #$9 #${10} #$8 
 # end=`date +%s`
@@ -88,7 +88,7 @@ echo "RUNNING IML FSL PART"
 # echo "${this_filename}, $runtime" >> $time_recording_MIDLINEMASK_TRANSFORM
 
 echo "RUNNING IML PYTHON PART"
-# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input  ${result_output_directory}:/output  ${result_output_directory}/TEMPLATEMASKS_OUTPUT_LR:/output/TEMPLATEMASKS_OUTPUT_LR   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks"
+# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input1  ${result_output_directory}:/output  ${result_output_directory}/TEMPLATEMASKS_OUTPUT_LR:/output/TEMPLATEMASKS_OUTPUT_LR   ${template_directory}:/templatenifti  ${template_mask_directory}:/templatemasks"
 
 # start=`date +%s` 
 # # bsub -G compute-dharr -g /atulkumar/group2 -Is -a 'docker(sharmaatul11/pythononly)'  
@@ -99,7 +99,7 @@ echo "RUNNING IML PYTHON PART"
 
 echo "RUNNING NWU AND CSF VOLUME CALCULATION "
 # start=`date +%s` 
-# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input  ${result_output_directory}:/output   ${result_output_directory}/SMOOTH_IML_OUTPUT:/output/SMOOTH_IML_OUTPUT   ${csf_mask_directory}:/csf_mask_directory  ${infarct_mask_directory}:/infarct_mask_directory    ${yasheng_bet_directory}:/yasheng_bet_directory"
+# export LSF_DOCKER_VOLUMES="${YashengFolder}:/input1  ${result_output_directory}:/output   ${result_output_directory}/SMOOTH_IML_OUTPUT:/output/SMOOTH_IML_OUTPUT   ${csf_mask_directory}:/csf_mask_directory  ${infarct_mask_directory}:/infarct_mask_directory    ${yasheng_bet_directory}:/yasheng_bet_directory"
 
 # bsub -G compute-dharr -g /atulkumar/group2 -Is -a 'docker(sharmaatul11/pythononly)'  
 /software/nwu_csf_volume.sh  ${this_filename}   ${this_betfilename} ${this_csfmaskfilename} ${this_infarctmaskfilename}  ${lower_threshold} ${upper_threshold}

@@ -693,7 +693,7 @@ def write_tex_im_in_afolder_fordocker(foldername,max_num_img,img_ext="*.png"):
         if counter < max_num_img:
             thisfilebasename=os.path.basename(each_png_file)
             latex_start_table1c(latexfilename)
-            latex_insertimage_table1c(latexfilename,image1='/input/'+thisfilebasename,caption= thisfilebasename.split('.png'),imagescale=0.3)
+            latex_insertimage_table1c(latexfilename,image1='/input1/'+thisfilebasename,caption= thisfilebasename.split('.png'),imagescale=0.3)
             latex_end_table2c(latexfilename)
             latex_insert_line_nodate(latexfilename, thisfilebasename.split('.png')[0] )
             counter=counter+1

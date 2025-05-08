@@ -8,6 +8,9 @@ working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
+########################
+
+
 midlineonly_each_scan() {
   local niftifilename_ext=${1}
 

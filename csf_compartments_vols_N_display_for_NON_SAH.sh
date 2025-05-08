@@ -823,9 +823,12 @@ get_scanID_from_sessionID ${sessionID} ${working_dir}
 echo ${sessionID}::${scanID}
 dir_to_save=${working_dir}
 resource_dir="MIDLINE_NPY"
-call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+url="/data/experiments/${sessionID}/scans/${scanID}" ##/resources/${}"
+filename='MIDLINENPYFILES.zip'
+#call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}

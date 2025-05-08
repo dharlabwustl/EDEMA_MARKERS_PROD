@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -531,7 +531,7 @@ registration_mat_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.n
 registration_nii_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 #################################################################################################
 moving_image_filename=/software/VENTRICLE_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
@@ -545,7 +545,7 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #######################################################################################################
 #################################################################################################
 moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
@@ -587,7 +587,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
         done
 #################################################################################################
 moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

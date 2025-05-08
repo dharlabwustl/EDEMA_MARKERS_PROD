@@ -160,7 +160,7 @@ def masks_on_grayscale_colored_v1(args):
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         method_name="REGIS"
-        # npyfiledirectory="/input"
+        # npyfiledirectory="/input1"
 
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
@@ -235,7 +235,7 @@ def masks_on_grayscale_colored(grayscale_filename,contrast_limits,mask_filename_
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         method_name="REGIS"
-        # npyfiledirectory="/input"
+        # npyfiledirectory="/input1"
 
         for i in range(grayscale_filename_np.shape[2]):
             slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
@@ -1168,7 +1168,7 @@ def bet_related_parameters(lefthalf,righthalf,complete_bet,grayscale_image,sessi
 #     print("code added on July 15 2022")
 #     niftifilename=sys.argv[1] ## THis is the  gray file:
 #
-#     niftifilenamedir=os.path.dirname(niftifilename) #sys.argv[3] #"/inputdirectory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
+#     niftifilenamedir=os.path.dirname(niftifilename) #sys.argv[3] #"/input1directory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
 #
 #     npyfiledirectory=sys.argv[5] #"/processedniftifiles" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/SMOOTH_IML" # /media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/RegistrationOnly/"
 #

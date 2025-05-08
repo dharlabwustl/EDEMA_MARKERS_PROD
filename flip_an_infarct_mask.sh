@@ -10,7 +10,7 @@ export XNAT_HOST=${4} ## ${arr_4_array[0]}
 mask_extention=${5}   ##${arr_4_array[1]}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker

@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -406,7 +406,7 @@ registration_nii_file=${output_directory}/'mov_'$(basename ${moving_image_filena
 ## REGISTRATION OF THE INFARCT MASK
 #moving_image_filename=${session_ct_bname_noext}_resaved_infarct_auto_removesmall.nii.gz
 #moving_image_filename=${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input'
+#mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${output_directory}
 #moving_image_filename=$(basename ${moving_image_filename%.nii*})
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
@@ -418,7 +418,7 @@ infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_outp
 
 ## REGISTRATION OF THE BET MASK
 #moving_image_filename=${output_directory}/$(basename ${bet_mask_from_yasheng})
-#mask_binary_output_dir='/input'
+#mask_binary_output_dir='/input1'
 #/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${output_directory}
 ##moving_image_filename=$(basename ${moving_image_filename%.nii*})
 #bet_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${fixed_image_filename}_lin1.nii.gz
@@ -430,7 +430,7 @@ infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_outp
 ##########################################
 ## REGISTRATION OF THE CSF MASK
 moving_image_filename='/software/scct_strippedResampled1_onlyventricle.nii.gz' ##${output_directory}/$(basename ${csf_mask_from_yasheng})
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 #moving_image_filename=$(basename ${moving_image_filename%.nii*})
 csf_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_$(basename ${fixed_image_filename%.nii*})_lin1.nii.gz
@@ -484,7 +484,7 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${sni
 #for file_suffix in ${file_suffixes[@]}; do
 #copyoutput_with_prefix_to_snipr ${sessionID} ${scanID} "${output_directory}" ${snipr_output_foldername} ${file_suffix}
 #done
-##      mask_binary_output_dir='/input' ##/software/mritemplate/NONLINREGTOCT/BETS'
+##      mask_binary_output_dir='/input1' ##/software/mritemplate/NONLINREGTOCT/BETS'
 ##      Transform grayscale bet
 #
 #

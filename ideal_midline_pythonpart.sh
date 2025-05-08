@@ -4,7 +4,7 @@ mask_on_template=midlinecssfResampled1.nii.gz
 input_filename=$1
 output_directory=$(dirname ${input_filename}) #$3
 echo " I AM WORKING IN DOCKER"
-# input_directory=/input  
+# input_directory=/input1  
 # result_output_directory=/output    
 # yashengfolder="$(dirname -- $input_filename)" #$input_directory
 # output_for_BET=${output_directory}  #/output #/BET_OUTPUT

@@ -5,7 +5,7 @@ final_output_directory=/output
 eachfile_basename_noext=''
 originalfile_basename=''
 original_ct_file=''
-for eachfile in /input/NIFTI/*.nii ; 
+for eachfile in /input1/NIFTI/*.nii ; 
 do
 original_ct_file=${eachfile}
 eachfile_basename=$(basename ${eachfile})
@@ -20,9 +20,9 @@ csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
 infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
 ################################################
 ############## copy those files to the image ##################################
-cp /input/MASKS/${betfilename}  ${output_directory}/
-cp /input/MASKS/${csffilename}  ${output_directory}/
-cp /input/MASKS/${infarctfilename}  ${output_directory}/
+cp /input1/MASKS/${betfilename}  ${output_directory}/
+cp /input1/MASKS/${csffilename}  ${output_directory}/
+cp /input1/MASKS/${infarctfilename}  ${output_directory}/
 ####################################################################################
 source /software/bash_functions_forhost.sh
 

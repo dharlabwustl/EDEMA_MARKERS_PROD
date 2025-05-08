@@ -6,7 +6,7 @@
   "image": "sharmaatul11/dicom2nifti_nwu_1:latest",
   "type": "docker",
   "working-directory": "/software",
-  "command-line": " /software/nwucalculation_session_level_allsteps_November14_2022.sh #SESSION_ID# $XNAT_USER $XNAT_PASS https://snipr-dev-test1.nrg.wustl.edu /input /output ",
+  "command-line": " /software/nwucalculation_session_level_allsteps_November14_2022.sh #SESSION_ID# $XNAT_USER $XNAT_PASS https://snipr-dev-test1.nrg.wustl.edu /input1 /output ",
   "override-entrypoint": true,
   "mounts": [
     {
@@ -17,7 +17,7 @@
     {
       "name": "in",
       "writable": false,
-      "path": "/input"
+      "path": "/input1"
     },
     {
       "name": "ZIPFILEDIR",

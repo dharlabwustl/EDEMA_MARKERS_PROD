@@ -121,7 +121,7 @@ img=$(/usr/lib/fsl/5.0/remove_ext   ${filename})
 echo $img
 # Thresholding Image to 0-100
 /usr/lib/fsl/5.0/fslmaths "${filename}" -thr 0.000000 -uthr 100.000000  "${img}_th"
-# ls /input 
+# ls /input1 
 # # Running bet
 /usr/lib/fsl/5.0/bet2 "${img}_th" "${img}_brain" -f ${intensity} 
 
@@ -142,7 +142,7 @@ echo "BET IS DONE!!"
 
 
 # echo " I AM WORKING IN DOCKER"
-# input_directory=${output_for_BET}  ##/input 
+# input_directory=${output_for_BET}  ##/input1 
 # output_directory_LR=/LINEAR_REGISTRATION_OUTPUT  
 # # mkdir -p $output_directory
 # template_directory=/templatenifti
@@ -165,7 +165,7 @@ echo "BET IS DONE!!"
 # input_filename=$each_file
 # echo "I am working in Docker"
 # echo $input_filename
-# # input_directory=/input  
+# # input_directory=/input1  
 # # result_output_directory=/output     
 # output_for_BET=/BET_OUTPUT
 # nifti_reg_output_directory=/LINEAR_REGISTRATION_OUTPUT   

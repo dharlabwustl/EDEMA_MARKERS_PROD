@@ -8,12 +8,12 @@ counter_end=${6}
 working_dir=/workinginput
 output_directory=/workingoutput
 final_output_directory=/outputinsidedocker
-working_dir_1=/input
+working_dir_1=/input1
 ZIPFILEDIR=/ZIPFILEDIR
 NIFTIFILEDIR=/NIFTIFILEDIR
 DICOMFILEDIR=/DICOMFILEDIR
 working=/working
-input=/input
+input=/input1
 output=/output
 software=/software
 function directory_to_create_destroy(){
@@ -113,7 +113,7 @@ if (( $(echo "$value1 < $value2" | bc -l) )); then
     SESSION_ID=${array2[${SESSION_ID_COL_NUM}]} #${array[0]}  #SNIPR02_E10218 ##SNIPR02_E10112 #
     echo SESSION_ID::${SESSION_ID}
     directory_to_create_destroy
-    /software/dicom2nifti_call_sessionlevel_selected.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+    /software/dicom2nifti_call_sessionlevel_selected.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 else
     echo "$value1 is not less than $value2"
 fi
@@ -132,12 +132,12 @@ done < <(tail -n +2 "${sessions_list}")
 # working_dir=/workinginput
 # output_directory=/workingoutput
 # final_output_directory=/outputinsidedocker
-# working_dir_1=/input
+# working_dir_1=/input1
 # ZIPFILEDIR=/ZIPFILEDIR
 # NIFTIFILEDIR=/NIFTIFILEDIR
 # DICOMFILEDIR=/DICOMFILEDIR
 # working=/working
-# input=/input
+# input=/input1
 # output=/output
 # software=/software
 # function directory_to_create_destroy(){
@@ -176,7 +176,7 @@ done < <(tail -n +2 "${sessions_list}")
 
 #     # echo SESSION_NAME::${SESSION_NAME}
 #     directory_to_create_destroy
-#     /software/dicom2nifti_call_sessionlevel_selected.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+#     /software/dicom2nifti_call_sessionlevel_selected.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 #     # echo snipr_step::${snipr_step}
 #     # scan_selection ${SESSION_ID}  
 

@@ -495,7 +495,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='/input'
+    working_dir_1='/input1'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
@@ -615,7 +615,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     template_nifti_file_nib_data[template_nifti_file_nib_data>0]=1
     template_nifti_file_nib_data_volume=(np.sum(template_nifti_file_nib_data)*np.product(template_nifti_file_nib.header["pixdim"][1:4]))/1000
     # df1['infarct_fraction_after_reg']=infarct_volume_after_reg/template_nifti_file_nib_data_volume
-    moving_file_after_reg=os.path.join('/input','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
+    moving_file_after_reg=os.path.join('/input1','warped_moving_image.nii.gz') ##f'warped_mov_{file_without_ext}_brain_f_fixed_{template_nifti_file_base_noext}_lin1_brain_f.nii.gz')
     moving_file_after_reg_nib=nib.load(moving_file_after_reg)
     moving_file_after_reg_nib_data=moving_file_after_reg_nib.get_fdata()
     moving_file_after_reg_nib_data[moving_file_after_reg_nib_data>0]=1
@@ -848,7 +848,7 @@ def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
     # print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='/input'
+    working_dir_1='/input1'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     # download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
@@ -1142,7 +1142,7 @@ def dowload_files_for_evaluation(SESSION_ID):
     print(f'{SCAN_ID}::{SCAN_NAME}')
     # return
 
-    working_dir_1='/input'
+    working_dir_1='/input1'
     Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
     # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
     download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)

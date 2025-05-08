@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -322,7 +322,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_argum
 
 masks_label_pattern=${masks_output_directory}/$(basename ${moving_image_filename_mrilabel%.nii*})
 file_count=1
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 for each_mask_label_file in ${masks_label_pattern}_*.nii*  ; do  ###*.gz
 echo each_mask_label_file::${each_mask_label_file}
 this_mask_file=${each_mask_label_file}  ##_${file_count}.nii.gz

@@ -28,83 +28,83 @@ echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${A
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
-  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_scct_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING" >> /software/ERROR.txt
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING"
-  /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
-  /software/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING" >> /software/ERROR.txt
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING"
-  /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'ARTERIAL_REGIONS' ]]; then
-  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'CALL_LOCATION_DISTRIBUTION' ]]; then
-  /software/call_location_distribution_py.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/call_location_distribution_py.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 
 #if [[ ${TYPE_OF_PROGRAM} == '1000' ]]; then
-#  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+#  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 #fi
 
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_WITH_MNI_TEMPLATE' ]]; then
-  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 
 
 if [[ ${TYPE_OF_PROGRAM} == 'CREATE_HEMISPHERE_MASK' ]]; then
-  /software/create_half_of_brain.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/create_half_of_brain.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG' ]]; then
-  /software/lin_transform_before_deepreg.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V1' ]]; then
- source /software/lin_transform_before_deepreg_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+ source /software/lin_transform_before_deepreg_v1.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_FOR_VENT_SEP' ]]; then
- source /software/lin_transform_before_deepreg_for_vent_separation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+ source /software/lin_transform_before_deepreg_for_vent_separation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
- source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+ source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_REF_FRAME' ]]; then
-  /software/lin_transform_before_deepreg_mri.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
-#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_mri.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 #lin_transform_before_deepreg_mri_Nov252024.sh
 if [[ ${TYPE_OF_PROGRAM} == 'MRI_TO_CT_COLIHLP62_REF_FRAME' ]]; then
-  /software/lin_transform_before_deepreg_mri_Nov252024.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
-#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/lin_transform_before_deepreg_mri_Nov252024.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#  /software/bringmritemplatefiletoctreferenceframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
-  /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
-  /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 2.1 ]]; then
-  /software/nwucalculation_session_level_allsteps_November13_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/nwucalculation_session_level_allsteps_November13_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 1 ]]; then
   /software/dicom2nifti_call_sessionlevel_selected.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
@@ -191,11 +191,11 @@ if [[ ${TYPE_OF_PROGRAM} == 11 ]]; then
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 12 ]]; then
-  /software/scan_selection_May18_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/scan_selection_May18_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 13 ]]; then
-  /software/scan_selection_multiple_May25_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/scan_selection_multiple_May25_2023.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 14 ]]; then
@@ -349,11 +349,11 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION" ]]; then
   SESSION_ID=${1}
   PROJECT_ID=${1}
-  /software/scan_selection_Jan17_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/scan_selection_Jan17_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == "SCAN_SELECTION_FILL_RC" ]]; then
   SESSION_ID=${1}
-  /software/scan_selection_fill_REDCap_Feb09_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input /output
+  /software/scan_selection_fill_REDCap_Feb09_2024.sh   $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 ###########################################################
 if [[ ${TYPE_OF_PROGRAM} == 'ANALYTICS_STEP1' ]]; then

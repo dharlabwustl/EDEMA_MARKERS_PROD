@@ -12,7 +12,7 @@ def clean_dirs():
     subprocess.call(command,shell=True)
     command="rm -r /workingoutput/*.*"
     subprocess.call(command,shell=True)
-    command="rm -r /input/*"
+    command="rm -r /input1/*"
     subprocess.call(command,shell=True)
     command="rm -r /working/*"
     subprocess.call(command,shell=True)

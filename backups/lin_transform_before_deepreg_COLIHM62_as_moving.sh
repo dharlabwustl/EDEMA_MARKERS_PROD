@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -17,9 +17,9 @@ file_suffix=$5
 output_dir=$3
 echo " I AM IN copyoutput_to_snipr "
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_suffix} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
@@ -48,9 +48,9 @@ resource_dirname=${3} #str(sys.argv[4])
 output_dirname=${4}   #str(sys.argv[3])
 echo output_dirname::${output_dirname}
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 downloadfiletolocaldir()" ${sessionID} ${scanID} ${resource_dirname} ${output_dirname} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
@@ -68,9 +68,9 @@ resource_dir=${3}
 # resource_dir=sys.argv[3]
 # scanID=$2
 python -c "
-import sys
+import sys 
 sys.path.append('/Stroke_CT_Processing');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 get_relevantfile_in_A_DIRECTORY()" ${sessionID} ${dir_to_receive_the_data} ${resource_dir}
 
 }
@@ -225,9 +225,9 @@ output_dir=$(dirname ${output_csvfile})
 rm -r ${output_dir}/*
 # scanID=$2
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 call_decision_which_nifti()" ${sessionID} ${working_dir} ${output_csvfile}
 
 }
@@ -242,9 +242,9 @@ dir_to_save=${2} #sys.argv[2]
 # sessionID=$1
 # # scanID=$2
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 downloadniftiwithuri_withcsv()" ${csvfilename} ${dir_to_save}
 
 }
@@ -270,9 +270,9 @@ resource_foldername=${3} # sys.argv[3]
 dir_to_save=${4}         # sys.argv[4]
 csvfilename=${5}         # sys.argv[5]
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
 
@@ -381,7 +381,7 @@ registration_mat_file=${output_directory}/'mov_'$(basename ${moving_image_filena
 registration_nii_file=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 
 moving_image_filename=/software/VENTRICLE_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
@@ -409,7 +409,25 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${fixed_image_filename}) ${snipr_output_foldername} $(basename  ${fixed_image_filename})
 
+call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv)
+outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+####################### GET PROJECT NAME ###############################
+#################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
+csv_file=${output_directory}/${session_ct_bname_noext}_SESSION_PROJECT.csv
+column_name="SESSION_PROJECT"
+# Get the index (column number) of the desired column
+col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+}' "$csv_file")
+# Get the first value under that column (excluding header)
+first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+database_table_name=${first_value}
+echo "database_table_name::${database_table_name}"
+function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "RIGID_REGIS_WITH_COLIHM62_COMPLETE" 0 ${snipr_output_foldername} $(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #registration_mat_file,registration_nii_file,${mask_binary_output_dir}/${mask_binary_output_filename},infarct_mask_binary_output_filename
+#######################################################################################################
 echo " FILES NOT PRESENT I AM WORKING ON IT"
 else
 echo " FILES ARE PRESENT "

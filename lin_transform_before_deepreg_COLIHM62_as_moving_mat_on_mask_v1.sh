@@ -585,7 +585,10 @@ echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_w
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 mkdir ${output_directory}/MIDLINENPYFILES
 cp ${output_directory}/*.npy ${output_directory}/MIDLINENPYFILES/
-zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
+#zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
+cd workingoutput
+zip -r /software/MIDLINENPYFILES.zip MIDLINENPYFILES
+cd /software/
 resource_dirname="MIDLINE_NPY"
 uploadsinglefile ${sessionID} ${scanID} ./ ${snipr_output_foldername} MIDLINENPYFILES.zip
 

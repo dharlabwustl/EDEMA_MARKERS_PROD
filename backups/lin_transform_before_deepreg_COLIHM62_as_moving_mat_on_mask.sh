@@ -4,7 +4,7 @@ export XNAT_PASS=${3}
 export XNAT_HOST=${4}
 sessionID=${1}
 working_dir=/workinginput
-working_dir_1=/input
+working_dir_1=/input1
 output_directory=/workingoutput
 
 final_output_directory=/outputinsidedocker
@@ -163,9 +163,9 @@ file_suffix=$5
 output_dir=$3
 echo " I AM IN copyoutput_to_snipr "
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 uploadfile()" ${sessionID} ${scanID} ${output_dir} ${resource_dirname} ${file_suffix} # ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
@@ -194,9 +194,9 @@ resource_dirname=${3} #str(sys.argv[4])
 output_dirname=${4}   #str(sys.argv[3])
 echo output_dirname::${output_dirname}
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 downloadfiletolocaldir()" ${sessionID} ${scanID} ${resource_dirname} ${output_dirname} ### ${infarctfile_present}  ##$static_template_image $new_image $backslicenumber #$single_slice_filename
 
 }
@@ -214,9 +214,9 @@ resource_dir=${3}
 # resource_dir=sys.argv[3]
 # scanID=$2
 python -c "
-import sys
+import sys 
 sys.path.append('/Stroke_CT_Processing');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 get_relevantfile_in_A_DIRECTORY()" ${sessionID} ${dir_to_receive_the_data} ${resource_dir}
 
 }
@@ -371,9 +371,9 @@ output_dir=$(dirname ${output_csvfile})
 rm -r ${output_dir}/*
 # scanID=$2
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 call_decision_which_nifti()" ${sessionID} ${working_dir} ${output_csvfile}
 
 }
@@ -388,9 +388,9 @@ dir_to_save=${2} #sys.argv[2]
 # sessionID=$1
 # # scanID=$2
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 downloadniftiwithuri_withcsv()" ${csvfilename} ${dir_to_save}
 
 }
@@ -416,9 +416,9 @@ resource_foldername=${3} # sys.argv[3]
 dir_to_save=${4}         # sys.argv[4]
 csvfilename=${5}         # sys.argv[5]
 python3 -c "
-import sys
+import sys 
 sys.path.append('/software');
-from download_with_session_ID import *;
+from download_with_session_ID import *; 
 get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${dir_to_save} ${csvfilename}
 }
 
@@ -531,7 +531,7 @@ registration_mat_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.n
 registration_nii_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 #################################################################################################
 moving_image_filename=/software/VENTRICLE_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
@@ -545,7 +545,7 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #######################################################################################################
 #################################################################################################
 moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
@@ -587,7 +587,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
         done
 #################################################################################################
 moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-mask_binary_output_dir='/input'
+mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"

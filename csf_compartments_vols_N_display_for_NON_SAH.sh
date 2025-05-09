@@ -376,6 +376,7 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
   # done
 
 }
+
 midlineonly_each_scan() {
   local niftifilename_ext=${1}
 
@@ -462,94 +463,6 @@ from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${ori
   # done
 
 }
-
-#midlineonly_each_scan() {
-#  local niftifilename_ext=${1}
-#
-#  eachfile_basename_noext=''
-#  originalfile_basename=''
-#  original_ct_file=''
-#  #  for eachfile in ${working_dir}/*.nii*; do
-#  for eachfile in ${working_dir_1}/*.nii*; do
-#    if [[ ${eachfile} != *"levelset"* ]]; then
-#      # testmystring does not contain c0
-#
-#      original_ct_file=${eachfile}
-#      eachfile_basename=$(basename ${eachfile})
-#      originalfile_basename=${eachfile_basename}
-#      eachfile_basename_noext=${eachfile_basename%.nii*}
-#
-#      ############## files basename ##################################
-#      grayfilename=${eachfile_basename_noext}_resaved_levelset.nii
-#      if [[ "$eachfile_basename" == *".nii.gz"* ]]; then #"$STR" == *"$SUB"*
-#        grayfilename=${eachfile_basename_noext}_resaved_levelset.nii.gz
-#      fi
-#      betfilename=${eachfile_basename_noext}_resaved_levelset_bet.nii.gz
-#      #    csffilename=${eachfile_basename_noext}_resaved_csf_unet.nii.gz
-#      #    infarctfilename=${eachfile_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
-#      ################################################
-#      ############## copy those files to the docker image ##################################
-#      cp ${working_dir}/${betfilename} ${output_directory}/
-#      #    cp ${working_dir}/${csffilename} ${output_directory}/
-#      #    cp ${working_dir}/${infarctfilename} ${output_directory}/
-#      ####################################################################################
-#      source /software/bash_functions_forhost.sh
-#
-#      cp ${original_ct_file} ${output_directory}/${grayfilename}
-#      grayimage=${output_directory}/${grayfilename} #${gray_output_subdir}/${eachfile_basename_noext}_resaved_levelset.nii
-#      ###########################################################################
-#
-#      #    #### originalfiel: .nii
-#      #    #### betfile: *bet.nii.gz
-#      #
-#      #    # original_ct_file=$original_CT_directory_names/
-#      #    levelset_infarct_mask_file=${output_directory}/${infarctfilename}
-#      #    echo "levelset_infarct_mask_file:${levelset_infarct_mask_file}"
-#      #    ## preprocessing infarct mask:
-#      #    python3 -c "
-#      #import sys ;
-#      #sys.path.append('/software/') ;
-#      #from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
-#
-#      ## preprocessing bet mask:
-#      levelset_bet_mask_file=${output_directory}/${betfilename}
-#      echo "levelset_bet_mask_file:${levelset_bet_mask_file}"
-#      python3 -c "
-#
-#import sys ;
-#sys.path.append('/software/') ;
-#from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
-#
-#      #    #### preprocessing csf mask:
-#      #    levelset_csf_mask_file=${output_directory}/${csffilename}
-#      #    echo "levelset_csf_mask_file:${levelset_csf_mask_file}"
-#      #    python3 -c "
-#      #import sys ;
-#      #sys.path.append('/software/') ;
-#      #from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_csf_mask_file}" "${output_directory}"
-#
-#      #    lower_threshold=0
-#      #    upper_threshold=20
-#      #    templatefilename=scct_strippedResampled1.nii.gz
-#      #    mask_on_template=midlinecssfResampled1.nii.gz
-#
-#      x=$grayimage
-#      bet_mask_filename=${output_directory}/${betfilename}
-#      #    infarct_mask_filename=${output_directory}/${infarctfilename}
-#      #    csf_mask_filename=${output_directory}/${csffilename}
-#      run_IML $x ${bet_mask_filename} #${csf_mask_filename} ${infarct_mask_filename}
-#    fi
-#  done
-#
-#  # for f in ${output_directory}/*; do
-#  #     # if [ -d "$f" ]; then
-#  #         # $f is a directory
-#  #         rm -r $f
-#  #     # fi
-#  # done
-#
-#}
-
 split_masks_into_two_halves() {
 
   eachfile_basename_noext=''
@@ -863,27 +776,7 @@ function get_scanID_from_sessionID() {
   scanID=$(tail -n +2 "${niftifile_csvfilename}" | cut -d',' -f3 | head -n 1)
   echo ${scanID}
 }
-##############################
-call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/THIS_SESSION_PROJECT.csv)
-outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-csv_file=${output_directory}/THIS_SESSION_PROJECT.csv
-column_name="SESSION_PROJECT"
 
-# Get the index (column number) of the desired column
-col_index=$(awk -F, -v col="$column_name" 'NR==1 {
-  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-}')
-
-# Get the first value under that column (excluding header)
-first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
-database_table_name=${first_value}
-#echo $database_table_name
-#echo  $GOOGLE_MYSQL_DB_IP
-#echo  $GOOGLE_MYSQL_DB_PASS
-#call_insert_one_col_with_colname_colidx_arguments=('call_fill_google_mysql_db_from_csv' ${database_table_name} ${csv_file} "ID") # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-
-######################################
 #----------------------------------------
 # Step 1: Download NIFTI_LOCATION Metadata
 #----------------------------------------
@@ -909,28 +802,10 @@ done < <(tail -n +2 "${working_dir}/${output_csvfile}")
 get_scanID_from_sessionID ${sessionID} ${working_dir}
 echo ${sessionID}::${scanID}
 dir_to_save=${working_dir}
-#resource_dir="MIDLINE_NPY"
-#scan_URI="/data/experiments/${sessionID}/scans/${scanID}" ##/resources/${}"
-#output_csvfile=${sessionID}_SCANMIDLINE_METADATA.csv
-#call_get_resourcefiles_metadata_saveascsv_args ${scan_URI} ${resource_dir} ${working_dir} ${output_csvfile}
-#while IFS=',' read -ra array; do
-#  url=${array[6]}
-#  filename=$(basename ${url})
-#  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
-#
-##  echo
-#  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+resource_dir="MIDLINE_NPY"
+call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
 
-#filename='MIDLINENPYFILES.zip'
-#call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
-#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
-#unzip  ${working_dir}/MIDLINENPYFILES.zip #-d ${working_dir_1}
-#unzip  ${working_dir}/MIDLINENPYFILES_V2.zip
-#mv /software/MIDLINENPYFILES/*.npy ${output_directory}/
-#mv /software/MIDLINENPYFILES_V2/*.npy ${working_dir_1}/
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}
@@ -1065,8 +940,8 @@ while IFS=',' read -ra array; do
     done \
       < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
     ################################################################
-#for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
-# for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
+for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
+ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
 #    ################################################################
 #    resource_dir="MIDLINE_NPY"
 #    output_csvfile_1=${sessionID}_MASK_METADATA.csv
@@ -1091,7 +966,7 @@ while IFS=',' read -ra array; do
 #      < <(tail -n +2 "${working_dir}/${output_csvfile_1}")
 #    ################################################################
 #    cp ${output_directory}/*_V2.npy ${working_dir_1}/
-    midlineonly_each_scan ${filename_nifti}
+#    midlineonly_each_scan ${filename_nifti}
     URI_1=${url1%/resources*}
     for matfiles in ${output_directory}/*.mat; do
 
@@ -1248,14 +1123,7 @@ while IFS=',' read -ra array; do
     ## combine all volumes data:
     call_get_session_label_arguments=('call_get_session_label' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-
-        call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
-        outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-    #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
-    ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
     #${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv )
     ## ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
@@ -1264,21 +1132,7 @@ while IFS=',' read -ra array; do
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
     #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv)
     #    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
-####################### GET PROJECT NAME ###############################
-#
-csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
-column_name="SESSION_PROJECT"
 
-# Get the index (column number) of the desired column
-col_index=$(awk -F, -v col="$column_name" 'NR==1 {
-  for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-}' "$csv_file")
-
-
-# Get the first value under that column (excluding header)
-first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
-database_table_name=${first_value}
-#####################################################
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
@@ -1340,7 +1194,6 @@ database_table_name=${first_value}
     #mask_filename=(${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
     #  overlapped_mask_on_otherimage ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} mask_filename
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-    echo  "outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")"
     outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
     ### GRAY SCALE with all CSF
     outputfile_suffix="COMPLETE_CSF"
@@ -1380,15 +1233,6 @@ database_table_name=${first_value}
     #############################################################
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
-    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "ID" ${sessionID}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-
-        call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename_trimmed} ${csvfilename_trimmed} "ID" ${sessionID}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-        outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-
-         call_insert_one_col_with_colname_colidx_arguments=('call_fill_google_mysql_db_from_csv' ${database_table_name} ${csvfilename_trimmed} "ID") # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-         outputfiles_present=$(python3 download_with_session_ID.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
-
 #    call_remove_a_column_arguments=('call_remove_a_column' ${csvfilename} ${csvfilename_trimmed} BET_LEFT BET_RIGHT CSF_LEFT CSF_RIGHT SULCI_ABOVE_VENTRICLE_LEFT SULCI_ABOVE_VENTRICLE_RIGHT SULCI_AT_VENTRICLE_LEFT SULCI_AT_VENTRICLE_RIGHT SULCI_BELOW_VENTRICLE_LEFT SULCI_BELOW_VENTRICLE_RIGHT ) ## SAH_SEG_SULCAL_RIGHT SAH_SEG_SULCAL_LEFT SAH_SEG_VENTRI_RIGHT SAH_SEG_VENTRI_LEFT SAH_SEG_CISTERN_RIGHT SAH_SEG_CISTERN_LEFT SAH_SEG_TOTAL_RIGHT SAH_SEG_TOTAL_LEFT)
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_remove_a_column_arguments[@]}")
     ##done < <(tail -n +2 "${csv_file_tostore_latexfilename}")
@@ -1507,34 +1351,6 @@ database_table_name=${first_value}
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    all_files_toupload=()
-    all_files_toupload+=("${pdfilename}")
-    all_files_toupload+=("${pdfilename_1_1}")
-    all_files_toupload+=("${csvfilename}")
-
-###      ######################################################################################################################
-      call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
-      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
-      ####################### GET PROJECT NAME ###############################
-      #################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
-      csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
-      column_name="SESSION_PROJECT"
-      # Get the index (column number) of the desired column
-      col_index=$(awk -F, -v col="$column_name" 'NR==1 {
-        for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
-      }' "$csv_file")
-      # Get the first value under that column (excluding header)
-      first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
-      database_table_name=${first_value}
-      echo "database_table_name::${database_table_name}"
-      function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "COMPARTMENT_SEPARATION_PDF_COMPLETE" 0 ${resource_dirname} ) ##$(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
-      # Append all warped files to the arguments array
-      for f in "${all_files_to_upload[@]}"; do
-        function_with_arguments+=("$f")
-      done
-
-      echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
-      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #    URI_1=${url1%/resources*}
 #    resource_dirname="MIDLINE_NPY"
 #    for npyfilename in ${working_dir_1}/*.npy; do
@@ -1544,7 +1360,6 @@ database_table_name=${first_value}
 
 #    URI_1=${url1%/resources*}
     resource_dirname="MASKS"
-
     for nifti_reg_filename in ${output_directory}/*_lin1_1.nii.gz; do
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")

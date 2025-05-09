@@ -580,18 +580,20 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
 midlineonly_each_scan ${session_ct}
 snipr_output_foldername="MIDLINE_NPY"
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.zip' ) ##'warped_1_mov_mri_region_' )
+
 echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 mkdir ${output_directory}/MIDLINENPYFILES
-cp ${output_directory}/*.npy ${output_directory}/MIDLINENPYFILES/
+cp ${output_directory}/${nifti_file_without_ext}*.npy ${output_directory}/MIDLINENPYFILES/
 #zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
 cd ${output_directory}
 zip -r /software/MIDLINENPYFILES.zip MIDLINENPYFILES
 
 
 mkdir ${working_dir_1}/MIDLINENPYFILES_V2
-cp ${working_dir_1}/*.npy ${working_dir_1}/MIDLINENPYFILES_V2/
+cp ${working_dir_1}/${nifti_file_without_ext}*.npy ${working_dir_1}/MIDLINENPYFILES_V2/
 #zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
 cd ${working_dir_1}
 zip -r /software/MIDLINENPYFILES_V2.zip MIDLINENPYFILES_V2

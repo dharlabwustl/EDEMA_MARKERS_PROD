@@ -586,7 +586,7 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 mkdir ${output_directory}/MIDLINENPYFILES
 cp ${output_directory}/*.npy ${output_directory}/MIDLINENPYFILES/
 #zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
-cd /workingoutput
+cd ${output_directory}
 zip -r /software/MIDLINENPYFILES.zip MIDLINENPYFILES
 
 

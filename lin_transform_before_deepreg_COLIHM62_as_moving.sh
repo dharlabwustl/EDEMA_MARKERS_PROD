@@ -396,10 +396,10 @@ infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_outp
 #########################################
 snipr_output_foldername="PREPROCESS_SEGM_3"
 #snipr_output_foldername='PREPROCESS_SEGM'
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.nii.gz' ) ##'warped_1_mov_mri_region_' )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+##outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} '.mat' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${registration_mat_file}) ${snipr_output_foldername} $(basename  ${registration_mat_file})

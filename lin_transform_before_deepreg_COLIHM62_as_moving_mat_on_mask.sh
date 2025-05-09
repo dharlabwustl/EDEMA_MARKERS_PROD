@@ -440,9 +440,9 @@ scanID=${array[2]}
 echo sessionId::${sessionID}
 echo scanId::${scanID}
 snipr_output_foldername="PREPROCESS_SEGM_3"
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 snipr_output_foldername="PREPROCESS_SEGM_3"
 ### check if the file exists:
 call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
@@ -568,9 +568,9 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
 midlineonly_each_scan ${session_ct}
 snipr_output_foldername="MIDLINE_NPY"
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #    resource_dirname="MIDLINE_NPY"
     for npyfilename in ${working_dir_1}/*.npy; do
       uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
@@ -589,9 +589,9 @@ outputfiles_present=$(python3 download_with_session_ID.py "${function_with_argum
 moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
-function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
-echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+#function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'CISTERN_COLIHM62' ) ##'warped_1_mov_mri_region_' )
+#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz

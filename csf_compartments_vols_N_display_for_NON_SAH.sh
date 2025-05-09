@@ -823,9 +823,27 @@ get_scanID_from_sessionID ${sessionID} ${working_dir}
 echo ${sessionID}::${scanID}
 dir_to_save=${working_dir}
 resource_dir="MIDLINE_NPY"
-call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
-outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+scan_URI="/data/experiments/${sessionID}/scans/${scanID}" ##/resources/${}"
+output_csvfile=${sessionID}_SCANMIDLINE_METADATA.csv
+call_get_resourcefiles_metadata_saveascsv_args ${scan_URI} ${resource_dir} ${working_dir} ${output_csvfile}
+while IFS=',' read -ra array; do
+  url=${array[6]}
+  filename=$(basename ${url})
+  call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
 
+#  echo
+  outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+done < <(tail -n +2 "${working_dir}/${output_csvfile}")
+
+#filename='MIDLINENPYFILES.zip'
+#call_download_a_singlefile_with_URIString_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID} ${resource_dir})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+#call_download_a_singlefile_with_URIString_arguments=('call_download_a_singlefile_with_URIString' ${url} ${filename} ${working_dir})
+#outputfiles_present=$(python3 download_with_session_ID.py "${call_download_a_singlefile_with_URIString_arguments[@]}")
+unzip  ${working_dir}/MIDLINENPYFILES.zip #-d ${working_dir_1}
+unzip  ${working_dir}/MIDLINENPYFILES_V2.zip
+mv /software/MIDLINENPYFILES/*.npy ${output_directory}/
+mv /software/MIDLINENPYFILES_V2/*.npy ${working_dir_1}/
 ################ DOWNLOAD MASKS ###############################
 ## METADATA in the MASK directory
 URI=/data/experiments/${sessionID}

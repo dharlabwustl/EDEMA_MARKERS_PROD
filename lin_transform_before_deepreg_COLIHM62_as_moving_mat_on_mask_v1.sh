@@ -588,9 +588,19 @@ cp ${output_directory}/*.npy ${output_directory}/MIDLINENPYFILES/
 #zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
 cd /workingoutput
 zip -r /software/MIDLINENPYFILES.zip MIDLINENPYFILES
+
+
+mkdir ${working_dir_1}/MIDLINENPYFILES_V2
+cp ${working_dir_1}/*.npy ${working_dir_1}/MIDLINENPYFILES_V2/
+#zip -r MIDLINENPYFILES.zip ${output_directory}/MIDLINENPYFILES
+cd ${working_dir_1}
+zip -r /software/MIDLINENPYFILES_V2.zip MIDLINENPYFILES_V2
+
+
 cd /software/
 resource_dirname="MIDLINE_NPY"
 uploadsinglefile ${sessionID} ${scanID} ./ ${snipr_output_foldername} MIDLINENPYFILES.zip
+uploadsinglefile ${sessionID} ${scanID} ./ ${snipr_output_foldername} MIDLINENPYFILES_V2.zip
 
 #    for npyfilename in ${working_dir_1}/*.npy; do
 #      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})

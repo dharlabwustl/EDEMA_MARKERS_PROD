@@ -470,6 +470,7 @@ split_masks_into_two_halves() {
   original_ct_file=''
   maskfile_extension=${1}
   for eachfile in ${working_dir_1}/*.nii*; do
+    if  [[ ${eachfile} != *"levelset"* ]] ; then
     original_ct_file=${eachfile}
     eachfile_basename=$(basename ${eachfile})
     originalfile_basename=${eachfile_basename}
@@ -496,7 +497,7 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
     mask_on_template=midlinecssfResampled1.nii.gz
     csf_mask_filename=${output_directory}/${csffilename}
     run_divide_mask_into_left_right ${grayimage} ${csf_mask_filename} ${output_directory} ${working_dir}
-
+    fi
   done
 
 }

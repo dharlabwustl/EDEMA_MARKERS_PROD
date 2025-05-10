@@ -84,7 +84,7 @@ def resample_image_to_voxel_size(image_data, current_voxel_size, target_voxel_si
     resampled_data = zoom(image_data, zoom_factors, order=1)  # Linear interpolation
     return resampled_data
 def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
-# Load the NIfTI file and extract the image data
+    # Load the NIfTI file and extract the image data
     moving_image_nii = nib.load(moving_image_file) #'moving_image.nii.gz')
     fixed_image_nii = nib.load(fixed_image_file) ##'fixed_image.nii.gz')
 
@@ -108,7 +108,7 @@ def normalization_N_resample_to_fixed(moving_image_file,fixed_image_file):
     resampled_moving_image_nii = nib.Nifti1Image(resampled_moving_image_data, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
     fixed_image_normalized_nii = nib.Nifti1Image(fixed_image_normalized, affine=fixed_image_nii.affine, header=fixed_image_nii.header)
 
-# Save the normalized and resampled image
+    # Save the normalized and resampled image
     nib.save(resampled_moving_image_nii, moving_image_file.split('.nii')[0]+'resampled_normalized_mov.nii.gz')
     nib.save(fixed_image_normalized_nii, fixed_image_file.split('.nii')[0]+'_normalized_fix.nii.gz')
 def only_resample_to_fixed(moving_image_file,fixed_image_file):
@@ -259,7 +259,7 @@ def separate_mask_regions_into_individual_image(nifti_file_path,output_dir):
             region_output_path = os.path.join(output_dir, f"mri_region_{int(region_value)}.nii.gz")
             nib.save(region_img, region_output_path)
             print(f'Saved region {int(region_value)} as {region_output_path}')
-    ########################
+        ########################
         command="echo passed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
         subprocess.call(command,shell=True)
         success=1
@@ -296,25 +296,25 @@ def whenOFsize512x512(levelset_file,OUTPUT_DIRECTORY):
     return "X"
 
 def whenOFsize512x512_new(levelset_file,original_file,OUTPUT_DIRECTORY):
-#     if "WUSTL" in levelset_file:
+    #     if "WUSTL" in levelset_file:
     original_file_nib=nib.load(original_file)
     image_levelset_nib=nib.load(levelset_file)
     image_levelset_data1=image_levelset_nib.dataobj.get_unscaled()
-#         flipped_mask=np.copy(image_levelset_data)
-#         for idx in range(image_levelset_data.shape[2]):
-#             flipped_mask[:,:,idx]=cv2.flip(image_levelset_data[:,:,idx],0)
-#         array_mask = nib.Nifti1Image(flipped_mask, affine=image_levelset_nib.affine, header=image_levelset_nib.header)
-#         niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
-#         nib.save(array_mask, niigzfilenametosave2)
-#     else:
+    #         flipped_mask=np.copy(image_levelset_data)
+    #         for idx in range(image_levelset_data.shape[2]):
+    #             flipped_mask[:,:,idx]=cv2.flip(image_levelset_data[:,:,idx],0)
+    #         array_mask = nib.Nifti1Image(flipped_mask, affine=image_levelset_nib.affine, header=image_levelset_nib.header)
+    #         niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
+    #         nib.save(array_mask, niigzfilenametosave2)
+    #     else:
     print("I am in whenOFsize512x512_new()")
     array_mask = nib.Nifti1Image(image_levelset_data1, affine=original_file_nib.affine, header=original_file_nib.header)
     niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
     nib.save(array_mask, niigzfilenametosave2)
 
 
-#     command= "cp  " + levelset_file + "  " + os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file))
-#     subprocess.call(command, shell=True)
+    #     command= "cp  " + levelset_file + "  " + os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file))
+    #     subprocess.call(command, shell=True)
     return "X"
 
 def whenOFsize512x512_new_flip_np(image_levelset_data1,original_file,levelset_file,OUTPUT_DIRECTORY):
@@ -340,36 +340,36 @@ def whenOFsize512x512_new_flip_np(image_levelset_data1,original_file,levelset_fi
     #     command= "cp  " + levelset_file + "  " + os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file))
     #     subprocess.call(command, shell=True)
     return "X"
-def whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY):
-#     if "WUSTL" in levelset_file:
-    print('original_file.shape::{}'.format(original_file))
-    print('levelset_file.shape::{}'.format(levelset_file))
-    original_file_nib=nib.load(original_file)
-    image_levelset_nib=nib.load(levelset_file)
-    print('original_file_nib.shape::{}'.format(original_file_nib.shape))
-    print('image_levelset_nib.shape::{}'.format(image_levelset_nib.shape))
-    image_levelset_data1=image_levelset_nib.dataobj.get_unscaled()
-    print('image_levelset_data1.shape::{}'.format(image_levelset_data1.shape))
-    for x in range(image_levelset_data1.shape[2]):
-        image_levelset_data1[:,:,x]=cv2.flip(image_levelset_data1[:,:,x],0)
-#         flipped_mask=np.copy(image_levelset_data)
-#         for idx in range(image_levelset_data.shape[2]):
-#             flipped_mask[:,:,idx]=cv2.flip(image_levelset_data[:,:,idx],0)
-#         array_mask = nib.Nifti1Image(flipped_mask, affine=image_levelset_nib.affine, header=image_levelset_nib.header)
-#         niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
-#         nib.save(array_mask, niigzfilenametosave2)
-#     else:
-    print("I am in whenOFsize512x512_new()")
-
-    print('image_levelset_data1_modified.shape::{}'.format(image_levelset_data1.shape))
-    array_mask = nib.Nifti1Image(image_levelset_data1, affine=original_file_nib.affine, header=original_file_nib.header)
-    niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
-    nib.save(array_mask, niigzfilenametosave2)
-
-
-#     command= "cp  " + levelset_file + "  " + os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file))
-#     subprocess.call(command, shell=True)
-    return "X"
+# def whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY):
+# #     if "WUSTL" in levelset_file:
+#     print('original_file.shape::{}'.format(original_file))
+#     print('levelset_file.shape::{}'.format(levelset_file))
+#     original_file_nib=nib.load(original_file)
+#     image_levelset_nib=nib.load(levelset_file)
+#     print('original_file_nib.shape::{}'.format(original_file_nib.shape))
+#     print('image_levelset_nib.shape::{}'.format(image_levelset_nib.shape))
+#     image_levelset_data1=image_levelset_nib.dataobj.get_unscaled()
+#     print('image_levelset_data1.shape::{}'.format(image_levelset_data1.shape))
+#     for x in range(image_levelset_data1.shape[2]):
+#         image_levelset_data1[:,:,x]=cv2.flip(image_levelset_data1[:,:,x],0)
+# #         flipped_mask=np.copy(image_levelset_data)
+# #         for idx in range(image_levelset_data.shape[2]):
+# #             flipped_mask[:,:,idx]=cv2.flip(image_levelset_data[:,:,idx],0)
+# #         array_mask = nib.Nifti1Image(flipped_mask, affine=image_levelset_nib.affine, header=image_levelset_nib.header)
+# #         niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
+# #         nib.save(array_mask, niigzfilenametosave2)
+# #     else:
+#     print("I am in whenOFsize512x512_new()")
+#
+#     print('image_levelset_data1_modified.shape::{}'.format(image_levelset_data1.shape))
+#     array_mask = nib.Nifti1Image(image_levelset_data1, affine=original_file_nib.affine, header=original_file_nib.header)
+#     niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
+#     nib.save(array_mask, niigzfilenametosave2)
+#
+#
+# #     command= "cp  " + levelset_file + "  " + os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file))
+# #     subprocess.call(command, shell=True)
+#     return "X"
 
 def whenOFsize512x5xx(original_file,levelset_file,OUTPUT_DIRECTORY="./"):
     image_nib_nii_file=nib.load(original_file)  #,header=False)
@@ -377,12 +377,12 @@ def whenOFsize512x5xx(original_file,levelset_file,OUTPUT_DIRECTORY="./"):
     image_levelset_data=nib.load(levelset_file).dataobj.get_unscaled()
     array_mask1=nib.load(levelset_file)
     if image_nib_nii_file.get_fdata().shape[1]>512 : #image_levelset_data.shape[1]:
-#    print("a")
+        #    print("a")
         print("ORIGINAL IMAGE SIZE")
         print(image_nib_nii_file.get_fdata().shape)
         print("YES DIFFER")
         # print(imagefile_levelset)
-#    npad = ((0, 0), (difference_size//2, difference_size//2), (0, 0))
+        #    npad = ((0, 0), (difference_size//2, difference_size//2), (0, 0))
         size_diff=(image_nib_nii_file.get_fdata().shape[1]-512)
         if (size_diff % 2 )== 0 :
             size_diff=int(size_diff/2)
@@ -505,58 +505,61 @@ def whenOFsize512x5xx_new_flip_np(original_file,image_levelset_data,levelset_fil
     # print("image_nib_nii_file_data.shape: {}::image_levelset_data1.shape{} ".format(image_nib_nii_file_data.shape,image_levelset_data1.shape))
 
     return "X"
-def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"):
-    image_nib_nii_file=nib.load(original_file)  #,header=False)
-    image_nib_nii_file_data=image_nib_nii_file.get_fdata() #
-    image_levelset_data=nib.load(levelset_file).dataobj.get_unscaled()
-    array_mask1=nib.load(levelset_file)
-    size_diff_x=np.abs(image_nib_nii_file.get_fdata().shape[0]-512)
-    size_diff_y=np.abs(image_nib_nii_file.get_fdata().shape[1]-512)
-    temp_array=np.copy(image_levelset_data)
+# def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"):
+#     image_nib_nii_file=nib.load(original_file)  #,header=False)
+#     image_nib_nii_file_data=image_nib_nii_file.get_fdata() #
+#     image_levelset_data=nib.load(levelset_file).dataobj.get_unscaled()
+#     array_mask1=nib.load(levelset_file)
+#     size_diff_x=np.abs(image_nib_nii_file.get_fdata().shape[0]-512)
+#     size_diff_y=np.abs(image_nib_nii_file.get_fdata().shape[1]-512)
+#     temp_array=np.copy(image_levelset_data)
+#
+#     if image_nib_nii_file.get_fdata().shape[0] >512:
+#         if (size_diff_x % 2 )== 0 :
+#             size_diff_x=int(size_diff_x/2)
+#             npad = ((size_diff_x-1, size_diff_x+1), (0, 0), (0, 0))
+#         else :
+#             size_diff_x=int(size_diff_x/2)
+#             npad = ((size_diff_x, size_diff_x+1), (0, 0), (0, 0))  #abs(np.min(image_levelset_data)
+#         temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
+#     if image_nib_nii_file.get_fdata().shape[1] >512:
+#         if (size_diff_y % 2 )== 0 :
+#             size_diff_y=int(size_diff_y/2)
+#             npad = ((0, 0),(size_diff_y-1, size_diff_y+1),  (0, 0))
+#         else :
+#             size_diff_y=int(size_diff_y/2)
+#             npad = ( (0, 0),(size_diff_y, size_diff_y+1), (0, 0))  #abs(np.min(image_levelset_data)
+#         temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
+#
+#     if image_nib_nii_file.get_fdata().shape[0] < 512:
+#         if (size_diff_x % 2 )== 0 :
+#             size_diff_x=int(size_diff_x/2)
+#             temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x,0:temp_array.shape[1],0:temp_array.shape[2]]
+#         else :
+#             size_diff_x=int(size_diff_x/2)
+#             temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x-1,0:temp_array.shape[1],0:temp_array.shape[2]]
+#
+#     if image_nib_nii_file.get_fdata().shape[1] < 512:
+#         if (size_diff_y % 2 )== 0 :
+#             size_diff_y=int(size_diff_y/2)
+#             temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y,0:temp_array.shape[2]]
+#         else :
+#             size_diff_y=int(size_diff_y/2)
+#             temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y-1,0:temp_array.shape[2]]
+#
+#
+#     for x in range(temp_array.shape[2]):
+#         temp_array[:,:,x]=cv2.flip(temp_array[:,:,x],0)
+#     image_levelset_data1=temp_array
+#     array_mask = nib.Nifti1Image(image_levelset_data1, affine=image_nib_nii_file.affine, header=image_nib_nii_file.header)
+#     niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
+#     nib.save(array_mask, niigzfilenametosave2)
+#     print("image_nib_nii_file_data.shape: {}::image_levelset_data1.shape{} ".format(image_nib_nii_file_data.shape,image_levelset_data1.shape))
+#
+#     return "X"
+#
 
-    if image_nib_nii_file.get_fdata().shape[0] >512:
-        if (size_diff_x % 2 )== 0 :
-            size_diff_x=int(size_diff_x/2)
-            npad = ((size_diff_x-1, size_diff_x+1), (0, 0), (0, 0))
-        else :
-            size_diff_x=int(size_diff_x/2)
-            npad = ((size_diff_x, size_diff_x+1), (0, 0), (0, 0))  #abs(np.min(image_levelset_data)
-        temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
-    if image_nib_nii_file.get_fdata().shape[1] >512:
-        if (size_diff_y % 2 )== 0 :
-            size_diff_y=int(size_diff_y/2)
-            npad = ((0, 0),(size_diff_y-1, size_diff_y+1),  (0, 0))
-        else :
-            size_diff_y=int(size_diff_y/2)
-            npad = ( (0, 0),(size_diff_y, size_diff_y+1), (0, 0))  #abs(np.min(image_levelset_data)
-        temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
 
-    if image_nib_nii_file.get_fdata().shape[0] < 512:
-        if (size_diff_x % 2 )== 0 :
-            size_diff_x=int(size_diff_x/2)
-            temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x,0:temp_array.shape[1],0:temp_array.shape[2]]
-        else :
-            size_diff_x=int(size_diff_x/2)
-            temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x-1,0:temp_array.shape[1],0:temp_array.shape[2]]
-
-    if image_nib_nii_file.get_fdata().shape[1] < 512:
-        if (size_diff_y % 2 )== 0 :
-            size_diff_y=int(size_diff_y/2)
-            temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y,0:temp_array.shape[2]]
-        else :
-            size_diff_y=int(size_diff_y/2)
-            temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y-1,0:temp_array.shape[2]]
-
-
-    for x in range(temp_array.shape[2]):
-        temp_array[:,:,x]=cv2.flip(temp_array[:,:,x],0)
-    image_levelset_data1=temp_array
-    array_mask = nib.Nifti1Image(image_levelset_data1, affine=image_nib_nii_file.affine, header=image_nib_nii_file.header)
-    niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
-    nib.save(array_mask, niigzfilenametosave2)
-    print("image_nib_nii_file_data.shape: {}::image_levelset_data1.shape{} ".format(image_nib_nii_file_data.shape,image_levelset_data1.shape))
-
-    return "X"
 #     if image_nib_nii_file.get_fdata().shape[1] >512:
 #         pass
 #     ## condition 1: when x-dimension and y-dimension differ in the same image:
@@ -566,13 +569,13 @@ def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"
 
 #         if image_nib_nii_file.get_fdata().shape[0] > 512: # and  image_nib_nii_file.get_fdata().shape[1] >512 :
 
-#             if (size_diff_x % 2 )== 0 : 
+#             if (size_diff_x % 2 )== 0 :
 #                 size_diff_x=int(size_diff_x/2)
-#                 npad = ((size_diff-1, size_diff+1), (size_diff-1, size_diff+1), (0, 0)) 
+#                 npad = ((size_diff-1, size_diff+1), (size_diff-1, size_diff+1), (0, 0))
 #             else :
 #                 size_diff=int(size_diff/2)
 #                 npad = ((size_diff-1, size_diff+1), (size_diff, size_diff+1), (0, 0))  #abs(np.min(image_levelset_data)
-#             image_levelset_data1=np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data)) 
+#             image_levelset_data1=np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data))
 #         elif image_nib_nii_file.get_fdata().shape[0] < 512 and  image_nib_nii_file.get_fdata().shape[1] < 512 :
 #             pass
 #         elif image_nib_nii_file.get_fdata().shape[0] > 512 and  image_nib_nii_file.get_fdata().shape[1] < 512 :
@@ -580,15 +583,15 @@ def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"
 #         elif image_nib_nii_file.get_fdata().shape[0] < 512 and  image_nib_nii_file.get_fdata().shape[1] > 512 :
 #             pass
 
-#     ## condition 1a: when x and y-dimension is > 512 
-#     ## condition 1b: when x and y-dimension is < 512 
-#     ## condition 1c: when x > 512 and y-dimension is < 512 
-#     ## condition 1d: when x < 512 and y-dimension is > 512 
+#     ## condition 1a: when x and y-dimension is > 512
+#     ## condition 1b: when x and y-dimension is < 512
+#     ## condition 1c: when x > 512 and y-dimension is < 512
+#     ## condition 1d: when x < 512 and y-dimension is > 512
 
 #     ## condition 2: when x-dimension and y-dimension are same in the image:
-#     ## condition 1a: when x and y-dimension is > 512 
-#     ## condition 1b: when x and y-dimension is < 512 
-#     if image_nib_nii_file.get_fdata().shape[1] == image_nib_nii_file.get_fdata().shape[0]  : 
+#     ## condition 1a: when x and y-dimension is > 512
+#     ## condition 1b: when x and y-dimension is < 512
+#     if image_nib_nii_file.get_fdata().shape[1] == image_nib_nii_file.get_fdata().shape[0]  :
 
 #         if image_nib_nii_file.get_fdata().shape[1]>512  : #image_levelset_data.shape[1]:
 #     #    print("a")
@@ -600,13 +603,13 @@ def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"
 #     #    npad = ((0, 0), (difference_size//2, difference_size//2), (0, 0))
 #             size_diff=np.abs(image_nib_nii_file.get_fdata().shape[1]-512)
 
-#             if (size_diff % 2 )== 0 : 
+#             if (size_diff % 2 )== 0 :
 #                 size_diff=int(size_diff/2)
-#                 npad = ((size_diff-1, size_diff+1), (size_diff-1, size_diff+1), (0, 0)) 
+#                 npad = ((size_diff-1, size_diff+1), (size_diff-1, size_diff+1), (0, 0))
 #             else :
 #                 size_diff=int(size_diff/2)
 #                 npad = ((size_diff-1, size_diff+1), (size_diff, size_diff+1), (0, 0))  #abs(np.min(image_levelset_data)
-#             image_levelset_data1=np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data)) 
+#             image_levelset_data1=np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data))
 #             array_mask = nib.Nifti1Image(image_levelset_data1, affine=image_nib_nii_file.affine, header=image_nib_nii_file.header)
 #             niigzfilenametosave2=os.path.join(OUTPUT_DIRECTORY,os.path.basename(levelset_file)) #.split(".nii")[0]+"RESIZED.nii.gz")
 #             nib.save(array_mask, niigzfilenametosave2)
@@ -620,13 +623,13 @@ def whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY="./"
 #     #    npad = ((0, 0), (difference_size//2, difference_size//2), (0, 0))
 #             size_diff=np.abs(image_nib_nii_file.get_fdata().shape[1]-512)
 #             print("size_diff:{}".format(size_diff))
-#             if (size_diff % 2 )== 0 : 
+#             if (size_diff % 2 )== 0 :
 #                 size_diff=int(size_diff/2)
 #     #             npad = ((0, 0), (size_diff-1, size_diff+1), (0, 0))
 #                 image_levelset_data1=image_levelset_data[0+size_diff:image_levelset_data.shape[0]-size_diff,0+size_diff:image_levelset_data.shape[1]-size_diff,0:image_levelset_data.shape[2]]
 #             else :
 #                 size_diff=int(size_diff/2)
-#                 image_levelset_data1=image_levelset_data[0+size_diff:image_levelset_data.shape[0]-size_diff,0+size_diff:image_levelset_data.shape[1]-size_diff,0:image_levelset_data.shape[2]] 
+#                 image_levelset_data1=image_levelset_data[0+size_diff:image_levelset_data.shape[0]-size_diff,0+size_diff:image_levelset_data.shape[1]-size_diff,0:image_levelset_data.shape[2]]
 ######################################################################################################
 
 def levelset2originalRF() : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
@@ -641,7 +644,7 @@ def levelset2originalRF() : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
         whenOFsize512x5xx(original_file,levelset_file,OUTPUT_DIRECTORY)
 
 def levelset2originalRF_new() : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
-#     print(sys.argv[1])
+    #     print(sys.argv[1])
 
     original_file=sys.argv[1]
     levelset_file=sys.argv[2]
@@ -657,22 +660,119 @@ def levelset2originalRF_new() : #original_file,levelset_file,OUTPUT_DIRECTORY=".
     else:
         whenOFsize512x5xx_new(original_file,levelset_file,OUTPUT_DIRECTORY)
 
-def levelset2originalRF_new_flip() : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
-#     print(sys.argv[1])
+# def levelset2originalRF_new_flip() : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
+# #     print(sys.argv[1])
+#
+#     original_file=sys.argv[1]
+#     levelset_file=sys.argv[2]
+#     OUTPUT_DIRECTORY=sys.argv[3]
+#     original_file_nib=nib.load(original_file)
+#
+#     original_file_nib_data=original_file_nib.get_fdata()
+#     print("For the file {}".format(levelset_file))
+#     print("I am in levelset2originalRF_new_flip()")
+#     print("original_file_nib_data.shape[1]: {}".format(original_file_nib_data.shape[1]))
+#     if original_file_nib_data.shape[1] == 512 :
+#         whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY)
+#     else:
+#         whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY)
+def levelset2originalRF_new_flip():
+    original_file = sys.argv[1]
+    levelset_file = sys.argv[2]
+    OUTPUT_DIRECTORY = sys.argv[3]
 
-    original_file=sys.argv[1]
-    levelset_file=sys.argv[2]
-    OUTPUT_DIRECTORY=sys.argv[3]
-    original_file_nib=nib.load(original_file)
+    original_nib = nib.load(original_file)
+    original_data = original_nib.get_fdata()
 
-    original_file_nib_data=original_file_nib.get_fdata()
     print("For the file {}".format(levelset_file))
     print("I am in levelset2originalRF_new_flip()")
-    print("original_file_nib_data.shape[1]: {}".format(original_file_nib_data.shape[1]))
-    if original_file_nib_data.shape[1] == 512 :
-        whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY)
+    print("original_file_nib_data.shape[1]: {}".format(original_data.shape[1]))
+
+    if original_data.shape[0] == 512 and original_data.shape[1] == 512:
+        whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
     else:
-        whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY)
+        whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
+
+def levelset2originalRF_new_flip_py(original_file,levelset_file,OUTPUT_DIRECTORY):
+    # original_file = sys.argv[1]
+    # levelset_file = sys.argv[2]
+    # OUTPUT_DIRECTORY = sys.argv[3]
+
+    original_nib = nib.load(original_file)
+    original_data = original_nib.get_fdata()
+
+    print("For the file {}".format(levelset_file))
+    print("I am in levelset2originalRF_new_flip()")
+    print("original_file_nib_data.shape[1]: {}".format(original_data.shape[1]))
+
+    if original_data.shape[0] == 512 and original_data.shape[1] == 512:
+        whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
+    else:
+        whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
+
+def whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY):
+    print('original_file.shape::{}'.format(original_file))
+    print('levelset_file.shape::{}'.format(levelset_file))
+
+    original_nib = nib.load(original_file)
+    levelset_nib = nib.load(levelset_file)
+    levelset_data = levelset_nib.get_fdata()
+
+    print('levelset_data.shape::{}'.format(levelset_data.shape))
+
+    # Flip along vertical axis (axis 0)
+    for z in range(levelset_data.shape[2]):
+        levelset_data[:, :, z] = cv2.flip(levelset_data[:, :, z], 0)
+
+    print("I am in whenOFsize512x512_new()")
+    array_mask = nib.Nifti1Image(levelset_data, affine=original_nib.affine, header=original_nib.header)
+    out_path = os.path.join(OUTPUT_DIRECTORY, os.path.basename(levelset_file))
+    nib.save(array_mask, out_path)
+    return "X"
+
+def whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY="./"):
+    original_nib = nib.load(original_file)
+    original_data = original_nib.get_fdata()
+
+    levelset_nib = nib.load(levelset_file)
+    levelset_data = levelset_nib.get_fdata()
+
+    x, y, z = levelset_data.shape
+    pad_crop_data = np.copy(levelset_data)
+
+    # Padding or cropping X
+    target_x = 512
+    diff_x = target_x - x
+    if diff_x > 0:
+        pad_x = [(math.floor(diff_x/2), math.ceil(diff_x/2)), (0, 0), (0, 0)]
+        pad_crop_data = np.pad(pad_crop_data, pad_width=pad_x, mode='constant', constant_values=np.min(levelset_data))
+    elif diff_x < 0:
+        crop_x = -diff_x
+        start = math.floor(crop_x / 2)
+        pad_crop_data = pad_crop_data[start:start+512, :, :]
+
+    # Padding or cropping Y
+    target_y = 512
+    diff_y = target_y - pad_crop_data.shape[1]
+    if diff_y > 0:
+        pad_y = [(0, 0), (math.floor(diff_y/2), math.ceil(diff_y/2)), (0, 0)]
+        pad_crop_data = np.pad(pad_crop_data, pad_width=pad_y, mode='constant', constant_values=np.min(levelset_data))
+    elif diff_y < 0:
+        crop_y = -diff_y
+        start = math.floor(crop_y / 2)
+        pad_crop_data = pad_crop_data[:, start:start+512, :]
+
+    # Flip vertically (axis 0)
+    for z in range(pad_crop_data.shape[2]):
+        pad_crop_data[:, :, z] = cv2.flip(pad_crop_data[:, :, z], 0)
+
+    final_mask = nib.Nifti1Image(pad_crop_data, affine=original_nib.affine, header=original_nib.header)
+    out_path = os.path.join(OUTPUT_DIRECTORY, os.path.basename(levelset_file))
+    nib.save(final_mask, out_path)
+
+    print("Final size: {} vs Original: {}".format(pad_crop_data.shape, original_data.shape))
+    return "X"
+
 def levelset2originalRF_new_flip_with_params(original_file,levelset_file,OUTPUT_DIRECTORY) : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
     #     print(sys.argv[1])
 
@@ -691,11 +791,11 @@ def levelset2originalRF_new_flip_with_params(original_file,levelset_file,OUTPUT_
         whenOFsize512x5xx_new_flip(original_file,levelset_file,OUTPUT_DIRECTORY)
 
 def levelset2originalRF_new_py(original_file,levelset_file,OUTPUT_DIRECTORY) : #original_file,levelset_file,OUTPUT_DIRECTORY="./"):
-#     print(sys.argv[1])
+    #     print(sys.argv[1])
 
-#     original_file=sys.argv[1]
-#     levelset_file=sys.argv[2]
-#     OUTPUT_DIRECTORY=sys.argv[3]
+    #     original_file=sys.argv[1]
+    #     levelset_file=sys.argv[2]
+    #     OUTPUT_DIRECTORY=sys.argv[3]
     original_file_nib=nib.load(original_file)
 
     original_file_nib_data=original_file_nib.get_fdata()
@@ -718,10 +818,10 @@ def hdr2niigz() : #,headerfiledata): hdrfilename,niigzfilenametosave
 
 
 def hdr2niigz_py(filenameniigz,original_grayfile,niigzfilenametosave) : #,headerfiledata): hdrfilename,niigzfilenametosave
-#     filenameniigz=sys.argv[1]
-#     original_grayfile=sys.argv[2]
+    #     filenameniigz=sys.argv[1]
+    #     original_grayfile=sys.argv[2]
     original_grayfile_nib=nib.load(original_grayfile)
-#     niigzfilenametosave=sys.argv[3]
+    #     niigzfilenametosave=sys.argv[3]
     # hdrfilename
     analyzedata=nib.AnalyzeImage.from_filename(filenameniigz)
     array_img = nib.Nifti1Image(analyzedata.dataobj.get_unscaled(), affine=original_grayfile_nib.affine, header=original_grayfile_nib.header)
@@ -733,63 +833,103 @@ def hdr2niigz_py(filenameniigz,original_grayfile,niigzfilenametosave) : #,header
 # #        print(imagefile_levelset)
 #     #    npad = ((0, 0), (difference_size//2, difference_size//2), (0, 0))
 #         size_diff=(image_nib_nii_file_data.shape[1]-512)
-#         if (size_diff % 2 )== 0 : 
+#         if (size_diff % 2 )== 0 :
 #             size_diff=int(size_diff/2)
-#     #            npad = ((0, 0), (size_diff-1, size_diff+1), (0, 0)) 
+#     #            npad = ((0, 0), (size_diff-1, size_diff+1), (0, 0))
 #             image_nib_nii_file_data=image_nib_nii_file_data[0:image_nib_nii_file_data.shape[0], size_diff:(image_nib_nii_file_data.shape[1]-size_diff), 0:image_nib_nii_file_data.shape[2]]  #+ 1024 #np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data)) #image_nib_nii_file_data[0:image_nib_nii_file_data.shape[0],0+(difference_size//2):image_nib_nii_file_data.shape[1]-(difference_size//2),0:image_nib_nii_file_data.shape[2]]
 #             print("I am EVEN")
 #         else :
 #             size_diff=int(size_diff/2)
 #             image_nib_nii_file_data=image_nib_nii_file_data[0:image_nib_nii_file_data.shape[0], size_diff:(image_nib_nii_file_data.shape[1]-size_diff-1), 0:image_nib_nii_file_data.shape[2]] # +1024 #np.pad(image_levelset_data, pad_width=npad, mode='constant', constant_values=np.min(image_levelset_data)) #image_nib_nii_file_data[0:image_nib_nii_file_data.shape[0],0+(difference_size//2):image_nib_nii_file_data.shape[1]-(difference_size//2),0:image_nib_nii_file_data.shape[2]]
 #     return image_nib_nii_file_data
-def resizeinto_512by512(image_nib_nii_file_data):
+# def resizeinto_512by512(image_nib_nii_file_data):
+#     print('I am in utilities_simple_trimmed.py')
+#     size_diff_x=np.abs(image_nib_nii_file_data.shape[0]-512)
+#     size_diff_y=np.abs(image_nib_nii_file_data.shape[1]-512)
+#     temp_array=np.copy(image_nib_nii_file_data)
+#
+#     if image_nib_nii_file_data.shape[0] <512:
+#         if (size_diff_x % 2 )== 0 :
+#             size_diff_x=int(size_diff_x/2)
+#             npad = ((size_diff_x-1, size_diff_x+1), (0, 0), (0, 0))
+#         else :
+#             size_diff_x=int(size_diff_x/2)
+#             npad = ((size_diff_x, size_diff_x+1), (0, 0), (0, 0))  #abs(np.min(image_levelset_data)
+#         temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
+#     if image_nib_nii_file_data.shape[1] <512:
+#         if (size_diff_y % 2 )== 0 :
+#             size_diff_y=int(size_diff_y/2)
+#             npad = ((0, 0),(size_diff_y-1, size_diff_y+1),  (0, 0))
+#         else :
+#             size_diff_y=int(size_diff_y/2)
+#             npad = ( (0, 0),(size_diff_y, size_diff_y+1), (0, 0))  #abs(np.min(image_levelset_data)
+#         temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
+#
+#     if image_nib_nii_file_data.shape[0] > 512:
+#         if (size_diff_x % 2 )== 0 :
+#             size_diff_x=int(size_diff_x/2)
+#             temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x,0:temp_array.shape[1],0:temp_array.shape[2]]
+#         else :
+#             size_diff_x=int(size_diff_x/2)
+#             temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x-1,0:temp_array.shape[1],0:temp_array.shape[2]]
+#
+#     if image_nib_nii_file_data.shape[1] > 512:
+#         if (size_diff_y % 2 )== 0 :
+#             size_diff_y=int(size_diff_y/2)
+#             temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y,0:temp_array.shape[2]]
+#         else :
+#             size_diff_x=int(size_diff_x/2)
+#             temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y-1,0:temp_array.shape[2]]
+#
+#     image_nib_nii_file_data=temp_array
+#     return image_nib_nii_file_data
+#
+import numpy as np
+import math
+
+def resizeinto_512by512(image_data):
+    """
+    Resize a 3D image (X, Y, Z) to shape (512, 512, Z)
+    by symmetric padding or cropping in X and Y dimensions.
+    """
     print('I am in utilities_simple_trimmed.py')
-    size_diff_x=np.abs(image_nib_nii_file_data.shape[0]-512)
-    size_diff_y=np.abs(image_nib_nii_file_data.shape[1]-512)
-    temp_array=np.copy(image_nib_nii_file_data)
 
-    if image_nib_nii_file_data.shape[0] <512:
-        if (size_diff_x % 2 )== 0 :
-            size_diff_x=int(size_diff_x/2)
-            npad = ((size_diff_x-1, size_diff_x+1), (0, 0), (0, 0))
-        else :
-            size_diff_x=int(size_diff_x/2)
-            npad = ((size_diff_x, size_diff_x+1), (0, 0), (0, 0))  #abs(np.min(image_levelset_data)
-        temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
-    if image_nib_nii_file_data.shape[1] <512:
-        if (size_diff_y % 2 )== 0 :
-            size_diff_y=int(size_diff_y/2)
-            npad = ((0, 0),(size_diff_y-1, size_diff_y+1),  (0, 0))
-        else :
-            size_diff_y=int(size_diff_y/2)
-            npad = ( (0, 0),(size_diff_y, size_diff_y+1), (0, 0))  #abs(np.min(image_levelset_data)
-        temp_array=np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(temp_array))
+    x, y, z = image_data.shape
+    temp_array = np.copy(image_data)
 
-    if image_nib_nii_file_data.shape[0] > 512:
-        if (size_diff_x % 2 )== 0 :
-            size_diff_x=int(size_diff_x/2)
-            temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x,0:temp_array.shape[1],0:temp_array.shape[2]]
-        else :
-            size_diff_x=int(size_diff_x/2)
-            temp_array=temp_array[size_diff_x:temp_array.shape[0]-size_diff_x-1,0:temp_array.shape[1],0:temp_array.shape[2]]
+    # ---- Padding if smaller than 512 ----
+    pad_x = max(0, 512 - x)
+    pad_y = max(0, 512 - y)
 
-    if image_nib_nii_file_data.shape[1] > 512:
-        if (size_diff_y % 2 )== 0 :
-            size_diff_y=int(size_diff_y/2)
-            temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y,0:temp_array.shape[2]]
-        else :
-            size_diff_x=int(size_diff_x/2)
-            temp_array=temp_array[0:temp_array.shape[0],size_diff_y:temp_array.shape[1]-size_diff_y-1,0:temp_array.shape[2]]
+    if pad_x > 0 or pad_y > 0:
+        npad = [
+            (math.floor(pad_x / 2), math.ceil(pad_x / 2)),
+            (math.floor(pad_y / 2), math.ceil(pad_y / 2)),
+            (0, 0)
+        ]
+        temp_array = np.pad(temp_array, pad_width=npad, mode='constant', constant_values=np.min(image_data))
 
-    image_nib_nii_file_data=temp_array
-    return image_nib_nii_file_data
+    # ---- Cropping if larger than 512 ----
+    new_x, new_y = temp_array.shape[:2]
 
+    crop_x = max(0, new_x - 512)
+    crop_y = max(0, new_y - 512)
+
+    if crop_x > 0:
+        start_x = math.floor(crop_x / 2)
+        temp_array = temp_array[start_x:start_x + 512, :, :]
+
+    if crop_y > 0:
+        start_y = math.floor(crop_y / 2)
+        temp_array = temp_array[:, start_y:start_y + 512, :]
+
+    return temp_array
 
 def rotate_image(img,center1=[0,0],angle=0):
     (h,w)= (img.shape[0],img.shape[1])
     scale = 1.0
     # calculate the center of the image
-#    center = (w / 2, h / 2)
+    #    center = (w / 2, h / 2)
     center = (center1[0], center1[1])
     M = cv2.getRotationMatrix2D(center, angle, scale)
     rotatedimg = cv2.warpAffine(img, M, (h, w), flags= cv2.INTER_NEAREST)
@@ -813,11 +953,11 @@ def rotate_around_point_highperf(xy, radians, origin=(0, 0)):
 
     return qx, qy
 def angle_bet_two_vector(v1,v2):
-#    angle = np.arctan2(np.linalg.norm(np.cross(v1,v2)), np.dot(v1,v2))
+    #    angle = np.arctan2(np.linalg.norm(np.cross(v1,v2)), np.dot(v1,v2))
     angle =(np.arctan2(v2[1], v2[0]) -  np.arctan2(v1[1], v1[0]))* 180 / np.pi
     return angle
 def angle_bet_two_vectorRad(v1,v2):
-#    angle = np.arctan2(np.linalg.norm(np.cross(v1,v2)), np.dot(v1,v2))
+    #    angle = np.arctan2(np.linalg.norm(np.cross(v1,v2)), np.dot(v1,v2))
     angle =np.arctan2(v2[1], v2[0]) -  np.arctan2(v1[1], v1[0])
     return angle
 def copy_nifti_parameters_sh():
@@ -843,15 +983,15 @@ def copy_nifti_parameters_sh():
     return "x"
 
 def copy_nifti_parameters_scaleintensity_1(file,output_directoryname):
-#     file = sys.argv[1]
-#     output_directoryname=  sys.argv[2]
-#    files=glob.glob(directoryname+"/*_levelset.nii.gz")
-#    for file in files:
+    #     file = sys.argv[1]
+    #     output_directoryname=  sys.argv[2]
+    #    files=glob.glob(directoryname+"/*_levelset.nii.gz")
+    #    for file in files:
     print(file)
-#        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
+    #        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
     target= file #sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTswithObviousMLS/datafromyasheng/NIIGZFILES/Helsinki2000_414_02052013_1437_Head_4.0_ax_Tilt_1_levelset.nii.gz"
     #savefile_extension=sys.argv[3] #"gray" #sys.argv[3]
-#        template_nii=nib.load(template)
+    #        template_nii=nib.load(template)
     target_nii= nib.load(target)
     target_save=os.path.basename(target)#.split(".nii")[0] + savefile_extension + ".nii.gz"
     print(os.path.join(output_directoryname,target_save))
@@ -860,8 +1000,8 @@ def copy_nifti_parameters_scaleintensity_1(file,output_directoryname):
     new_header['glmax']=np.max(new_data)
     new_header['glmin']=np.min(new_data)
     print("changed header and save too")
-#        new_header['dim']= target_nii.header['dim']
-#        new_header['pixdim']= target_nii.header['pixdim']
+    #        new_header['dim']= target_nii.header['dim']
+    #        new_header['pixdim']= target_nii.header['pixdim']
     array_img = nib.Nifti1Image(new_data,affine=target_nii.affine, header=new_header)
     nib.save(array_img, os.path.join(output_directoryname,target_save))
     return "x"
@@ -869,19 +1009,19 @@ def copy_nifti_parameters_scaleintensity_1(file,output_directoryname):
 def copy_nifti_parameters_scaleintensity_sh():
     file = sys.argv[1]
     output_directoryname=  sys.argv[2]
-#    files=glob.glob(directoryname+"/*_levelset.nii.gz")
-#    for file in files:
+    #    files=glob.glob(directoryname+"/*_levelset.nii.gz")
+    #    for file in files:
     print(file)
-#        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
+    #        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
     target= file #sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTswithObviousMLS/datafromyasheng/NIIGZFILES/Helsinki2000_414_02052013_1437_Head_4.0_ax_Tilt_1_levelset.nii.gz"
     #savefile_extension=sys.argv[3] #"gray" #sys.argv[3]
-#        template_nii=nib.load(template)
+    #        template_nii=nib.load(template)
     target_nii= nib.load(target)
     target_save=os.path.basename(target)#.split(".nii")[0] + savefile_extension + ".nii.gz"
     print(os.path.join(output_directoryname,target_save))
     new_header=target_nii.header
-#        new_header['dim']= target_nii.header['dim']
-#        new_header['pixdim']= target_nii.header['pixdim']
+    #        new_header['dim']= target_nii.header['dim']
+    #        new_header['pixdim']= target_nii.header['pixdim']
     array_img = nib.Nifti1Image(target_nii.dataobj.get_unscaled()-1024.0,affine=target_nii.affine, header=new_header)
     nib.save(array_img, os.path.join(output_directoryname,target_save))
     return "x"
@@ -889,19 +1029,19 @@ def copy_nifti_parameters_scaleintensity_sh():
 def dummy_copy_nifti_parameters_scaleintensity_sh():
     file = sys.argv[1]
     output_directoryname=  sys.argv[2]
-#    files=glob.glob(directoryname+"/*_levelset.nii.gz")
-#    for file in files:
+    #    files=glob.glob(directoryname+"/*_levelset.nii.gz")
+    #    for file in files:
     print(file)
-#        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
+    #        template="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/REGISTRATION2TEMPLATE/DATA/CLINICALMASTER/scct_strippedResampled1.nii.gz"
     target= file #sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/DATA/CTswithObviousMLS/datafromyasheng/NIIGZFILES/Helsinki2000_414_02052013_1437_Head_4.0_ax_Tilt_1_levelset.nii.gz"
     #savefile_extension=sys.argv[3] #"gray" #sys.argv[3]
-#        template_nii=nib.load(template)
+    #        template_nii=nib.load(template)
     target_nii= nib.load(target)
     target_save=os.path.basename(target)#.split(".nii")[0] + savefile_extension + ".nii.gz"
     print(os.path.join(output_directoryname,target_save))
     new_header=target_nii.header
-#        new_header['dim']= target_nii.header['dim']
-#        new_header['pixdim']= target_nii.header['pixdim']
+    #        new_header['dim']= target_nii.header['dim']
+    #        new_header['pixdim']= target_nii.header['pixdim']
     array_img = nib.Nifti1Image(target_nii.get_fdata(),affine=target_nii.affine, header=new_header)
     nib.save(array_img, os.path.join(output_directoryname,target_save))
     return "x"
@@ -912,8 +1052,8 @@ def betgrayfrombetbinary1_sh():
     bet_inputfile_dir=sys.argv[2]
     betgrayfile=os.path.join(bet_inputfile_dir,os.path.basename(inputfile).split(".nii.gz")[0] + "_bet.nii.gz")   #sys.argv[2]
     ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
-#    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
-#    for eachgrayfiles in allgrayfiles:
+    #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
+    #    for eachgrayfiles in allgrayfiles:
     eachgrayfiles=inputfile
     niifilenametosave=os.path.join("/output",os.path.basename(inputfile).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")
     print('eachgrayfiles')
@@ -933,8 +1073,8 @@ def betgrayfrombetbinary1_sh_v1():
     output_directory=sys.argv[3]
     betgrayfile=os.path.join(bet_inputfile_dir,os.path.basename(inputfile).split(".nii")[0] + "_bet.nii.gz")   #sys.argv[2]
     ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
-#    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
-#    for eachgrayfiles in allgrayfiles:
+    #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
+    #    for eachgrayfiles in allgrayfiles:
     if os.path.exists(betgrayfile):
         eachgrayfiles=inputfile
         niifilenametosave=os.path.join(output_directory,os.path.basename(inputfile).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")
@@ -953,12 +1093,12 @@ def betgrayfrombetbinary1_sh_v1():
 
 def betgrayfrombetbinary1_sh_v2():
     inputfile=sys.argv[1]
-#    bet_inputfile_dir=os.path.dirname(sys.argv[2])
+    #    bet_inputfile_dir=os.path.dirname(sys.argv[2])
     output_directory=sys.argv[3]
     betgrayfile=sys.argv[2] #os.path.join(bet_inputfile_dir,os.path.basename(inputfile).split(".nii.gz")[0] + "_bet.nii.gz")   #sys.argv[2]
     ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
-#    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
-#    for eachgrayfiles in allgrayfiles:
+    #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
+    #    for eachgrayfiles in allgrayfiles:
     eachgrayfiles=inputfile
     niifilenametosave=os.path.join(output_directory,os.path.basename(inputfile).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")
     print('eachgrayfiles')
@@ -978,8 +1118,8 @@ def betgrayfrombetbinary1_sh_v3():
     output_directory=sys.argv[3]
     betgrayfile=sys.argv[2] #os.path.join(bet_inputfile_dir,os.path.basename(inputfile).split(".nii")[0] + "_bet.nii.gz")   #sys.argv[2]
     ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
-#    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
-#    for eachgrayfiles in allgrayfiles:
+    #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
+    #    for eachgrayfiles in allgrayfiles:
     if os.path.exists(betgrayfile):
         eachgrayfiles=inputfile_gray
         niifilenametosave=os.path.join(output_directory,os.path.basename(inputfile_gray).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")
@@ -1017,7 +1157,7 @@ def latex_start(filename):
 
 
 
-#    file1.writelines("\\begin{document}\n")
+    #    file1.writelines("\\begin{document}\n")
     return file1
 def call_latex_start(args):
     returnvalue=0
@@ -1210,7 +1350,7 @@ def latex_insert_line(filename,text="ATUL KUMAR"):
     file1 = open(filename,"a")
     currentDT = str(datetime.datetime.now())
     file1.writelines("\\section{" + currentDT + "}" ) #\\today : \\currenttime}")
-#    file1.writelines("\\date{\\today}")
+    #    file1.writelines("\\date{\\today}")
     file1.writelines("\\detokenize{")
     file1.writelines(text)
     file1.writelines("\n")
@@ -1228,17 +1368,17 @@ def latex_insert_line_nodate(filename,text="ATUL KUMAR"):
     command= "sed -i 's#\\end{document}##'   " +  filename
     subprocess.call(command,shell=True)
     file1 = open(filename,"a")
-#    currentDT = str(datetime.datetime.now())
-#    file1.writelines("\\section{" + currentDT + "}" ) #\\today : \\currenttime}")
-#    file1.writelines("\\date{\\today}")
+    #    currentDT = str(datetime.datetime.now())
+    #    file1.writelines("\\section{" + currentDT + "}" ) #\\today : \\currenttime}")
+    #    file1.writelines("\\date{\\today}")
     file1.writelines("\\detokenize{")
     file1.writelines(text)
     file1.writelines("\n")
     file1.writelines("}")
     return file1
 def writetolabnotebook(labnotebook,text):
-#    latex_start(labnotebook)
-#    latex_begin_document(labnotebook)
+    #    latex_start(labnotebook)
+    #    latex_begin_document(labnotebook)
     latex_insert_line(labnotebook,text)
     latex_end(labnotebook)
 def writetoanewlabnotebook(labnotebook):
@@ -1266,7 +1406,7 @@ def combinecsvs(inputdirectory,outputdirectory,outputfilename):
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'
     all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*.{}'.format(extension)))]
-#    os.chdir(inputdirectory)
+    #    os.chdir(inputdirectory)
     #combine all files in the list
     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
     #export to csv
@@ -1279,7 +1419,7 @@ def combinecsvs_sh():
     outputfilepath=os.path.join(outputdirectory,outputfilename)
     extension = 'csv'
     all_filenames = [i for i in glob.glob(os.path.join(inputdirectory,'*.{}'.format(extension)))]
-#    os.chdir(inputdirectory)
+    #    os.chdir(inputdirectory)
     #combine all files in the list
     combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
     #export to csv
@@ -1304,7 +1444,7 @@ def diff_two_csv(file1,file2,outputfile="diff.csv"):
 
 def write_tex_im_in_afolder(foldername,max_num_img,img_ext="*.png"):
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
     latexfilename=foldername+".tex"
     latex_start(latexfilename)
@@ -1334,7 +1474,7 @@ def filename_replace_dots(foldername,img_ext):
         each_f_basename_new_w_path=os.path.join(foldername,each_f_basename_new)
         command = "mv   "  + each_file  + "   " + each_f_basename_new_w_path
         print(each_file)
-#        print()
+        #        print()
         subprocess.call(command,shell=True)
 def filename_replace_dots1(foldername,img_ext):
     files=glob.glob(os.path.join(foldername,"*_"+img_ext))
@@ -1346,7 +1486,7 @@ def filename_replace_dots1(foldername,img_ext):
         each_f_basename_new_w_path=os.path.join(foldername,each_f_basename_new)
         command = "mv   "  + each_file  + "   " + each_f_basename_new_w_path
         print(each_f_basename_new)
-#        print()
+        #        print()
         subprocess.call(command,shell=True)
 
 
@@ -1355,7 +1495,7 @@ def filename_replace_dots1(foldername,img_ext):
 
 def write_tex_im_in_3folders(foldername1,foldername2,foldername3,max_num_img,extension=".png"):
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
     foldername1="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/GaborOnly"
     foldername2="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/RegistrationOnly"
@@ -1367,7 +1507,7 @@ def write_tex_im_in_3folders(foldername1,foldername2,foldername3,max_num_img,ext
     # for each image file in the folder insert text to include the image a figure
     png_files=glob.glob(os.path.join(foldername1,"*" + extension )) #.png"))
     counter=0
-#    max_num_img=5
+    #    max_num_img=5
 
     for each_png_file in png_files:
         if counter < max_num_img:
@@ -1391,7 +1531,7 @@ def write_tex_im_in_3folders(foldername1,foldername2,foldername3,max_num_img,ext
 
 def write_tex_im_in_3folders_(foldername1,foldername2,foldername3,max_num_img,extension=".png"):
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
     foldername1="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/GaborOnly"
     foldername2="/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/RegistrationOnly"
@@ -1403,7 +1543,7 @@ def write_tex_im_in_3folders_(foldername1,foldername2,foldername3,max_num_img,ex
     # for each image file in the folder insert text to include the image a figure
     png_files=sorted(glob.glob(os.path.join(foldername1,"*GTvsGABOR*" + extension ))) #.png"))
     counter=0
-#    max_num_img=5
+    #    max_num_img=5
 
     for each_png_file in png_files:
         if counter < max_num_img:
@@ -1430,7 +1570,7 @@ def write_tex_im_in_3folders_(foldername1,foldername2,foldername3,max_num_img,ex
 
 def write_tex_im_in_3folders_sh():
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
     foldername1=sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/GaborOnly"
     foldername2=sys.argv[2] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/RegistrationOnly"
@@ -1467,7 +1607,7 @@ def write_tex_im_in_afolder_sh():
     foldername=sys.argv[1]
     max_num_img=int(sys.argv[2])
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
     latexfilename=foldername+".tex"
     latex_start(latexfilename)
@@ -1491,7 +1631,7 @@ def write_tex_im_in_afolder_sh():
 def write_tex_im_in_afolder_py(foldername,max_num_img=200,fileext="png"):
 
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
 
     # for each image file in the folder insert text to include the image a figure
@@ -1529,7 +1669,7 @@ def write_tex_im_in_afolder_py(foldername,max_num_img=200,fileext="png"):
 def write_tex_im_in_afolder_v1(foldername,max_num_img=200,filenamepattern=".png"):
 
     # get the folder name
-#    foldername="" # complete path
+    #    foldername="" # complete path
     # start writing tex file
 
     # for each image file in the folder insert text to include the image a figure
@@ -1664,8 +1804,8 @@ def latex_insertimage_tableNc(filename,images,N, caption="ATUL",imagescale=0.5, 
         else:
             file1.writelines("\\includegraphics[angle="+ str(angle) + ",width=" + str(imagescale) + "\\textwidth]{" + images[x] + "}\n")
 
-#    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
-#     file1.writelines("\\vspace{" + str(space)+"em}\n")
+    #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
+    #     file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 
 def latex_inserttext_tableNc_colored(filename,texts,text_colors,N,space=1):
@@ -1804,7 +1944,7 @@ def latex_insertimage_tableNc_v1(filename,images,N, caption="ATUL",imagescale=0.
             file1.writelines("\\includegraphics[angle="+ str(angle) + ",width=" + str(imagescale) + "\\textwidth]{" + images[x] + "}\n")
             file1.writelines("\\" + "\\")
 
-#    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
+    #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     # file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 
@@ -1820,7 +1960,7 @@ def latex_inserttext_tableNc(filename,text1,N,space=1):
         else:
             file1.writelines(text1[x] + "\\" +"\\")
 
-#    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
+    #    file1.writelines("\\includegraphics[width=" + str(imagescale) + "\\textwidth]{"+  image2 + "}\n")
     # file1.writelines("\\vspace{" + str(space)+"em}\n")
     return file1
 
@@ -1896,7 +2036,7 @@ def savesingleslicesofnifti(filename,slicenumber=0,savetodir=""):
     else:
         img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(20, 60))
         # img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
-#    for x in range(img_gray_data.shape[2]):
+    #    for x in range(img_gray_data.shape[2]):
     x=slicenumber
     filenamejpg=os.path.join(savetodir,os.path.basename(filename).split(".nii")[0]+str(x)+".jpg" )
     cv2.imwrite(filenamejpg,img_gray_data[:,:,x]*255 )
@@ -1905,8 +2045,8 @@ def savesingleslicesofnifti(filename,slicenumber=0,savetodir=""):
 def sas7bdatTOcsv(inputfilename,outputfilename=""):
     if len(outputfilename)==0:
         outputfilename=inputfilename.split(".sas7bdat")[0] + ".csv"
-#    inputfilename="/home/atul/Downloads/dra.sas7bdat"
-#    outputfilename="/home/atul/Downloads/dra.csv"
+    #    inputfilename="/home/atul/Downloads/dra.sas7bdat"
+    #    outputfilename="/home/atul/Downloads/dra.csv"
     inputdataframe=pd.read_sas(inputfilename, format = 'sas7bdat', encoding="latin-1")
     inputdataframe.to_csv(outputfilename, index=False)
 
@@ -1936,31 +2076,31 @@ def contrast_stretch_np(img,threshold_id):
         ct_image=exposure.rescale_intensity(img.get_fdata() , in_range=(1020, 1100))
     return ct_image
 def saveslicesofnumpy3D(img_gray_data,savefilename="",savetodir=""):
-##    filename_nib=nib.load(filename)
-##    filename_gray_data_np=filename_nib.get_fdata()
-#    min_img_gray=np.min(filename_gray_data_np)
-#    img_gray_data=0
-#    if not os.path.exists(savetodir):
-#        savetodir=os.path.dirname(filename)
-#    if min_img_gray>=0:
-#        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
-#    else:
-#        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
+    ##    filename_nib=nib.load(filename)
+    ##    filename_gray_data_np=filename_nib.get_fdata()
+    #    min_img_gray=np.min(filename_gray_data_np)
+    #    img_gray_data=0
+    #    if not os.path.exists(savetodir):
+    #        savetodir=os.path.dirname(filename)
+    #    if min_img_gray>=0:
+    #        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
+    #    else:
+    #        img_gray_data=exposure.rescale_intensity( filename_gray_data_np , in_range=(0, 200))
     for x in range(img_gray_data.shape[2]):
         slice_num="{0:0=3d}".format(x)
         cv2.imwrite(os.path.join(savetodir,os.path.basename(savefilename).split(".nii")[0]+str(slice_num)+".jpg" ),img_gray_data[:,:,x] )
 
 
 #def tex_for_each_subject():
-    # find unique CT names:
+# find unique CT names:
 
-    #create a tex file:
-    # for each file of a CT:
-    # find the files with that name arranged in ascending order of time:
+#create a tex file:
+# for each file of a CT:
+# find the files with that name arranged in ascending order of time:
 
-    # write those images into the tex file
+# write those images into the tex file
 
-    # come out of for loop and close the latex file
+# come out of for loop and close the latex file
 
 
 
@@ -2386,7 +2526,7 @@ def df_to_latex_2(df,colmn_width,thiscaption='table'):
 
     # Define proper column format with fixed width
     column_format = "| " + (" p{"+ str(colmn_width)+"cm} |" ) * len(headers)
-# column_format = "| " + " p{4.5cm} |" * len(headers)
+    # column_format = "| " + " p{4.5cm} |" * len(headers)
     # Wrap in landscape environment
     latex = "\\begin{landscape}\n\\tiny\n\\begin{longtable}{" + column_format + "}\n\\caption{"+thiscaption+"}\n\\hline\n"
 

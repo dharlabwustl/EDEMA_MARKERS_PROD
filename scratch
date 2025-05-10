@@ -1,0 +1,17 @@
+grayscale_filename='/workinginput/COLI_HLP01_07092020_1325_2_resaved_levelset.nii.gz'
+contrast_limits=(0,200)
+mask_filename_list=['/workinginput/COLI_HLP01_07092020_1325_2_resaved_levelset_bet_left_half_originalRF.nii.gz','/workinginput/COLI_HLP01_07092020_1325_2_resaved_levelset_bet_right_half_originalRF.nii.gz','/workinginput/COLI_HLP01_07092020_1325_2_resaved_csf_unet_left_half_originalRF.nii.gz','/workinginput/COLI_HLP01_07092020_1325_2_resaved_csf_unet_right_half_originalRF.nii.gz']
+mask_color_list=['purple','red','black','black']
+outputfile_dir='/workingoutput'
+outputfile_suffix='TEST'
+npyfiledirectory='/input1'
+    returnvalue='ATUL'
+
+    divide_a_mask_into_left_right_submasks(niftifilename,Mask_filename,npyfiledirectory,OUTPUT_DIRECTORY)
+    Mask_filename='/workingoutput/COLI_HLP01_07092020_1325_2_resaved_levelset_bet.nii.gz'
+    niftifilename='/workingoutput/COLI_HLP01_07092020_1325_2_resaved_levelset.nii'
+    npyfiledirectory='/workingoutput'
+    OUTPUT_DIRECTORY='/workinginput'
+    original_file='/workingoutput/COLI_HLP01_07092020_1325_2_resaved_levelset.nii'
+    levelset_file='/workinginput/COLI_HLP01_07092020_1325_2_resaved_levelset_bet.nii.gz'
+    OUTPUT_DIRECTORY='/software'

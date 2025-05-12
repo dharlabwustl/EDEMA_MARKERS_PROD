@@ -5,6 +5,7 @@ zip_folder_name=$(unzip -l all_scans_SESSION_ID.zip | awk '{print $4}' | grep '/
 unzip all_scans_SESSION_ID.zip ##-d /ZIPFILEDIR/
 
 python3 /software/match_snipr_tree.py
+mv ${zip_folder_name}/scans ${zip_folder_name}/SCANS
 ## DOWNLOAD FILES FROM SNIPR AND ARRANGE THE WAY IT IS AVAILABLE IN THE SNIPR
 
 # copy the NIFTI LOCATION FILE:

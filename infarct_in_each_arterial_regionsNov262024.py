@@ -688,9 +688,9 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
         download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True   )
-        return
+        # command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        # subprocess.call(command,shell=True   )
+        # return
         # print('ATUL')
         # return
         resource_dir='MASKLABEL'

@@ -1455,7 +1455,7 @@ def findthetargetscan():
 def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,file_suffix):
     try:
 
-        print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
+        # print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
         url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
         df_listfile=listoffile_witha_URI_as_df(url)
         subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

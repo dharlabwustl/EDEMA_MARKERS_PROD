@@ -3,7 +3,7 @@
 import sys,os,glob,subprocess,argparse
 from infarct_in_each_arterial_regionsNov262024 import *
 from infarct_in_each_lobar_regionsNov262024 import *
-import traceback,inspect
+import traceback,inspect,subprocess
 from binarize_regions_arterial_involvement import *
 def clean_dirs():
     command='rm -r /workinginput/*'
@@ -99,7 +99,9 @@ def main():
     args = parser.parse_args()
     name_of_the_function=args.stuff[0]
     return_value=0
-    print(f" I am here{inspect.stack()[0][3]}")
+    command=f"echo I am here{inspect.stack()[0][3]}" + ">> /output/error.txt"
+    subprocess.call(command,)
+    # print(f" I am here{inspect.stack()[0][3]}")
     return
     if name_of_the_function=="call_arterial_location_distribution":
         return_value=call_arterial_location_distribution(args)

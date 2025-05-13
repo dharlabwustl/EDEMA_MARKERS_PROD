@@ -1030,9 +1030,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         uploadsinglefile_with_URI(url,file_name,resource_dirname)
         file_name=latexfilename.split('.tex')[0] +'.csv'
         uploadsinglefile_with_URI(url,file_name,resource_dirname)
-        command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True)
-        return
+
         return 1
 
     except Exception as e:

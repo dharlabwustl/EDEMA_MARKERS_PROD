@@ -598,8 +598,7 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
 
     # Initialize a 3D RGB image array for each slice
     grayscale_image_array = np.stack([np.dstack([grayscale_img[:, :, i]] * 3) for i in range(grayscale_img.shape[2])])
-    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
-    return
+
     # Superimpose mask color on each slice
     for i in range(grayscale_img.shape[2]):
         mask_slice = infarct_mask_data[:, :, i]
@@ -610,6 +609,8 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
         # Save the result as a PNG image
         output_path = os.path.join(output_dir, f'{image_prefix}_{i:03d}.png')
         cv2.imwrite(output_path, grayscale_image_array[i])
+        subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
+        return
 
     print(f"Images saved in {output_dir} directory")
 

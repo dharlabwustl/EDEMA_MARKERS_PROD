@@ -1454,10 +1454,11 @@ def findthetargetscan():
      return target_scan
 def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,file_suffix):
     try:
-        subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
         url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
         df_listfile=listoffile_witha_URI_as_df(url)
+        subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         for item_id, row in df_listfile.iterrows():
             if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)

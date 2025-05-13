@@ -2644,7 +2644,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         subprocess.call(command, shell=True)
         command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
         subprocess.call(command,shell=True)
-        return
+        # return
         return SCAN_ID, SCAN_NAME
 
     except Exception as e:

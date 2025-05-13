@@ -1462,7 +1462,6 @@ def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,fi
             if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)
                 print("DOWNLOADED ::{}".format(row))
-        subprocess.call("echo " + "I PASSED ATUL1  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         return True
     except Exception as exception:

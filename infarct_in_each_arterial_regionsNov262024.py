@@ -701,13 +701,14 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # return
         resource_dir='PREPROCESS_SEGM_1'
         # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,mri_mask_dir)
-        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",mri_mask_dir,resource_dir,'COLIHM620406202215542')
 
         resource_dir='PREPROCESS_SEGM'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'COLIHM620406202215542')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'warped_moving_image')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'fixed_image')
+        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
         resource_dir='MASKS'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')

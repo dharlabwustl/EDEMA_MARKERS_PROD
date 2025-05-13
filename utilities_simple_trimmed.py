@@ -841,7 +841,7 @@ def levelset2originalRF_new_flip_with_params(original_file,levelset_file,OUTPUT_
     print("For the file {}".format(levelset_file))
     print("I am in levelset2originalRF_new_flip()")
     print("original_file_nib_data.shape[1]: {}".format(original_file_nib_data.shape[1]))
-    match_and_flip_to_original_xy(original_file, levelset_file, OUTPUT_DIRECTORY="./")
+    match_and_flip_to_original_xy(original_file, levelset_file, OUTPUT_DIRECTORY=OUTPUT_DIRECTORY)
     # if original_file_nib_data.shape[1] == 512 :
     #     whenOFsize512x512_new_flip(levelset_file,original_file,OUTPUT_DIRECTORY)
     # else:

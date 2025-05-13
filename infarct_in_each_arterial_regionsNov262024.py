@@ -728,7 +728,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         mask_img_paths=glob.glob(os.path.join(mri_mask_dir,'warped_1*_fixed_COLIHM620406202215542_lin1_BET.nii.gz')) #glob.glob(os.path.join(mri_mask_dir,'warped_1*BET.nii.gz'))  #glob.glob(os.path.join(mri_mask_dir,'*.nii.gz'))
         grayscale_img_path=os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')
         min_intensity,max_intensity=get_min_max_intensity(grayscale_img_path)
-        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         # subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # print(mask_img_paths)
         gray_img=nib.load(grayscale_img_path).get_fdata()
@@ -750,7 +750,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print(infarct_mask_filename)
         post_process_smooothing_closing(infarct_mask_filename,binary_threshold=0.6,smooth_sigma=2.0)
         #################
-
+        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(os.path.join(working_dir_1,f'{SESSION_ID}.xml'))
         print(f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")

@@ -31,9 +31,7 @@ def clean_dirs():
 
 def call_arterial_location_distribution(args): #SESSION_ID):
     return_value=0
-    command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
-    subprocess.call(command,shell=True)
-    return
+
     try:
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])

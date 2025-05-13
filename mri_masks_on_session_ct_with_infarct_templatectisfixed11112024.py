@@ -603,7 +603,7 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
     subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"::{grayscale_img.shape[0]}::{grayscale_img.shape[1]}::{grayscale_img.shape[2]}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
     # return
     subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"::{infarct_mask_data.shape[0]}::{infarct_mask_data.shape[1]}::{infarct_mask_data.shape[2]}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
-    return
+    # return
     # Superimpose mask color on each slice
     for i in range(grayscale_img.shape[2]):
         mask_slice = infarct_mask_data[:, :, i]

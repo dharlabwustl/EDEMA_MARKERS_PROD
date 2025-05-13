@@ -911,7 +911,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
                 df_for_pdf.loc[each_id, 'legendcolor'] = territory_color
         # column_to_insert=df_for_pdf['session_label']
         # df_for_pdf.insert(0, 'session_label', column_to_insert)
-        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         print(df_for_pdf)
         df_for_pdf['legendcolor']=df_for_pdf[ 'legendcolor'].apply(lambda filename: f"\\includegraphics[scale=0.2]{{{os.path.basename(filename)}}}" if pd.notna(filename) and filename else "")
@@ -921,6 +920,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         ## graysice with regional infarct mask
         image_prefix='regional_infarct'
         superimpose_regions_overlapping_infarct_on_ct(grayscale_img_path,mask_img_paths,infarct_mask_filename,output_dir,predefined_legend,image_prefix)
+        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         image_prefix='regions'
         superimpose_regions_overlapping_infarct_on_ct(grayscale_img_path,mask_img_paths,grayscale_img_path,output_dir,predefined_legend,image_prefix)

@@ -29,38 +29,39 @@ def clean_dirs():
     command="rm -r /outputinsidedocker/*"
     subprocess.call(command,shell=True)
 
-def call_arterial_location_distribution(args): #SESSION_ID):
-    return_value=0
+# def call_arterial_location_distribution(args): #SESSION_ID):
+#     return_value=0
+#
+#     try:
+#         clean_dirs()
+#         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
+#         print(SESSION_ID)
+#
+#         return_value=arterial_region_volumes_n_display(SESSION_ID)
+#         subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
+#
+#         # if return_value==1:
+#         #     subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
+#         #     binarized_region_artery()
+#         return  return_value
+#
+#         # error_msg = traceback.format_exc()
+#         # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
+#     except Exception as e :
+#         # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
+#         # subprocess.call(command,shell=True)
+#         # print(e)
+#         # pass
+#         # except Exception as e :
+#         # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
+#         # subprocess.call(command,shell=True)
+#         # print(e)
+#         # pass
+#         # except Exception as e:
+#         error_msg = traceback.format_exc()
+#         subprocess.call("echo " + "I traceback error_msg  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+#         return 0
 
-    try:
-        clean_dirs()
-        SESSION_ID=args.stuff[1] ##str(row_item['ID'])
-        print(SESSION_ID)
-
-        return_value=arterial_region_volumes_n_display(SESSION_ID)
-        subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
-
-        # if return_value==1:
-        #     subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
-        #     binarized_region_artery()
-        return  return_value
-
-        # error_msg = traceback.format_exc()
-        # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format("error_msg") ,shell=True )
-    except Exception as e :
-        # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
-        # subprocess.call(command,shell=True)
-        # print(e)
-        # pass
-        # except Exception as e :
-        # command = "echo error is " + str(e) + " >>" + "/workingoutput/error.txt"
-        # subprocess.call(command,shell=True)
-        # print(e)
-        # pass
-        # except Exception as e:
-        error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error_msg  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
-        return 0
 def call_lobar_location_distribution(args): #SESSION_ID):
     return_value=0
     try:
@@ -103,8 +104,8 @@ def main():
 
     # print(f" I am here{inspect.stack()[0][3]}")
     # return
-    if name_of_the_function=="call_arterial_location_distribution":
-        return_value=call_arterial_location_distribution(args)
+    # if name_of_the_function=="call_arterial_location_distribution":
+    #     return_value=call_arterial_location_distribution(args)
     if name_of_the_function=="call_lobar_location_distribution":
         return_value=call_lobar_location_distribution(args)
     return  return_value

@@ -31,6 +31,9 @@ def clean_dirs():
 
 def call_arterial_location_distribution(args): #SESSION_ID):
     return_value=0
+    command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
+    subprocess.call(command,shell=True)
+    return
     try:
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
@@ -99,10 +102,9 @@ def main():
     args = parser.parse_args()
     name_of_the_function=args.stuff[0]
     return_value=0
-    command=f"echo I am here{inspect.stack()[0][3]}" + ">> /output/error.txt"
-    subprocess.call(command,shell=True)
+
     # print(f" I am here{inspect.stack()[0][3]}")
-    return
+    # return
     if name_of_the_function=="call_arterial_location_distribution":
         return_value=call_arterial_location_distribution(args)
     if name_of_the_function=="call_lobar_location_distribution":

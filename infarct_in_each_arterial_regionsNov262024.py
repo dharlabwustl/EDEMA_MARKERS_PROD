@@ -920,7 +920,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         ## graysice with regional infarct mask
         image_prefix='regional_infarct'
         superimpose_regions_overlapping_infarct_on_ct(grayscale_img_path,mask_img_paths,infarct_mask_filename,output_dir,predefined_legend,image_prefix)
-        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         image_prefix='regions'
         superimpose_regions_overlapping_infarct_on_ct(grayscale_img_path,mask_img_paths,grayscale_img_path,output_dir,predefined_legend,image_prefix)
@@ -931,7 +930,8 @@ def arterial_region_volumes_n_display(SESSION_ID):
         superimpose_singlemask_on_gray_ct_threshgiven(grayscale_img_path, infarct_mask_filename, output_dir, (0,0,250), image_prefix,[500,700])
         image_prefix='original_ct_with_infarct_only'
         superimpose_singlemask_on_gray_ct_original(original_gray_filename, infarct_mask_in_ORF, output_dir, (0,0,250), image_prefix,[20,60])
-
+        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
+        return
         # latexfilename=create_a_latex_filename(filename_prefix,filename_to_write)
         latex_start(latexfilename)
         latex_additionalPackages(latexfilename,["pdflscape","longtable"])

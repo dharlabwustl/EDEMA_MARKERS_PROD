@@ -682,9 +682,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         SCAN_ID,SCAN_NAME=get_selected_scan_info(SESSION_ID,file_output_dir)
         print(f'{SCAN_ID}::{SCAN_NAME}')
         # return
-        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True   )
-        return
+
         working_dir_1='/input1'
         Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
         # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
@@ -758,7 +756,9 @@ def arterial_region_volumes_n_display(SESSION_ID):
         variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
         print(variables)
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
-
+        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        subprocess.call(command,shell=True   )
+        return
         # globals_copy = globals().copy()
         # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
         # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}

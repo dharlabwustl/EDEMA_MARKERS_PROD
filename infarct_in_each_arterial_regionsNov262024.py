@@ -688,17 +688,15 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
         download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        # command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        # subprocess.call(command,shell=True   )
-        # return
+
         # print('ATUL')
         # return
         resource_dir='MASKLABEL'
-        subprocess.call("echo " + "I FAILED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I passed  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.nii')
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.csv')
-        subprocess.call("echo " + "I PASSED  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED  ATUL ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         #
         # return
         resource_dir='PREPROCESS_SEGM_1'

@@ -15,8 +15,8 @@ else
   python3 /software/match_snipr_tree.py ${zip_folder_name}
 
   IS_XNAT=0
-    mv software/${zip_folder_name}/scans software/${zip_folder_name}/scans_temp && \
-    mv software/${zip_folder_name}/scans_temp software/${zip_folder_name}/SCANS
+    mv /software/${zip_folder_name}/scans /software/${zip_folder_name}/scans_temp && \
+    mv /software/${zip_folder_name}/scans_temp /software/${zip_folder_name}/SCANS
 fi
 
 

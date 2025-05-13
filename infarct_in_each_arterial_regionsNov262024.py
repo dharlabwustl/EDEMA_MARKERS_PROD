@@ -742,7 +742,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
         template_nifti_file_base_noext=os.path.basename(template_nifti_file).split('.nii')[0]
-        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         # Find infarct mask
         # scct_strippedResampled1='scct_strippedResampled1'
         infarct_mask_pattern=f'warped_1_mov_{file_without_ext}_resaved_infarct_auto_removesmall_fixed_{template_nifti_file_base_noext}_lin1_BET.nii.gz'
@@ -750,7 +750,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print(infarct_mask_list)
         infarct_mask_filename=infarct_mask_list[0]
         print(infarct_mask_filename)
-
+        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         post_process_smooothing_closing(infarct_mask_filename,binary_threshold=0.6,smooth_sigma=2.0)
         #################
 

@@ -926,12 +926,13 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         saveslicesofnifti_withgiventhresh_inmri(grayscale_img_path,500,700,savetodir=output_dir)
         image_prefix='infarct_only'
+        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
+        return
         # superimpose_singlemask_on_gray_ct(grayscale_img_path, infarct_mask_filename, output_dir, (0,0,250), image_prefix)
         superimpose_singlemask_on_gray_ct_threshgiven(grayscale_img_path, infarct_mask_filename, output_dir, (0,0,250), image_prefix,[500,700])
         image_prefix='original_ct_with_infarct_only'
         superimpose_singlemask_on_gray_ct_original(original_gray_filename, infarct_mask_in_ORF, output_dir, (0,0,250), image_prefix,[20,60])
-        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
-        return
+
         # latexfilename=create_a_latex_filename(filename_prefix,filename_to_write)
         latex_start(latexfilename)
         latex_additionalPackages(latexfilename,["pdflscape","longtable"])

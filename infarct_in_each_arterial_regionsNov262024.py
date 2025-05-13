@@ -732,7 +732,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # Intensity levels
         # min_intensity=np.min(gray_img[gray_img>10]) #np.min(gray_img)]) #20
         # max_intensity=np.max(gray_img[gray_img>np.min(gray_img)]) #60
-        subprocess.call("echo " + "I PASSED :{}::  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED ATUL :{}::  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         template_nifti_file='/software/COLIHM620406202215542.nii.gz' ##scct_strippedResampled1.nii.gz'
         template_nifti_file_base_noext=os.path.basename(template_nifti_file).split('.nii')[0]
         # Find infarct mask

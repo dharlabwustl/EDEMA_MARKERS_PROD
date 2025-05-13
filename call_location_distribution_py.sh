@@ -1,5 +1,8 @@
 #!/bin/bash
-if [ -n "$XNAT_HOST" ]; then
+count=$(ls -1 /input | wc -l)
+echo "$count items"
+if [[ $count -gt 1 ]] ; then
+#if [ -n "$XNAT_HOST" ]; then
   echo "🧠 Running inside XNAT container (XNAT_HOST=$XNAT_HOST)"
   IS_XNAT=1
 else

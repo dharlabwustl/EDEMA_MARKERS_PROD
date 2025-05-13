@@ -585,6 +585,7 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
     # Load and normalize grayscale image
 
     grayscale_img = nib.load(grayscale_img_path).get_fdata()
+
     min_int=thresh[0]
     max_int=thresh[1] ##extract_central_slice_intensity_range(grayscale_img, output_size=100)
     # grayscale_img = ((grayscale_img - grayscale_img.min()) / (grayscale_img.max() - grayscale_img.min()) * 255).astype(np.uint8)
@@ -594,12 +595,13 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
 
     # Load infarct mask and binarize it
     infarct_mask_data = nib.load(infarct_mask_filename).get_fdata()
+    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{grayscale_img.shape}::{infarct_mask_data.shape}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
+    return
     infarct_mask_data = (infarct_mask_data > 0.5).astype(np.uint8)
 
     # Initialize a 3D RGB image array for each slice
     grayscale_image_array = np.stack([np.dstack([grayscale_img[:, :, i]] * 3) for i in range(grayscale_img.shape[2])])
-    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{grayscale_image_array.shape}::{infarct_mask_data.shape}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
-    return
+
     # Superimpose mask color on each slice
     for i in range(grayscale_img.shape[2]):
         mask_slice = infarct_mask_data[:, :, i]

@@ -100,7 +100,7 @@ def main():
     name_of_the_function=args.stuff[0]
     return_value=0
     command=f"echo I am here{inspect.stack()[0][3]}" + ">> /output/error.txt"
-    subprocess.call(command,)
+    subprocess.call(command,shell=True)
     # print(f" I am here{inspect.stack()[0][3]}")
     return
     if name_of_the_function=="call_arterial_location_distribution":

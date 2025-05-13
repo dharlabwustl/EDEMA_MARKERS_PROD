@@ -585,7 +585,7 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
     # Load and normalize grayscale image
 
     grayscale_img = nib.load(grayscale_img_path).get_fdata()
-    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
+    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"::{grayscale_img.shape[0]}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
     return
     min_int=thresh[0]
     max_int=thresh[1] ##extract_central_slice_intensity_range(grayscale_img, output_size=100)

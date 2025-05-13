@@ -687,11 +687,11 @@ def levelset2originalRF_new_flip():
     print("For the file {}".format(levelset_file))
     print("I am in levelset2originalRF_new_flip()")
     print("original_file_nib_data.shape[1]: {}".format(original_data.shape[1]))
-
-    if original_data.shape[0] == 512 and original_data.shape[1] == 512:
-        whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
-    else:
-        whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
+    match_and_flip_to_original_xy(original_file, levelset_file, OUTPUT_DIRECTORY=OUTPUT_DIRECTORY)
+    # if original_data.shape[0] == 512 and original_data.shape[1] == 512:
+    #     whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
+    # else:
+    #     whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
 
 def levelset2originalRF_new_flip_py(original_file,levelset_file,OUTPUT_DIRECTORY):
     # original_file = sys.argv[1]
@@ -704,11 +704,12 @@ def levelset2originalRF_new_flip_py(original_file,levelset_file,OUTPUT_DIRECTORY
     print("For the file {}".format(levelset_file))
     print("I am in levelset2originalRF_new_flip()")
     print("original_file_nib_data.shape[1]: {}".format(original_data.shape[1]))
-
-    if original_data.shape[0] == 512 and original_data.shape[1] == 512:
-        whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
-    else:
-        whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
+    match_and_flip_to_original_xy(original_file, levelset_file, OUTPUT_DIRECTORY=OUTPUT_DIRECTORY)
+    #
+    # if original_data.shape[0] == 512 and original_data.shape[1] == 512:
+    #     whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY)
+    # else:
+    #     whenOFsize512x5xx_new_flip(original_file, levelset_file, OUTPUT_DIRECTORY)
 
 def whenOFsize512x512_new_flip(levelset_file, original_file, OUTPUT_DIRECTORY):
     print('original_file.shape::{}'.format(original_file))

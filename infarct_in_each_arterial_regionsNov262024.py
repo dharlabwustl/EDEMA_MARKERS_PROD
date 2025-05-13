@@ -15,10 +15,7 @@ import mysql.connector
 import random
 import linecache
 import csv,traceback
-XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
-XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
-XNAT_USER = os.environ['XNAT_USER']#
-XNAT_PASS =os.environ['XNAT_PASS'] #
+
 def transpose_with_column_names(df, index_col_name="Original Column Name", row_prefix="Row"):
     """
     Transposes the DataFrame so that original column names become the first column.

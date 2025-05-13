@@ -772,7 +772,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
         print(variables)
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
-        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         # globals_copy = globals().copy()
         # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
@@ -795,6 +794,8 @@ def arterial_region_volumes_n_display(SESSION_ID):
         new_columns = {f"{region_mask_type}_region{num}": 0 for num in mask_num_list}
         df1 = df1.assign(**new_columns)
         print(df1)
+        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
+
         # # from utilities_simple_trimmed import * ;
         levelset2originalRF_new_flip_with_params(original_gray_filename,infarct_mask_from_yasheng,output_dir) #"${original_ct_file}" "${levelset_bet_mask_file}" "${output_directory}"
         infarct_mask_in_ORF=os.path.join(output_dir,os.path.basename(infarct_mask_from_yasheng))

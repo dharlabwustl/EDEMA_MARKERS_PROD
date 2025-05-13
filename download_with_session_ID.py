@@ -2624,16 +2624,16 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         # Log additional debug information
         command = f"echo passed at each_row_id: {df_scan['URI'].iloc[0]} >> /output/error.txt"
         subprocess.call(command, shell=True)
-        command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True)
-        return
+
         # Download the file specified by the URI
         download_a_singlefile_with_URIString(
             str(df_scan['URI'].iloc[0]),
             os.path.basename(str(df_scan['URI'].iloc[0])),
             dir_to_save
         )
-
+        command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        subprocess.call(command,shell=True)
+        return
         # Read the downloaded file to extract SCAN_ID and SCAN_NAME
         nifti_location = pd.read_csv(
             os.path.join(dir_to_save, os.path.basename(str(df_scan['URI'].iloc[0])))

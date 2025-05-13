@@ -716,14 +716,14 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
-        subprocess.call("echo " + "I PASSED 5   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         directory_of_files_after_deepreg=working_dir_1
         # return
         file_without_ext=SCAN_NAME.split('.nii')[0] ##os.path.basename(session_ct_path).split('.nii')[0]
         predefined_legend=os.path.join(working_dir_1,'legend.csv') # '/software/legend.csv'
         command='mv ' + os.path.join(mri_mask_dir,'*bfc'+splitter+'*.nii.gz') + '  ' + output_dir
         subprocess.call(command,shell=True)
-        #
+        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         #  ## '/software/www_nitrc_org_frs//maskonly'
         mask_img_paths=glob.glob(os.path.join(mri_mask_dir,'warped_1*_fixed_COLIHM620406202215542_lin1_BET.nii.gz')) #glob.glob(os.path.join(mri_mask_dir,'warped_1*BET.nii.gz'))  #glob.glob(os.path.join(mri_mask_dir,'*.nii.gz'))
         grayscale_img_path=os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')

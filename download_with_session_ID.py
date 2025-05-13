@@ -2641,7 +2641,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
 
         # Log success message
         command = f"echo passed at each_row_id: {inspect.stack()[0][3]} >> /output/error.txt"
-        subprocess.call(command, shell=True)
+        subprocess.call(command, shell=True  )
 
         return SCAN_ID, SCAN_NAME
 

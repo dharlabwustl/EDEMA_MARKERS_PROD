@@ -708,7 +708,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'COLIHM620406202215542')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'warped_moving_image')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'fixed_image')
-        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
         resource_dir='MASKS'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
@@ -716,6 +716,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
+        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         directory_of_files_after_deepreg=working_dir_1
         # return

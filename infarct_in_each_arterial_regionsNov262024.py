@@ -714,6 +714,8 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
+        subprocess.call("echo " + "I PASSED ATUL2  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         directory_of_files_after_deepreg=working_dir_1
         # return
         file_without_ext=SCAN_NAME.split('.nii')[0] ##os.path.basename(session_ct_path).split('.nii')[0]

@@ -833,7 +833,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print('{}::{}::{}::{}'.format(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type))
         df2=volumes_regions_overlapping_infarct_on_ct(mask_img_paths,infarct_mask_filename,template_nifti_file,region_mask_type,infarct_volume_after_reg,infarct_volume_before_reg=infarct_volume_before_reg,splitter=splitter)
         df1.update(df2)
-        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         # df1=df1.drop('lobar_regionbrain.bfc', axis=1)
         # print(df1)
@@ -936,6 +935,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         latex_start(latexfilename)
         latex_additionalPackages(latexfilename,["pdflscape","longtable"])
         latex_begin_document(latexfilename)
+        subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
 
         # latex_start_table1c(latexfilename)
         # latex_code = df_for_pdf.to_latex(index=False, escape=False)

@@ -1,12 +1,21 @@
 #!/bin/bash
-curl -v -u ${XNAT_USER}:${XNAT_PASS}   "${XNAT_HOST}/data/experiments/SNIPR01_E00193/scans/6/files?format=zip"   -o all_scans_SESSION_ID.zip
-zip_folder_name=$(unzip -l all_scans_SESSION_ID.zip | awk '{print $4}' | grep '/' | cut -d/ -f1 | sort -u)
+if [ -n "$XNAT_HOST" ]; then
+  echo "🧠 Running inside XNAT container (XNAT_HOST=$XNAT_HOST)"
+  IS_XNAT=1
+else
+  echo "🏠 Running on local machine"
+  curl -v -u ${XNAT_USER}:${XNAT_PASS}   "${XNAT_HOST}/data/experiments/SNIPR01_E00193/scans/6/files?format=zip"   -o all_scans_SESSION_ID.zip
+  zip_folder_name=$(unzip -l all_scans_SESSION_ID.zip | awk '{print $4}' | grep '/' | cut -d/ -f1 | sort -u)
 
-unzip all_scans_SESSION_ID.zip ##-d /ZIPFILEDIR/
+  unzip all_scans_SESSION_ID.zip ##-d /ZIPFILEDIR/
 
-python3 /software/match_snipr_tree.py ${zip_folder_name}
-mv software/${zip_folder_name}/scans software/${zip_folder_name}/scans_temp && \
-mv software/${zip_folder_name}/scans_temp software/${zip_folder_name}/SCANS
+  python3 /software/match_snipr_tree.py ${zip_folder_name}
+  mv software/${zip_folder_name}/scans software/${zip_folder_name}/scans_temp && \
+  mv software/${zip_folder_name}/scans_temp software/${zip_folder_name}/SCANS
+  IS_XNAT=0
+fi
+
+
 
 ## DOWNLOAD FILES FROM SNIPR AND ARRANGE THE WAY IT IS AVAILABLE IN THE SNIPR
 

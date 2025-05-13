@@ -748,9 +748,10 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print(infarct_mask_list)
         infarct_mask_filename=infarct_mask_list[0]
         print(infarct_mask_filename)
+        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         post_process_smooothing_closing(infarct_mask_filename,binary_threshold=0.6,smooth_sigma=2.0)
         #################
-        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
 
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(os.path.join(working_dir_1,f'{SESSION_ID}.xml'))
         print(f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")

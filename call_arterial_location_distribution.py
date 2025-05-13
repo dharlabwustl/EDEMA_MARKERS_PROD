@@ -3,7 +3,7 @@
 import sys,os,glob,subprocess,argparse
 from infarct_in_each_arterial_regionsNov262024 import *
 from infarct_in_each_lobar_regionsNov262024 import *
-import traceback
+import traceback,inspect
 from binarize_regions_arterial_involvement import *
 def clean_dirs():
     command='rm -r /workinginput/*'
@@ -35,6 +35,8 @@ def call_arterial_location_distribution(args): #SESSION_ID):
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
+        print(f" I am here{inspect.stack()[0][3]}")
+        return
         return_value=arterial_region_volumes_n_display(SESSION_ID)
         subprocess.call("echo " + "I call_arterial_location_distribution return_value  ::{}  >> /workingoutput/error.txt".format(return_value) ,shell=True )
 

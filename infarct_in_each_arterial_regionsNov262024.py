@@ -701,7 +701,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # return
         resource_dir='PREPROCESS_SEGM_1'
         # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,mri_mask_dir)
-        subprocess.call("echo " + "I PASSED ATUL 2 :{}::  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",mri_mask_dir,resource_dir,'COLIHM620406202215542')
 
         resource_dir='PREPROCESS_SEGM'

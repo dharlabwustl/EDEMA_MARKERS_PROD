@@ -38,5 +38,5 @@ for scan_dir in os.listdir(source_root):
 
             shutil.copy2(src_file, dst_file)
 
-print("✅ Directory flattening complete.")
+print("Directory flattening complete.")
 

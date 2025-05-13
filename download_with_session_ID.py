@@ -1458,11 +1458,12 @@ def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,fi
         # print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
         url = (("/data/experiments/%s/scans/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
         df_listfile=listoffile_witha_URI_as_df(url)
-        subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         for item_id, row in df_listfile.iterrows():
             if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):
                 download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)
                 print("DOWNLOADED ::{}".format(row))
+        subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+
         return True
     except Exception as exception:
         print("FAILED AT ::{}".format(exception))
@@ -2373,7 +2374,7 @@ def listoffile_witha_URI_as_df(URI):
     if response.status_code != 200:
         # #xnatSession.close_httpsession())
         return num_files_present
-    subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    # subprocess.call("echo " + "I PASSED ATUL  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     metadata_masks=response.json()['ResultSet']['Result']
     df_listfile = pd.read_json(json.dumps(metadata_masks))
     # #xnatSession.close_httpsession())

@@ -13,9 +13,10 @@ else
   unzip all_scans_SESSION_ID.zip ##-d /ZIPFILEDIR/
 
   python3 /software/match_snipr_tree.py ${zip_folder_name}
-  mv software/${zip_folder_name}/scans software/${zip_folder_name}/scans_temp && \
-  mv software/${zip_folder_name}/scans_temp software/${zip_folder_name}/SCANS
+
   IS_XNAT=0
+    mv software/${zip_folder_name}/scans software/${zip_folder_name}/scans_temp && \
+    mv software/${zip_folder_name}/scans_temp software/${zip_folder_name}/SCANS
 fi
 
 

@@ -687,6 +687,10 @@ def arterial_region_volumes_n_display(SESSION_ID):
         Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
         # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
         download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
+        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
+        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        subprocess.call(command,shell=True   )
+        return
         # print('ATUL')
         # return
         resource_dir='MASKLABEL'
@@ -741,10 +745,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print(infarct_mask_filename)
         post_process_smooothing_closing(infarct_mask_filename,binary_threshold=0.6,smooth_sigma=2.0)
         #################
-        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
-        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True   )
-        return
+
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(os.path.join(working_dir_1,f'{SESSION_ID}.xml'))
         print(f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )

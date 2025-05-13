@@ -602,11 +602,11 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
     # Superimpose mask color on each slice
     for i in range(grayscale_img.shape[2]):
         mask_slice = infarct_mask_data[:, :, i]
-
+        subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{grayscale_image_array.shape}::{infarct_mask_data.shape}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
+        return
         # Apply color only on mask regions
         grayscale_image_array[i][mask_slice > 0] = color_tuple
-        subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
-        return
+
         # Save the result as a PNG image
         output_path = os.path.join(output_dir, f'{image_prefix}_{i:03d}.png')
         cv2.imwrite(output_path, grayscale_image_array[i])

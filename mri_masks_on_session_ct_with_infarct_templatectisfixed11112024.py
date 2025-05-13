@@ -598,12 +598,12 @@ def superimpose_singlemask_on_gray_ct_original(grayscale_img_path, infarct_mask_
 
     # Initialize a 3D RGB image array for each slice
     grayscale_image_array = np.stack([np.dstack([grayscale_img[:, :, i]] * 3) for i in range(grayscale_img.shape[2])])
-
+    subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{grayscale_image_array.shape}::{infarct_mask_data.shape}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
+    return
     # Superimpose mask color on each slice
     for i in range(grayscale_img.shape[2]):
         mask_slice = infarct_mask_data[:, :, i]
-        subprocess.call("echo " + "I PASSED AT TESTING superimpose_singlemask_on_gray_ct_original::{}  >> /workingoutput/error.txt".format((f"{grayscale_image_array.shape}::{infarct_mask_data.shape}::{output_dir}::{infarct_mask_filename}::{grayscale_img_path}")) ,shell=True )
-        return
+
         # Apply color only on mask regions
         grayscale_image_array[i][mask_slice > 0] = color_tuple
 

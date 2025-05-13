@@ -741,6 +741,10 @@ def arterial_region_volumes_n_display(SESSION_ID):
         print(infarct_mask_filename)
         post_process_smooothing_closing(infarct_mask_filename,binary_threshold=0.6,smooth_sigma=2.0)
         #################
+        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
+        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        subprocess.call(command,shell=True   )
+        return
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(os.path.join(working_dir_1,f'{SESSION_ID}.xml'))
         print(f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")
         subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format((f"{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
@@ -755,10 +759,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # df1 = pd.DataFrame([variable_dict])
         variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
         print(variables)
-        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(variables) ,shell=True )
-        command=f"echo I am here ::{SCAN_ID}::{SCAN_NAME}:: {inspect.stack()[0][3]}" + ">> /output/error.txt"
-        subprocess.call(command,shell=True   )
-        return
+
         # globals_copy = globals().copy()
         # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}
         # variable_dict = {name: globals_copy[name] for name in variables if name in globals_copy}

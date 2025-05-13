@@ -2601,7 +2601,7 @@ def project_resource_latest_analytic_file(args):
 # def get_file_for_second_round():
 def get_selected_scan_info(SESSION_ID, dir_to_save):
     # Log failure message for debugging
-    command = f"echo failed at each_row_id: {inspect.stack()[0][3]} >> /output/error.txt"
+    command = f"echo passed at each_row_id: {inspect.stack()[0][3]} >> /output/error.txt"
     subprocess.call(command, shell=True)
 
     # Define the URI and URL for the request
@@ -2611,7 +2611,9 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
     # Initialize XNAT session
     #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     #xnatSession.renew_httpsession()
-
+    command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
+    subprocess.call(command,shell=True)
+    return
     try:
         # Make a GET request to the XNAT server
         response = xnatSession.httpsess.get(xnatSession.host + url)
@@ -2622,7 +2624,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         df_scan = pd.read_json(json.dumps(metadata_masks))
 
         # Log additional debug information
-        command = f"echo failed_1 at each_row_id: {df_scan['URI'].iloc[0]} >> /output/error.txt"
+        command = f"echo passed at each_row_id: {df_scan['URI'].iloc[0]} >> /output/error.txt"
         subprocess.call(command, shell=True)
 
         # Download the file specified by the URI

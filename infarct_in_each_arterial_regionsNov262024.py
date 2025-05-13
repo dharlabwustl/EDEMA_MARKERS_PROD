@@ -748,7 +748,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         infarct_mask_pattern=f'warped_1_mov_{file_without_ext}_resaved_infarct_auto_removesmall_fixed_{template_nifti_file_base_noext}_lin1_BET.nii.gz'
         infarct_mask_list=glob.glob(os.path.join(directory_of_files_after_deepreg,infarct_mask_pattern)) ##f'warped_1_mov_{file_without_ext}*_resaved_infarct_auto_removesmallresampled_mov_fixed_{template_nifti_file_base_noext}_lin1.nii.gz'))
         print(infarct_mask_list)
-        subprocess.call("echo " + "I PASSED 55   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED 55 :{}  ::{}  >> /workingoutput/error.txt".format(infarct_mask_list,inspect.stack()[0][3]) ,shell=True )
         infarct_mask_filename=infarct_mask_list[0]
         print(infarct_mask_filename)
 

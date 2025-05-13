@@ -1,8 +1,8 @@
 
 # from infarct_in_each_aretrial_regions_v2 import *
 import sys,os,glob,subprocess,argparse
-from infarct_in_each_arterial_regionsNov262024 import *
-from infarct_in_each_lobar_regionsNov262024 import *
+
+
 import traceback,inspect,subprocess
 from binarize_regions_arterial_involvement import *
 def clean_dirs():
@@ -33,6 +33,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
     return_value=0
 
     try:
+        from infarct_in_each_arterial_regionsNov262024 import *
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)
@@ -64,6 +65,7 @@ def call_arterial_location_distribution(args): #SESSION_ID):
 def call_lobar_location_distribution(args): #SESSION_ID):
     return_value=0
     try:
+        from infarct_in_each_lobar_regionsNov262024 import *
         clean_dirs()
         SESSION_ID=args.stuff[1] ##str(row_item['ID'])
         print(SESSION_ID)

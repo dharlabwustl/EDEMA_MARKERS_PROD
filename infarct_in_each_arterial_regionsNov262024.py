@@ -702,7 +702,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='PREPROCESS_SEGM_1'
         # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,mri_mask_dir)
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",mri_mask_dir,resource_dir,'COLIHM620406202215542')
-        subprocess.call("echo " + "I PASSED ATUL :{}::  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        subprocess.call("echo " + "I PASSED ATUL2 :{}::  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         resource_dir='PREPROCESS_SEGM'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'COLIHM620406202215542')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'warped_moving_image')
@@ -714,7 +714,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
-        subprocess.call("echo " + "I PASSED ATUL2  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         directory_of_files_after_deepreg=working_dir_1
         # return

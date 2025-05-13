@@ -716,7 +716,6 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
-        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         directory_of_files_after_deepreg=working_dir_1
         # return
@@ -765,6 +764,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # df1 = pd.DataFrame([variable_dict])
         variables=[project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml]
         print(variables)
+        subprocess.call("echo " + "I PASSED ATUL 2   ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         # globals_copy = globals().copy()
         # variable_dict = {name: globals_copy()[name] for name in globals_copy() if globals_copy()[name] in variables}

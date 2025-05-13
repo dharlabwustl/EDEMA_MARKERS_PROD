@@ -2611,9 +2611,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
     # Initialize XNAT session
     #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
     #xnatSession.renew_httpsession()
-    command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
-    subprocess.call(command,shell=True)
-    return
+
     try:
         # Make a GET request to the XNAT server
         response = xnatSession.httpsess.get(xnatSession.host + url)
@@ -2626,7 +2624,9 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         # Log additional debug information
         command = f"echo passed at each_row_id: {df_scan['URI'].iloc[0]} >> /output/error.txt"
         subprocess.call(command, shell=True)
-
+        command=f"echo I am here  {inspect.stack()[0][3]}" + ">> /output/error.txt"
+        subprocess.call(command,shell=True)
+        return
         # Download the file specified by the URI
         download_a_singlefile_with_URIString(
             str(df_scan['URI'].iloc[0]),

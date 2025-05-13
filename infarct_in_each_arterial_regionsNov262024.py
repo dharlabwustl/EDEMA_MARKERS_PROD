@@ -932,7 +932,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         image_prefix='original_ct_with_infarct_only'
         subprocess.call("echo " + "I PASSED AT TESTING xml_parameters::{}  >> /workingoutput/error.txt".format((f"{output_dir}::{infarct_mask_in_ORF}::{original_gray_filename}::{project_name}::{subject_name}::{session_label}::{acquisition_site_xml}::{acquisition_datetime_xml}::{scanner_from_xml}::{body_part_xml}::{kvp_xml}")) ,shell=True )
-        return
+        # return
         superimpose_singlemask_on_gray_ct_original(original_gray_filename, infarct_mask_in_ORF, output_dir, (0,0,250), image_prefix,[20,60])
 
         # latexfilename=create_a_latex_filename(filename_prefix,filename_to_write)

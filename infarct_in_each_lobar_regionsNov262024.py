@@ -458,7 +458,7 @@ def binarized_region_lobar(f, latexfilename):
             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
             all_regions_df.to_csv(binarized_csv, index=False)
 
-            latex_table = df_to_latex_2(all_regions_df, 1.0, f'THRESHOLD::{thresh}\n')
+            latex_table = df_to_latex_2(all_regions_df, 1.0, f'AREA THRESHOLD:{thresh_each_region_infarct_perc}:::: SIDE THRESHOLD::{thresh}\n')
             latex_insert_line_nodek(latexfilename, text=latex_table)
 
     except Exception as e:

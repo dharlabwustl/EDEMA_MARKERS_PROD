@@ -160,7 +160,7 @@ def binarized_region_artery(f, latexfilename):
 
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_each_region_infarct_perc=10
-        thresh_percentages = [25, 30, 35, 40, 45, 50]
+        thresh_percentages =[50] ## [25, 30, 35, 40, 45, 50]
 
         for thresh in thresh_percentages:
             total_volume_all_regions = 0

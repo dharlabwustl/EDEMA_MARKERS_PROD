@@ -369,7 +369,7 @@ def binarized_region_lobar(f, latexfilename):
         df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
         df['territory'] = pd.to_numeric(df['territory'], errors='coerce').fillna(0)
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
-
+        thresh_each_region_infarct_perc=10
         thresh_percentages = [25, 30, 35, 40, 45, 50]
 
         for thresh in thresh_percentages:
@@ -421,7 +421,7 @@ def binarized_region_lobar(f, latexfilename):
             all_regions_df['right_lobar_perc'] = all_regions_df['right_lobar'] / all_regions_df['right_territory'] * 100
             all_regions_df['each_region_lobar_perc'] = all_regions_df['lobar_sum'] / all_regions_df['territory_sum'] * 100
 
-            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_lobar_perc'] > 1.0).astype(int)
+            all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_lobar_perc'] > thresh_each_region_infarct_perc).astype(int)
             all_regions_df['right_lobar_perc'] *= all_regions_df['each_region_perc_label']
             all_regions_df['right_perc_label'] = (all_regions_df['right_lobar_perc'] > thresh).astype(int)
             all_regions_df['left_lobar_perc'] *= all_regions_df['each_region_perc_label']

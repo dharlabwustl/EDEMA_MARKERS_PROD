@@ -1344,14 +1344,18 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_end_arguments[@]}")
     pdflatex -halt-on-error -interaction=nonstopmode -output-directory=${output_directory} ${latexfilename} ##${output_directory}/$(/usr/lib/fsl/5.0/remove_ext $this_filename)*.tex
     URI_1=${url1%/resources*}
+    all_files_to_upload=()
     resource_dirname="CSF_COMPARTMENTS_ANALYSIS"
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    all_files_to_upload+=($(basename ${pdfilename}))
     cp ${pdfilename} ${pdfilename_1_1}
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${pdfilename_1_1} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    all_files_to_upload+=($(basename ${pdfilename_1_1}))
     call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${csvfilename} ${resource_dirname})
     outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+    all_files_to_upload+=($(basename ${csvfilename}))
 #    URI_1=${url1%/resources*}
 #    resource_dirname="MIDLINE_NPY"
 #    for npyfilename in ${working_dir_1}/*.npy; do
@@ -1365,6 +1369,29 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
       call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${nifti_reg_filename} ${resource_dirname})
       outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
     done
+###      ######################################################################################################################
+      call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
+      outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+      ####################### GET PROJECT NAME ###############################
+      #################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
+      csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
+      column_name="SESSION_PROJECT"
+      # Get the index (column number) of the desired column
+      col_index=$(awk -F, -v col="$column_name" 'NR==1 {
+        for (i=1; i<=NF; i++) if ($i == col) { print i; exit }
+      }' "$csv_file")
+      # Get the first value under that column (excluding header)
+      first_value=$(awk -F, -v idx="$col_index" 'NR==2 { print $idx }' "$csv_file")
+      database_table_name=${first_value}
+      echo "database_table_name::${database_table_name}"
+      function_with_arguments=('call_pipeline_step_completed' ${database_table_name} ${sessionID} ${scanID} "CSF_COMPARTMENT_PDF_COMPLETE" 0 "CSF_COMPARTMENTS_ANALYSIS" ) ##$(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
+      # Append all warped files to the arguments array
+      for f in "${all_files_to_upload[@]}"; do
+        function_with_arguments+=("$f")
+      done
+
+      echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
+      outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")

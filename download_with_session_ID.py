@@ -52,8 +52,8 @@ def call_fill_google_mysql_db_from_csv(args):
 
 def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="session_id"):
       # Replace with actual module path
-  command = f"echo  I am at : {db_table_name}::{csv_file_path}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
-  subprocess.call(command,shell=True)
+    command = f"echo  I am at : {db_table_name}::{csv_file_path}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+    subprocess.call(command,shell=True)
     try:
         df = pd.read_csv(csv_file_path)
     except Exception as e:

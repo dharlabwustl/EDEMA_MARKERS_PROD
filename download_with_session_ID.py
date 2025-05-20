@@ -110,7 +110,7 @@ def fill_google_mysql_db_with_single_value(db_table_name, session_id,column_name
             db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
             db.close()
     except:
-        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         pass
 

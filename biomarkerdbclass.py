@@ -460,6 +460,8 @@ class BiomarkerDB:
 
     def upsert_single_field_by_id(self, table_name, id_value, column_name, new_value):
         """Upsert a single field into the table by ID. Insert new or update existing."""
+        command = "echo  success at not initialized: " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        subprocess.call(command,shell=True)
         if not self.initialized:
             print("Database not initialized. Cannot upsert single field.")
             command = "echo  success at not initialized: " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"

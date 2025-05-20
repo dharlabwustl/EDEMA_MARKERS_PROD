@@ -830,6 +830,10 @@ def lobar_region_volumes_n_display(SESSION_ID):
     uploadsinglefile_with_URI(url,file_name,resource_dirname)
     file_name=latexfilename.split('.tex')[0] +'.csv'
     uploadsinglefile_with_URI(url,file_name,resource_dirname)
+    db_table_name=project_name
+    csv_file_path=csvfilename
+    id_column=SESSION_ID
+    call_fill_google_mysql_db_from_csv(db_table_name,csv_file_path,id_column)
 
 def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 

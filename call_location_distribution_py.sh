@@ -45,6 +45,10 @@ outputfiles_present=$(python3 call_arterial_location_distribution.py "${function
 function_with_arguments=('call_lobar_location_distribution' ${sessionID} ) ## ${scanID} ${snipr_output_foldername} 'cistern_area' ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 call_lobar_location_distribution.py' "${function_with_arguments[@]}"
 outputfiles_present=$(python3 call_lobar_location_distribution.py "${function_with_arguments[@]}")
+
+
+
+
 #all_files_to_upload=()
 #for each_pdffile in ${output_directory}/lobar_output/*.pdf; do
 ##infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz

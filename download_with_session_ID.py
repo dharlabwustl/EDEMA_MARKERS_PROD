@@ -87,7 +87,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
             column_value = row[column_name]
             try:
                 db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
-                command = f"echo  I am  at : {id_column}::{session_id}::{db_table_name}::{session_id}::{column_name}::{column_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                command = f"echo  I am  at : {id_column}::{session_id}::{db_table_name}::{session_id}::{column_name}::{column_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
             except Exception as e:
                 print(f"Failed to insert {column_name}={column_value} for session_id={session_id}: {e}")

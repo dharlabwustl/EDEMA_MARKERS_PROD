@@ -63,13 +63,13 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         command = f"echo  failed at : {e}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         return
-
     db = BiomarkerDB(
         host=os.environ["GOOGLE_MYSQL_DB_IP"],
         user="root",
         password=os.environ["GOOGLE_MYSQL_DB_PASS"],
         database="BIOMARKERS"
     )
+
     command = f"echo  I am at BiomarkerDB : {os.environ["GOOGLE_MYSQL_DB_IP"]}::{os.environ["GOOGLE_MYSQL_DB_PASS"]}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
     subprocess.call(command,shell=True)
     if not db.initialized:

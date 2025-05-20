@@ -70,7 +70,9 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         database="BIOMARKERS"
     )
 
-    command = f"echo  I am at BiomarkerDB : {os.environ["GOOGLE_MYSQL_DB_IP"]}::{os.environ["GOOGLE_MYSQL_DB_PASS"]}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+    hostname=os.environ["GOOGLE_MYSQL_DB_IP"]
+    password=os.environ["GOOGLE_MYSQL_DB_PASS"]
+    command = f"echo  I am at BiomarkerDB : {hostname}::{password}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
     subprocess.call(command,shell=True)
     if not db.initialized:
         print("Database initialization failed.")

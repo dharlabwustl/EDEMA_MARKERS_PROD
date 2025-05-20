@@ -81,9 +81,9 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         return
 
     for index, row in df.iterrows():
-        command = f"echo  I am at BiomarkerDB : {row}::{index}::{column_name}::{column_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  I am at BiomarkerDB : ::{index}::{session_id}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
-        command = f"echo  I am at BiomarkerDB : {db_table_name}::{session_id}::{column_name}::{column_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  I am at BiomarkerDB : ::{index}::{session_id}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         session_id = row[id_column]
         for column_name in df.columns:

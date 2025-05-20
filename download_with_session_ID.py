@@ -43,10 +43,10 @@ def call_fill_google_mysql_db_from_csv(args):
     # column_value=args.stuff[4]
     try:
         fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column)
-        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
     except:
-        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        command = "echo  failed at : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         pass
 
@@ -57,7 +57,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         df = pd.read_csv(csv_file_path)
     except Exception as e:
         # print(f"Failed to load CSV: {e}")
-        command = f"echo  failed at : {e}::" +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        command = f"echo  failed at : {e}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         return
 
@@ -70,7 +70,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
 
     if not db.initialized:
         print("Database initialization failed.")
-        command = f"echo  failed at : Database initialization failed.::" +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+        command = f"echo  failed at : Database initialization failed.::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         return
 
@@ -84,7 +84,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
                 db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
             except Exception as e:
                 print(f"Failed to insert {column_name}={column_value} for session_id={session_id}: {e}")
-                command = f"echo  failed at : {column_name}::{column_value}::{e}::" +  inspect.stack()[0][3]  + " >> " + "/output/error.txt"
+                command = f"echo  failed at : {column_name}::{column_value}::{e}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
 
     db.close()

@@ -52,6 +52,7 @@ def call_fill_google_mysql_db_from_csv(args):
 
 def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="session_id"):
       # Replace with actual module path
+    session_id=id_column
     command = f"echo  I am at : {db_table_name}::{csv_file_path}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
     subprocess.call(command,shell=True)
     try:
@@ -81,10 +82,12 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         return
     command = f"echo  I am after initialization : {hostname}::{password}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
     subprocess.call(command,shell=True)
+    command = f"echo  I am at BiomarkerDB : ::{df.columns[1]}::{id_column}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+    subprocess.call(command,shell=True)
     for index, row in df.iterrows():
-        command = f"echo  I am at BiomarkerDB : ::{df.columns[1]}::{session_id}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  I am at BiomarkerDB : ::{df.columns[1]}::{id_column}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
-        command = f"echo  I am at BiomarkerDB : ::{index}::{session_id}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  I am at BiomarkerDB : ::{index}::{id_column}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         session_id = row[id_column]
         for column_name in df.columns:
@@ -93,7 +96,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
             column_value = row[column_name]
             try:
                 db.upsert_single_field_by_id(db_table_name, session_id, column_name, column_value)
-                command = f"echo  I am at BiomarkerDB : {db_table_name}::{session_id}::{column_name}::{column_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                command = f"echo  I am at BiomarkerDB : {db_table_name}::{id_column}::{column_name}::{column_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
             except Exception as e:
                 print(f"Failed to insert {column_name}={column_value} for session_id={session_id}: {e}")

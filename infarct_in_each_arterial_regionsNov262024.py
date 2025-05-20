@@ -1056,7 +1056,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         subprocess.call("echo " + "I file_name ::{}  >> /workingoutput/error.txt".format(file_name) ,shell=True )
         db_table_name=project_name
         csv_file_path=csvfilename
-        id_column=SESSION_ID
+        id_column="session_id" #SESSION_ID
         fill_google_mysql_db_from_csv(db_table_name,csv_file_path,id_column)
         # db_table_name=args.stuff[1]
         # csv_file_path=args.stuff[2]

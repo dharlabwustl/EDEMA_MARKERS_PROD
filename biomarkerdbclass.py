@@ -1,7 +1,7 @@
 import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine
-import re
+import re,inspect,subprocess
 # class BiomarkerDB:
 class BiomarkerDB:
     def __init__(self, host, user, password, database):
@@ -472,6 +472,8 @@ class BiomarkerDB:
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()
                 print(f"Added new column '{column_name}' to '{table_name}'.")
+                command = f"echo  I am  at column_exists ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                subprocess.call(command,shell=True)
 
             # Step 2: Prepare UPSERT query
             insert_query = f"""
@@ -479,13 +481,15 @@ class BiomarkerDB:
             VALUES (%s, %s)
             ON DUPLICATE KEY UPDATE `{column_name}` = VALUES(`{column_name}`);
             """
-
+            command = f"echo  I am  at insert_query ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             # Step 3: Execute
             self.cursor.execute(insert_query, (id_value, new_value))
             self.conn.commit()
 
             print(f"✅ Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
-
+            command = f"echo  I am  at Execute ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
         except Exception as e:
             print("Upsert single field operation failed:")
             print(e)

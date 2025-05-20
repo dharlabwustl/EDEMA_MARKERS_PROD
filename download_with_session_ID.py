@@ -56,7 +56,7 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
     subprocess.call(command,shell=True)
     try:
         df = pd.read_csv(csv_file_path)
-        command = f"echo  I am at 1 :{df.shape[0]}:: {db_table_name}::{csv_file_path}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  I am at 1 :{df.shape[0]}:: {df.shape[1]}:: {db_table_name}::{csv_file_path}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
     except Exception as e:
         # print(f"Failed to load CSV: {e}")

@@ -79,7 +79,8 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         command = f"echo  failed at : Database initialization failed.::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         return
-
+    command = f"echo  I am after initialization : {hostname}::{password}::{id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+    subprocess.call(command,shell=True)
     for index, row in df.iterrows():
         command = f"echo  I am at BiomarkerDB : ::{index}::{session_id}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)

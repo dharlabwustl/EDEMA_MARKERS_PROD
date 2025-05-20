@@ -1392,7 +1392,14 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
 
       echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
       outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${function_with_arguments[@]}")
+      function_with_arguments=('call_fill_google_mysql_db_from_csv' ${database_table_name} ${sessionID} ) ##${scanID} "CSF_COMPARTMENT_PDF_COMPLETE" 0 "CSF_COMPARTMENTS_ANALYSIS" ) ##$(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
 
+            echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
+            outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${function_with_arguments[@]}")
+def (args):
+    db_table_name=args.stuff[1]
+    csv_file_path=args.stuff[2]
+    id_column=args.stuff[3]
   done \
     < <(tail -n +2 "${dir_to_save}/${filename}")
 

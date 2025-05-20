@@ -833,7 +833,7 @@ def lobar_region_volumes_n_display(SESSION_ID):
     db_table_name=project_name
     csv_file_path=csvfilename
     id_column=SESSION_ID
-    call_fill_google_mysql_db_from_csv(db_table_name,csv_file_path,id_column)
+    fill_google_mysql_db_from_csv(db_table_name,csv_file_path,id_column)
 
 def lobar_regions_heatmap_volumes_n_display(heatmap_nifti_file):
 

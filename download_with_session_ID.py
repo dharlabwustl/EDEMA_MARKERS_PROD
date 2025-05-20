@@ -76,10 +76,12 @@ def fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column="sessi
         command = f"echo  failed at : Database initialization failed.::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         return
-    command = f"echo  failed at : {id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+    command = f"echo  I am  at : {id_column}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
     subprocess.call(command,shell=True)
     for index, row in df.iterrows():
         session_id = row[id_column]
+        command = f"echo  I am  at : {id_column}::{session_id}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        subprocess.call(command,shell=True)
         for column_name in df.columns:
             if column_name == id_column:
                 continue  # Skip ID column

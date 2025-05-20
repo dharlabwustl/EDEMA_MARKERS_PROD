@@ -467,6 +467,8 @@ class BiomarkerDB:
             # Step 1: Check if the column exists
             self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             column_exists = self.cursor.fetchone()
+            command = f"echo  I am  before column_exists ::{column_exists}::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             if not column_exists:
                 # If column doesn't exist, add it
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")

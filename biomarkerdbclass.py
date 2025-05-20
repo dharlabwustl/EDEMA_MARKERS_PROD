@@ -2,6 +2,7 @@ import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine
 import re
+import inspect,subprocess
 # class BiomarkerDB:
 class BiomarkerDB:
     def __init__(self, host, user, password, database):
@@ -461,17 +462,23 @@ class BiomarkerDB:
         """Upsert a single field into the table by ID. Insert new or update existing."""
         if not self.initialized:
             print("Database not initialized. Cannot upsert single field.")
+            command = "echo  success at not initialized: " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             return
 
         try:
             # Step 1: Check if the column exists
             self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             column_exists = self.cursor.fetchone()
+            command = "echo  success at fetch column : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             if not column_exists:
                 # If column doesn't exist, add it
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()
                 print(f"Added new column '{column_name}' to '{table_name}'.")
+                command = "echo  success at check column_exists : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                subprocess.call(command,shell=True)
 
             # Step 2: Prepare UPSERT query
             insert_query = f"""
@@ -479,11 +486,13 @@ class BiomarkerDB:
             VALUES (%s, %s)
             ON DUPLICATE KEY UPDATE `{column_name}` = VALUES(`{column_name}`);
             """
-
+            command = "echo  success at prepare upsert : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             # Step 3: Execute
             self.cursor.execute(insert_query, (id_value, new_value))
             self.conn.commit()
-
+            command = "echo  success at execute : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             print(f"✅ Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
 
         except Exception as e:

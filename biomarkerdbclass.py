@@ -10,7 +10,7 @@ class BiomarkerDB:
         self.user = user
         self.password = password
         self.database = database
-        command = "echo  success at BiomarkerDB initialized: " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+        command = f"echo  success at BiomarkerDB initialized {self.host}::{self.user}::{self.database}: " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
         # Step 1: Connect to MySQL server (not to a DB yet)
         self.server_conn = mysql.connector.connect(

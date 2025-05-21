@@ -497,7 +497,7 @@ class BiomarkerDB:
             # subprocess.call(command,shell=True)
             # return
 
-            if  column_exists == 0 : ## or column_exists==None:
+            if  column_exists == 0 or column_exists == None: ## or column_exists==None:
                 # If column doesn't exist, add it
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()

@@ -502,7 +502,7 @@ class BiomarkerDB:
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()
                 print(f"Added new column '{column_name}' to '{table_name}'.")
-                command = f"echo  I am  at column_exists ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                command = f"echo  I am  at add column ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
 
             # Step 2: Prepare UPSERT query
@@ -511,7 +511,7 @@ class BiomarkerDB:
             VALUES (%s, %s)
             ON DUPLICATE KEY UPDATE `{column_name}` = VALUES(`{column_name}`);
             """
-            command = f"echo  I am  at insert_query ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            command = f"echo  I am  at insert data ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
             subprocess.call(command,shell=True)
             # Step 3: Execute
             self.cursor.execute(insert_query, (id_value, new_value))

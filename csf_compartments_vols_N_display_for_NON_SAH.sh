@@ -1373,7 +1373,7 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
     done
 ###      ######################################################################################################################
       call_get_session_label_arguments=('call_get_session_project' ${sessionID} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv)
-      outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
+      outputfiles_present=$(python3 download_with_session_ID.py "${call_get_session_label_arguments[@]}")
       ####################### GET PROJECT NAME ###############################
       #################### WRITE TO THE MYSQL DATABASE IF THE STEP IS DONE #######################################################
       csv_file=${output_directory}/${grayscale_filename_basename_noext}_SESSION_PROJECT.csv
@@ -1393,12 +1393,12 @@ for each_npy in  $(find /ZIPFILEDIR/ -name '*.npy') ;  do  if [[ $each_npy  == *
       done
 
       echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
-      outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${function_with_arguments[@]}")
+      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 
 
       function_with_arguments=('call_fill_google_mysql_db_from_csv' ${database_table_name} ${csvfilename} "SESSION_ID" ) ##${scanID} "CSF_COMPARTMENT_PDF_COMPLETE" 0 "CSF_COMPARTMENTS_ANALYSIS" ) ##$(basename  ${fixed_image_filename}) $(basename  ${infarct_mask_binary_output_filename})  $(basename  ${registration_mat_file}) $(basename  ${registration_nii_file}) $(basename  ${mask_binary_output_dir}/${mask_binary_output_filename})  ) ##'warped_1_mov_mri_region_' )
       echo "outputfiles_present=(python3 download_with_session_ID.py ${function_with_arguments[@]})"
-      outputfiles_present=$(/opt/conda/envs/deepreg/bin/python3 download_with_session_ID.py "${function_with_arguments[@]}")
+      outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #def (args):
 #    db_table_name=args.stuff[1]
 #    csv_file_path=args.stuff[2]

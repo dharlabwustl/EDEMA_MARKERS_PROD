@@ -502,6 +502,8 @@ class BiomarkerDB:
                 subprocess.call(command,shell=True)
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()
+                command = f"echo  I am  at {column_exists} 2::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                subprocess.call(command,shell=True)
                 print(f"Added new column '{column_name}' to '{table_name}'.")
                 command = f"echo  I am  at add column ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)

@@ -2,13 +2,6 @@ import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine
 import re,inspect,subprocess
-from sqlalchemy import Table, Column, String, Integer, MetaData, insert, text
-from sqlalchemy.exc import SQLAlchemyError
-import logging
-import inspect
-
-# Set up logging
-logging.basicConfig(filename="/output/error1.txt", level=logging.INFO)
 # class BiomarkerDB:
 class BiomarkerDB:
     def __init__(self, host, user, password, database):
@@ -494,7 +487,7 @@ class BiomarkerDB:
 
             # self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             # column_exists = self.cursor.fetchone()
-            command = f"echo  I am  before column_exists ::{column_exists}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            command = f"echo  I am  before column_exists ::{column_exists[0]}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
             subprocess.call(command,shell=True)
             return
 

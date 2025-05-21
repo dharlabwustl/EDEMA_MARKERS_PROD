@@ -17,6 +17,7 @@ class BiomarkerDB:
             password=self.password
         )
         self.server_cursor = self.server_conn.cursor()
+        # self.cursor=self.server_conn.cursor()
         self.create_database_if_missing()
 
         # if not self.database_exists():
@@ -498,7 +499,7 @@ class BiomarkerDB:
 
             if  column_exists == 0 or column_exists == None: ## or column_exists==None:
                 # If column doesn't exist, add it
-                command = f"echo  I am  at {column_exists}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+                command = f"echo  I am  at {column_exists}::{column_name}::{new_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()

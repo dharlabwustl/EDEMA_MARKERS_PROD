@@ -475,8 +475,12 @@ class BiomarkerDB:
               AND TABLE_SCHEMA = %s 
               AND COLUMN_NAME = %s;
             """
-            self.cursor.execute(query, (table_name, self.database, column_name))
-            column_exists = self.cursor.fetchone()
+            column_exists=None
+            try:
+                self.cursor.execute(query, (table_name, self.database, column_name))
+                column_exists = self.cursor.fetchone()
+            except:
+                pass
 
             # if result:
             #     print("✅ Column 'abc' exists.")
@@ -487,11 +491,12 @@ class BiomarkerDB:
 
             # self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             # column_exists = self.cursor.fetchone()
-            command = f"echo  I am  before column_exists ::{column_exists[0]}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
-            subprocess.call(command,shell=True)
-            return
 
-            if not column_exists or column_exists==None:
+            # command = f"echo  I am  before column_exists ::{column_exists[0]}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            # subprocess.call(command,shell=True)
+            # return
+
+            if not column_exists: ## or column_exists==None:
                 # If column doesn't exist, add it
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()

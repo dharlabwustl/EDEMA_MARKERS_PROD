@@ -487,7 +487,7 @@ class BiomarkerDB:
 
             # self.cursor.execute(f"SHOW COLUMNS FROM `{table_name}` LIKE %s;", (column_name,))
             # column_exists = self.cursor.fetchone()
-            command = f"echo  I am  before column_exists ::{column_exists}::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            command = f"echo  I am  before column_exists ::{column_exists}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
             subprocess.call(command,shell=True)
             return
 
@@ -511,7 +511,7 @@ class BiomarkerDB:
             self.cursor.execute(insert_query, (id_value, new_value))
             self.conn.commit()
 
-            print(f"✅ Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
+            print(f"Upserted ID='{id_value}' and set {column_name}='{new_value}' in '{table_name}'.")
             command = f"echo  I am  at Execute ::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
             subprocess.call(command,shell=True)
         except Exception as e:

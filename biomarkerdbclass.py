@@ -501,7 +501,7 @@ class BiomarkerDB:
                 # If column doesn't exist, add it
                 command = f"echo  I am  at {column_exists}::{column_name}::{new_value}" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)
-                self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
+                self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` TEXT;")
                 self.conn.commit()
                 command = f"echo  I am  at {column_exists} 2::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
                 subprocess.call(command,shell=True)

@@ -475,13 +475,14 @@ class BiomarkerDB:
               AND TABLE_SCHEMA = %s 
               AND COLUMN_NAME = %s;
             """
-            column_exists=None
+            column_exists=0 #None
             try:
                 self.cursor.execute(query, (table_name, self.database, column_name))
                 column_exists = self.cursor.fetchone()
             except:
                 pass
-
+            command = f"echo  I am  at {column_exists}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
+            subprocess.call(command,shell=True)
             # if result:
             #     print("✅ Column 'abc' exists.")
             # else:
@@ -496,7 +497,7 @@ class BiomarkerDB:
             # subprocess.call(command,shell=True)
             # return
 
-            if not column_exists: ## or column_exists==None:
+            if  column_exists == 0 : ## or column_exists==None:
                 # If column doesn't exist, add it
                 self.cursor.execute(f"ALTER TABLE `{table_name}` ADD COLUMN `{column_name}` VARCHAR(255);")
                 self.conn.commit()

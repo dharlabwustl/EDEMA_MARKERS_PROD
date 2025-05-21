@@ -2,6 +2,13 @@ import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine
 import re,inspect,subprocess
+from sqlalchemy import Table, Column, String, Integer, MetaData, insert, text
+from sqlalchemy.exc import SQLAlchemyError
+import logging
+import inspect
+
+# Set up logging
+logging.basicConfig(filename="/output/error1.txt", level=logging.INFO)
 # class BiomarkerDB:
 class BiomarkerDB:
     def __init__(self, host, user, password, database):

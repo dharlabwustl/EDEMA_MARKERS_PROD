@@ -42,7 +42,7 @@ def call_fill_google_mysql_db_from_csv(args):
     id_column=args.stuff[3]
     # column_value=args.stuff[4]
     try:
-        fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column)
+        fill_google_mysql_db_from_csv(db_table_name, csv_file_path, id_column=id_column)
         command = "echo  success at : " +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
         subprocess.call(command,shell=True)
     except:

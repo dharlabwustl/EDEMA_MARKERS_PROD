@@ -489,6 +489,7 @@ class BiomarkerDB:
             # column_exists = self.cursor.fetchone()
             command = f"echo  I am  before column_exists ::{column_exists}::{id_value}::{table_name}::{column_name}::{new_value}::" +  inspect.stack()[0][3]  + " >> " + "/output/error1.txt"
             subprocess.call(command,shell=True)
+            return
 
             if not column_exists:
                 # If column doesn't exist, add it

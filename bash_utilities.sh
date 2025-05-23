@@ -112,3 +112,14 @@ sys.path.append('/software');
 from download_with_session_ID import *;
 uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
 }
+
+copy_nifti_parameters(){
+local  file=${1}
+local file1=${2}
+local output_directoryname=${3} #  sys.argv[2]
+python3 -c "
+import sys
+sys.path.append('/software');
+from utilities_simple_trimmed import *;
+copy_nifti_parameters_py(sys.argv[1], sys.argv[2], sys.argv[3])" ${file} ${file1} ${output_directoryname}
+ }

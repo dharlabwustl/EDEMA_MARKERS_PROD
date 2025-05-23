@@ -43,7 +43,7 @@ download_resource_dir(){
 
 to_original_nifti_rf(){
   local original_ct_file=${1}
-  local levelset_infarct_mask_file=${2]}
+  local levelset_infarct_mask_file=${2}
   local output_directory=${3}
       python3 -c "
   import sys ;

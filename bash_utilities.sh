@@ -72,3 +72,15 @@ betgrayfrombetbinary1_py(sys.argv[1], sys.argv[2], sys.argv[3])
 echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file%.nii*}_brain_f.nii.gz)"
 }
 
+transform_files_with_given_mat_wrt_sccttemplate(){
+  local moving_img=${1}
+  local transformed_output_file=${2}
+  local transform_mat_file=${3}
+  local static_image=/software/scct_strippedResampled1.nii.gz
+#  /usr/lib/fsl/5.0/flirt  -in "${img}" -ref "${template_image}"  -dof 12 -out "${output_filename}${exten}lin1" -omat ${output_filename}_${exten}lin1.mat
+/usr/lib/fsl/5.0/flirt -in ${moving_img} -ref ${static_image} -out ${transformed_output_file} -init ${transform_mat_file} -applyxfm
+
+
+#echo "_parsehere_"
+
+}

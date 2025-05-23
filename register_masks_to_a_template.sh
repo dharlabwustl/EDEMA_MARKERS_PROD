@@ -12,6 +12,8 @@ resource_dir='NIFTI'
 download_resource_dir ${sessionID}  ${scanID} ${resource_dir}
 resource_dir='MASKS'
 download_resource_dir ${sessionID}  ${scanID} ${resource_dir}
+resource_dir='EDEMA_BIOMARKER'
+download_resource_dir ${sessionID}  ${scanID} ${resource_dir}
 # bring masks from yasheng's work to the original nifti reference frame
 scan_file_basename=$(basename $(ls ${working_dir}/NIFTI/*.nii))
 scan_file_basename_no_ext=${scan_file_basename%.nii*}
@@ -35,8 +37,8 @@ echo bet_mask::${bet_mask}
 full_string=$(to_betgray_given_gray_n_binary ${original_ct_file} ${bet_mask} ${output_directory})
 bet_gray=$(echo "$full_string" | awk -F'_parsehere_' '{print $2}' | xargs)
 echo bet_gray::${bet_gray}
-
 ### apply transform matrix to align to the template image:
+#transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 
 
 #bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz

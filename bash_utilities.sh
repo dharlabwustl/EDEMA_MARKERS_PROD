@@ -57,3 +57,18 @@ echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file})"
 
 }
 
+to_bet_gray_gray_n_binary(){
+  local original_ct_file=${1}
+  local levelset_infarct_mask_file=${2}
+  local output_directory=${3}
+
+  python3 -c "
+import sys
+sys.path.append('/software/')
+from utilities_simple_trimmed import betgrayfrombetbinary1_py
+betgrayfrombetbinary1_py(sys.argv[1], sys.argv[2], sys.argv[3])
+" "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
+
+echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file%.nii*}_brain_f.nii.gz)"
+}
+

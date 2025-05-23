@@ -1124,6 +1124,30 @@ def betgrayfrombetbinary1_sh():
     array_img = nib.Nifti1Image(gray_nifti_data, affine=gray_nifti.affine, header=gray_nifti.header)
     nib.save(array_img, niifilenametosave)
     return niifilenametosave
+def betgrayfrombetbinary1_py(inputfile,betgrayfile,output_directory):
+    # inputfile=sys.argv[1]
+    # bet_inputfile_dir=sys.argv[2]
+    # output_directory=sys.argv[3]
+    # betgrayfile=os.path.join(bet_inputfile_dir,os.path.basename(inputfile).split(".nii")[0] + "_bet.nii.gz")   #sys.argv[2]
+    ## take the grayscalefiles in the inputdirectory betgrayfile== betbinary
+    #    allgrayfiles=glob.glob(inputdirectory+ "/*" + betgrayfileext)
+    #    for eachgrayfiles in allgrayfiles:
+    if os.path.exists(betgrayfile):
+        eachgrayfiles=inputfile
+        niifilenametosave=os.path.join(output_directory,os.path.basename(inputfile).split(".nii")[0] + "_brain_f.nii.gz") #outputfilename #os.path.join(outputdirectory,os.path.basename(eachgrayfiles).split(".nii")[0]+"_bet.nii.gz")
+        print('eachgrayfiles')
+        print(eachgrayfiles)
+        gray_nifti=nib.load(eachgrayfiles)
+        gray_nifti_data=gray_nifti.dataobj.get_unscaled() #.get_fdata()
+        bet_nifti=nib.load(betgrayfile)
+        bet_nifti_data=bet_nifti.dataobj.get_unscaled() #.get_fdata()
+        gray_nifti_data[bet_nifti_data<np.max(bet_nifti_data)]=np.min(gray_nifti_data)
+        array_img = nib.Nifti1Image(gray_nifti_data, affine=gray_nifti.affine, header=gray_nifti.header)
+        nib.save(array_img, niifilenametosave)
+        return niifilenametosave
+    else:
+        print("BET FILE DOES NOT EXIST")
+
 
 def betgrayfrombetbinary1_sh_v1():
     inputfile=sys.argv[1]

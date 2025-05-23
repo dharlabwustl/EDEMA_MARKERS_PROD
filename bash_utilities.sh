@@ -32,5 +32,7 @@ download_resource_dir(){
     "${XNAT_HOST}/data/experiments/${sessionID}/scans/${scanID}/resources/${resource_dir}/files?format=zip" \
     -o "${working_dir}/${sessionID}_${scanID}_${resource_dir}.zip"
   cd ${working_dir}
+  unzip *.zip
+  rm *.zip
   mv $(find ./ -name ${resource_dir}) ./
 }

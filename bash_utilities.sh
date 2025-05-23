@@ -45,10 +45,12 @@ to_original_nifti_rf(){
   local original_ct_file=${1}
   local levelset_infarct_mask_file=${2}
   local output_directory=${3}
+
   python3 -c "
-  import sys ;
-  sys.path.append('/software/') ;
-  from utilities_simple_trimmed import * ;  levelset2originalRF_new_flip()" "${original_ct_file}" "${levelset_infarct_mask_file}" "${output_directory}"
-
-
+import sys
+sys.path.append('/software/')
+from utilities_simple_trimmed import levelset2originalRF_new_flip
+levelset2originalRF_new_flip_py(sys.argv[1], sys.argv[2], sys.argv[3])
+" "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
 }
+

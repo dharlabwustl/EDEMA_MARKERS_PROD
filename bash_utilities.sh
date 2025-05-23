@@ -78,7 +78,7 @@ transform_files_with_given_mat_wrt_sccttemplate(){
   local transform_mat_file=${3}
   local static_image=/software/scct_strippedResampled1.nii.gz
 #  /usr/lib/fsl/5.0/flirt  -in "${img}" -ref "${template_image}"  -dof 12 -out "${output_filename}${exten}lin1" -omat ${output_filename}_${exten}lin1.mat
-/usr/lib/fsl/5.0/flirt -in ${moving_img} -ref ${static_image} -out ${transformed_output_file} -init ${transform_mat_file} -applyxfm
+/usr/lib/fsl/5.0/flirt -in ${moving_img%.nii*} -ref ${static_image%.nii*} -out ${transformed_output_file} -init ${transform_mat_file} -applyxfm
 
 
 #echo "_parsehere_"

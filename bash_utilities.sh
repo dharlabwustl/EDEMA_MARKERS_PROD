@@ -69,7 +69,7 @@ from utilities_simple_trimmed import betgrayfrombetbinary1_py
 betgrayfrombetbinary1_py(sys.argv[1], sys.argv[2], sys.argv[3])
 " "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
 
-echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file%.nii*}_brain_f.nii.gz)"
+echo "_parsehere_${output_directory}/$(basename ${original_ct_file%.nii*}_brain_f.nii.gz)"
 }
 
 transform_files_with_given_mat_wrt_sccttemplate(){

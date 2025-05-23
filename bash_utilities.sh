@@ -84,3 +84,18 @@ transform_files_with_given_mat_wrt_sccttemplate(){
 #echo "_parsehere_"
 
 }
+
+uploadsinglefile(){
+local sessionID=${1}
+local scanID=${2}
+local mask_binary_output_dir=${3}
+local snipr_output_foldername=${4}
+local mask_binary_output_filename=${5}
+
+echo ${mask_binary_output_dir}/${mask_binary_output_filename}
+python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile()" ${sessionID} ${scanID} ${mask_binary_output_dir} ${snipr_output_foldername} ${mask_binary_output_filename}
+}

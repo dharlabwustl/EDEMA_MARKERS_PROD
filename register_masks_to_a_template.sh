@@ -19,12 +19,13 @@ scan_file_basename_no_ext=${scan_file_basename%.nii*}
 original_ct_file=$(ls ${working_dir}/NIFTI/${scan_file_basename_no_ext}.nii)
 # brain_half mask
 levelset_mask_file=$(ls ${working_dir}/MASKS/left_half_brain_nib_img.nii.gz)
-to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
-mv ${output_directory}/left_half_brain_nib_img.nii.gz ${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
+half_brain_mask=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
+mv ${half_brain_mask} ${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
 half_brain_mask=${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
+
 levelset_mask_file=$(ls ${working_dir}/MASKS/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz)
-to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
-bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz
+bet_mask=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
+#bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz
 
 ## download as zip, then unzip and arrange the directory like that in the SNIPR
 #call_download_files_in_a_resource_in_a_session_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID}  ${resource_dir})

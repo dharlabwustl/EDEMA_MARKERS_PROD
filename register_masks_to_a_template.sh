@@ -6,11 +6,11 @@ output_directory=/workingoutput
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 # find the scan id
-datafile=$(ls ${working_dir}/*_NIFTILOCATION.csv)
+csv_file=$(ls ${working_dir}/*_NIFTILOCATION.csv)
 #!/bin/bash
 
-csv_file="data.csv"
-column_name="age"
+#csv_file="data.csv"
+column_name="ID"
 IFS=','  # Set the internal field separator to comma for CSV
 
 # Step 1: Get the column number from the header row

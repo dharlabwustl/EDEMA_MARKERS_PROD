@@ -43,6 +43,8 @@ echo "transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.ni
 transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 transform_files_with_given_mat_wrt_sccttemplate ${half_brain_mask} ${half_brain_mask%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 snipr_output_foldername='HEMISPHERE_MASK'
+substring='nii'
+delete_a_file ${sessionID}  ${scanID} ${snipr_output_foldername} ${substring}
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${bet_gray%.nii*}_RF_scct.nii.gz) ${snipr_output_foldername} $(basename  ${bet_gray%.nii*}_RF_scct.nii.gz)
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${half_brain_mask%.nii*}_RF_scct.nii.gz) ${snipr_output_foldername} $(basename  ${half_brain_mask%.nii*}_RF_scct.nii.gz)
 

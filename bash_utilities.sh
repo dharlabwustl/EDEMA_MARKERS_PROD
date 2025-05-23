@@ -44,7 +44,16 @@ download_resource_dir(){
   rm -r files
 
 }
+delete_a_file(){
+    local sessionID=${1}
+    local scanID=${2}
+    local snipr_output_foldername=${3}
+    local substring=${4}
+#        snipr_output_foldername='PREPROCESS_SEGM'
+        function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${substring} ) ##'warped_1_mov_mri_region_' )
+        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 
+}
 to_original_nifti_rf(){
   local original_ct_file=${1}
   local levelset_infarct_mask_file=${2}

@@ -4,7 +4,6 @@ working_dir=/workinginput
 working_dir_1=/input1
 output_directory=/workingoutput
 sessionID=${1}
-
 scanID=$(get_scan_id ${sessionID})
 echo ${sessionID}::${scanID}
 

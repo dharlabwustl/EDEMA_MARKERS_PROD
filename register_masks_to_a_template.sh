@@ -21,7 +21,7 @@ scan_file_basename_no_ext=${scan_file_basename%.nii*}
 original_ct_file=$(ls ${working_dir}/NIFTI/${scan_file_basename_no_ext}.nii)
 # brain_half mask
 half_brain_mask=$(ls ${working_dir}/MASKS/left_half_brain_nib_img.nii.gz)
-copy_nifti_parameters ${original_ct_file} ${half_brain_mask} ${output_directory} ##(){
+copy_nifti_parameters ${half_brain_mask}  ${original_ct_file}  ${output_directory} ##(){
 ##local  file=${1}
 ##local file1=${2}
 ##local output_directoryname=${3} #  sys.argv[2]

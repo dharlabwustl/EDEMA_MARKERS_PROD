@@ -36,6 +36,6 @@ download_resource_dir(){
   rm *.zip
   mv $(find ./ -name ${resource_dir}) ./
   cd ${resource_dir}
-  mv * ../
+  mv files/* ./
 
 }

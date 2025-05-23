@@ -37,5 +37,6 @@ download_resource_dir(){
   mv $(find ./ -name ${resource_dir}) ./
   cd ${resource_dir}
   mv files/* ./
+  rm -r files
 
 }

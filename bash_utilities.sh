@@ -53,7 +53,7 @@ from utilities_simple_trimmed import levelset2originalRF_new_flip_py
 levelset2originalRF_new_flip_py(sys.argv[1], sys.argv[2], sys.argv[3])
 " "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
 
-echo "${output_directory}/$(basename ${levelset_infarct_mask_file})"
+echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file})"
 
 }
 

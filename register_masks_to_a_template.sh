@@ -41,6 +41,7 @@ echo bet_gray::${bet_gray}
 transform_mat_file=$(ls ${working_dir}/EDEMA_BIOMARKER/${scan_file_basename_no_ext}_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat)
 echo "transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}"
 transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}
+transform_files_with_given_mat_wrt_sccttemplate ${half_brain_mask} ${half_brain_mask%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 
 
 #bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz

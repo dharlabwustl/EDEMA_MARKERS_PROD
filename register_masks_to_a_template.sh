@@ -44,6 +44,7 @@ transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF
 transform_files_with_given_mat_wrt_sccttemplate ${half_brain_mask} ${half_brain_mask%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 snipr_output_foldername='HEMISPHERE_MASK'
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${bet_gray%.nii*}_RF_scct.nii.gz) ${snipr_output_foldername} $(basename  ${bet_gray%.nii*}_RF_scct.nii.gz)
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${half_brain_mask%.nii*}_RF_scct.nii.gz) ${snipr_output_foldername} $(basename  ${half_brain_mask%.nii*}_RF_scct.nii.gz)
 
 
 #bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz

@@ -20,7 +20,7 @@ original_ct_file=$(ls ${working_dir}/NIFTI/${scan_file_basename_no_ext}.nii)
 # brain_half mask
 levelset_mask_file=$(ls ${working_dir}/MASKS/left_half_brain_nib_img.nii.gz)
 half_brain_mask=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
-echo ${half_brain_mask}
+echo half_brain_mask::${half_brain_mask}
 #mv ${half_brain_mask} ${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
 #half_brain_mask=${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
 #

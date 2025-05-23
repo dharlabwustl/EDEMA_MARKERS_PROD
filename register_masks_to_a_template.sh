@@ -42,6 +42,8 @@ transform_mat_file=$(ls ${working_dir}/EDEMA_BIOMARKER/${scan_file_basename_no_e
 echo "transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}"
 transform_files_with_given_mat_wrt_sccttemplate ${bet_gray} ${bet_gray%.nii*}_RF_scct.nii.gz ${transform_mat_file}
 transform_files_with_given_mat_wrt_sccttemplate ${half_brain_mask} ${half_brain_mask%.nii*}_RF_scct.nii.gz ${transform_mat_file}
+snipr_output_foldername='HEMISPHERE_MASK'
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${bet_gray%.nii*}_RF_scct.nii.gz) ${snipr_output_foldername} $(basename  ${bet_gray%.nii*}_RF_scct.nii.gz)
 
 
 #bet_mask=${output_directory}/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz

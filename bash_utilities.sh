@@ -5,7 +5,11 @@ get_scan_id(){
     outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 
     # Get CSV file
-    csv_file=$(ls ${working_dir}/*_NIFTILOCATION.csv)
+    shopt -s nullglob
+    files=("${working_dir}"/*_NIFTILOCATION.csv)
+    csv_file="${files[0]}"
+
+#    csv_file=$(ls ${working_dir}/*_NIFTILOCATION.csv)
 
     # Extract scan ID (assuming column "ID")
     column_name="ID"

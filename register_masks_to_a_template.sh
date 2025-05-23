@@ -21,14 +21,14 @@ original_ct_file=$(ls ${working_dir}/NIFTI/${scan_file_basename_no_ext}.nii)
 levelset_mask_file=$(ls ${working_dir}/MASKS/left_half_brain_nib_img.nii.gz)
 full_string=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
 half_brain_mask=$(echo "$full_string" | awk -F'_parsehere_' '{print $2}' | xargs)
-
 echo half_brain_mask::${half_brain_mask}
 #mv ${half_brain_mask} ${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
 #half_brain_mask=${output_directory}/${scan_file_basename_no_ext}_left_half_brain_nib_img.nii.gz
 #
-#levelset_mask_file=$(ls ${working_dir}/MASKS/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz)
-#bet_mask=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
-
+levelset_mask_file=$(ls ${working_dir}/MASKS/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz)
+full_string=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
+bet_mask=$(echo "$full_string" | awk -F'_parsehere_' '{print $2}' | xargs)
+echo bet_mask::${bet_mask}
 ### apply transform matrix to align to the template image:
 
 

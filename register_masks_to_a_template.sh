@@ -7,8 +7,11 @@ sessionID=${1}
 scanID=$(get_scan_id ${sessionID})
 echo ${sessionID}::${scanID}
 
-
 # donwload respective nifti and relevant masks
+resource_dir='NIFTI'
+## download as zip, then unzip and arrange the directory like that in the SNIPR
+call_download_files_in_a_resource_in_a_session_arguments=('call_dowload_a_folder_as_zip' ${sessionID} ${scanID}  ${resource_dir})
+outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 
 # resample the masks to the original nifti
 

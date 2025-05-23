@@ -1,3 +1,4 @@
+working_dir=/workinginput/
 get_scan_id(){
     local sessionid=${1}
     call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionid} "NIFTI_LOCATION" ${working_dir})
@@ -21,4 +22,15 @@ get_scan_id(){
     scan_id=$(awk -F',' -v col="$col_index" 'NR > 1 { print $col; exit }' "$csv_file")
 
     echo "$scan_id"  # ✅ This line makes the function return the value
+}
+
+download_resource_dir(){
+  local sessionID=${1}
+  local scanID=${2}
+  local resource_dir=${3}
+  curl -u "$XNAT_USER:$XNAT_PASS" -X GET \
+    "${XNAT_HOST}/data/experiments/${sessionID}/scans/${scanID}/resources/${resource_dir}/files?format=zip" \
+    -o "${working_dir}/${sessionID}_${scanID}_${resource_dir}.zip"
+  cd ${working_dir}
+  mv $(find ./ -name ${resource_dir}) ./
 }

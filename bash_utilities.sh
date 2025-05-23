@@ -57,7 +57,7 @@ echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file})"
 
 }
 
-to_bet_gray_gray_n_binary(){
+to_betgray_given_gray_n_binary(){
   local original_ct_file=${1}
   local levelset_infarct_mask_file=${2}
   local output_directory=${3}

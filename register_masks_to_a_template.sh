@@ -29,6 +29,13 @@ levelset_mask_file=$(ls ${working_dir}/MASKS/${scan_file_basename_no_ext}_resave
 full_string=$(to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory})
 bet_mask=$(echo "$full_string" | awk -F'_parsehere_' '{print $2}' | xargs)
 echo bet_mask::${bet_mask}
+
+## make bet of the gray image:
+#levelset_mask_file=$(ls ${working_dir}/MASKS/${scan_file_basename_no_ext}_resaved_levelset_bet.nii.gz)
+full_string=$(to_betgray_given_gray_n_binary ${original_ct_file} ${bet_mask} ${output_directory})
+bet_gray=$(echo "$full_string" | awk -F'_parsehere_' '{print $2}' | xargs)
+echo bet_gray::${bet_gray}
+
 ### apply transform matrix to align to the template image:
 
 

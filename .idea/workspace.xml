@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="New Commitdgfdgf">
-      <change afterPath="$PROJECT_DIR$/scct_strippedResampled1_left_half.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scct_strippedResampled1_left_mask.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scct_strippedResampled1_right_half.nii.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scct_strippedResampled1_right_mask.nii.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities_simple_trimmed.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities_simple_trimmed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh" beforeDir="false" afterPath="$PROJECT_DIR$/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -483,7 +479,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="4965" />
+    <option name="localTasksCounter" value="4966" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

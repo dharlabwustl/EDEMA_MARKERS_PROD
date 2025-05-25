@@ -5,6 +5,7 @@ Created on Timporthu Mar 12 15:40:53 2020
 
 @author: atul
 """
+from typing import Tuple
 import subprocess,os,sys,glob,datetime,time
 import csv
 import pandas as pd
@@ -2711,3 +2712,60 @@ def round_mixed_column(column, decimals=2):
 #     for char, replacement in special_chars.items():
 #         value = value.replace(char, replacement)
 #     return value
+################################################################
+
+
+def split_brain_sagittal_by_filename(
+        nifti_file: str,
+        save_outputs: bool = False,
+        output_dir: str = None
+) -> Tuple[nib.Nifti1Image, nib.Nifti1Image, nib.Nifti1Image, nib.Nifti1Image]:
+    """
+    Splits a brain CT NIfTI image (given as a filename) into left and right sagittal halves,
+    and generates corresponding binary masks.
+
+    Parameters:
+        nifti_file (str): Path to the input NIfTI file.
+        save_outputs (bool): Whether to save the outputs as files (default: False).
+        output_dir (str): Directory to save the output files (if save_outputs=True). Defaults to input file directory.
+
+    Returns:
+        Tuple of (left_img, right_img, left_mask, right_mask) as nibabel NIfTI images.
+    """
+    img_nifti = nib.load(nifti_file)
+    data = img_nifti.get_fdata()
+    affine = img_nifti.affine
+    header = img_nifti.header.copy()
+
+    mid_x = data.shape[0] // 2
+
+    # Create binary masks
+    left_mask_data = np.zeros_like(data, dtype=np.uint8)
+    right_mask_data = np.zeros_like(data, dtype=np.uint8)
+    left_mask_data[mid_x:, :, :] = 1
+    right_mask_data[:mid_x, :, :] = 1
+
+    # Apply masks to image
+    left_img_data = data * left_mask_data
+    right_img_data = data * right_mask_data
+
+    # Create NIfTI images
+    left_mask_data[left_img_data <1]=0
+    right_mask_data[right_img_data <1]=0
+    left_img = nib.Nifti1Image(left_img_data, affine, header)
+    right_img = nib.Nifti1Image(right_img_data, affine, header)
+    left_mask = nib.Nifti1Image(left_mask_data, affine, header)
+    right_mask = nib.Nifti1Image(right_mask_data, affine, header)
+
+    # Save if requested
+    if save_outputs:
+        if output_dir is None:
+            output_dir = os.path.dirname(nifti_file)
+        basename = os.path.splitext(os.path.basename(nifti_file))[0]
+        basename_noext=basename.split('.nii')[0]
+        nib.save(left_img, os.path.join(output_dir, f"{basename_noext}_left_half.nii.gz"))
+        nib.save(right_img, os.path.join(output_dir, f"{basename_noext}_right_half.nii.gz"))
+        nib.save(left_mask, os.path.join(output_dir, f"{basename_noext}_left_mask.nii.gz"))
+        nib.save(right_mask, os.path.join(output_dir, f"{basename_noext}_right_mask.nii.gz"))
+
+    return left_img, right_img, left_mask, right_mask

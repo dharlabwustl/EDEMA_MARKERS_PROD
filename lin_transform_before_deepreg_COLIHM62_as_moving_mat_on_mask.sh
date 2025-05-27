@@ -544,7 +544,7 @@ infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_outp
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
 #################################################################################################
-moving_image_filename=/software/midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
+moving_image_filename=/software/scct_strippedResampled1_left_mask.nii.gz ####midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}

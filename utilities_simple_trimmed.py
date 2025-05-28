@@ -5,7 +5,7 @@ Created on Timporthu Mar 12 15:40:53 2020
 
 @author: atul
 """
-from typing import Tuple
+from typing import   Tuple
 import subprocess,os,sys,glob,datetime,time
 import csv
 import pandas as pd

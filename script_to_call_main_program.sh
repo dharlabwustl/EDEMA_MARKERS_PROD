@@ -51,37 +51,27 @@ if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; 
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_SCCT_MOVING"
   /software/lin_transform_before_deepreg_scct_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
 if [[ ${TYPE_OF_PROGRAM} == 'APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING" >> /software/ERROR.txt
   echo " I AM AT APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING"
   /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
 if [[ ${TYPE_OF_PROGRAM} == 'ARTERIAL_REGIONS' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
 if [[ ${TYPE_OF_PROGRAM} == 'CALL_LOCATION_DISTRIBUTION' ]]; then
   /software/call_location_distribution_py.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
-
 #if [[ ${TYPE_OF_PROGRAM} == '1000' ]]; then
 #  /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 #fi
-
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_WITH_MNI_TEMPLATE' ]]; then
   /software/lin_transform_before_deepreg_mni_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
-
-
 if [[ ${TYPE_OF_PROGRAM} == 'CREATE_HEMISPHERE_MASK' ]]; then
   /software/create_half_of_brain.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG' ]]; then
   /software/lin_transform_before_deepreg.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output

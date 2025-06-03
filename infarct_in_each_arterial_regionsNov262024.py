@@ -204,17 +204,19 @@ def binarized_region_artery(f, latexfilename):
 
             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > thresh_each_region_infarct_perc).astype(int)
             all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['right_perc_label'] = (all_regions_df['right_infarct_perc'] > thresh).astype(int)
-            all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['left_perc_label'] = (all_regions_df['left_infarct_perc'] > thresh).astype(int)
+            if all_regions_df['right_infarct'] > all_regions_df['right_infarct']:
+                all_regions_df['right_perc_label'] =  1 #(all_regions_df['right_infarct_perc'] > thresh).astype(int)
+            # all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            else:
+                all_regions_df['left_perc_label'] =  1 #(all_regions_df['left_infarct_perc'] > thresh).astype(int)
 
-            all_regions_df['noside_perc_label'] = 0
-            all_regions_df.loc[
-                (all_regions_df['left_infarct_perc'].isna()) &
-                (all_regions_df['right_infarct_perc'].isna()) &
-                (all_regions_df['each_region_perc_label'] > 0),
-                'noside_perc_label'
-            ] = 1
+            # all_regions_df['noside_perc_label'] = 0
+            # all_regions_df.loc[
+            #     (all_regions_df['left_infarct_perc'].isna()) &
+            #     (all_regions_df['right_infarct_perc'].isna()) &
+            #     (all_regions_df['each_region_perc_label'] > 0),
+            #     'noside_perc_label'
+            # ] = 1
 
             all_regions_df.loc[len(all_regions_df)] = ["total_sum"] + [None] * (len(all_regions_df.columns) - 1)
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_infarct'] = all_regions_df['left_infarct'].sum()
@@ -226,14 +228,31 @@ def binarized_region_artery(f, latexfilename):
 
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
 
+            # all_regions_df['dominant_region'] = 0
+            # all_regions_df['dominant_region_left'] = 0
+            # all_regions_df['dominant_region_right'] = 0
+            # dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
+            # all_regions_df.loc[dom_idx, 'dominant_region'] = 1
+            # if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+            #     all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
+            # elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+            #     all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
+
+            # Reset dominance labels
             all_regions_df['dominant_region'] = 0
             all_regions_df['dominant_region_left'] = 0
             all_regions_df['dominant_region_right'] = 0
-            dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
+
+            # Find region with highest absolute infarct volume (left + right)
+            dom_idx = all_regions_df['infarct_sum'].idxmax()
+
+            # Set dominant region
             all_regions_df.loc[dom_idx, 'dominant_region'] = 1
-            if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+
+            # Determine which side (left/right) has more infarct in that region
+            if all_regions_df.loc[dom_idx, 'left_infarct'] > all_regions_df.loc[dom_idx, 'right_infarct']:
                 all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
-            elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+            elif all_regions_df.loc[dom_idx, 'left_infarct'] < all_regions_df.loc[dom_idx, 'right_infarct']:
                 all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
 
             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"

@@ -2703,6 +2703,7 @@ def delete_file_with_ext(session_id,scan_id,resource_dir,extensions_to_delete,pr
 
     except:
         pass
+
 def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions_to_delete):
     try:
         session_id=args.stuff[1]

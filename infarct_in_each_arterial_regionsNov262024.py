@@ -706,7 +706,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         Version_Date="_VersionDate-" + '11122024' #dt.strftime("%m%d%Y")
         # DOWNLOAD THE REGISTERED INFARCT MASK and the REGISTERED SESSION CT
         download_an_xmlfile_with_URIString_func(SESSION_ID,f'{SESSION_ID}.xml',working_dir_1)
-        subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT xml_parameters::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
 
         # print('ATUL')
         # return

@@ -727,7 +727,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'COLIHM620406202215542')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'warped_moving_image')
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'fixed_image')
-
+        subprocess.call("echo " + "I passed  AT JUne 04::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
         resource_dir='MASKS'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
@@ -735,7 +735,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         resource_dir='NIFTI'
         downloadfile_withasuffix(SESSION_ID,SCAN_ID,working_dir_1,resource_dir,'.nii')
         # downloadfiletolocaldir_py(SESSION_ID,SCAN_ID,resource_dir,working_dir_1)
-
+        
         directory_of_files_after_deepreg=working_dir_1
         # return
         file_without_ext=SCAN_NAME.split('.nii')[0] ##os.path.basename(session_ct_path).split('.nii')[0]
@@ -753,7 +753,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         gray_img=nib.load(grayscale_img_path).get_fdata()
         infarct_mask_from_yasheng=os.path.join(working_dir_1,file_without_ext + '_resaved_infarct_auto_removesmall.nii.gz')
         original_gray_filename=os.path.join(working_dir_1,SCAN_NAME)
-        subprocess.call("echo " + "I passed  AT JUne 04::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        
         # gray_img[gray_img<=np.min(gray_img)]
         # Intensity levels
         # min_intensity=np.min(gray_img[gray_img>10]) #np.min(gray_img)]) #20

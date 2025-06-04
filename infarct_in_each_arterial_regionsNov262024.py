@@ -711,7 +711,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         # print('ATUL')
         # return
         resource_dir='MASKLABEL'
-        subprocess.call("echo " + "I passed  AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        
         # downloadfiletolocaldir_py('SNIPR01_E07218',"MRI1",resource_dir,working_dir_1) #SNIPR01_E07218
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.nii')
         downloadfile_withasuffix('SNIPR01_E07218',"MRI1",working_dir_1,resource_dir,'.csv')
@@ -742,7 +742,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
         predefined_legend=os.path.join(working_dir_1,'legend.csv') # '/software/legend.csv'
         command='mv ' + os.path.join(mri_mask_dir,'*bfc'+splitter+'*.nii.gz') + '  ' + output_dir
         subprocess.call(command,shell=True)
-
+        subprocess.call("echo " + "I passed  AT JUne 04::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         #  ## '/software/www_nitrc_org_frs//maskonly'
         mask_img_paths=glob.glob(os.path.join(mri_mask_dir,'warped_1*_fixed_COLIHM620406202215542_lin1_BET.nii.gz')) #glob.glob(os.path.join(mri_mask_dir,'warped_1*BET.nii.gz'))  #glob.glob(os.path.join(mri_mask_dir,'*.nii.gz'))
         grayscale_img_path=os.path.join(directory_of_files_after_deepreg,'warped_moving_image.nii.gz')

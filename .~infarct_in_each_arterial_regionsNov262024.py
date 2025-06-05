@@ -570,8 +570,6 @@ def process_csv_and_update_database(csv_file):
         exc_type, exc_value, exc_traceback = sys.exc_info()
         tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
         subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
-        subprocess.call("echo " + "ERROR ::{}  >> /workingoutput/error.txt".format(e) ,shell=True )
-        subprocess.call("echo " + "ERROR ::{}  >> /workingoutput/error.txt".format(e) ,shell=True )
         print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
         print(f"Error: {e}")        
         print(f"An error occurred: {e}")

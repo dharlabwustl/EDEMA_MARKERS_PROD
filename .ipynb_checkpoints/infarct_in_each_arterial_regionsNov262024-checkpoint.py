@@ -5,7 +5,7 @@ from utilities_simple_trimmed import *
 from mri_masks_on_session_ct_with_infarct_templatectisfixed11112024 import *
 import pandas as pd
 from natsort import natsorted
-import  time,os,glob,subprocess
+import  time,os,glob,subprocess,sys
 import nibabel as nib
 # import pandas as pd
 import numpy as np
@@ -122,9 +122,15 @@ def binarized_region_artery_x(f,latexfilename):
         subprocess.call("echo " + "I  of try 1_2 ::{}  >> /workingoutput/error.txt".format(f) ,shell=True )
         subprocess.call("echo " + "I  of try 1_3 ::{}  >> /workingoutput/error.txt".format(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv") ,shell=True )
     except Exception as e :
-        error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
-        # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        print(f"Error: {e}")
+            #     error_msg = traceback.format_exc()
+    #     subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+    #     # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+    # except Exception as e:
 
 def binarized_region_artery(f, latexfilename):
     subprocess.call(f"echo I binarized_region_artery ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
@@ -264,8 +270,13 @@ def binarized_region_artery(f, latexfilename):
             subprocess.call(f"echo I completed threshold {thresh} ::{f} >> /workingoutput/error.txt", shell=True)
 
     except Exception as e:
-        error_msg = traceback.format_exc()
-        subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        print(f"Error: {e}")        
+        # error_msg = traceback.format_exc()
+        # subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
 
 def binarized_region_artery_1(f,latexfilename):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
@@ -506,9 +517,15 @@ def binarized_region_artery_1(f,latexfilename):
 
             # In[ ]:
     except Exception as e :
-        error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
-        # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        print(f"Error: {e}")
+        
+        # error_msg = traceback.format_exc()
+        # subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        # # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
 
 
 
@@ -550,6 +567,11 @@ def process_csv_and_update_database(csv_file):
     except FileNotFoundError:
         print(f"File not found: {csv_file}")
     except Exception as e:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        print(f"Error: {e}")        
         print(f"An error occurred: {e}")
 
 
@@ -575,7 +597,12 @@ def connect_to_database():
         print(f"Connected to database at {random_ip}")
         return connection
     except mysql.connector.Error as error:
-        print(f"Failed to connect to the database: {error}")
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        # print(f"Error: {e}")        
+        # print(f"Failed to connect to the database: {error}")
         return None
 
 
@@ -605,6 +632,11 @@ def insert_data(session_id, session_name, scan_id, scan_name):
         print(f"Record inserted successfully. ID: {cursor.lastrowid}")
 
     except mysql.connector.Error as error:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        # print(f"Error: {e}")        
         print(f"Failed to insert record into table: {error}")
     finally:
         if connection.is_connected():
@@ -621,6 +653,11 @@ def update_or_create_column(session_id, scan_id, column_name, column_value, sess
         try:
             insert_data(session_id, session_name, scan_id, scan_name)
         except:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+            subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+            print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+            print(f"Error: {e}")            
             pass
         # Generate session_id_scan_id
         session_id_scan_id = f"{session_id}_{scan_id}"
@@ -1084,8 +1121,14 @@ def arterial_region_volumes_n_display(SESSION_ID):
         return 1
 
     except Exception as e:
-        error_msg = traceback.format_exc()
-        subprocess.call("echo " + "I traceback error ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+        print(f"Error: {e}")
+        
+        # error_msg = traceback.format_exc()
+        # subprocess.call("echo " + "I traceback error ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
         return 0
         # subprocess.run(
         #     ['tee', 'error_log.txt'],

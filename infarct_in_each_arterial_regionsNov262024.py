@@ -1188,7 +1188,7 @@ def arterial_region_volumes_n_display(SESSION_ID):
 
         latex_insert_line_nodek(latexfilename,text=latex_table)
         binarized_region_artery(csvfilename.split('.csv')[0]+'_Transpose.csv',latexfilename)
-        return
+        # return
         # latex_end_table2c(latexfilename)
         command="echo " + "start" + " >> /workingoutput/error.txt"
         subprocess.call(command,shell=True)

@@ -231,12 +231,26 @@ def binarized_region_lobar_0(f,latexfilename):
             all_regions_df['each_region_perc_label']=0
             all_regions_df['each_region_perc_label'][all_regions_df['each_region_perc']>each_region_percent_thresh]=1
             all_regions_df['right_perc']=all_regions_df['right_perc']*all_regions_df['each_region_perc_label']
-            all_regions_df['right_perc_label']=0
-            all_regions_df['right_perc_label'][all_regions_df['right_perc']>side_percent_thresh]=1
-            all_regions_df['left_perc']=all_regions_df['left_perc']*all_regions_df['each_region_perc_label']
-            all_regions_df['left_perc_label']=0
-            all_regions_df['left_perc_label'][all_regions_df['left_perc']>side_percent_thresh]=1
-            all_regions_df['noside_perc_label']=0
+            # all_regions_df['right_perc_label']=0
+            # all_regions_df['right_perc_label'][all_regions_df['right_perc']>side_percent_thresh]=1
+            # all_regions_df['left_perc']=all_regions_df['left_perc']*all_regions_df['each_region_perc_label']
+            # all_regions_df['left_perc_label']=0
+            # all_regions_df['left_perc_label'][all_regions_df['left_perc']>side_percent_thresh]=1
+            # all_regions_df['noside_perc_label']=0
+            # Step 3: Initialize labels as 0
+            all_regions_df['right_perc_label'] = 0
+            all_regions_df['left_perc_label'] = 0
+
+            # Step 4: Assign dominant side label (no condition on >0)
+            all_regions_df.loc[
+                all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc'],
+                'right_perc_label'
+            ] = 1
+
+            all_regions_df.loc[
+                all_regions_df['left_infarct_perc'] >= all_regions_df['right_infarct_perc'],
+                'left_perc_label'
+            ] = 1
             all_regions_df.loc[
                 (pd.isna(all_regions_df['left_perc'])) &
                 (pd.isna(all_regions_df['right_perc'])) &
@@ -269,7 +283,9 @@ def binarized_region_lobar_0(f,latexfilename):
             all_regions_df.to_csv(f.split('.csv')[0]+"_"+str(thresh_percentage)+"_binarized.csv",index=False)
             latex_table = df_to_latex_2(all_regions_df,1.0,'THRESHOLD::{}\n'.format(str(thresh_percentage)))
             latex_insert_line_nodek(latexfilename,text=latex_table) ##all_regions_df.to_latex(index=False))
-
+            all_regions_df_subset = all_regions_df[['region', 'dominant_region','dominant_region_left','dominant_region_right']]
+            latex_table = df_to_latex_2(all_regions_df_subset, 1.0,             f'DOMINANT REGION \n')
+            latex_insert_line_nodek(latexfilename, text=latex_table)
             # In[7]:
 
 

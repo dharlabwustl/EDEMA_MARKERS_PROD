@@ -362,13 +362,15 @@ def binarized_region_lobar(f, latexfilename):
         df = pd.read_csv(f)
 
         broad_regions = [
-            'white matter', 'R. Frontal Lobe', 'L. Frontal Lobe',
+            # 'white matter',
+            'R. Frontal Lobe', 'L. Frontal Lobe',
             'R. cingulate gyrus', 'L. cingulate gyrus',
             'R. Parietal Lobe', 'L. Parietal Lobe',
             'R. Temporal Lobe', 'L. Temporal Lobe',
             'R. Occipital Lobe', 'L. Occipital Lobe',
-            'R. Insula', 'L. Insula',
-            'Brainstem', 'Corpus Callosum', 'Cerebellum'
+            # 'R. Insula', 'L. Insula',
+            # 'Brainstem', 'Corpus Callosum',
+            'Cerebellum'
         ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)

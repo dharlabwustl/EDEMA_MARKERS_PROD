@@ -209,11 +209,28 @@ def binarized_region_artery(f, latexfilename):
             all_regions_df['each_region_infarct_perc'] = all_regions_df['infarct_sum'] / all_regions_df['territory_sum'] * 100
 
             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > thresh_each_region_infarct_perc).astype(int)
-            if all_regions_df['right_infarct_perc'] >0 and all_regions_df['left_infarct_perc'] >0:
-                if all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc']:
-                    all_regions_df['right_perc_label']=1
-                else:
-                    all_regions_df['left_perc_label']=1
+            all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            # Step 3: Initialize labels as 0
+            all_regions_df['right_perc_label'] = 0
+            all_regions_df['left_perc_label'] = 0
+
+            # Step 4: Assign dominant side label (no condition on >0)
+            all_regions_df.loc[
+                all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc'],
+                'right_perc_label'
+            ] = 1
+
+            all_regions_df.loc[
+                all_regions_df['left_infarct_perc'] >= all_regions_df['right_infarct_perc'],
+                'left_perc_label'
+            ] = 1
+
+            # if all_regions_df['right_infarct_perc'] >0 and all_regions_df['left_infarct_perc'] >0:
+            #     if all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc']:
+            #         all_regions_df['right_perc_label']=1
+            #     else:
+            #         all_regions_df['left_perc_label']=1
             # all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
             # all_regions_df['right_perc_label'] = (all_regions_df['right_infarct_perc'] > thresh).astype(int)
             # all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']

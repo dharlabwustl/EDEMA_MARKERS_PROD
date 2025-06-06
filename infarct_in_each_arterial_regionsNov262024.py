@@ -141,13 +141,13 @@ def binarized_region_artery(f, latexfilename):
         # Define major arterial regions to analyze
         broad_regions = [
             "anterior cerebral artery left", "anterior cerebral artery right",
-            "lenticulostriate left", "lenticulostriate right",
             "middle cerebral artery left", "middle cerebral artery right",
             "posterior cerebral artery left", "posterior cerebral artery right",
-            "choroidal and thalamoperfurators left", "choroidal and thalamoperfurators right",
             "basilar left", "basilar right",
-            "cerebellar left", "cerebellar right",
-            "ventricle left", "ventricle right"
+            "cerebellar left", "cerebellar right"
+            # "choroidal and thalamoperfurators left", "choroidal and thalamoperfurators right",
+            # "lenticulostriate left", "lenticulostriate right",
+            # "ventricle left", "ventricle right"
         ]
 
         broad_regions_df = pd.DataFrame(columns=broad_regions)

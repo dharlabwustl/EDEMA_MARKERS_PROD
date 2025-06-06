@@ -269,6 +269,9 @@ def binarized_region_artery(f, latexfilename):
 
             latex_table = df_to_latex_2(all_regions_df, 1.0, f'AREA THRESHOLD:{thresh_each_region_infarct_perc}:::: SIDE THRESHOLD::{thresh}\n')
             latex_insert_line_nodek(latexfilename, text=latex_table)
+            all_regions_df_subset = all_regions_df[['region', 'dominant_region','dominant_region_left','dominant_region_right']]
+            latex_table = df_to_latex_2(all_regions_df_subset, 1.0,             f'DOMINANT REGION \n')
+            latex_insert_line_nodek(latexfilename, text=latex_table)
 
             subprocess.call(f"echo I completed threshold {thresh} ::{f} >> /workingoutput/error.txt", shell=True)
 

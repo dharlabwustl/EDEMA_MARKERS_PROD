@@ -134,7 +134,7 @@ def binarized_region_artery_x(f,latexfilename):
     # except Exception as e:
 
 def binarized_region_artery(f, latexfilename):
-    subprocess.call(f"echo I binarized_region_artery 137 ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
+    subprocess.call(f"echo I binarized_region_artery 137    ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
 
     try:
         df = pd.read_csv(f)

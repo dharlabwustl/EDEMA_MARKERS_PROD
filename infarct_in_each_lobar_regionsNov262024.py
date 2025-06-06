@@ -439,9 +439,23 @@ def binarized_region_lobar(f, latexfilename):
 
             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_lobar_perc'] > thresh_each_region_infarct_perc).astype(int)
             all_regions_df['right_lobar_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['right_perc_label'] = (all_regions_df['right_lobar_perc'] > thresh).astype(int)
+            # all_regions_df['right_perc_label'] = (all_regions_df['right_lobar_perc'] > thresh).astype(int)
             all_regions_df['left_lobar_perc'] *= all_regions_df['each_region_perc_label']
-            all_regions_df['left_perc_label'] = (all_regions_df['left_lobar_perc'] > thresh).astype(int)
+            # all_regions_df['left_perc_label'] = (all_regions_df['left_lobar_perc'] > thresh).astype(int)
+            # Step 3: Initialize labels as 0
+            all_regions_df['right_perc_label'] = 0
+            all_regions_df['left_perc_label'] = 0
+
+            # Step 4: Assign dominant side label (no condition on >0)
+            all_regions_df.loc[
+                all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc'],
+                'right_perc_label'
+            ] = 1
+
+            all_regions_df.loc[
+                all_regions_df['left_infarct_perc'] >= all_regions_df['right_infarct_perc'],
+                'left_perc_label'
+            ] = 1
 
             all_regions_df['noside_perc_label'] = 0
             all_regions_df.loc[
@@ -476,7 +490,9 @@ def binarized_region_lobar(f, latexfilename):
 
             latex_table = df_to_latex_2(all_regions_df, 1.0, f'AREA THRESHOLD:{thresh_each_region_infarct_perc}:::: SIDE THRESHOLD::{thresh}\n')
             latex_insert_line_nodek(latexfilename, text=latex_table)
-
+            all_regions_df_subset = all_regions_df[['region', 'dominant_region','dominant_region_left','dominant_region_right']]
+            latex_table = df_to_latex_2(all_regions_df_subset, 1.0,             f'DOMINANT REGION \n')
+            latex_insert_line_nodek(latexfilename, text=latex_table)
     except Exception as e:
         error_msg = traceback.format_exc()
         subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)

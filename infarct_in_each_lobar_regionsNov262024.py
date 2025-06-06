@@ -448,12 +448,12 @@ def binarized_region_lobar(f, latexfilename):
 
             # Step 4: Assign dominant side label (no condition on >0)
             all_regions_df.loc[
-                all_regions_df['right_infarct_perc'] > all_regions_df['left_infarct_perc'],
+                all_regions_df['right_lobar_perc'] > all_regions_df['left_lobar_perc'],
                 'right_perc_label'
             ] = 1
 
             all_regions_df.loc[
-                all_regions_df['left_infarct_perc'] >= all_regions_df['right_infarct_perc'],
+                all_regions_df['left_lobar_perc'] >= all_regions_df['right_lobar_perc'],
                 'left_perc_label'
             ] = 1
 

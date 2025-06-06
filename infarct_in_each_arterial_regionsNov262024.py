@@ -132,9 +132,8 @@ def binarized_region_artery_x(f,latexfilename):
     #     subprocess.call("echo " + "I traceback error  ::{}  >> /workingoutput/error.txt".format(error_msg) ,shell=True )
     #     # subprocess.call(['bash', '-c', f"echo 'Traceback error: {error_msg}' >> /workingoutput/error.txt"])
     # except Exception as e:
-
 def binarized_region_artery(f, latexfilename):
-    subprocess.call(f"echo I binarized_region_artery 137    ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
+    subprocess.call(f"echo I binarized_region_artery ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
 
     try:
         df = pd.read_csv(f)
@@ -168,7 +167,7 @@ def binarized_region_artery(f, latexfilename):
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_each_region_infarct_perc=10
         thresh_percentages =[50] ## [25, 30, 35, 40, 45, 50]
-        subprocess.call(f"echo I completed f {f} ::{f} >> /workingoutput/error.txt", shell=True)
+
         for thresh in thresh_percentages:
             total_volume_all_regions = 0
 
@@ -211,19 +210,17 @@ def binarized_region_artery(f, latexfilename):
 
             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > thresh_each_region_infarct_perc).astype(int)
             all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
-            if all_regions_df['right_infarct'] > all_regions_df['right_infarct']:
-                all_regions_df['right_perc_label'] =  1 #(all_regions_df['right_infarct_perc'] > thresh).astype(int)
-            # all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
-            else:
-                all_regions_df['left_perc_label'] =  1 #(all_regions_df['left_infarct_perc'] > thresh).astype(int)
+            all_regions_df['right_perc_label'] = (all_regions_df['right_infarct_perc'] > thresh).astype(int)
+            all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
+            all_regions_df['left_perc_label'] = (all_regions_df['left_infarct_perc'] > thresh).astype(int)
 
-            # all_regions_df['noside_perc_label'] = 0
-            # all_regions_df.loc[
-            #     (all_regions_df['left_infarct_perc'].isna()) &
-            #     (all_regions_df['right_infarct_perc'].isna()) &
-            #     (all_regions_df['each_region_perc_label'] > 0),
-            #     'noside_perc_label'
-            # ] = 1
+            all_regions_df['noside_perc_label'] = 0
+            all_regions_df.loc[
+                (all_regions_df['left_infarct_perc'].isna()) &
+                (all_regions_df['right_infarct_perc'].isna()) &
+                (all_regions_df['each_region_perc_label'] > 0),
+                'noside_perc_label'
+            ] = 1
 
             all_regions_df.loc[len(all_regions_df)] = ["total_sum"] + [None] * (len(all_regions_df.columns) - 1)
             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_infarct'] = all_regions_df['left_infarct'].sum()
@@ -235,31 +232,14 @@ def binarized_region_artery(f, latexfilename):
 
             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
 
-            # all_regions_df['dominant_region'] = 0
-            # all_regions_df['dominant_region_left'] = 0
-            # all_regions_df['dominant_region_right'] = 0
-            # dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
-            # all_regions_df.loc[dom_idx, 'dominant_region'] = 1
-            # if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
-            #     all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
-            # elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
-            #     all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
-
-            # Reset dominance labels
             all_regions_df['dominant_region'] = 0
             all_regions_df['dominant_region_left'] = 0
             all_regions_df['dominant_region_right'] = 0
-
-            # Find region with highest absolute infarct volume (left + right)
-            dom_idx = all_regions_df['infarct_sum'].idxmax()
-
-            # Set dominant region
+            dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
             all_regions_df.loc[dom_idx, 'dominant_region'] = 1
-
-            # Determine which side (left/right) has more infarct in that region
-            if all_regions_df.loc[dom_idx, 'left_infarct'] > all_regions_df.loc[dom_idx, 'right_infarct']:
+            if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
-            elif all_regions_df.loc[dom_idx, 'left_infarct'] < all_regions_df.loc[dom_idx, 'right_infarct']:
+            elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
                 all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
 
             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
@@ -271,14 +251,154 @@ def binarized_region_artery(f, latexfilename):
             subprocess.call(f"echo I completed threshold {thresh} ::{f} >> /workingoutput/error.txt", shell=True)
 
     except Exception as e:
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
-        subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
-        print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
-        subprocess.call("echo " + "I traceback error  ::{} >> /workingoutput/error.txt".format(e) ,shell=True )
-        print(f"Error: {e}")        
-        # error_msg = traceback.format_exc()
-        # subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
+        error_msg = traceback.format_exc()
+        subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
+# def binarized_region_artery(f, latexfilename):
+#     subprocess.call(f"echo I binarized_region_artery 137    ::{inspect.stack()[0][3]} >> /workingoutput/error.txt", shell=True)
+#
+#     try:
+#         df = pd.read_csv(f)
+#
+#         # Define major arterial regions to analyze
+#         broad_regions = [
+#             "anterior cerebral artery left", "anterior cerebral artery right",
+#             "lenticulostriate left", "lenticulostriate right",
+#             "middle cerebral artery left", "middle cerebral artery right",
+#             "posterior cerebral artery left", "posterior cerebral artery right",
+#             "choroidal and thalamoperfurators left", "choroidal and thalamoperfurators right",
+#             "basilar left", "basilar right",
+#             "cerebellar left", "cerebellar right",
+#             "ventricle left", "ventricle right"
+#         ]
+#
+#         broad_regions_df = pd.DataFrame(columns=broad_regions)
+#         broad_regions_df_territory = pd.DataFrame(columns=broad_regions)
+#
+#         for region in broad_regions:
+#             df[region] = 0
+#
+#         df.loc[len(df)] = [None] * len(df.columns)
+#         df.loc[len(df) - 1, 'Regions'] = 'Total Regions Volume'
+#         df.loc[len(df), 'Regions'] = 'Total Regions Percentage'
+#         df['infarct_present'] = 0
+#
+#         df['Value'] = pd.to_numeric(df['Value'], errors='coerce').fillna(0)
+#         df['territory'] = pd.to_numeric(df['territory'], errors='coerce').fillna(0)
+#
+#         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
+#         thresh_each_region_infarct_perc=10
+#         thresh_percentages =[50] ## [25, 30, 35, 40, 45, 50]
+#         subprocess.call(f"echo I completed f {f} ::{f} >> /workingoutput/error.txt", shell=True)
+#         for thresh in thresh_percentages:
+#             total_volume_all_regions = 0
+#
+#             for region in broad_regions:
+#                 df_region = df[df['Regions'].str.contains(region, na=False)]
+#
+#                 region_value_sum = df_region['Value'].sum()
+#                 region_territory_sum = df_region['territory'].sum()
+#
+#                 df.loc[df['Regions'] == 'Total Regions Volume', region] = region_value_sum
+#                 df.loc[df['Regions'] == 'Total Regions Percentage', region] = (region_value_sum / total_volume) * 100
+#
+#                 broad_regions_df.loc[0, region] = region_value_sum
+#                 broad_regions_df_territory.loc[0, region] = region_territory_sum
+#                 total_volume_all_regions += region_value_sum
+#
+#                 for index in df_region.index:
+#                     df.loc[index, region] = region_value_sum
+#
+#             regions = [col.replace(" left", "") for col in broad_regions_df.columns if " left" in col]
+#             left_infarct = [broad_regions_df[f"{r} left"].iloc[0] for r in regions]
+#             right_infarct = [broad_regions_df[f"{r} right"].iloc[0] for r in regions]
+#             left_territory = [broad_regions_df_territory[f"{r} left"].iloc[0] for r in regions]
+#             right_territory = [broad_regions_df_territory[f"{r} right"].iloc[0] for r in regions]
+#
+#             all_regions_df = pd.DataFrame({
+#                 "region": regions,
+#                 "left_infarct": left_infarct,
+#                 "right_infarct": right_infarct,
+#                 "left_territory": left_territory,
+#                 "right_territory": right_territory
+#             })
+#
+#             all_regions_df['infarct_sum'] = all_regions_df['left_infarct'] + all_regions_df['right_infarct']
+#             all_regions_df['territory_sum'] = all_regions_df['left_territory'] + all_regions_df['right_territory']
+#
+#             all_regions_df['left_infarct_perc'] = all_regions_df['left_infarct'] / all_regions_df['left_territory'] * 100 # all_regions_df['infarct_sum'] * 100
+#             all_regions_df['right_infarct_perc'] = all_regions_df['right_infarct'] / all_regions_df['right_territory'] * 100 # all_regions_df['infarct_sum'] * 100
+#             all_regions_df['each_region_infarct_perc'] = all_regions_df['infarct_sum'] / all_regions_df['territory_sum'] * 100
+#
+#             all_regions_df['each_region_perc_label'] = (all_regions_df['each_region_infarct_perc'] > thresh_each_region_infarct_perc).astype(int)
+#             all_regions_df['right_infarct_perc'] *= all_regions_df['each_region_perc_label']
+#             if all_regions_df['right_infarct'] > all_regions_df['right_infarct']:
+#                 all_regions_df['right_perc_label'] =  1 #(all_regions_df['right_infarct_perc'] > thresh).astype(int)
+#             # all_regions_df['left_infarct_perc'] *= all_regions_df['each_region_perc_label']
+#             else:
+#                 all_regions_df['left_perc_label'] =  1 #(all_regions_df['left_infarct_perc'] > thresh).astype(int)
+#
+#             # all_regions_df['noside_perc_label'] = 0
+#             # all_regions_df.loc[
+#             #     (all_regions_df['left_infarct_perc'].isna()) &
+#             #     (all_regions_df['right_infarct_perc'].isna()) &
+#             #     (all_regions_df['each_region_perc_label'] > 0),
+#             #     'noside_perc_label'
+#             # ] = 1
+#
+#             all_regions_df.loc[len(all_regions_df)] = ["total_sum"] + [None] * (len(all_regions_df.columns) - 1)
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_infarct'] = all_regions_df['left_infarct'].sum()
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_infarct'] = all_regions_df['right_infarct'].sum()
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'infarct_sum'] = all_regions_df['infarct_sum'].sum()
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'left_territory'] = all_regions_df['left_territory'].sum()
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'right_territory'] = all_regions_df['right_territory'].sum()
+#             all_regions_df.loc[all_regions_df["region"] == "total_sum", 'territory_sum'] = all_regions_df['territory_sum'].sum()
+#
+#             all_regions_df = all_regions_df.applymap(to_2_sigfigs)
+#
+#             # all_regions_df['dominant_region'] = 0
+#             # all_regions_df['dominant_region_left'] = 0
+#             # all_regions_df['dominant_region_right'] = 0
+#             # dom_idx = all_regions_df['each_region_infarct_perc'].idxmax()
+#             # all_regions_df.loc[dom_idx, 'dominant_region'] = 1
+#             # if all_regions_df.loc[dom_idx, 'left_infarct_perc'] > all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+#             #     all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
+#             # elif all_regions_df.loc[dom_idx, 'left_infarct_perc'] < all_regions_df.loc[dom_idx, 'right_infarct_perc']:
+#             #     all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
+#
+#             # Reset dominance labels
+#             all_regions_df['dominant_region'] = 0
+#             all_regions_df['dominant_region_left'] = 0
+#             all_regions_df['dominant_region_right'] = 0
+#
+#             # Find region with highest absolute infarct volume (left + right)
+#             dom_idx = all_regions_df['infarct_sum'].idxmax()
+#
+#             # Set dominant region
+#             all_regions_df.loc[dom_idx, 'dominant_region'] = 1
+#
+#             # Determine which side (left/right) has more infarct in that region
+#             if all_regions_df.loc[dom_idx, 'left_infarct'] > all_regions_df.loc[dom_idx, 'right_infarct']:
+#                 all_regions_df.loc[dom_idx, 'dominant_region_left'] = 1
+#             elif all_regions_df.loc[dom_idx, 'left_infarct'] < all_regions_df.loc[dom_idx, 'right_infarct']:
+#                 all_regions_df.loc[dom_idx, 'dominant_region_right'] = 1
+#
+#             binarized_csv = f.split('.csv')[0] + f"_{thresh}_binarized.csv"
+#             all_regions_df.to_csv(binarized_csv, index=False)
+#
+#             latex_table = df_to_latex_2(all_regions_df, 1.0, f'AREA THRESHOLD:{thresh_each_region_infarct_perc}:::: SIDE THRESHOLD::{thresh}\n')
+#             latex_insert_line_nodek(latexfilename, text=latex_table)
+#
+#             subprocess.call(f"echo I completed threshold {thresh} ::{f} >> /workingoutput/error.txt", shell=True)
+#
+#     except Exception as e:
+#         exc_type, exc_value, exc_traceback = sys.exc_info()
+#         tb = traceback.extract_tb(exc_traceback)[-1]  # Last call in the traceback
+#         subprocess.call("echo " + "I traceback error filename ::{} :: line number ::{}  >> /workingoutput/error.txt".format(tb.filename,tb.lineno) ,shell=True )
+#         print(f"Exception in file: {tb.filename}, line: {tb.lineno}")
+#         subprocess.call("echo " + "I traceback error  ::{} >> /workingoutput/error.txt".format(e) ,shell=True )
+#         print(f"Error: {e}")
+#         # error_msg = traceback.format_exc()
+#         # subprocess.call(f"echo I traceback error ::{error_msg} >> /workingoutput/error.txt", shell=True)
 
 def binarized_region_artery_1(f,latexfilename):
     subprocess.call("echo " + "I  binarized_region_artery  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

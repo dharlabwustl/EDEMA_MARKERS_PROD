@@ -150,7 +150,7 @@ def binarized_region_artery(f, latexfilename):
             "cerebellar left", "cerebellar right",
             "ventricle left", "ventricle right"
         ]
-        subprocess.call(f"echo I completed f {f} ::{f} >> /workingoutput/error.txt", shell=True)
+
         broad_regions_df = pd.DataFrame(columns=broad_regions)
         broad_regions_df_territory = pd.DataFrame(columns=broad_regions)
 
@@ -168,7 +168,7 @@ def binarized_region_artery(f, latexfilename):
         total_volume = df.loc[df['Column_Name'] == 'infarct_volume_after_reg', 'Value'].iloc[0]
         thresh_each_region_infarct_perc=10
         thresh_percentages =[50] ## [25, 30, 35, 40, 45, 50]
-
+        subprocess.call(f"echo I completed f {f} ::{f} >> /workingoutput/error.txt", shell=True)
         for thresh in thresh_percentages:
             total_volume_all_regions = 0
 

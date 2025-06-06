@@ -150,7 +150,7 @@ def binarized_region_artery(f, latexfilename):
             "cerebellar left", "cerebellar right",
             "ventricle left", "ventricle right"
         ]
-
+        subprocess.call(f"echo I completed f {f} ::{f} >> /workingoutput/error.txt", shell=True)
         broad_regions_df = pd.DataFrame(columns=broad_regions)
         broad_regions_df_territory = pd.DataFrame(columns=broad_regions)
 

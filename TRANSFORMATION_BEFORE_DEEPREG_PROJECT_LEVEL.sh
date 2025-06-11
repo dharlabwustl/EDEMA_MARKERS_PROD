@@ -98,9 +98,9 @@ filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list}
 outputfiles_present=$(python3 fillmaster_session_list.py "${filter_ctsession_arguments[@]}")
 cp ${sessions_list} ${copy_session}
 counter=0
-subject_list=${working_dir}/'subjects.csv'
-curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
-csvfilename=${copy_session}
+#subject_list=${working_dir}/'subjects.csv'
+#curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/subjects/?format=csv >${subject_list}
+#csvfilename=${copy_session}
 while IFS=',' read -ra array; do
 #  if [ ${array[0]} == 'SNIPR02_E03847' ] ; then # | [ ${array[0]} == 'SNIPR02_E03842' ] ; then
   directory_to_create_destroy

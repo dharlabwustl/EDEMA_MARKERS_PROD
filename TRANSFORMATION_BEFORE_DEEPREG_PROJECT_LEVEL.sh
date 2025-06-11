@@ -110,6 +110,7 @@ while IFS=',' read -ra array; do
   directory_to_create_destroy
   this_session_id=${array[0]}  ###SNIPR02_E02101 #SNIPR02_E02819 ##
   /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  break
 #  xml_filename=${working_dir}/${this_session_id}.xml
 #  filename_xml=$(basename ${xml_filename})   #args.stuff[2]
 #  dir_to_save_xml=$(dirname ${xml_filename}) #args args.stuff[3]

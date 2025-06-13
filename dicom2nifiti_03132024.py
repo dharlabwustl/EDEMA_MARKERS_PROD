@@ -52,13 +52,14 @@ def decide_image_conversion(metadata_session,scanId):
             if 'z-axial-brain' in result_type.lower() or 'z-brain-thin' in result_type.lower():
                 print(True)
                 brain_type=True
-            print("I AM AT DECIDE_IMAGE_CONVERSION")
-            print(f"{result_usability}::{brain_type}::{result_type}")
-            return
+
             break
 
     if usable==True and brain_type==True:
         decision =True
+    print("I AM AT DECIDE_IMAGE_CONVERSION")
+    print(f"{result_usability}::{brain_type}::{result_type}::{decision}")
+    # return
     return decision
 
 

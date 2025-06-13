@@ -32,14 +32,15 @@ def get_metadata_session(sessionId):
     return metadata_session
 
 def decide_image_conversion(metadata_session,scanId):
-    print("I AM AT DECIDE_IMAGE_CONVERSION")
-    return
+
     decision=False
     usable=False
     brain_type=False
     for x in metadata_session:
         if x['ID']  == scanId:
             print(x['ID'])
+            print("I AM AT DECIDE_IMAGE_CONVERSION")
+            return
             # result_usability = response.json()['ResultSet']['Result'][0]['quality']
             result_usability = x['quality']
 #             print(result)

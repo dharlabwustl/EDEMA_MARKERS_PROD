@@ -230,10 +230,11 @@ def get_dicom_using_xnat(sessionId, scanId):
     #
     # # Get 70% file and ensure it exists
     # selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
-    # selDicomAbs = df_scan_resource.iloc[1]['URI']
-    # selDicomAbs_split = selDicomAbs.split('/')
-    # print(selDicomAbs_split[-5] + '_' + selDicomAbs_split[-3])
-    # print(selDicomAbs_split) ##[-5] + '_' + selDicomAbs_split[-3])
+    selDicomAbs =  df_scan_resource.iloc[1, df_scan_resource.columns.get_loc('URI')]
+##df_scan_resource.iloc[1]['URI']
+    selDicomAbs_split = selDicomAbs.split('/')
+    print(selDicomAbs_split[-5] + '_' + selDicomAbs_split[-3])
+    print(selDicomAbs_split) ##[-5] + '_' + selDicomAbs_split[-3])
     print(df_scan_resource.iloc[1, df_scan_resource.columns.get_loc('URI')])
     return
     ######################################################################################

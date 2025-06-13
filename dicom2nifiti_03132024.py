@@ -197,8 +197,8 @@ def get_dicom_using_xnat(sessionId, scanId):
 
     # Handle DICOM files that are not stored in a directory matching their XNAT scanId
     #####################################################################
-    sessionId='SNIPR01_E00146'
-    scanId='4'
+    # sessionId='SNIPR01_E00146'
+    # scanId='4'
     session_label=get_session_label(sessionId) #, outputfile="NONE.csv")
     # url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" %
     #        (sessionId, scanId))

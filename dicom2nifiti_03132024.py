@@ -114,6 +114,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     nDicomFiles = len(result)
     # print(nDicomFiles)
     print("I AM AT DECIDE_IMAGE_CONVERSION")
+
     print(f"::{response.json()}::{nDicomFiles}")
     if nDicomFiles == 0:
         return False

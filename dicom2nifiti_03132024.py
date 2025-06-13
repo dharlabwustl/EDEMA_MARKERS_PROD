@@ -32,7 +32,8 @@ def get_metadata_session(sessionId):
     return metadata_session
 
 def decide_image_conversion(metadata_session,scanId):
-    return "I AM AT DECIDE_IMAGE_CONVERSION"
+    print("I AM AT DECIDE_IMAGE_CONVERSION")
+    return
     decision=False
     usable=False
     brain_type=False

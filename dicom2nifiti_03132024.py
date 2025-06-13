@@ -205,6 +205,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     # response = xnatSession.httpsess.get(xnatSession.host + url)
 
     URI = f'/data/experiments/{sessionId}/scans/{scanId}'
+    resource_dir='DICOM'
     list_of_files_in_resource_dir = get_resourcefiles_metadata(URI, resource_dir)
     df_scan_resource = pd.read_json(
         json.dumps(list_of_files_in_resource_dir))  # pd.read_json(json.dumps(metadata_masks))

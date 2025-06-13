@@ -39,11 +39,12 @@ def decide_image_conversion(metadata_session,scanId):
     for x in metadata_session:
         if x['ID']  == scanId:
             print(x['ID'])
-            print("I AM AT DECIDE_IMAGE_CONVERSION")
-            return
+
             # result_usability = response.json()['ResultSet']['Result'][0]['quality']
             result_usability = x['quality']
-#             print(result)
+            print(result)
+            print("I AM AT DECIDE_IMAGE_CONVERSION")
+            return
             if 'usable' in result_usability.lower():
                 print(True)
                 usable=True

@@ -199,7 +199,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     #####################################################################
     sessionId='SNIPR01_E00146'
     scanId='4'
-    # session_label=get_session_label(sessionId) #, outputfile="NONE.csv")
+    session_label=get_session_label(sessionId) #, outputfile="NONE.csv")
     url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" %
            (sessionId, scanId))
     # xnatSession.renew_httpsession()
@@ -259,9 +259,12 @@ def get_dicom_using_xnat(sessionId, scanId):
     print(f"Path to largest file: {largest_file_path}")
     niftifile = largest_file_path  #
     current_filename = os.path.basename(niftifile).split('.nii')[0]
-    new_filename = "_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),
+    # new_filename = "_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),
+    #                          "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
+    #                          scanId))  # selDicomAbs_split[-3]))
+    new_filename = "_".join(("_".join(session_label.split("_")[0:2]),
                              "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
-                             scanId))  # selDicomAbs_split[-3]))
+                             scanId))
     new_filename_path = os.path.join(os.path.dirname(niftifile), new_filename + ".nii")
     print(new_filename_path)
     return

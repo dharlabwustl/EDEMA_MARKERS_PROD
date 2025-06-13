@@ -210,13 +210,14 @@ if __name__ == '__main__':
         if 1>0 : #file_present < len(extension_to_find_list):
             print("REQUIRED NUMBER OF FILES NOT PRESENT, SO , WORKING ON IT")
             decision=decide_image_conversion(metadata_session,scanId)
-            print("I AM AT DECIDE_IMAGE_CONVERSION")
-            print(f"::{decision}")
+
             message_text="Before decision scanId: " + scanId
             command="echo " + message_text +"  >>  logmessage.txt"
             subprocess.call(command,shell=True)
             # print("Decision::{}".format(decision))
             if decision==True:
+                print("I AM AT DECIDE_IMAGE_CONVERSION")
+                print(f"::{decision}")
                 #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
                 #xnatSession.renew_httpsession()
                 outcome=get_dicom_using_xnat(sessionId, scanId)

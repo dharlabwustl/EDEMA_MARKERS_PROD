@@ -99,8 +99,7 @@ def get_dicom_using_xnat(sessionId, scanId):
         (sessionId, scanId))
     #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
-    print("I AM AT DECIDE_IMAGE_CONVERSION")
-    print(f"::{response.status_code}")
+
     if response.status_code != 200:
 
         return False
@@ -112,6 +111,8 @@ def get_dicom_using_xnat(sessionId, scanId):
     # print(result[0]) #['absolutePath'])
     nDicomFiles = len(result)
     # print(nDicomFiles)
+    print("I AM AT DECIDE_IMAGE_CONVERSION")
+    print(f"::{result}::{nDicomFiles}")
     if nDicomFiles == 0:
         return False
         # raise Exception("No DICOM files for %s stored in XNAT" % scanId)

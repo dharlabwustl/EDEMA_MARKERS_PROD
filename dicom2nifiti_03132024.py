@@ -234,7 +234,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     # selDicomAbs_split = selDicomAbs.split('/')
     # print(selDicomAbs_split[-5] + '_' + selDicomAbs_split[-3])
     # print(selDicomAbs_split) ##[-5] + '_' + selDicomAbs_split[-3])
-    print(df_scan_resource)
+    print(df_scan_resource.iloc[1, df_scan_resource.columns.get_loc('URI')])
     return
     ######################################################################################
 

@@ -199,44 +199,33 @@ def get_dicom_using_xnat(sessionId, scanId):
     #####################################################################
     sessionId='SNIPR01_E00146'
     scanId='4'
-    # url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" %
-    #        (sessionId, scanId))
+    # session_label=get_session_label(sessionId) #, outputfile="NONE.csv")
+    url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" %
+           (sessionId, scanId))
     # xnatSession.renew_httpsession()
-    # response = xnatSession.httpsess.get(xnatSession.host + url)
+    response = xnatSession.httpsess.get(xnatSession.host + url)
 
-    URI = f'/data/experiments/{sessionId}/scans/{scanId}'
-    resource_dir='DICOM'
-    list_of_files_in_resource_dir = get_resourcefiles_metadata(URI, resource_dir)
-    df_scan_resource = pd.read_json(
-        json.dumps(list_of_files_in_resource_dir))  # pd.read_json(json.dumps(metadata_masks))
+    if response.status_code != 200:
+        return False
+        # raise Exception("Error querying XNAT for %s DICOM files: %s %s %s" % (scanId,
+        #                                                                       response.status_code,
+        #                                                                       response.reason,
+        #                                                                       response.text))
+    result = response.json()['ResultSet']['Result']
+    # print(result[0]) #['absolutePath'])
+    nDicomFiles = len(result)
+    # print(nDicomFiles)
+    print("I AM AT DECIDE_IMAGE_CONVERSION")
 
+    print(f"::{response.json()}::{nDicomFiles}")
+    if nDicomFiles == 0:
+        return False
+        # raise Exception("No DICOM files for %s stored in XNAT" % scanId)
 
-    # # if response.status_code != 200:
-    # #     return False
-    #     # raise Exception("Error querying XNAT for %s DICOM files: %s %s %s" % (scanId,
-    #     #                                                                       response.status_code,
-    #     #                                                                       response.reason,
-    #     #                                                                       response.text))
-    # result = response.json()['ResultSet']['Result']
-    # # print(result[0]) #['absolutePath'])
-    # nDicomFiles = len(result)
-    # # print(nDicomFiles)
-    # print("I AM AT DECIDE_IMAGE_CONVERSION")
-    #
-    # print(f"::{response.json()}::{nDicomFiles}")
-    # if nDicomFiles == 0:
-    #     return False
-    #     # raise Exception("No DICOM files for %s stored in XNAT" % scanId)
-    #
-    # # Get 70% file and ensure it exists
-    # selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
-    selDicomAbs =  df_scan_resource.iloc[1, df_scan_resource.columns.get_loc('URI')]
-##df_scan_resource.iloc[1]['URI']
+    # Get 70% file and ensure it exists
+    selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
     selDicomAbs_split = selDicomAbs.split('/')
     print(selDicomAbs_split[-5] + '_' + selDicomAbs_split[-3])
-    print(selDicomAbs_split) ##[-5] + '_' + selDicomAbs_split[-3])
-    print(df_scan_resource.iloc[1, df_scan_resource.columns.get_loc('URI')])
-    return
     ######################################################################################
 
     # print("No DICOM found in %s directory, querying XNAT for DICOM path" % scanId)
@@ -274,6 +263,8 @@ def get_dicom_using_xnat(sessionId, scanId):
                              "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
                              scanId))  # selDicomAbs_split[-3]))
     new_filename_path = os.path.join(os.path.dirname(niftifile), new_filename + ".nii")
+    print(new_filename_path)
+    return
     command = "mv " + niftifile + "  " + new_filename_path
     subprocess.call(command, shell=True)
     #####################################################

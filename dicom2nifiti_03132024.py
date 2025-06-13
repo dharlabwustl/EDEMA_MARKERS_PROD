@@ -57,8 +57,7 @@ def decide_image_conversion(metadata_session,scanId):
 
     if usable==True and brain_type==True:
         decision =True
-    print("I AM AT DECIDE_IMAGE_CONVERSION")
-    print(f"{result_usability}::{brain_type}::{result_type}::{decision}")
+
     # return
     return decision
 
@@ -211,6 +210,8 @@ if __name__ == '__main__':
         if 1>0 : #file_present < len(extension_to_find_list):
             print("REQUIRED NUMBER OF FILES NOT PRESENT, SO , WORKING ON IT")
             decision=decide_image_conversion(metadata_session,scanId)
+            print("I AM AT DECIDE_IMAGE_CONVERSION")
+            print(f"::{decision}")
             message_text="Before decision scanId: " + scanId
             command="echo " + message_text +"  >>  logmessage.txt"
             subprocess.call(command,shell=True)

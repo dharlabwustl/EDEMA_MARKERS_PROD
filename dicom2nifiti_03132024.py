@@ -43,12 +43,13 @@ def decide_image_conversion(metadata_session,scanId):
             # result_usability = response.json()['ResultSet']['Result'][0]['quality']
             result_usability = x['quality']
             print(result_usability)
-            print("I AM AT DECIDE_IMAGE_CONVERSION")
-            return
+
             if 'usable' in result_usability.lower():
                 print(True)
                 usable=True
             result_type= x['type']
+            print("I AM AT DECIDE_IMAGE_CONVERSION")
+            return
             if 'z-axial-brain' in result_type.lower() or 'z-brain-thin' in result_type.lower():
                 print(True)
                 brain_type=True

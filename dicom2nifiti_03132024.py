@@ -99,6 +99,8 @@ def get_dicom_using_xnat(sessionId, scanId):
         (sessionId, scanId))
     #xnatSession.renew_httpsession()
     response = xnatSession.httpsess.get(xnatSession.host + url)
+    print("I AM AT DECIDE_IMAGE_CONVERSION")
+    print(f"::{response.status_code}")
     if response.status_code != 200:
 
         return False
@@ -216,8 +218,7 @@ if __name__ == '__main__':
             subprocess.call(command,shell=True)
             # print("Decision::{}".format(decision))
             if decision==True:
-                print("I AM AT DECIDE_IMAGE_CONVERSION")
-                print(f"::{decision}")
+
                 #xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
                 #xnatSession.renew_httpsession()
                 outcome=get_dicom_using_xnat(sessionId, scanId)

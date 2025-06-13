@@ -267,7 +267,7 @@ def get_dicom_using_xnat(sessionId, scanId):
                              scanId))
     new_filename_path = os.path.join(os.path.dirname(niftifile), new_filename + ".nii")
     print(new_filename_path)
-    return
+    # return
     command = "mv " + niftifile + "  " + new_filename_path
     subprocess.call(command, shell=True)
     #####################################################

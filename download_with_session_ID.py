@@ -2716,7 +2716,7 @@ def download_a_file_with_ext(session_id,scan_id,resource_dir,extensions_to_downl
                 url=each_row['URI'] #matched_rows.at[0,'URI']
                 print(url)
                 download_a_singlefile_with_URIString(url,os.path.basename(url),outputfolder)
-                print("DELETED::{}".format(url))
+                # print("DELETED::{}".format(url))
 
     except:
         pass

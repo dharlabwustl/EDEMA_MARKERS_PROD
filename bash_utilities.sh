@@ -1,4 +1,4 @@
-#working_dir=/workinginput/
+working_dir=/workinginput/
 get_scan_id(){
     local sessionid=${1}
     call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionid} "NIFTI_LOCATION" ${working_dir})

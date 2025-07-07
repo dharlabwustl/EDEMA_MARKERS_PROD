@@ -2685,7 +2685,8 @@ def call_download_a_file_with_ext(args):
     try:
         download_a_file_with_ext(session_id, scan_id, resource_dir, extensions_to_download, outputfolder, prefix_if_any=prefix_if_any)
     except Exception as e:
-        print(e)
+        command = f"echo exception at {inspect.stack()[0][3]}: {str(e)} >> /output/error.txt"
+        subprocess.call(command, shell=True)
     return 1
 
 def download_a_file_with_ext(session_id,scan_id,resource_dir,extensions_to_download,outputfolder,prefix_if_any=''):

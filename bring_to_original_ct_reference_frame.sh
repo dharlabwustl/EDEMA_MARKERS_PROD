@@ -1,5 +1,3 @@
-
-
 levelset_infarct_mask_file=${1}
 original_ct_file=${2}
 output_directory=${3}

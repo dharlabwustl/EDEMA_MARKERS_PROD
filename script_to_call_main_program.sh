@@ -31,7 +31,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'REGISTER_MASKS' ]]; then
 fi
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'PREPARE_DATA_FOR_MIDLINE' ]]; then
-  /software/data_preparation_for_midline_seg.sh.sh $SESSION_ID ${ADDR[1]} ${ADDR[2]} ##${ADDR[3]} ##$XNAT_HOST /input1 /output
+  /software/data_preparation_for_midline_seg.sh $SESSION_ID ${ADDR[1]} ${ADDR[2]} ##${ADDR[3]} ##$XNAT_HOST /input1 /output
 fi
 #######################################################################################################################
 

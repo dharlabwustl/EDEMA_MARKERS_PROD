@@ -3,6 +3,7 @@ sessionID=${1}
 echo ${sessionID}
 ##get the selected scan id
 scanID=$(get_scan_id ${sessionID})
+echo ${scanID}
 #echo ${sessionID}::${scanID}
 #snipr_output_foldername='MASKS'
 #file_extension='ventricle'

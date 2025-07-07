@@ -1,7 +1,8 @@
 source ./bash_utilities.sh
 sessionID=${1}
+echo ${sessionID}
 ##get the selected scan id
-scanID=$(get_scan_id ${sessionID})
+#scanID=$(get_scan_id ${sessionID})
 #echo ${sessionID}::${scanID}
 #snipr_output_foldername='MASKS'
 #file_extension='ventricle'

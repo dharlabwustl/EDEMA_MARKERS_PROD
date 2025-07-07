@@ -6,16 +6,16 @@ scanID=$(get_scan_id ${sessionID})
 echo ${scanID}
 echo ${sessionID}::${scanID}
 ## download nifti original
-snipr_output_foldername='NIFTI'
-file_extension='.nii'
-outputdir='/workinginput/'
-download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
-original_ct_file=$(find ${outputdir} -name "*${file_extension}" )
-## download ventricle mask
-#snipr_output_foldername='MASKS'
-#file_extension='_ventricle_total.nii.gz'
+#snipr_output_foldername='NIFTI'
+#file_extension='.nii'
 #outputdir='/workinginput/'
 #download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
+#original_ct_file=$(find ${outputdir} -name "*${file_extension}" )
+## download ventricle mask
+snipr_output_foldername='MASKS'
+file_extension='_ventricle_total.nii.gz'
+outputdir='/workinginput/'
+download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 #levelset_mask_file=$(find ${outputdir} -name ${file_extension})
 #output_directory='/workingoutput/'
 #to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}

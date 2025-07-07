@@ -2682,7 +2682,7 @@ def call_download_a_file_with_ext(args):
     extensions_to_download=args.stuff[4]
     outputfolder=args.stuff[5]
     prefix_if_any = ''
-    if len(args)>6: ##.stuff[6]:
+    if len(args.stuff)>6: ##.stuff[6]:
         prefix_if_any=args.stuff[6]
     try:
         download_a_file_with_ext(session_id, scan_id, resource_dir, extensions_to_download, outputfolder, prefix_if_any=prefix_if_any)

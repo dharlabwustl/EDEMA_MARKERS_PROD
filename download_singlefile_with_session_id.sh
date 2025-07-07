@@ -127,6 +127,9 @@ done < <(tail -n +2 "${scan_csv_file}" )
 #  break
 #fi
 #done < <(tail -n +2 "${csv_file}")
+for x in ./*${file_extension}* ;
+do cp ${x} /workingoutput/ ;
+done
 
 
 

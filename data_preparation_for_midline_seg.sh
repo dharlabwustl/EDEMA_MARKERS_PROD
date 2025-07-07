@@ -5,16 +5,23 @@ echo ${sessionID}
 scanID=$(get_scan_id ${sessionID})
 echo ${scanID}
 echo ${sessionID}::${scanID}
-snipr_output_foldername='MASKS'
-file_extension='infarct_auto_removesmall.nii.gz'
-outputdir='/workingoutput/'
+## download nifti original
+snipr_output_foldername='NIFTI'
+file_extension='.nii'
+outputdir='/workinginput/'
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
-
-
-to_original_nifti_rf(){
-  local original_ct_file=${1}
-  local levelset_infarct_mask_file=${2}
-  local output_directory=${3}
+original_ct_file=$(find ${outputdir} -name ${file_extension})
+## download ventricle mask
+snipr_output_foldername='MASKS'
+file_extension='_ventricle_total.nii.gz'
+outputdir='/workinginput/'
+download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
+levelset_mask_file=$(find ${outputdir} -name ${file_extension})
+output_directory='/workingoutput/'
+to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
+#  local original_ct_file=${1}
+#  local levelset_infarct_mask_file=${2}
+#  local output_directory=${3}
 
 #function_with_arguments=('call_download_a_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} ) ##'warped_1_mov_mri_region_' )
 #echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"

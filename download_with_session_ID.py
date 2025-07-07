@@ -2674,7 +2674,7 @@ def get_selected_scan_info(SESSION_ID, dir_to_save):
         #xnatSession.close_httpsession())
 
 def call_download_a_file_with_ext(args):
-    command = f"echo exception at {inspect.stack()[0][3]}: {str("WO ZAI ZELI")} >> /output/error.txt"
+    command = f"echo exception at {inspect.stack()[0][3]}: WO ZAI ZELI >> /output/error.txt"
     subprocess.call(command, shell=True)
     session_id=args.stuff[1]
     scan_id=args.stuff[2]

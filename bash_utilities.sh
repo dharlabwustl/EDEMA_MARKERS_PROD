@@ -28,6 +28,22 @@ get_scan_id(){
     echo "$scan_id"  # ✅ This line makes the function return the value
 }
 
+download_a_single_file_with_ext(){
+ echo ${scanID}
+echo ${sessionID}::${scanID}
+sessionID=${1}
+scanID=${2}
+snipr_output_foldername=${3} #'MASKS'
+file_extension=${4} #'infarct_auto_removesmall.nii.gz'
+outputdir=${5} ##'/workingoutput/'
+echo "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
+function_with_arguments=('call_download_a_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} ) ##'warped_1_mov_mri_region_' )
+echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
+
+
+}
+
 download_resource_dir(){
   local sessionID=${1}
   local scanID=${2}

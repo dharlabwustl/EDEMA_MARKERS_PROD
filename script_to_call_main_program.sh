@@ -31,7 +31,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'REGISTER_MASKS' ]]; then
 fi
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_A_FILE_WITH_EXT' ]]; then
-  /software/call_download_singlefile_with_session.sh $SESSION_ID ${ADDR[0]} ${ADDR[1]} ${ADDR[2]} ##$XNAT_HOST /input1 /output
+  /software/call_download_singlefile_with_session.sh $SESSION_ID ${ADDR[1]} ${ADDR[2]} ##${ADDR[3]} ##$XNAT_HOST /input1 /output
 fi
 #######################################################################################################################
 

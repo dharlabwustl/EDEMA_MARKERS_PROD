@@ -6,7 +6,7 @@ scanID=$(get_scan_id ${sessionID})
 echo ${scanID}
 echo ${sessionID}::${scanID}
 snipr_output_foldername='MASKS'
-file_extension='ventricle'
+file_extension='.nii.gz'
 outputdir='/workingoutput/'
 echo "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 function_with_arguments=('call_download_a_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} ) ##'warped_1_mov_mri_region_' )

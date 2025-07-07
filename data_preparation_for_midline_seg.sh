@@ -18,7 +18,7 @@ outputdir='/workinginput/'
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 levelset_mask_file=$(find ${outputdir} -name ${file_extension})
 output_directory='/workingoutput/'
-to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
+#to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
 ## download BET gray file:
 #  local original_ct_file=${1}
 #  local levelset_infarct_mask_file=${2}

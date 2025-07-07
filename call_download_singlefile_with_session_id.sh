@@ -5,6 +5,7 @@ scanID=$(get_scan_id ${sessionID})
 echo ${sessionID}::${scanID}
 snipr_output_foldername='MASKS'
 file_extension='ventricle'
+outputdir='/workingoutput/'
 function_with_arguments=('call_download_a_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ) ##'warped_1_mov_mri_region_' )
 echo "outputfiles_present="'$(python3 download_with_session_ID.py' "${function_with_arguments[@]}"
 #

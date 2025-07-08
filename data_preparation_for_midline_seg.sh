@@ -3,8 +3,8 @@ sessionID=${1}
 echo ${sessionID}
 ##get the selected scan id
 scanID=$(get_scan_id ${sessionID})
-echo ${scanID}
-echo ${sessionID}::${scanID}
+#echo ${scanID}
+#echo ${sessionID}::${scanID}
 # download nifti original
 snipr_output_foldername='NIFTI'
 file_extension='.nii'

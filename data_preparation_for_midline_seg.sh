@@ -25,7 +25,7 @@ levelset_ventricle_mask_file=$(find ${outputdir} -name *${file_extension})
 
 output_directory='/workingoutput/'
 to_original_nifti_rf ${original_ct_file} ${levelset_ventricle_mask_file} ${output_directory}
-
+levelset_ventricle_mask_file_orf=${output_directory}/$(basename ${levelset_ventricle_mask_file})
 
 snipr_output_foldername='PREPROCESS_SEGM_3'
 file_extension='_brain_f.nii.gz'

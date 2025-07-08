@@ -9,9 +9,9 @@ echo ${sessionID}::${scanID}
 snipr_output_foldername='NIFTI'
 file_extension='.nii'
 outputdir='/workinginput/'
-download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
-echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
 
+echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
+download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 #original_ct_file=$(find ${outputdir} -name "*${file_extension}" )
 #echo ${original_ct_file}
 ## download ventricle mask

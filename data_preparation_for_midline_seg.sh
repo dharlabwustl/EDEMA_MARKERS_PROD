@@ -41,7 +41,7 @@ echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} 
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 mat_file_session_ct_is_moving=$(find ${outputdir} -name *${file_extension})
 ## transform gray_bet to scct template
-transformed_output_file=/workingoutput/mov_${bet_gray_file}
+transformed_output_file=/workingoutput/mov_$(basename ${bet_gray_file})
 echo "original_ct_file::${original_ct_file}  levelset_ventricle_mask_file_orf::${levelset_ventricle_mask_file_orf}" bet_gray_file::${bet_gray_file} mat_file_session_ct_is_moving::${mat_file_session_ct_is_moving} transformed_output_file::${transformed_output_file}
 
 

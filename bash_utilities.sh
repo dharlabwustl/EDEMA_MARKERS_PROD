@@ -67,7 +67,7 @@ delete_a_file(){
     local substring=${4}
 #        snipr_output_foldername='PREPROCESS_SEGM'
         function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} ${substring} ) ##'warped_1_mov_mri_region_' )
-        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+#        echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 
 }
 to_original_nifti_rf(){
@@ -82,7 +82,7 @@ from utilities_simple_trimmed import levelset2originalRF_new_flip_py
 levelset2originalRF_new_flip_py(sys.argv[1], sys.argv[2], sys.argv[3])
 " "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
 
-echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file})"
+#echo "_parsehere_${output_directory}/$(basename ${levelset_infarct_mask_file})"
 
 }
 
@@ -98,7 +98,7 @@ from utilities_simple_trimmed import betgrayfrombetbinary1_py
 betgrayfrombetbinary1_py(sys.argv[1], sys.argv[2], sys.argv[3])
 " "$original_ct_file" "$levelset_infarct_mask_file" "$output_directory"
 
-echo "_parsehere_${output_directory}/$(basename ${original_ct_file%.nii*}_brain_f.nii.gz)"
+#echo "_parsehere_${output_directory}/$(basename ${original_ct_file%.nii*}_brain_f.nii.gz)"
 }
 
 transform_files_with_given_mat_wrt_sccttemplate(){
@@ -121,7 +121,7 @@ local mask_binary_output_dir=${3}
 local snipr_output_foldername=${4}
 local mask_binary_output_filename=${5}
 
-echo ${mask_binary_output_dir}/${mask_binary_output_filename}
+#echo ${mask_binary_output_dir}/${mask_binary_output_filename}
 python3 -c "
 import sys
 sys.path.append('/software');

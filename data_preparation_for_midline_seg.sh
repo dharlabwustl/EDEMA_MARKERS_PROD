@@ -9,7 +9,6 @@ scanID=$(get_scan_id ${sessionID})
 snipr_output_foldername='NIFTI'
 file_extension='.nii'
 outputdir='/workinginput/'
-
 echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 echo sessionID::${sessionID}
@@ -21,11 +20,22 @@ file_extension='_ventricle_total.nii.gz'
 outputdir='/workinginput/'
 echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
-levelset_mask_file=$(find ${outputdir} -name *${file_extension})
+levelset_ventricle_mask_file=$(find ${outputdir} -name *${file_extension})
 
-echo "original_ct_file::${original_ct_file}  levelset_mask_file::${levelset_mask_file}"
+
 output_directory='/workingoutput/'
 to_original_nifti_rf ${original_ct_file} ${levelset_mask_file} ${output_directory}
+
+
+snipr_output_foldername='PREPROCESS_SEGM_3'
+file_extension='_brain_f.nii.gz'
+outputdir='/workinginput/'
+echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
+download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
+bet_gray_file=$(find ${outputdir} -name *${file_extension})
+
+echo "original_ct_file::${original_ct_file}  levelset_ventricle_mask_file::${levelset_ventricle_mask_file}" bet_gray_file::${bet_gray_file}
+
 ## download BET gray file:
 #  local original_ct_file=${1}
 #  local levelset_infarct_mask_file=${2}

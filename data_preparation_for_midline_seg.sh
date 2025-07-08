@@ -42,14 +42,14 @@ download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldernam
 mat_file_session_ct_is_moving=$(find ${outputdir} -name *${file_extension})
 echo "original_ct_file::${original_ct_file}  levelset_ventricle_mask_file_orf::${levelset_ventricle_mask_file_orf}" bet_gray_file::${bet_gray_file} mat_file_session_ct_is_moving::${mat_file_session_ct_is_moving}
 ## transform gray_bet to scct template
-#transformed_output_file=mov_${bet_gray_file}
+transformed_output_file=/workingoutput/mov_${bet_gray_file}
 
 
 #transform_mat_file=/workinginput/$(basename ${original_ct_file%.nii*})_resaved_levelset_brain_f_scct_strippedResampled1lin1.mat
-transform_files_with_given_mat_wrt_sccttemplate ${bet_gray_file} ${transformed_output_file} ${transform_mat_file}
-  local moving_img=${1}
-  local transformed_output_file=${2}
-  local transform_mat_file=${3}
+transform_files_with_given_mat_wrt_sccttemplate ${bet_gray_file} ${transformed_output_file} ${mat_file_session_ct_is_moving}
+#  local moving_img=${1}
+#  local transformed_output_file=${2}
+#  local transform_mat_file=${3}
 
 ## download BET gray file:
 #  local original_ct_file=${1}

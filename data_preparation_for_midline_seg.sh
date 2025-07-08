@@ -14,7 +14,7 @@ echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} 
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 echo sessionID::${sessionID}
 original_ct_file=$(find ${outputdir} -name "*${file_extension}" )
-#echo ${original_ct_file}
+echo ${original_ct_file}
 ### download ventricle mask
 #snipr_output_foldername='MASKS'
 #file_extension='_ventricle_total.nii.gz'

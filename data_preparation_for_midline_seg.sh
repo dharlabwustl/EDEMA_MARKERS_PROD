@@ -34,7 +34,7 @@ echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} 
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
 bet_gray_file=$(find ${outputdir} -name *${file_extension})
 
-echo "original_ct_file::${original_ct_file}  levelset_ventricle_mask_file::${levelset_ventricle_mask_file}" bet_gray_file::${bet_gray_file}
+echo "original_ct_file::${original_ct_file}  levelset_ventricle_mask_file_orf::${levelset_ventricle_mask_file_orf}" bet_gray_file::${bet_gray_file}
 
 ## download BET gray file:
 #  local original_ct_file=${1}

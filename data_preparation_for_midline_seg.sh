@@ -21,7 +21,7 @@ file_extension='_ventricle_total.nii.gz'
 outputdir='/workinginput/'
 echo "download_a_single_file_with_ext sessionID::${sessionID} scanID::${scanID} snipr_output_foldername::${snipr_output_foldername} file_extension::${file_extension} outputdir::${outputdir}  "
 download_a_single_file_with_ext "${sessionID} ${scanID} ${snipr_output_foldername} ${file_extension} ${outputdir} "
-levelset_mask_file=$(find ${outputdir} -name ${file_extension})
+levelset_mask_file=$(find ${outputdir} -name *${file_extension})
 
 echo "original_ct_file::${original_ct_file}  levelset_mask_file::${levelset_mask_file}"
 #output_directory='/workingoutput/'

@@ -1,6 +1,6 @@
 source ./bash_utilities.sh
 sessionID=${1}
-echo ${sessionID}
+#echo ${sessionID}
 ##get the selected scan id
 scanID=$(get_scan_id ${sessionID})
 #echo ${scanID}

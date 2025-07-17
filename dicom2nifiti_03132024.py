@@ -47,6 +47,11 @@ def decide_image_conversion(metadata_session,scanId):
             if 'usable' in result_usability.lower():
                 print(True)
                 usable=True
+            if usable==False:
+                if 'questionable' in result_usability.lower():
+                    print(True)
+                    usable = True
+
             result_type= x['type']
 
             if 'z-axial-brain' in result_type.lower() or 'z-brain-thin' in result_type.lower():

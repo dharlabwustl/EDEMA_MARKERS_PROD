@@ -1044,7 +1044,7 @@ def fill_redcap_for_pdffile(args):
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return
-def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile=""):
+def decision_which_nifti_used_untilAug62025(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     # sessionId=sys.argv[1]
     # dir_to_receive_the_data="./NIFTIFILEDIR" #sys.argv[2]
     # output_csvfile='test.csv' #sys.argv[3]
@@ -1182,6 +1182,74 @@ def decision_which_nifti(sessionId,dir_to_receive_the_data="",output_csvfile="")
         return False
     else:
         return False
+
+
+def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile=""):
+    def get_best_from_df(df, slice_order='max'):
+        candidates = []
+        for _, row in df.iterrows():
+            URI = row['URI']
+            scan_id = row['ID']
+            resource_dir = "NIFTI"
+            nifti_meta = json.dumps(get_resourcefiles_metadata(URI, resource_dir))
+            df_nifti = pd.read_json(nifti_meta)
+            for _, nifti in df_nifti.iterrows():
+                if ".nii" in nifti["Name"] or ".nii.gz" in nifti["Name"]:
+                    downloadniftiwithuri([nifti["URI"], nifti["Name"], scan_id], dir_to_receive_the_data)
+                    path = os.path.join(dir_to_receive_the_data, nifti["Name"])
+                    num_slices = nifti_number_slice(path)
+                    candidates.append([nifti["URI"], nifti["Name"], scan_id, num_slices])
+        if not candidates:
+            return None
+        df_cand = pd.DataFrame(candidates, columns=["URI", "Name", "ID", "NUMBEROFSLICES"])
+        if slice_order == 'max':
+            selected = df_cand[df_cand["NUMBEROFSLICES"] == df_cand["NUMBEROFSLICES"].max()]
+        else:
+            selected = df_cand[df_cand["NUMBEROFSLICES"] == df_cand["NUMBEROFSLICES"].min()]
+        return selected.iloc[0] if not selected.empty else None
+
+    # Load session metadata
+    this_session_metadata = get_metadata_session(sessionId)
+    df = pd.read_json(json.dumps(this_session_metadata))
+
+    # Categorize scans
+    axial_usable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')]
+    axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]
+    thin_usable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'usable')]
+    thin_questionable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'questionable')]
+
+    # Apply decision logic
+    selected_scan = None
+    if not axial_usable.empty:
+        selected_scan = get_best_from_df(axial_usable, slice_order='max')
+    elif not axial_questionable.empty and not thin_usable.empty:
+        selected_scan = get_best_from_df(thin_usable, slice_order='min')
+    elif not axial_questionable.empty:
+        selected_scan = get_best_from_df(axial_questionable, slice_order='max')
+    elif not thin_questionable.empty:
+        selected_scan = get_best_from_df(thin_questionable, slice_order='min')
+    else:
+        print("No scan selected")
+        return False
+
+    # Export and upload
+    if selected_scan is not None:
+        df_final = pd.DataFrame([selected_scan])
+        df_final.to_csv(os.path.join(dir_to_receive_the_data, output_csvfile), index=False)
+
+        niftifile_location = os.path.join(
+            dir_to_receive_the_data,
+            selected_scan["Name"].split(".nii")[0] + "_NIFTILOCATION.csv"
+        )
+        df_final.to_csv(niftifile_location, index=False)
+
+        resource_dirname = "NIFTI_LOCATION"
+        url = f"/data/experiments/{sessionId}"
+        uploadsinglefile_with_URI(url, niftifile_location, resource_dirname)
+        return True
+
+    return False
+
 def nifti_number_slice(niftifilename):
     return nib.load(niftifilename).shape[2]
 

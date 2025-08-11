@@ -151,8 +151,8 @@ SESSION_IDS=(SNIPR01_E00147 SNIPR01_E00146 SNIPR01_E00193 SNIPR02_E02970 SNIPR02
 SESSION_ID=SNIPR01_E00131
 
 # 7) XNAT credentials & Docker Hub namespace
-XNAT_PASS='Mrityor1!'
-XNAT_USER=atulkumar
+XNAT_PASS=''
+XNAT_USER=''
 XNAT_HOST=''
 
 # 8) Script to run inside container

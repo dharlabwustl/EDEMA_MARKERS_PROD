@@ -1,4 +1,4 @@
-### DICOM 2 NIFTI################
+### DICOM 2 NIFTI
 
 ## Running the Multi-Session Processing Workflow
 

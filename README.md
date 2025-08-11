@@ -153,8 +153,7 @@ SESSION_ID=SNIPR01_E00131
 # 7) XNAT credentials & Docker Hub namespace
 XNAT_PASS='Mrityor1!'
 XNAT_USER=atulkumar
-XNAT_HOST=${XNAT_HOST_LOCAL_COMPUTER}  # e.g., 'https://snipr.wustl.edu'
-docker_hub='sharmaatul11'
+XNAT_HOST=''
 
 # 8) Script to run inside container
 script_number=SCAN_SELECTION_FILL_RC

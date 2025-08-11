@@ -1,4 +1,4 @@
-### DICOM 2 NIFTI
+### SCAN SELECLTION BASED ON SCAN TYPE, QUALITY and SLICE NUMBERS
 
 ## Running the Multi-Session Processing Workflow
 

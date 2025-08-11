@@ -1,6 +1,5 @@
 To use this you need to have access to [SNIPR](https://snipr.wustl.edu/).
 
-### CONVERT DICOM IMAGES into NIFTI and store in a separate folder 'NIFTI' under the scan directory.
 
 ## Running the Multi-Session Processing Workflow
 
@@ -13,6 +12,8 @@ This script prepares local directories, cleans previous outputs, and runs a Dock
 > **Prereqs:** Docker installed, XNAT credentials set, access to required repositories.
 
 ```bash
+
+### CONVERT DICOM IMAGES into NIFTI and store in a separate folder 'NIFTI' under the scan directory.
 # 1) Set the Docker image name
 imagename='fsl502py369withpacksnltx'
 

@@ -182,3 +182,51 @@ docker run \
     'https://snipr.wustl.edu'
 
 ```
+#!/bin/bash
+
+# --------------------------------------------------------------------
+# EDEMABIOMARKERS_WITH_REDCapFilling (docker workflow) - dummy API key
+# --------------------------------------------------------------------
+
+# 1) Docker image
+imagename='registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/fsl502py369withpacksnltx:latest'
+
+# 2) Create required host directories (bind-mounted into the container)
+mkdir -p output input1 ZIPFILEDIR software NIFTIFILEDIR DICOMFILEDIR working workinginput workingoutput outputinsidedocker
+
+# 3) Clean previous run contents (CAUTION: deletes all files inside these folders)
+rm -rf output/* input1/* ZIPFILEDIR/* software/* NIFTIFILEDIR/* DICOMFILEDIR/* working/* workinginput/* workingoutput/* outputinsidedocker/*
+
+# 4) XNAT variables (edit before running)
+SESSION_ID=REPLACE_WITH_SESSION_ID       # e.g., SNIPR_E03614
+PROJECT=REPLACE_WITH_PROJECT_NAME        # e.g., SNIPR01
+XNAT_USER=REPLACE_WITH_XNAT_USERNAME
+XNAT_PASS=REPLACE_WITH_XNAT_PASSWORD
+XNAT_HOST='https://snipr.wustl.edu'
+SCRIPT_NAME='EDEMABIOMARKERS'
+REDCAP_API_KEY='DUMMY_API_KEY_1234567890ABCDEF'  # Dummy API key
+
+# 5) Optional resource limits from JSON
+# DOCKER_MEM_FLAGS="--memory=8g --memory-reservation=7g"
+
+# 6) Run Docker container
+docker run ${DOCKER_MEM_FLAGS} \
+  -v "$PWD/output":/output \
+  -v "$PWD/input1":/input1 \
+  -v "$PWD/ZIPFILEDIR":/ZIPFILEDIR \
+  -v "$PWD/software":/software \
+  -v "$PWD/NIFTIFILEDIR":/NIFTIFILEDIR \
+  -v "$PWD/DICOMFILEDIR":/DICOMFILEDIR \
+  -v "$PWD/working":/working \
+  -v "$PWD/workinginput":/workinginput \
+  -v "$PWD/workingoutput":/workingoutput \
+  -v "$PWD/outputinsidedocker":/outputinsidedocker \
+  -it "${imagename}" \
+  /callfromgithub/downloadcodefromgithub.sh \
+    "${SESSION_ID}" \
+    "${XNAT_USER}" \
+    "${XNAT_PASS}" \
+    "https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git" \
+    "${SCRIPT_NAME}" \
+    "${XNAT_HOST}" \
+    "${REDCAP_API_KEY}"

@@ -1,23 +1,16 @@
 To use this you need to have access to [SNIPR](https://snipr.wustl.edu/).
 
+# Uniform Workflow Scripts
 
-## Running the Multi-Session Processing Workflow
+## Workflow 2
 
-This script prepares local directories, cleans previous outputs, and runs a Docker container to process one or more XNAT sessions using a specified script.
-
----
-
-### Full Command Script (annotated)
-
-> **Prereqs:** Docker installed, XNAT credentials set, access to required repositories.
-
+### 1) Docker Image
 ```bash
-
-### CONVERT DICOM IMAGES into NIFTI and store in a separate folder 'NIFTI' under the scan directory.
-# 1) Set the Docker image name
 imagename='fsl502py369withpacksnltx'
+```
 
-# 2) Create required directories on the host (bind-mounted into container)
+### 2) Create Required Directories
+```bash
 mkdir working
 mkdir input
 mkdir ZIPFILEDIR
@@ -26,8 +19,15 @@ mkdir NIFTIFILEDIR
 mkdir DICOMFILEDIR
 mkdir maskonly
 mkdir output  # duplicate, ensures folder exists
+mkdir workingoutput
+mkdir workinginput
+mkdir ZIPFILEDIR
+mkdir outputinsidedocker
+mkdir software
+```
 
-# 3) Clean previous run contents
+### 3) Clean Old Contents
+```bash
 rm -r working/*
 rm -r input1/*
 rm -r ZIPFILEDIR/*
@@ -35,15 +35,6 @@ rm -r output/*
 rm -r NIFTIFILEDIR/*
 rm -r DICOMFILEDIR/*
 rm -r maskonly/*
-
-# 4) Additional working directories for in-container use
-mkdir workingoutput
-mkdir workinginput
-mkdir ZIPFILEDIR
-mkdir outputinsidedocker
-mkdir software
-
-# 5) Clean those as well
 rm -r workinginput/*
 rm -r workingoutput/*
 rm -r outputinsidedocker/*
@@ -52,41 +43,43 @@ rm -r ZIPFILEDIR/*
 rm -r outputinsidedocker/*
 rm -r software/*
 rm -r output/*
+```
 
-# 6) Define session IDs (list and selected one)
-SESSION_IDS=(SNIPR01_E00147 SNIPR01_E00146 SNIPR01_E00193 SNIPR02_E02970 SNIPR02_E09071 SNIPR01_E00231)
+### 4) Set XNAT Variables
+```bash
 SESSION_ID=SNIPR01_E00131
-
-# 7) XNAT credentials & Docker Hub namespace
 XNAT_PASS=''
 XNAT_USER=''
 XNAT_HOST=${XNAT_HOST_LOCAL_COMPUTER}  # e.g., 'https://snipr.wustl.edu'
-docker_hub='sharmaatul11'
+```
 
-# 8) Script to run inside container
-script_number=DICOM2NIFTI
+### 5) Optional Resource Limits
+```bash
+# DOCKER_MEM_FLAGS="--memory=8g --memory-reservation=7g"
+```
 
-# 9) Run the Docker container with bind mounts
+### 6) Run Docker Container
+```bash
 docker run \
-  -v $PWD/maskonly:/maskonly \
-  -v $PWD/workingoutput:/workingoutput \
-  -v $PWD/outputinsidedocker:/outputinsidedocker \
-  -v $PWD/workinginput:/workinginput \
-  -v $PWD/software:/software \
-  -v $PWD/NIFTIFILEDIR:/NIFTIFILEDIR \
-  -v $PWD/DICOMFILEDIR:/DICOMFILEDIR \
-  -v $PWD/working:/working \
-  -v $PWD/input1:/input1 \
-  -v $PWD/ZIPFILEDIR:/ZIPFILEDIR \
-  -v $PWD/output:/output \
-  -it registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/${imagename} \
-  /callfromgithub/downloadcodefromgithub.sh \
-    $SESSION_ID \
-    $XNAT_USER \
-    $XNAT_PASS \
-    https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git \
-    $script_number \
-    'https://snipr.wustl.edu'
+-v $PWD/maskonly:/maskonly \
+-v $PWD/workingoutput:/workingoutput \
+-v $PWD/outputinsidedocker:/outputinsidedocker \
+-v $PWD/workinginput:/workinginput \
+-v $PWD/software:/software \
+-v $PWD/NIFTIFILEDIR:/NIFTIFILEDIR \
+-v $PWD/DICOMFILEDIR:/DICOMFILEDIR \
+-v $PWD/working:/working \
+-v $PWD/input1:/input1 \
+-v $PWD/ZIPFILEDIR:/ZIPFILEDIR \
+-v $PWD/output:/output \
+-it registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/${imagename} \
+/callfromgithub/downloadcodefromgithub.sh \
+$SESSION_ID \
+$XNAT_USER \
+$XNAT_PASS \
+https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git \
+$script_number \
+'https://snipr.wustl.edu'
 
 
 
@@ -109,9 +102,19 @@ This script prepares local directories, cleans previous outputs, and runs a Dock
 
 ```bash
 # 1) Set the Docker image name
-imagename='fsl502py369withpacksnltx'
+```
 
-# 2) Create required directories on the host (bind-mounted into container)
+---
+
+## Workflow 3
+
+### 1) Docker Image
+```bash
+imagename='fsl502py369withpacksnltx'
+```
+
+### 2) Create Required Directories
+```bash
 mkdir working
 mkdir input
 mkdir ZIPFILEDIR
@@ -120,8 +123,15 @@ mkdir NIFTIFILEDIR
 mkdir DICOMFILEDIR
 mkdir maskonly
 mkdir output  # duplicate, ensures folder exists
+mkdir workingoutput
+mkdir workinginput
+mkdir ZIPFILEDIR
+mkdir outputinsidedocker
+mkdir software
+```
 
-# 3) Clean previous run contents
+### 3) Clean Old Contents
+```bash
 rm -r working/*
 rm -r input1/*
 rm -r ZIPFILEDIR/*
@@ -129,15 +139,6 @@ rm -r output/*
 rm -r NIFTIFILEDIR/*
 rm -r DICOMFILEDIR/*
 rm -r maskonly/*
-
-# 4) Additional working directories for in-container use
-mkdir workingoutput
-mkdir workinginput
-mkdir ZIPFILEDIR
-mkdir outputinsidedocker
-mkdir software
-
-# 5) Clean those as well
 rm -r workinginput/*
 rm -r workingoutput/*
 rm -r outputinsidedocker/*
@@ -146,40 +147,43 @@ rm -r ZIPFILEDIR/*
 rm -r outputinsidedocker/*
 rm -r software/*
 rm -r output/*
+```
 
-# 6) Define session IDs (list and selected one)
-SESSION_IDS=(SNIPR01_E00147 SNIPR01_E00146 SNIPR01_E00193 SNIPR02_E02970 SNIPR02_E09071 SNIPR01_E00231)
+### 4) Set XNAT Variables
+```bash
 SESSION_ID=SNIPR01_E00131
-
-# 7) XNAT credentials & Docker Hub namespace
 XNAT_PASS=''
 XNAT_USER=''
 XNAT_HOST=''
+```
 
-# 8) Script to run inside container
-script_number=SCAN_SELECTION_FILL_RC
+### 5) Optional Resource Limits
+```bash
+# DOCKER_MEM_FLAGS="--memory=8g --memory-reservation=7g"
+```
 
-# 9) Run the Docker container with bind mounts
+### 6) Run Docker Container
+```bash
 docker run \
-  -v $PWD/maskonly:/maskonly \
-  -v $PWD/workingoutput:/workingoutput \
-  -v $PWD/outputinsidedocker:/outputinsidedocker \
-  -v $PWD/workinginput:/workinginput \
-  -v $PWD/software:/software \
-  -v $PWD/NIFTIFILEDIR:/NIFTIFILEDIR \
-  -v $PWD/DICOMFILEDIR:/DICOMFILEDIR \
-  -v $PWD/working:/working \
-  -v $PWD/input1:/input1 \
-  -v $PWD/ZIPFILEDIR:/ZIPFILEDIR \
-  -v $PWD/output:/output \
-  -it registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/${imagename} \
-  /callfromgithub/downloadcodefromgithub.sh \
-    $SESSION_ID \
-    $XNAT_USER \
-    $XNAT_PASS \
-    https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git \
-    $script_number \
-    'https://snipr.wustl.edu'
+-v $PWD/maskonly:/maskonly \
+-v $PWD/workingoutput:/workingoutput \
+-v $PWD/outputinsidedocker:/outputinsidedocker \
+-v $PWD/workinginput:/workinginput \
+-v $PWD/software:/software \
+-v $PWD/NIFTIFILEDIR:/NIFTIFILEDIR \
+-v $PWD/DICOMFILEDIR:/DICOMFILEDIR \
+-v $PWD/working:/working \
+-v $PWD/input1:/input1 \
+-v $PWD/ZIPFILEDIR:/ZIPFILEDIR \
+-v $PWD/output:/output \
+-it registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/${imagename} \
+/callfromgithub/downloadcodefromgithub.sh \
+$SESSION_ID \
+$XNAT_USER \
+$XNAT_PASS \
+https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git \
+$script_number \
+'https://snipr.wustl.edu'
 
 ```
 #!/bin/bash
@@ -189,15 +193,29 @@ docker run \
 # --------------------------------------------------------------------
 
 # 1) Docker image
+```
+
+---
+
+## Workflow 4
+
+### 1) Docker Image
+```bash
 imagename='registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/fsl502py369withpacksnltx:latest'
+```
 
-# 2) Create required host directories (bind-mounted into the container)
+### 2) Create Required Directories
+```bash
 mkdir -p output input1 ZIPFILEDIR software NIFTIFILEDIR DICOMFILEDIR working workinginput workingoutput outputinsidedocker
+```
 
-# 3) Clean previous run contents (CAUTION: deletes all files inside these folders)
+### 3) Clean Old Contents
+```bash
 rm -rf output/* input1/* ZIPFILEDIR/* software/* NIFTIFILEDIR/* DICOMFILEDIR/* working/* workinginput/* workingoutput/* outputinsidedocker/*
+```
 
-# 4) XNAT variables (edit before running)
+### 4) Set XNAT Variables
+```bash
 SESSION_ID=REPLACE_WITH_SESSION_ID       # e.g., SNIPR_E03614
 PROJECT=REPLACE_WITH_PROJECT_NAME        # e.g., SNIPR01
 XNAT_USER=REPLACE_WITH_XNAT_USERNAME
@@ -205,28 +223,33 @@ XNAT_PASS=REPLACE_WITH_XNAT_PASSWORD
 XNAT_HOST='https://snipr.wustl.edu'
 SCRIPT_NAME='EDEMABIOMARKERS'
 REDCAP_API_KEY='DUMMY_API_KEY_1234567890ABCDEF'  # Dummy API key
+```
 
-# 5) Optional resource limits from JSON
+### 5) Optional Resource Limits
+```bash
 # DOCKER_MEM_FLAGS="--memory=8g --memory-reservation=7g"
+```
 
-# 6) Run Docker container
+### 6) Run Docker Container
+```bash
 docker run ${DOCKER_MEM_FLAGS} \
-  -v "$PWD/output":/output \
-  -v "$PWD/input1":/input1 \
-  -v "$PWD/ZIPFILEDIR":/ZIPFILEDIR \
-  -v "$PWD/software":/software \
-  -v "$PWD/NIFTIFILEDIR":/NIFTIFILEDIR \
-  -v "$PWD/DICOMFILEDIR":/DICOMFILEDIR \
-  -v "$PWD/working":/working \
-  -v "$PWD/workinginput":/workinginput \
-  -v "$PWD/workingoutput":/workingoutput \
-  -v "$PWD/outputinsidedocker":/outputinsidedocker \
-  -it "${imagename}" \
-  /callfromgithub/downloadcodefromgithub.sh \
-    "${SESSION_ID}" \
-    "${XNAT_USER}" \
-    "${XNAT_PASS}" \
-    "https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git" \
-    "${SCRIPT_NAME}" \
-    "${XNAT_HOST}" \
-    "${REDCAP_API_KEY}"
+-v "$PWD/output":/output \
+-v "$PWD/input1":/input1 \
+-v "$PWD/ZIPFILEDIR":/ZIPFILEDIR \
+-v "$PWD/software":/software \
+-v "$PWD/NIFTIFILEDIR":/NIFTIFILEDIR \
+-v "$PWD/DICOMFILEDIR":/DICOMFILEDIR \
+-v "$PWD/working":/working \
+-v "$PWD/workinginput":/workinginput \
+-v "$PWD/workingoutput":/workingoutput \
+-v "$PWD/outputinsidedocker":/outputinsidedocker \
+-it "${imagename}" \
+/callfromgithub/downloadcodefromgithub.sh \
+"${SESSION_ID}" \
+"${XNAT_USER}" \
+"${XNAT_PASS}" \
+"https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git" \
+"${SCRIPT_NAME}" \
+"${XNAT_HOST}" \
+"${REDCAP_API_KEY}"
+```

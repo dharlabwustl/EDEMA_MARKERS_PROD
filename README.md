@@ -226,3 +226,49 @@ docker run ${DOCKER_MEM_FLAGS} \
 "${XNAT_HOST}" \
 "${REDCAP_API_KEY}"
 ```
+## Workflow: ct_ich_segmentation
+
+**Docker Image:** `registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/ctegmentation:latest`  
+**Script Number:** 3  
+**Memory:** Reserve 8000 MB | Limit 16000 MB  
+
+### Commands
+```bash
+# 1. Create Required Directories
+mkdir working input ZIPFILEDIR output NIFTIFILEDIR DICOMFILEDIR software workinginput workingoutput outputinsidedocker
+
+# 2. Clean Old Contents
+rm -r working/* input/* ZIPFILEDIR/* output/* NIFTIFILEDIR/* DICOMFILEDIR/* software/* workinginput/* workingoutput/* outputinsidedocker/*
+
+# 3. Set Variables
+SESSION_ID=REPLACE_WITH_SESSION_ID
+PROJECT=REPLACE_WITH_PROJECT_NAME
+XNAT_USER=REPLACE_WITH_XNAT_USERNAME
+XNAT_PASS=REPLACE_WITH_XNAT_PASSWORD
+XNAT_HOST='https://snipr.wustl.edu'
+SCRIPT_NUMBER=3
+
+# 4. Run Docker
+docker run \
+  -v $PWD/output:/output \
+  -v $PWD/input:/input \
+  -v $PWD/ZIPFILEDIR:/ZIPFILEDIR \
+  -v $PWD/software:/software \
+  -v $PWD/NIFTIFILEDIR:/NIFTIFILEDIR \
+  -v $PWD/DICOMFILEDIR:/DICOMFILEDIR \
+  -v $PWD/working:/working \
+  -v $PWD/workinginput:/workinginput \
+  -v $PWD/workingoutput:/workingoutput \
+  -v $PWD/outputinsidedocker:/outputinsidedocker \
+  -it registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/ctegmentation:latest \
+  /callfromgithub/downloadcodefromgithub.sh \
+    ${SESSION_ID} ${XNAT_USER} ${XNAT_PASS} ${XNAT_HOST} \
+    https://github.com/dharlabwustl/CT_CSF_INFARCT_SEGMN.git \
+    ${SCRIPT_NUMBER}
+```
+
+
+
+
+
+

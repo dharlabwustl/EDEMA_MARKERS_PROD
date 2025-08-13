@@ -1,6 +1,6 @@
 To use this you need to have access to [SNIPR](https://snipr.wustl.edu/).
 
-# Uniform Workflow Scripts
+# Uniform Workflow Scripts (Original Script Names Preserved)
 
 ## Workflow 2
 
@@ -11,19 +11,7 @@ imagename='fsl502py369withpacksnltx'
 
 ### 2) Create Required Directories
 ```bash
-mkdir working
-mkdir input
-mkdir ZIPFILEDIR
-mkdir output
-mkdir NIFTIFILEDIR
-mkdir DICOMFILEDIR
-mkdir maskonly
-mkdir output  # duplicate, ensures folder exists
-mkdir workingoutput
-mkdir workinginput
-mkdir ZIPFILEDIR
-mkdir outputinsidedocker
-mkdir software
+mkdir -p # DICOMFILEDIR NIFTIFILEDIR ZIPFILEDIR duplicate, ensures exists folder input maskonly output outputinsidedocker software working workinginput workingoutput
 ```
 
 ### 3) Clean Old Contents
@@ -45,12 +33,14 @@ rm -r software/*
 rm -r output/*
 ```
 
-### 4) Set XNAT Variables
+### 4) Set Variables
 ```bash
 SESSION_ID=SNIPR01_E00131
-XNAT_PASS=''
 XNAT_USER=''
+XNAT_PASS=''
 XNAT_HOST=${XNAT_HOST_LOCAL_COMPUTER}  # e.g., 'https://snipr.wustl.edu'
+# PROJECT=...  # optional
+script_number=DICOM2NIFTI
 ```
 
 ### 5) Optional Resource Limits
@@ -115,19 +105,7 @@ imagename='fsl502py369withpacksnltx'
 
 ### 2) Create Required Directories
 ```bash
-mkdir working
-mkdir input
-mkdir ZIPFILEDIR
-mkdir output
-mkdir NIFTIFILEDIR
-mkdir DICOMFILEDIR
-mkdir maskonly
-mkdir output  # duplicate, ensures folder exists
-mkdir workingoutput
-mkdir workinginput
-mkdir ZIPFILEDIR
-mkdir outputinsidedocker
-mkdir software
+mkdir -p # DICOMFILEDIR NIFTIFILEDIR ZIPFILEDIR duplicate, ensures exists folder input maskonly output outputinsidedocker software working workinginput workingoutput
 ```
 
 ### 3) Clean Old Contents
@@ -149,12 +127,14 @@ rm -r software/*
 rm -r output/*
 ```
 
-### 4) Set XNAT Variables
+### 4) Set Variables
 ```bash
 SESSION_ID=SNIPR01_E00131
-XNAT_PASS=''
 XNAT_USER=''
+XNAT_PASS=''
 XNAT_HOST=''
+# PROJECT=...  # optional
+script_number=SCAN_SELECTION_FILL_RC
 ```
 
 ### 5) Optional Resource Limits
@@ -206,7 +186,7 @@ imagename='registry.nrg.wustl.edu/docker/nrg-repo/sharmaatul11/fsl502py369withpa
 
 ### 2) Create Required Directories
 ```bash
-mkdir -p output input1 ZIPFILEDIR software NIFTIFILEDIR DICOMFILEDIR working workinginput workingoutput outputinsidedocker
+mkdir -p -p DICOMFILEDIR NIFTIFILEDIR ZIPFILEDIR input1 output outputinsidedocker software working workinginput workingoutput
 ```
 
 ### 3) Clean Old Contents
@@ -214,15 +194,15 @@ mkdir -p output input1 ZIPFILEDIR software NIFTIFILEDIR DICOMFILEDIR working wor
 rm -rf output/* input1/* ZIPFILEDIR/* software/* NIFTIFILEDIR/* DICOMFILEDIR/* working/* workinginput/* workingoutput/* outputinsidedocker/*
 ```
 
-### 4) Set XNAT Variables
+### 4) Set Variables
 ```bash
 SESSION_ID=REPLACE_WITH_SESSION_ID       # e.g., SNIPR_E03614
 PROJECT=REPLACE_WITH_PROJECT_NAME        # e.g., SNIPR01
 XNAT_USER=REPLACE_WITH_XNAT_USERNAME
 XNAT_PASS=REPLACE_WITH_XNAT_PASSWORD
 XNAT_HOST='https://snipr.wustl.edu'
-SCRIPT_NAME='EDEMABIOMARKERS'
-REDCAP_API_KEY='DUMMY_API_KEY_1234567890ABCDEF'  # Dummy API key
+script_number='EDEMABIOMARKERS'
+REDCAP_API_KEY='DUMMY_API_KEY_1234567890ABCDEF'
 ```
 
 ### 5) Optional Resource Limits

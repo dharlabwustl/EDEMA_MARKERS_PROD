@@ -1,8 +1,8 @@
 To use this you need to have access to [SNIPR](https://snipr.wustl.edu/).
 
-# Uniform Workflow Scripts (Original Script Names Preserved)
+# Uniform Workflow Scripts (Workflow Names from Script Name)
 
-## Workflow 2
+## DICOM2NIFTI
 
 ### 1) Docker Image
 ```bash
@@ -96,7 +96,7 @@ This script prepares local directories, cleans previous outputs, and runs a Dock
 
 ---
 
-## Workflow 3
+## SCAN_SELECTION_FILL_RC
 
 ### 1) Docker Image
 ```bash
@@ -177,7 +177,7 @@ $script_number \
 
 ---
 
-## Workflow 4
+## 'EDEMABIOMARKERS'
 
 ### 1) Docker Image
 ```bash

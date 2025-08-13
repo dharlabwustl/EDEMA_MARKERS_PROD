@@ -1,7 +1,5 @@
 To use this you need to have access to [SNIPR](https://snipr.wustl.edu/).
 
-# Uniform Workflow Scripts (Workflow Names from Script Name)
-
 ## DICOM2NIFTI
 
 ### 1) Docker Image
@@ -71,14 +69,9 @@ https://github.com/dharlabwustl/EDEMA_MARKERS_PROD.git \
 $script_number \
 'https://snipr.wustl.edu'
 
+```
 
-
-
-
-
-
-
-### SCAN SELECLTION BASED ON SCAN TYPE, QUALITY and SLICE NUMBERS
+## SCAN SELECLTION BASED ON SCAN TYPE, QUALITY and SLICE NUMBERS
 
 ## Running the Multi-Session Processing Workflow
 
@@ -166,10 +159,10 @@ $script_number \
 'https://snipr.wustl.edu'
 
 ```
-#!/bin/bash
+
 
 # --------------------------------------------------------------------
-# EDEMABIOMARKERS_WITH_REDCapFilling (docker workflow) - dummy API key
+# EDEMABIOMARKERS_WITH_REDCapFilling (docker workflow)
 # --------------------------------------------------------------------
 
 # 1) Docker image

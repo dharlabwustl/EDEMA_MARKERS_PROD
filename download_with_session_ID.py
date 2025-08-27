@@ -1240,10 +1240,13 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
         selected_scan = get_best_from_df(axial_usable, slice_order='max')
         with open("/output/error.txt", "w") as file:
             file.write(f"axial_usable::{sessionId}::Hello, this is a simple text file.\n")
-    elif not axial_questionable.empty and not thin_usable.empty:
-        selected_scan = get_best_from_df(thin_usable, slice_order='min')
-        with open("/output/error.txt", "w") as file:
-            file.write(f"axial_questionable::thin_usable::{sessionId}::Hello, this is a simple text file.\n")
+    elif  not thin_usable.empty:
+        if not axial_questionable.empty:
+            selected_scan = get_best_from_df(axial_questionable, slice_order='max')
+            with open("/output/error.txt", "w") as file:
+                file.write(f"axial_questionable::thin_usable::{sessionId}::Hello, this is a simple text file.\n")
+        else:
+            selected_scan = get_best_from_df(thin_usable, slice_order='min')
     elif not axial_questionable.empty:
         selected_scan = get_best_from_df(axial_questionable, slice_order='max')
         with open("/output/error.txt", "w") as file:

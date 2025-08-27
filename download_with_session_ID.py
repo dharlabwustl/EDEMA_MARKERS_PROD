@@ -1240,7 +1240,7 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     else:
         print("No scan selected")
         with open("/output/error.txt", "w") as file:
-            file.write(f"{sessionId}::Hello, this is a simple text file.\n")
+            file.write(f"not selected::{sessionId}::Hello, this is a simple text file.\n")
         return False
 
     # Export and upload

@@ -1218,7 +1218,22 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]
     thin_usable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'usable')]
     thin_questionable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'questionable')]
-    df.to_csv('/output/this_session_metadata_1.csv',index=False)
+    # Collect counts
+    category_counts = {
+        "axial_usable": len(axial_usable),
+        "axial_questionable": len(axial_questionable),
+        "thin_usable": len(thin_usable),
+        "thin_questionable": len(thin_questionable),
+    }
+
+    # Convert to DataFrame
+    summary_df = pd.DataFrame(list(category_counts.items()), columns=["Category", "Count"])
+
+    # Save to CSV
+    output_path = "/output/this_session_metadata_count.csv"
+    summary_df.to_csv(output_path, index=False)
+
+    # df.to_csv('/output/this_session_metadata_1.csv',index=False)
     # Apply decision logic
     selected_scan = None
     if not axial_usable.empty:

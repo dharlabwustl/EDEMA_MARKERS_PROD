@@ -1187,6 +1187,8 @@ def decision_which_nifti_used_untilAug62025(sessionId,dir_to_receive_the_data=""
 def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile=""):
     def get_best_from_df(df, slice_order='max'):
         candidates = []
+        with open("/output/error.txt", "w") as file:
+            file.write(f"{selected_scan}::Hello, this is a simple text file.\n")
         for _, row in df.iterrows():
             URI = row['URI']
             scan_id = row['ID']
@@ -1231,8 +1233,7 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     else:
         print("No scan selected")
         return False
-    with open("/output/error.txt", "w") as file:
-        file.write(f"{selected_scan}::Hello, this is a simple text file.\n")
+
     # Export and upload
     if selected_scan is not None:
         df_final = pd.DataFrame([selected_scan])

@@ -1218,7 +1218,8 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]
     thin_usable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'usable')]
     thin_questionable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'questionable')]
-
+    with open("/output/error.txt", "w") as file:
+        file.write(f"{sessionId}::Hello, this is a simple text file.\n")
     # Apply decision logic
     selected_scan = None
     if not axial_usable.empty:
@@ -1232,8 +1233,7 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     else:
         print("No scan selected")
         return False
-    with open("/output/error.txt", "w") as file:
-        file.write(f"{sessionId}::Hello, this is a simple text file.\n")
+
     # Export and upload
     if selected_scan is not None:
         df_final = pd.DataFrame([selected_scan])

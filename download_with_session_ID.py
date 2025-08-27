@@ -1218,20 +1218,29 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]
     thin_usable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'usable')]
     thin_questionable = df[(df['type'] == 'Z-Brain-Thin') & (df['quality'] == 'questionable')]
-    with open("/output/error.txt", "w") as file:
-        file.write(f"{sessionId}::Hello, this is a simple text file.\n")
+
     # Apply decision logic
     selected_scan = None
     if not axial_usable.empty:
         selected_scan = get_best_from_df(axial_usable, slice_order='max')
+        with open("/output/error.txt", "w") as file:
+            file.write(f"axial_usable::{sessionId}::Hello, this is a simple text file.\n")
     elif not axial_questionable.empty and not thin_usable.empty:
         selected_scan = get_best_from_df(thin_usable, slice_order='min')
+        with open("/output/error.txt", "w") as file:
+            file.write(f"axial_questionable::thin_usable::{sessionId}::Hello, this is a simple text file.\n")
     elif not axial_questionable.empty:
         selected_scan = get_best_from_df(axial_questionable, slice_order='max')
+        with open("/output/error.txt", "w") as file:
+            file.write(f"axial_questionable::{sessionId}::Hello, this is a simple text file.\n")
     elif not thin_questionable.empty:
         selected_scan = get_best_from_df(thin_questionable, slice_order='min')
+        with open("/output/error.txt", "w") as file:
+            file.write(f"thin_questionable::{sessionId}::Hello, this is a simple text file.\n")
     else:
         print("No scan selected")
+        with open("/output/error.txt", "w") as file:
+            file.write(f"{sessionId}::Hello, this is a simple text file.\n")
         return False
 
     # Export and upload

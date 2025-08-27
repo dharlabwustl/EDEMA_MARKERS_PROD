@@ -515,9 +515,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 ## check if nifti file location csv exist:
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
-echo "I AM EXITING"
 
-exit
 
 echo '$outputfiles_present'::$outputfiles_present
 #if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
@@ -527,7 +525,9 @@ else
 
   niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
   get_nifti_scan_uri ${sessionID} ${working_dir} ${niftifile_csvfilename}
+echo "I AM EXITING"
 
+exit
   ## make REDCap compatible csvfile:
 
   ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.

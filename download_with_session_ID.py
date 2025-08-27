@@ -1212,7 +1212,7 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     # Load session metadata
     this_session_metadata = get_metadata_session(sessionId)
     df = pd.read_json(json.dumps(this_session_metadata))
-
+    df.to_csv('this_session_metadata.csv',index=False)
     # Categorize scans
     axial_usable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')]
     axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]

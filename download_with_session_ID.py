@@ -1187,8 +1187,7 @@ def decision_which_nifti_used_untilAug62025(sessionId,dir_to_receive_the_data=""
 def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile=""):
     def get_best_from_df(df, slice_order='max'):
         candidates = []
-        with open("/output/error.txt", "w") as file:
-            file.write(f"{selected_scan}::Hello, this is a simple text file.\n")
+
         for _, row in df.iterrows():
             URI = row['URI']
             scan_id = row['ID']
@@ -1213,7 +1212,8 @@ def decision_which_nifti(sessionId, dir_to_receive_the_data="", output_csvfile="
     # Load session metadata
     this_session_metadata = get_metadata_session(sessionId)
     df = pd.read_json(json.dumps(this_session_metadata))
-
+    with open("/output/error.txt", "w") as file:
+        file.write(f"{sessionId}::Hello, this is a simple text file.\n")
     # Categorize scans
     axial_usable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'usable')]
     axial_questionable = df[(df['type'] == 'Z-Axial-Brain') & (df['quality'] == 'questionable')]

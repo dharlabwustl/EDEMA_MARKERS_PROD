@@ -515,6 +515,9 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 ## check if nifti file location csv exist:
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
+echo "I AM EXITING"
+exit
+
 echo '$outputfiles_present'::$outputfiles_present
 #if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
 if  ls ${working_dir}/*_NIFTILOCATION.csv 1> /dev/null 2>&1; then

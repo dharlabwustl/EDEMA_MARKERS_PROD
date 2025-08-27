@@ -516,6 +516,7 @@ get_maskfile_scan_metadata()" ${sessionId} ${scanId} ${resource_foldername} ${di
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 echo "I AM EXITING"
+
 exit
 
 echo '$outputfiles_present'::$outputfiles_present

@@ -412,7 +412,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'DICOM2NIFTI' ]]; then
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMABIOMARKERS' ]]; then
   echo " AI M HERE"
-  exit 0
+#  exit 0
   /software/nwucalculation_session_level_allsteps_with_RC_03_22_2024.sh   ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 

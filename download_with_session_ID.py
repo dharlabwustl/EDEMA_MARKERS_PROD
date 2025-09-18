@@ -2544,11 +2544,14 @@ def call_download_files_in_a_resource_in_a_session(args):
     returnvalue=0
     sessionId=args.stuff[1]
     # scanId=args.stuff[2]
+
     resource_dirname=args.stuff[2]
     dir_to_save=args.stuff[3]
     URI = (("/data/experiments/%s/resources/" + resource_dirname+ "/files?format=json")  %
         (sessionId))
-
+    # Log failure message for debugging
+    command = f"echo passed at call_download_files_in_a_resource_in_a_session: {inspect.stack()[0][3]} >> /output/error.txt"
+    subprocess.call(command, shell=True)
     try:
         download_files_in_a_resource(URI,dir_to_save)
         print("I AM IN :: call_download_files_in_a_resource_in_a_session::URI::{}".format(URI))

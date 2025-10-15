@@ -81,8 +81,8 @@ for row_id,row in copy_session_df.iterrows():
         call_edit_session_analytics_file_arguments.stuff=['add_file_size',session_ID,file_url,copy_session, "PDF_FILE_SIZE",temp_dir]
         add_file_size(call_edit_session_analytics_file_arguments)
         counter=counter+1
-    if counter>4:
-        break
+    # if counter>4:
+    #     break
     #     csvfilename=args.stuff[1]
     # columnname=args.stuff[2]
     # neighboring_col=args.stuff[3]

@@ -79,11 +79,11 @@ while IFS=',' read -ra array; do
   echo 'add_axial_thin_num'::${session_id}::${csvfilename}::${csvfilename}
   outputfiles_present=$(python3 fillmaster_session_list.py "${add_axial_thin_num_arguments[@]}")
   counter=$((counter + 1))
-#    if [ $counter -gt 1 ]; then
-#      break
-#    fi
-#  break
-#  fi
+   if [ $counter -gt 5 ]; then
+     break
+   fi
+ break
+ fi
 done < <(tail -n +2 "${copy_session}")
 csvfilename_before_sorting=${sessions_list%.csv}_${project_ID}_BEFORE_SORTING_STEP1_${time_now}.csv
 cp ${csvfilename} ${csvfilename_before_sorting}

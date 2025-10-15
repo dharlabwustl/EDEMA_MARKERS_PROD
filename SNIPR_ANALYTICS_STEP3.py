@@ -65,8 +65,8 @@ for row_id,row in copy_session_df.iterrows():
 
     counter=counter+1
     
-    if counter > 4 : #; then
-     break
+    # if counter > 4 : #; then
+    #  break
 
 
 #

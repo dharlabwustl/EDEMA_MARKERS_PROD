@@ -77,27 +77,37 @@ download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
 # fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
 # outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}") 
 echo "${project_ID}"
-
-counter=0
+project_name=COLI
+csvfilename=${copy_session} #args.stuff[2] ##  xmlfile=args.stuff[1]
 dir_to_save=${output_directory}
-while IFS=',' read -ra array; do
-  echo session_name::${array[1]} #4]}
-  pdf_file_location=${array[23]} #30]} #14]}
-  csv_file_location=${array[23]} #33]}#15]}
-#  this_session_id=${array[4]} #1]}
-  n_pdffilename_length=${#pdf_file_location}
-  echo pdf_file_location::${pdf_file_location}
-  n_csvfilename_length=${#csv_file_location}
-  echo ${n_csvfilename_length}
-    if [ ${n_pdffilename_length} -gt 1 ]; then
-      resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
-      output_filename=$(basename ${pdf_file_location})
-      # get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
-      # outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-      # copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
-      counter=$((counter + 1))
-    fi
- if [ $counter -gt 0 ]; then
-   break
- fi
-done < <(tail -n +2 "${copy_session}")
+fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${dir_to_save}) #${subj_listfile})
+outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
+# counter=0
+
+# while IFS=',' read -ra array; do
+#   echo session_name::${array[1]} #4]}
+#   pdf_file_location=${array[23]} #30]} #14]}
+#   csv_file_location=${array[23]} #33]}#15]}
+# #  this_session_id=${array[4]} #1]}
+#   n_pdffilename_length=${#pdf_file_location}
+#   echo pdf_file_location::${pdf_file_location}
+#   n_csvfilename_length=${#csv_file_location}
+#   echo ${n_csvfilename_length}
+#     if [ ${n_pdffilename_length} -gt 1 ]; then
+#       resource_dirname_at_snipr=${project_ID}'_RESULTS_PDF'
+#       output_filename=$(basename ${pdf_file_location})
+#       # get_latest_filepath_from_metadata_arguments=('download_a_singlefile_with_URIString' ${pdf_file_location} ${output_filename} ${dir_to_save})
+#       # outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+#       # copysinglefile_to_sniprproject ${project_ID} "${dir_to_save}" ${resource_dirname_at_snipr} ${output_filename}
+#       # project_name=COLI
+#       # csvfilename=${copy_session} #args.stuff[2] ##  xmlfile=args.stuff[1]
+#       # output_dirname=/output
+#       # fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${output_dirname}) #${subj_listfile})
+#       # outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
+
+#       counter=$((counter + 1))
+#     fi
+#  if [ $counter -gt 0 ]; then
+#    break
+#  fi
+# done < <(tail -n +2 "${copy_session}")

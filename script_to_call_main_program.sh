@@ -453,5 +453,6 @@ fi
 
 ######################### MIDLINE SHIFT 3D PROFILE PIPELINE##############################################################
 if [[ ${TYPE_OF_PROGRAM} == 'FILLREDCAPPDF' ]]; then
-  /software/uploadpdftoredcap.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+PROJECT_ID=${SESSION_ID}
+/software/uploadpdftoredcap.sh $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

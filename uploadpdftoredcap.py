@@ -52,4 +52,18 @@ def call_pdf_fill_for_each_row(args):
       # download_a_singlefile_with_URIString(row['PDF_FILE_PATH'],os.path.basename(row['PDF_FILE_PATH']),output_dirname)
       # fill_redcap_pdffilename(project_name,row['snipr_session'],os.path.join(ouput_dirname,os.path.basename(row['PDF_FILE_PATH'])))
 
-  
+
+
+def main():
+    print("WO ZAI ::{}".format("main"))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('stuff', nargs='+')
+    args = parser.parse_args()
+    name_of_the_function=args.stuff[0]
+    return_value=0
+    if name_of_the_function == "call_pdf_fill_for_each_row":
+        return_value=call_pdf_fill_for_each_row(args)
+    
+    return return_value
+if __name__ == '__main__':
+    main()

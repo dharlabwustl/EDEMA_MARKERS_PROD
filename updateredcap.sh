@@ -69,19 +69,19 @@ file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfi
 get_latest_filepath_from_metadata_arguments=('get_latest_filepath_from_metadata_for_analytics' ${URI} ${resource_dir} ".csv" "${project_ID}_SESSIONS_RESULTS_METRICS" ${file_path_csv})
 
 #BJH_SESSIONS_RESULTS_METRICS_20240211000149
-outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
-sessions_list=${working_dir}/'sessions.csv'
-time_now=$(date -dnow +%Y%m%d%H%M%S)
-copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP4_${time_now}.csv
-download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} $(basename ${copy_session})
-# fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
-# outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}") 
-echo "${project_ID}"
-project_name=COLI
-csvfilename=${copy_session} #args.stuff[2] ##  xmlfile=args.stuff[1]
-dir_to_save=${output_directory}
-fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${dir_to_save}) #${subj_listfile})
-outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
+# outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_metadata_arguments[@]}")
+# sessions_list=${working_dir}/'sessions.csv'
+# time_now=$(date -dnow +%Y%m%d%H%M%S)
+# copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP4_${time_now}.csv
+# download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} $(basename ${copy_session})
+# # fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
+# # outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}") 
+# echo "${project_ID}"
+# project_name=COLI
+# csvfilename=${copy_session} #args.stuff[2] ##  xmlfile=args.stuff[1]
+# dir_to_save=${output_directory}
+# fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${dir_to_save}) #${subj_listfile})
+# outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
 # counter=0
 
 # while IFS=',' read -ra array; do

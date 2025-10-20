@@ -29,14 +29,15 @@ class arguments:
         self.stuff=stuff 
 def fill_redcap_pdffilename(project_name,session_label,pdf_file_name):
     try:
-        this_project_redcapfile_latest=project_name+'_latest.csv'
-        # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
-        df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
-        this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
-        this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
-        imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
-        if imaging_data_complete != '2':
-            add_one_file_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),pdf_file_name)
+        subprocess.call("echo " + "I am at fill_redcap_pdffilename  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # this_project_redcapfile_latest=project_name+'_latest.csv'
+        # # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+        # df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
+        # this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
+        # this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
+        # imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
+        # if imaging_data_complete != '2':
+        #     add_one_file_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),pdf_file_name)
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass

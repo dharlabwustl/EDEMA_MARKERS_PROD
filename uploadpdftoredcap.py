@@ -51,7 +51,7 @@ def call_pdf_fill_for_each_row(args):
         subprocess.call("echo " + "I AM AT call_pdf_fill_for_each_row ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         
         for _, row in df.iterrows():
-            if '.pdf' in row['PDF_FILE_PATH']:
+            if '.pdf' in str(row['PDF_FILE_PATH']):
                 subprocess.call("echo " + "I AM AT {} ::{}  >> /workingoutput/error.txt".format(row['PDF_FILE_PATH'], inspect.stack()[0][3]), shell=True)
 
             # download_a_singlefile_with_URIString(row['PDF_FILE_PATH'],os.path.basename(row['PDF_FILE_PATH']),output_dirname)

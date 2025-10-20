@@ -62,7 +62,7 @@ def call_pdf_fill_for_each_row(args):
                 if int(thissubjectnum) > 698 :
                     download_a_singlefile_with_URIString(str(row['PDF_FILE_PATH']),os.path.basename(str(row['PDF_FILE_PATH'])),output_dirname)
                     fill_redcap_pdffilename(project_name,str(row['snipr_session']),os.path.join(output_dirname,os.path.basename(str(row['PDF_FILE_PATH']))))
-                    break
+                    # break
             
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )

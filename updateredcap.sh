@@ -62,8 +62,7 @@ download_a_single_file() {
 
 }
 URI="/data/projects/"${project_ID}
-echo ${URI}
-exit
+
 dir_to_receive_the_data=${working_dir}
 resource_dir="${project_ID}_SESSION_ANALYTICS_3"
 file_path_csv=${dir_to_receive_the_data}/${project_ID}"_${resource_dir}_resultfilepath.csv"
@@ -75,6 +74,8 @@ outputfiles_present=$(python3 system_analysis.py "${get_latest_filepath_from_met
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP4_${time_now}.csv
+echo ${copy_session}
+exit
 download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID} $(basename ${copy_session})
 # # fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
 # # outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}") 

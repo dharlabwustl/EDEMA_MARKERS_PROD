@@ -14,6 +14,7 @@ import argparse,xmltodict
 from xnatSession import XnatSession
 # from biomarker_db_module import BiomarkerDB
 from biomarkerdbclass import  BiomarkerDB
+from download_with_session_ID import *
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'

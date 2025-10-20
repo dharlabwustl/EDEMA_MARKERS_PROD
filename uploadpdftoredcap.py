@@ -29,7 +29,7 @@ class arguments:
         self.stuff=stuff 
 def fill_redcap_pdffilename(project_name,session_label,pdf_file_name):
     try:
-        subprocess.call("echo " + "I am at fill_redcap_pdffilename  ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        
         this_project_redcapfile_latest=project_name+'_latest.csv'
         # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)

@@ -54,7 +54,7 @@ def call_pdf_fill_for_each_row(args):
         for _, row in df.iterrows():
             if '.pdf' in str(row['PDF_FILE_PATH']):
                 subprocess.call("echo " + "I AM AT {} ::{}  >> /workingoutput/error.txt".format(row['PDF_FILE_PATH'], inspect.stack()[0][3]), shell=True)
-                thissubjectnum=int(os.path.basename(str(row['PDF_FILE_PATH']).split('_')[1])
+                thissubjectnum = int(os.path.basename(str(row['PDF_FILE_PATH'])).split('_')[1])
                 if int(thissubjectnum) > 689 :
                     download_a_singlefile_with_URIString(str(row['PDF_FILE_PATH']),os.path.basename(str(row['PDF_FILE_PATH'])),output_dirname)
                     break

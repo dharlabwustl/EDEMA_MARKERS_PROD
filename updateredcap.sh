@@ -85,7 +85,7 @@ dir_to_save=${output_directory}
 
 fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${dir_to_save}) #${subj_listfile})
 # outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
-echo ${fill_redcap_for_selected_scan_arguments}
+echo "${fill_redcap_for_selected_scan_arguments[@]}"
 echo  "${project_name} ${csvfilename} ${dir_to_save}"
 echo ${copy_session}
 exit

@@ -62,6 +62,7 @@ download_a_single_file() {
 
 }
 URI="/data/projects/"${project_ID}
+echo ${URI}
 exit
 dir_to_receive_the_data=${working_dir}
 resource_dir="${project_ID}_SESSION_ANALYTICS_3"

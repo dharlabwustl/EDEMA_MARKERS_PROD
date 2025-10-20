@@ -48,6 +48,7 @@ def call_pdf_fill_for_each_row(args):
         # for each snipr_session, get the PDF_FILE_PATH and download it.
         # call fill_redcap_pdffilename(project_name,snipr_session,PDF_FILE_PATH)
         df = pd.read_csv(csvfilename) 
+        subprocess.call("echo " + "I AM AT call_pdf_fill_for_each_row ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         
         for _, row in df.iterrows():
           print(f"PDF_FILE_PATH: {row['PDF_FILE_PATH']}, snipr_session: {row['snipr_session']}")

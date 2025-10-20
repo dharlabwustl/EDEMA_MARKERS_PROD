@@ -41,6 +41,7 @@ def fill_redcap_pdffilename(project_name,session_label,pdf_file_name):
         pass
        
 def call_pdf_fill_for_each_row(args):
+    subprocess.call("echo " + "I am at call_pdf_fill_for_each_row ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     project_name=args.stuff[1]
     csvfilename=args.stuff[2] ##  xmlfile=args.stuff[1]
     output_dirname=args.stuff[3]

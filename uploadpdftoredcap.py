@@ -54,7 +54,7 @@ def call_pdf_fill_for_each_row(args):
             if '.pdf' in str(row['PDF_FILE_PATH']):
                 subprocess.call("echo " + "I AM AT {} ::{}  >> /workingoutput/error.txt".format(row['PDF_FILE_PATH'], inspect.stack()[0][3]), shell=True)
 
-                download_a_singlefile_with_URIString(str(row['PDF_FILE_PATH']),os.path.basename(str(row['PDF_FILE_PATH'])),output_dirname)
+                # download_a_singlefile_with_URIString(str(row['PDF_FILE_PATH']),os.path.basename(str(row['PDF_FILE_PATH'])),output_dirname)
                 break
             # fill_redcap_pdffilename(project_name,row['snipr_session'],os.path.join(ouput_dirname,os.path.basename(row['PDF_FILE_PATH'])))
     except:

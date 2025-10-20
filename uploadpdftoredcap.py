@@ -51,9 +51,9 @@ def call_pdf_fill_for_each_row(args):
         subprocess.call("echo " + "I AM AT call_pdf_fill_for_each_row ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         
         for _, row in df.iterrows():
-            # print(f"PDF_FILE_PATH: {row['PDF_FILE_PATH']}, snipr_session: {row['snipr_session']}")
             if '.pdf' in row['PDF_FILE_PATH']:
-                subprocess.call("echo " + "I AM AT {} ::{}  >> /workingoutput/error.txt".format(row['PDF_FILE_PATH'],inspect.stack()[0][3]) ,shell=True )
+                subprocess.call("echo " + "I AM AT {} ::{}  >> /workingoutput/error.txt".format(row['PDF_FILE_PATH'], inspect.stack()[0][3]), shell=True)
+
             # download_a_singlefile_with_URIString(row['PDF_FILE_PATH'],os.path.basename(row['PDF_FILE_PATH']),output_dirname)
             # fill_redcap_pdffilename(project_name,row['snipr_session'],os.path.join(ouput_dirname,os.path.basename(row['PDF_FILE_PATH'])))
     except:

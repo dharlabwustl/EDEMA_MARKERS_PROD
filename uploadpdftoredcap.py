@@ -41,17 +41,21 @@ def fill_redcap_pdffilename(project_name,session_label,pdf_file_name):
         pass
        
 def call_pdf_fill_for_each_row(args):
-    subprocess.call("echo " + "I am at call_pdf_fill_for_each_row ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-    project_name=args.stuff[1]
-    csvfilename=args.stuff[2] ##  xmlfile=args.stuff[1]
-    output_dirname=args.stuff[3]
-    # for each snipr_session, get the PDF_FILE_PATH and download it.
-    # call fill_redcap_pdffilename(project_name,snipr_session,PDF_FILE_PATH)
-    df = pd.read_csv(csvfilename) 
-    for _, row in df.iterrows():
-      print(f"PDF_FILE_PATH: {row['PDF_FILE_PATH']}, snipr_session: {row['snipr_session']}")
-      # download_a_singlefile_with_URIString(row['PDF_FILE_PATH'],os.path.basename(row['PDF_FILE_PATH']),output_dirname)
-      # fill_redcap_pdffilename(project_name,row['snipr_session'],os.path.join(ouput_dirname,os.path.basename(row['PDF_FILE_PATH'])))
+    try:   
+        project_name=args.stuff[1]
+        csvfilename=args.stuff[2] ##  xmlfile=args.stuff[1]
+        output_dirname=args.stuff[3]
+        # for each snipr_session, get the PDF_FILE_PATH and download it.
+        # call fill_redcap_pdffilename(project_name,snipr_session,PDF_FILE_PATH)
+        df = pd.read_csv(csvfilename) 
+        
+        for _, row in df.iterrows():
+          print(f"PDF_FILE_PATH: {row['PDF_FILE_PATH']}, snipr_session: {row['snipr_session']}")
+          # download_a_singlefile_with_URIString(row['PDF_FILE_PATH'],os.path.basename(row['PDF_FILE_PATH']),output_dirname)
+          # fill_redcap_pdffilename(project_name,row['snipr_session'],os.path.join(ouput_dirname,os.path.basename(row['PDF_FILE_PATH'])))
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
 
 
 

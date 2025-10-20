@@ -39,8 +39,8 @@ def fill_redcap_pdffilename(project_name,session_label,pdf_file_name):
         this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
         imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
         # subprocess.call("echo " + "I am at fill_redcap_pdffilename  ::{}::{}::{}::{}::{}  >> /workingoutput/error.txt".format(str(this_session_redcap_repeat_instance_df['subject']),'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),pdf_file_name) ,shell=True )
-        # if imaging_data_complete != '2':
-        #     add_one_file_to_redcap(str(this_session_redcap_repeat_instance_df['subject']),'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),pdf_file_name)
+        if imaging_data_complete != '2':
+            add_one_file_to_redcap(str(this_session_redcap_repeat_instance_df['record_id'].item()),'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),pdf_file_name)
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass

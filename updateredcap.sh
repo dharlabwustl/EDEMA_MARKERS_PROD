@@ -80,6 +80,7 @@ download_a_single_file ${file_path_csv} ${dir_to_receive_the_data} ${project_ID}
 project_name=COLI
 csvfilename=${copy_session} #args.stuff[2] ##  xmlfile=args.stuff[1]
 dir_to_save=${output_directory}
+echo  "${project_name} ${csvfilename} ${dir_to_save}"
 fill_redcap_for_selected_scan_arguments=('call_pdf_fill_for_each_row' ${project_name} ${csvfilename} ${dir_to_save}) #${subj_listfile})
 # outputfiles_present=$(python3 uploadpdftoredcap.py "${fill_redcap_for_selected_scan_arguments[@]}") 
 echo ${outputfiles_present}

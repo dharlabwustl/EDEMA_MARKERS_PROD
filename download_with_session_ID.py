@@ -2984,7 +2984,7 @@ def get_largest_newest_csv_for_scan(session_id, scan_id, resource_label="ICH_PHE
 def download_xnat_file_to_path(file_uri, out_path):
     resp = xnatSession.httpsess.get(xnatSession.host + file_uri, stream=True)
     resp.raise_for_status()
-    with open(out_path, "wb") as f:
+    with open(os.path.join(out_path,os.path.basename(file_uri)), "wb") as f:
         for chunk in resp.iter_content(chunk_size=1 << 16):
             if chunk:
                 f.write(chunk)

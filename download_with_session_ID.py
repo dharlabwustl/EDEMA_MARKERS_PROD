@@ -2907,7 +2907,8 @@ def find_selected_scan_id(session_id):
 
     scan_id  = str(nifti_loc_df.iloc[0]["ID"])
     scan_name = str(nifti_loc_df.iloc[0]["Name"])
-    return scan_id, scan_name
+    result = f'"SCAN_ID"::{scan_id}::"SCAN_NAME"::{scan_name}'
+    return result ##"SCAN_ID"::{scan_id)::"SCAN_NAME"::{scan_name}
 
 def get_largest_newest_csv_for_scan(session_id, scan_id, resource_label="ICH_PHE_QUANTIFICATION"):
     """

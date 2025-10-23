@@ -17,8 +17,16 @@ EOF
 )
 
 # 3️⃣ Parse "SCAN_ID"::<id>::"SCAN_NAME"::<name>
-SCAN_ID=$(awk -F'::' '{gsub(/"/,"",$2); print $2}' <<< "$RAW")
-SCAN_NAME=$(awk -F'::' '{gsub(/^"/,"",$4); gsub(/"$/,"",$4); print $4}' <<< "$RAW")
+#SCAN_ID=$(awk -F'::' '{gsub(/"/,"",$2); print $2}' <<< "$RAW")
+#SCAN_NAME=$(awk -F'::' '{gsub(/^"/,"",$4); gsub(/"$/,"",$4); print $4}' <<< "$RAW")
+
+# 3️⃣ Parse "SCAN_ID"::<id>::"SCAN_NAME"::<name>
+SCAN_ID=$(awk -F'::' '{gsub(/"/,"",$2); print $2}' <<< "$RAW" | tr -d '[:space:]')
+SCAN_NAME=$(awk -F'::' '{gsub(/^"/,"",$4); gsub(/"$/,"",$4); print $4}' <<< "$RAW" | tr -d '[:space:]')
+
+echo "Selected scan ID:   $SCAN_ID"
+echo "Selected scan name: $SCAN_NAME"
+
 
 echo "Selected scan ID:   $SCAN_ID"
 echo "Selected scan name: $SCAN_NAME"

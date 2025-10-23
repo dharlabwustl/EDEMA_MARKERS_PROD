@@ -2909,6 +2909,77 @@ def find_selected_scan_id(session_id):
     scan_name = str(nifti_loc_df.iloc[0]["Name"])
     return scan_id, scan_name
 
+def get_largest_newest_csv_for_scan(session_id, scan_id, resource_label="ICH_PHE_QUANTIFICATION"):
+    """
+    From the given scan's resource, pick the CSV that is:
+      1) Largest by size (bytes), and
+      2) If there’s a tie, the newest by timestamp (created/modified).
+    Returns a dict: {"name": ..., "uri": ..., "size": int, "created": pandas.Timestamp}
+    Raises ValueError if none found.
+    """
+    import json
+    import pandas as pd
+
+    # List files in the scan resource
+    base = f"/data/experiments/{session_id}/scans/{scan_id}"
+    list_url = f"{base}/resources/{resource_label}/files?format=json"
+
+    r = xnatSession.httpsess.get(xnatSession.host + list_url)
+    r.raise_for_status()
+    rows = r.json().get("ResultSet", {}).get("Result", [])
+    if not rows:
+        raise ValueError(f"No files in resource '{resource_label}' for scan {scan_id} (session {session_id}).")
+
+    df = pd.DataFrame(rows)
+
+    # Normalize helpful columns (size + timestamp may vary by XNAT version)
+    # Try common variations for size
+    size_cols = [c for c in df.columns if c.lower() in {"size","filesize","file_size","file_size_bytes"}]
+    if size_cols:
+        size_col = size_cols[0]
+    else:
+        # Fallback: try to infer from 'URI' (not ideal). If missing, set 0.
+        size_col = "_size_fallback"
+        df[size_col] = 0
+
+    # Try common variations for created/modified timestamp
+    time_cols = [c for c in df.columns if c.lower() in {"created","modified","last_modified","timestamp"}]
+    time_col = time_cols[0] if time_cols else None
+    if time_col:
+        df["_created_ts"] = pd.to_datetime(df[time_col], errors="coerce")
+    else:
+        df["_created_ts"] = pd.NaT
+
+    # Prefer extension by Name; fall back to URI
+    name_col = "Name" if "Name" in df.columns else ("name" if "name" in df.columns else None)
+    uri_col  = "URI"  if "URI"  in df.columns else ("uri"  if "uri"  in df.columns else None)
+    if not uri_col:
+        raise ValueError("File listing is missing 'URI' field; cannot proceed.")
+
+    def is_csv(row):
+        name = (row[name_col] if name_col else None) or ""
+        uri  = row[uri_col] or ""
+        return str(name).lower().endswith(".csv") or str(uri).lower().endswith(".csv")
+
+    csv_df = df[df.apply(is_csv, axis=1)].copy()
+    if csv_df.empty:
+        raise ValueError(f"No CSV files found in resource '{resource_label}' for scan {scan_id}.")
+
+    # Ensure numeric size, missing -> 0
+    csv_df["_size_bytes"] = pd.to_numeric(csv_df[size_col], errors="coerce").fillna(0).astype(int)
+
+    # Sort: largest size first, then newest timestamp
+    csv_df = csv_df.sort_values(by=["_size_bytes","_created_ts"], ascending=[False, False])
+
+    top = csv_df.iloc[0]
+    return {
+        "name": top[name_col] if name_col else top[uri_col].split("/")[-1],
+        "uri":  top[uri_col],
+        "size": int(top["_size_bytes"]),
+        "created": top["_created_ts"],
+    }
+
+
 
 def main():
     print("WO ZAI ::{}".format("main"))

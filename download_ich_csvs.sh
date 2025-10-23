@@ -35,7 +35,7 @@ python3 - <<'PY'
 import sys, json, os
 from download_with_session_ID import get_largest_newest_csv_for_scan, download_xnat_file_to_path
 
-session_id, scan_id, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
+session_id, scan_id, out_path = "${SESSION_ID}", "${SCAN_ID}", "${OUTPATH}"
 info = get_largest_newest_csv_for_scan(session_id, scan_id)
 download_xnat_file_to_path(info["uri"], out_path)
 print(json.dumps({"saved": out_path, "name": info["name"], "size": info["size"], "created": str(info["created"])}, ensure_ascii=False))

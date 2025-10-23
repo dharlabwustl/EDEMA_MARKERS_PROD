@@ -8,16 +8,24 @@
 SESSION_ID="$1"
 
 # 2. Run the Python function and capture its output
-SCAN_INFO=$(python3 - <<EOF
+#SESSION_ID="$1"
+
+# 1) Call the Python function (returns one string)
+RAW=$(
+python3 - <<EOF
 from download_with_session_ID import find_selected_scan_id
-scan_id, scan_name = find_selected_scan_id("${SESSION_ID}")
-print(f"{scan_id},{scan_name}")
+print(find_selected_scan_id("${SESSION_ID}"))
 EOF
 )
 
-# 3. Split into variables
-SCAN_ID=$(echo "$SCAN_INFO" | cut -d',' -f1)
-SCAN_NAME=$(echo "$SCAN_INFO" | cut -d',' -f2)
+# 2) Parse the string -> SCAN_ID and SCAN_NAME
+#    Format: "SCAN_ID"::<id>::"SCAN_NAME"::<name>
+SCAN_ID=$(awk -F'::' '{gsub(/"/,"",$2); print $2}' <<< "$RAW")
+SCAN_NAME=$(awk -F'::' '{gsub(/^"/,"",$4); gsub(/"$/,"",$4); print $4}' <<< "$RAW")
+
+# 3) Use them
+echo "Selected scan ID:   $SCAN_ID"
+echo "Selected scan name: $SCAN_NAME"
 
 # 4. Print nicely or use them downstream
 echo "Selected scan ID:   $SCAN_ID"

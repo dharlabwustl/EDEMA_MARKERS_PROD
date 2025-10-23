@@ -2866,6 +2866,50 @@ def call_delete_file_with_ext(args): #session_id,scan_id,resource_dir,extensions
         pass
         return 0
 
+def find_selected_scan_id(session_id):
+    """
+    Return (scan_id, scan_name) for the scan previously selected for analysis.
+
+    This reads the CSV saved under the XNAT session's NIFTI_LOCATION resource
+    (created by your decision_which_nifti/select_scan_for_analysis step).
+    Raises ValueError if not found.
+    """
+    import json, io
+    import pandas as pd
+
+    # 1) List files under NIFTI_LOCATION for this session
+    base_uri = f"/data/experiments/{session_id}"
+    list_url = f"{base_uri}/resources/NIFTI_LOCATION/files?format=json"
+
+    resp = xnatSession.httpsess.get(xnatSession.host + list_url)
+    resp.raise_for_status()
+    results = resp.json().get("ResultSet", {}).get("Result", [])
+
+    if not results:
+        raise ValueError(f"No NIFTI_LOCATION files found for session {session_id}.")
+
+    # If multiple CSVs exist, prefer the most recently created one (if field present)
+    df_list = pd.read_json(json.dumps(results))
+    if "created" in df_list.columns:
+        df_list = df_list.sort_values("created", ascending=False)
+
+    file_uri = df_list["URI"].iloc[0]
+
+    # 2) Download the selected NIFTI_LOCATION CSV (without writing to disk)
+    file_resp = xnatSession.httpsess.get(xnatSession.host + file_uri)
+    file_resp.raise_for_status()
+
+    nifti_loc_df = pd.read_csv(io.StringIO(file_resp.text))
+
+    # Expect columns: 'ID' (scan id), 'Name' (nifti filename), etc.
+    if nifti_loc_df.empty or "ID" not in nifti_loc_df.columns or "Name" not in nifti_loc_df.columns:
+        raise ValueError(f"NIFTI_LOCATION file for {session_id} is missing expected columns.")
+
+    scan_id  = str(nifti_loc_df.iloc[0]["ID"])
+    scan_name = str(nifti_loc_df.iloc[0]["Name"])
+    return scan_id, scan_name
+
+
 def main():
     print("WO ZAI ::{}".format("main"))
     parser = argparse.ArgumentParser()

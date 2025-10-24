@@ -31,7 +31,8 @@ echo "Session date:               $SESSION_DATE"
 RAW_SCAN=$(
 python3 - <<EOF
 from download_with_session_ID import find_selected_scan_id
-print(find_selected_scan_id("${SESSION_ID}"))
+#print(find_selected_scan_id("${SESSION_ID}"))
+find_selected_scan_id("${SESSION_ID}")
 EOF
 )
 

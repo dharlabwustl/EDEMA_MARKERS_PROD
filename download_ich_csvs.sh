@@ -54,7 +54,7 @@ echo "Selected scan ID:   $SCAN_ID"
 echo "Selected scan name: $SCAN_NAME"
 
 # 4️⃣ Export variables so Python can read them safely via environment
-export SESSION_ID SCAN_ID OUTPATH
+#export SESSION_ID SCAN_ID OUTPATH
 
 # 5️⃣ Run Python to get largest & newest CSV from ICH_PHE_QUANTIFICATION
 python3 - <<'PY'

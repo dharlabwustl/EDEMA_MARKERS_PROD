@@ -2990,6 +2990,40 @@ def download_xnat_file_to_path(file_uri, out_path):
                 f.write(chunk)
     return out_path
 
+def get_session_id_from_label(session_label):
+    """
+    Given a session label (human-readable name), return its XNAT session ID.
+
+    Example:
+        Input : "IBIO_0066_10182020_1848_3"
+        Output: "SNIPR02_E10245"
+
+    It queries the XNAT REST API: /data/experiments?format=json&label=<session_label>
+    """
+    import json
+
+    base_url = f"/data/experiments?format=json&label={session_label}"
+    url = xnatSession.host + base_url
+
+    # Ensure XNAT session is valid
+    xnatSession.renew_httpsession()
+
+    resp = xnatSession.httpsess.get(url)
+    resp.raise_for_status()
+
+    resultset = resp.json().get("ResultSet", {}).get("Result", [])
+    if not resultset:
+        raise ValueError(f"No session found for label: {session_label}")
+
+    # usually, each session_label is unique, so take the first
+    session_id = resultset[0].get("ID")
+    if not session_id:
+        raise ValueError(f"Could not find ID field for label: {session_label}")
+
+    return session_id
+
+
+
 
 
 def main():

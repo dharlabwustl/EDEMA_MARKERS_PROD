@@ -3022,7 +3022,56 @@ def get_session_id_from_label(session_label):
 
     return session_id
 
+def get_first_ct_session_for_subject(subject_id):
+    """
+    Given an XNAT subject ID, return the earliest CT session
+    as (session_id, session_label, session_date)
+    """
+    import re, pandas as pd
+    from datetime import datetime
+    xnatSession.renew_httpsession()
 
+    url = f"{xnatSession.host}/data/subjects/{subject_id}/experiments?format=json"
+    r = xnatSession.httpsess.get(url)
+    r.raise_for_status()
+    rows = r.json().get("ResultSet", {}).get("Result", [])
+    if not rows:
+        raise ValueError(f"No experiments found for subject: {subject_id}")
+
+    df = pd.DataFrame(rows)
+    col_id = "ID"
+    col_label = "label" if "label" in df.columns else "Label"
+    col_xsitype = "xsiType" if "xsiType" in df.columns else None
+    col_date = "date" if "date" in df.columns else None
+
+    if col_xsitype:
+        ct_df = df[df[col_xsitype].str.contains("ctsession", case=False, na=False)]
+    else:
+        ct_df = df[df[col_label].str.contains("_CT_", na=False)]
+
+    if ct_df.empty:
+        raise ValueError(f"No CT sessions found for subject: {subject_id}")
+
+    def parse_date(label, date_field):
+        if pd.notna(date_field) and str(date_field).strip():
+            try:
+                return pd.to_datetime(date_field).date()
+            except Exception:
+                pass
+        m = re.search(r"(\d{8})", label)
+        return datetime.strptime(m.group(1), "%Y%m%d").date() if m else pd.NaT
+
+    ct_df["_parsed_date"] = [
+        parse_date(row[col_label], row.get(col_date)) for _, row in ct_df.iterrows()
+    ]
+    ct_df = ct_df.sort_values("_parsed_date", ascending=True)
+    first = ct_df.iloc[0]
+
+    session_id = str(first[col_id]).strip()
+    session_label = str(first[col_label]).strip()
+    session_date = str(first["_parsed_date"])
+    print(f'"SESSION_ID"::{session_id}::"LABEL"::{session_label}::"DATE"::{session_date}')
+    return session_id, session_label, session_date
 
 
 

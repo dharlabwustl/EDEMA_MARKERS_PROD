@@ -83,7 +83,7 @@ print(json.dumps({
 }, indent=2, ensure_ascii=False))
 PY
 
-info=get_largest_newest_csv_for_scan(session_id, scan_id)
+info = get_largest_newest_csv_for_scan (session_id, scan_id)
 download_xnat_file_to_path(info["uri"], out_path)
 
 print(json.dumps({

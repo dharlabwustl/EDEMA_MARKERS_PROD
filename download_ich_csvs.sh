@@ -2,10 +2,10 @@
 # Usage: ./get_first_ct_session.sh SUBJECT_ID
 
 SUBJECT_ID="$1"
-
+project_id='ICH'
 RAW=$(python3 - <<EOF
 from download_with_session_ID import get_first_ct_session_for_subject
-get_first_ct_session_for_subject("${SUBJECT_ID}")
+get_first_ct_session_for_subject("${project_id}","${SUBJECT_ID}")
 EOF
 )
 

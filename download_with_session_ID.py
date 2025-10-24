@@ -3022,7 +3022,7 @@ def get_session_id_from_label(session_label):
 
     return session_id
 
-def get_first_ct_session_for_subject(subject_id):
+def get_first_ct_session_for_subject(project_id,subject_id):
     """
     Given an XNAT subject ID, return the earliest CT session
     as (session_id, session_label, session_date)
@@ -3031,7 +3031,7 @@ def get_first_ct_session_for_subject(subject_id):
     from datetime import datetime
     xnatSession.renew_httpsession()
 
-    url = f"{xnatSession.host}/data/subjects/{subject_id}/experiments?format=json"
+    url = f"{xnatSession.host}/data/projects/{project_id}/subjects/{subject_id}/experiments?format=json"
     r = xnatSession.httpsess.get(url)
     r.raise_for_status()
     rows = r.json().get("ResultSet", {}).get("Result", [])

@@ -83,16 +83,16 @@ print(json.dumps({
 }, indent=2, ensure_ascii=False))
 PY
 
-info = get_largest_newest_csv_for_scan (session_id, scan_id)
-download_xnat_file_to_path(info["uri"], out_path)
-
-print(json.dumps({
-    "saved": out_path,
-    "name": info["name"],
-    "size": info["size"],
-    "created": str(info["created"])
-}, indent=2, ensure_ascii=False))
-PY
+#info = get_largest_newest_csv_for_scan (session_id, scan_id)
+#download_xnat_file_to_path(info["uri"], out_path)
+#
+#print(json.dumps({
+#    "saved": out_path,
+#    "name": info["name"],
+#    "size": info["size"],
+#    "created": str(info["created"])
+#}, indent=2, ensure_ascii=False))
+#PY
 
 python3 - "$SESSION_ID" "$SCAN_ID" "$OUTPATH" <<'PY'
 import sys, json
@@ -112,13 +112,13 @@ print(json.dumps({
 }, indent=2, ensure_ascii=False))
 PY
 
-info=get_largest_newest_csv_for_scan(session_id, scan_id)
-download_xnat_file_to_path(info["uri"], out_path)
-
-print(json.dumps({
-    "saved": out_path,
-    "name": info["name"],
-    "size": info["size"],
-    "created": str(info["created"])
-}, indent=2, ensure_ascii=False))
-PY
+#info=get_largest_newest_csv_for_scan(session_id, scan_id)
+#download_xnat_file_to_path(info["uri"], out_path)
+#
+#print(json.dumps({
+#    "saved": out_path,
+#    "name": info["name"],
+#    "size": info["size"],
+#    "created": str(info["created"])
+#}, indent=2, ensure_ascii=False))
+#PY

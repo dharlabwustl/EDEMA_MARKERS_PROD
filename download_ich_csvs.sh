@@ -54,16 +54,34 @@ echo "Selected scan ID:   $SCAN_ID"
 echo "Selected scan name: $SCAN_NAME"
 
 # 4️⃣ Export variables so Python can read them safely via environment
-export SESSION_ID SCAN_ID OUTPATH
-
-# 5️⃣ Run Python to get largest & newest CSV from ICH_PHE_QUANTIFICATION
-python3 - <<'PY'
-import os, json
+#export SESSION_ID SCAN_ID OUTPATH
+#
+## 5️⃣ Run Python to get largest & newest CSV from ICH_PHE_QUANTIFICATION
+#python3 - <<'PY'
+#import os, json
+#from download_with_session_ID import get_largest_newest_csv_for_scan, download_xnat_file_to_path
+#
+#session_id = os.environ["SESSION_ID"]
+#scan_id = os.environ["SCAN_ID"]
+#out_path = os.environ["OUTPATH"]
+# Run Python inline and pass variables as arguments
+python3 - "$SESSION_ID" "$SCAN_ID" "$OUTPATH" <<'PY'
+import sys, json
 from download_with_session_ID import get_largest_newest_csv_for_scan, download_xnat_file_to_path
 
-session_id = os.environ["SESSION_ID"]
-scan_id = os.environ["SCAN_ID"]
-out_path = os.environ["OUTPATH"]
+# Read arguments passed from bash
+session_id, scan_id, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
+
+info = get_largest_newest_csv_for_scan(session_id, scan_id)
+download_xnat_file_to_path(info["uri"], out_path)
+
+print(json.dumps({
+    "saved": out_path,
+    "name": info["name"],
+    "size": info["size"],
+    "created": str(info["created"])
+}, indent=2, ensure_ascii=False))
+PY
 
 info = get_largest_newest_csv_for_scan(session_id, scan_id)
 download_xnat_file_to_path(info["uri"], out_path)

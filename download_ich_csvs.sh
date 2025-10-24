@@ -93,6 +93,36 @@ print(json.dumps({
     "created": str(info["created"])
 }, indent=2, ensure_ascii=False))
 PY
+
+python3 - "$SESSION_ID" "$SCAN_ID" "$OUTPATH" <<'PY'
+import sys, json
+from download_with_session_ID import get_largest_newest_pdf_for_scan, download_xnat_file_to_path
+
+# Read arguments passed from bash
+session_id, scan_id, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
+
+info = get_largest_newest_pdf_for_scan(session_id, scan_id)
+download_xnat_file_to_path(info["uri"], out_path)
+
+print(json.dumps({
+    "saved": out_path,
+    "name": info["name"],
+    "size": info["size"],
+    "created": str(info["created"])
+}, indent=2, ensure_ascii=False))
+PY
+
+info=get_largest_newest_csv_for_scan(session_id, scan_id)
+download_xnat_file_to_path(info["uri"], out_path)
+
+print(json.dumps({
+    "saved": out_path,
+    "name": info["name"],
+    "size": info["size"],
+    "created": str(info["created"])
+}, indent=2, ensure_ascii=False))
+PY
+
 ##########################
 
 

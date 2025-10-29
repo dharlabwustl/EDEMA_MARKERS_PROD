@@ -111,7 +111,7 @@ print("[INFO] Resource creation:", r.status_code)
 file_name = os.path.basename(file_path)
 upload_url = f"{url}/files/{file_name}?overwrite=true"
 with open(file_path, "rb") as f:
-    upload_resp = xnatSession.httpsess.put(xnatSession.host + upload_url, data=f)
+    upload_resp = xnatSession.httpsess.put(upload_url, data=f)
 print("[INFO] Upload status:", upload_resp.status_code)
 EOF
 

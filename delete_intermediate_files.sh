@@ -42,14 +42,14 @@ EOF
 BEFORE_SIZE=$(echo "$BEFORE" | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
 echo "[INFO] Project size before cleanup: ${BEFORE_SIZE} GB"
 
-# -----------------------------------------------------
-# 2️⃣ Export experiments for the project
-# -----------------------------------------------------
-echo "[STEP] Exporting experiment list to: ${EXPERIMENT_CSV}"
-python3 - <<EOF
-from download_with_session_ID import export_project_experiments_to_csv
-export_project_experiments_to_csv("${PROJECT_ID}", "${EXPERIMENT_CSV}")
-EOF
+## -----------------------------------------------------
+## 2️⃣ Export experiments for the project
+## -----------------------------------------------------
+#echo "[STEP] Exporting experiment list to: ${EXPERIMENT_CSV}"
+#python3 - <<EOF
+#from download_with_session_ID import export_project_experiments_to_csv
+#export_project_experiments_to_csv("${PROJECT_ID}", "${EXPERIMENT_CSV}")
+#EOF
 
 ## -----------------------------------------------------
 ## 3️⃣ Run batch cleanup

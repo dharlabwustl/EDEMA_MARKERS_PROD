@@ -461,3 +461,8 @@ PROJECT_ID=${SESSION_ID}
 /software/download_ich_csvs.sh $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 'DELETE_INTERMEDIATE_FILES' ]]; then
+PROJECT_ID=${SESSION_ID}
+/software/delete_intermediate_files.sh $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi
+

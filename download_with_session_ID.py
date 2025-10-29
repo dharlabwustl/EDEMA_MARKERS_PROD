@@ -3359,8 +3359,11 @@ def upload_project_file_to_xnat(project_id, file_path, resource_name="AUDIT_REPO
         # Upload the file
         file_name = os.path.basename(file_path)
         upload_url = f"{xnatSession.host}/data/projects/{project_id}/resources/{resource_name}/files/{file_name}?overwrite=true"
+
+        headers = {"Content-Type": "application/octet-stream"}
+
         with open(file_path, "rb") as f:
-            upload_resp = xnatSession.httpsess.put(upload_url, data=f)
+            upload_resp = xnatSession.httpsess.put(upload_url, data=f, headers=headers)
 
         code = upload_resp.status_code
         if code in (200, 201, 202):
@@ -3368,6 +3371,7 @@ def upload_project_file_to_xnat(project_id, file_path, resource_name="AUDIT_REPO
             status = "uploaded"
         else:
             print(f"[WARN] Upload failed for {file_name} (status {code}).")
+            print(f"[DEBUG] Server response: {upload_resp.text[:200]}")
             status = "failed"
 
         return {

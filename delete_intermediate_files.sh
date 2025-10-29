@@ -42,7 +42,7 @@ print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
 EOF
 )
 BEFORE_SIZE=$(echo "$BEFORE" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
-
+echo ${BEFORE_SIZE}
 
 ## -----------------------------------------------------
 ## 2️⃣ Export experiments for the project

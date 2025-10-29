@@ -3134,6 +3134,45 @@ def get_first_ct_session_for_subject(project_id,subject_id):
     session_date = str(first["_parsed_date"])
     print(f'"SESSION_ID"::{session_id}::"LABEL"::{session_label}::"DATE"::{session_date}')
     return session_id, session_label, session_date
+def export_project_experiments_to_csv(project_name, output_csv="project_experiments.csv"):
+    """
+    Given an XNAT project name, fetch all experiments/sessions in that project
+    and save their metadata to a CSV file.
+
+    Args:
+        project_name (str): e.g. "BJH_ICH" or "WUSTL_ICH"
+        output_csv (str):  path/filename for output CSV
+
+    Returns:
+        pandas.DataFrame: dataframe of experiment metadata
+    """
+    import pandas as pd
+
+    # Renew XNAT session if needed
+    xnatSession.renew_httpsession()
+
+    # 1️⃣ List experiments in the project
+    url = f"{xnatSession.host}/data/projects/{project_name}/experiments?format=json"
+
+    r = xnatSession.httpsess.get(url)
+    r.raise_for_status()
+    results = r.json().get("ResultSet", {}).get("Result", [])
+    if not results:
+        raise ValueError(f"No experiments found in project: {project_name}")
+
+    df = pd.DataFrame(results)
+
+    # 2️⃣ Sort by date (if present)
+    for c in df.columns:
+        if c.lower() == "date":
+            df = df.sort_values(c, ascending=True)
+            break
+
+    # 3️⃣ Write to CSV
+    df.to_csv(output_csv, index=False)
+    print(f"[INFO] Exported {len(df)} experiments from project '{project_name}' to: {output_csv}")
+
+    return df
 
 
 

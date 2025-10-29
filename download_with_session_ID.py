@@ -3134,6 +3134,40 @@ def get_first_ct_session_for_subject(project_id,subject_id):
     session_date = str(first["_parsed_date"])
     print(f'"SESSION_ID"::{session_id}::"LABEL"::{session_label}::"DATE"::{session_date}')
     return session_id, session_label, session_date
+def get_project_storage_size(project_id):
+    """
+    Compute the total size of all files under a given project in XNAT.
+
+    Args:
+        project_id (str): e.g., "BJH_ICH"
+
+    Returns:
+        dict: {"project_id": ..., "size_bytes": ..., "size_gb": ...}
+    """
+    import pandas as pd
+
+    xnatSession.renew_httpsession()
+
+    url = f"{xnatSession.host}/data/projects/{project_id}/resources?format=json"
+    r = xnatSession.httpsess.get(url)
+    r.raise_for_status()
+
+    results = r.json().get("ResultSet", {}).get("Result", [])
+    if not results:
+        print(f"[INFO] No resources found for project {project_id}")
+        return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
+
+    df = pd.DataFrame(results)
+    size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
+    if not size_cols:
+        print(f"[WARN] Size field not found for project {project_id}.")
+        return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
+
+    total_bytes = pd.to_numeric(df[size_cols[0]], errors="coerce").fillna(0).sum()
+    total_gb = total_bytes / (1024 ** 3)
+
+    print(f"[INFO] Project {project_id} total size: {total_gb:.2f} GB")
+    return {"project_id": project_id, "size_bytes": int(total_bytes), "size_gb": round(total_gb, 2)}
 
 def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv"):
     """

@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import sys, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 import os, sys, errno, shutil, uuid,subprocess,csv,json
 import math,inspect

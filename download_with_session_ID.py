@@ -3280,20 +3280,7 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
             result["reason"] = "PREPROCESS_SEGM deleted"
         else:
             result["reason"] = f"Delete failed ({del_resp.status_code})"
-        del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM_2"
-        del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
-        if del_resp.status_code in (200, 202, 204):
-            result["deleted"] = True
-            result["reason"] = "PREPROCESS_SEGM deleted"
-        else:
-            result["reason"] = f"Delete failed ({del_resp.status_code})"
-        del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM_3"
-        del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
-        if del_resp.status_code in (200, 202, 204):
-            result["deleted"] = True
-            result["reason"] = "PREPROCESS_SEGM deleted"
-        else:
-            result["reason"] = f"Delete failed ({del_resp.status_code})"
+
     except Exception as e:
         result["reason"] = f"Error: {e}"
 

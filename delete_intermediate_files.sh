@@ -18,7 +18,7 @@
 set -euo pipefail
 
 PROJECT_ID="$1"
-TODAY=$(date +%Y%m%d)
+TODAY=$(date +%Y%m%d_%H%M%S)
 WORKDIR="/workingoutput"
 
 EXPERIMENT_CSV="${WORKDIR}/${PROJECT_ID}_experiments.csv"

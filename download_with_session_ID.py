@@ -3227,12 +3227,13 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
 
     try:
         xnatSession.renew_httpsession()
-        scan_info_str = find_selected_scan_id(session_id)
-        if not scan_info_str or "SCAN_ID" not in scan_info_str:
-            result["reason"] = "No selected scan found"
-            return result
+        # scan_info_str = find_selected_scan_id(session_id)
+        scan_id, scan_name=find_selected_scan_id(session_id)
+        # if not scan_info_str or "SCAN_ID" not in scan_info_str:
+        #     result["reason"] = "No selected scan found"
+        #     return result
 
-        scan_id = scan_info_str.split("::")[2].strip('" \n\t')
+        # scan_id = scan_info_str.split("::")[2].strip('" \n\t')
         result["scan_id"] = scan_id
 
         # List EDEMA_BIOMARKER

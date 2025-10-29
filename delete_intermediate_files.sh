@@ -93,26 +93,11 @@ cat "$AUDIT_FILE"
 # 6️⃣ Upload audit file to XNAT project resources
 # -----------------------------------------------------
 echo "[STEP] Uploading audit CSV to XNAT project resources..."
+#PROJECT_ID="$1"
+FILE_PATH="$AUDIT_FILE"
+
 python3 - <<EOF
-import os
-from download_with_session_ID import xnatSession
-
-xnatSession.renew_httpsession()
-project_id = "${PROJECT_ID}"
-file_path = "${AUDIT_FILE}"
-resource_name = "AUDIT_REPORTS"
-
-# Create resource (idempotent)
-url = f"{xnatSession.host}/data/projects/{project_id}/resources/{resource_name}"
-r = xnatSession.httpsess.put(url)
-print("[INFO] Resource creation:", r.status_code)
-
-# Upload file
-file_name = os.path.basename(file_path)
-upload_url = f"{url}/files/{file_name}?overwrite=true"
-with open(file_path, "rb") as f:
-    upload_resp = xnatSession.httpsess.put(upload_url, data=f)
-print("[INFO] Upload status:", upload_resp.status_code)
+from download_with_session_ID import upload_project_file_to_xnat
+upload_project_file_to_xnat("${PROJECT_ID}", "${FILE_PATH}", resource_name="AUDIT_REPORTS")
 EOF
-
 echo "[✅] Audit complete and uploaded to XNAT project ${PROJECT_ID}."

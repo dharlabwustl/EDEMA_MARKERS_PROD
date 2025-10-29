@@ -33,14 +33,16 @@ echo "[INFO] Audit file will be: ${AUDIT_FILE}"
 # 1️⃣ Measure project size BEFORE cleanup
 # -----------------------------------------------------
 echo "[STEP] Measuring project size (before cleanup)..."
+# Measure project size (before cleanup)
 BEFORE=$(python3 - <<EOF
+import warnings, json
+warnings.filterwarnings("ignore")
 from download_with_session_ID import get_project_storage_size
-import json
 print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
 EOF
 )
-BEFORE_SIZE=$(echo "$BEFORE" | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
-echo "[INFO] Project size before cleanup: ${BEFORE_SIZE} GB"
+BEFORE_SIZE=$(echo "$BEFORE" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
+
 
 ## -----------------------------------------------------
 ## 2️⃣ Export experiments for the project

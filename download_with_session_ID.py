@@ -3318,6 +3318,75 @@ def export_project_experiments_to_csv(project_name, output_csv="project_experime
         pd.DataFrame().to_csv(output_csv, index=False)
         return pd.DataFrame()
 
+def upload_project_file_to_xnat(project_id, file_path, resource_name="AUDIT_REPORTS"):
+    """
+    Uploads a local file (e.g., audit CSV, cleanup report, etc.) to an XNAT project resource.
+    Creates the resource if it doesn't exist.
+
+    Args:
+        project_id (str): e.g. "BJH_ICH"
+        file_path (str): full path to the file to upload
+        resource_name (str): resource folder name under the project (default "AUDIT_REPORTS")
+
+    Returns:
+        dict: {"project_id": ..., "file": ..., "resource": ..., "status": ..., "response_code": int}
+    """
+    import os
+
+    try:
+        xnatSession.renew_httpsession()
+
+        if not os.path.exists(file_path):
+            print(f"[WARN] File not found: {file_path}")
+            return {
+                "project_id": project_id,
+                "file": file_path,
+                "resource": resource_name,
+                "status": "file_not_found",
+                "response_code": None,
+            }
+
+        # Ensure resource exists (PUT is idempotent)
+        resource_url = f"{xnatSession.host}/data/projects/{project_id}/resources/{resource_name}"
+        r = xnatSession.httpsess.put(resource_url)
+        if r.status_code == 409:
+            print(f"[INFO] Resource '{resource_name}' already exists for project {project_id}.")
+        elif r.status_code in (200, 201):
+            print(f"[INFO] Resource '{resource_name}' created for project {project_id}.")
+        else:
+            print(f"[WARN] Resource creation returned {r.status_code} for {project_id}.")
+
+        # Upload the file
+        file_name = os.path.basename(file_path)
+        upload_url = f"{xnatSession.host}/data/projects/{project_id}/resources/{resource_name}/files/{file_name}?overwrite=true"
+        with open(file_path, "rb") as f:
+            upload_resp = xnatSession.httpsess.put(upload_url, data=f)
+
+        code = upload_resp.status_code
+        if code in (200, 201, 202):
+            print(f"[INFO] Uploaded '{file_name}' to resource '{resource_name}' ({code}).")
+            status = "uploaded"
+        else:
+            print(f"[WARN] Upload failed for {file_name} (status {code}).")
+            status = "failed"
+
+        return {
+            "project_id": project_id,
+            "file": file_path,
+            "resource": resource_name,
+            "status": status,
+            "response_code": code,
+        }
+
+    except Exception as e:
+        print(f"[ERROR] upload_project_file_to_xnat failed: {e}")
+        return {
+            "project_id": project_id,
+            "file": file_path,
+            "resource": resource_name,
+            "status": "error",
+            "response_code": None,
+        }
 
 def main():
     print("WO ZAI ::{}".format("main"))

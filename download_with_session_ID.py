@@ -3138,64 +3138,70 @@ def get_project_storage_size(project_id):
     """
     Compute the total size of all files under a given project in XNAT.
 
-    Args:
-        project_id (str): e.g., "BJH_ICH"
-
-    Returns:
-        dict: {"project_id": ..., "size_bytes": ..., "size_gb": ...}
+    Returns 0 GB if the project or resources are missing or inaccessible.
     """
     import pandas as pd
+    try:
+        xnatSession.renew_httpsession()
+        url = f"{xnatSession.host}/data/projects/{project_id}/resources?format=json"
+        r = xnatSession.httpsess.get(url)
+        if r.status_code != 200:
+            print(f"[WARN] Unable to access project {project_id} (status {r.status_code})")
+            return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
 
-    xnatSession.renew_httpsession()
+        results = r.json().get("ResultSet", {}).get("Result", [])
+        if not results:
+            print(f"[INFO] No resources found for project {project_id}")
+            return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
 
-    url = f"{xnatSession.host}/data/projects/{project_id}/resources?format=json"
-    r = xnatSession.httpsess.get(url)
-    r.raise_for_status()
+        df = pd.DataFrame(results)
+        size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
+        if not size_cols:
+            print(f"[WARN] No size field found for project {project_id}")
+            return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
 
-    results = r.json().get("ResultSet", {}).get("Result", [])
-    if not results:
-        print(f"[INFO] No resources found for project {project_id}")
+        total_bytes = pd.to_numeric(df[size_cols[0]], errors="coerce").fillna(0).sum()
+        total_gb = total_bytes / (1024 ** 3)
+
+        print(f"[INFO] Project {project_id} total size: {total_gb:.2f} GB")
+        return {"project_id": project_id, "size_bytes": int(total_bytes), "size_gb": round(total_gb, 2)}
+
+    except Exception as e:
+        print(f"[WARN] get_project_storage_size failed for {project_id}: {e}")
         return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
-
-    df = pd.DataFrame(results)
-    size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
-    if not size_cols:
-        print(f"[WARN] Size field not found for project {project_id}.")
-        return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
-
-    total_bytes = pd.to_numeric(df[size_cols[0]], errors="coerce").fillna(0).sum()
-    total_gb = total_bytes / (1024 ** 3)
-
-    print(f"[INFO] Project {project_id} total size: {total_gb:.2f} GB")
-    return {"project_id": project_id, "size_bytes": int(total_bytes), "size_gb": round(total_gb, 2)}
 
 def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv"):
     """
-    Load the project experiment CSV (downloaded using export_project_experiments_to_csv)
-    and run cleanup_preprocess_if_edema_pdf_exists() for each session ID.
-
-    Args:
-        csv_path (str): path to the experiments CSV file.
-        report_csv (str): optional output summary report.
-
-    Returns:
-        pandas.DataFrame: summary table with cleanup results.
+    Safely iterate through all session IDs in experiment CSV.
+    Continues even if file or folder is missing.
     """
     import pandas as pd
+    results = []
 
-    df = pd.read_csv(csv_path)
+    try:
+        df = pd.read_csv(csv_path)
+    except Exception as e:
+        print(f"[WARN] Could not read {csv_path}: {e}")
+        pd.DataFrame().to_csv(report_csv, index=False)
+        return pd.DataFrame()
+
     if "ID" not in df.columns:
-        raise ValueError(f"Column 'ID' not found in {csv_path}")
+        print(f"[WARN] 'ID' column missing in {csv_path}")
+        pd.DataFrame().to_csv(report_csv, index=False)
+        return pd.DataFrame()
 
     session_ids = df["ID"].dropna().astype(str).tolist()
     print(f"[INFO] Found {len(session_ids)} sessions in {csv_path}")
 
-    results = []
     for sid in session_ids:
         print(f"\n[INFO] Processing session: {sid}")
-        res = cleanup_preprocess_if_edema_pdf_exists(sid)
-        results.append(res)
-        print(f"  → {res['reason']}")
+        try:
+            res = cleanup_preprocess_if_edema_pdf_exists(sid)
+            results.append(res)
+            print(f"  → {res['reason']}")
+        except Exception as e:
+            results.append({"session_id": sid, "scan_id": None, "deleted": False, "reason": f"Exception: {e}"})
+            print(f"  ⚠️ Exception while processing {sid}: {e}")
 
     summary_df = pd.DataFrame(results)
     summary_df.to_csv(report_csv, index=False)
@@ -3207,22 +3213,17 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
 def cleanup_preprocess_if_edema_pdf_exists(session_id):
     """
     For a given session_id:
-      1. Find the selected scan (using find_selected_scan_id()).
-      2. Check resource 'EDEMA_BIOMARKER' for PDF files > 1 MB.
-      3. If such PDFs exist, delete the 'PREPROCESS_SEGM' resource.
-
-    Returns:
-        dict: {"session_id": ..., "scan_id": ..., "deleted": True/False, "reason": "..."}
+      1. Find the selected scan.
+      2. Check 'EDEMA_BIOMARKER' for PDF > 1 MB.
+      3. If found, delete 'PREPROCESS_SEGM'.
+    Always returns gracefully.
     """
     import pandas as pd
-
-    threshold_bytes = 1 * 1024 * 1024  # 1 MB
-    xnatSession.renew_httpsession()
-
+    threshold_bytes = 1 * 1024 * 1024
     result = {"session_id": session_id, "scan_id": None, "deleted": False, "reason": ""}
 
     try:
-        # 1️⃣ Get selected scan info
+        xnatSession.renew_httpsession()
         scan_info_str = find_selected_scan_id(session_id)
         if not scan_info_str or "SCAN_ID" not in scan_info_str:
             result["reason"] = "No selected scan found"
@@ -3231,7 +3232,7 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
         scan_id = scan_info_str.split("::")[2].strip('" \n\t')
         result["scan_id"] = scan_id
 
-        # 2️⃣ List EDEMA_BIOMARKER files
+        # List EDEMA_BIOMARKER
         list_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/EDEMA_BIOMARKER/files?format=json"
         r = xnatSession.httpsess.get(xnatSession.host + list_url)
         if r.status_code != 200:
@@ -3240,7 +3241,7 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
 
         files = r.json().get("ResultSet", {}).get("Result", [])
         if not files:
-            result["reason"] = "No files found in EDEMA_BIOMARKER"
+            result["reason"] = "No files in EDEMA_BIOMARKER"
             return result
 
         df = pd.DataFrame(files)
@@ -3248,8 +3249,11 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
         size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
         size_col = size_cols[0] if size_cols else None
 
-        # Keep only PDFs
-        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)] if name_col in df.columns else pd.DataFrame()
+        if name_col not in df.columns:
+            result["reason"] = "Name column missing"
+            return result
+
+        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
         if pdf_df.empty:
             result["reason"] = "No PDF found"
             return result
@@ -3264,62 +3268,52 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
             result["reason"] = "No PDF >1MB found"
             return result
 
-        # 3️⃣ Delete PREPROCESS_SEGM resource
+        # Delete PREPROCESS_SEGM
         del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM"
         del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
-
         if del_resp.status_code in (200, 202, 204):
             result["deleted"] = True
             result["reason"] = "PREPROCESS_SEGM deleted"
         else:
-            result["reason"] = f"Delete failed (status {del_resp.status_code})"
+            result["reason"] = f"Delete failed ({del_resp.status_code})"
 
     except Exception as e:
         result["reason"] = f"Error: {e}"
 
     return result
 
-
 def export_project_experiments_to_csv(project_name, output_csv="project_experiments.csv"):
     """
-    Given an XNAT project name, fetch all experiments/sessions in that project
-    and save their metadata to a CSV file.
-
-    Args:
-        project_name (str): e.g. "BJH_ICH" or "WUSTL_ICH"
-        output_csv (str):  path/filename for output CSV
-
-    Returns:
-        pandas.DataFrame: dataframe of experiment metadata
+    Safely exports experiment metadata to CSV.
+    Continues even if project has no experiments or access is denied.
     """
     import pandas as pd
+    try:
+        xnatSession.renew_httpsession()
+        url = f"{xnatSession.host}/data/projects/{project_name}/experiments?format=json"
+        r = xnatSession.httpsess.get(url)
+        if r.status_code != 200:
+            print(f"[WARN] Unable to access project {project_name} (status {r.status_code})")
+            pd.DataFrame().to_csv(output_csv, index=False)
+            return pd.DataFrame()
 
-    # Renew XNAT session if needed
-    xnatSession.renew_httpsession()
+        results = r.json().get("ResultSet", {}).get("Result", [])
+        if not results:
+            print(f"[INFO] No experiments found for project {project_name}")
+            pd.DataFrame().to_csv(output_csv, index=False)
+            return pd.DataFrame()
 
-    # 1️⃣ List experiments in the project
-    url = f"{xnatSession.host}/data/projects/{project_name}/experiments?format=json"
+        df = pd.DataFrame(results)
+        if "date" in df.columns:
+            df = df.sort_values("date", ascending=True)
+        df.to_csv(output_csv, index=False)
+        print(f"[INFO] Exported {len(df)} experiments from project '{project_name}' to {output_csv}")
+        return df
 
-    r = xnatSession.httpsess.get(url)
-    r.raise_for_status()
-    results = r.json().get("ResultSet", {}).get("Result", [])
-    if not results:
-        raise ValueError(f"No experiments found in project: {project_name}")
-
-    df = pd.DataFrame(results)
-
-    # 2️⃣ Sort by date (if present)
-    for c in df.columns:
-        if c.lower() == "date":
-            df = df.sort_values(c, ascending=True)
-            break
-
-    # 3️⃣ Write to CSV
-    df.to_csv(output_csv, index=False)
-    print(f"[INFO] Exported {len(df)} experiments from project '{project_name}' to: {output_csv}")
-
-    return df
-
+    except Exception as e:
+        print(f"[WARN] export_project_experiments_to_csv failed for {project_name}: {e}")
+        pd.DataFrame().to_csv(output_csv, index=False)
+        return pd.DataFrame()
 
 
 def main():

@@ -78,89 +78,26 @@ EOF
 )
 AFTER_SIZE=$(echo "$AFTER" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
 
+
 # -----------------------------------------------------
-# 5️⃣ Compute differences and write audit CSV
-#     - Freed_GB_project: from project BEFORE vs AFTER
-#     - Freed_GB_sum_of_folders: sum of per-session deleted_bytes
+# 5️⃣ Compute difference and write audit CSV
 # -----------------------------------------------------
-FREED_PROJECT=$(python3 - <<PY
-before=${BEFORE_SIZE}
-after=${AFTER_SIZE}
-print(round(float(before) - float(after), 2))
-PY
-)
-
-FREED_SUM=$(python3 - <<'PY'
-import sys, csv
-import math
-
-path = sys.argv[1]
-total_bytes = 0
-try:
-    with open(path, newline='', encoding='utf-8') as f:
-        r = csv.DictReader(f)
-        for row in r:
-            try:
-                total_bytes += int(row.get("deleted_bytes", 0) or 0)
-            except Exception:
-                pass
-except FileNotFoundError:
-    pass
-
-gb = total_bytes / (1024**3)
-print(f"{gb:.2f}")
-PY
-"$CLEANUP_REPORT"
-)
-
-# Optional: also count how many sessions actually deleted something
-DELETED_COUNT=$(python3 - <<'PY'
-import sys, csv
-cnt = 0
-try:
-    with open(sys.argv[1], newline='', encoding='utf-8') as f:
-        r = csv.DictReader(f)
-        for row in r:
-            if str(row.get("deleted", "")).lower() in ("true","1","yes"):
-                try:
-                    if int(row.get("deleted_bytes", 0) or 0) >= 0:
-                        cnt += 1
-                except Exception:
-                    cnt += 1
-except FileNotFoundError:
-    pass
-print(cnt)
-PY
-"$CLEANUP_REPORT"
-)
-
-echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB_project,Freed_GB_sum_of_folders,Sessions_Deleted" > "$AUDIT_FILE"
-echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED_PROJECT},${FREED_SUM},${DELETED_COUNT}" >> "$AUDIT_FILE"
+FREED=$(python3 -c "print(round(${BEFORE_SIZE} - ${AFTER_SIZE}, 2))")
+echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB" > "$AUDIT_FILE"
+echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED}" >> "$AUDIT_FILE"
 
 echo "[INFO] Audit CSV written to: ${AUDIT_FILE}"
 cat "$AUDIT_FILE"
 
+# -----------------------------------------------------
+# 6️⃣ Upload audit file to XNAT project resources
+# -----------------------------------------------------
+echo "[STEP] Uploading audit CSV to XNAT project resources..."
+#PROJECT_ID="$1"
+FILE_PATH="$AUDIT_FILE"
 
-#
-## -----------------------------------------------------
-## 5️⃣ Compute difference and write audit CSV
-## -----------------------------------------------------
-#FREED=$(python3 -c "print(round(${BEFORE_SIZE} - ${AFTER_SIZE}, 2))")
-#echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB" > "$AUDIT_FILE"
-#echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED}" >> "$AUDIT_FILE"
-#
-#echo "[INFO] Audit CSV written to: ${AUDIT_FILE}"
-#cat "$AUDIT_FILE"
-#
-## -----------------------------------------------------
-## 6️⃣ Upload audit file to XNAT project resources
-## -----------------------------------------------------
-#echo "[STEP] Uploading audit CSV to XNAT project resources..."
-##PROJECT_ID="$1"
-#FILE_PATH="$AUDIT_FILE"
-#
-#python3 - <<EOF
-#from download_with_session_ID import upload_project_file_to_xnat
-#upload_project_file_to_xnat("${PROJECT_ID}", "${FILE_PATH}", resource_name="AUDIT_REPORTS")
-#EOF
-#echo "[✅] Audit complete and uploaded to XNAT project ${PROJECT_ID}."
+python3 - <<EOF
+from download_with_session_ID import upload_project_file_to_xnat
+upload_project_file_to_xnat("${PROJECT_ID}", "${FILE_PATH}", resource_name="AUDIT_REPORTS")
+EOF
+echo "[✅] Audit complete and uploaded to XNAT project ${PROJECT_ID}."

@@ -3201,7 +3201,7 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
             res = cleanup_preprocess_if_edema_pdf_exists(sid)
             results.append(res)
             print(f"  → {res['reason']}")
-            break
+            # break
         except Exception as e:
             results.append({"session_id": sid, "scan_id": None, "deleted": False, "reason": f"Exception: {e}"})
             print(f"  ⚠️ Exception while processing {sid}: {e}")
@@ -3211,6 +3211,8 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
     print(f"\n[INFO] Cleanup summary saved to: {report_csv}")
 
     return summary_df
+
+
 def cleanup_preprocess_if_edema_pdf_exists(session_id):
     """
     For a given session_id:
@@ -3218,25 +3220,20 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
       2. Check 'EDEMA_BIOMARKER' for PDF > 1 MB.
       3. If found, delete 'PREPROCESS_SEGM'.
     Always returns gracefully.
-
-    Returns keys:
-      session_id, scan_id, deleted (bool), reason (str),
-      deleted_bytes (int), deleted_file_count (int)
     """
     import pandas as pd
     threshold_bytes = 1 * 1024 * 1024
-    result = {
-        "session_id": session_id,
-        "scan_id": None,
-        "deleted": False,
-        "reason": "",
-        "deleted_bytes": 0,
-        "deleted_file_count": 0,
-    }
+    result = {"session_id": session_id, "scan_id": None, "deleted": False, "reason": ""}
 
     try:
         xnatSession.renew_httpsession()
-        scan_id, scan_name = find_selected_scan_id(session_id)
+        # scan_info_str = find_selected_scan_id(session_id)
+        scan_id, scan_name=find_selected_scan_id(session_id)
+        # if not scan_info_str or "SCAN_ID" not in scan_info_str:
+        #     result["reason"] = "No selected scan found"
+        #     return result
+
+        # scan_id = scan_info_str.split("::")[2].strip('" \n\t')
         result["scan_id"] = scan_id
 
         # List EDEMA_BIOMARKER
@@ -3252,7 +3249,7 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
             return result
 
         df = pd.DataFrame(files)
-        name_col = "Name" if "Name" in df.columns else ("name" if "name" in df.columns else None)
+        name_col = "Name" if "Name" in df.columns else "name"
         size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
         size_col = size_cols[0] if size_cols else None
 
@@ -3260,40 +3257,27 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
             result["reason"] = "Name column missing"
             return result
 
-        # pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
-        # replace the pdf_df line and size cast
-        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)].copy()
-        if size_col:
-            pdf_df["_size_bytes"] = (
-                pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype("int64")
-            )
-
+        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
         if pdf_df.empty:
             result["reason"] = "No PDF found"
             return result
 
         if size_col:
-            pdf_df["_size_bytes"] = pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype("int64")
+            pdf_df["_size_bytes"] = pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype(int)
             large_pdfs = pdf_df[pdf_df["_size_bytes"] > threshold_bytes]
         else:
-            # No size information—treat any PDF as "large" to trigger cleanup
             large_pdfs = pdf_df
 
         if large_pdfs.empty:
             result["reason"] = "No PDF >1MB found"
             return result
 
-        # --- Measure PREPROCESS_SEGM size BEFORE deletion ---
-        pre_bytes, pre_count = _get_resource_size_bytes(session_id, scan_id, "PREPROCESS_SEGM")
-
         # Delete PREPROCESS_SEGM
         del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM"
         del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
         if del_resp.status_code in (200, 202, 204):
             result["deleted"] = True
-            result["deleted_bytes"] = pre_bytes
-            result["deleted_file_count"] = pre_count
-            result["reason"] = f"PREPROCESS_SEGM deleted (files={pre_count}, bytes={pre_bytes})"
+            result["reason"] = "PREPROCESS_SEGM deleted"
         else:
             result["reason"] = f"Delete failed ({del_resp.status_code})"
 
@@ -3301,80 +3285,6 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
         result["reason"] = f"Error: {e}"
 
     return result
-
-
-# def cleanup_preprocess_if_edema_pdf_exists(session_id):
-#     """
-#     For a given session_id:
-#       1. Find the selected scan.
-#       2. Check 'EDEMA_BIOMARKER' for PDF > 1 MB.
-#       3. If found, delete 'PREPROCESS_SEGM'.
-#     Always returns gracefully.
-#     """
-#     import pandas as pd
-#     threshold_bytes = 1 * 1024 * 1024
-#     result = {"session_id": session_id, "scan_id": None, "deleted": False, "reason": ""}
-#
-#     try:
-#         xnatSession.renew_httpsession()
-#         # scan_info_str = find_selected_scan_id(session_id)
-#         scan_id, scan_name=find_selected_scan_id(session_id)
-#         # if not scan_info_str or "SCAN_ID" not in scan_info_str:
-#         #     result["reason"] = "No selected scan found"
-#         #     return result
-#
-#         # scan_id = scan_info_str.split("::")[2].strip('" \n\t')
-#         result["scan_id"] = scan_id
-#
-#         # List EDEMA_BIOMARKER
-#         list_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/EDEMA_BIOMARKER/files?format=json"
-#         r = xnatSession.httpsess.get(xnatSession.host + list_url)
-#         if r.status_code != 200:
-#             result["reason"] = f"EDEMA_BIOMARKER not accessible (status {r.status_code})"
-#             return result
-#
-#         files = r.json().get("ResultSet", {}).get("Result", [])
-#         if not files:
-#             result["reason"] = "No files in EDEMA_BIOMARKER"
-#             return result
-#
-#         df = pd.DataFrame(files)
-#         name_col = "Name" if "Name" in df.columns else "name"
-#         size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
-#         size_col = size_cols[0] if size_cols else None
-#
-#         if name_col not in df.columns:
-#             result["reason"] = "Name column missing"
-#             return result
-#
-#         pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
-#         if pdf_df.empty:
-#             result["reason"] = "No PDF found"
-#             return result
-#
-#         if size_col:
-#             pdf_df["_size_bytes"] = pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype(int)
-#             large_pdfs = pdf_df[pdf_df["_size_bytes"] > threshold_bytes]
-#         else:
-#             large_pdfs = pdf_df
-#
-#         if large_pdfs.empty:
-#             result["reason"] = "No PDF >1MB found"
-#             return result
-#
-#         # Delete PREPROCESS_SEGM
-#         del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM"
-#         del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
-#         if del_resp.status_code in (200, 202, 204):
-#             result["deleted"] = True
-#             result["reason"] = "PREPROCESS_SEGM deleted"
-#         else:
-#             result["reason"] = f"Delete failed ({del_resp.status_code})"
-#
-#     except Exception as e:
-#         result["reason"] = f"Error: {e}"
-#
-#     return result
 
 def export_project_experiments_to_csv(project_name, output_csv="project_experiments.csv"):
     """

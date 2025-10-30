@@ -3201,7 +3201,7 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
             res = cleanup_preprocess_if_edema_pdf_exists(sid)
             results.append(res)
             print(f"  → {res['reason']}")
-            # break
+            break
         except Exception as e:
             results.append({"session_id": sid, "scan_id": None, "deleted": False, "reason": f"Exception: {e}"})
             print(f"  ⚠️ Exception while processing {sid}: {e}")

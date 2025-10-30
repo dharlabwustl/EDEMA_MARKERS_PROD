@@ -1,20 +1,15 @@
 #!/bin/bash
 # =====================================================
 # Usage:
-#   ./audit_project_cleanup.sh PROJECT_ID
+#   ./audit_project_cleanup_folders_only.sh PROJECT_ID
 #
-# Example:
-#   ./audit_project_cleanup.sh BJH_ICH
-#
-# This script:
-#   1️⃣ Gets project size before cleanup
-#   2️⃣ Exports experiment list to CSV
-#   3️⃣ Runs batch cleanup
-#   4️⃣ Gets project size after cleanup
-#   5️⃣ Writes an audit CSV (with before/after sizes)
-#   6️⃣ Uploads the audit CSV to XNAT project resource "AUDIT_REPORTS"
+# What it does:
+#   1) Exports experiment list to CSV
+#   2) Runs batch cleanup (Python)
+#   3) Sums deleted_bytes from the cleanup report
+#   4) Writes a small audit CSV (folders-only)
+#   5) Uploads the audit CSV to XNAT project resource "AUDIT_REPORTS"
 # =====================================================
-
 set -euo pipefail
 
 PROJECT_ID="$1"
@@ -23,39 +18,20 @@ WORKDIR="/workingoutput"
 
 EXPERIMENT_CSV="${WORKDIR}/${PROJECT_ID}_experiments.csv"
 CLEANUP_REPORT="${WORKDIR}/${PROJECT_ID}_cleanup_report.csv"
-AUDIT_FILE="${WORKDIR}/audit_${TODAY}.csv"
+AUDIT_FILE="${WORKDIR}/audit_folders_only_${TODAY}.csv"
 
-echo "[INFO] Starting cleanup audit for project: ${PROJECT_ID}"
-echo "[INFO] Working directory: ${WORKDIR}"
-echo "[INFO] Audit file will be: ${AUDIT_FILE}"
+echo "[INFO] Folders-only cleanup audit for project: ${PROJECT_ID}"
+echo "[INFO] Workdir: ${WORKDIR}"
 
-# -----------------------------------------------------
-# 1️⃣ Measure project size BEFORE cleanup
-# -----------------------------------------------------
-echo "[STEP] Measuring project size (before cleanup)..."
-# Measure project size (before cleanup)
-BEFORE=$(python3 - <<EOF
-import warnings, json
-warnings.filterwarnings("ignore")
-from download_with_session_ID import get_project_storage_size
-print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
-EOF
-)
-BEFORE_SIZE=$(echo "$BEFORE" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
-echo ${BEFORE_SIZE}
-
-# -----------------------------------------------------
-# 2️⃣ Export experiments for the project
-# -----------------------------------------------------
-echo "[STEP] Exporting experiment list to: ${EXPERIMENT_CSV}"
-python3 - <<EOF
+# 1) Export experiments
+echo "[STEP] Exporting experiment list..."
+python3 - <<'PY'
+import sys
 from download_with_session_ID import export_project_experiments_to_csv
 export_project_experiments_to_csv("${PROJECT_ID}", "${EXPERIMENT_CSV}")
-EOF
+PY
 
-# -----------------------------------------------------
-# 3️⃣ Run batch cleanup
-# -----------------------------------------------------
+# 2) Run batch cleanup
 echo "[STEP] Running batch cleanup..."
 python3 - "$EXPERIMENT_CSV" "$CLEANUP_REPORT" <<'PY'
 import sys
@@ -64,103 +40,218 @@ csv_path, report_path = sys.argv[1], sys.argv[2]
 batch_cleanup_from_experiment_csv(csv_path, report_path)
 PY
 
-# -----------------------------------------------------
-# 4️⃣ Measure project size AFTER cleanup
-# -----------------------------------------------------
-echo "[STEP] Measuring project size (after cleanup)..."
-# Measure project size (after cleanup)
-AFTER=$(python3 - <<EOF
-import warnings, json
-warnings.filterwarnings("ignore")
-from download_with_session_ID import get_project_storage_size
-print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
-EOF
-)
-AFTER_SIZE=$(echo "$AFTER" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
-
-# -----------------------------------------------------
-# 5️⃣ Compute differences and write audit CSV
-#     - Freed_GB_project: from project BEFORE vs AFTER
-#     - Freed_GB_sum_of_folders: sum of per-session deleted_bytes
-# -----------------------------------------------------
-FREED_PROJECT=$(python3 - <<PY
-before=${BEFORE_SIZE}
-after=${AFTER_SIZE}
-print(round(float(before) - float(after), 2))
-PY
-)
-
-FREED_SUM=$(python3 - <<'PY'
-import sys, csv
-import math
-
-path = sys.argv[1]
-total_bytes = 0
+# 3) Sum deleted_bytes and count sessions
+echo "[STEP] Summarizing deleted folder sizes..."
+FREED_SUM_GB=$(python3 - <<'PY'
+import csv
+total = 0
 try:
-    with open(path, newline='', encoding='utf-8') as f:
-        r = csv.DictReader(f)
-        for row in r:
+    with open("${CLEANUP_REPORT}", newline='', encoding='utf-8') as f:
+        for row in csv.DictReader(f):
             try:
-                total_bytes += int(row.get("deleted_bytes", 0) or 0)
+                total += int(row.get("deleted_bytes") or 0)
             except Exception:
                 pass
 except FileNotFoundError:
     pass
-
-gb = total_bytes / (1024**3)
-print(f"{gb:.2f}")
+print(f"{total/(1024**3):.6f}")
 PY
-"$CLEANUP_REPORT"
 )
 
-# Optional: also count how many sessions actually deleted something
-DELETED_COUNT=$(python3 - <<'PY'
-import sys, csv
+SESSIONS_DELETED=$(python3 - <<'PY'
+import csv
 cnt = 0
 try:
-    with open(sys.argv[1], newline='', encoding='utf-8') as f:
-        r = csv.DictReader(f)
-        for row in r:
-            if str(row.get("deleted", "")).lower() in ("true","1","yes"):
-                try:
-                    if int(row.get("deleted_bytes", 0) or 0) >= 0:
-                        cnt += 1
-                except Exception:
-                    cnt += 1
+    with open("${CLEANUP_REPORT}", newline='', encoding='utf-8') as f:
+        for row in csv.DictReader(f):
+            if str(row.get("deleted","")).lower() in ("true","1","yes"):
+                cnt += 1
 except FileNotFoundError:
     pass
 print(cnt)
 PY
-"$CLEANUP_REPORT"
 )
 
-echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB_project,Freed_GB_sum_of_folders,Sessions_Deleted" > "$AUDIT_FILE"
-echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED_PROJECT},${FREED_SUM},${DELETED_COUNT}" >> "$AUDIT_FILE"
-
-echo "[INFO] Audit CSV written to: ${AUDIT_FILE}"
+# 4) Write audit CSV
+echo "Project_ID,Date,Freed_GB_sum_of_folders,Sessions_Deleted" > "$AUDIT_FILE"
+echo "${PROJECT_ID},${TODAY},${FREED_SUM_GB},${SESSIONS_DELETED}" >> "$AUDIT_FILE"
+echo "[INFO] Audit CSV written: ${AUDIT_FILE}"
 cat "$AUDIT_FILE"
 
+# 5) Upload audit CSV to project resources
+echo "[STEP] Uploading audit CSV to XNAT..."
+python3 - <<'PY'
+from download_with_session_ID import upload_project_file_to_xnat
+upload_project_file_to_xnat("${PROJECT_ID}", "${AUDIT_FILE}", resource_name="AUDIT_REPORTS")
+PY
 
+echo "[✅] Folders-only audit complete for ${PROJECT_ID}."
+
+
+
+##!/bin/bash
+## =====================================================
+## Usage:
+##   ./audit_project_cleanup.sh PROJECT_ID
+##
+## Example:
+##   ./audit_project_cleanup.sh BJH_ICH
+##
+## This script:
+##   1️⃣ Gets project size before cleanup
+##   2️⃣ Exports experiment list to CSV
+##   3️⃣ Runs batch cleanup
+##   4️⃣ Gets project size after cleanup
+##   5️⃣ Writes an audit CSV (with before/after sizes)
+##   6️⃣ Uploads the audit CSV to XNAT project resource "AUDIT_REPORTS"
+## =====================================================
+#
+#set -euo pipefail
+#
+#PROJECT_ID="$1"
+#TODAY=$(date +%Y%m%d_%H%M%S)
+#WORKDIR="/workingoutput"
+#
+#EXPERIMENT_CSV="${WORKDIR}/${PROJECT_ID}_experiments.csv"
+#CLEANUP_REPORT="${WORKDIR}/${PROJECT_ID}_cleanup_report.csv"
+#AUDIT_FILE="${WORKDIR}/audit_${TODAY}.csv"
+#
+#echo "[INFO] Starting cleanup audit for project: ${PROJECT_ID}"
+#echo "[INFO] Working directory: ${WORKDIR}"
+#echo "[INFO] Audit file will be: ${AUDIT_FILE}"
 #
 ## -----------------------------------------------------
-## 5️⃣ Compute difference and write audit CSV
+## 1️⃣ Measure project size BEFORE cleanup
 ## -----------------------------------------------------
-#FREED=$(python3 -c "print(round(${BEFORE_SIZE} - ${AFTER_SIZE}, 2))")
-#echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB" > "$AUDIT_FILE"
-#echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED}" >> "$AUDIT_FILE"
+#echo "[STEP] Measuring project size (before cleanup)..."
+## Measure project size (before cleanup)
+#BEFORE=$(python3 - <<EOF
+#import warnings, json
+#warnings.filterwarnings("ignore")
+#from download_with_session_ID import get_project_storage_size
+#print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
+#EOF
+#)
+#BEFORE_SIZE=$(echo "$BEFORE" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
+#echo ${BEFORE_SIZE}
+#
+## -----------------------------------------------------
+## 2️⃣ Export experiments for the project
+## -----------------------------------------------------
+#echo "[STEP] Exporting experiment list to: ${EXPERIMENT_CSV}"
+#python3 - <<EOF
+#from download_with_session_ID import export_project_experiments_to_csv
+#export_project_experiments_to_csv("${PROJECT_ID}", "${EXPERIMENT_CSV}")
+#EOF
+#
+## -----------------------------------------------------
+## 3️⃣ Run batch cleanup
+## -----------------------------------------------------
+#echo "[STEP] Running batch cleanup..."
+#python3 - "$EXPERIMENT_CSV" "$CLEANUP_REPORT" <<'PY'
+#import sys
+#from download_with_session_ID import batch_cleanup_from_experiment_csv
+#csv_path, report_path = sys.argv[1], sys.argv[2]
+#batch_cleanup_from_experiment_csv(csv_path, report_path)
+#PY
+#
+## -----------------------------------------------------
+## 4️⃣ Measure project size AFTER cleanup
+## -----------------------------------------------------
+#echo "[STEP] Measuring project size (after cleanup)..."
+## Measure project size (after cleanup)
+#AFTER=$(python3 - <<EOF
+#import warnings, json
+#warnings.filterwarnings("ignore")
+#from download_with_session_ID import get_project_storage_size
+#print(json.dumps(get_project_storage_size("${PROJECT_ID}")))
+#EOF
+#)
+#AFTER_SIZE=$(echo "$AFTER" | grep -o '{.*}' | python3 -c 'import sys,json; print(json.load(sys.stdin)["size_gb"])')
+#
+## -----------------------------------------------------
+## 5️⃣ Compute differences and write audit CSV
+##     - Freed_GB_project: from project BEFORE vs AFTER
+##     - Freed_GB_sum_of_folders: sum of per-session deleted_bytes
+## -----------------------------------------------------
+#FREED_PROJECT=$(python3 - <<PY
+#before=${BEFORE_SIZE}
+#after=${AFTER_SIZE}
+#print(round(float(before) - float(after), 2))
+#PY
+#)
+#
+#FREED_SUM=$(python3 - <<'PY'
+#import sys, csv
+#import math
+#
+#path = sys.argv[1]
+#total_bytes = 0
+#try:
+#    with open(path, newline='', encoding='utf-8') as f:
+#        r = csv.DictReader(f)
+#        for row in r:
+#            try:
+#                total_bytes += int(row.get("deleted_bytes", 0) or 0)
+#            except Exception:
+#                pass
+#except FileNotFoundError:
+#    pass
+#
+#gb = total_bytes / (1024**3)
+#print(f"{gb:.2f}")
+#PY
+#"$CLEANUP_REPORT"
+#)
+#
+## Optional: also count how many sessions actually deleted something
+#DELETED_COUNT=$(python3 - <<'PY'
+#import sys, csv
+#cnt = 0
+#try:
+#    with open(sys.argv[1], newline='', encoding='utf-8') as f:
+#        r = csv.DictReader(f)
+#        for row in r:
+#            if str(row.get("deleted", "")).lower() in ("true","1","yes"):
+#                try:
+#                    if int(row.get("deleted_bytes", 0) or 0) >= 0:
+#                        cnt += 1
+#                except Exception:
+#                    cnt += 1
+#except FileNotFoundError:
+#    pass
+#print(cnt)
+#PY
+#"$CLEANUP_REPORT"
+#)
+#
+#echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB_project,Freed_GB_sum_of_folders,Sessions_Deleted" > "$AUDIT_FILE"
+#echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED_PROJECT},${FREED_SUM},${DELETED_COUNT}" >> "$AUDIT_FILE"
 #
 #echo "[INFO] Audit CSV written to: ${AUDIT_FILE}"
 #cat "$AUDIT_FILE"
 #
-## -----------------------------------------------------
-## 6️⃣ Upload audit file to XNAT project resources
-## -----------------------------------------------------
-#echo "[STEP] Uploading audit CSV to XNAT project resources..."
-##PROJECT_ID="$1"
-#FILE_PATH="$AUDIT_FILE"
 #
-#python3 - <<EOF
-#from download_with_session_ID import upload_project_file_to_xnat
-#upload_project_file_to_xnat("${PROJECT_ID}", "${FILE_PATH}", resource_name="AUDIT_REPORTS")
-#EOF
-#echo "[✅] Audit complete and uploaded to XNAT project ${PROJECT_ID}."
+##
+### -----------------------------------------------------
+### 5️⃣ Compute difference and write audit CSV
+### -----------------------------------------------------
+##FREED=$(python3 -c "print(round(${BEFORE_SIZE} - ${AFTER_SIZE}, 2))")
+##echo "Project_ID,Date,Size_Before_GB,Size_After_GB,Freed_GB" > "$AUDIT_FILE"
+##echo "${PROJECT_ID},${TODAY},${BEFORE_SIZE},${AFTER_SIZE},${FREED}" >> "$AUDIT_FILE"
+##
+##echo "[INFO] Audit CSV written to: ${AUDIT_FILE}"
+##cat "$AUDIT_FILE"
+##
+### -----------------------------------------------------
+### 6️⃣ Upload audit file to XNAT project resources
+### -----------------------------------------------------
+##echo "[STEP] Uploading audit CSV to XNAT project resources..."
+###PROJECT_ID="$1"
+##FILE_PATH="$AUDIT_FILE"
+##
+##python3 - <<EOF
+##from download_with_session_ID import upload_project_file_to_xnat
+##upload_project_file_to_xnat("${PROJECT_ID}", "${FILE_PATH}", resource_name="AUDIT_REPORTS")
+##EOF
+##echo "[✅] Audit complete and uploaded to XNAT project ${PROJECT_ID}."

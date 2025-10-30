@@ -3260,7 +3260,14 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
             result["reason"] = "Name column missing"
             return result
 
-        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
+        # pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
+        # replace the pdf_df line and size cast
+        pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)].copy()
+        if size_col:
+            pdf_df["_size_bytes"] = (
+                pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype("int64")
+            )
+
         if pdf_df.empty:
             result["reason"] = "No PDF found"
             return result

@@ -33,6 +33,7 @@ echo "[INFO] Audit file will be: ${AUDIT_FILE}"
 # 1️⃣ Measure project size BEFORE cleanup
 # -----------------------------------------------------
 echo "[STEP] Measuring project size (before cleanup)..."
+
 # Measure project size (before cleanup)
 BEFORE=$(python3 - <<EOF
 import warnings, json
@@ -57,11 +58,12 @@ EOF
 # 3️⃣ Run batch cleanup
 # -----------------------------------------------------
 echo "[STEP] Running batch cleanup..."
-python3 - "$EXPERIMENT_CSV" "$CLEANUP_REPORT" <<'PY'
+DIRECTORY_TO_CHECK='ICH_PHE_QUANTIFICATION'
+python3 - "$EXPERIMENT_CSV" "$CLEANUP_REPORT" "${DIRECTORY_TO_CHECK}" <<'PY'
 import sys
 from download_with_session_ID import batch_cleanup_from_experiment_csv
-csv_path, report_path = sys.argv[1], sys.argv[2]
-batch_cleanup_from_experiment_csv(csv_path, report_path)
+csv_path, report_path,DIRECTORY_TO_CHECK = sys.argv[1], sys.argv[2] , sys.argv[3]
+batch_cleanup_from_experiment_csv(csv_path, report_path,DIRECTORY_TO_CHECK)
 PY
 
 # -----------------------------------------------------

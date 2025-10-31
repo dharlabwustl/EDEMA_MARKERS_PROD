@@ -58,7 +58,7 @@ EOF
 # 3️⃣ Run batch cleanup
 # -----------------------------------------------------
 echo "[STEP] Running batch cleanup..."
-DIRECTORY_TO_CHECK='ICH_PHE_QUANTIFICATION'
+DIRECTORY_TO_CHECK='EDEMA_BIOMARKER' #ICH_PHE_QUANTIFICATION'
 python3 - "$EXPERIMENT_CSV" "$CLEANUP_REPORT" "${DIRECTORY_TO_CHECK}" <<'PY'
 import sys
 from download_with_session_ID import batch_cleanup_from_experiment_csv

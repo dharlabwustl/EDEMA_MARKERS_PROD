@@ -3172,10 +3172,22 @@ def get_project_storage_size(project_id):
         print(f"[WARN] get_project_storage_size failed for {project_id}: {e}")
         return {"project_id": project_id, "size_bytes": 0, "size_gb": 0}
 
-def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv"):
+def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv", folder_name="EDEMA_BIOMARKER"):
     """
     Safely iterate through all session IDs in experiment CSV.
-    Continues even if file or folder is missing.
+    For each session:
+      - Checks the specified folder (e.g., 'EDEMA_BIOMARKER') for PDF > 1 MB.
+      - Deletes 'PREPROCESS_SEGM' if such a PDF exists.
+    Continues even if a session or folder is missing.
+
+    Parameters
+    ----------
+    csv_path : str
+        Path to the experiment CSV file (must contain 'ID' column).
+    report_csv : str, optional
+        Output path for the cleanup report CSV (default: 'cleanup_report.csv').
+    folder_name : str, optional
+        The resource folder name to check for PDFs (default: 'EDEMA_BIOMARKER').
     """
     import pandas as pd
     results = []
@@ -3198,10 +3210,9 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
     for sid in session_ids:
         print(f"\n[INFO] Processing session: {sid}")
         try:
-            res = cleanup_preprocess_if_edema_pdf_exists(sid)
+            res = cleanup_preprocess_if_edema_pdf_exists(sid, folder_name=folder_name)
             results.append(res)
             print(f"  → {res['reason']}")
-            # break
         except Exception as e:
             results.append({"session_id": sid, "scan_id": None, "deleted": False, "reason": f"Exception: {e}"})
             print(f"  ⚠️ Exception while processing {sid}: {e}")
@@ -3212,14 +3223,134 @@ def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv")
 
     return summary_df
 
+# def batch_cleanup_from_experiment_csv(csv_path, report_csv="cleanup_report.csv"):
+#     """
+#     Safely iterate through all session IDs in experiment CSV.
+#     Continues even if file or folder is missing.
+#     """
+#     import pandas as pd
+#     results = []
+#
+#     try:
+#         df = pd.read_csv(csv_path)
+#     except Exception as e:
+#         print(f"[WARN] Could not read {csv_path}: {e}")
+#         pd.DataFrame().to_csv(report_csv, index=False)
+#         return pd.DataFrame()
+#
+#     if "ID" not in df.columns:
+#         print(f"[WARN] 'ID' column missing in {csv_path}")
+#         pd.DataFrame().to_csv(report_csv, index=False)
+#         return pd.DataFrame()
+#
+#     session_ids = df["ID"].dropna().astype(str).tolist()
+#     print(f"[INFO] Found {len(session_ids)} sessions in {csv_path}")
+#
+#     for sid in session_ids:
+#         print(f"\n[INFO] Processing session: {sid}")
+#         try:
+#             res = cleanup_preprocess_if_edema_pdf_exists(sid)
+#             results.append(res)
+#             print(f"  → {res['reason']}")
+#             # break
+#         except Exception as e:
+#             results.append({"session_id": sid, "scan_id": None, "deleted": False, "reason": f"Exception: {e}"})
+#             print(f"  ⚠️ Exception while processing {sid}: {e}")
+#
+#     summary_df = pd.DataFrame(results)
+#     summary_df.to_csv(report_csv, index=False)
+#     print(f"\n[INFO] Cleanup summary saved to: {report_csv}")
+#
+#     return summary_df
+#
 
-def cleanup_preprocess_if_edema_pdf_exists(session_id):
+# def cleanup_preprocess_if_edema_pdf_exists(session_id):
+#     """
+#     For a given session_id:
+#       1. Find the selected scan.
+#       2. Check 'EDEMA_BIOMARKER' for PDF > 1 MB.
+#       3. If found, delete 'PREPROCESS_SEGM'.
+#     Always returns gracefully.
+#     """
+#     import pandas as pd
+#     threshold_bytes = 1 * 1024 * 1024
+#     result = {"session_id": session_id, "scan_id": None, "deleted": False, "reason": ""}
+#
+#     try:
+#         xnatSession.renew_httpsession()
+#         # scan_info_str = find_selected_scan_id(session_id)
+#         scan_id, scan_name=find_selected_scan_id(session_id)
+#         # if not scan_info_str or "SCAN_ID" not in scan_info_str:
+#         #     result["reason"] = "No selected scan found"
+#         #     return result
+#
+#         # scan_id = scan_info_str.split("::")[2].strip('" \n\t')
+#         result["scan_id"] = scan_id
+#
+#         # List EDEMA_BIOMARKER
+#         list_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/EDEMA_BIOMARKER/files?format=json"
+#         r = xnatSession.httpsess.get(xnatSession.host + list_url)
+#         if r.status_code != 200:
+#             result["reason"] = f"EDEMA_BIOMARKER not accessible (status {r.status_code})"
+#             return result
+#
+#         files = r.json().get("ResultSet", {}).get("Result", [])
+#         if not files:
+#             result["reason"] = "No files in EDEMA_BIOMARKER"
+#             return result
+#
+#         df = pd.DataFrame(files)
+#         name_col = "Name" if "Name" in df.columns else "name"
+#         size_cols = [c for c in df.columns if c.lower() in {"size", "filesize", "file_size"}]
+#         size_col = size_cols[0] if size_cols else None
+#
+#         if name_col not in df.columns:
+#             result["reason"] = "Name column missing"
+#             return result
+#
+#         pdf_df = df[df[name_col].str.lower().str.endswith(".pdf", na=False)]
+#         if pdf_df.empty:
+#             result["reason"] = "No PDF found"
+#             return result
+#
+#         if size_col:
+#             pdf_df["_size_bytes"] = pd.to_numeric(pdf_df[size_col], errors="coerce").fillna(0).astype(int)
+#             large_pdfs = pdf_df[pdf_df["_size_bytes"] > threshold_bytes]
+#         else:
+#             large_pdfs = pdf_df
+#
+#         if large_pdfs.empty:
+#             result["reason"] = "No PDF >1MB found"
+#             return result
+#
+#         # Delete PREPROCESS_SEGM
+#         del_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/PREPROCESS_SEGM"
+#         del_resp = xnatSession.httpsess.delete(xnatSession.host + del_url)
+#         if del_resp.status_code in (200, 202, 204):
+#             result["deleted"] = True
+#             result["reason"] = "PREPROCESS_SEGM deleted"
+#         else:
+#             result["reason"] = f"Delete failed ({del_resp.status_code})"
+#
+#     except Exception as e:
+#         result["reason"] = f"Error: {e}"
+#
+#     return result
+
+def cleanup_preprocess_if_edema_pdf_exists(session_id, folder_name="EDEMA_BIOMARKER"):
     """
     For a given session_id:
       1. Find the selected scan.
-      2. Check 'EDEMA_BIOMARKER' for PDF > 1 MB.
+      2. Check the given folder (e.g., 'EDEMA_BIOMARKER') for any PDF > 1 MB.
       3. If found, delete 'PREPROCESS_SEGM'.
     Always returns gracefully.
+
+    Parameters
+    ----------
+    session_id : str
+        XNAT session ID.
+    folder_name : str, optional
+        Resource folder to check for PDFs (default: 'EDEMA_BIOMARKER').
     """
     import pandas as pd
     threshold_bytes = 1 * 1024 * 1024
@@ -3227,25 +3358,19 @@ def cleanup_preprocess_if_edema_pdf_exists(session_id):
 
     try:
         xnatSession.renew_httpsession()
-        # scan_info_str = find_selected_scan_id(session_id)
-        scan_id, scan_name=find_selected_scan_id(session_id)
-        # if not scan_info_str or "SCAN_ID" not in scan_info_str:
-        #     result["reason"] = "No selected scan found"
-        #     return result
-
-        # scan_id = scan_info_str.split("::")[2].strip('" \n\t')
+        scan_id, scan_name = find_selected_scan_id(session_id)
         result["scan_id"] = scan_id
 
-        # List EDEMA_BIOMARKER
-        list_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/EDEMA_BIOMARKER/files?format=json"
+        # List files in the specified folder
+        list_url = f"/data/experiments/{session_id}/scans/{scan_id}/resources/{folder_name}/files?format=json"
         r = xnatSession.httpsess.get(xnatSession.host + list_url)
         if r.status_code != 200:
-            result["reason"] = f"EDEMA_BIOMARKER not accessible (status {r.status_code})"
+            result["reason"] = f"{folder_name} not accessible (status {r.status_code})"
             return result
 
         files = r.json().get("ResultSet", {}).get("Result", [])
         if not files:
-            result["reason"] = "No files in EDEMA_BIOMARKER"
+            result["reason"] = f"No files in {folder_name}"
             return result
 
         df = pd.DataFrame(files)

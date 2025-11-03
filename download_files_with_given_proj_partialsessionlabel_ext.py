@@ -72,15 +72,7 @@ def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir:
     return csv_path
 
 
-if __name__ == "__main__":
-    import argparse
-    ap = argparse.ArgumentParser(description="List and save all files inside a resource folder for one session")
-    ap.add_argument("session_id", help="XNAT experiment/session ID")
-    ap.add_argument("resource_name", help="Resource folder name, e.g. NIFTI_LOCATION or REPORTS")
-    ap.add_argument("out_dir", help="Output folder for CSV")
-    args = ap.parse_args()
 
-    save_resource_file_list_to_csv(args.session_id, args.resource_name, args.out_dir)
 
 
 
@@ -170,7 +162,7 @@ def save_experiment_list(project: str, out_csv: str) -> str:
     prefix='VNSICH'
     out_csv_1=out_csv.split('.csv')[0]+'_'+prefix+'.csv'
     filter_experiment_list_by_prefix(out_csv, prefix, out_csv_1)
-    iterate_session_ids_from_subset(out_csv_1)
+    # iterate_session_ids_from_subset(out_csv_1)
     return out_csv
 
 if __name__ == "__main__":

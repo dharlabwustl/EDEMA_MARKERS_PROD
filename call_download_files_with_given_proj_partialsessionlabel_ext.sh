@@ -6,10 +6,12 @@ PREFIX="VNSICH"
 RESOURCE="ICH_PHE_QUANTIFICATION"
 SUFFIX="pdf"
 OUTDIR="/workingoutput"
+python3 download_files_with_given_proj_partialsessionlabel_ext.py "$PROJECT"  "$OUTDIR"/"$PROJECT"_experiments.csv
 
-python3 download_files_with_given_proj_partialsessionlabel_ext.py \
-    "$PROJECT" \
-    "$PREFIX" \
-    "$RESOURCE" \
-    "$SUFFIX" \
-    "$OUTDIR"
+#
+#python3 download_files_with_given_proj_partialsessionlabel_ext.py \
+#    "$PROJECT" \
+#    "$PREFIX" \
+#    "$RESOURCE" \
+#    "$SUFFIX" \
+#    "$OUTDIR"

@@ -5,6 +5,33 @@ import os
 import csv
 from download_with_session_ID import get_allsessionlist_in_a_project
 
+def filter_experiment_list_by_prefix(in_csv: str, prefix: str, out_csv: str) -> str:
+    """
+    Read a CSV of all experiments, filter by session label prefix,
+    and save the subset to a new CSV.
+    """
+    if not os.path.exists(in_csv):
+        raise FileNotFoundError(f"Input CSV not found: {in_csv}")
+
+    with open(in_csv, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = [r for r in reader if str(r.get("label", "")).startswith(prefix)]
+
+    if not rows:
+        print(f"⚠️ No experiments found with prefix '{prefix}'")
+        return ""
+
+    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+
+    fieldnames = rows[0].keys()
+    with open(out_csv, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    print(f"✅ Saved {len(rows)} experiments (prefix '{prefix}') to {out_csv}")
+    return out_csv
+
 def save_experiment_list(project: str, out_csv: str) -> str:
     """
     Fetch experiment (session) list for a project and save to CSV.
@@ -31,6 +58,9 @@ def save_experiment_list(project: str, out_csv: str) -> str:
         writer.writerows(sessions)
 
     print(f"✅ Saved {len(sessions)} experiments for project '{project}' to {out_csv}")
+    prefix='VNSICH'
+    out_csv_1=out_csv.split('.csv')[0]+'_'+prefix+'.csv'
+    filter_experiment_list_by_prefix(out_csv, prefix, out_csv_1)
     return out_csv
 
 if __name__ == "__main__":

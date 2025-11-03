@@ -19,7 +19,7 @@ Reuses your existing helpers from download_with_session_ID.py:
   - download_a_file_with_ext is used for both the NIFTI_LOCATION.csv and
     target resource files.
 """
-from __future__ import annotations
+# from __future__ import annotations
 
 import os
 import csv

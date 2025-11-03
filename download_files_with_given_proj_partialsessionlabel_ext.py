@@ -23,7 +23,8 @@ def list_files_in_resource(session_id: str, resource_name: str) -> List[Dict[str
     list of dict : metadata for each file (Name, URI, Size, etc.)
     """
     try:
-        files = get_resourcefiles_metadata(session_id, resource_name)
+        URI=f"/data/experiments/{session_id}"
+        files = get_resourcefiles_metadata(URI, resource_name)
         if not files:
             print(f"⚠️ No files found in resource '{resource_name}' for {session_id}")
             return []

@@ -3,8 +3,87 @@
 
 import os
 import csv
-from typing import List
-from download_with_session_ID import get_allsessionlist_in_a_project
+from typing import List, Dict
+from download_with_session_ID import get_allsessionlist_in_a_project,get_resourcefiles_metadata
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+def list_files_in_resource(session_id: str, resource_name: str) -> List[Dict[str, str]]:
+    """
+    Use get_resourcefiles_metadata() to list all files in a resource folder for a session.
+
+    Parameters
+    ----------
+    session_id : str
+        XNAT experiment/session ID
+    resource_name : str
+        Resource folder name, e.g. 'NIFTI_LOCATION' or 'PDFS'
+
+    Returns
+    -------
+    list of dict : metadata for each file (Name, URI, Size, etc.)
+    """
+    try:
+        files = get_resourcefiles_metadata(session_id, resource_name)
+        if not files:
+            print(f"⚠️ No files found in resource '{resource_name}' for {session_id}")
+            return []
+        print(f"✅ Found {len(files)} files in resource '{resource_name}' for {session_id}")
+        return files
+    except Exception as e:
+        print(f"❌ Error listing files in resource {resource_name} for {session_id}: {e}")
+        return []
+
+
+def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir: str) -> str:
+    """
+    Lists files in a resource folder and saves metadata as CSV.
+
+    Parameters
+    ----------
+    session_id : str
+        XNAT experiment/session ID
+    resource_name : str
+        Resource folder name, e.g. 'NIFTI_LOCATION' or 'PDFS'
+    out_dir : str
+        Folder to save CSV file in
+
+    Returns
+    -------
+    str : full path to saved CSV file
+    """
+    os.makedirs(out_dir, exist_ok=True)
+    files = list_files_in_resource(session_id, resource_name)
+    if not files:
+        return ""
+
+    # Determine CSV filename and fields
+    csv_path = os.path.join(out_dir, f"{session_id}_{resource_name}_filelist.csv")
+    fieldnames = sorted({k for f in files for k in f.keys()})
+
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["Session_ID", "Resource"] + fieldnames)
+        writer.writeheader()
+        for item in files:
+            row = {"Session_ID": session_id, "Resource": resource_name}
+            row.update(item)
+            writer.writerow(row)
+
+    print(f"📄 Saved file list for {session_id}:{resource_name} → {csv_path}")
+    return csv_path
+
+
+if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(description="List and save all files inside a resource folder for one session")
+    ap.add_argument("session_id", help="XNAT experiment/session ID")
+    ap.add_argument("resource_name", help="Resource folder name, e.g. NIFTI_LOCATION or REPORTS")
+    ap.add_argument("out_dir", help="Output folder for CSV")
+    args = ap.parse_args()
+
+    save_resource_file_list_to_csv(args.session_id, args.resource_name, args.out_dir)
+
+
+
 def iterate_session_ids_from_subset(subset_csv: str) -> List[str]:
     """
     Reads a filtered subset CSV (from Step 2) and extracts session IDs.
@@ -21,16 +100,19 @@ def iterate_session_ids_from_subset(subset_csv: str) -> List[str]:
     """
     if not os.path.exists(subset_csv):
         raise FileNotFoundError(f"File not found: {subset_csv}")
-
+    resource_name="NIFTI_LOCATION"
     session_ids = []
+    out_dir=os.path.dirname(subset_csv)
     with open(subset_csv, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             sid = row.get("ID") or row.get("id")
             if sid:
                 session_ids.append(str(sid))
+                save_resource_file_list_to_csv(str(sid), resource_name, out_dir)
 
     print(f"✅ Found {len(session_ids)} session IDs in {subset_csv}")
+
     return session_ids
 def filter_experiment_list_by_prefix(in_csv: str, prefix: str, out_csv: str) -> str:
     """

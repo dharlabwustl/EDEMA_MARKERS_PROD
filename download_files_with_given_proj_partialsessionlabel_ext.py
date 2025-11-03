@@ -3,8 +3,35 @@
 
 import os
 import csv
+from typing import List
 from download_with_session_ID import get_allsessionlist_in_a_project
+def iterate_session_ids_from_subset(subset_csv: str) -> List[str]:
+    """
+    Reads a filtered subset CSV (from Step 2) and extracts session IDs.
 
+    Parameters
+    ----------
+    subset_csv : str
+        Path to filtered CSV containing at least a column 'ID'.
+
+    Returns
+    -------
+    list of str
+        All session IDs found in the 'ID' column.
+    """
+    if not os.path.exists(subset_csv):
+        raise FileNotFoundError(f"File not found: {subset_csv}")
+
+    session_ids = []
+    with open(subset_csv, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            sid = row.get("ID") or row.get("id")
+            if sid:
+                session_ids.append(str(sid))
+
+    print(f"✅ Found {len(session_ids)} session IDs in {subset_csv}")
+    return session_ids
 def filter_experiment_list_by_prefix(in_csv: str, prefix: str, out_csv: str) -> str:
     """
     Read a CSV of all experiments, filter by session label prefix,
@@ -61,6 +88,7 @@ def save_experiment_list(project: str, out_csv: str) -> str:
     prefix='VNSICH'
     out_csv_1=out_csv.split('.csv')[0]+'_'+prefix+'.csv'
     filter_experiment_list_by_prefix(out_csv, prefix, out_csv_1)
+    iterate_session_ids_from_subset(out_csv_1)
     return out_csv
 
 if __name__ == "__main__":

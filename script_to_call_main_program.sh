@@ -466,3 +466,7 @@ PROJECT_ID=${SESSION_ID}
 /software/delete_intermediate_files.sh $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_SELECTED_FILES' ]]; then
+PROJECT_ID=${SESSION_ID}
+/software/delete_intermediate_files.sh $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi

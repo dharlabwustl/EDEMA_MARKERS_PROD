@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
+import os,json
 import csv
 from typing import List, Dict
 from download_with_session_ID import get_allsessionlist_in_a_project,get_resourcefiles_metadata,download_a_singlefile_with_URIString
@@ -79,6 +79,30 @@ def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir:
     for value in df["URI"]:
         # print(value)
         download_a_singlefile_with_URIString(str(value), os.path.basename(str(value)), output_dirname)
+        this_f=os.path.join( output_dirname,os.path.basename(str(value)))
+        this_df=pd.read_csv(this_f)
+        for scan_id in this_df["ID"]:
+            print(f"{session_id}::{scan_id}")
+            scan_uri='/data/experiments/{session_id}/scans/{scan_id}'
+            metadata_resource=get_resourcefiles_metadata(scan_uri,'ICH_PHE_QUANTIFICATION')
+            try:
+                df_scan = pd.read_json(json.dumps(metadata_resource))
+                pd.DataFrame(df_scan).to_csv(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv'), index=False)
+                if os.path.exists(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv')):
+                    df_resource = pd.read_csv(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv'))
+                    for df_resource_uri in df_resource["URI"]:
+                        if 'pdf'  in str(df_resource_uri):
+                            download_a_singlefile_with_URIString(str(str(df_resource_uri)), os.path.basename(str(str(df_resource_uri))), output_dirname)
+                        if 'csv'  in str(df_resource_uri):
+                            download_a_singlefile_with_URIString(str(str(df_resource_uri)), os.path.basename(str(str(df_resource_uri))), output_dirname)
+
+
+
+
+            except Exception as e:
+                pass
+
+
     return csv_path
 
 

@@ -101,7 +101,7 @@ def iterate_session_ids_from_subset(subset_csv: str) -> List[str]:
             sid = row.get("ID") or row.get("id")
             if sid:
                 session_ids.append(str(sid))
-                # save_resource_file_list_to_csv(str(sid), resource_name, out_dir)
+                save_resource_file_list_to_csv(str(sid), resource_name, out_dir)
 
     print(f"✅ Found {len(session_ids)} session IDs in {subset_csv}")
 

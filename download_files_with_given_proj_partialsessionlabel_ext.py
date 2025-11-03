@@ -83,7 +83,7 @@ def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir:
         this_df=pd.read_csv(this_f)
         for scan_id in this_df["ID"]:
             print(f"{session_id}::{scan_id}")
-            scan_uri='/data/experiments/{session_id}/scans/{scan_id}'
+            scan_uri=f'/data/experiments/{session_id}/scans/{scan_id}'
             metadata_resource=get_resourcefiles_metadata(scan_uri,'ICH_PHE_QUANTIFICATION')
             # try:
             #     df_scan = pd.read_json(json.dumps(metadata_resource))

@@ -101,7 +101,7 @@ def iterate_session_ids_from_subset(subset_csv: str) -> List[str]:
             sid = row.get("ID") or row.get("id")
             if sid:
                 session_ids.append(str(sid))
-                save_resource_file_list_to_csv(str(sid), resource_name, out_dir)
+                # save_resource_file_list_to_csv(str(sid), resource_name, out_dir)
 
     print(f"✅ Found {len(session_ids)} session IDs in {subset_csv}")
 
@@ -162,7 +162,7 @@ def save_experiment_list(project: str, out_csv: str) -> str:
     prefix='VNSICH'
     out_csv_1=out_csv.split('.csv')[0]+'_'+prefix+'.csv'
     filter_experiment_list_by_prefix(out_csv, prefix, out_csv_1)
-    # iterate_session_ids_from_subset(out_csv_1)
+    iterate_session_ids_from_subset(out_csv_1)
     return out_csv
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
 import os
 import csv
 from typing import List, Dict
-from download_with_session_ID import get_allsessionlist_in_a_project,get_resourcefiles_metadata
+from download_with_session_ID import get_allsessionlist_in_a_project,get_resourcefiles_metadata,download_a_singlefile_with_URIString
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 def list_files_in_resource(session_id: str, resource_name: str) -> List[Dict[str, str]]:
@@ -70,6 +70,15 @@ def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir:
             writer.writerow(row)
 
     print(f"📄 Saved file list for {session_id}:{resource_name} → {csv_path}")
+    import pandas as pd
+
+    # Read CSV
+    df = pd.read_csv(csv_path)
+    output_dirname='/workingoutput'
+    # Iterate through a specific column, e.g., 'Name'
+    for value in df["URI"]:
+        # print(value)
+        download_a_singlefile_with_URIString(str(value), os.path.basename(str(value)), output_dirname)
     return csv_path
 
 

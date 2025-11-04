@@ -472,6 +472,6 @@ PROJECT_ID=${SESSION_ID}
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'GIVEN_SESSION_RESOURCE_FILE_EXT_DOWNLOAD' ]]; then
-PROJECT_ID=${SESSION_ID}
+PROJECT_ID="SNIPR12_E00443::ICH_PHE_QUANTIFICATION::pdf" #${SESSION_ID}
 /software/call_download_files_with_given_proj_partialsessionlabel_ext_1.sh  $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

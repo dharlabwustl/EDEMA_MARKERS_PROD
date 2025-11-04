@@ -10,7 +10,7 @@ FUNC_NAME='given_session_id_download_file_with_extension' #'given_experiment_fin
 #ARG1=SNIPR12_E00443 #ICH
 #ARG2=ICH_PHE_QUANTIFICATION
 #ARG3=pdf
-ARGS="SNIPR12_E00443::ICH_PHE_QUANTIFICATION::pdf"
+ARGS=${1}
 
 
 

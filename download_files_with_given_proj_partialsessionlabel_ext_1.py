@@ -32,11 +32,13 @@ def given_experiment_download_a_resource_flist(experiment_id,resource_dir):
     return outputfie
 def given_experiment_find_selected_scan(experiment_id):
     outputfie=given_experiment_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
-    # download_a_singlefile_with_URIString(
-    #     str(df_scan['URI'].iloc[0]),
-    #     os.path.basename(str(df_scan['URI'].iloc[0])),
-    #     dir_to_save
-    # )
+    outputfie_df=pd.read_csv(outputfie)
+    for row_id,row in outputfie_df.iterrows():
+        uri=str(row['URI'])
+        download_a_singlefile_with_URIString(
+        uri,
+        os.path.basename(uri),
+        '/workingoutput')
     return "X"
 def given_experiment_n_scan_resource_file_ext_download_the_files():
     return "X"

@@ -13,8 +13,11 @@ FUNC_NAME='given_session_id_download_file_with_extension' #'given_experiment_fin
 ARGS="SNIPR12_E00443::ICH_PHE_QUANTIFICATION::pdf"
 
 
-# Split by '::' into array
-IFS='::' read -r ARG1 ARG2 ARG3 <<< "$ARGS"
+
+ARG1=$(awk -F'::' '{print $1}' <<< "$ARGS")
+ARG2=$(awk -F'::' '{print $2}' <<< "$ARGS")
+ARG3=$(awk -F'::' '{print $3}' <<< "$ARGS")
+
 echo "ARG1=$ARG1"
 echo "ARG2=$ARG2"
 echo "ARG3=$ARG3"

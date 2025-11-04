@@ -5,9 +5,10 @@
 # Example:
 # ./run_function.sh given_project_download_experimentslist PROJ123
 
-FUNC_NAME='given_experiment_find_selected_scan'
+FUNC_NAME='given_a_file_ext_n_resource_list_download_the_file' #'given_experiment_find_selected_scan'
 ARG1=SNIPR12_E00443 #ICH
-
+ARG2=ICH_PHE_QUANTIFICATION
+ARG3=pdf
 if [ -z "$FUNC_NAME" ] || [ -z "$ARG1" ]; then
   echo "Usage: $0 <function_name> <argument>"
   exit 1
@@ -19,9 +20,11 @@ from download_files_with_given_proj_partialsessionlabel_ext_1 import *
 
 func_name = "$FUNC_NAME"
 arg1 = "$ARG1"
+arg2= "$ARG2"
+arg3= "$ARG3"
 
 if func_name in globals():
-    result = globals()[func_name](arg1)
+    result = globals()[func_name](arg1,arg2,arg3)
     print(f"✅ Function '{func_name}' returned:", result)
 else:
     print(f"❌ Function '{func_name}' not found.")

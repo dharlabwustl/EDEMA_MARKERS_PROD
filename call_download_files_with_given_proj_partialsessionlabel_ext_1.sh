@@ -5,8 +5,8 @@
 # Example:
 # ./run_function.sh given_project_download_experimentslist PROJ123
 
-FUNC_NAME='given_project_download_experimentslist'
-ARG1=ICH
+FUNC_NAME='given_experiment_find_selected_scan'
+ARG1=SNIPR12_E00443 #ICH
 
 if [ -z "$FUNC_NAME" ] || [ -z "$ARG1" ]; then
   echo "Usage: $0 <function_name> <argument>"

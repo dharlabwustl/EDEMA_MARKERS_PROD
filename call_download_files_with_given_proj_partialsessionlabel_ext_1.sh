@@ -12,11 +12,12 @@ FUNC_NAME='given_session_id_download_file_with_extension' #'given_experiment_fin
 #ARG3=pdf
 ARGS="SNIPR12_E00443::ICH_PHE_QUANTIFICATION::pdf"
 
+
+# Split by '::' into array
+IFS='::' read -r ARG1 ARG2 ARG3 <<< "$ARGS"
 echo "ARG1=$ARG1"
 echo "ARG2=$ARG2"
 echo "ARG3=$ARG3"
-# Split by '::' into array
-IFS='::' read -r ARG1 ARG2 ARG3 <<< "$ARGS"
 if [ -z "$FUNC_NAME" ] || [ -z "$ARG1" ]; then
   echo "Usage: $0 <function_name> <argument>"
   exit 1

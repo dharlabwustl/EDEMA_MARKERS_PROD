@@ -31,7 +31,7 @@ def given_experiment_download_a_resource_flist(experiment_id,resource_dir):
     pd.DataFrame(df_scan).to_csv(outputfie,index=False)
     return outputfie
 def given_experiment_find_selected_scan(experiment_id):
-    outputfie=given_experiment_n_scan_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
+    outputfie=given_experiment_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
     # download_a_singlefile_with_URIString(
     #     str(df_scan['URI'].iloc[0]),
     #     os.path.basename(str(df_scan['URI'].iloc[0])),

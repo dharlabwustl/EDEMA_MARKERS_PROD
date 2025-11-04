@@ -53,12 +53,16 @@ def given_experiment_find_selected_scan(experiment_id):
 
     return "NO_SCAN_ID_FOUND"
 def given_experiment_n_scan_download_a_resource_flist(experiment_id,scan_id,resource_dir):
-    URI=f'/data/experiments/{experiment_id}/scans/{scan_id}'
-    metadata_resource=get_resourcefiles_metadata(URI, resource_dir)
-    df_scan = pd.read_json(json.dumps(metadata_resource))
-    outputfie=os.path.join('/workingoutput',f'{experiment_id}_{scan_id}_{resource_dir}.csv')
-    pd.DataFrame(df_scan).to_csv(outputfie,index=False)
-    return outputfie
+    try:
+        URI=f'/data/experiments/{experiment_id}/scans/{scan_id}'
+        metadata_resource=get_resourcefiles_metadata(URI, resource_dir)
+        df_scan = pd.read_json(json.dumps(metadata_resource))
+        outputfie=os.path.join('/workingoutput',f'{experiment_id}_{scan_id}_{resource_dir}.csv')
+        pd.DataFrame(df_scan).to_csv(outputfie,index=False)
+        return outputfie
+    except Exception as e:
+        pass
+
     # return "X"
 
 def given_a_file_ext_n_resource_list_download_the_file(files_in_resource,extension):
@@ -73,3 +77,11 @@ def given_a_file_ext_n_resource_list_download_the_file(files_in_resource,extensi
                 '/workingoutput')
     except Exception as e:
         pass
+def given_session_id_download_file_with_extension(experiment_id,resource_dir,file_extension):
+    ## get the NIFTI_LOCATION and then the scan id
+    scan_id=given_experiment_find_selected_scan(experiment_id)
+    files_in_resource=given_experiment_n_scan_download_a_resource_flist(experiment_id, scan_id, resource_dir)
+    given_a_file_ext_n_resource_list_download_the_file(files_in_resource, file_extension)
+    ## then get the resource dir metadata
+    ## download the file
+    return "XX"

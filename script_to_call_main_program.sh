@@ -470,3 +470,8 @@ if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_SELECTED_FILES' ]]; then
 PROJECT_ID=${SESSION_ID}
 /software/call_download_files_with_given_proj_partialsessionlabel_ext.sh  $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_SELECTED_FILES_1' ]]; then
+PROJECT_ID=${SESSION_ID}
+/software/call_download_files_with_given_proj_partialsessionlabel_ext_1.sh  $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi

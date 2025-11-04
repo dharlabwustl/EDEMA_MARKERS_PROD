@@ -5,7 +5,7 @@
 # Example:
 # ./run_function.sh given_project_download_experimentslist PROJ123
 
-FUNC_NAME='given_a_file_ext_n_resource_list_download_the_file' #'given_experiment_find_selected_scan'
+FUNC_NAME='given_session_id_download_file_with_extension' #'given_experiment_find_selected_scan'
 ARG1=SNIPR12_E00443 #ICH
 ARG2=ICH_PHE_QUANTIFICATION
 ARG3=pdf

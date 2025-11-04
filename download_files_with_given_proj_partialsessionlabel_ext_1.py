@@ -22,8 +22,21 @@ def given_experiment_n_scan_download_a_resource_flist(experiment_id,scan_id,reso
     df_scan = pd.read_json(json.dumps(metadata_resource))
     outputfie=os.path.join('/workingoutput',f'{experiment_id}_{scan_id}_{resource_dir}.csv')
     pd.DataFrame(df_scan).to_csv(outputfie,index=False)
-    return "X"
+    return outputfie
+def given_experiment_download_a_resource_flist(experiment_id,resource_dir):
+    URI=f'/data/experiments/{experiment_id}'
+    metadata_resource=get_resourcefiles_metadata(URI, resource_dir)
+    df_scan = pd.read_json(json.dumps(metadata_resource))
+    outputfie=os.path.join('/workingoutput',f'{experiment_id}_{resource_dir}.csv')
+    pd.DataFrame(df_scan).to_csv(outputfie,index=False)
+    return outputfie
 def given_experiment_find_selected_scan(experiment_id):
+    outputfie=given_experiment_n_scan_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
+    # download_a_singlefile_with_URIString(
+    #     str(df_scan['URI'].iloc[0]),
+    #     os.path.basename(str(df_scan['URI'].iloc[0])),
+    #     dir_to_save
+    # )
     return "X"
 def given_experiment_n_scan_resource_file_ext_download_the_files():
     return "X"

@@ -90,6 +90,7 @@ def save_resource_file_list_to_csv(session_id: str, resource_name: str, out_dir:
                 pd.DataFrame(df_scan).to_csv(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv'), index=False)
                 if os.path.exists(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv')):
                     df_resource = pd.read_csv(os.path.join('/workingoutput', f'{session_id}_{scan_id}_ICH_PHE_QUANTIFICATION.csv'))
+
                 #     for df_resource_uri in df_resource["URI"]:
                 #         if 'pdf'  in str(df_resource_uri):
                 #             download_a_singlefile_with_URIString(str(str(df_resource_uri)), os.path.basename(str(str(df_resource_uri))), output_dirname)

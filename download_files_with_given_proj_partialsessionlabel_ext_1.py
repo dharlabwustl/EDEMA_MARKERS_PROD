@@ -8,6 +8,7 @@ from download_with_session_ID import * # get_allsessionlist_in_a_project,get_res
 
 def given_project_download_experimentslist(project_id):
     print(f"project_id::{project_id}")
+    get_metadata_project_sessionlist(project_id, outputfile=f"{project_id}.csv")
     return "X"
 def given_experiment_download_scanslist(experiment_id):
     return "X"

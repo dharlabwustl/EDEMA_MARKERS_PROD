@@ -35,8 +35,9 @@ def given_experiment_find_selected_scan(experiment_id):
         outputfie=given_experiment_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
         outputfie_df=pd.read_csv(outputfie)
         for row_id,row in outputfie_df.iterrows():
-            outputfie_return=os.path.join('/workingoutput',os.path.basename(uri))
+
             uri=str(row['URI'])
+            outputfie_return=os.path.join('/workingoutput',os.path.basename(uri))
             download_a_singlefile_with_URIString(
             uri,
             os.path.basename(uri),

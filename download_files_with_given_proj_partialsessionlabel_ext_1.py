@@ -14,7 +14,7 @@ def given_project_download_experimentslist(project_id):
     return outputfile
 def given_experiment_download_scanslist(experiment_id):
     outputfile = f"/workingoutput/{experiment_id}.csv"
-    get_metadata_session(experiment_id, ooutputfile=outputfile)
+    get_metadata_session(experiment_id, outputfile=outputfile)
     return outputfile
 def given_experiment_n_scan_download_a_resource_flist(experiment_id,scan_id,resource_dir):
     URI=f'/data/experiments/{experiment_id}/scans/{scan_id}'

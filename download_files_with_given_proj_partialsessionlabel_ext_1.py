@@ -31,14 +31,25 @@ def given_experiment_download_a_resource_flist(experiment_id,resource_dir):
     pd.DataFrame(df_scan).to_csv(outputfie,index=False)
     return outputfie
 def given_experiment_find_selected_scan(experiment_id):
-    outputfie=given_experiment_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
-    outputfie_df=pd.read_csv(outputfie)
-    for row_id,row in outputfie_df.iterrows():
-        uri=str(row['URI'])
-        download_a_singlefile_with_URIString(
-        uri,
-        os.path.basename(uri),
-        '/workingoutput')
-    return "X"
+    try:
+        outputfie=given_experiment_download_a_resource_flist(experiment_id, "NIFTI_LOCATION")
+        outputfie_df=pd.read_csv(outputfie)
+        for row_id,row in outputfie_df.iterrows():
+            outputfie_return=os.path.join('/workingoutput',os.path.basename(uri))
+            uri=str(row['URI'])
+            download_a_singlefile_with_URIString(
+            uri,
+            os.path.basename(uri),
+            '/workingoutput')
+            break
+        outputfie_return_df=pd.read_csv(outputfie_return)
+        for row_id,row in outputfie_return_df.iterrows():
+            scan_id=row['ID']
+            return scan_id
+
+    except Exception as e:
+        print(e)
+
+    return "NO_SCAN_ID_FOUND"
 def given_experiment_n_scan_resource_file_ext_download_the_files():
     return "X"

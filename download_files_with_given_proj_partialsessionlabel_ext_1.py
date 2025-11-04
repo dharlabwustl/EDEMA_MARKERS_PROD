@@ -44,7 +44,8 @@ def given_experiment_find_selected_scan(experiment_id):
             break
         outputfie_return_df=pd.read_csv(outputfie_return)
         for row_id,row in outputfie_return_df.iterrows():
-            scan_id=row['ID']
+            scan_id=str(row['ID'])
+            print(scan_id)
             return scan_id
 
     except Exception as e:

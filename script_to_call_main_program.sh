@@ -475,3 +475,10 @@ if [[ ${TYPE_OF_PROGRAM} == 'GIVEN_SESSION_RESOURCE_FILE_EXT_DOWNLOAD' ]]; then
 PROJECT_ID=${SESSION_ID}
 /software/call_download_files_with_given_proj_partialsessionlabel_ext_1.sh  $PROJECT_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
+#############################################################################################################################################
+if [[ ${TYPE_OF_PROGRAM} == 'SCAN_CALSSIFIER' ]]; then
+PROJECT_ID=${SESSION_ID}
+tree /input > /output/intput_tree.txt
+fi
+
+

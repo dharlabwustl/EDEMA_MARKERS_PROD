@@ -121,7 +121,9 @@ if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
   /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
-
+if [[ ${TYPE_OF_PROGRAM} == 'EDEMA_BIOMARKER_ON_LOCAL' ]]; then
+  /software/nwucalculation_session_level_allsteps_on_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi
 if [[ ${TYPE_OF_PROGRAM} == 2 ]]; then
   /software/nwucalculation_session_level_allsteps_November14_2022.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

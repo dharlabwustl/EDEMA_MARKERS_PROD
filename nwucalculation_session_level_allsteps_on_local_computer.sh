@@ -233,3 +233,4 @@ levelset2originalRF_new_flip()" \
 echo ">>> Starting local NWU + CSF volume pipeline..."
 nwucalculation_each_scan
 echo ">>> All done. Final outputs are in: ${final_output_directory}"
+cp ${final_output_directory}/*.*  /input/SCANS/2/EDEMA_BIOMARKER/

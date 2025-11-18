@@ -33,7 +33,7 @@ working_dir_1="/input"
 working_dir="/workinginput"
 cp /input/SCANS/2/NIFTI/*.* "${working_dir_1}/"
 cp /input/SCANS/2/PREPROCESS_SEGM/*.* "${working_dir}/"
-cp input/SCANS/2/MASKS/*.*   "${working_dir}/"
+cp /input/SCANS/2/MASKS/*.*   "${working_dir}/"
 # Output dirs
 output_directory="${3:-/workingoutput}"
 final_output_directory="${4:-/outputinsidedocker}"

@@ -163,6 +163,7 @@ main() {
     process_ct "${ct_file}"
   done
   cp ${OUTPUT_DIR}/* ${OUTPUT_DIR_FOR_SNIPR}/
+  cp ${OUTPUT_DIR}/* /input/SCANS/2/PREPROCESS_SEGM_3
   log "All CTs processed successfully."
 }
 

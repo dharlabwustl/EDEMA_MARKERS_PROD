@@ -139,6 +139,7 @@ levelset2originalRF_new_flip()
 ###############################################################################
 main() {
   echo ${1}
+  exit
   log "Starting local rigid-registration + ventricle-mask pipeline"
   log "CT directory:        ${WORKING_DIR_CT}"
   log "Mask directory:      ${WORKING_DIR_MASKS}"

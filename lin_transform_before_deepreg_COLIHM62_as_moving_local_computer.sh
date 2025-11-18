@@ -138,6 +138,7 @@ levelset2originalRF_new_flip()
 # Main loop: process all CTs in WORKING_DIR_CT
 ###############################################################################
 main() {
+  echo ${1}
   log "Starting local rigid-registration + ventricle-mask pipeline"
   log "CT directory:        ${WORKING_DIR_CT}"
   log "Mask directory:      ${WORKING_DIR_MASKS}"

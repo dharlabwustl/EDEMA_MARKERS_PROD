@@ -16,7 +16,11 @@ OUTPUT_DIR="/workingoutput"
 
 # Software directory
 SOFTWARE_DIR="/software"
-
+cp /input/SCANS/2/NIFTI/* ${WORKING_DIR_CT}/
+# Directory containing masks from prior pipeline (Yasheng outputs etc.)
+WORKING_DIR_MASKS="/workinginput"
+cp /input/SCANS/2/PREPROCESS_SEGM/* ${WORKING_DIR_MASKS}/
+cp /input/SCANS/2/PREPROCESS_SEGM_3/* ${WORKING_DIR_MASKS}/
 # Templates for rigid registration and masks
 TEMPLATE_CT="${SOFTWARE_DIR}/COLIHM620406202215542.nii.gz"
 VENTRICLE_TEMPLATE="${SOFTWARE_DIR}/VENTRICLE_COLIHM62.nii.gz"

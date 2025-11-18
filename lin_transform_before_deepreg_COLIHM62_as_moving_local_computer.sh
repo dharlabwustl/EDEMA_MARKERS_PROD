@@ -14,6 +14,7 @@ WORKING_DIR_MASKS="/workinginput"
 cp /input/SCANS/2/PREPROCESS_SEGM/* ${WORKING_DIR_MASKS}/
 # Directory where we will write intermediate and final outputs for this script
 OUTPUT_DIR="/workingoutput"
+OUTPUT_DIR_FOR_SNIPR="/outputinsidedocker"
 
 # Software directory with scripts and templates
 SOFTWARE_DIR="/software"
@@ -161,7 +162,7 @@ main() {
   for ct_file in "${ct_files[@]}"; do
     process_ct "${ct_file}"
   done
-
+  cp ${OUTPUT_DIR}/* ${OUTPUT_DIR_FOR_SNIPR}/
   log "All CTs processed successfully."
 }
 

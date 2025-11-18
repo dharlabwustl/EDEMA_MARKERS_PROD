@@ -146,7 +146,7 @@ main() {
   log "Ventricle template:  ${VENTRICLE_TEMPLATE}"
 
   # Ensure directories exist
-  mkdir -p "${WORKING_DIR_CT}" "${WORKING_DIR_MASKS}" "${OUTPUT_DIR}"
+#  mkdir -p "${WORKING_DIR_CT}" "${WORKING_DIR_MASKS}" "${OUTPUT_DIR}"
 
   shopt -s nullglob
   local ct_files=("${WORKING_DIR_CT}"/*.nii*)

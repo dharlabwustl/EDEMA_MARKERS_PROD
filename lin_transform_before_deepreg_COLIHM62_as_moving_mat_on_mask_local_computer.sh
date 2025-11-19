@@ -304,7 +304,7 @@ main() {
   for ct_file in "${ct_files[@]}"; do
     process_ct "${ct_file}"
   done
-
+cp ${OUTPUT_DIR}/*.* /input/SCANS/2/PREPROCESS_SEGM_3/
   log "All CTs processed successfully."
 }
 

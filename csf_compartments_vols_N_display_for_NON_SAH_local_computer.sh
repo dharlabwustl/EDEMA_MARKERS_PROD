@@ -462,7 +462,7 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
     split_masks_into_two_halves "_resaved_levelset_bet.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_ventricle_cistern.nii.gz"
 
-
+filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
     grayscale_filename=${working_dir_1}/${filename_nifti}
 

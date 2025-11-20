@@ -267,6 +267,7 @@ from utilities_simple_trimmed import * ;   levelset2originalRF_new_flip()" "${or
     templatefilename=scct_strippedResampled1.nii.gz
     mask_on_template=midlinecssfResampled1.nii.gz
     csf_mask_filename=${output_directory}/${csffilename}
+    echo  " I AM HERE run_divide_mask_into_left_right ${grayimage} ${csf_mask_filename} ${output_directory} ${working_dir} "
     run_divide_mask_into_left_right ${grayimage} ${csf_mask_filename} ${output_directory} ${working_dir}
     fi
   done

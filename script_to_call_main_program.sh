@@ -268,6 +268,10 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG' ]]; then
   /software/csf_compartments_vols_N_display_Feb23_2025.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG_FOR_NON_SAH_LOCAL_COMPUTER' ]]; then
+  /software/csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+fi
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG_FOR_NON_SAH' ]]; then
   /software/csf_compartments_vols_N_display_for_NON_SAH.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi

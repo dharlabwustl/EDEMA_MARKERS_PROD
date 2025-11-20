@@ -23,7 +23,7 @@ OUTPUT_DIR="/workingoutput"        # processing + final outputs
 FINAL_OUTPUT_DIR="$OUTPUT_DIR"
 cp /input/SCANS/2/NIFTI/* ${CT_DIR}/
 # Directory containing masks from prior pipeline (Yasheng outputs etc.)
-WORKING_DIR_MASKS="/workinginput"
+#WORKING_DIR_MASKS="/workinginput"
 cp /input/SCANS/2/MASKS/* ${MASK_DIR}/
 #cp /input/SCANS/2/PREPROCESS_SEGM_3/* ${WORKING_DIR_MASKS}/
 #mkdir -p "${CT_DIR}" "${MASK_DIR}" "${OUTPUT_DIR}" "${FINAL_OUTPUT_DIR}"

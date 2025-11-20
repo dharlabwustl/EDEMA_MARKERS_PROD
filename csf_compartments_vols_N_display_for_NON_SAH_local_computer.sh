@@ -528,40 +528,135 @@ filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
     call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
-    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
-    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"total_ventricle"
-    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
-    call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
+  echo "call_calculate_volume_mask_from_yasheng::${mask_filename19}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename20}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename21}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename22}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename23}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename24}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename25}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename26}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename27}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename28}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename30}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename}
+
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename31}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename}
 
 
-    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume::${mask_filename1}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
 
-    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume::${mask_filename2}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename3}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename4}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename5}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename6}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename7}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename8}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename9}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename10}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+
+
+echo "call_calculate_volume::${mask_filename11}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename12}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename13}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename14}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename15}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename16}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename17}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename18}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename29}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
+
+#    call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
+#    call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"total_ventricle"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
+#
+#
+#    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+#
+#    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
 #    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 #

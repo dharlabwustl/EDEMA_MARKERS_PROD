@@ -17,9 +17,9 @@ if [ "$#" -lt 3 ]; then
   exit 1
 fi
 
-CT_DIR="$1"            # original CT
-MASK_DIR="$2"          # masks
-OUTPUT_DIR="$3"        # processing + final outputs
+CT_DIR="/input1"            # original CT
+MASK_DIR="/workinginput"          # masks
+OUTPUT_DIR="/workingoutput"        # processing + final outputs
 FINAL_OUTPUT_DIR="$OUTPUT_DIR"
 cp /input/SCANS/2/NIFTI/* ${CT_DIR}/
 # Directory containing masks from prior pipeline (Yasheng outputs etc.)

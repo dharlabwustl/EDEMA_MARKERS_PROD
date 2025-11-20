@@ -23,7 +23,7 @@ call_combine_csv_horizontally() {
   local csvfilename=${2}
   local file_to_append_horizontally=${3}
   local call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${file_to_append_horizontally})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+  local outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 
 }
 run_Registration() {
@@ -351,7 +351,7 @@ calculate_left_right_ratio() {
   local column_name_this=${column_name_this%_left*}_RATIO
   local filename_to_write=${output_directory}/$(basename ${lefthalf_file%.nii*})_RATIO.csv
   local call_ratio_left_right_arguments=('call_ratio_left_right' ${lefthalf_file} ${righthalf_file} ${column_name_this} ${filename_to_write})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_ratio_left_right_arguments[@]}")
+  local outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_ratio_left_right_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
 
@@ -363,7 +363,7 @@ calculate_volume() {
   local mask_file_basename=${mask_file_basename%.nii*}
   local filename_to_write=${output_directory}/${mask_file_basename}.csv
   local call_calculate_volume_arguments=('call_calculate_volume' ${mask_file} ${column_name} ${filename_to_write})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_arguments[@]}")
+  local outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_calculate_volume_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
 call_calculate_volume() {
@@ -384,7 +384,7 @@ call_calculate_volume_mask_from_yasheng() {
   local column_name_this=$(basename ${mask_filename%.nii*})
   local column_name_this=${column_name_this##*${grayscale_filename_basename_noext}_resaved_} #_TOTAL
   local call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${mask_filename} ${original_nifti_file} ${column_name_this} ${filename_to_write})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+  local outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 
 }
@@ -399,7 +399,7 @@ mask_subtraction() {
   local mask_tobe_subtracted_basename=${mask_tobe_subtracted_basename%.nii*}
   local output_mask_file=${output_mask_dir}/${mask_donor_basename}_WITHOUT_${mask_tobe_subtracted_basename}.nii.gz
   call_masks_subtraction_arguments=('call_masks_subtraction' ${mask_donor} ${mask_tobe_subtracted} ${output_mask_file})
-  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_subtraction_arguments[@]}")
+  outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_subtraction_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 }
 overlapped_mask_on_otherimage() {
@@ -411,7 +411,7 @@ overlapped_mask_on_otherimage() {
   local working_dir_1=${6}
   local -n mask_filename=${7}
   local call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename[@]})
-  local outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+  local outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
   echo outputfiles_present::${outputfiles_present}
 
 }
@@ -470,7 +470,7 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_slice_num_to_csv_arguments[@]}")
+    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_slice_num_to_csv_arguments[@]}")
     grayscale_filename_1=${working_dir_1}/${grayscale_filename_basename_noext}_resaved_levelset.${grayscale_filename_basename_ext}
     cp ${grayscale_filename} ${grayscale_filename_1}
     latexfilename_prefix=${grayscale_filename%.nii*}
@@ -527,7 +527,7 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
     column_name_this="bet_mask_WITHOUT_csf"
     filename_to_write=${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv
     call_calculate_volume_mask_from_yasheng_arguments=('call_calculate_volume_mask_from_yasheng' ${bet_mask_WITHOUT_csf} ${grayscale_filename} ${column_name_this} ${filename_to_write})
-    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
+    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
     call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
     call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename21} ${grayscale_filename} #"csf_sulci_at_ventricle_TOTAL"
@@ -563,17 +563,17 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
     call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 #
 #    call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
 #        call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "SESSION_ID" ${sessionID}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
-#        outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+#        outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
 #
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv) # ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv) ${output_directory}/$(basename ${mask_filename2%.nii*}.csv) ${output_directory}/$(basename ${mask_filename3%.nii*}.csv) ${output_directory}/$(basename ${mask_filename4%.nii*}.csv) ${output_directory}/$(basename ${mask_filename5%.nii*}.csv) ${output_directory}/$(basename ${mask_filename6%.nii*}.csv) ${output_directory}/$(basename ${mask_filename7%.nii*}.csv) ${output_directory}/$(basename ${mask_filename8%.nii*}.csv) ${output_directory}/$(basename ${mask_filename9%.nii*}.csv) ${output_directory}/$(basename ${mask_filename10%.nii*}.csv) ${output_directory}/$(basename ${mask_filename11%.nii*}.csv) ${output_directory}/$(basename ${mask_filename12%.nii*}.csv) ${output_directory}/$(basename ${mask_filename13%.nii*}.csv) ${output_directory}/$(basename ${mask_filename14%.nii*}.csv) ${output_directory}/$(basename ${mask_filename15%.nii*}.csv) ${output_directory}/$(basename ${mask_filename16%.nii*}.csv) ${output_directory}/$(basename ${mask_filename17%.nii*}.csv) ${output_directory}/$(basename ${mask_filename18%.nii*}.csv) ${output_directory}/$(basename ${mask_filename19%.nii*}.csv) ${output_directory}/$(basename ${mask_filename20%.nii*}.csv) ${output_directory}/$(basename ${mask_filename21%.nii*}.csv) ${output_directory}/$(basename ${mask_filename22%.nii*}.csv) ${output_directory}/$(basename ${mask_filename23%.nii*}.csv) ${output_directory}/$(basename ${mask_filename24%.nii*}.csv) ${output_directory}/$(basename ${mask_filename25%.nii*}.csv) ${output_directory}/$(basename ${mask_filename26%.nii*}.csv) ${output_directory}/$(basename ${mask_filename27%.nii*}.csv) ${output_directory}/$(basename ${mask_filename28%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 #
 #    call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
@@ -603,26 +603,26 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
 #    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename29%.nii*}.csv))
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_combine_csv_horizontally_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 #
 #    call_saveslicesofnifti_arguments=('call_saveslicesofnifti' ${grayscale_filename} ${working_dir})
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_saveslicesofnifti_arguments[@]}")
 #    outputfile_suffix="GRAY"
 #    color_list='purple_maroon_black_black'
 #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #    outputfile_suffix="COMPLETE_CSF"
 #    color_list='blue_blue'
 #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
 #
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #    echo outputfiles_present::${outputfiles_present}
 #
 #    outputfile_suffix="CSF_COMPARTMENTS"
 #    color_list='green_green_yellow_yellow_red_red_aqua_aqua_purple_purple'
 #    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
 #
-#    outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #    csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
 #    cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
 #    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})

@@ -83,7 +83,7 @@ run_divide_mask_into_left_right() {
   local output_directory=${3}
   local working_dir=${4}
   call_divide_a_mask_into_left_right_submasks_arguments=('call_divide_a_mask_into_left_right_submasks' ${grayimage} ${csf_mask_filename} ${output_directory} ${working_dir})
-  outputfiles_present=$(python3 dividemasks_into_left_right.py "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
+  outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py  "${call_divide_a_mask_into_left_right_submasks_arguments[@]}")
 }
 
 run_CSF_COMPARTMENTS_CALC() {

@@ -465,6 +465,7 @@ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  
 
 filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     split_masks_into_two_halves "_resaved_csf_unet.nii.gz"
+    split_masks_into_two_halves "_resaved_infarct_auto_removesmall.nii.gz"
     grayscale_filename=${working_dir_1}/${filename_nifti}
 
     grayscale_filename_basename=$(basename ${grayscale_filename})
@@ -522,7 +523,11 @@ filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     mask_filename29=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern.nii.gz
     mask_filename30=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_right_half_originalRF.nii.gz
     mask_filename31=${working_dir}/${grayscale_filename_basename_noext}_resaved_levelset_ventricle_cistern_left_half_originalRF.nii.gz
+    mask_filename32=${working_dir}/${grayscale_filename_basename_noext}_resaved_infarct_auto_removesmall_right_half_originalRF.nii.gz
+    mask_filename33=${working_dir}/${grayscale_filename_basename_noext}_resaved_infarct_auto_removesmall_left_half_originalRF.nii.gz
+    mask_filename34=${working_dir}/${grayscale_filename_basename_noext}_resaved_infarct_auto_removesmall.nii.gz
 
+#_resaved_infarct_auto_removesmall.nii.gz
     calculate_left_right_ratio ${mask_filename3} ${mask_filename4} ${grayscale_filename_basename_noext}
     mask_subtraction ${mask_filename19} ${mask_filename20} ${working_dir}
     bet_mask_WITHOUT_csf=$(ls ${working_dir}/*_resaved_levelset_bet*WITHOUT*csf_unet*)
@@ -532,7 +537,7 @@ filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_calculate_volume_mask_from_yasheng_arguments[@]}")
   echo "call_calculate_volume_mask_from_yasheng::${mask_filename19}::${grayscale_filename}" >> /software/error.txt
 call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
-
+call_calculate_volume_mask_from_yasheng ${mask_filename34} ${grayscale_filename}
 echo "call_calculate_volume_mask_from_yasheng::${mask_filename20}::${grayscale_filename}" >> /software/error.txt
 call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename}
 
@@ -673,6 +678,7 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_bet_mask_WITHOUT_csf.csv ${output_directory}/$(basename ${mask_filename1%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename34%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename2%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename3%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename4%.nii*}.csv)
@@ -708,6 +714,13 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     color_list='purple_maroon_black_black'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
+
+    outputfile_suffix="INFARCT"
+    color_list='blue_blue_red_red'
+    call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename32} ${mask_filename33} )
+    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
+
+
     outputfile_suffix="COMPLETE_CSF"
     color_list='blue_blue'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
@@ -789,6 +802,8 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
         i=$(($i + 1))
 
         images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
+        i=$(($i + 1))
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_INFARCT_${suffix}.jpg
         i=$(($i + 1))
 
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")

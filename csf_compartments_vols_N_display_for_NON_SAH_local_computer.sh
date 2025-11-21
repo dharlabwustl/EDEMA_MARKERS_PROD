@@ -567,35 +567,35 @@ echo "call_calculate_volume_mask_from_yasheng::${mask_filename31}::${grayscale_f
 call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename}
 
 
-echo "call_calculate_volume::${mask_filename1}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename1}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename1} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename2}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename2}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename2} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename3}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename3}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename3} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename4}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename4}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename4} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename5}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename5}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename5} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename6}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename6}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename6} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename7}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename7}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename7} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename8}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename8}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename8} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename9}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename9}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename9} ${grayscale_filename}
 
-echo "call_calculate_volume::${mask_filename10}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume_mask_from_yasheng::${mask_filename10}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume_mask_from_yasheng ${mask_filename10} ${grayscale_filename}
 
 
 #echo "call_calculate_volume::${mask_filename11}::${grayscale_filename_basename_noext}" >> /software/error.txt
@@ -622,8 +622,8 @@ call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
 #echo "call_calculate_volume::${mask_filename18}::${grayscale_filename_basename_noext}" >> /software/error.txt
 #call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
 
-echo "call_calculate_volume::${mask_filename29}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
+echo "call_calculate_volume::${mask_filename29}::${grayscale_filename}" >> /software/error.txt
+call_calculate_volume ${mask_filename29} ${grayscale_filename}
 
     call_calculate_volume_mask_from_yasheng ${mask_filename19} ${grayscale_filename}
     call_calculate_volume_mask_from_yasheng ${mask_filename20} ${grayscale_filename} # "csf_sulci_above_ventricle_TOTAL"
@@ -639,16 +639,16 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
 
 
-    call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename3} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename4} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename5} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename6} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename7} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename8} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
+    call_calculate_volume_mask_from_yasheng ${mask_filename1} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename2} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename3} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename4} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename5} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename6} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename7} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename8} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename9} ${grayscale_filename}
+    call_calculate_volume_mask_from_yasheng ${mask_filename10} ${grayscale_filename}
 
 #    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
 #    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}

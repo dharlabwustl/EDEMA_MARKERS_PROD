@@ -546,17 +546,17 @@ call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename}
 echo "call_calculate_volume_mask_from_yasheng::${mask_filename24}::${grayscale_filename}" >> /software/error.txt
 call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename}
 
-echo "call_calculate_volume_mask_from_yasheng::${mask_filename25}::${grayscale_filename}" >> /software/error.txt
-call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename}
-
-echo "call_calculate_volume_mask_from_yasheng::${mask_filename26}::${grayscale_filename}" >> /software/error.txt
-call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename}
-
-echo "call_calculate_volume_mask_from_yasheng::${mask_filename27}::${grayscale_filename}" >> /software/error.txt
-call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename}
-
-echo "call_calculate_volume_mask_from_yasheng::${mask_filename28}::${grayscale_filename}" >> /software/error.txt
-call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename}
+#echo "call_calculate_volume_mask_from_yasheng::${mask_filename25}::${grayscale_filename}" >> /software/error.txt
+#call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename}
+#
+#echo "call_calculate_volume_mask_from_yasheng::${mask_filename26}::${grayscale_filename}" >> /software/error.txt
+#call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename}
+#
+#echo "call_calculate_volume_mask_from_yasheng::${mask_filename27}::${grayscale_filename}" >> /software/error.txt
+#call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename}
+#
+#echo "call_calculate_volume_mask_from_yasheng::${mask_filename28}::${grayscale_filename}" >> /software/error.txt
+#call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename}
 
 echo "call_calculate_volume_mask_from_yasheng::${mask_filename30}::${grayscale_filename}" >> /software/error.txt
 call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename}
@@ -629,10 +629,10 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_calculate_volume_mask_from_yasheng ${mask_filename22} ${grayscale_filename} # "csf_sulci_below_ventricle_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename23} ${grayscale_filename} #"csf_ventricle_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename24} ${grayscale_filename} #"total_ventricle"
-    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
-    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename25} ${grayscale_filename} #"SAH_VENTRICLE_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename26} ${grayscale_filename} #"SAH_cistern_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename27} ${grayscale_filename} # "SAH_TOTAL"
+#    call_calculate_volume_mask_from_yasheng ${mask_filename28} ${grayscale_filename} # "SAH_TOTAL"
     call_calculate_volume_mask_from_yasheng ${mask_filename30} ${grayscale_filename} # "cistern only"
     call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename} # "cistern only"
 
@@ -648,14 +648,14 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename9} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
 
-    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+#    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
@@ -680,23 +680,23 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     ${output_directory}/$(basename ${mask_filename8%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename9%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename10%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename18%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename11%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename12%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename13%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename14%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename15%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename16%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename17%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename18%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename20%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename21%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename22%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename23%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename24%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
-    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)
+#    ${output_directory}/$(basename ${mask_filename28%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename29%.nii*}.csv))
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 

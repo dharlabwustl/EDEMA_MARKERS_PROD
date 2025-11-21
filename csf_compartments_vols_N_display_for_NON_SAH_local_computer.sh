@@ -15,8 +15,9 @@ cp /input/SCANS/2/MASKS/* ${working_dir}/
 #cp /input/SCANS/2/NIFTI/* ${WORKING_DIR_CT}/
 # Directory containing masks from prior pipeline (Yasheng outputs etc.)
 #WORKING_DIR_MASKS="/workinginput"
-cp /input/SCANS/2/PREPROCESS_SEGM/* ${working_dir}/
+
 cp /input/SCANS/2/PREPROCESS_SEGM_3/* ${working_dir}/
+cp /input/SCANS/2/PREPROCESS_SEGM/* ${working_dir}/
 final_output_directory=/outputinsidedocker
 call_combine_csv_horizontally() {
   local grayscale_filename_basename_noext=${1}

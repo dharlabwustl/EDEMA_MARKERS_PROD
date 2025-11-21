@@ -596,29 +596,29 @@ echo "call_calculate_volume::${mask_filename10}::${grayscale_filename_basename_n
 call_calculate_volume ${mask_filename10} ${grayscale_filename_basename_noext}
 
 
-echo "call_calculate_volume::${mask_filename11}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename12}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename13}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename14}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename15}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename16}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename17}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
-
-echo "call_calculate_volume::${mask_filename18}::${grayscale_filename_basename_noext}" >> /software/error.txt
-call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
+#echo "call_calculate_volume::${mask_filename11}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename11} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename12}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename12} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename13}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename13} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename14}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename14} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename15}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename15} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename16}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename16} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename17}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
+#
+#echo "call_calculate_volume::${mask_filename18}::${grayscale_filename_basename_noext}" >> /software/error.txt
+#call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
 
 echo "call_calculate_volume::${mask_filename29}::${grayscale_filename_basename_noext}" >> /software/error.txt
 call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}

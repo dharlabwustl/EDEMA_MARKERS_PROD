@@ -469,7 +469,7 @@ filename_nifti=$(basename $(ls ${working_dir_1}/*.nii))
     grayscale_filename_basename=$(basename ${grayscale_filename})
     grayscale_filename_basename_noext=${grayscale_filename_basename%.nii*}
     echo ${grayscale_filename_basename_noext}
-    exit
+#    exit
     grayscale_filename_basename_ext=${grayscale_filename_basename##*.}
     call_slice_num_to_csv_arguments=('call_slice_num_to_csv' ${grayscale_filename} SLICE_NUM ${output_directory}/${grayscale_filename_basename_noext}_SLICE_NUM.csv)
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_slice_num_to_csv_arguments[@]}")

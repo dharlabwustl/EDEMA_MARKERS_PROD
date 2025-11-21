@@ -452,8 +452,8 @@ csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPER
 NIFTI_SCAN_URI=''
 
 
-for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  mv $each_npy ${working_dir_1} ; fi ; done
- for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  mv $each_npy ${output_directory} ; fi ; done
+for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  cp $each_npy ${working_dir_1} ; fi ; done
+ for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  cp $each_npy ${output_directory} ; fi ; done
     split_masks_into_two_halves "_resaved_levelset_sulci_total.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_above_ventricle.nii.gz"
     split_masks_into_two_halves "_resaved_levelset_sulci_at_ventricle.nii.gz"

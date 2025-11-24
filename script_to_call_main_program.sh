@@ -278,6 +278,7 @@ fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_FOR_EDEMA_BIOMARKER_N_CSF_COMPARTMENT_LOCAL_COMPUTER' ]]; then
   /software/nwucalculation_session_level_allsteps_on_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  cp /workingoutput/*.* /EDEMABIOMARKEROUTPUT/
 #  /software/edema_biomarker_N_csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG_FOR_NON_SAH_LOCAL_COMPUTER' ]]; then

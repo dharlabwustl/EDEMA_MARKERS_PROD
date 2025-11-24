@@ -132,6 +132,8 @@ if [[ ${TYPE_OF_PROGRAM} == 'TO_ORIGINAL_REF_FRAME' ]]; then
   /software/bringtooriginalrefframe.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
+
+
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMA_BIOMARKER_ON_LOCAL' ]]; then
   echo "I AM HERE ${TYPE_OF_PROGRAM} "
   /software/nwucalculation_session_level_allsteps_on_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
@@ -268,9 +270,15 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG' ]]; then
   /software/csf_compartments_vols_N_display_Feb23_2025.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+#if [[ ${TYPE_OF_PROGRAM} == 'EDEMA_BIOMARKER_N_COMPARTMENTS_ON_LOCAL' ]]; then
+#  echo "I AM HERE ${TYPE_OF_PROGRAM} "
+#  /software/nwucalculation_session_level_allsteps_on_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#   /software/csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_FOR_EDEMA_BIOMARKER_N_CSF_COMPARTMENT_LOCAL_COMPUTER' ]]; then
-  /software/edema_biomarker_N_csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
+  /software/nwucalculation_session_level_allsteps_on_local_computer.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#  /software/edema_biomarker_N_csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'PDF_AFTER_CSF_COMPARTMENT_WITH_DEEPREG_FOR_NON_SAH_LOCAL_COMPUTER' ]]; then
   /software/csf_compartments_vols_N_display_for_NON_SAH_local_computer.sh ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

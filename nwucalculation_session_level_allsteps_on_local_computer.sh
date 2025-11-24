@@ -31,14 +31,15 @@ working_dir_1="/input"
 
 # Directory with mask files (bet, csf, infarct) (e.g. /workinginput)
 working_dir="/workinginput"
+output_directory=/workingoutput #"${3:-/workingoutput}"
+final_output_directory=/outputinsidedocker ##"${4:-/outputinsidedocker}"
 cp /input/SCANS/2/NIFTI/*.* "${working_dir_1}/"
 cp /input/SCANS/2/PREPROCESS_SEGM/*.* "${working_dir}/"
 cp /input/SCANS/2/MASKS/*.*   "${working_dir}/"
 cp /input/SCANS/2/PREPROCESS_SEGM_3/*.*  ${output_directory}/
 cp /input/SCANS/2/PREPROCESS_SEGM/*.*  ${output_directory}/
 # Output dirs
-output_directory=/workingoutput #"${3:-/workingoutput}"
-final_output_directory=/outputinsidedocker ##"${4:-/outputinsidedocker}"
+
 
 echo ">>> CT input directory:          ${working_dir_1}"
 echo ">>> Mask input directory:        ${working_dir}"

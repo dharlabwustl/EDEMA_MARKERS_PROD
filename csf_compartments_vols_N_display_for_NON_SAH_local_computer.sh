@@ -792,6 +792,8 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 
         images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg
         i=$(($i + 1))
+        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_${suffix}_infarct.png
+        i=$(($i + 1))
 
         outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
         echo outputfiles_present::${outputfiles_present}

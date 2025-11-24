@@ -452,6 +452,8 @@ betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPER
 csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
 NIFTI_SCAN_URI=''
 
+cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
+cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
 
 for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  cp $each_npy ${working_dir_1} ; fi ; done
  for each_npy in  $(find /input/SCANS/2/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  cp $each_npy ${output_directory} ; fi ; done

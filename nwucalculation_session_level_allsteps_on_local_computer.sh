@@ -78,11 +78,11 @@ run_IML_NWU_CSF_CALC() {
   echo "linear_rigid_registration successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING IML FSL PART"
-  /software/ideal_midline_fslpart.sh "${this_filename}"
+#  /software/ideal_midline_fslpart.sh "${this_filename}"
   echo "ideal_midline_fslpart successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING IML PYTHON PART"
-  /software/ideal_midline_pythonpart.sh "${this_filename}"
+#  /software/ideal_midline_pythonpart.sh "${this_filename}"
   echo "ideal_midline_pythonpart successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION"

@@ -576,6 +576,13 @@ call_calculate_volume_mask_from_yasheng ${mask_filename31} ${grayscale_filename}
 echo "call_calculate_volume::${mask_filename1}::${grayscale_filename_basename_noext}" >> /software/error.txt
 call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
 
+echo "call_calculate_volume::${mask_filename3_1}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename3_1} ${grayscale_filename_basename_noext}
+
+echo "call_calculate_volume::${mask_filename3_1}::${grayscale_filename_basename_noext}" >> /software/error.txt
+call_calculate_volume ${mask_filename4_1} ${grayscale_filename_basename_noext}
+
+
 echo "call_calculate_volume::${mask_filename2}::${grayscale_filename_basename_noext}" >> /software/error.txt
 call_calculate_volume ${mask_filename2} ${grayscale_filename_basename_noext}
 

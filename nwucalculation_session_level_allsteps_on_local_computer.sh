@@ -77,15 +77,28 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
 
   echo "LINEAR REGISTRATION TO TEMPLATE 1"
-  /software/linear_rigid_registration.sh "${this_filename_brain}"
-  echo "linear_rigid_registration successful" >> "${output_directory}/success.txt"
+  mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
+  if [[ ${mat_file_num} -gt 1 ]]; then
+    echo "MAT FILES PRESENT"
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+  else
+    /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+    echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  fi
+
+#  /software/linear_rigid_registration.sh "${this_filename_brain}"
+
+
+
+#  echo "linear_rigid_registration successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING IML FSL PART"
-#  /software/ideal_midline_fslpart.sh "${this_filename}"
+  /software/ideal_midline_fslpart.sh "${this_filename}"
   echo "ideal_midline_fslpart successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING IML PYTHON PART"
-#  /software/ideal_midline_pythonpart.sh "${this_filename}"
+  /software/ideal_midline_pythonpart.sh "${this_filename}"
   echo "ideal_midline_pythonpart successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING NWU AND CSF VOLUME CALCULATION"

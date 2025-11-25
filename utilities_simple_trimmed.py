@@ -1258,6 +1258,8 @@ def latex_start(filename):
     file1.writelines("\\definecolor{olive}{rgb}{0.5, 0.5, 0.0}\n") #006B3C
     file1.writelines("\\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}\n")
 
+    file1.writelines("\\definecolor{electricpurple}{rgb}{0.75, 0.0, 1.0}\n")
+
 
 
 

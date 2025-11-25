@@ -757,7 +757,7 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_green_red_purple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct Mirror")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_cadmiumgreen_red_electricpurple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct Mirror")
 
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
@@ -772,7 +772,7 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_purple_white bullet_bullet_bullet_bullet "   "  "  " "Cistern" "   ")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_electricpurple_white bullet_bullet_bullet_bullet "   "  "  " "Cistern" "   ")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY

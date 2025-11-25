@@ -802,8 +802,8 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
         images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
         i=$(($i + 1))
 
-        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
-        i=$(($i + 1))
+#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+#        i=$(($i + 1))
         images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg
         i=$(($i + 1))
 

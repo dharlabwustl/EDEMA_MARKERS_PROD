@@ -579,7 +579,7 @@ call_calculate_volume ${mask_filename1} ${grayscale_filename_basename_noext}
 echo "call_calculate_volume::${mask_filename3_1}::${grayscale_filename_basename_noext}" >> /software/error.txt
 call_calculate_volume ${mask_filename3_1} ${grayscale_filename_basename_noext}
 
-echo "call_calculate_volume::${mask_filename3_1}::${grayscale_filename_basename_noext}" >> /software/error.txt
+echo "call_calculate_volume::${mask_filename4_1}::${grayscale_filename_basename_noext}" >> /software/error.txt
 call_calculate_volume ${mask_filename4_1} ${grayscale_filename_basename_noext}
 
 

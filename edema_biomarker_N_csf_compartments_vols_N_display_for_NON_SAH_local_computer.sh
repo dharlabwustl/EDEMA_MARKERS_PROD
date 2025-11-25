@@ -795,9 +795,10 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
       suffix=${y##*_}
       digit=${y##*}
 #      if [[ ${digit} -gt 0 ]] ; then
-      echo suffix::${suffix}
-      exit
+
       if [ ${suffix} -gt 0 ] && [ -f "${x}" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_COMPLETE_CSF_${suffix}.jpg" ] && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_CSF_COMPARTMENTS_${suffix}.jpg" ]; then
+              echo suffix::${suffix}
+      exit
         images[$i]=${x} ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
         i=$(($i + 1))
 

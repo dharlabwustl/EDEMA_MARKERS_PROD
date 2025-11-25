@@ -42,7 +42,115 @@ def demo():
 #     dflux.hist('INFARCT', bins=255, ax=axes[0])
 #     dflux2.hist('NONINFARCT', bins=255, ax=axes[1])
 #     fig.savefig(image_filename)
+import webcolors
 
+def create_color_legend_from_names(
+    color_names,
+    labels,
+    output_path="legend_named.png",
+    image_size=(512, 512),
+    rect_size=(150, 80),
+    start_xy=(50, 60),
+    vertical_gap=40,
+    text_scale=0.7,
+    text_thickness=2,
+    background_rgb=[0, 0, 0],
+):
+    """
+    Wrapper around create_color_legend that accepts color *names* instead of RGB lists.
+    color_names: list like ["red", "green", None, "gray", ...]
+                 If entry is None or "none", no rectangle is drawn for that row.
+    """
+
+    colors_rgb = []
+
+    for name in color_names:
+        if name is None or str(name).lower() == "none":
+            colors_rgb.append(None)
+        else:
+            # webcolors.name_to_rgb returns an RGB tuple (r, g, b)
+            rgb = webcolors.name_to_rgb(name)
+            colors_rgb.append([rgb.red, rgb.green, rgb.blue])
+
+    # Reuse your original RGB-based function
+    return create_color_legend(
+        colors_rgb=colors_rgb,
+        labels=labels,
+        output_path=output_path,
+        image_size=image_size,
+        rect_size=rect_size,
+        start_xy=start_xy,
+        vertical_gap=vertical_gap,
+        text_scale=text_scale,
+        text_thickness=text_thickness,
+        background_rgb=background_rgb,
+    )
+
+def create_color_legend(
+    colors_rgb,
+    labels,
+    output_path="legend.png",
+    image_size=(512, 512),
+    rect_size=(150, 80),
+    start_xy=(50, 60),
+    vertical_gap=40,
+    text_scale=0.7,
+    text_thickness=2,
+    background_rgb=[0, 0, 0],   # default black background
+):
+    """
+    Creates a legend image where the text color matches the rectangle color.
+    If rgb is None → no rectangle and text color defaults to white.
+    """
+
+    # Convert background RGB → BGR
+    bg_bgr = (background_rgb[2], background_rgb[1], background_rgb[0])
+
+    # Create background
+    img = np.full((image_size[0], image_size[1], 3), bg_bgr, dtype=np.uint8)
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    rect_w, rect_h = rect_size
+    start_x, start_y = start_xy
+
+    for i, (rgb, text) in enumerate(zip(colors_rgb, labels)):
+        y_offset = start_y + i * (rect_h + vertical_gap)
+
+        if rgb is not None:
+            # Convert RGB → BGR
+            bgr = (rgb[2], rgb[1], rgb[0])
+
+            # Draw rectangle
+            top_left = (start_x, y_offset)
+            bottom_right = (start_x + rect_w, y_offset + rect_h)
+            cv2.rectangle(img, top_left, bottom_right, bgr, -1)
+
+            # Text beside rectangle
+            text_x = bottom_right[0] + 20
+            text_y = y_offset + rect_h // 2 + int(10 * text_scale)
+
+            text_color = bgr  # ← text color matches rectangle color
+
+        else:
+            # No rectangle → text only
+            text_x = start_x
+            text_y = y_offset + rect_h // 2
+            text_color = (255, 255, 255)  # default white
+
+        # Draw text
+        cv2.putText(
+            img,
+            text,
+            (text_x, text_y),
+            font,
+            text_scale,
+            text_color,
+            text_thickness,
+            cv2.LINE_AA,
+        )
+
+    cv2.imwrite(output_path, img)
+    return img
 ################## REGISTRATION STEPS #####################################
 
 # Function for Z-score normalization

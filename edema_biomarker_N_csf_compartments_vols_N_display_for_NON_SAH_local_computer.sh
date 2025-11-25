@@ -725,23 +725,25 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
+    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None], ['NCCT'], 'legend_NCCT.png')"
+
     outputfile_suffix="INFARCT"
     color_list='blue_blue_red_red'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename32} ${mask_filename33} )
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
-
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['orange','purple'], ['Infarct','Infarct Mirror'], 'legend_INFARCT.png')"
     outputfile_suffix="COMPLETE_CSF"
     color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
-
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','red',None], ['Right CSF','Left CSF'], 'legend_CSF.png')"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     echo outputfiles_present::${outputfiles_present}
 
     outputfile_suffix="CSF_COMPARTMENTS"
     color_list='green_green_yellow_yellow_red_red_aqua_aqua_purple_purple'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
-
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','yellow','red','aqua','purple'], ['Venticle','SV sulci','V sulci','IV Sulci','Cistern'], 'legend_CSF_COMPARTMENTS.png')"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
@@ -774,7 +776,36 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_electricpurple_white bullet_bullet_bullet_bullet "   "  "  " "Cistern" "   ")
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+######################################
+      imagescale='0.18' #float(args.stuff[2])
+      angle='90'        #float(args.stuff[3])
+      space='1'         #float(args.stuff[4])
+      i=0
 
+      images[$i]='call_latex_insertimage_tableNc'
+      i=$(($i + 1))
+      images[$i]=${latexfilename}
+      i=$(($i + 1))
+      images[$i]=${imagescale}
+      i=$(($i + 1))
+      images[$i]=${angle}
+      i=$(($i + 1))
+      images[$i]=${space}
+      i=$(($i + 1))
+        images[$i]='legend_NCCT.png' ##{output_directory}/SAH_1_01052014_2003_2_GRAY_031.jpg
+        i=$(($i + 1))
+
+#        images[$i]=${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_GRAY_${suffix}.jpg
+#        i=$(($i + 1))
+        images[$i]='legend_CSF.png'
+        i=$(($i + 1))
+
+        images[$i]='legend_CSF_COMPARTMENTS.png'
+        i=$(($i + 1))
+        images[$i]='legend_INFARCT.png'
+        i=$(($i + 1))
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+##################################################
     for x in ${working_dir}/${grayscale_filename_basename_noext}*.jpg; do #_resaved_levelset_GRAY
 
       imagescale='0.18' #float(args.stuff[2])

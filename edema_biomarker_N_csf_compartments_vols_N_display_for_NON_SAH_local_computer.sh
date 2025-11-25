@@ -723,7 +723,7 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 
 
     outputfile_suffix="COMPLETE_CSF"
-    color_list='blue_blue'
+    color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
 
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")

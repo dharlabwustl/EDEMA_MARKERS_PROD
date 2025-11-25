@@ -709,6 +709,8 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     ${output_directory}/$(basename ${mask_filename22%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename23%.nii*}.csv)
     ${output_directory}/$(basename ${mask_filename24%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename3_1%.nii*}.csv)
+    ${output_directory}/$(basename ${mask_filename4_1%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename25%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename26%.nii*}.csv)
 #    ${output_directory}/$(basename ${mask_filename27%.nii*}.csv)

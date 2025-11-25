@@ -36,7 +36,7 @@ run_Registration() {
 
   echo "bet_withlevelset successful" >${output_directory}/success.txt
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
-  echo "LINEAR REGISTRATION TO TEMPLATE"
+  echo "LINEAR REGISTRATION TO TEMPLATE 1 "
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
 
 
@@ -52,7 +52,7 @@ run_IML() {
 
   echo "bet_withlevelset successful" >${output_directory}/success.txt
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
-  echo "LINEAR REGISTRATION TO TEMPLATE"
+  echo "LINEAR REGISTRATION TO TEMPLATE 2"
   mat_file_num=$(ls ${output_directory}/*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
@@ -112,7 +112,7 @@ run_IML_NWU_CSF_CALC() {
 
   echo "bet_withlevelset successful" >${output_directory}/success.txt
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
-  echo "LINEAR REGISTRATION TO TEMPLATE"
+  echo "LINEAR REGISTRATION TO TEMPLATE 3"
   /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   echo "RUNNING IML FSL PART"

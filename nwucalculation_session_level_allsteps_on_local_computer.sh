@@ -77,7 +77,7 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
 
   echo "LINEAR REGISTRATION TO TEMPLATE"
-#  /software/linear_rigid_registration.sh "${this_filename_brain}"
+  /software/linear_rigid_registration.sh "${this_filename_brain}"
   echo "linear_rigid_registration successful" >> "${output_directory}/success.txt"
 
   echo "RUNNING IML FSL PART"

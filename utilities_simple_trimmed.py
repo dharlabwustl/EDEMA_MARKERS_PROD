@@ -3027,7 +3027,7 @@ def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilen
     for rowid, row in combined.iterrows():
         print(rowid)
         print(row.to_dict())
-    divide_combined_file_edema_N_compartment(latexfilename,filename="combined_output.csv")
+    divide_combined_file_edema_N_compartment(filename="combined_output.csv",latexfilename=latexfilename)
 
 
 # import pandas as pd

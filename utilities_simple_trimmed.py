@@ -2879,3 +2879,160 @@ def split_brain_sagittal_by_filename(
         nib.save(right_mask, os.path.join(output_dir, f"{basename_noext}_right_mask.nii.gz"))
 
     return left_img, right_img, left_mask, right_mask
+
+
+import pandas as pd
+
+
+# Assuming `combined` is your main DataFrame
+
+def safe_subset(df, cols):
+    """Return subset with only columns that actually exist in df."""
+    existing = [c for c in cols if c in df.columns]
+    return df[existing].copy()
+
+
+def divide_combined_file_edema_N_compartment(filename="combined_output.csv",latexfilename='temp.tex'):
+    combined = pd.read_csv(filename)
+    # 1) Infarct-related metrics
+    infarct_cols = [
+        "FileName_slice",
+        "INFARCT SIDE",
+        "NWU",
+        "NON INFARCT DENSITY",
+        "INFARCT VOLUME",
+        "INFARCT REFLECTION VOLUME",
+        "INFARCT THRESH RANGE",
+        "NORMAL THRESH RANGE",
+        # "INFARCT_AUTO_REMOVESMALL",
+    ]
+    df_infarct = safe_subset(combined, infarct_cols)
+
+    # 2) CSF & ventricles
+    csf_cols = [
+        "FileName_slice",
+        "LEFT CSF VOLUME",
+        "RIGHT CSF VOLUME",
+        "TOTAL CSF VOLUME",
+        "CSF RATIO",
+        # "CSF_RATIO",  # duplicate concept, kept if present
+        # "CSF_LEFT",
+        # "CSF_RIGHT",
+        # "CSF",
+        # "VENTRICLE_TOTAL",
+        # "VENTRICLE_CISTERN.NII.GZ",
+    ]
+    df_csf = safe_subset(combined, csf_cols)
+    ventricle_cols = [
+        # "FileName_slice",
+        # "LEFT CSF VOLUME",
+        # "RIGHT CSF VOLUME",
+        # "TOTAL CSF VOLUME",
+        # "CSF RATIO",
+        # "CSF_RATIO",  # duplicate concept, kept if present
+        # "CSF_LEFT",
+        # "CSF_RIGHT",
+        # "CSF",
+        "VENTRICLE_TOTAL",
+        "VENTRICLE_TOTAL_RIGHT",
+        "VENTRICLE_TOTAL_LEFT",
+        "VENTRICLE_CISTERN",
+    ]
+    df_ventricle = safe_subset(combined, ventricle_cols)
+    # 3) Brain / BET volumes
+    brain_cols = [
+        "FileName_slice",
+        "BET VOLUME",
+        "BET_MASK_WITHOUT_CSF",
+        "BET_LEFT",
+        "BET_RIGHT",
+        "LEFT BRAIN VOLUME without CSF",
+        "RIGHT BRAIN VOLUME without CSF",
+    ]
+    df_brain = safe_subset(combined, brain_cols)
+
+    # 4) Sulci metrics
+    sulci_cols = [
+        "FileName_slice",
+        "SULCI_ABOVE_VENTRICLE_LEFT",
+        "SULCI_ABOVE_VENTRICLE_RIGHT",
+        "SULCI_AT_VENTRICLE_LEFT",
+        "SULCI_AT_VENTRICLE_RIGHT",
+        "SULCI_BELOW_VENTRICLE_LEFT",
+        "SULCI_BELOW_VENTRICLE_RIGHT",
+        "SULCI_ABOVE_VENTRICLE",
+        "SULCI_AT_VENTRICLE",
+        "SULCI_BELOW_VENTRICLE",
+    ]
+    df_sulci = safe_subset(combined, sulci_cols)
+
+    # 5) Slice/meta info (minimal, can expand later)
+    meta_cols = [
+        "FileName_slice",
+        "SLICE_NUM",
+    ]
+    df_meta = safe_subset(combined, meta_cols)
+
+    # (Optional) put them in a dict for easy handling
+    grouped_dfs = {
+        "meta": df_meta,
+        "brain": df_brain,
+        "csf": df_csf,
+        "ventricle": df_ventricle,
+        "sulci": df_sulci,
+        "infarct": df_infarct,
+    }
+
+    # Example: save each group to CSV
+    filenames_ar = []
+    for name, df in grouped_dfs.items():
+        df.to_csv(f"{name}_metrics.csv", index=False)
+        write_panda_df(latexfilename, df)
+
+
+def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilename='temp.tex'):
+    # Read both CSVs
+    df1 = pd.read_csv(file1_edema)
+    df2 = pd.read_csv(file2_compartment)
+
+    # Reset index so concatenation happens correctly
+    df1 = df1.reset_index(drop=True)
+    df2 = df2.reset_index(drop=True)
+
+    # Concatenate row-wise into a single row
+    combined = pd.concat([df1, df2], axis=1)
+
+    # Remove duplicate column names (keep the first occurrence)
+    combined = combined.loc[:, ~combined.columns.duplicated()]
+
+    # Save or print
+
+    # combined.to_csv("combined_output.csv", index=False)
+    cols_to_remove = [
+        "INFARCT_AUTO_REMOVESMALL",
+        "CSF_RATIO",
+        "CSF_LEFT",
+        "CSF_RIGHT",
+        "CSF",
+    ]
+    combined = combined.rename(columns={
+        "VENTRICLE_CISTERN.NII.GZ": "VENTRICLE_CISTERN"
+    })
+
+    combined = combined.drop(columns=cols_to_remove, errors="ignore")
+    combined = combined.apply(
+        lambda col: col.map(lambda x: f"{x:.2f}" if isinstance(x, (int, float)) else x))
+
+    combined.to_csv("combined_output.csv", index=False)
+    for rowid, row in combined.iterrows():
+        print(rowid)
+        print(row.to_dict())
+    divide_combined_file_edema_N_compartment(latexfilename,filename="combined_output.csv")
+
+
+# import pandas as pd
+#
+# # File paths (already uploaded)
+# file1_edema = "~/Downloads/COLI_HM25_03092021_1954_2_threshold0_40TOTAL_VersionDate-01032024_11_25_2025columndropped.csv"
+# file2_compartment = "~/Downloads/COLI_HM25_03092021_1954_2_V_08162023_11_25_2025_TRIMMED.csv"
+# concatenate_edema_with_compartment(file1_edema, file2_compartment)

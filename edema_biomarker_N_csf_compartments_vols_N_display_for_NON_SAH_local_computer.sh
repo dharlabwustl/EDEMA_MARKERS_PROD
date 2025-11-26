@@ -755,7 +755,15 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
     call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
     outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+#(file1_edema, file2_compartment,latexfilename='temp.tex')
+#    file1="edema.csv"
+#file2="comp.csv"
+#out="report.tex"
+first_file=$(ls ${output_directory}/*columndropped.csv | head -n 1)
+python3 -c "from script import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 
+#    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
     call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "NCCT" "CSF" "CSF Compartments" "Infarct and its mirror" ) ##"SAH Blood Segm")
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 

@@ -2910,7 +2910,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
 
     # 2) CSF & ventricles
     csf_cols = [
-        "FileName_slice",
+        # "FileName_slice",
         "LEFT CSF VOLUME",
         "RIGHT CSF VOLUME",
         "TOTAL CSF VOLUME",
@@ -2941,7 +2941,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     df_ventricle = safe_subset(combined, ventricle_cols)
     # 3) Brain / BET volumes
     brain_cols = [
-        "FileName_slice",
+        # "FileName_slice",
         "BET VOLUME",
         "BET_MASK_WITHOUT_CSF",
         "BET_LEFT",
@@ -2953,7 +2953,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
 
     # 4) Sulci metrics
     sulci_cols = [
-        "FileName_slice",
+        # "FileName_slice",
         "SULCI_ABOVE_VENTRICLE_LEFT",
         "SULCI_ABOVE_VENTRICLE_RIGHT",
         "SULCI_AT_VENTRICLE_LEFT",
@@ -2987,7 +2987,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     filenames_ar = []
     for name, df in grouped_dfs.items():
         df.to_csv(f"{name}_metrics.csv", index=False)
-        write_panda_df(latexfilename, df)
+        write_panda_df(latexfilename, wide_to_long(df))
 
 
 def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilename='temp.tex'):
@@ -3028,7 +3028,15 @@ def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilen
         print(rowid)
         print(row.to_dict())
     divide_combined_file_edema_N_compartment(filename="combined_output.csv",latexfilename=latexfilename)
-
+def wide_to_long(df) : # pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert an arbitrary wide-format DataFrame into long-format.
+    Works even when you do not know the column names or ID columns.
+    Returns a DataFrame with only two columns: 'column' and 'value'.
+    """
+    df_long = df.stack().reset_index().iloc[:, 1:]
+    df_long.columns = ["VARIABLE", "VALUE"]
+    return df_long
 
 # import pandas as pd
 #

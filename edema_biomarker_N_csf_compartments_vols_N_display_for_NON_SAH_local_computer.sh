@@ -756,8 +756,8 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
-    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+#    call_write_panda_df_arguments=('call_write_panda_df' ${csvfilename_trimmed} ${latexfilename})
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
 #(file1_edema, file2_compartment,latexfilename='temp.tex')
 #    file1="edema.csv"
 #file2="comp.csv"
@@ -768,36 +768,36 @@ echo $first_file
 echo ${csvfilename_trimmed}
 #exit
 python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
-
-#    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "NCCT" "CSF" "CSF Compartments" "Infarct and its reflection" ) ##"SAH Blood Segm")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_red_cadmiumgreen_orange bullet_bullet_bullet_bullet "   "  "Left CSF" "Ventricle" "Infarct")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_cadmiumgreen_red_electricpurple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct reflection")
-
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_yellow_lime bullet_bullet_bullet_bullet "   "  " " "Sulci above Ventricle"  "   ")
-
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+#
+##    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "NCCT" "CSF" "CSF Compartments" "Infarct and its reflection" ) ##"SAH Blood Segm")
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+#
+#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}") #fuchsia_fuchsia_olive_olive_lime_lime_orange_orange
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_red_cadmiumgreen_orange bullet_bullet_bullet_bullet "   "  "Left CSF" "Ventricle" "Infarct")
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_cadmiumgreen_red_electricpurple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct reflection")
+#
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+#
+#    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_yellow_lime bullet_bullet_bullet_bullet "   "  " " "Sulci above Ventricle"  "   ")
+#
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+##    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_aqua_white bullet_bullet_bullet_bullet "   "  "  " "Sulci below Ventricle"  "   ")
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 #    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_aqua_white bullet_bullet_bullet_bullet "   "  "  " "Sulci below Ventricle"  "   ")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-    call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-2')
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_electricpurple_white bullet_bullet_bullet_bullet "   "  "  " "Cistern" "   ")
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
-######################################
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
+#    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_white_electricpurple_white bullet_bullet_bullet_bullet "   "  "  " "Cistern" "   ")
+##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
+#######################################
       imagescale='0.18' #float(args.stuff[2])
       angle='0'        #float(args.stuff[3])
       space='1'         #float(args.stuff[4])

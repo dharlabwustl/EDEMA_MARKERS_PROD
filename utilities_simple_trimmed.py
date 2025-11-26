@@ -2899,7 +2899,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
         # "FileName_slice",
         "INFARCT SIDE",
         "NWU",
-        "NON INFARCT DENSITY",
+        # "NON INFARCT DENSITY",
         "INFARCT VOLUME",
         "INFARCT REFLECTION VOLUME",
         "INFARCT THRESH RANGE",

@@ -766,7 +766,7 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
 first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
 echo $first_file
 echo ${csvfilename_trimmed}
-exit
+#exit
 python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 
 #    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})

@@ -2968,14 +2968,14 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
 
     # 5) Slice/meta info (minimal, can expand later)
     meta_cols = [
-        "FileName", #_slice",
+        "FileName_slice",
         "SLICE_NUM",
     ]
     df_meta = safe_subset(combined, meta_cols)
 
     # (Optional) put them in a dict for easy handling
     grouped_dfs = {
-        "scan_file": df_meta,
+        "scan": df_meta,
         "brain": df_brain,
         "csf": df_csf,
         "ventricle": df_ventricle,

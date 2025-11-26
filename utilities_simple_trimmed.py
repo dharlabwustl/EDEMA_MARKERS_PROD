@@ -3017,7 +3017,7 @@ def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilen
         "CSF",
     ]
     combined = combined.rename(columns={
-        "VENTRICLE_CISTERN.NII.GZ": "VENTRICLE_CISTERN"
+        "VENTRICLE_CISTERN.NII.GZ": "CISTERN"
     })
     combined = combined.rename(columns={
         "FileName_slice": "FileName"

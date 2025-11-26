@@ -2896,7 +2896,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     combined = pd.read_csv(filename)
     # 1) Infarct-related metrics
     infarct_cols = [
-        "FileName_slice",
+        # "FileName_slice",
         "INFARCT SIDE",
         "NWU",
         "NON INFARCT DENSITY",

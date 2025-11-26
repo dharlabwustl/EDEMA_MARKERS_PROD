@@ -763,11 +763,6 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
 #file2="comp.csv"
 #out="report.tex"
 #first_file=$(ls ${output_directory}/*columndropped.csv | head -n 1)
-first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
-echo $first_file
-echo ${csvfilename_trimmed}
-#exit
-python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 #
 ##    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
 ##    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
@@ -877,6 +872,11 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
         echo outputfiles_present::${outputfiles_present}
       fi
     done
+first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
+echo $first_file
+echo ${csvfilename_trimmed}
+#exit
+python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 
 
     call_latex_end_arguments=('call_latex_end' ${latexfilename})

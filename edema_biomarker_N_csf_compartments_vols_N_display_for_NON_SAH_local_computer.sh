@@ -728,10 +728,13 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 #    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None,None], ['NCCT',${grayscale_filename_basename_noext}], 'legend_NCCT.png')"
 python3 - <<EOF
 from utilities_simple_trimmed import create_color_legend_from_names
-import sys
-create_color_legend_from_names([None,None], ['NCCT', sys.argv[1]], 'legend_NCCT.png')
+
+create_color_legend_from_names(
+    [None, None],
+    ['NCCT', '${grayscale_filename_basename_noext}'],
+    'legend_NCCT.png'
+)
 EOF
-"${grayscale_filename_basename_noext}"
 
     outputfile_suffix="INFARCT"
     color_list='blue_blue_red_red'

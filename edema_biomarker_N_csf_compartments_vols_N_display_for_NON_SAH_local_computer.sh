@@ -767,7 +767,7 @@ first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
 echo $first_file
 echo ${csvfilename_trimmed}
 exit
-python3 -c "from script import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
+python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 
 #    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")

@@ -752,7 +752,7 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
     outputfile_suffix="CSF_COMPARTMENTS"
     color_list='green_green_yellow_yellow_red_red_aqua_aqua_purple_purple'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
-python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','yellow','red','aqua','purple'], ['Venticle','SV sulci','V sulci','IV Sulci','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','yellow','red','aqua','purple'], ['Ventricle','SV sulci','V sulci','IV Sulci','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
@@ -764,12 +764,14 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
 #out="report.tex"
 #first_file=$(ls ${output_directory}/*columndropped.csv | head -n 1)
 first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
-
+echo $first_file
+echo ${csvfilename_trimmed}
+exit
 python3 -c "from script import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
 
 #    call_write_panda_df_arguments=('concatenate_edema_with_compartment' ${csvfilename_trimmed} ${csvfilename_trimmed} ${latexfilename})
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_write_panda_df_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "NCCT" "CSF" "CSF Compartments" "Infarct and its mirror" ) ##"SAH Blood Segm")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc' ${latexfilename} black_black_blue_black_black "NCCT" "CSF" "CSF Compartments" "Infarct and its reflection" ) ##"SAH Blood Segm")
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
@@ -778,7 +780,7 @@ python3 -c "from script import concatenate_edema_with_compartment; concatenate_e
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
     call_space_between_lines_arguments=('call_space_between_lines' ${latexfilename} '-3')
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_space_between_lines_arguments[@]}")
-    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_cadmiumgreen_red_electricpurple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct Mirror")
+    call_latex_inserttext_tableNc_arguments=('call_latex_inserttext_tableNc_colored_with_bullet' ${latexfilename} white_cadmiumgreen_red_electricpurple bullet_bullet_bullet_bullet "   "  "Right Ventricle" "Sulci at ventricle" "Infarct reflection")
 
 #    outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_inserttext_tableNc_arguments[@]}")
 

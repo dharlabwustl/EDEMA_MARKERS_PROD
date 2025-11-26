@@ -2936,7 +2936,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
         "VENTRICLE_TOTAL",
         "VENTRICLE_TOTAL_RIGHT",
         "VENTRICLE_TOTAL_LEFT",
-        "VENTRICLE_CISTERN",
+        "CISTERN",
     ]
     df_ventricle = safe_subset(combined, ventricle_cols)
     # 3) Brain / BET volumes

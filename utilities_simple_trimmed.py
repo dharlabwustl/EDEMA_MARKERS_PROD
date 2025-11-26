@@ -2987,6 +2987,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     filenames_ar = []
     for name, df in grouped_dfs.items():
         df.to_csv(f"{name}_metrics.csv", index=False)
+        latex_insert_line_nodek(latexfilename, text=name.upper())
         write_panda_df(latexfilename, wide_to_long(df))
 
 

@@ -741,7 +741,7 @@ EOF
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename32} ${mask_filename33} )
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
-python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['orange','purple'], ['Infarct','Infarct Mirror'], 'legend_INFARCT.png')"
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['orange','purple'], ['Infarct','Infarct reflection'], 'legend_INFARCT.png')"
     outputfile_suffix="COMPLETE_CSF"
     color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})

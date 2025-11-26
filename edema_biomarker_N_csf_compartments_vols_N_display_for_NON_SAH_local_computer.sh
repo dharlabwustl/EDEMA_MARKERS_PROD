@@ -725,7 +725,13 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
-    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None,None], ['NCCT',${grayscale_filename_basename_noext}], 'legend_NCCT.png')"
+#    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None,None], ['NCCT',${grayscale_filename_basename_noext}], 'legend_NCCT.png')"
+python3 - <<EOF
+from utilities_simple_trimmed import create_color_legend_from_names
+import sys
+create_color_legend_from_names([None,None], ['NCCT', sys.argv[1]], 'legend_NCCT.png')
+EOF
+"${grayscale_filename_basename_noext}"
 
     outputfile_suffix="INFARCT"
     color_list='blue_blue_red_red'

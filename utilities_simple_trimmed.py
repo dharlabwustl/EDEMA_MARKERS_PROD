@@ -2968,7 +2968,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
 
     # 5) Slice/meta info (minimal, can expand later)
     meta_cols = [
-        "FileName_slice",
+        "FileName",
         "SLICE_NUM",
     ]
     df_meta = safe_subset(combined, meta_cols)
@@ -3019,7 +3019,9 @@ def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilen
     combined = combined.rename(columns={
         "VENTRICLE_CISTERN.NII.GZ": "VENTRICLE_CISTERN"
     })
-
+    combined = combined.rename(columns={
+        "FileName_slice": "FileName"
+    })
     combined = combined.drop(columns=cols_to_remove, errors="ignore")
     combined = combined.apply(
         lambda col: col.map(lambda x: f"{x:.2f}" if isinstance(x, (int, float)) else x))

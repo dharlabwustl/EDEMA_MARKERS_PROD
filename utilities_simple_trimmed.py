@@ -2978,7 +2978,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
         "scan": df_meta,
         "brain": df_brain,
         "csf": df_csf,
-        "ventricle_cistern": df_ventricle,
+        "ventriclecistern": df_ventricle,
         "sulci": df_sulci,
         "infarct": df_infarct,
     }

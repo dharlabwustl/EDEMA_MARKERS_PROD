@@ -2978,7 +2978,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
         "scan": df_meta,
         "brain": df_brain,
         "csf": df_csf,
-        "ventriclecistern": df_ventricle,
+        "ventricle": df_ventricle,
         "sulci": df_sulci,
         "infarct": df_infarct,
     }
@@ -2987,6 +2987,8 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     filenames_ar = []
     for name, df in grouped_dfs.items():
         df.to_csv(f"{name}_metrics.csv", index=False)
+        if 'ventricle' in name.lower():
+            latex_insert_line_nodek(latexfilename, text=f'{name} and cistern'.upper())
         latex_insert_line_nodek(latexfilename, text=name.upper())
         write_panda_df(latexfilename, wide_to_long(df))
 

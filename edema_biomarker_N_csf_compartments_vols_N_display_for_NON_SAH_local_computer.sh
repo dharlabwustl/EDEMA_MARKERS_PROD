@@ -672,11 +672,20 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
 #    call_calculate_volume ${mask_filename17} ${grayscale_filename_basename_noext}
 #    call_calculate_volume ${mask_filename18} ${grayscale_filename_basename_noext}
     call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
+#    nii_file="brain.nii.gz"
+#    python3 -c "import json; from utilities_simple_trimmed import get_all_nifti_metadata; print(json.dumps(get_all_nifti_metadata('$grayscale_filename'), indent=2))"
+#pixdim=$(python3 -c "import json; from utilities_simple_trimmed import get_nifti_metadata; print(json.dumps(get_nifti_metadata('$grayscale_filename','pixdim'), indent=2))")
+#pixdim3=$(echo "$pixdim" | jq '.[3]')
+#    python3 -c "import json; from utilities_simple_trimmed import write_single_value_csv; print(write_single_value_csv('${pixdim3}', 'SLICE_THICKNESS', 'SLICE_THICKNESS.csv'))"
+
+
+
     call_combine_csv_horizontally_arguments=('call_combine_csv_horizontally' ${grayscale_filename_basename_noext} ${csvfilename} ${output_directory}/${grayscale_filename_basename_noext}_SESSION_LABEL.csv)
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_combine_csv_horizontally_arguments[@]}")
 
     call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "FILENAME" ${grayscale_filename_basename_noext}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
+
         call_insert_one_col_with_colname_colidx_arguments=('call_insert_one_col_with_colname_colidx' ${csvfilename} ${csvfilename} "SESSION_ID" ${sessionID}) # ${csvfilename} ${csvfilename} ${output_directory}/$(basename ${mask_filename3%.nii*})_RATIO.csv )
         outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_insert_one_col_with_colname_colidx_arguments[@]}")
 

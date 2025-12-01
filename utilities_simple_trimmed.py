@@ -43,6 +43,113 @@ def demo():
 #     dflux2.hist('NONINFARCT', bins=255, ax=axes[1])
 #     fig.savefig(image_filename)
 import webcolors
+##############################################################################################################################################
+# import nibabel as nib
+# import csv
+
+def write_single_value_csv(value, value_name, filename):
+    """
+    Writes a single-value CSV with a custom column name.
+
+    Parameters
+    ----------
+    value : any
+        The data value to write.
+    value_name : str
+        The column name.
+    filename : str
+        CSV file to write.
+
+    Returns
+    -------
+    str
+        The filename on success, otherwise "could not write the file".
+    """
+    try:
+        with open(filename, mode='w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=[value_name])
+            writer.writeheader()
+            writer.writerow({value_name: value})
+        return filename
+    except Exception as e:
+        return "could not write the file"
+
+def get_nifti_metadata(filename: str, metadata_name: str):
+    """
+    Read a NIfTI (.nii/.nii.gz) file using nibabel and return a
+    specified metadata field from the header.
+
+    Parameters
+    ----------
+    filename : str
+        Path to the NIfTI file.
+    metadata_name : str
+        Name of the metadata field (e.g., "dim", "pixdim", "datatype").
+
+    Returns
+    -------
+    metadata_value : Python type or None
+        Value of the metadata field, converted to standard Python types.
+        Returns None if field does not exist.
+    """
+    try:
+        img = nib.load(filename)
+        header = img.header
+
+        # Nibabel headers behave like dictionaries
+        if metadata_name not in header:
+            return None
+
+        value = header[metadata_name]
+
+        # Convert numpy scalars / arrays to Python types
+        if hasattr(value, "tolist"):
+            value = value.tolist()
+        # write_single_value_csv(value, metadata_name, filename)
+        return value
+
+    except Exception as e:
+        raise RuntimeError(f"Error reading metadata '{metadata_name}' from {filename}: {e}")
+
+# import nibabel as nib
+
+def get_all_nifti_metadata(filename: str) -> dict:
+    """
+    Load a NIfTI file and return a dictionary of all metadata entries
+    (header fields and their values).
+
+    Parameters
+    ----------
+    filename : str
+        Path to the .nii or .nii.gz file.
+
+    Returns
+    -------
+    dict
+        A dictionary where each key is a metadata name and
+        each value is converted to standard Python types.
+    """
+    try:
+        img = nib.load(filename)
+        header = img.header
+
+        metadata_dict = {}
+
+        # Iterate over all header fields
+        for key in header:
+            value = header[key]
+
+            # Convert numpy types to normal Python types
+            if hasattr(value, "tolist"):
+                value = value.tolist()
+
+            metadata_dict[key] = value
+
+        return metadata_dict
+
+    except Exception as e:
+        raise RuntimeError(f"Error reading metadata from {filename}: {e}")
+
 
 def create_color_legend_from_names(
     color_names,

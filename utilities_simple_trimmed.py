@@ -3030,14 +3030,15 @@ def safe_subset(df, cols):
 
 def divide_combined_file_edema_N_compartment(filename="combined_output.csv",latexfilename='temp.tex'):
     combined = pd.read_csv(filename)
-    # 1) Infarct-related metrics
+    # 1) Infarct-related metrics  put volume first, then infarct density, then NWU, then threshold
     infarct_cols = [
         # "FileName_slice",
         "INFARCT SIDE",
-        "NWU",
-        # "NON INFARCT DENSITY",
         "INFARCT VOLUME",
         "INFARCT REFLECTION VOLUME",
+        "INFARCT DENSITY",
+        "NON INFARCT DENSITY",
+        "NWU",
         "INFARCT THRESH RANGE",
         "NORMAL THRESH RANGE",
         # "INFARCT_AUTO_REMOVESMALL",
@@ -3079,11 +3080,11 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     brain_cols = [
         # "FileName_slice",
         "BET VOLUME",
-        "BET_MASK_WITHOUT_CSF",
         "BET_LEFT",
         "BET_RIGHT",
         "LEFT BRAIN VOLUME without CSF",
         "RIGHT BRAIN VOLUME without CSF",
+        "TOTAL_BRAIN_VOLUME",
     ]
     df_brain = safe_subset(combined, brain_cols)
 
@@ -3162,6 +3163,10 @@ def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilen
     combined = combined.rename(columns={
         "FileName_slice": "FileName"
     })
+    combined = combined.rename(columns={
+        "BET_MASK_WITHOUT_CSF": "TOTAL_BRAIN_VOLUME"
+    })
+
     combined = combined.drop(columns=cols_to_remove, errors="ignore")
     combined = combined.apply(
         lambda col: col.map(lambda x: f"{x:.2f}" if isinstance(x, (int, float)) else x))

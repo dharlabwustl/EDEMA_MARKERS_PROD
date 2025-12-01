@@ -46,6 +46,27 @@ import webcolors
 ##############################################################################################################################################
 # import nibabel as nib
 # import csv
+# import csv
+# import pandas as pd
+
+def get_csv_column_value(csv_filename: str, column_name: str):
+    """
+    Reads a CSV file and returns the value of a specific column.
+    If multiple rows exist, the value from the FIRST row is returned.
+    Returns None on failure.
+    """
+    try:
+        df = pd.read_csv(csv_filename)
+
+        if column_name not in df.columns:
+            return None
+
+        # Return the first row's value
+        return df.iloc[0][column_name]
+
+    except Exception:
+        return None
+
 
 def write_single_value_csv(value, value_name, filename):
     """

@@ -748,7 +748,7 @@ from utilities_simple_trimmed import create_color_legend_from_names
 
 create_color_legend_from_names(
     [None, None, None,None],
-    ['NCCT', '${grayscale_filename_basename_noext}','SLICE NUM::${SLICE_NUM}','SLICE THICKNESS::${SLICE_THICKNESS}'],
+    ['NCCT', '${grayscale_filename_basename_noext}','SLICE NUM ${SLICE_NUM}','SLICE THICKNESS ${SLICE_THICKNESS}'],
     'legend_NCCT.png'
 )
 EOF

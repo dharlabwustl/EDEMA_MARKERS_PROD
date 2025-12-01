@@ -733,20 +733,28 @@ call_calculate_volume ${mask_filename29} ${grayscale_filename_basename_noext}
     color_list='purple_maroon_black_black'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename1} ${mask_filename2} ${mask_filename3} ${mask_filename4})
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
+first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
+echo $first_file
+echo ${csvfilename_trimmed}
+SLICE_THICKNESS=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'SLICE_THICKNESS'))")
+SLICE_NUM=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'SLICE_NUM'))")
+LEFT_CSF_VOLUME=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'LEFT_CSF_VOLUME'))")
+RIGHT_CSF_VOLUME=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'RIGHT_CSF_VOLUME'))")
+CSF_RATIO=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'CSF_RATIO'))")
 
 #    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None,None], ['NCCT',${grayscale_filename_basename_noext}], 'legend_NCCT.png')"
 python3 - <<EOF
 from utilities_simple_trimmed import create_color_legend_from_names
 
 create_color_legend_from_names(
-    [None, None],
-    ['NCCT', '${grayscale_filename_basename_noext}'],
+    [None, None, None,None],
+    ['NCCT', '${grayscale_filename_basename_noext}','SLICE NUM::${SLICE_NUM}','SLICE THICKNESS::${SLICE_THICKNESS}'],
     'legend_NCCT.png'
 )
 EOF
 
     outputfile_suffix="INFARCT"
-    color_list='blue_blue_red_red'
+    color_list='purple_purple_orange_orange'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename32} ${mask_filename33} )
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
@@ -754,14 +762,14 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
     outputfile_suffix="COMPLETE_CSF"
     color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4})
-python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','red',None], ['Right CSF','Left CSF'], 'legend_CSF.png')"
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','red','green','red',None], ['Right CSF','Left CSF','RIGHT_CSF_VOLUME::${RIGHT_CSF_VOLUME}','LEFT_CSF_VOLUME::${LEFT_CSF_VOLUME}','CSF_RATIO::${CSF_RATIO}'], 'legend_CSF.png')"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     echo outputfiles_present::${outputfiles_present}
 
     outputfile_suffix="CSF_COMPARTMENTS"
-    color_list='green_green_yellow_yellow_red_red_aqua_aqua_purple_purple'
+    color_list='khaki_khaki_yellow_yellow_hotpink_hotpink_aqua_aqua_tomato_tomato'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
-python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','yellow','red','aqua','purple'], ['Ventricle','SV sulci','V sulci','IV sulci','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['khaki','yellow','hotpink','aqua','tomato'], ['Ventricle','Sulci – above ventricle','Sulci – at vent','Sulci – below vent','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv
     cp ${csvfilename} ${csvfilename_trimmed} ##%.csv}_TRIMMED.csv
@@ -881,11 +889,14 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
         echo outputfiles_present::${outputfiles_present}
       fi
     done
-first_file=$(ls -t "${output_directory}"/*columndropped.csv | head -n 1)
-echo $first_file
-echo ${csvfilename_trimmed}
+
 #exit
 python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartment; concatenate_edema_with_compartment('${first_file}', '${csvfilename_trimmed}', '${latexfilename}')"
+
+#csv_filename="volume_output.csv"
+#column_name="volume_ml"
+
+
 
 
     call_latex_end_arguments=('call_latex_end' ${latexfilename})

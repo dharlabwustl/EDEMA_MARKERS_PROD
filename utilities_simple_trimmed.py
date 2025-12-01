@@ -3077,6 +3077,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
     meta_cols = [
         "FileName",
         "SLICE_NUM",
+        "SLICE_THICKNESS"
     ]
     df_meta = safe_subset(combined, meta_cols)
 

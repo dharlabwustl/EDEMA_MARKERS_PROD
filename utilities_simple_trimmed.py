@@ -60,9 +60,17 @@ def get_csv_column_value(csv_filename: str, column_name: str):
 
         if column_name not in df.columns:
             return None
+        value = df.iloc[0][column_name]
 
-        # Return the first row's value
-        return df.iloc[0][column_name]
+        # If value is numeric, round to 2 significant digits
+        if pd.api.types.is_numeric_dtype(type(value)):
+            try:
+                return float(f"{value:.2g}")   # 2 significant digits
+            except Exception:
+                return value  # fallback (rare)
+
+        # Non-numeric: return unchanged
+        return value
 
     except Exception:
         return None

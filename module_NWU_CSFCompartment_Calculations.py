@@ -927,7 +927,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
             latex_end_table2c(latexfilename)
         latex_end(latexfilename)
-        remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS"])
+        remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS",  "NON INFARCT VOX_NUMBERS"]) #"INFARCT DENSITY",
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0

@@ -14,6 +14,45 @@ import nibabel as nib
 from skimage import exposure 
 import smtplib,math
 import matplotlib.pyplot as plt
+
+def get_nifti_metadata(filename: str, metadata_name: str):
+    """
+    Read a NIfTI (.nii/.nii.gz) file using nibabel and return a
+    specified metadata field from the header.
+
+    Parameters
+    ----------
+    filename : str
+        Path to the NIfTI file.
+    metadata_name : str
+        Name of the metadata field (e.g., "dim", "pixdim", "datatype").
+
+    Returns
+    -------
+    metadata_value : Python type or None
+        Value of the metadata field, converted to standard Python types.
+        Returns None if field does not exist.
+    """
+    try:
+        img = nib.load(filename)
+        header = img.header
+
+        # Nibabel headers behave like dictionaries
+        if metadata_name not in header:
+            return None
+
+        value = header[metadata_name]
+
+        # Convert numpy scalars / arrays to Python types
+        if hasattr(value, "tolist"):
+            value = value.tolist()
+        # write_single_value_csv(value, metadata_name, filename)
+        return value
+
+    except Exception as e:
+        raise RuntimeError(f"Error reading metadata '{metadata_name}' from {filename}: {e}")
+
+
 def bet_gray_when_bet_binary_given():
     grayfilename_nib=nib.load(sys.argv[1] ) #grayfilename)
     betfilename_nib=nib.load(sys.argv[2] ) #betfilename)

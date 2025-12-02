@@ -767,9 +767,9 @@ python3 -c "from utilities_simple_trimmed import create_color_legend_from_names;
     echo outputfiles_present::${outputfiles_present}
 
     outputfile_suffix="CSF_COMPARTMENTS"
-    color_list='lightcoral_lightcoral_yellow_yellow_hotpink_hotpink_aqua_aqua_tomato_tomato'
+    color_list='lightgreen_lightgreen_yellow_yellow_violet_violet_aqua_aqua_tomato_tomato'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${mask_filename3} ${mask_filename4} ${mask_filename5} ${mask_filename6} ${mask_filename7} ${mask_filename8} ${mask_filename9} ${mask_filename10} ${mask_filename30} ${mask_filename31})
-python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['lightcoral','yellow','hotpink','aqua','tomato'], ['Ventricle','Sulci-above ventricle','Sulci-at vent','Sulci-below vent','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
+python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['lightgreen','yellow','violet','aqua','tomato'], ['Ventricle','Sulci-above ventricle','Sulci-at vent','Sulci-below vent','Cistern'], 'legend_CSF_COMPARTMENTS.png',rect_size=(50, 50))"
     outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #    exit
     csvfilename_trimmed=${csvfilename%.csv}_TRIMMED.csv

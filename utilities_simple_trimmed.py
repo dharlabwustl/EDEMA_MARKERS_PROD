@@ -3102,7 +3102,7 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
         "SULCI_BELOW_VENTRICLE",
     ]
     # df_sulci = safe_subset(combined, sulci_cols)
-    df_sulci=make_sulci_table(combined)
+    df_sulci=make_sulci_df(combined)
     # 5) Slice/meta info (minimal, can expand later)
     meta_cols = [
         "FileName",
@@ -3185,40 +3185,31 @@ def wide_to_long(df) : # pd.DataFrame) -> pd.DataFrame:
     df_long = df.stack().reset_index().iloc[:, 1:]
     df_long.columns = ["VARIABLE", "VALUE"]
     return df_long
-def make_sulci_table(df):
-    """
-    Expects df to contain columns:
-    SULCI_ABOVE_VENTRICLE_LEFT
-    SULCI_ABOVE_VENTRICLE_RIGHT
-    SULCI_AT_VENTRICLE_LEFT
-    SULCI_AT_VENTRICLE_RIGHT
-    SULCI_BELOW_VENTRICLE_LEFT
-    SULCI_BELOW_VENTRICLE_RIGHT
-    SULCI_ABOVE_VENTRICLE
-    SULCI_AT_VENTRICLE
-    SULCI_BELOW_VENTRICLE
-    """
 
-    table = pd.DataFrame({
+
+def make_sulci_df(df):
+    data = {
         "Sulci": ["Above Ventricle", "Ventricle", "Below Vent"],
         "Total": [
-            df["SULCI_ABOVE_VENTRICLE"].iloc[0],
-            df["SULCI_AT_VENTRICLE"].iloc[0],
-            df["SULCI_BELOW_VENTRICLE"].iloc[0],
+            df.loc[0, "SULCI_ABOVE_VENTRICLE"],
+            df.loc[0, "SULCI_AT_VENTRICLE"],
+            df.loc[0, "SULCI_BELOW_VENTRICLE"],
         ],
         "Left": [
-            df["SULCI_ABOVE_VENTRICLE_LEFT"].iloc[0],
-            df["SULCI_AT_VENTRICLE_LEFT"].iloc[0],
-            df["SULCI_BELOW_VENTRICLE_LEFT"].iloc[0],
+            df.loc[0, "SULCI_ABOVE_VENTRICLE_LEFT"],
+            df.loc[0, "SULCI_AT_VENTRICLE_LEFT"],
+            df.loc[0, "SULCI_BELOW_VENTRICLE_LEFT"],
         ],
         "Right": [
-            df["SULCI_ABOVE_VENTRICLE_RIGHT"].iloc[0],
-            df["SULCI_AT_VENTRICLE_RIGHT"].iloc[0],
-            df["SULCI_BELOW_VENTRICLE_RIGHT"].iloc[0],
+            df.loc[0, "SULCI_ABOVE_VENTRICLE_RIGHT"],
+            df.loc[0, "SULCI_AT_VENTRICLE_RIGHT"],
+            df.loc[0, "SULCI_BELOW_VENTRICLE_RIGHT"],
         ],
-    })
+    }
 
-    return table
+    final_df = pd.DataFrame(data)
+    return final_df
+
 # import pandas as pd
 #
 # # File paths (already uploaded)

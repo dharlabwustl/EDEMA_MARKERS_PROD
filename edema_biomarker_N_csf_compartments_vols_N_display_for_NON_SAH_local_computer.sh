@@ -740,7 +740,7 @@ SLICE_THICKNESS=$(python3 -c "from utilities_simple_trimmed import get_csv_colum
 SLICE_NUM=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'SLICE_NUM'))")
 LEFT_CSF_VOLUME=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'LEFT CSF VOLUME'))")
 RIGHT_CSF_VOLUME=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'RIGHT CSF VOLUME'))")
-CSF_RATIO=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'CSF_RATIO'))")
+CSF_RATIO=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${first_file}', 'CSF RATIO'))")
 
 #    python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names([None,None], ['NCCT',${grayscale_filename_basename_noext}], 'legend_NCCT.png')"
 python3 - <<EOF

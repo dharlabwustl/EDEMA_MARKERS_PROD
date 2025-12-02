@@ -3129,7 +3129,11 @@ def divide_combined_file_edema_N_compartment(filename="combined_output.csv",late
             latex_insert_line_nodek(latexfilename, text=f'{name} and cistern'.upper())
         else:
             latex_insert_line_nodek(latexfilename, text=name.upper())
-        write_panda_df(latexfilename, wide_to_long(df))
+        if 'sulci' in name.lower():
+            write_panda_df(latexfilename, df)
+        else:
+            write_panda_df(latexfilename, wide_to_long(df))
+
 
 
 def concatenate_edema_with_compartment(file1_edema, file2_compartment,latexfilename='temp.tex'):

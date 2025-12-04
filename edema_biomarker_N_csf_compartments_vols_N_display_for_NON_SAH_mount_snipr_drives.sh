@@ -454,7 +454,7 @@ NIFTI_SCAN_URI=''
 
 cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
 cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
-cp /input/RESOURCES/NIFTI_LOCATION/*_NIFTILOCATION.csv ${working_dir}/
+cp /input/RESOURCES/NIFTI_LOCATION/*NIFTILOCATION.csv ${working_dir}/
 niftilocation_file=$(ls ${working_dir}/*_NIFTILOCATION.csv | head -n 1)
 scanID=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${niftilocation_file}', 'ID'))")
 #cp /input/SCANS/${scanID}/NIFTI/*.* "${working_dir_1}/"

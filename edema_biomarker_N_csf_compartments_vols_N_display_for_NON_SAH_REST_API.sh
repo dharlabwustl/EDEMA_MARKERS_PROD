@@ -472,8 +472,14 @@ returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_with
 
 ##cp /input/SCANS/${scanID}/NIFTI/*.* "${working_dir_1}/"
 ##cp /input/SCANS/${scanID}/PREPROCESS_SEGM/*.* "${working_dir}/"
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${working_dir}','PREPROCESS_SEGM','.nii.gz')")
+
 ##cp /input/SCANS/${scanID}/MASKS/*.*   "${working_dir}/"
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${working_dir}','MASKS','.nii.gz')")
+
 ##cp /input/SCANS/${scanID}/PREPROCESS_SEGM_3/*.*  ${output_directory}/
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${output_directory}','PREPROCESS_SEGM_3','.nii.gz')")
+
 #
 #for each_npy in  $(find /input/SCANS/${scanID}/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  cp $each_npy ${working_dir_1} ; fi ; done
 # for each_npy in  $(find /input/SCANS/${scanID}/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'.npy'* ]] ; then  cp $each_npy ${output_directory} ; fi ; done

@@ -461,6 +461,13 @@ niftilocation_file=$(ls ${working_dir}/*_NIFTILOCATION.csv | head -n 1)
 scanID=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${niftilocation_file}', 'ID'))")
 #downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,file_suffix)
 echo "scanID::${scanID}"
+if [[ $scanID =~ ^-?[0-9]+([.][0-9]+)?$ ]]; then
+    echo "It's a number"
+    scanID=${scanID%.*}
+else
+    echo "Not a number"
+fi
+
 returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${working_dir_1}','NIFTI','.nii')")
 
 ##cp /input/SCANS/${scanID}/NIFTI/*.* "${working_dir_1}/"

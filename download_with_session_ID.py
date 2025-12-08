@@ -1574,7 +1574,22 @@ def downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,fi
         print("FAILED AT ::{}".format(exception))
         pass
     return  False
+def downloadfile_session_withasuffix(sessionId,output_dirname,resource_dirname,file_suffix):
+    try:
 
+        # print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
+        url = (("/data/experiments/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
+        df_listfile=listoffile_witha_URI_as_df(url)
+        for item_id, row in df_listfile.iterrows():
+            if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):
+                download_a_singlefile_with_URIString(row['URI'],row['Name'],output_dirname)
+                print("DOWNLOADED ::{}".format(row))
+
+        return True
+    except Exception as exception:
+        print("FAILED AT ::{}".format(exception))
+        pass
+    return  False
 
 def uploadfile():
     sessionId=str(sys.argv[1])

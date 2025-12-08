@@ -1578,7 +1578,7 @@ def downloadfile_session_withasuffix(sessionId,output_dirname,resource_dirname,f
     try:
 
         # print('sessionId::scanId::resource_dirname::output_dirname::{}::{}::{}::{}'.format(sessionId,scanId,resource_dirname,output_dirname))
-        url = (("/data/experiments/%s/resources/"+resource_dirname+"/files/") % (sessionId, scanId))
+        url = (("/data/experiments/%s/resources/"+resource_dirname+"/files/") % (sessionId))
         df_listfile=listoffile_witha_URI_as_df(url)
         for item_id, row in df_listfile.iterrows():
             if file_suffix in str(row['URI']) : ##.str.contains(file_suffix):

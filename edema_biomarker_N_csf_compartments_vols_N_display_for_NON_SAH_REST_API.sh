@@ -457,8 +457,11 @@ cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
 ##cp /input/RESOURCES/NIFTI_LOCATION/*NIFTILOCATION.csv ${working_dir}/
 ##downloadfile_session_withasuffix(sessionId,output_dirname,resource_dirname,file_suffix)
 returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_session_withasuffix; downloadfile_session_withasuffix('${sessionID}','${working_dir}','NIFTI_LOCATION','NIFTILOCATION.csv')")
-#niftilocation_file=$(ls ${working_dir}/*_NIFTILOCATION.csv | head -n 1)
-#scanID=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${niftilocation_file}', 'ID'))")
+niftilocation_file=$(ls ${working_dir}/*_NIFTILOCATION.csv | head -n 1)
+scanID=$(python3 -c "from utilities_simple_trimmed import get_csv_column_value; print(get_csv_column_value('${niftilocation_file}', 'ID'))")
+#downloadfile_withasuffix(sessionId,scanId,output_dirname,resource_dirname,file_suffix)
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${working_dir_1}','NIFTI','.nii')")
+
 ##cp /input/SCANS/${scanID}/NIFTI/*.* "${working_dir_1}/"
 ##cp /input/SCANS/${scanID}/PREPROCESS_SEGM/*.* "${working_dir}/"
 ##cp /input/SCANS/${scanID}/MASKS/*.*   "${working_dir}/"

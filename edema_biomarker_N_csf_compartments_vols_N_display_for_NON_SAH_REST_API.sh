@@ -8,16 +8,16 @@ sessionID=${1}
 working_dir=/workinginput
 working_dir_1=/input1
 output_directory=/workingoutput
-cp /input/SCANS/${scanID}/NIFTI/* ${working_dir_1}/
+#cp /input/SCANS/${scanID}/NIFTI/* ${working_dir_1}/
 # Directory containing masks from prior pipeline (Yasheng outputs etc.)
 WORKING_DIR_MASKS="/workinginput"
-cp /input/SCANS/${scanID}/MASKS/* ${working_dir}/
+#cp /input/SCANS/${scanID}/MASKS/* ${working_dir}/
 #cp /input/SCANS/${scanID}/NIFTI/* ${WORKING_DIR_CT}/
 # Directory containing masks from prior pipeline (Yasheng outputs etc.)
 #WORKING_DIR_MASKS="/workinginput"
 
-cp /input/SCANS/${scanID}/PREPROCESS_SEGM_3/* ${working_dir}/
-cp /input/SCANS/${scanID}/PREPROCESS_SEGM/* ${working_dir}/
+#cp /input/SCANS/${scanID}/PREPROCESS_SEGM_3/* ${working_dir}/
+#cp /input/SCANS/${scanID}/PREPROCESS_SEGM/* ${working_dir}/
 final_output_directory=/outputinsidedocker
 call_combine_csv_horizontally() {
   local grayscale_filename_basename_noext=${1}
@@ -452,8 +452,8 @@ betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPER
 csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
 NIFTI_SCAN_URI=''
 
-cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
-cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
+#cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
+#cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
 ##cp /input/RESOURCES/NIFTI_LOCATION/*NIFTILOCATION.csv ${working_dir}/
 ##downloadfile_session_withasuffix(sessionId,output_dirname,resource_dirname,file_suffix)
 returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_session_withasuffix; downloadfile_session_withasuffix('${sessionID}','${working_dir}','NIFTI_LOCATION','NIFTILOCATION.csv')")
@@ -478,10 +478,10 @@ returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_with
 returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${working_dir}','MASKS','.nii.gz')")
 
 ##cp /input/SCANS/${scanID}/PREPROCESS_SEGM_3/*.*  ${output_directory}/
-returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${output_directory}','PREPROCESS_SEGM_3','.nii.gz')")
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${output_directory}','PREPROCESS_SEGM_3','.')")
 
 ##cp /input/SCANS/${scanID}/PREPROCESS_SEGM_3/*.*  ${output_directory}/
-returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${output_directory}','EDEMA_BIOMARKER','.nii.gz')")
+returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_withasuffix; downloadfile_withasuffix('${sessionID}','${scanID}','${output_directory}','EDEMA_BIOMARKER','.')")
 
 
 for each_npy in  $(find /input/SCANS/${scanID}/PREPROCESS_SEGM_3/ -name '*.npy') ;  do  if [[ $each_npy  == *'V2'* ]] ; then  cp $each_npy ${working_dir_1} ; fi ; done

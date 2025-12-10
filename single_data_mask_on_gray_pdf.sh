@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 echo " IAM HERE"
-exit
+#exit
 VERSION='TEST'
 time_now=$(date +%m_%d_%Y)
 outputfiles_suffix="${VERSION}_${time_now}"

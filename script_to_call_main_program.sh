@@ -27,7 +27,7 @@ fi
 echo ${TYPE_OF_PROGRAM}::TYPE_OF_PROGRAM::${SUBTYPE_OF_PROGRAM}::${ADDR[0]}::${ADDR[2]}::${ADDR[3]}
 ######################### MIDLINE SHIFT 3D PROFILE PIPELINE##############################################################
 if [[ ${TYPE_OF_PROGRAM} == 'TEST_CODE_ON_ATUL_UBUNTU_DESKTOP' ]]; then
-  /software/single_data_mask_on_gray.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  /software/single_data_mask_on_gray_pdf.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'REGISTER_MASKS' ]]; then

@@ -7,7 +7,8 @@ outputfiles_suffix="${VERSION}_${time_now}"
 
 grayscale_filename_1="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPELINE/workinginput/COLI_HSP56_08242020_1502_201_resaved_levelset.nii.gz"
 grayscale_filename_basename_noext="$(basename "${grayscale_filename_1%.nii*}")"
-
+echo grayscale_filename_1
+ls ${grayscale_filename_1}
 latexfilename_prefix="${grayscale_filename_1%.nii*}"
 latexfilename="${latexfilename_prefix}_${outputfiles_suffix}.tex"
 
@@ -24,7 +25,8 @@ outputfile_dir="${output_directory}"
 outputfile_suffix="MIDLINE"
 color_list="orange_orange"
 midline_mask="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPELINE/workinginput/warped_1_mov_midlinecssfResampled1_fixed_COLI_HSP56_08242020_1502_201_brain_f_lin1_BET.nii.gz"
-
+echo ${midline_mask}
+ls ${midline_mask}
 # Use a consistent working_dir name
 working_dir="/input1"
 

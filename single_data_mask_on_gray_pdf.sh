@@ -29,8 +29,8 @@ echo ${midline_mask}
 ls ${midline_mask}
 npyfiledirectory="/workinginput"
 # Use a consistent working_dir name
-working_dir="/input1"
-
+working_dir="/workinginput"
+working_dir_1="input1"
 #    outputfile_suffix="MIDLINE"
     color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${midline_mask} ${midline_mask})

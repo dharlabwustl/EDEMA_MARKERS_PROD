@@ -985,19 +985,20 @@ for file_to_upload in "${workingoutput}"/*columndropped.csv "${workingoutput}"/*
         "${snipr_output_foldername}" \
         "$(basename "$file_to_upload")"
 done
-todaydate="__$(date +"%Y_%m_%d")"
-cp /software/combined_ouput.csv /software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
-file_to_upload=/software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
+todaydate="_$(date +"%Y_%m_%d")"
+
+
+texfile=$(ls ${working_dir_1}/*.tex | head -n 1)
+file_to_upload=${output_directory}/$(basename ${texfile%.tex}).pdf
+
 uploadsinglefile \
     "${sessionID}" \
     "${scanID}" \
     "$(dirname "$file_to_upload")" \
     "${snipr_output_foldername}" \
     "$(basename "$file_to_upload")"
-
-texfile=$(ls ${working_dir_1}/*.tex | head -n 1)
-file_to_upload=${output_directory}/$(basename ${texfile%.tex}).pdf
-
+cp /software/combined_output.csv /software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
+file_to_upload=/software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
 uploadsinglefile \
     "${sessionID}" \
     "${scanID}" \

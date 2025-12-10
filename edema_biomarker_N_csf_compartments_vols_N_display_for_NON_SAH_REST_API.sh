@@ -452,8 +452,8 @@ betfile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPER
 csffile="NONE"  ##'/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/DOCKERIZE/CSFSEPERATION/TESTING_CSF_SEPERATION/Krak_003_09042014_0949_MOZG_6.0_H31s_final_seg.nii.gz'
 NIFTI_SCAN_URI=''
 
-#cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
-#cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
+cp /EDEMABIOMARKEROUTPUT/*_infarct.png ${output_directory}/
+cp /EDEMABIOMARKEROUTPUT/*columndropped.csv ${output_directory}/
 ##cp /input/RESOURCES/NIFTI_LOCATION/*NIFTILOCATION.csv ${working_dir}/
 ##downloadfile_session_withasuffix(sessionId,output_dirname,resource_dirname,file_suffix)
 returnvalue=$(python3 -c "from download_with_session_ID import downloadfile_session_withasuffix; downloadfile_session_withasuffix('${sessionID}','${working_dir}','NIFTI_LOCATION','NIFTILOCATION.csv')")

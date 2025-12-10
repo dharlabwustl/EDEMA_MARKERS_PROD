@@ -34,8 +34,9 @@ working_dir_1="input1"
 #    outputfile_suffix="MIDLINE"
     color_list='red_green'
     call_masks_on_grayscale_colored_arguments=('call_masks_on_grayscale_colored' ${grayscale_filename_1} ${contrast_limits} ${outputfile_dir} ${outputfile_suffix} ${color_list} ${working_dir_1} ${midline_mask} ${midline_mask})
+   echo "${call_masks_on_grayscale_colored_arguments[@]}"
 #python3 -c "from utilities_simple_trimmed import create_color_legend_from_names; create_color_legend_from_names(['green','red','None'], ['RIGHT_CSF_VOLUME ${RIGHT_CSF_VOLUME}','LEFT_CSF_VOLUME ${LEFT_CSF_VOLUME}','CSF_RATIO ${CSF_RATIO}'], 'legend_CSF.png')"
-    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
+#    outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 #python3 - <<EOF
 #from dividemasks_into_left_right_Nov20_2025 import masks_on_grayscale_colored
 #

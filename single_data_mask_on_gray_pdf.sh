@@ -72,18 +72,18 @@ for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
   suffix="${y##*_}"
   echo "${suffix}"
   # Ensure suffix is numeric before integer comparison
-#  if [[ "${suffix}" =~ ^[0-9]+$ ]] \
-#     && (( suffix > 0 )) \
-#     && [ -f "${x}" ] \
-#     && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" ]; then
+  if [[ "${suffix}" =~ ^[0-9]+$ ]] \
+     && (( suffix > 0 )) \
+     && [ -f "${x}" ] \
+     && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" ]; then
+
+    echo "suffix::${suffix}"
+
+#    images+=( "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" )
 #
-#    echo "suffix::${suffix}"
-
-    images+=( "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" )
-
-    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
 #    echo "outputfiles_present::${outputfiles_present}"
-#  fi
+  fi
 done
 
 # ---- LaTeX end + PDF ----

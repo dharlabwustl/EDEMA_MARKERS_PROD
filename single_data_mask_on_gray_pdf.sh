@@ -70,11 +70,13 @@ for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
 
   # Get numeric suffix after last underscore
   suffix="${y##*_}"
+  slice_number_decimal=$((10#$suffix))
   echo "${suffix}"
   echo ${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg
   # Ensure suffix is numeric before integer comparison
-  if [[ "${suffix}" =~ ^[0-9]+$ ]] \
-     && (( suffix > 0 )) \
+#  if [[ "${suffix}" =~ ^[0-9]+$ ]] \
+#     &&
+  if   (( slice_number_decimal > 0 )) \
      && [ -f "${x}" ] \
      && [ -f "${output_directory}/${grayscale_filename_basename_noext}_MIDLINE_${suffix}.jpg" ]; then
 

@@ -7,16 +7,16 @@ outputfiles_suffix="${VERSION}_${time_now}"
 
 grayscale_filename_1="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPELINE/workinginput/COLI_HSP56_08242020_1502_201_resaved_levelset.nii.gz"
 grayscale_filename_basename_noext="$(basename "${grayscale_filename_1%.nii*}")"
-echo grayscale_filename_1
+echo $grayscale_filename_1
 ls ${grayscale_filename_1}
 latexfilename_prefix="${grayscale_filename_1%.nii*}"
 latexfilename="${latexfilename_prefix}_${outputfiles_suffix}.tex"
 echo "${latexfilename}"
-exit
+
 # ---- LaTeX start ----
 call_latex_start_arguments=( "call_latex_start" "${latexfilename}" )
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
-
+exit
 contrast_limits="0_200"
 
 # Use a single, consistent output directory variable

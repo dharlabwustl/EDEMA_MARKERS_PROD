@@ -7,7 +7,7 @@ VERSION='TEST'
 time_now=$(date +%m_%d_%Y)
 outputfiles_suffix="${VERSION}_${time_now}"
 
-grayscale_filename_1="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPELINE/workinginput/COLI_HSP56_08242020_1502_201_resaved_levelset.nii.gz"
+grayscale_filename_1="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPELINE/workinginput/COLI_HSP56_08242020_1502_201.nii" ##COLI_HSP56_08242020_1502_201_resaved_levelset.nii.gz"
 grayscale_filename_basename_noext="$(basename "${grayscale_filename_1%.nii*}")"
 echo $grayscale_filename_1
 ls ${grayscale_filename_1}
@@ -33,7 +33,7 @@ ls ${midline_mask}
 # Use a consistent working_dir name
 
 call_masks_on_grayscale_colored_arguments=(
-  "call_masks_on_grayscale_colored_512x512"
+  "call_masks_on_grayscale_colored"
   "${grayscale_filename_1}"
   "${contrast_limits}"
   "${outputfile_dir}"

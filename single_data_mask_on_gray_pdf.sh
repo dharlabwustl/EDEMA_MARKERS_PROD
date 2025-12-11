@@ -70,7 +70,7 @@ for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
 
   # Get numeric suffix after last underscore
   suffix="${y##*_}"
-
+  echo "${suffix}"
   # Ensure suffix is numeric before integer comparison
   if [[ "${suffix}" =~ ^[0-9]+$ ]] \
      && (( suffix > 0 )) \

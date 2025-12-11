@@ -12,6 +12,7 @@ ls ${grayscale_filename_1}
 latexfilename_prefix="${grayscale_filename_1%.nii*}"
 latexfilename="${latexfilename_prefix}_${outputfiles_suffix}.tex"
 echo "${latexfilename}"
+exit
 # ---- LaTeX start ----
 call_latex_start_arguments=( "call_latex_start" "${latexfilename}" )
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")

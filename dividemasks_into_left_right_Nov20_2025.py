@@ -329,7 +329,7 @@ def masks_on_grayscale_colored_512x512(grayscale_filename,contrast_limits,mask_f
         command="echo successful at :: {}::npyfiledirectory::{} >> /software/error.txt".format(inspect.stack()[0][3],npyfiledirectory)
         subprocess.call(command,shell=True)
         grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
-        grayscale_filename_np=resizeinto_512by512(grayscale_filename_np)
+        # grayscale_filename_np=resizeinto_512by512(grayscale_filename_np)
         grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
         slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
         method_name="REGIS"

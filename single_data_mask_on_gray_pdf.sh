@@ -9,8 +9,8 @@ grayscale_filename_1="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SN
 grayscale_filename_basename_noext="$(basename "${grayscale_filename_1%.nii*}")"
 echo $grayscale_filename_1
 ls ${grayscale_filename_1}
-latexfilename_prefix="${grayscale_filename_1%.nii*}"
-latexfilename="${latexfilename_prefix}_${outputfiles_suffix}.tex"
+latexfilename_prefix="${grayscale_filename_basename_noext%.nii*}"
+latexfilename=${output_directory}/"${latexfilename_prefix}_${outputfiles_suffix}.tex"
 echo "${latexfilename}"
 
 # ---- LaTeX start ----

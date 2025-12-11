@@ -19,7 +19,7 @@ echo "${latexfilename}"
 call_latex_start_arguments=( "call_latex_start" "${latexfilename}" )
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_arguments[@]}")
 #exit
-contrast_limits="0_200"
+contrast_limits="1000_1200"
 
 # Use a single, consistent output directory variable
 

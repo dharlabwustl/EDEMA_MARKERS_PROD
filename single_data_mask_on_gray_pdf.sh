@@ -80,10 +80,10 @@ for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
 
     echo "suffix::${suffix}"
 
-#    images+=( "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" )
-#
-#    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
-#    echo "outputfiles_present::${outputfiles_present}"
+    images+=( "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" )
+
+    outputfiles_present=$(python3 utilities_simple_trimmed.py "${images[@]}")
+    echo "outputfiles_present::${outputfiles_present}"
   fi
 done
 

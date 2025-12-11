@@ -71,11 +71,12 @@ for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
   # Get numeric suffix after last underscore
   suffix="${y##*_}"
   echo "${suffix}"
+  echo ${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg
   # Ensure suffix is numeric before integer comparison
   if [[ "${suffix}" =~ ^[0-9]+$ ]] \
      && (( suffix > 0 )) \
-     && [ -f "${x}" ] ; then #\
-#     && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" ]; then
+     && [ -f "${x}" ] \
+     && [ -f "${output_directory}/${grayscale_filename_basename_noext}_resaved_levelset_MIDLINE_${suffix}.jpg" ]; then
 
     echo "suffix::${suffix}"
 

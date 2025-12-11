@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+output_directory="/workingoutput"
+working_dir_1="/input1"
+working_dir="/workinginput"
 VERSION='TEST'
 time_now=$(date +%m_%d_%Y)
 outputfiles_suffix="${VERSION}_${time_now}"
@@ -20,7 +22,7 @@ outputfiles_present=$(python3 utilities_simple_trimmed.py "${call_latex_start_ar
 contrast_limits="0_200"
 
 # Use a single, consistent output directory variable
-output_directory="/workingoutput"
+
 outputfile_dir="${output_directory}"
 
 outputfile_suffix="MIDLINE"
@@ -29,8 +31,7 @@ midline_mask="/media/atul/WDJan2022/WASHU_WORKS/PROJECTS/GUI_SOFTWARE/SNIPR_PIPE
 echo ${midline_mask}
 ls ${midline_mask}
 # Use a consistent working_dir name
-working_dir_1="/input1"
-working_dir="/workinginput"
+
 call_masks_on_grayscale_colored_arguments=(
   "call_masks_on_grayscale_colored_512x512"
   "${grayscale_filename_1}"

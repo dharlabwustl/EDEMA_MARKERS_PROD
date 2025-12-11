@@ -43,11 +43,12 @@ call_masks_on_grayscale_colored_arguments=(
   "${midline_mask}"
   "${midline_mask}"
 )
-echo "python3 dividemasks_into_left_right_Nov20_2025.py ${call_masks_on_grayscale_colored_arguments[@]}"
+#echo "python3 dividemasks_into_left_right_Nov20_2025.py ${call_masks_on_grayscale_colored_arguments[@]}"
 outputfiles_present=$(python3 dividemasks_into_left_right_Nov20_2025.py "${call_masks_on_grayscale_colored_arguments[@]}")
 
 # ---- Loop over JPGs ----
 for x in "${outputfile_dir}/${grayscale_filename_basename_noext}"*.jpg; do
+  echo ${x}
   # If the glob doesn't match anything, skip
   [ -e "$x" ] || continue
 

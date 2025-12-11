@@ -31,7 +31,7 @@ ls ${midline_mask}
 working_dir_1="/input1"
 working_dir="/workinginput"
 call_masks_on_grayscale_colored_arguments=(
-  "call_masks_on_grayscale_colored"
+  "call_masks_on_grayscale_colored_512x512"
   "${grayscale_filename_1}"
   "${contrast_limits}"
   "${outputfile_dir}"

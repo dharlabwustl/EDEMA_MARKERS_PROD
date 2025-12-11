@@ -310,6 +310,106 @@ def call_masks_on_grayscale_colored(args):
     print(returnvalue)
     return  returnvalue
 
+def masks_on_grayscale_colored_512x512(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory=""):
+    returnvalue=0
+
+    try:
+        command="echo successful at :: {}::grayscale_filename::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::contrast_limits::{} >> /software/error.txt".format(inspect.stack()[0][3],contrast_limits)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::mask_filename_list::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_filename_list)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::mask_color_list::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_color_list)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::outputfile_dir::{} >> /software/error.txt".format(inspect.stack()[0][3],outputfile_dir)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::outputfile_suffix::{} >> /software/error.txt".format(inspect.stack()[0][3],outputfile_suffix)
+        subprocess.call(command,shell=True)
+        command="echo successful at :: {}::npyfiledirectory::{} >> /software/error.txt".format(inspect.stack()[0][3],npyfiledirectory)
+        subprocess.call(command,shell=True)
+        grayscale_filename_np=nib.load(grayscale_filename).get_fdata()
+        grayscale_filename_np=resizeinto_512by512(grayscale_filename_np)
+        grayscale_filename_np=exposure.rescale_intensity( grayscale_filename_np , in_range=(contrast_limits[0], contrast_limits[1]))*255
+        slice_3_layer= np.zeros([grayscale_filename_np.shape[0],grayscale_filename_np.shape[1],3])
+        method_name="REGIS"
+        # npyfiledirectory="/input"
+
+        for i in range(grayscale_filename_np.shape[2]):
+            slice_3_layer[:,:,0]= grayscale_filename_np[:,:,i] #imgray1
+            slice_3_layer[:,:,1]= grayscale_filename_np[:,:,i] #imgray1
+            slice_3_layer[:,:,2]= grayscale_filename_np[:,:,i]# imgray1
+
+            for mask_filename_list_id in range(len(mask_filename_list)):
+                mask_filename_np=nib.load(mask_filename_list[mask_filename_list_id]).get_fdata()
+                mask_filename_np = resizeinto_512by512(mask_filename_np)
+                command="echo successful at :: {}::sizemask_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],mask_filename_np.shape[1])
+                subprocess.call(command,shell=True)
+                command="echo successful at :: {}::sizegrayscale_filename_np::{} >> /software/error.txt".format(inspect.stack()[0][3],grayscale_filename_np.shape[1])
+                subprocess.call(command,shell=True)
+                slice_3_layer[:,:,0][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[2]
+                slice_3_layer[:,:,1][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[1]
+                slice_3_layer[:,:,2][mask_filename_np[:,:,i]>0]=webcolors.name_to_rgb(mask_color_list[mask_filename_list_id])[0]
+            slice_number="{0:0=3d}".format(i)
+            # filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(grayscale_filename).split(".nii")[0])
+            # this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+"_"+str(slice_number)+  "_V2.npy")
+            # if os.path.exists(npyfiledirectory):
+            #     try:
+            slice_3_layer=draw_midline_on_a_slice(grayscale_filename,method_name,npyfiledirectory,slice_3_layer,slice_number)
+                # except:
+                #     pass
+            # command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
+            # subprocess.call(command,shell=True)
+            # if os.path.exists(this_npyfile):
+            #     calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+            #     x_points2=calculated_midline_points.item().get('x_axis')
+            #     y_points2=calculated_midline_points.item().get('y_axis')
+            #     x_points2=x_points2[:,0]
+            #     y_points2=y_points2[:,0]
+            #     slice_3_layer=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+            #     command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],this_npyfile)
+            #     subprocess.call(command,shell=True)
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            org = (50, 50)
+
+                # fontScale
+            fontScale = 1
+
+            # Blue color in BGR
+            color = (0, 0, 255)
+
+            # Line thickness of 2 px
+            thickness = 2
+            slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+            cv2.imwrite(os.path.join(outputfile_dir, os.path.basename(grayscale_filename).split('.nii')[0] + "_" + outputfile_suffix+'_'+ slice_number+".jpg"),slice_3_layer)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'masks_on_grayscale_colored')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+
+    print(returnvalue)
+    return  returnvalue
+def call_masks_on_grayscale_colored_512x512(args):
+    returnvalue=0
+    try:
+        grayscale_filename=args.stuff[1]
+        contrast_limits=(int(args.stuff[2].split('_')[0]),int(args.stuff[2].split('_')[1]))
+        mask_color_list=args.stuff[5].split('_')
+        outputfile_dir=args.stuff[3]
+        outputfile_suffix=args.stuff[4]
+        npyfiledirectory=args.stuff[6]
+        mask_filename_list=args.stuff[7:]
+        masks_on_grayscale_colored_512x512(grayscale_filename,contrast_limits,mask_filename_list,mask_color_list,outputfile_dir,outputfile_suffix,npyfiledirectory)
+        command="echo successful at :: {}::maskfilename::{} >> /software/error.txt".format(inspect.stack()[0][3],'call_masks_on_grayscale_colored')
+        subprocess.call(command,shell=True)
+    except:
+        command="echo failed at :: {} >> /software/error.txt".format(inspect.stack()[0][3])
+        subprocess.call(command,shell=True)
+    print(returnvalue)
+    return  returnvalue
+
+
 def masks_subtraction(mask_donor,mask_tobe_subtracted,output_mask_file):
     returnvalue=0
     try:
@@ -1930,6 +2030,8 @@ def main():
         return_value=call_masks_subtraction(args)
     if name_of_the_function == "call_masks_on_grayscale_colored":
         return_value=call_masks_on_grayscale_colored(args)
+    if name_of_the_function == "call_masks_on_grayscale_colored_512x512":
+        return_value=call_masks_on_grayscale_colored_512x512(args)
     if name_of_the_function == "call_combine_csv_horizontally":
         return_value=call_combine_csv_horizontally(args)
     if name_of_the_function == "call_calculate_volume_mask_from_yasheng":

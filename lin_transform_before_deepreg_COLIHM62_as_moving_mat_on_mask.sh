@@ -524,7 +524,7 @@ template_prefix=$(basename ${fixed_image_filename%.nii*})
 #/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
 session_ct_bet_gray_lin_reg_output=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 movingimage_gray_registered=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
-exit
+
 moving_image_filename=$(basename ${moving_image_filename})
 registration_mat_file=${working_dir}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.mat
 
@@ -535,6 +535,8 @@ mask_binary_output_dir='/input1'
 snipr_output_foldername="PREPROCESS_SEGM_3"
 
 /software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+
+exit
 mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
 threshold=0
 function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})

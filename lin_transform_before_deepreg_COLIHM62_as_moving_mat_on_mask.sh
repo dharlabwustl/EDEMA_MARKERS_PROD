@@ -544,7 +544,7 @@ echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_w
 outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
 infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-exit
+#exit
 #######################################################################################################
 #################################################################################################
 moving_image_filename=/software/midlinecssfResampled1.nii.gz ##scct_strippedResampled1_left_mask.nii.gz ####midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz

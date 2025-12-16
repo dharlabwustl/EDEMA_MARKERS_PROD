@@ -38,8 +38,10 @@ def given_sessionid_get_project_n_subjectids(session_id):
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as connection:
             exp = connection.experiments[session_id]
             subj = exp.subject
-
-            return exp.project, subj.id
+            # print("Project ID:", exp.project)  # project identifier
+            # print("Subject ID:", subj.id)  # system-wide subject id
+            # print("Subject Label:", subj.label)
+            return exp.project, subj.label
 
     except Exception as e:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

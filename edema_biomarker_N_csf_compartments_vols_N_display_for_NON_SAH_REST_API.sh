@@ -931,6 +931,7 @@ python3 -c "from utilities_simple_trimmed import concatenate_edema_with_compartm
 
 
 
+python3 -c "from utilities_using_xnat_python import given_csvfile_proj_subjids_append; given_csvfile_proj_subjids_append('/software/combined_output.csv', '${sessionID}')"
 
     call_latex_end_arguments=('call_latex_end' ${latexfilename})
     pdfilename=${output_directory}/$(basename ${latexfilename%.tex*}.pdf)

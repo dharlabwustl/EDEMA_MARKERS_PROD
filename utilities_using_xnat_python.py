@@ -24,8 +24,57 @@ import xnat
 import inspect
 import traceback
 from datetime import datetime
-
+from railway_fill_database import apply_single_row_csv_to_table
 LOG_FILE = "./xnat_session_errors.log"
+import inspect
+import traceback
+from datetime import datetime
+
+LOG_FILE = "railway_db_errors.log"
+
+def call_apply_single_row_csv_to_table(session_id, csv_file):
+    """
+    Wrapper to:
+    - resolve project/subject from session_id
+    - use project_id as table name
+    - apply single-row CSV to DB table
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        # Resolve project & subject
+        project_id, subject_label = given_sessionid_get_project_n_subjectids(session_id)
+
+        if not project_id:
+            raise ValueError(f"Could not resolve project for session_id={session_id}")
+
+        table_name = project_id  # as per your design
+
+        result = apply_single_row_csv_to_table(
+            # engine=ENGINE,                    # global/shared engine
+            csv_file=csv_file,
+            table_name=table_name,
+            session_id=session_id,      # identifier column in CSV & DB
+        )
+
+        return result
+
+    except Exception as e:
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        msg = (
+            f"[{ts}] Function: {func_name}\n"
+            f"session_id={session_id}\n"
+            f"csv_file={csv_file}\n"
+            f"Error: {e}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(LOG_FILE, "a") as f:
+            f.write(msg)
+
+        # Propagate or return sentinel (choose one)
+        raise
+        # or: return None
 
 def given_sessionid_get_project_n_subjectids(session_id):
     """

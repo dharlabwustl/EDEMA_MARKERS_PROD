@@ -612,6 +612,77 @@ def create_table(csvfilenamefortable):
         print(f"[INFO] Inserted {total} rows...", flush=True)
 
     print(f"✅ Done. Loaded ~{total} rows into `{table}`.")
+import pandas as pd
+import inspect
+
+def apply_single_row_csv_to_table(
+    csv_file: str,
+    table_name: str,
+    session_id: str,
+    insert_if_missing: bool = True,
+    create_target_col_if_missing: bool = True,
+    default_target_col_type: str = "VARCHAR(255) NULL",
+):
+    """
+    Read a single-row CSV and apply each column value to the database table
+    using update_table_value_by_identifier().
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    # Load CSV
+    df = pd.read_csv(csv_file)
+
+    if df.shape[0] != 1:
+        raise ValueError(
+            f"{func_name}: CSV must contain exactly ONE row, found {df.shape[0]}"
+        )
+
+    row = df.iloc[0]
+
+    # if identifier_col not in df.columns:
+    #     raise ValueError(
+    #         f"{func_name}: Identifier column '{identifier_col}' not found in CSV"
+    #     )
+
+    identifier_val =  session_id ##row[identifier_col]
+
+    results = []
+
+    for col in df.columns:
+        # Skip identifier column itself
+        # if col == identifier_col:
+        #     continue
+
+        val = row[col]
+
+        # Skip NaN values (optional but usually desired)
+        if pd.isna(val):
+            continue
+
+        res = update_table_value_by_identifier(
+            engine=engine,
+            table_name=table_name,
+            identifier_col="SESSION_ID",
+            identifier_val=identifier_val,
+            target_col=col,
+            target_val=val,
+            insert_if_missing=insert_if_missing,
+            create_target_col_if_missing=create_target_col_if_missing,
+            target_col_type=default_target_col_type,
+        )
+
+        results.append({
+            "column": col,
+            "value": val,
+            "result": res,
+        })
+
+    return {
+        "status": "completed",
+        "table": table_name,
+        "identifier": {identifier_col: identifier_val},
+        "updates": results,
+    }
 
 # def main():
 # #     # create_table('/home/atul/Downloads/sessions_COLI_BEFORE_SORTING_STEP1_20231208210754.csv')

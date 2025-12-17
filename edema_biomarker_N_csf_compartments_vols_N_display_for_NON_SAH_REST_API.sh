@@ -1006,3 +1006,6 @@ uploadsinglefile \
     "$(dirname "$file_to_upload")" \
     "${snipr_output_foldername}" \
     "$(basename "$file_to_upload")"
+
+python3 -c "from utilities_using_xnat_python import call_apply_single_row_csv_to_table; call_apply_single_row_csv_to_table( '${sessionID}','${file_to_upload}')"
+

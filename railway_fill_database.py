@@ -680,7 +680,7 @@ def apply_single_row_csv_to_table(
     return {
         "status": "completed",
         "table": table_name,
-        "identifier": {identifier_col: identifier_val},
+        "identifier": {"SESSION_ID": identifier_val},
         "updates": results,
     }
 

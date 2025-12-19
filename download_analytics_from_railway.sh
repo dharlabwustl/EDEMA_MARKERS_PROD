@@ -5,7 +5,13 @@ python3 -c "from railway_fill_database import download_as_csv; download_as_csv( 
 resource_label='ANALYTICS'
 local_file_path=/software/${filename}
 remote_filename=${filename}
-python3 -c "from utilities_using_xnat_python import upload_file_to_project_resource; upload_file_to_project_resource( '${project_id}','${resource_label}','${filename}','${filename}')"
+
+  python3 -c "
+import sys
+sys.path.append('/software');
+from download_with_session_ID import *;
+uploadsinglefile_projectlevel()" ${project_id} '/software' ${resource_label} ${remote_filename}
+#python3 -c "from utilities_using_xnat_python import upload_file_to_project_resource; upload_file_to_project_resource( '${project_id}','${resource_label}','${filename}','${filename}')"
 #def upload_file_to_project_resource(
 #    project_id: str,
 #    resource_label: str,

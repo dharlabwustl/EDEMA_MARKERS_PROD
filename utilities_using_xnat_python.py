@@ -165,10 +165,10 @@ def upload_file_to_project_resource(
     project_id: str,
     resource_label: str,
     local_file_path: str,
-    remote_filename: str | None = None,
+    remote_filename: str , #| None = None,
     verify: bool = True,
     use_multipart: bool = True,
-    log_file: str = "xnat_upload_errors.log",
+    log_file: str = "xnat_upload_errors.log"
 ) -> dict:
     """
     Upload a local file into a PROJECT-level resource folder in XNAT.

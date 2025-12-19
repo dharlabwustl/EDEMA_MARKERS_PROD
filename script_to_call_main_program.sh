@@ -30,6 +30,11 @@ if [[ ${TYPE_OF_PROGRAM} == 'TEST_CODE_ON_ATUL_UBUNTU_DESKTOP' ]]; then
   /software/single_data_mask_on_gray_pdf.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 
+if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_ANALYTICS_FROM_RAILWAY' ]]; then
+  PROJECT_ID=${SESSION_ID}
+  /software/download_analytics_from_railway.sh ${PROJECT_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi
+
 if [[ ${TYPE_OF_PROGRAM} == 'REGISTER_MASKS' ]]; then
   /software/register_masks_to_a_template.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

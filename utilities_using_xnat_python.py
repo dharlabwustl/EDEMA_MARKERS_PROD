@@ -11,6 +11,9 @@ import pandas as pd
 import nibabel as nib
 import numpy as np
 import pathlib
+import os
+import traceback
+# import xnat
 import argparse,xmltodict
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
@@ -20,7 +23,7 @@ XNAT_USER = os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 api_token=os.environ['REDCAP_API']
 
-import xnat
+# import xnat
 import inspect
 import traceback
 from datetime import datetime
@@ -155,5 +158,87 @@ def given_csvfile_proj_subjids_append(csvfile, session_id):
             f.write(err)
         return None
 
+
+
+
+def upload_file_to_project_resource(
+    project_id: str,
+    resource_label: str,
+    local_file_path: str,
+    remote_filename: str | None = None,
+    verify: bool = True,
+    use_multipart: bool = True,
+    log_file: str = "xnat_upload_errors.log",
+) -> dict:
+    """
+    Upload a local file into a PROJECT-level resource folder in XNAT.
+
+    Target REST shape (project resources):
+      - Create resource folder:
+          PUT  /data/projects/{project-id}/resources/{resource-label}
+      - Upload file:
+          PUT  /data/projects/{project-id}/resources/{resource-label}/files/{filename}
+        (either multipart 'file=@...' OR raw body with ?inbody=true)
+    See XNAT API docs. :contentReference[oaicite:0]{index=0}
+
+    Returns:
+      {"ok": True, "project_id": ..., "resource_label": ..., "filename": ..., "uploaded_to": ...}
+      or {"ok": False, "error": "...", "where": "..."} on failure (and logs traceback).
+    """
+    xnat_host=XNAT_HOST
+    username = XNAT_USER
+    password = XNAT_PASS
+    try:
+        if not os.path.isfile(local_file_path):
+            raise FileNotFoundError(f"Local file not found: {local_file_path}")
+
+        filename = remote_filename or os.path.basename(local_file_path)
+
+        # XNAT expects paths under /data/...
+        resource_base = f"/data/projects/{project_id}/resources/{resource_label}"
+        upload_endpoint = f"{resource_base}/files/{filename}"
+
+        with xnat.connect(xnat_host, user=username, password=password, verify=verify) as sess:
+            # xnatpy session exposes requests-like methods; use interface.* if present
+            http = getattr(sess, "interface", sess)
+
+            # 1) Ensure the project resource folder exists (idempotent PUT)
+            r1 = http.put(resource_base)
+            if hasattr(r1, "ok") and not r1.ok:
+                raise RuntimeError(f"Failed creating/ensuring resource folder: {r1.status_code} {getattr(r1, 'text', '')}")
+
+            # 2) Upload the file
+            with open(local_file_path, "rb") as f:
+                if use_multipart:
+                    # multipart form upload (like: curl -F "file=@x")
+                    r2 = http.put(upload_endpoint, files={"file": f})
+                else:
+                    # raw body upload requires inbody=true
+                    r2 = http.put(upload_endpoint, params={"inbody": "true"}, data=f)
+
+            if hasattr(r2, "ok") and not r2.ok:
+                raise RuntimeError(f"Upload failed: {r2.status_code} {getattr(r2, 'text', '')}")
+
+        return {
+            "ok": True,
+            "project_id": project_id,
+            "resource_label": resource_label,
+            "filename": filename,
+            "uploaded_to": upload_endpoint,
+        }
+
+    except Exception as e:
+        # Write full traceback to a log file (so you can debug auth/permissions/paths)
+        try:
+            with open(log_file, "a", encoding="utf-8") as lf:
+                lf.write("\n" + "=" * 80 + "\n")
+                lf.write(f"Error uploading to XNAT project resource\n")
+                lf.write(f"xnat_host={xnat_host}\nproject_id={project_id}\nresource_label={resource_label}\nfile={local_file_path}\n")
+                lf.write(f"Exception: {repr(e)}\n")
+                lf.write(traceback.format_exc())
+        except Exception:
+            pass
+
+        return {"ok": False, "where": "upload_file_to_project_resource", "error": str(e)}
 
 

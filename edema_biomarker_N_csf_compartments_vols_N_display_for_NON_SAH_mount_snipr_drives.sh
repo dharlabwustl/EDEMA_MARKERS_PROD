@@ -961,7 +961,7 @@ for file_to_upload in "${workingoutput}"/*columndropped.csv "${workingoutput}"/*
         "${snipr_output_foldername}" \
         "$(basename "$file_to_upload")"
 done
-todaydate="__$(date +"%Y_%m_%d")"
+todaydate="_$(date +"%Y_%m_%d")"
 cp /software/combined_ouput.csv /software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
 file_to_upload=/software/${grayscale_filename_basename_noext}_combined_output${todaydate}.csv
 uploadsinglefile \

@@ -1,7 +1,7 @@
 project_id=${1}
 todaydate="_from_railway_$(date +"%Y_%m_%d")"".csv"
 filename=${project_id}${todaydate}
-python3 -c "from utilities_using_xnat_python import call_apply_single_row_csv_to_table; call_apply_single_row_csv_to_table( '${project_id}','${filename}')"
+python3 -c "from railway_fill_database import download_as_csv; download_as_csv( '${project_id}','${filename}')"
 resource_label='ANALYTICS'
 local_file_path=${filename}
 remote_filename=${filename}

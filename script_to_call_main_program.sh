@@ -126,9 +126,9 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_FOR_VENT_SEP' ]]; then
  source /software/lin_transform_before_deepreg_for_vent_separation.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
-if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
- source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
-fi
+#if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
+# source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
   echo " I AM AT HERE AND WORKING" #_AT_RIS_APPLYDEEPREG_V2_SNIPR_CALL_LOCATION_DISTRIBUTION
  source /software/lin_transform_before_deepreg_v3.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output

@@ -388,7 +388,7 @@ moving_image_filename=${output_directory}/${session_ct_bname_noext}_brain_f.nii.
 moving_image_filename=${session_ct_bname_noext}_brain_f.nii.gz
 #cp $fixed_image_filename $moving_image_filename
 moving_image_filename=${output_directory}/${moving_image_filename} ##%.nii*}resampled_normalized_mov.nii.gz
-/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
+#/software/linear_rigid_registration_v10162024.sh ${moving_image_filename}  ${fixed_image_filename} ${output_directory}
 session_ct_bet_gray_lin_reg_output=${output_directory}/'mov_'$(basename ${moving_image_filename%.nii*})_fixed_$(basename  ${fixed_image_filename%.nii*})_lin1.nii.gz
 
 #${output_directory}/mov_${session_ct_bname_noext}_brain_fresampled_normalized_mov_fixed_${template_prefix}_normalized_fix_lin1.nii.gz

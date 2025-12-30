@@ -61,6 +61,11 @@ if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING"
   /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
+if [[ ${TYPE_OF_PROGRAM} == 'LT_1_BEFORE_DEEPREG_COLIHM62_MOVING' ]]; then
+  echo " I AM AT LT_1_BEFORE_DEEPREG_COLIHM62_MOVING" >> /software/ERROR.txt
+  echo " I AM AT LT_1_BEFORE_DEEPREG_COLIHM62_MOVING"
+  /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_COLIHM62_STATIC' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_STATIC" >> /software/ERROR.txt
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_STATIC"
@@ -135,7 +140,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2' ]]; then
  source /software/lin_transform_before_deepreg_v2.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 #APPLY_MAT_TRANFORM_BEFORE_DEEPREG_COLIHM62_MOVING_RIS_SNIPR
-if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_V2_RIS_SNIPR_DISTRIBUTION' ]]; then
+if [[ ${TYPE_OF_PROGRAM} == 'LT_2_BEFORE_DEEPREG_V2_RIS_SNIPR_DISTRIBUTION' ]]; then
   echo " I AM AT HERE AND WORKING"
  source /software/lin_transform_before_deepreg_v3.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

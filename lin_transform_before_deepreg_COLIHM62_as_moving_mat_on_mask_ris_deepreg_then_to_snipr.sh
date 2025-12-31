@@ -481,7 +481,7 @@ resource_dirname='PREPROCESS_SEGM_3'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
 resource_dirname='EDEMA_BIOMARKER'
 copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_dirname}
-
+cp ${output_dirname}/*.mat ${output_directory}/
 ###################### BY NOW WE HAVE EVERYTHIN WE NEED #############
 ## RELEVANT FILES ARE : SESSION CT, TEMPLATE CT, TEMPLATE MASKS, BET MASK FROM YASHENG to  MAKE BET GRAY OF SESSION CT
 ## and the mat files especially the Inv.mat file let us keep the sensible names from here:

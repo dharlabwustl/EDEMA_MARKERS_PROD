@@ -175,16 +175,16 @@ for niftifile_csvfilename in "${working_dir}"/*NIFTILOCATION.csv; do
     snipr_output_foldername="PREPROCESS_SEGM_3"
 
     # Check if outputs already present
-    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' "${sessionID}" "${scanID}" "${snipr_output_foldername}" .pdf .csv)
-    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
-    echo "outputfiles_present::${outputfiles_present: -1}"
-
-    if [[ "${outputfiles_present: -1}" -ne 0 ]]; then
-      echo "FILES ARE PRESENT - skipping."
-      continue
-    fi
-
-    echo "FILES NOT PRESENT - running pipeline."
+#    call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' "${sessionID}" "${scanID}" "${snipr_output_foldername}" .pdf .csv)
+#    outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+#    echo "outputfiles_present::${outputfiles_present: -1}"
+#
+#    if [[ "${outputfiles_present: -1}" -ne 0 ]]; then
+#      echo "FILES ARE PRESENT - skipping."
+#      continue
+#    fi
+#
+#    echo "FILES NOT PRESENT - running pipeline."
 
     ###########################################################################
     # 1) Download session CT into /input1

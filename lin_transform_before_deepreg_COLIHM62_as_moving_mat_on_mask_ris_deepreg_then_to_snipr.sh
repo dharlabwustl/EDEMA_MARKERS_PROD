@@ -107,7 +107,7 @@ run_IML() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  mat_file_num=$(ls ${output_directory}/*mov_COLIHM620406202215542_fixed*.mat | wc -l)
+  mat_file_num=$(ls ${output_directory}/*brain_f_scct_strippedResampled1lin1*.mat | wc -l)
   if [[ ${mat_file_num} -gt 1 ]]; then
     echo "MAT FILES PRESENT"
     #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh

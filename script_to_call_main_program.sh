@@ -69,9 +69,9 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'AFFINE_TRAN_BEFORE_NONLIN_WITH_APPLY_MAT_COLIHM62_MOVING' ]]; then
   echo " I AM AT AFFINE_TRAN_BEFORE_NONLIN_COLIHM62_MOVING" >> /software/ERROR.txt
   echo " I AM AT AFFINE_TRAN_BEFORE_NONLIN_COLIHM62_MOVING"
-#  /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
-#  /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask_ris_deepreg_then_to_snipr.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
-  /software/lin_transform_before_deepreg_COLIHM62_as_moving_with_mat.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  /software/lin_transform_before_deepreg_COLIHM62_as_moving.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  /software/lin_transform_before_deepreg_COLIHM62_as_moving_mat_on_mask_ris_deepreg_then_to_snipr.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#  /software/lin_transform_before_deepreg_COLIHM62_as_moving_with_mat.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_COLIHM62_STATIC' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_COLIHM62_STATIC" >> /software/ERROR.txt

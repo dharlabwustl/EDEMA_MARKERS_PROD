@@ -73,7 +73,20 @@ run_IML_NWU_CSF_CALC() {
   this_filename_brain=${this_filename%.nii*}_brain_f.nii.gz
   # cp ${this_filename_brain} ${output_directory}/ #  ${final_output_directory}/
   echo "LINEAR REGISTRATION TO TEMPLATE"
-  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+    echo "LINEAR REGISTRATION TO TEMPLATE"
+  mat_file_num=$(ls ${output_directory}/*brain_f_scct_strippedResampled1lin1*.mat | wc -l)
+  if [[ ${mat_file_num} -gt 1 ]]; then
+    echo "MAT FILES PRESENT"
+    #    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh
+#    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+      /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+#  else
+#    /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
+#    /software/linear_rigid_registration_onlytrasnformwith_matfile.sh ${this_filename_brain}
+#    echo "linear_rigid_registration successful" >>${output_directory}/success.txt
+  fi
+
+#  /software/linear_rigid_registration.sh ${this_filename_brain} #${templatefilename} #$3 ${6} WUSTL_233_11122015_0840__levelset_brain_f.nii.gz
   echo "linear_rigid_registration successful" >>${output_directory}/success.txt
   echo "RUNNING IML FSL PART"
   /software/ideal_midline_fslpart.sh ${this_filename} # ${templatefilename} ${mask_on_template}  #$9 #${10} #$8
@@ -257,6 +270,7 @@ echo ${sessionID} "NIFTI_LOCATION" ${working_dir}
 call_download_files_in_a_resource_in_a_session_arguments=('call_download_files_in_a_resource_in_a_session' ${sessionID} "NIFTI_LOCATION" ${working_dir})
 outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files_in_a_resource_in_a_session_arguments[@]}")
 echo '$outputfiles_present'::$outputfiles_present
+
 ########################################
 for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
   rm ${final_output_directory}/*.*
@@ -271,6 +285,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     ### check if the file exists:
     call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv .mat)
     outputfiles_present=$(python3 download_with_session_ID.py "${call_check_if_a_file_exist_in_snipr_arguments[@]}")
+    resource_dirname='EDEMA_BIOMARKER'
+    copy_masks_data ${sessionID} ${scanID} ${resource_dirname} ${output_directory}
 
     ################################################
 #    outputfiles_present=0

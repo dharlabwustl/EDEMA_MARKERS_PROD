@@ -571,19 +571,19 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
 #uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
 #######################################################################################################
-##################################################################################################
-#moving_image_filename=/software/VENTRICLE_COLIHM62_gray.nii.gz ####midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
-#mask_binary_output_dir='/input1'
-#snipr_output_foldername="PREPROCESS_SEGM_3"
-#/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
-#mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
-#threshold=0
-#function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
-#echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
-#outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
-#infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
-#uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
-#######################################################################################################
+#################################################################################################
+moving_image_filename=/software/VENTRICLE_COLIHM62_gray.nii.gz ####midlinecssfResampled1.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
+mask_binary_output_dir='/input1'
+snipr_output_foldername="PREPROCESS_SEGM_3"
+/software/linear_rigid_registration_onlytrasnformwith_matfile10162024.sh  ${moving_image_filename} ${fixed_image_filename} ${registration_mat_file} ${mask_binary_output_dir}
+mask_binary_output_filename=mov_$(basename ${moving_image_filename%.nii*})_fixed_${template_prefix}_lin1.nii.gz
+threshold=0
+function_with_arguments=('call_gray2binary' ${mask_binary_output_dir}/${mask_binary_output_filename}  ${mask_binary_output_dir} ${threshold})
+echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
+outputfiles_present=$(python3 utilities_simple_trimmed.py "${function_with_arguments[@]}")
+infarct_mask_binary_output_filename=${mask_binary_output_dir}/${mask_binary_output_filename%.nii*}_BET.nii.gz
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_filename}) ${snipr_output_foldername} $(basename  ${infarct_mask_binary_output_filename})
+######################################################################################################
 
 ## RUN THE PYTHON PART TO CREATE NPY FILES of the MIDLINES:
 #GRAYSCALENIFTI_FILE=${session_ct} #${1} ##${input_filename} #$input_for_BET/

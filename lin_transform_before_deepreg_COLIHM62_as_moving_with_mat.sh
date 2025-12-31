@@ -111,7 +111,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     copy_masks_data ${sessionID} ${scanID} MASKS ${working_dir}
     copy_masks_data ${sessionID} ${scanID} PREPROCESS_SEGM_3 ${working_dir}
     copy_masks_data ${sessionID} ${scanID} EDEMA_BIOMARKER ${working_dir}
-    cp  ${working_dir}/*.mat ${output_directory}/
+    cp  ${working_dir}/*_scct_strippedResampled1lin1*.mat ${output_directory}/
 
     session_ct=$(ls ${working_dir_1}/*.nii* | head -n 1)
     session_ct_bname_noext=$(basename ${session_ct})

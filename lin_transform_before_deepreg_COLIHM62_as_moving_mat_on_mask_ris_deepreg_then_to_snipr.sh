@@ -594,7 +594,7 @@ uploadsinglefile ${sessionID} ${scanID} $(dirname ${infarct_mask_binary_output_f
 #transformed_output_file=${infarct_mask_binary_output_filename}  #${3} #$TRANSFORMED_MASKFILE_PREFIX${basename_grayfilenifti%.nii*}$MASKFILE_EXTENSION
 #cp ${session_ct} ${session_ct%.nii*}_resaved_levelset.nii
 #/software/ideal_midline_pythonpart_any_template.sh ${session_ct%.nii*}_resaved_levelset.nii ${transformed_output_file}
-exit
+#exit
 midlineonly_each_scan ${session_ct}
 snipr_output_foldername="MIDLINE_NPY"
 #function_with_arguments=('call_delete_file_with_ext' ${sessionID} ${scanID} ${snipr_output_foldername} 'npy' ) ##'warped_1_mov_mri_region_' )

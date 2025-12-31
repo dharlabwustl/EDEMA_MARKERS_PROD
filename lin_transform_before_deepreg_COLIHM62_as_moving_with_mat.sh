@@ -77,9 +77,9 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
     snipr_output_foldername="PREPROCESS_SEGM_3"
 
     outputfiles_present=$(python3 /software/download_with_session_ID.py call_check_if_a_file_exist_in_snipr ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv)
-    if [[ "${outputfiles_present: -1}" -ne 0 ]]; then
-      continue
-    fi
+#    if [[ "${outputfiles_present: -1}" -ne 0 ]]; then
+#      continue
+#    fi
 
     copy_scan_data ${niftifile_csvfilename} ${working_dir_1}
 

@@ -601,19 +601,23 @@ snipr_output_foldername="MIDLINE_NPY"
 #echo "outputfiles_present="'$(python3 utilities_simple_trimmed.py' "${function_with_arguments[@]}"
 #outputfiles_present=$(python3 download_with_session_ID.py "${function_with_arguments[@]}")
 #    resource_dirname="MIDLINE_NPY"
-    for npyfilename in ${working_dir_1}/*.npy; do
-      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-
-#      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-#      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-    done
-
-        for npyfilename in ${output_directory}/*.npy; do
-          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
-
-    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
-    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
-        done
+zip ${working_dir_1}/MIDLINE_NPY.zip ${working_dir_1}/*.npy
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${working_dir_1}/MIDLINE_NPY.zip) ${snipr_output_foldername} $(basename  ${working_dir_1}/MIDLINE_NPY.zip)
+#    for npyfilename in ${working_dir_1}/*.npy; do
+#      uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+#
+##      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+##      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#    done
+zip ${output_directory}/MIDLINE_NPY_V2.zip ${output_directory}/*.npy
+uploadsinglefile ${sessionID} ${scanID} $(dirname ${output_directory}/MIDLINE_NPY_V2.zip) ${snipr_output_foldername} $(basename  ${output_directory}/MIDLINE_NPY_V2.zip)
+#uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+#        for npyfilename in ${output_directory}/*.npy; do
+#          uploadsinglefile ${sessionID} ${scanID} $(dirname ${npyfilename}) ${snipr_output_foldername} $(basename  ${npyfilename})
+#
+#    #      call_uploadsinglefile_with_URI_arguments=('call_uploadsinglefile_with_URI' ${URI_1} ${npyfilename} ${resource_dirname})
+#    #      outputfiles_present=$(python3 /software/download_with_session_ID.py "${call_uploadsinglefile_with_URI_arguments[@]}")
+#        done
 #################################################################################################
 moving_image_filename=/software/CISTERN_COLIHM62.nii.gz #${output_directory}/${moving_image_filename} ##%.nii*}resampled_mov.nii.gz
 mask_binary_output_dir='/input1'

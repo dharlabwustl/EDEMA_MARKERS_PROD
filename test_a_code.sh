@@ -38,17 +38,17 @@ if p is not None and s is not None:
 "
 )
 
-echo "PROJECT_ID=$PROJECT_ID"
-echo "SUBJECT_LABEL=$SUBJECT_ID"
-
+echo "PROJECT_ID::$PROJECT_ID"
+echo "SUBJECT_LABEL::$SUBJECT_ID"
+SUBJECT_LABEL=$SUBJECT_ID
 SESSION_LABEL=$(
 python3 -c "from utilities_using_xnat_python import get_session_label_from_session_id; \
 print(get_session_label_from_session_id('${SESSION_ID}'))"
 )
-echo "PROJECT_ID=$PROJECT_ID"
-echo "SUBJECT_LABEL=${SUBJECT_LABEL}"
-echo "SESSION_LABEL=${SESSION_LABEL}"
-echo "OUT_PATH=${OUT_PATH}"
+echo "PROJECT_ID::$PROJECT_ID"
+echo "SUBJECT_LABEL::${SUBJECT_LABEL}"
+echo "SESSION_LABEL::${SESSION_LABEL}"
+echo "OUT_PATH::${OUT_PATH}"
 #fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile_given_subject_label' ${xml_filename} ${pdffilename}) #${subj_listfile})
 #outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #subject_name,session_label,project_name,file_name

@@ -98,6 +98,50 @@ def _extract_mmddyyyy_from_tail(filename: str, ext_lower: str):
 #     matches_sorted = sorted(matches)
 #     latest_name = matches_sorted[-1]
 
+def download_file_from_xnat_uri(uri: str, out_path: str, verify: bool = True):
+    """
+    Download a file from XNAT given a REST URI like:
+      /data/projects/.../files/<filename>
+
+    Saves to out_path and returns out_path on success, else None.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        if not uri or not uri.startswith("/data/"):
+            log_error(f"Invalid uri: {uri}", func_name)
+            return None
+
+        if not out_path:
+            log_error("out_path is empty", func_name)
+            return None
+
+        # Build full URL
+        base = XNAT_HOST.rstrip("/")
+        url = f"{base}{uri}"
+
+        # Ensure parent dir exists
+        parent = os.path.dirname(out_path)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
+
+        # Stream download
+        with requests.get(url, auth=(XNAT_USER, XNAT_PASS), stream=True, verify=verify) as r:
+            if r.status_code != 200:
+                log_error(f"Download failed: HTTP {r.status_code} url={url} text={r.text[:200]}", func_name)
+                return None
+
+            with open(out_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        f.write(chunk)
+
+        return out_path
+
+    except Exception:
+        log_error("Unhandled exception during download_file_from_xnat_uri", func_name)
+        return None
+
 def get_latest_file_uri_from_scan_resource(
     session_id: str,
     scan_id: str,

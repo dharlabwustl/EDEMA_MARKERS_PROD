@@ -37,17 +37,16 @@ LOG_FILE = "railway_db_errors.log"
 
 ERROR_FILE = "error.txt"
 def log_error(msg):
-
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     err = (
-        # f"[{ts}] Function: {func_name}\n"
-        # f"Session ID: {session_id}\n"
+        f"[{ts}]\n"
         f"{msg}\n"
         f"Traceback:\n{traceback.format_exc()}\n"
         f"{'-' * 80}\n"
     )
-    with open(ERROR_FILE, "w") as f:
+    with open(ERROR_FILE, "a") as f:
         f.write(err)
+
 # def get_id_from_nifti_location_csv(
 #     session_id: str,
 #     resource_name: str = "NIFTI_LOCATION",

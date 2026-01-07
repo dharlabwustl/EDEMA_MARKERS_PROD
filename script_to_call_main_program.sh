@@ -1,8 +1,8 @@
 #!/bin/bash
 SESSION_ID=${1}
 echo XNAT_USER::${XNAT_USER}
-#XNAT_USER=${2}
-#XNAT_PASS=${3}
+XNAT_USER=${2}
+XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}
 echo TYPE_OF_PROGRAM::${TYPE_OF_PROGRAM}
 #'https://redcap.wustl.edu/redcap/api/' #

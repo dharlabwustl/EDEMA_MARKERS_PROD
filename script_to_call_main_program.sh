@@ -6,7 +6,7 @@ echo XNAT_USER::${XNAT_USER}
 TYPE_OF_PROGRAM=${4}
 echo TYPE_OF_PROGRAM::${TYPE_OF_PROGRAM}
 #'https://redcap.wustl.edu/redcap/api/' #
-echo ${REDCAP_API}
+echo REDCAP_API::${REDCAP_API}
 #export REDCAP_API=${6}
 #echo REDCAP_API::${REDCAP_API}
 # The input string

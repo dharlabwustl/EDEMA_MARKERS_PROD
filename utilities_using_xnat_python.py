@@ -44,7 +44,7 @@ def log_error(msg):
         f"Traceback:\n{traceback.format_exc()}\n"
         f"{'-' * 80}\n"
     )
-    with open(ERROR_FILE, "a") as f:
+    with open(ERROR_FILE, "w") as f:
         f.write(err)
 
 # def get_id_from_nifti_location_csv(

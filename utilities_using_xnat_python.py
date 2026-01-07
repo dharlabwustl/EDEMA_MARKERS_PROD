@@ -34,6 +34,84 @@ import traceback
 from datetime import datetime
 
 LOG_FILE = "railway_db_errors.log"
+def get_id_from_nifti_location_csv(
+    session_id: str,
+    resource_name: str = "NIFTI_LOCATION",
+    csv_suffix: str = "NIFTILOCATION.csv",
+    id_col: str = "ID",
+):
+    """
+    Given an XNAT session/experiment ID:
+      - navigate to session resources
+      - find resource folder `NIFTI_LOCATION`
+      - locate file ending with `NIFTILOCATION.csv`
+      - read via pandas
+      - return the value in column `ID`
+
+    Returns:
+      - scalar ID value (first unique value)
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+            if session_id not in conn.experiments:
+                raise ValueError(f"Session ID not found: {session_id}")
+
+            exp = conn.experiments[session_id]
+
+            # --- resource folder ---
+            if resource_name not in exp.resources:
+                raise FileNotFoundError(
+                    f'Resource "{resource_name}" not found for session {session_id}'
+                )
+
+            res = exp.resources[resource_name]
+
+            # --- find CSV ---
+            csv_files = [
+                fname for fname in res.files.keys()
+                if str(fname).endswith(csv_suffix)
+            ]
+
+            if not csv_files:
+                raise FileNotFoundError(
+                    f'No file ending with "{csv_suffix}" in resource "{resource_name}"'
+                )
+
+            csv_name = sorted(csv_files)[0]
+            fobj = res.files[csv_name]
+
+            # --- download to memory ---
+            data_bytes = fobj.get()
+            df = pd.read_csv(io.BytesIO(data_bytes))
+
+            # --- extract ID ---
+            if id_col not in df.columns:
+                raise KeyError(
+                    f'Column "{id_col}" not found in {csv_name}. '
+                    f"Columns: {list(df.columns)}"
+                )
+
+            series = df[id_col].dropna()
+            if series.empty:
+                raise ValueError(f'Column "{id_col}" has no valid values')
+
+            return series.unique()[0]
+
+    except Exception as e:
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        err = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Session ID: {session_id}\n"
+            f"Error: {str(e)}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(LOG_FILE, "a") as f:
+            f.write(err)
+
+        return None
 
 def call_apply_single_row_csv_to_table(session_id, csv_file):
     """

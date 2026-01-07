@@ -36,10 +36,19 @@ from datetime import datetime
 LOG_FILE = "/software/railway_db_errors.log"
 
 ERROR_FILE = "/software/error.log"
-def log_error(msg):
+def log_error(msg,func_name):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # err = (
+    #     f"[{ts}]\n"
+    #     f"{msg}\n"
+    #     f"Traceback:\n{traceback.format_exc()}\n"
+    #     f"{'-' * 80}\n"
+    # )
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     err = (
-        f"[{ts}]\n"
+        f"[{ts}] Function: {func_name}\n"
+        f"[{ts}] Function: {msg}\n"
+        # f"Session ID: {session_id}\n"
         f"{msg}\n"
         f"Traceback:\n{traceback.format_exc()}\n"
         f"{'-' * 80}\n"
@@ -47,91 +56,85 @@ def log_error(msg):
     with open(ERROR_FILE, "w") as f:
         f.write(err)
 
-# def get_id_from_nifti_location_csv(
-#     session_id: str,
-#     resource_name: str = "NIFTI_LOCATION",
-#     csv_suffix: str = "NIFTILOCATION.csv",
-#     id_col: str = "ID",
-# ):
-#     """
-#     Given an XNAT session/experiment ID:
-#       - navigate to session resources
-#       - find resource folder `NIFTI_LOCATION`
-#       - locate file ending with `NIFTILOCATION.csv`
-#       - read via pandas
-#       - return the value in column `ID`
-#
-#     Returns:
-#       - scalar ID value (first unique value) OR None on failure
-#     """
-#     func_name = inspect.currentframe().f_code.co_name
-#
-#
-#
-#
-#     try:
-#         msg=" I AM HERE!!!!!!!!!!!!!!!!!"
-#         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#         err = (
-#             f"[{ts}] Function: {func_name}\n"
-#             f"Session ID: {session_id}\n"
-#             f"{msg}\n"
-#             f"Traceback:\n{traceback.format_exc()}\n"
-#             f"{'-'*80}\n"
-#         )
-#         with open(ERROR_FILE, "a") as f:
-#             f.write(err)
-#         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
-#
-#             if session_id not in conn.experiments:
-#                 log_error("Session ID not found on XNAT")
-#                 return None
-#
-#             exp = conn.experiments[session_id]
-#
-#             # --- resource folder ---
-#             if resource_name not in exp.resources:
-#                 log_error(f'Resource "{resource_name}" not found')
-#                 return None
-#
-#             res = exp.resources[resource_name]
-#
-#             # --- find CSV ---
-#             csv_files = [
-#                 fname for fname in res.files.keys()
-#                 if str(fname).endswith(csv_suffix)
-#             ]
-#
-#             if not csv_files:
-#                 log_error(f'No file ending with "{csv_suffix}" found')
-#                 return None
-#
-#             csv_name = sorted(csv_files)[0]
-#             fobj = res.files[csv_name]
-#
-#             # --- download to memory ---
-#             data_bytes = fobj.get()
-#             df = pd.read_csv(io.BytesIO(data_bytes))
-#
-#             # --- extract ID ---
-#             if id_col not in df.columns:
-#                 log_error(
-#                     f'Column "{id_col}" not found in {csv_name}. '
-#                     f"Columns present: {list(df.columns)}"
-#                 )
-#                 return None
-#
-#             series = df[id_col].dropna()
-#             if series.empty:
-#                 log_error(f'Column "{id_col}" exists but has no valid values')
-#                 return None
-#
-#             return series.unique()[0]
-#
-#     except Exception:
-#         log_error("Unhandled exception during execution")
-#         return None
-#
+def get_id_from_nifti_location_csv(
+    session_id: str,
+    resource_name: str = "NIFTI_LOCATION",
+    csv_suffix: str = "NIFTILOCATION.csv",
+    id_col: str = "ID",
+):
+    """
+    Given an XNAT session/experiment ID:
+      - navigate to session resources
+      - find resource folder `NIFTI_LOCATION`
+      - locate file ending with `NIFTILOCATION.csv`
+      - read via pandas
+      - return the value in column `ID`
+
+    Returns:
+      - scalar ID value (first unique value) OR None on failure
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+
+
+
+    try:
+        msg=" I AM HERE!!!!!!!!!!!!!!!!!"
+
+        log_error(msg,func_name)
+        # with open(ERROR_FILE, "a") as f:
+        #     f.write(err)
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+
+            if session_id not in conn.experiments:
+                log_error("Session ID not found on XNAT")
+                return None
+
+            exp = conn.experiments[session_id]
+
+            # --- resource folder ---
+            if resource_name not in exp.resources:
+                log_error(f'Resource "{resource_name}" not found')
+                return None
+
+            res = exp.resources[resource_name]
+
+            # --- find CSV ---
+            csv_files = [
+                fname for fname in res.files.keys()
+                if str(fname).endswith(csv_suffix)
+            ]
+
+            if not csv_files:
+                log_error(f'No file ending with "{csv_suffix}" found')
+                return None
+
+            csv_name = sorted(csv_files)[0]
+            fobj = res.files[csv_name]
+
+            # --- download to memory ---
+            data_bytes = fobj.get()
+            df = pd.read_csv(io.BytesIO(data_bytes))
+
+            # --- extract ID ---
+            if id_col not in df.columns:
+                log_error(
+                    f'Column "{id_col}" not found in {csv_name}. '
+                    f"Columns present: {list(df.columns)}"
+                )
+                return None
+
+            series = df[id_col].dropna()
+            if series.empty:
+                log_error(f'Column "{id_col}" exists but has no valid values')
+                return None
+
+            return series.unique()[0]
+
+    except Exception:
+        log_error("Unhandled exception during execution")
+        return None
+
 
 
 def call_apply_single_row_csv_to_table(session_id, csv_file):

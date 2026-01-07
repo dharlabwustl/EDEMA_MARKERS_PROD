@@ -552,3 +552,12 @@ def upload_file_to_project_resource(
         return {"ok": False, "where": "upload_file_to_project_resource", "error": str(e)}
 
 
+# import xnat
+
+def get_session_label_from_session_id(session_id):
+    """
+    Given an XNAT experiment/session ID, return the session LABEL.
+    """
+    with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+        exp = conn.experiments[session_id]
+        return exp.label

@@ -47,6 +47,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'TEST_A_CODE' ]]; then
   echo " I AM AT TEST_A_CODE" >> /software/ERROR.txt
   echo " I AM AT TEST_A_CODE"
   /software/test_a_code.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  echo $SESSION_ID::$SESSION_ID::$SESSION_ID::"$SESSION_ID"
 fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then

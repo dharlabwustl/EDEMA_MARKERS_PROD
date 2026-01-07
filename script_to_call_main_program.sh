@@ -13,6 +13,7 @@ echo REDCAP_API::${REDCAP_API}
 input=$XNAT_HOST ##"one::two::three::four"
 echo XNAT_HOST::$XNAT_HOST
 # Check if '::' is present
+echo ${XNAT_USER}::${XNAT_PASS}::${TYPE_OF_PROGRAM}::${XNAT_HOST}::${REDCAP_API}
 if echo "$input" | grep -q "+"; then
   # Set the delimiter
   IFS='+'

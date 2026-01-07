@@ -31,18 +31,18 @@ try:
             f"Error: {e}\n"
             f"{'-'*80}\n"
         )
-    val = get_id_from_nifti_location_csv(session_id)
-    if val is None:
-        with open("./error.txt", "a") as f:
-            f.write(
-                f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] "
-                f"get_id_from_nifti_location_csv returned None\n"
-                f"Session ID: {session_id}\n"
-                f"{'-'*80}\n"
-            )
-        sys.exit(1)
-
-    print(val)
+#    val = get_id_from_nifti_location_csv(session_id)
+#    if val is None:
+#        with open("./error.txt", "a") as f:
+#            f.write(
+#                f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] "
+#                f"get_id_from_nifti_location_csv returned None\n"
+#                f"Session ID: {session_id}\n"
+#                f"{'-'*80}\n"
+#            )
+#        sys.exit(1)
+#
+#    print(val)
 
 except Exception as e:
     with open("./error.txt", "a") as f:

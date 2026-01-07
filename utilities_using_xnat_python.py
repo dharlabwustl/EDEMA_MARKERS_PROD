@@ -52,6 +52,7 @@ def get_id_from_nifti_location_csv(
       - scalar ID value (first unique value)
     """
     func_name = inspect.currentframe().f_code.co_name
+    ERROR_FILE = "./error.txt"
 
     try:
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
@@ -108,7 +109,8 @@ def get_id_from_nifti_location_csv(
             f"Traceback:\n{traceback.format_exc()}\n"
             f"{'-'*80}\n"
         )
-        with open(LOG_FILE, "a") as f:
+
+        with open(ERROR_FILE, "a") as f:
             f.write(err)
 
         return None

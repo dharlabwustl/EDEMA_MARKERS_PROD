@@ -5,7 +5,11 @@ SESSION_ID=${1}
 #)
 
 #python3 -c "from utilities_using_xnat_python import log_error; log_error('TEST MESSAGE','NO_FUNC'); print('done')"
-python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; get_id_from_nifti_location_csv('${SESSION_ID}'); print('done')"
+#python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; get_id_from_nifti_location_csv('${SESSION_ID}'); print('done')"
+ID_VALUE=$(
+python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; print(get_id_from_nifti_location_csv('${SESSION_ID}'))"
+)
+
 ls -l error.txt
 realpath error.txt
 cat error.txt

@@ -17,4 +17,5 @@ SESSION_ID=${1}
 TYPE_OF_PROGRAM=${5}
 #export XNAT_HOST=${6}
 #export REDCAP_API=${7}
+echo "REDCAP_API::${REDCAP_API}"
 /software/script_to_call_main_program.sh $SESSION_ID $XNAT_USER $XNAT_PASS ${TYPE_OF_PROGRAM} ${6}

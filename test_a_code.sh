@@ -4,7 +4,7 @@ SESSION_ID=${1}
 #python3 -c "from utilities_using_xnat_python import log_error; print(log_error('${SESSION_ID}'))"
 #)
 
-python3 -c "from utilities_using_xnat_python import log_error; log_error('TEST MESSAGE'); print('done')"
+python3 -c "from utilities_using_xnat_python import log_error; log_error('TEST MESSAGE','NO_FUNC'); print('done')"
 ls -l error.txt
 realpath error.txt
 cat error.txt

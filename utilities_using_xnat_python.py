@@ -82,7 +82,7 @@ def get_id_from_nifti_location_csv(
         msg=" I AM HERE!!!!!!!!!!!!!!!!!"
 
         log_error(msg,func_name)
-        return
+        # return
         # with open(ERROR_FILE, "a") as f:
         #     f.write(err)
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
@@ -95,7 +95,7 @@ def get_id_from_nifti_location_csv(
 
             # --- resource folder ---
             if resource_name not in exp.resources:
-                log_error(f'Resource "{resource_name}" not found')
+                log_error(f'Resource "{resource_name}" not found',func_name)
                 return None
 
             res = exp.resources[resource_name]
@@ -107,7 +107,7 @@ def get_id_from_nifti_location_csv(
             ]
 
             if not csv_files:
-                log_error(f'No file ending with "{csv_suffix}" found')
+                log_error(f'No file ending with "{csv_suffix}" found',func_name)
                 return None
 
             csv_name = sorted(csv_files)[0]
@@ -120,20 +120,20 @@ def get_id_from_nifti_location_csv(
             # --- extract ID ---
             if id_col not in df.columns:
                 log_error(
-                    f'Column "{id_col}" not found in {csv_name}. '
-                    f"Columns present: {list(df.columns)}"
-                )
+                    f'Column "{id_col}" not found in {csv_name}. ',func_name)
+                    # f"Columns present: {list(df.columns)}"
+                # )
                 return None
 
             series = df[id_col].dropna()
             if series.empty:
-                log_error(f'Column "{id_col}" exists but has no valid values')
+                log_error(f'Column "{id_col}" exists but has no valid values',func_name)
                 return None
 
             return series.unique()[0]
 
     except Exception:
-        log_error("Unhandled exception during execution")
+        log_error("Unhandled exception during execution",func_name)
         return None
 
 

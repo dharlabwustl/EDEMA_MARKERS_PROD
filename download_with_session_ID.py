@@ -1042,10 +1042,25 @@ def fill_redcap_for_pdffile(args):
         imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
         if imaging_data_complete != '2':
             add_one_file_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),file_name)
+        return 0
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return 1
+def fill_redcap_for_pdffile_given_subject_label(subject_name,session_label,project_name,file_name):
+    try:
+        this_project_redcapfile_latest=project_name+'_latest.csv'
+        df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
+        this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
+        this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
+        imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
+        if imaging_data_complete != '2':
+            add_one_file_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),file_name)
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
         pass
     return
+
 def decision_which_nifti_used_untilAug62025(sessionId,dir_to_receive_the_data="",output_csvfile=""):
     # sessionId=sys.argv[1]
     # dir_to_receive_the_data="./NIFTIFILEDIR" #sys.argv[2]

@@ -1,6 +1,6 @@
 #!/bin/bash
 SESSION_ID=${1}
-echo ${XNAT_USER}
+echo XNAT_USER::${XNAT_USER}
 #XNAT_USER=${2}
 #XNAT_PASS=${3}
 TYPE_OF_PROGRAM=${4}

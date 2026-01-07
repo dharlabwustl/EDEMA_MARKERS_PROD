@@ -55,6 +55,48 @@ def log_error(msg,func_name):
     )
     with open(ERROR_FILE, "w") as f:
         f.write(err)
+import re
+from datetime import datetime
+
+def _extract_mmddyyyy_from_tail(filename: str, ext_lower: str):
+    """
+    Extract date from tail pattern: _MM_DD_YYYY.<ext>
+    Example: ..._09_26_2023.pdf  -> datetime.date(2023, 9, 26)
+    Returns None if pattern not found.
+    """
+    # Ensure we match the date immediately before the extension
+    # e.g. "_09_26_2023.pdf" or "_09_26_2023.nii.gz" (ext_lower passed in)
+    pattern = re.compile(rf"_(\d{{2}})_(\d{{2}})_(\d{{4}}){re.escape(ext_lower)}$", re.IGNORECASE)
+    m = pattern.search(filename)
+    if not m:
+        return None
+    mm, dd, yyyy = m.group(1), m.group(2), m.group(3)
+    try:
+        return datetime.strptime(f"{mm}_{dd}_{yyyy}", "%m_%d_%Y").date()
+    except Exception:
+        return None
+
+
+# # ---- replace your old sort with this ----
+# ext_lower = ext_lower  # already computed earlier (like ".pdf")
+# dated = []
+# undated = []
+#
+# for fn in matches:
+#     d = _extract_mmddyyyy_from_tail(fn, ext_lower)
+#     if d is None:
+#         undated.append(fn)
+#     else:
+#         dated.append((d, fn))
+#
+# if dated:
+#     # sort by actual date, then filename as tie-breaker
+#     dated.sort(key=lambda x: (x[0], x[1]))
+#     latest_name = dated[-1][1]
+# else:
+#     # fallback if none have the date pattern
+#     matches_sorted = sorted(matches)
+#     latest_name = matches_sorted[-1]
 
 def get_latest_file_uri_from_scan_resource(
     session_id: str,
@@ -127,8 +169,27 @@ def get_latest_file_uri_from_scan_resource(
                 return None
 
             # Sort and pick "latest" by sort order
-            matches_sorted = sorted(matches)
-            latest_name = matches_sorted[-1]
+            # matches_sorted = sorted(matches)
+            # latest_name = matches_sorted[-1]
+            ext_lower = ext_lower  # already computed earlier (like ".pdf")
+            dated = []
+            undated = []
+
+            for fn in matches:
+                d = _extract_mmddyyyy_from_tail(fn, ext_lower)
+                if d is None:
+                    undated.append(fn)
+                else:
+                    dated.append((d, fn))
+
+            if dated:
+                # sort by actual date, then filename as tie-breaker
+                dated.sort(key=lambda x: (x[0], x[1]))
+                latest_name = dated[-1][1]
+            else:
+                # fallback if none have the date pattern
+                matches_sorted = sorted(matches)
+                latest_name = matches_sorted[-1]
 
             fobj = res.files[latest_name]
 

@@ -23,14 +23,14 @@ except Exception as e:
 session_id = "${SESSION_ID}"
 
 try:
-#  e="I AM HERE from test_a_code.sh"
-#    with open("./error.txt", "a") as f:
-#        f.write(
-#            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] "
-#            f"ImportError in bash wrapper\n"
-#            f"Error: {e}\n"
-#            f"{'-'*80}\n"
-#        )
+  e="I AM HERE from test_a_code.sh"
+  with open("./error.txt", "a") as f:
+        f.write(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] "
+            f"ImportError in bash wrapper\n"
+            f"Error: {e}\n"
+            f"{'-'*80}\n"
+        )
     val = get_id_from_nifti_location_csv(session_id)
     if val is None:
         with open("./error.txt", "a") as f:

@@ -56,6 +56,111 @@ def log_error(msg,func_name):
     with open(ERROR_FILE, "w") as f:
         f.write(err)
 
+def get_latest_file_uri_from_scan_resource(
+    session_id: str,
+    scan_id: str,
+    scan_resource_dir_name: str,
+    file_extension: str,
+):
+    """
+    Given:
+      - session_id (experiment id)
+      - scan_id (scan identifier)
+      - scan_resource_dir_name (resource folder name under the scan)
+      - file_extension (e.g. ".pdf" or "pdf")
+
+    Do:
+      - list files in scan resource folder that end with the extension
+      - sort filenames
+      - pick the last one (latest by sort order)
+      - return the URI of that file
+
+    Returns:
+      - uri (str) OR None on failure
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        # Normalize extension
+        ext = file_extension.strip()
+        if not ext:
+            log_error("Empty file_extension provided", func_name)
+            return None
+        if not ext.startswith("."):
+            ext = "." + ext
+        ext_lower = ext.lower()
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+            if session_id not in conn.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return None
+
+            exp = conn.experiments[session_id]
+
+            # Find scan
+            if scan_id not in exp.scans:
+                log_error(f"Scan ID not found in session: {scan_id}", func_name)
+                return None
+
+            scan = exp.scans[scan_id]
+
+            # Find scan resource directory
+            if scan_resource_dir_name not in scan.resources:
+                log_error(
+                    f'Scan resource "{scan_resource_dir_name}" not found for scan_id={scan_id}',
+                    func_name,
+                )
+                return None
+
+            res = scan.resources[scan_resource_dir_name]
+
+            # List files with the requested extension
+            file_names = [str(fn) for fn in res.files.keys()]
+            matches = [fn for fn in file_names if fn.lower().endswith(ext_lower)]
+
+            if not matches:
+                log_error(
+                    f'No files ending with "{ext}" found in scan_resource="{scan_resource_dir_name}" '
+                    f'for scan_id={scan_id}',
+                    func_name,
+                )
+                return None
+
+            # Sort and pick "latest" by sort order
+            matches_sorted = sorted(matches)
+            latest_name = matches_sorted[-1]
+
+            fobj = res.files[latest_name]
+
+            # Best-effort URI extraction across xnatpy versions
+            uri = (
+                getattr(fobj, "uri", None)
+                or getattr(fobj, "_uri", None)
+                or getattr(fobj, "data_uri", None)
+                or getattr(fobj, "URI", None)
+            )
+
+            if uri is None:
+                # Fallback: try to expose something still useful for debugging
+                try:
+                    uri = str(getattr(fobj, "xnat_uri"))
+                except Exception:
+                    uri = None
+
+            if uri is None:
+                log_error(
+                    f"Could not determine URI for file: {latest_name} (scan_id={scan_id}, resource={scan_resource_dir_name})",
+                    func_name,
+                )
+                return None
+
+            return uri
+
+    except Exception:
+        log_error("Unhandled exception during execution", func_name)
+        return None
+
+
 def get_id_from_nifti_location_csv(
     session_id: str,
     resource_name: str = "NIFTI_LOCATION",

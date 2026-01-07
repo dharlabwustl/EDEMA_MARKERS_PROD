@@ -49,23 +49,36 @@ def get_id_from_nifti_location_csv(
       - return the value in column `ID`
 
     Returns:
-      - scalar ID value (first unique value)
+      - scalar ID value (first unique value) OR None on failure
     """
     func_name = inspect.currentframe().f_code.co_name
     ERROR_FILE = "./error.txt"
 
+    def log_error(msg):
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        err = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Session ID: {session_id}\n"
+            f"{msg}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(ERROR_FILE, "a") as f:
+            f.write(err)
+
     try:
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+
             if session_id not in conn.experiments:
-                raise ValueError(f"Session ID not found: {session_id}")
+                log_error("Session ID not found on XNAT")
+                return None
 
             exp = conn.experiments[session_id]
 
             # --- resource folder ---
             if resource_name not in exp.resources:
-                raise FileNotFoundError(
-                    f'Resource "{resource_name}" not found for session {session_id}'
-                )
+                log_error(f'Resource "{resource_name}" not found')
+                return None
 
             res = exp.resources[resource_name]
 
@@ -76,9 +89,8 @@ def get_id_from_nifti_location_csv(
             ]
 
             if not csv_files:
-                raise FileNotFoundError(
-                    f'No file ending with "{csv_suffix}" in resource "{resource_name}"'
-                )
+                log_error(f'No file ending with "{csv_suffix}" found')
+                return None
 
             csv_name = sorted(csv_files)[0]
             fobj = res.files[csv_name]
@@ -89,31 +101,24 @@ def get_id_from_nifti_location_csv(
 
             # --- extract ID ---
             if id_col not in df.columns:
-                raise KeyError(
+                log_error(
                     f'Column "{id_col}" not found in {csv_name}. '
-                    f"Columns: {list(df.columns)}"
+                    f"Columns present: {list(df.columns)}"
                 )
+                return None
 
             series = df[id_col].dropna()
             if series.empty:
-                raise ValueError(f'Column "{id_col}" has no valid values')
+                log_error(f'Column "{id_col}" exists but has no valid values')
+                return None
 
             return series.unique()[0]
 
-    except Exception as e:
-        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        err = (
-            f"[{ts}] Function: {func_name}\n"
-            f"Session ID: {session_id}\n"
-            f"Error: {str(e)}\n"
-            f"Traceback:\n{traceback.format_exc()}\n"
-            f"{'-'*80}\n"
-        )
-
-        with open(ERROR_FILE, "a") as f:
-            f.write(err)
-
+    except Exception:
+        log_error("Unhandled exception during execution")
         return None
+
+
 
 def call_apply_single_row_csv_to_table(session_id, csv_file):
     """

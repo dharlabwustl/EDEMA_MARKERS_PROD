@@ -43,7 +43,11 @@ if [[ ${TYPE_OF_PROGRAM} == 'PREPARE_DATA_FOR_MIDLINE' ]]; then
   /software/data_preparation_for_midline_seg.sh $SESSION_ID ${ADDR[1]} ${ADDR[2]} ##${ADDR[3]} ##$XNAT_HOST /input1 /output
 fi
 #######################################################################################################################
-
+if [[ ${TYPE_OF_PROGRAM} == 'TEST_A_CODE' ]]; then
+  echo " I AM AT TEST_A_CODE" >> /software/ERROR.txt
+  echo " I AM AT TEST_A_CODE"
+  /software/test_a_code.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+fi
 
 if [[ ${TYPE_OF_PROGRAM} == 'TRANFORM_BEFORE_DEEPREG_SCCT_MOVING' ]]; then
   echo " I AM AT TRANFORM_BEFORE_DEEPREG_SCCT_MOVING" >> /software/ERROR.txt

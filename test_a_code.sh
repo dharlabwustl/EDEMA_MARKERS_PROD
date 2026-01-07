@@ -53,6 +53,7 @@ echo "OUT_PATH=${OUT_PATH}"
 #outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 #subject_name,session_label,project_name,file_name
 SUCCESS_VALUE_0_FAIL_1=$(
-python3 -c "from download_with_session_ID import fill_redcap_for_pdffile_given_subject_label; print(fill_redcap_for_pdffile_given_subject_label('${SUBJECT_LABEL}','${SESSION_LABEL}','${PROJECT_ID},'${OUT_PATH}'))"
+python3 -c "from download_with_session_ID import fill_redcap_for_pdffile_given_subject_label; print(fill_redcap_for_pdffile_given_subject_label('${SUBJECT_LABEL}','${SESSION_LABEL}','${PROJECT_ID}','${OUT_PATH}'))"
 )
+
 echo SUCCESS_VALUE_0_FAIL_1="${SUCCESS_VALUE_0_FAIL_1}"

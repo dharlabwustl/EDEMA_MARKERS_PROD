@@ -20,13 +20,26 @@ cd "$REPO_DIR"
 echo "==> Removing file from all history: $FILE_PATH"
 git filter-repo --path "$FILE_PATH" --invert-paths
 
+#echo "==> Force pushing rewritten history"
+#git push origin --force --all
+#git push origin --force --tags
+#
+#echo "==> DONE"
+#echo "File '$FILE_PATH' has been permanently removed from all Git history."
+#echo ""
+#echo "IMPORTANT:"
+#echo "- All collaborators must re-clone the repository."
+#echo "- Rotate secrets immediately if this file contained credentials."
+# Ensure remote "origin" exists and points to the correct repo
+if ! git remote | grep -q '^origin$'; then
+  git remote add origin "$REPO_URL"
+else
+  git remote set-url origin "$REPO_URL"
+fi
+
+echo "==> Remotes:"
+git remote -v
+
 echo "==> Force pushing rewritten history"
 git push origin --force --all
 git push origin --force --tags
-
-echo "==> DONE"
-echo "File '$FILE_PATH' has been permanently removed from all Git history."
-echo ""
-echo "IMPORTANT:"
-echo "- All collaborators must re-clone the repository."
-echo "- Rotate secrets immediately if this file contained credentials."

@@ -1057,8 +1057,9 @@ def fill_redcap_for_pdffile_given_subject_label(subject_name,session_label,proje
         if imaging_data_complete != '2':
             add_one_file_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str('session_pdf'),file_name)
     except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(api_token), shell=True)
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(api_token) ,shell=True )
+
         pass
     return
 

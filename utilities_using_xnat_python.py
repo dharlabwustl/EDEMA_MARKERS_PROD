@@ -63,77 +63,74 @@ def get_id_from_nifti_location_csv(
     id_col: str = "ID",
 ):
     """
-    Given an XNAT session/experiment ID:
-      - navigate to session resources
-      - find resource folder `NIFTI_LOCATION`
-      - locate file ending with `NIFTILOCATION.csv`
-      - read via pandas
-      - return the value in column `ID`
-
     Returns:
       - scalar ID value (first unique value) OR None on failure
     """
     func_name = inspect.currentframe().f_code.co_name
 
-
-
-
     try:
-        msg=" I AM HERE!!!!!!!!!!!!!!!!!"
+        msg = " I AM HERE!!!!!!!!!!!!!!!!!"
+        log_error(msg, func_name)
 
-        log_error(msg,func_name)
-        # return
-        # with open(ERROR_FILE, "a") as f:
-        #     f.write(err)
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
 
             if session_id not in conn.experiments:
-                log_error("Session ID not found on XNAT")
+                log_error("Session ID not found on XNAT", func_name)
                 return None
 
             exp = conn.experiments[session_id]
 
-            # --- resource folder ---
             if resource_name not in exp.resources:
-                log_error(f'Resource "{resource_name}" not found',func_name)
+                log_error(f'Resource "{resource_name}" not found', func_name)
                 return None
 
             res = exp.resources[resource_name]
 
-            # --- find CSV ---
             csv_files = [
                 fname for fname in res.files.keys()
                 if str(fname).endswith(csv_suffix)
             ]
 
             if not csv_files:
-                log_error(f'No file ending with "{csv_suffix}" found',func_name)
+                log_error(f'No file ending with "{csv_suffix}" found', func_name)
                 return None
 
             csv_name = sorted(csv_files)[0]
-            fobj = res.files[csv_name]
 
-            # --- download to memory ---
-            data_bytes = fobj.get()
-            df = pd.read_csv(io.BytesIO(data_bytes))
+            # --- FIX: download using xnatpy download() ---
+            import tempfile, os
+
+            tmp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp:
+                    tmp_path = tmp.name
+
+                # xnatpy file object supports download(path)
+                res.files[csv_name].download(tmp_path)
+
+                df = pd.read_csv(tmp_path)
+
+            finally:
+                if tmp_path and os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
 
             # --- extract ID ---
             if id_col not in df.columns:
-                log_error(
-                    f'Column "{id_col}" not found in {csv_name}. ',func_name)
-                    # f"Columns present: {list(df.columns)}"
-                # )
+                log_error(f'Column "{id_col}" not found in {csv_name}. ', func_name)
                 return None
 
             series = df[id_col].dropna()
             if series.empty:
-                log_error(f'Column "{id_col}" exists but has no valid values',func_name)
+                log_error(f'Column "{id_col}" exists but has no valid values', func_name)
                 return None
 
             return series.unique()[0]
 
     except Exception:
-        log_error("Unhandled exception during execution",func_name)
+        log_error("Unhandled exception during execution", func_name)
         return None
 
 

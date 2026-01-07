@@ -67,6 +67,17 @@ def get_id_from_nifti_location_csv(
             f.write(err)
 
     try:
+        msg=" I AM HERE!!!!!!!!!!!!!!!!!"
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        err = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Session ID: {session_id}\n"
+            f"{msg}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(ERROR_FILE, "a") as f:
+            f.write(err)
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
 
             if session_id not in conn.experiments:

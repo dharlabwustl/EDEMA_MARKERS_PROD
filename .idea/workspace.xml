@@ -490,7 +490,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="5518" />
+    <option name="localTasksCounter" value="5520" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -552,11 +552,6 @@
           <url>file://$PROJECT_DIR$/download_with_session_ID.py</url>
           <line>1882</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utilities_using_xnat_python.py</url>
-          <line>36</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

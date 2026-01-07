@@ -35,7 +35,7 @@ from datetime import datetime
 
 LOG_FILE = "railway_db_errors.log"
 
-ERROR_FILE = "./error.txt"
+ERROR_FILE = "error.txt"
 def log_error(msg):
 
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -82,6 +82,7 @@ def get_id_from_nifti_location_csv(
         msg=" I AM HERE!!!!!!!!!!!!!!!!!"
 
         log_error(msg,func_name)
+        return
         # with open(ERROR_FILE, "a") as f:
         #     f.write(err)
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:

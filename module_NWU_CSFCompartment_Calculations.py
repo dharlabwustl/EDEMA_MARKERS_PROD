@@ -873,7 +873,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                             right_brain_volume=right_brain_volume + this_slice_gray_right_volume
                 command = f"echo 'I am passing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
                 subprocess.call(command, shell=True)
-                return
+                # return
                 image_array=np.asarray(filename_bet_gray_data_np)
                 print("image_array MINIMUM")
                 print(np.min(image_array))
@@ -937,7 +937,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
     except:
         command = f"echo 'I am failing_1 at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
         subprocess.call(command,shell=True)
-        return
+        pass
 
 def measure_compartments_with_reg_round5_one_file_sh_v1_1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold

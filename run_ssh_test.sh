@@ -9,6 +9,6 @@ sshpass -p "$CLUSTER_PASS" \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null \
     "${CLUSTER_USER}@${CLUSTER_HOST}" \
-    "bash -lc ls "
+    "bash -lc ls /rdcw/fs1/dharr/Active/ATUL/PROJECTS/DOCKERIZE/SNIPR_PIPELINE/EDEMA_BIOMARKER_CSF_COMPARTMENT_PIPELINE/"
 
 

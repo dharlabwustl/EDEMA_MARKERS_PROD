@@ -644,9 +644,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 print(CSF_Mask_filename)
                 print('niftifilename')
                 print(niftifilename)
-                command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
-                subprocess.call(command, shell=True)
-                return
+
 
                 CSF_Mask_filename_fdata=nib.load(CSF_Mask_filename).get_fdata()
                 CSF_Mask_filename_fdata_June21_2023=nib.load(CSF_Mask_filename).get_fdata()
@@ -659,6 +657,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 ######################### added on July 15 2022 ##################################
                 #             print("56code added on July 15 2022")
                 if os.path.exists(sys.argv[4]):
+                    command = f"echo 'I am passing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
+                    subprocess.call(command, shell=True)
+                    return
                     infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
                     #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
                     print('Filename:{}'.format(os.path.basename(niftifilename)))

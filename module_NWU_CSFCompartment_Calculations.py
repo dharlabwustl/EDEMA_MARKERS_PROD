@@ -657,9 +657,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
                 ######################### added on July 15 2022 ##################################
                 #             print("56code added on July 15 2022")
                 if os.path.exists(sys.argv[4]):
-                    command = f"echo 'I am passing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
-                    subprocess.call(command, shell=True)
-                    return
+
                     infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
                     #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
                     print('Filename:{}'.format(os.path.basename(niftifilename)))
@@ -873,6 +871,9 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
 
                             left_brain_volume=left_brain_volume + this_slice_gray_left_volume
                             right_brain_volume=right_brain_volume + this_slice_gray_right_volume
+                command = f"echo 'I am passing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
+                subprocess.call(command, shell=True)
+                return
                 image_array=np.asarray(filename_bet_gray_data_np)
                 print("image_array MINIMUM")
                 print(np.min(image_array))

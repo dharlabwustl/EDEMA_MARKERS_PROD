@@ -490,7 +490,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="5588" />
+    <option name="localTasksCounter" value="5589" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -547,6 +547,11 @@
           <url>file://$PROJECT_DIR$/download_with_session_ID.py</url>
           <line>1901</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/module_NWU_CSFCompartment_Calculations.py</url>
+          <line>645</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

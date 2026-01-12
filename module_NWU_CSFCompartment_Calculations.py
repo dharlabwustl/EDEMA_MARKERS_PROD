@@ -540,6 +540,401 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
     return lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume, infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
+    try:
+        # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
+        print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
+        print("code added on July 15 2022")
+        niftifilename=sys.argv[1] ## THis is the  gray file:
+
+        niftifilenamedir=os.path.dirname(niftifilename) #sys.argv[3] #"/input1directory" #sys.argv[1] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CTs" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/MISSINGDATA1/" #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/CSF_Compartment/DATA/NECT/ALLCOHORTINONE/TILTED"
+
+        npyfiledirectory=sys.argv[5] #"/processedniftifiles" # "/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/SMOOTH_IML" # /media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/RESULTS/RegistrationOnly/"
+
+
+        print(sys.argv)
+        SLICE_OUTPUT_DIRECTORY=sys.argv[6] #"/outputdirectory" #sys.argv[4] #"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/NetWaterUptake/DATA/FU_CTs_Masks/CSF_RL_VOL_OUTPUT" #sys.argv[4] ####"/media/atul/AC0095E80095BA32/WASHU_WORK/PROJECTS/MIDLINE/SOFTWARE/shellscript/RegistrationMethod/test"
+
+
+        lower_thresh="NA" #int(float(sys.argv[7]))
+        upper_thresh="NA" #int(float(sys.argv[8]))
+        lower_thresh_normal="NA"
+        upper_thresh_normal="NA"
+        print(niftifilename)
+        print("sys.argv[2]")
+        print(sys.argv[2])
+        infarct_side="NA"
+        NWU="NA"
+        infarct_pixels_number="NA"
+        infarct_pixels_density="NA"
+        nonfarct_pixels_number="NA"
+        noninfarct_pixels_density="NA"
+        overall_infarct_vol="NA"
+        overall_non_infarct_vol="NA"
+        infarct_total_voxels_volume="NA"
+        infarct_side="NONE"
+        left_brain_volume=0
+        right_brain_volume=0
+        gray_image_data=nib.load(sys.argv[1]).get_fdata()
+        bet_image_data=nib.load(sys.argv[2]).get_fdata()
+        csf_image_data=nib.load(sys.argv[3]).get_fdata()
+        Infarct_Mask_filename_June20=sys.argv[4]
+        Infarct_Mask_filename_June20_data=nib.load(Infarct_Mask_filename_June20).get_fdata()
+        # csf_image_data[Infarct_Mask_filename_June20_data>0]=np.min(csf_image_data)
+        Infarct_Mask_filename_June20_data_512=resizeinto_512by512(Infarct_Mask_filename_June20_data)
+        if gray_image_data.shape[0] == bet_image_data.shape[0] == csf_image_data.shape[0]  and gray_image_data.shape[1] == bet_image_data.shape[1] == csf_image_data.shape[1]  and  gray_image_data.shape[2] == bet_image_data.shape[2] == csf_image_data.shape[2]:
+
+            if os.path.exists(sys.argv[4]):
+                infarct_image_data=nib.load(sys.argv[4]).get_fdata()
+                print(sys.argv[4])
+
+                if  gray_image_data.shape[1]  ==  infarct_image_data.shape[1] and  gray_image_data.shape[0] == infarct_image_data.shape[0]    and gray_image_data.shape[2] == infarct_image_data.shape[2]:
+                    lower_thresh=int(float(sys.argv[7]))
+                    upper_thresh=int(float(sys.argv[8]))
+                    ## check if infarct file exists: sys.argv[4]
+                    lower_thresh,upper_thresh,lower_thresh_normal,upper_thresh_normal, infarct_total_voxels_volume,infarct_side,NWU,infarct_pixels_number,infarct_pixels_density,nonfarct_pixels_number,noninfarct_pixels_density, overall_infarct_vol,overall_non_infarct_vol= measure_NWU_after_subt_csf_Oct_5_2020()
+
+
+            niftifilename_basename_split_nii=os.path.basename(niftifilename).split(".nii")[0] #.split("_")
+            # bet_filename=niftifilename_basename_split_nii+BET_file_extension
+            bet_filename_path=sys.argv[2] #os.path.join(BET_OUTPUT_DIRECTORY,bet_filename)
+            # now=time.localtime()
+            date_time = time.strftime("_%m_%d_%Y",now)
+            grayfilename=niftifilename #os.path.join(niftifilenamedir,grayfilename)
+            thisfilebasename=os.path.basename(grayfilename).split("_resaved")[0]
+            # csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0] + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL.csv")
+            csvfile_with_vol_total=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename + "_threshold"+ str(lower_thresh) + "_" + str(upper_thresh) + "TOTAL" +Version_Date+date_time + ".csv")
+
+
+
+            latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,thisfilebasename+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) + Version_Date + date_time+".tex")
+            # latexfilename=os.path.join(SLICE_OUTPUT_DIRECTORY,os.path.basename(grayfilename).split(".nii")[0]+"_thresh_"+str(lower_thresh) + "_" +str(upper_thresh) +".tex")
+
+
+            latex_start(latexfilename)
+            latex_begin_document(latexfilename)
+            row = ["FileName_slice" ,"SLICE_THICKNESS","SLICE_NUM", "LEFT CSF VOLUME", "RIGHT CSF VOLUME","TOTAL CSF VOLUME", "INFARCT SIDE","NWU", "INFARCT VOX_NUMBERS", "INFARCT DENSITY", "NON INFARCT VOX_NUMBERS", "NON INFARCT DENSITY","INFARCT VOLUME","INFARCT REFLECTION VOLUME", "BET VOLUME","CSF RATIO","LEFT BRAIN VOLUME without CSF" ,"RIGHT BRAIN VOLUME without CSF","INFARCT THRESH RANGE","NORMAL THRESH RANGE"]
+            col_names=np.copy(np.array(row))
+
+
+            with open(csvfile_with_vol_total, 'w') as f:
+                writer = csv.writer(f)
+                writer.writerow(row)
+
+            npyfileextension="REGISMethodOriginalRF_midline.npy"
+
+            CSF_Mask_filename=sys.argv[3] #os.path.join(csf_mask_directory,mask_basename)
+            print('CSF_Mask_filename')
+            print(CSF_Mask_filename)
+            print('niftifilename')
+            print(niftifilename)
+
+            left_pixels_num=0
+            right_pixels_num=0
+
+            infarct_mask_basename_path=sys.argv[4] #infarct_mask_basename_path_list[0] #os.path.join(niftifilenamedir,"Masks",mask_basename)
+
+
+
+
+            if os.path.exists(CSF_Mask_filename) and os.path.exists(niftifilename): # and os.path.exists(infarct_mask_basename_path) :
+                print("BOTH FILE EXISTS")
+
+                print('CSF_Mask_filename')
+                print(CSF_Mask_filename)
+                print('niftifilename')
+                print(niftifilename)
+
+
+                CSF_Mask_filename_fdata=nib.load(CSF_Mask_filename).get_fdata()
+                CSF_Mask_filename_fdata_June21_2023=nib.load(CSF_Mask_filename).get_fdata()
+                CSF_Mask_filename_fdata[Infarct_Mask_filename_June20_data>0]=0 #np.min(CSF_Mask_filename_fdata)
+                CSF_Mask_filename_fdata_June21_2023_np=resizeinto_512by512(CSF_Mask_filename_fdata_June21_2023)
+                CSF_Mask_filename_data_np=resizeinto_512by512(CSF_Mask_filename_fdata) ##nib.load(CSF_Mask_filename).get_fdata()) #nib.load(CSF_Mask_filename).get_fdata() #
+                CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>1]=0
+                CSF_Mask_filename_fdata_June21_2023_np[CSF_Mask_filename_fdata_June21_2023_np>1]=0
+
+                ######################### added on July 15 2022 ##################################
+                #             print("56code added on July 15 2022")
+                if os.path.exists(sys.argv[4]):
+                    infarct_image_data_1=resizeinto_512by512(nib.load(sys.argv[4]).get_fdata())
+                    #                 print('np.max(infarct_image_data_1):{}'.format(np.max(infarct_image_data_1)))
+                    print('Filename:{}'.format(os.path.basename(niftifilename)))
+                    print('Number of voxels in CSF mask before infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+
+                    CSF_Mask_filename_data_np[infarct_image_data_1>0]=0
+                    print("code for subtraction:{}".format('CSF_Mask_data[infarct_data>0]=0'))
+
+                    print('Number of voxels in CSF mask after infarct subtraction:{}'.format(len(CSF_Mask_filename_data_np[CSF_Mask_filename_data_np>0])))
+                #                 print("58code added on July 15 2022")
+                ##################################################################################
+
+                #                print(np.max(CSF_Mask_filename_data_np))
+                filename_gray_data_np=resizeinto_512by512(nib.load(niftifilename).get_fdata()) #nib.load(niftifilename).get_fdata() #
+                filename_bet_gray_data_np=contrast_stretch_np(resizeinto_512by512(nib.load(bet_filename_path).get_fdata()),1) #contrast_stretch_np(nib.load(bet_filename_path).get_fdata(),1) #
+                filename_gray_data_np=contrast_stretch_np(filename_gray_data_np,1) #exposure.rescale_intensity( filename_gray_data_np , in_range=(1000, 1200))
+                filename_gray_data_np_1=contrast_stretch_np(resizeinto_512by512(nib.load(grayfilename).get_fdata()),1)*255  #contrast_stretch_np(nib.load(grayfilename).get_fdata(),1)*255 ##np.uint8(filename_gray_data_np*255)
+                numpy_image=filename_gray_data_np #normalizeimage0to1(filename_gray_data_np)*255
+                filename_brain_data_np_minus_CSF=np.copy(filename_bet_gray_data_np)*255
+                #             filename_brain_data_np_minus_CSF[filename_bet_gray_data_np<np.max(filename_bet_gray_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+                filename_brain_data_np_minus_CSF[CSF_Mask_filename_data_np>=np.max(CSF_Mask_filename_data_np)]=np.min(filename_brain_data_np_minus_CSF)
+                upper_slice_num=0
+                lower_slice_num=0
+                found_lower_slice=0
+                for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+
+                    if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                        lower_slice_num=slice_num_csf
+                        found_lower_slice=1
+                    if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                        upper_slice_num=slice_num_csf
+                this_slice_left_volume=0
+                this_slice_right_volume=0
+                for img_idx in range(numpy_image.shape[2]):
+                    if img_idx>0 and img_idx < numpy_image.shape[2]:
+
+                        method_name="REGIS"
+                        slice_number="{0:0=3d}".format(img_idx)
+                        filename_tosave=re.sub('[^a-zA-Z0-9 \n\_]', '', os.path.basename(niftifilename).split(".nii")[0])
+                        this_npyfile=os.path.join(npyfiledirectory,filename_tosave+method_name+str(slice_number)+  ".npy")
+                        #                        this_npyfile=os.path.join(npyfiledirectory,os.path.basename(niftifilename).split(".nii")[0]+str(img_idx)+npyfileextension)
+                        #                        print(this_npyfile)
+                        if os.path.exists(this_npyfile):
+                            print("YES FOUND BOTH FILES")
+                            print('latexfilename')
+                            print(latexfilename)
+                            calculated_midline_points=np.load(this_npyfile,allow_pickle=True)
+                            x_points2=calculated_midline_points.item().get('x_axis') #,y_points2=points_on_line(extremepoints)
+                            # print(x_points2)
+                            y_points2=calculated_midline_points.item().get('y_axis')
+                            slice_3_layer= np.zeros([numpy_image.shape[0],numpy_image.shape[1],3])
+                            x_points2=x_points2[:,0]
+                            y_points2=y_points2[:,0]
+                            # print(this_npyfile)
+
+                            img_with_line=CSF_Mask_filename_data_np[:,:,img_idx]
+                            # print(np.max(img_with_line))
+                            img_with_line_nonzero_id = np.transpose(np.nonzero(img_with_line))
+                            thisimage=filename_gray_data_np_1[:,:,img_idx]
+                            current_left_num=0
+                            current_right_num=0
+                            slice_3_layer= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                            slice_3_layer[:,:,0]= thisimage #imgray1
+                            slice_3_layer[:,:,1]= thisimage #imgray1
+                            slice_3_layer[:,:,2]= thisimage# imgray1
+
+                            Infarct_Mask_filename_June20_data_512_idx  = Infarct_Mask_filename_June20_data_512[:,:,img_idx]
+                            Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx>0]=1
+                            Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx<1]=0
+                            CSF_Mask_filename_data_np_idx=CSF_Mask_filename_fdata_June21_2023_np[:,:,img_idx]
+                            CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx>0]=1
+                            CSF_Mask_filename_data_np_idx[CSF_Mask_filename_data_np_idx<1]=0
+                            Infarct_Mask_filename_June20_data_512_idx=CSF_Mask_filename_data_np_idx*Infarct_Mask_filename_June20_data_512_idx
+                            # Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]>0]=255
+                            # Infarct_Mask_filename_June20_data_512_idx[Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]<0.5 ]=255
+                            # Infarct_Mask_filename_June20_data_512_idx[(Infarct_Mask_filename_June20_data_512_idx[:,:,img_idx]<255) ]=0
+                            print("np.unique(CSF_Mask_filename_data_np)::{}".format(np.unique(CSF_Mask_filename_data_np)))
+                            # Infarct_Mask_filename_June20_data_512_idx[CSF_Mask_filename_data_np[:,:,img_idx]==np.min(CSF_Mask_filename_data_np)]=np.min(Infarct_Mask_filename_June20_data_512)
+                            Infarct_Mask_filename_June20_data_512_idx_flatten=Infarct_Mask_filename_June20_data_512_idx.flatten()
+                            # INFARCT_VOXELS_IN_CSF=INFARCT_VOXELS_IN_CSF+np.count_nonzero(Infarct_Mask_filename_June20_data_512_idx_flatten)
+
+                            slice_3_layer_brain= np.zeros([img_with_line.shape[0],img_with_line.shape[1],3])
+                            slice_3_layer_brain[:,:,0]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                            slice_3_layer_brain[:,:,1]= filename_brain_data_np_minus_CSF[:,:,img_idx] #imgray1
+                            slice_3_layer_brain[:,:,2]= filename_brain_data_np_minus_CSF[:,:,img_idx] # imgray1
+                            # font
+                            font = cv2.FONT_HERSHEY_SIMPLEX
+
+                            # org
+                            org = (50, 50)
+
+                            # fontScale
+                            fontScale = 1
+
+                            # Blue color in BGR
+                            color = (0, 0, 255)
+
+                            # Line thickness of 2 px
+                            thickness = 2
+
+                            imagefilename_gray=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)+"gray"
+                            slice_3_layer = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                            #                         slice_3_layer_brain = cv2.putText(slice_3_layer,str(slice_number) , org, font,  fontScale, color, thickness, cv2.LINE_AA)
+                            cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"),slice_3_layer)
+                            for non_zero_pixel in img_with_line_nonzero_id:
+                                xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                                if xx>0: ## RIGHT
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                                    current_right_num = current_right_num + 1
+                                if xx<0: ## LEFT
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                                    slice_3_layer[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                                    current_left_num = current_left_num + 1
+                            brainarea_with_nonzero_id = np.transpose(np.nonzero(filename_brain_data_np_minus_CSF[:,:,img_idx]))
+
+                            left_brain_voxel_count=0
+                            right_brain_voxel_count=0
+                            for non_zero_pixel in brainarea_with_nonzero_id:
+                                xx=whichsideofline((int(y_points2[511]),int(x_points2[511])),(int(y_points2[0]),int(x_points2[0])) ,non_zero_pixel)
+                                if xx>0: ## RIGHT
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=255
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=0
+                                    right_brain_voxel_count = right_brain_voxel_count + 1
+                                if xx<0: ## LEFT
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],0]=0
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],1]=0
+                                    slice_3_layer_brain[non_zero_pixel[0],non_zero_pixel[1],2]=255
+                                    left_brain_voxel_count = left_brain_voxel_count + 1
+
+
+                            lineThickness = 2
+
+                            this_slice_left_volume = current_left_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                            this_slice_right_volume = current_right_num*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+
+                            this_slice_gray_left_volume = left_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                            this_slice_gray_right_volume = right_brain_voxel_count*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4]))
+                            this_slice_gray_left_volume=this_slice_gray_left_volume/1000
+                            this_slice_gray_right_volume=this_slice_gray_right_volume/1000
+
+                            #######################
+                            slice_3_layer[:,:,0][Infarct_Mask_filename_June20_data_512_idx>0]=255
+                            print("values of pixels")
+                            slice_3_layer[:,:,1][Infarct_Mask_filename_June20_data_512_idx>0]=0
+                            slice_3_layer[:,:,2][Infarct_Mask_filename_June20_data_512_idx>0]=0
+
+                            img_with_line1=cv2.line(slice_3_layer, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+
+                            img_hemibrain_line1=cv2.line(slice_3_layer_brain, ( int(x_points2[0]),int(y_points2[0])),(int(x_points2[511]),int(y_points2[511])), (0,255,0), 2)
+                            slice_number="{0:0=3d}".format(img_idx)
+
+
+                            imagefilename=os.path.basename(niftifilename).split(".nii")[0].replace(".","_")+"_" +str(slice_number)
+                            imagefilename_infarct=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct.png")
+                            image_infarct_details=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_details.png")
+                            image_infarct_noninfarct_histogram=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_infarct_noninfarct_histogram.png")
+                            image_left_right_brain=os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +"_left_right_brain.png")
+
+
+                            cv2.imwrite(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"),img_with_line1)
+                            cv2.imwrite(image_left_right_brain,slice_3_layer_brain)
+                            nect_file_basename_forimagename=imagefilename
+
+                            ## get the mask image:
+                            this_slice_left_volume=this_slice_left_volume/1000
+                            this_slice_right_volume=this_slice_right_volume/1000
+
+                            ################################
+                            # upper_slice_num=0
+                            # lower_slice_num=0
+                            # found_lower_slice=0
+                            # for slice_num_csf in range(CSF_Mask_filename_data_np.shape[2]):
+
+                            #     if found_lower_slice==0 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0:
+                            #         lower_slice_num=slice_num_csf
+                            #         found_lower_slice=1
+                            #     if found_lower_slice==1 and np.sum(CSF_Mask_filename_data_np[:,:,slice_num_csf]) >0 :
+                            #         upper_slice_num=slice_num_csf
+                            ##########################
+
+                            image_list=[]
+                            print("lower_slice_num:{} and upper_slice_num:{}".format(lower_slice_num,upper_slice_num))
+                            if os.path.exists(sys.argv[4])  and int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                                latex_start_tableNc_noboundary(latexfilename,5)
+
+                                image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                                image_list.append(image_left_right_brain)
+                                image_list.append(imagefilename_infarct)
+                                # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+                                image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                                latex_insertimage_tableNc(latexfilename,image_list,len(image_list), caption="",imagescale=0.25, angle=90,space=0.51)
+                                latex_end_table2c(latexfilename)
+
+                            elif int(slice_number) >=int(lower_slice_num) and int(slice_number)<=int(upper_slice_num) :
+                                latex_start_tableNc_noboundary(latexfilename,2)
+
+                                image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename_gray +".png"))
+                                # image_list.append(imagefilename_infarct)
+                                # image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,image_infarct_details))
+                                image_list.append(os.path.join(SLICE_OUTPUT_DIRECTORY,imagefilename +".png"))
+                                latex_insertimage_tableNc(latexfilename,image_list,2, caption="",imagescale=0.2, angle=90,space=0.51)
+
+                                latex_end_table2c(latexfilename)
+
+                            left_pixels_num=left_pixels_num+this_slice_left_volume
+                            right_pixels_num=right_pixels_num+this_slice_right_volume
+
+                            left_brain_volume=left_brain_volume + this_slice_gray_left_volume
+                            right_brain_volume=right_brain_volume + this_slice_gray_right_volume
+                image_array=np.asarray(filename_bet_gray_data_np)
+                print("image_array MINIMUM")
+                print(np.min(image_array))
+                BET_VOLUME = (image_array > 0).sum()*np.prod(np.array(nib.load(niftifilename).header["pixdim"][1:4])) / 1000
+                # CSF_RATIO=left_pixels_num/right_pixels_num
+                # if left_pixels_num > right_pixels_num :
+                #     CSF_RATIO=right_pixels_num/left_pixels_num
+                    # thisfilebasename=os.path.basename(grayfilename).split("_levelset")[0]
+                # row2 = [os.path.basename(niftifilename).split(".nii")[0] , str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+                left_pixels_num_after_edema_subt,right_pixels_num_after_edema_subt,CSF_RATIO_after_edema_subt=csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY)
+                left_pixels_num=left_pixels_num_after_edema_subt
+                right_pixels_num=right_pixels_num_after_edema_subt
+                CSF_RATIO=CSF_RATIO_after_edema_subt
+                slice_thickness=get_nifti_metadata(niftifilename, 'pixdim')[3]
+                slice_count = str(get_nifti_metadata(niftifilename, 'dim')[3])
+                row2 = [thisfilebasename ,str(slice_thickness), str(slice_count),str(left_pixels_num), str(right_pixels_num),str(left_pixels_num+right_pixels_num), infarct_side,NWU, infarct_pixels_number, infarct_pixels_density, nonfarct_pixels_number,noninfarct_pixels_density,overall_infarct_vol,overall_non_infarct_vol,str(BET_VOLUME),str(CSF_RATIO),str(left_brain_volume),str(right_brain_volume),str(lower_thresh)+"to"+ str(upper_thresh),str(lower_thresh_normal) +"to" +str(upper_thresh_normal)]
+
+                values_in_col=np.array(row2)
+
+
+                with open(csvfile_with_vol_total, 'a') as f1:
+                    writer = csv.writer(f1)
+                    writer.writerow(row2)
+                this_nii_filename_list=[]
+                # this_nii_filename_list.append(os.path.basename(niftifilename).split(".nii")[0]) #thisfilebasename
+                this_nii_filename_list.append(thisfilebasename)
+                this_nii_filename_df=pd.DataFrame(this_nii_filename_list)
+                this_nii_filename_df.columns=['FILENAME']
+
+                latex_start_tableNc_noboundary(latexfilename,1)
+                latex_insert_line_nodek(latexfilename,text=this_nii_filename_df.to_latex(index=False))
+                latex_end_table2c(latexfilename)
+
+                #             latex_insert_line_nodek(latexfilename,"\\newpage")
+                #             latex_insert_line_nodate(latexfilename,"\\texttt{\\detokenize{" + os.path.basename(niftifilename).split(".nii")[0] + "}}")
+
+                values_in_table=[]
+
+                #             text1=[]
+                #             text1.append(" Regions ")
+                #             text1.append("Volume  (ml)")
+                #             latex_start_tableNc(latexfilename,2)
+                #             latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+
+                for x in range(0,col_names.shape[0]):
+                    #                 text1=[]
+                    values_in_table.append([(str(col_names[x])).replace("_"," "),(str(values_in_col[x])).replace("_","")])
+                #                 text1.append((str(col_names[x])).replace("_"," "))
+                #                 text1.append((str(values_in_col[x])).replace("_",""))
+
+                #                 latex_inserttext_tableNc(latexfilename,text1,2,space=-1.4)
+                #             latex_end_table2c(latexfilename)
+                values_in_table.pop(0)
+                values_in_table_df=pd.DataFrame(values_in_table)
+                values_in_table_df.columns=[" Regions ","Volume  (ml)"]
+                latex_start_tableNc_noboundary(latexfilename,1)
+                latex_insert_line_nodek(latexfilename,text=values_in_table_df.to_latex(index=False))
+                latex_end_table2c(latexfilename)
+            latex_end(latexfilename)
+            remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS",  "NON INFARCT VOX_NUMBERS"]) #"INFARCT DENSITY",
+    except:
+        command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> software/new_error.txt"
+        subprocess.call(command,shell=True)
+        return
+
+def measure_compartments_with_reg_round5_one_file_sh_v1_1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
     print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
     print("code added on July 15 2022")
@@ -928,6 +1323,10 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_end_table2c(latexfilename)
         latex_end(latexfilename)
         remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS",  "NON INFARCT VOX_NUMBERS"]) #"INFARCT DENSITY",
+
+
+
+
 
 def csf_ratio_after_subtractionof_edema(niftifilename,bet_filename_path,grayfilename,Infarct_Mask_filename_June20_data,CSF_Mask_filename_data_np,npyfiledirectory,latexfilename,SLICE_OUTPUT_DIRECTORY):
     EDEMA_VOXELS_IN_CSF=0

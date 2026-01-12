@@ -9,6 +9,6 @@ sshpass -p "$CLUSTER_PASS" \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null \
     "${CLUSTER_USER}@${CLUSTER_HOST}" \
-    "bash -lc pwd "
+    "bash -lc pwd && ls "
 
 

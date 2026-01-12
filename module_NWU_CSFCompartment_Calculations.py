@@ -541,7 +541,7 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     try:
-        command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> software/new_error.txt"
+        command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
         subprocess.call(command,shell=True)
         return
         # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
@@ -933,7 +933,7 @@ def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,np
             latex_end(latexfilename)
             remove_few_columns(csvfile_with_vol_total,["INFARCT VOX_NUMBERS",  "NON INFARCT VOX_NUMBERS"]) #"INFARCT DENSITY",
     except:
-        command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> software/new_error.txt"
+        command = f"echo 'I am failing_1 at measure_compartments_with_reg_round5_one_file_sh_v1' >> /software/new_error.txt"
         subprocess.call(command,shell=True)
         return
 

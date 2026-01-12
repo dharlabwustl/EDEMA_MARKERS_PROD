@@ -541,6 +541,9 @@ def measure_NWU_after_subt_csf_Oct_5_2020(): #niftifilename,npyfiledirectory,nif
 
 def measure_compartments_with_reg_round5_one_file_sh_v1() : #niftifilenamedir,npyfiledirectory,npyfileextension):
     try:
+        command = f"echo 'I am failing at measure_compartments_with_reg_round5_one_file_sh_v1' >> software/new_error.txt"
+        subprocess.call(command,shell=True)
+        return
         # $grayimage $betimage  $csfmaskimage ${infarctmaskimage}  $npyfiledirectory     $output_directory  $lower_threshold $upper_threshold
         print(" I am in measure_compartments_with_reg_round5_one_file_sh_v1() ")
         print("code added on July 15 2022")

@@ -561,3 +561,94 @@ def get_session_label_from_session_id(session_id):
     with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
         exp = conn.experiments[session_id]
         return exp.label
+
+def clear_session_resource_files(
+    session_id: str,
+    resource_name: str,
+    verify: bool = True,
+    dry_run: bool = False,
+) -> dict:
+    """
+    Given an XNAT experiment/session ID and a SESSION-level resource directory name,
+    delete ALL files inside that resource (keeps the resource folder).
+
+    Example:
+      clear_session_resource_files("SNIPR02_E02558", "MASKS")
+
+    Returns:
+      {
+        "ok": True/False,
+        "session_id": ...,
+        "resource_name": ...,
+        "deleted_count": int,
+        "deleted_files": [filenames...],
+        "error": "..." (only if ok=False)
+      }
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        if not session_id or not str(session_id).strip():
+            log_error("session_id is empty", func_name)
+            return {"ok": False, "session_id": session_id, "resource_name": resource_name,
+                    "deleted_count": 0, "deleted_files": [], "error": "session_id is empty"}
+
+        if not resource_name or not str(resource_name).strip():
+            log_error("resource_name is empty", func_name)
+            return {"ok": False, "session_id": session_id, "resource_name": resource_name,
+                    "deleted_count": 0, "deleted_files": [], "error": "resource_name is empty"}
+
+        deleted_files = []
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS, verify=verify) as conn:
+            if session_id not in conn.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return {"ok": False, "session_id": session_id, "resource_name": resource_name,
+                        "deleted_count": 0, "deleted_files": [], "error": "session not found"}
+
+            exp = conn.experiments[session_id]
+
+            if resource_name not in exp.resources:
+                # Not an error in batch pipelines; just nothing to delete.
+                return {"ok": True, "session_id": session_id, "resource_name": resource_name,
+                        "deleted_count": 0, "deleted_files": []}
+
+            res = exp.resources[resource_name]
+
+            # res.files is dict-like: {filename: file_obj}
+            file_names = list(res.files.keys())
+
+            if not file_names:
+                return {"ok": True, "session_id": session_id, "resource_name": resource_name,
+                        "deleted_count": 0, "deleted_files": []}
+
+            for fname in file_names:
+                deleted_files.append(str(fname))
+                if dry_run:
+                    continue
+
+                # xnatpy file object supports .delete()
+                try:
+                    res.files[fname].delete()
+                except Exception:
+                    # log & keep going so one bad file doesn't stop the rest
+                    log_error(f"Failed deleting file={fname} in session={session_id} resource={resource_name}", func_name)
+
+        return {
+            "ok": True,
+            "session_id": session_id,
+            "resource_name": resource_name,
+            "deleted_count": len(deleted_files) if not dry_run else len(deleted_files),
+            "deleted_files": deleted_files,
+        }
+
+    except Exception as e:
+        log_error(f"Unhandled exception: {e}", func_name)
+        return {
+            "ok": False,
+            "session_id": session_id,
+            "resource_name": resource_name,
+            "deleted_count": 0,
+            "deleted_files": [],
+            "error": str(e),
+        }

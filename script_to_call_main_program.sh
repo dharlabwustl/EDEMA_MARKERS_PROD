@@ -53,7 +53,8 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'TEST_A_CODE' ]]; then
   echo " I AM AT TEST_A_CODE" >> /software/ERROR.txt
   echo " I AM AT TEST_A_CODE"
-  /software/upload_pdf_to_redcap.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+#  /software/upload_pdf_to_redcap.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+  /software/download_pdf_to_local.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
   echo $SESSION_ID::$SESSION_ID::$SESSION_ID::"$SESSION_ID"
 fi
 

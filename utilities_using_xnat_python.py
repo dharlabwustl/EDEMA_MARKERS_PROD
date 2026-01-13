@@ -652,3 +652,54 @@ def clear_session_resource_files(
             "deleted_files": [],
             "error": str(e),
         }
+
+def download_selected_scan_file(
+    session_id: str,
+    scan_resource_dir_name: str,
+    file_extension: str,
+    out_path: str,
+    verify: bool = True,
+):
+    """
+    Given a session ID:
+      1) Find the SELECTED scan ID
+      2) Find the latest file in the given scan resource with extension
+      3) Download the file to out_path
+
+    Returns:
+      out_path on success, None on failure
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        # Step 1: get selected scan
+        scan_id = get_selected_scan_id_from_session(session_id)
+
+        if not scan_id:
+            log_error(f"No selected scan found for session {session_id}", func_name)
+            return None
+
+        # Step 2: resolve file URI
+        uri = get_latest_file_uri_from_scan_resource(
+            session_id=session_id,
+            scan_id=scan_id,
+            scan_resource_dir_name=scan_resource_dir_name,
+            file_extension=file_extension,
+        )
+
+        if not uri:
+            log_error(
+                f"No file found for session={session_id}, scan={scan_id}, "
+                f"resource={scan_resource_dir_name}, ext={file_extension}",
+                func_name,
+            )
+            return None
+
+        # Step 3: download
+        download_file_from_xnat_uri(uri, out_path, verify=verify)
+
+        return out_path
+
+    except Exception as e:
+        log_error(f"Unhandled exception: {e}", func_name)
+        return None

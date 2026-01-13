@@ -31,31 +31,31 @@ python3 -c "from utilities_using_xnat_python import download_file_from_xnat_uri;
 print(download_file_from_xnat_uri('$LATEST_URI','/workingoutput/${filename}'))"
 )
 echo "$OUT_PATH"
-read PROJECT_ID SUBJECT_ID <<< $(
-python3 -c "
-from utilities_using_xnat_python import given_sessionid_get_project_n_subjectids
-p, s = given_sessionid_get_project_n_subjectids('${SESSION_ID}')
-if p is not None and s is not None:
-    print(p, s)
-"
-)
-
-echo "PROJECT_ID::$PROJECT_ID"
-echo "SUBJECT_LABEL::$SUBJECT_ID"
-SUBJECT_LABEL=$SUBJECT_ID
-SESSION_LABEL=$(
-python3 -c "from utilities_using_xnat_python import get_session_label_from_session_id; \
-print(get_session_label_from_session_id('${SESSION_ID}'))"
-)
-echo "PROJECT_ID::$PROJECT_ID"
-echo "SUBJECT_LABEL::${SUBJECT_LABEL}"
-echo "SESSION_LABEL::${SESSION_LABEL}"
-echo "OUT_PATH::${OUT_PATH}"
-##fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile_given_subject_label' ${xml_filename} ${pdffilename}) #${subj_listfile})
-##outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
-##subject_name,session_label,project_name,file_name
-#SUCCESS_VALUE_0_FAIL_1=$(
-#python3 -c "from download_with_session_ID import fill_redcap_for_pdffile_given_subject_label; print(fill_redcap_for_pdffile_given_subject_label('${SUBJECT_LABEL}','${SESSION_LABEL}','${PROJECT_ID}','${OUT_PATH}'))"
+#read PROJECT_ID SUBJECT_ID <<< $(
+#python3 -c "
+#from utilities_using_xnat_python import given_sessionid_get_project_n_subjectids
+#p, s = given_sessionid_get_project_n_subjectids('${SESSION_ID}')
+#if p is not None and s is not None:
+#    print(p, s)
+#"
 #)
 #
-#echo SUCCESS_VALUE_0_FAIL_1="${SUCCESS_VALUE_0_FAIL_1}"
+#echo "PROJECT_ID::$PROJECT_ID"
+#echo "SUBJECT_LABEL::$SUBJECT_ID"
+#SUBJECT_LABEL=$SUBJECT_ID
+#SESSION_LABEL=$(
+#python3 -c "from utilities_using_xnat_python import get_session_label_from_session_id; \
+#print(get_session_label_from_session_id('${SESSION_ID}'))"
+#)
+#echo "PROJECT_ID::$PROJECT_ID"
+#echo "SUBJECT_LABEL::${SUBJECT_LABEL}"
+#echo "SESSION_LABEL::${SESSION_LABEL}"
+#echo "OUT_PATH::${OUT_PATH}"
+###fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile_given_subject_label' ${xml_filename} ${pdffilename}) #${subj_listfile})
+###outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+###subject_name,session_label,project_name,file_name
+##SUCCESS_VALUE_0_FAIL_1=$(
+##python3 -c "from download_with_session_ID import fill_redcap_for_pdffile_given_subject_label; print(fill_redcap_for_pdffile_given_subject_label('${SUBJECT_LABEL}','${SESSION_LABEL}','${PROJECT_ID}','${OUT_PATH}'))"
+##)
+##
+##echo SUCCESS_VALUE_0_FAIL_1="${SUCCESS_VALUE_0_FAIL_1}"

@@ -5,7 +5,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import os, sys, errno, shutil, uuid,subprocess,csv,json
 import math,inspect
 import glob
-import re,time
+import re,time,xnat
 import requests
 import pandas as pd
 import nibabel as nib

@@ -982,6 +982,7 @@ def select_scan_for_analysis(args):
     return
 def fill_redcap_for_selected_scan(args):
     subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format('fill_redcap_for_selected_scan'), shell=True)
+    return
     try:
 
         # session_id=args.stuff[1]

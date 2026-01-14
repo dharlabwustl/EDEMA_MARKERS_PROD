@@ -1087,6 +1087,72 @@ def replace_non_ascii_with_O(s):
     if not s:
         return s
     return "".join(c if ord(c) < 128 else "O" for c in str(s))
+def sanitize_csv_non_ascii_to_O(
+    input_csv: str,
+    output_csv: str = None,
+    overwrite: bool = False,
+    encoding: str = "utf-8",
+):
+    """
+    Replace any non-ASCII character in an entire CSV file with 'O'.
+
+    Args:
+      input_csv: path to existing CSV
+      output_csv: path to write sanitized CSV (optional)
+      overwrite: if True, replace the original file (ignores output_csv)
+      encoding: encoding to use when reading/writing; utf-8 recommended
+
+    Behavior:
+      - Reads text with errors='replace' to avoid decode crashes.
+      - Replaces every character with ord(c) >= 128 by 'O'.
+      - Writes sanitized CSV.
+
+    Returns:
+      Path of the written CSV on success, else None.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        import os
+        import csv
+
+        if not input_csv or not os.path.exists(input_csv):
+            # log_error(f"Input CSV not found: {input_csv}", func_name)
+            subprocess.call("echo " + "I FAILED AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(
+                sanitize_csv_non_ascii_to_O),
+                            shell=True)
+            return None
+
+        # Decide output path
+        if overwrite:
+            out_path = input_csv
+        else:
+            out_path = output_csv or (input_csv + ".ascii.csv")
+
+        def repl_non_ascii(s: str) -> str:
+            # Replace any non-ASCII codepoint with 'O'
+            return "".join(ch if ord(ch) < 128 else "O" for ch in s)
+
+        # Read and write row-by-row (memory efficient, robust)
+        with open(input_csv, "r", encoding=encoding, errors="replace", newline="") as fin:
+            reader = csv.reader(fin)
+
+            # Use same dialect-ish defaults; writer will quote minimally
+            with open(out_path, "w", encoding=encoding, newline="") as fout:
+                writer = csv.writer(fout)
+
+                for row in reader:
+                    # sanitize every cell
+                    new_row = [repl_non_ascii(cell) for cell in row]
+                    writer.writerow(new_row)
+
+        return out_path
+
+    except Exception:
+        # log_error("Unhandled exception during sanitize_csv_non_ascii_to_O", func_name)
+        subprocess.call("echo " + "I FAILED AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(sanitize_csv_non_ascii_to_O),
+                        shell=True)
+        return None
 
 def clean_ascii(s):
     if not s:

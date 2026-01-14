@@ -1088,6 +1088,13 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
         # session_id=args.stuff[1]
         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
         # xmlfile=args.stuff[1]
+        subprocess.call("echo " + "I PASSED AT session_id::{}  >> /workingoutput/error.txt".format(session_id),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT csv_file::{}  >> /workingoutput/error.txt".format(csv_file),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),
+                        shell=True)
+        return
         csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
         # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
         # return

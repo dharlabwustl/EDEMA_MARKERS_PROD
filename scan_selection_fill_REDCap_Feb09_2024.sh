@@ -565,7 +565,7 @@ python3 -c "from utilities_using_xnat_python import get_session_label_from_sessi
 print(get_session_label_from_session_id('${sessionID}'))"
 )
 ID_VALUE=$(
-python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; print(get_id_from_nifti_location_csv('${SESSION_ID}'))"
+python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; print(get_id_from_nifti_location_csv('${sessionID}'))"
 )
   read ACQ_SITE ACQ_DT SCANNER BODY_PART KVP <<< $(
 python3 -c "

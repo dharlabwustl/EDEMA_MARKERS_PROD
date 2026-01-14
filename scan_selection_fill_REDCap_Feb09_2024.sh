@@ -562,7 +562,7 @@ if p is not None and s is not None:
 )
 SESSION_LABEL=$(
 python3 -c "from utilities_using_xnat_python import get_session_label_from_session_id; \
-print(get_session_label_from_session_id('${SESSION_ID}'))"
+print(get_session_label_from_session_id('${sessionID}'))"
 )
   echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}
 fi

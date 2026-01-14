@@ -1082,7 +1082,7 @@ def fill_redcap_for_selected_scan(args):
         pass
     return
 
-def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
+def fill_redcap_for_selected_scan_01142026(session_id,session_label,project_name, subject_name ,csv_file):
     try:
 
         # session_id=args.stuff[1]
@@ -1095,8 +1095,8 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
         # project_name,subject_name, session_label=given_sessionid_get_project_n_subjectids(session_id)
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
-        project_name, subject_name = utilities_using_xnat_python.given_sessionid_get_project_n_subjectids(session_id)
-        session_label=session_id
+        # project_name, subject_name = utilities_using_xnat_python.given_sessionid_get_project_n_subjectids(session_id)
+        # session_label=session_id
         subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name),
                         shell=True)
         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),

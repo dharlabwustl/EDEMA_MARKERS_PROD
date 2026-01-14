@@ -527,7 +527,7 @@ else
   get_nifti_scan_uri ${sessionID} ${working_dir} ${niftifile_csvfilename}
 echo "I AM EXITING"
 
-exit
+#exit
   ## make REDCap compatible csvfile:
 
   ## in the redcap update the values of axial scan, thin-scan, and the selected scan file name, file base name.

@@ -1083,44 +1083,48 @@ def fill_redcap_for_selected_scan(args):
     return
 #
 import unicodedata
+
+import re
+def remove_non_ascii(inputfile, outputfile):
+    with open(inputfile) as f:
+        new_text = re.sub(r'[^\x00-\x7F]+', '', f.read())
+
+    with open(outputfile, 'w') as f:
+        f.write(new_text)
 def replace_non_ascii_with_O(s):
     if not s:
         return s
     return "".join(c if ord(c) < 128 else "O" for c in str(s))
+
+import os
+import inspect
+import re
+import subprocess
+
 def sanitize_csv_non_ascii_to_O(
     input_csv: str,
     output_csv: str = None,
     overwrite: bool = False,
-    encoding: str = "utf-8",
 ):
     """
     Replace any non-ASCII character in an entire CSV file with 'O'.
 
-    Args:
-      input_csv: path to existing CSV
-      output_csv: path to write sanitized CSV (optional)
-      overwrite: if True, replace the original file (ignores output_csv)
-      encoding: encoding to use when reading/writing; utf-8 recommended
-
-    Behavior:
-      - Reads text with errors='replace' to avoid decode crashes.
-      - Replaces every character with ord(c) >= 128 by 'O'.
-      - Writes sanitized CSV.
+    Bash usage:
+      out = sanitize_csv_non_ascii_to_O(path, overwrite=True)
+      if out: print(out)
 
     Returns:
-      Path of the written CSV on success, else None.
+      - Path to written CSV on success
+      - None on failure
     """
-    func_name = inspect.currentframe().f_code.co_name
-
     try:
-        import os
-        import csv
-
         if not input_csv or not os.path.exists(input_csv):
-            # log_error(f"Input CSV not found: {input_csv}", func_name)
-            subprocess.call("echo " + "I FAILED _1 AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(
-                sanitize_csv_non_ascii_to_O),
-                            shell=True)
+            subprocess.call(
+                "echo 'I FAILED AT csvfile::{} (file not found)' >> /workingoutput/error.txt".format(
+                    input_csv
+                ),
+                shell=True,
+            )
             return None
 
         # Decide output path
@@ -1129,29 +1133,32 @@ def sanitize_csv_non_ascii_to_O(
         else:
             out_path = output_csv or (input_csv + ".ascii.csv")
 
-        def repl_non_ascii(s: str) -> str:
-            # Replace any non-ASCII codepoint with 'O'
-            return "".join(ch if ord(ch) < 128 else "O" for ch in s)
+        pattern = re.compile(r"[^\x00-\x7F]")
 
-        # Read and write row-by-row (memory efficient, robust)
-        with open(input_csv, "r", encoding=encoding, errors="replace", newline="") as fin:
-            reader = csv.reader(fin)
+        # Line-by-line processing (safe for large files)
+        with open(input_csv, "r", encoding="utf-8", errors="replace") as fin, \
+             open(out_path, "w", encoding="utf-8", newline="") as fout:
 
-            # Use same dialect-ish defaults; writer will quote minimally
-            with open(out_path, "w", encoding=encoding, newline="") as fout:
-                writer = csv.writer(fout)
+            for line in fin:
+                fout.write(pattern.sub("O", line))
 
-                for row in reader:
-                    # sanitize every cell
-                    new_row = [repl_non_ascii(cell) for cell in row]
-                    writer.writerow(new_row)
+        # PASS log
+        subprocess.call(
+            "echo 'I PASSED AT csvfile::{}' >> /workingoutput/error.txt".format(
+                out_path
+            ),
+            shell=True,
+        )
 
         return out_path
 
-    except Exception:
-        # log_error("Unhandled exception during sanitize_csv_non_ascii_to_O", func_name)
-        subprocess.call("echo " + "I FAILED AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(sanitize_csv_non_ascii_to_O),
-                        shell=True)
+    except Exception as e:
+        subprocess.call(
+            "echo 'I FAILED AT csvfile::{} (exception)' >> /workingoutput/error.txt".format(
+                input_csv
+            ),
+            shell=True,
+        )
         return None
 
 def clean_ascii(s):

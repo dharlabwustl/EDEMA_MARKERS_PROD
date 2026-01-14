@@ -537,7 +537,7 @@ if  ls ${working_dir}/*_NIFTILOCATION.csv 1> /dev/null 2>&1; then
   ########## change column names:
   csvfile_scan_selection_for_redcap_call=('csvfile_scan_selection_for_redcap' ${this_csvfilename} ${csvfile_for_redcap} ${sessionID}) # 'Name' scan_name)
   outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
- exit
+# exit
   #call_edit_session_analytics_file_arguments=('rename_columns' ${this_csvfilename} ${this_csvfilename} 'Name' scan_name)
   #outputfiles_present=$(python3 fillmaster_session_list.py "${call_edit_session_analytics_file_arguments[@]}")
   this_session_id=${sessionID}

@@ -3847,8 +3847,17 @@ def csvfile_scan_selection_for_redcap(args):
         outputdf.columns=columnames
         outputdf.to_csv(csvoutputfilename,index=False)
         subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-    except:
-        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+    except Exception as e:
+        err_text = (
+            f"I FAILED AT :: {inspect.stack()[0][3]}\n"
+            f"Exception: {str(e)}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-' * 80}\n"
+        )
+
+        with open("/workingoutput/error.txt", "a") as f:
+            f.write(err_text)
+        # subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
 def csvfile_edema_biomarkers_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]

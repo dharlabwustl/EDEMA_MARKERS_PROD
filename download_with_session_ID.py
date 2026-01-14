@@ -1043,7 +1043,7 @@ def fill_redcap_for_selected_scan(args):
         subprocess.call(
             "echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format('fill_redcap_for_selected_scan'),
             shell=True)
-        return
+        # return
         # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         api_token = os.environ['REDCAP_API']
         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)

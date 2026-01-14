@@ -565,11 +565,11 @@ print(get_session_label_from_session_id('${sessionID}'))"
 ID_VALUE=$(
 python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; print(get_id_from_nifti_location_csv('${sessionID}'))"
 )
-
+csvfile_for_redcap_copy=${working_dir}/scan_selection_copy.csv
 CLEAN_CSV=$(
 python3 -c "
 from download_with_session_ID import sanitize_csv_non_ascii_to_O
-out = sanitize_csv_non_ascii_to_O('${csvfile_for_redcap}', overwrite=True)
+out = sanitize_csv_non_ascii_to_O('${csvfile_for_redcap}', '${csvfile_for_redcap_copy}')
 if out:
     print(out)
 "
@@ -585,7 +585,7 @@ if out:
 
   #session_label,project_name, subject_name ,csv_file
     SUCCESS_VALUE_0_FAIL_1=$(
-python3 -c "from download_with_session_ID import fill_redcap_for_selected_scan_01142026; print(fill_redcap_for_selected_scan_01142026('${SESSION_LABEL}','${PROJECT_ID}','${SUBJECT_ID}','${csvfile_for_redcap}' ))"
+python3 -c "from download_with_session_ID import fill_redcap_for_selected_scan_01142026; print(fill_redcap_for_selected_scan_01142026('${SESSION_LABEL}','${PROJECT_ID}','${SUBJECT_ID}','${csvfile_for_redcap_copy}' ))"
 )
 #  read ACQ_SITE ACQ_DT SCANNER BODY_PART KVP <<< $(
 #python3 -c "

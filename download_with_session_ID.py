@@ -1088,13 +1088,7 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
         # session_id=args.stuff[1]
         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
         # xmlfile=args.stuff[1]
-        subprocess.call("echo " + "I PASSED AT session_id::{}  >> /workingoutput/error.txt".format(session_id),
-                        shell=True)
-        subprocess.call("echo " + "I PASSED AT csv_file::{}  >> /workingoutput/error.txt".format(csv_file),
-                        shell=True)
-        subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),
-                        shell=True)
-        # return
+
         csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
         # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
         # return
@@ -1102,6 +1096,13 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
         project_name, subject_name, session_label = get_project_subject_session_from_session_id(session_id)
+        subprocess.call("echo " + "I PASSED AT session_id::{}  >> /workingoutput/error.txt".format(session_id),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT csv_file::{}  >> /workingoutput/error.txt".format(csv_file),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),
+                        shell=True)
+        # return
         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
                         shell=True)
         this_project_redcapfile_latest=project_name+'_latest.csv'

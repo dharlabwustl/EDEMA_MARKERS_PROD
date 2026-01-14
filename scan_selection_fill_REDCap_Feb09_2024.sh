@@ -579,7 +579,7 @@ python3 -c "from download_with_session_ID import fill_redcap_for_selected_scan_0
 #)
 
 
-  echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}::${ID_VALUE} ##::ACQ_SITE::${ACQ_SITE}::ACQ_DT::${ACQ_DT}::SCANNER:${SCANNER}::BODY_PART::${BODY_PART}::KVP::${KVP}
+  echo SUCCESS_VALUE_0_FAIL_1::$SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}::${ID_VALUE} ##::ACQ_SITE::${ACQ_SITE}::ACQ_DT::${ACQ_DT}::SCANNER:${SCANNER}::BODY_PART::${BODY_PART}::KVP::${KVP}
 fi
 #########################################
 #outputfiles_present=0

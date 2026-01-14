@@ -1082,6 +1082,13 @@ def fill_redcap_for_selected_scan(args):
         pass
     return
 #
+import unicodedata
+
+def clean_ascii(s):
+    if not s:
+        return s
+    s = unicodedata.normalize("NFKD", s)
+    return s.encode("ascii", "ignore").decode("ascii")
 def fill_redcap_for_selected_scan_01142026(session_label,project_name, subject_name ,csv_file):
     try:
 
@@ -1123,7 +1130,7 @@ def fill_redcap_for_selected_scan_01142026(session_label,project_name, subject_n
                 subprocess.call("echo " + "I PASSED AT each_colname::{}  >> /workingoutput/error.txt".format(each_colname) ,shell=True )
                 subprocess.call("echo " + "I PASSED AT each_colname_value::{}  >> /workingoutput/error.txt".format(csv_file_df[each_colname][0]) ,shell=True )
                 try:
-                    add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str(each_colname),csv_file_df[each_colname].item())
+                    add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str(each_colname),clean_ascii(csv_file_df[each_colname].item()))
                 except:
                     subprocess.call("echo " + "I FAILED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
                     pass

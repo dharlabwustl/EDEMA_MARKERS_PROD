@@ -1082,68 +1082,68 @@ def fill_redcap_for_selected_scan(args):
         pass
     return
 #
-# def fill_redcap_for_selected_scan_01142026(session_id,session_label,project_name, subject_name ,csv_file):
-#     try:
-#
-#         # session_id=args.stuff[1]
-#         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
-#         # xmlfile=args.stuff[1]
-#
-#         csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
-#         # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
-#         # return
-#         # project_name,subject_name, session_label=given_sessionid_get_project_n_subjectids(session_id)
-#         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
-#         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
-#         # project_name, subject_name = utilities_using_xnat_python.given_sessionid_get_project_n_subjectids(session_id)
-#         # session_label=session_id
-#         subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name),
-#                         shell=True)
-#         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
-#                         shell=True)
-#         subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label),
-#                         shell=True)
-#         # return
-#         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
-#                         shell=True)
-#         this_project_redcapfile_latest=project_name+'_latest.csv'
-#         # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
-#         api_token = os.environ['REDCAP_API']
-#         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
-#         this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
-#         this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
-#         imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
-#         if imaging_data_complete != '2':
-#             for each_colname in csv_file_df.columns:
-#                 # print(each_colname)
-#                 # print(csv_file_df[each_colname])
-#                 subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
-#                 subprocess.call("echo " + "I PASSED AT this_session_redcap_repeat_instance::{}  >> /workingoutput/error.txt".format(this_session_redcap_repeat_instance) ,shell=True )
-#                 subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
-#                 subprocess.call("echo " + "I PASSED AT each_colname::{}  >> /workingoutput/error.txt".format(each_colname) ,shell=True )
-#                 subprocess.call("echo " + "I PASSED AT each_colname_value::{}  >> /workingoutput/error.txt".format(csv_file_df[each_colname][0]) ,shell=True )
-#                 try:
-#                     add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str(each_colname),csv_file_df[each_colname].item())
-#                 except:
-#                     subprocess.call("echo " + "I FAILED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
-#                     pass
-#         #fill scan base
-#         ## fill scan complete name
-#         ## fill number of slices,kvp,px,pz, scanner detail
-#
-#         # subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT acquisition_site_xml::{}  >> /workingoutput/error.txt".format(acquisition_site_xml) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT acquisition_datetime_xml::{}  >> /workingoutput/error.txt".format(acquisition_datetime_xml) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT scanner_from_xml::{}  >> /workingoutput/error.txt".format(scanner_from_xml) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT body_part_xml::{}  >> /workingoutput/error.txt".format(body_part_xml) ,shell=True )
-#         # subprocess.call("echo " + "I PASSED AT kvp_xml::{}  >> /workingoutput/error.txt".format(kvp_xml) ,shell=True )
-#     except:
-#         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-#         pass
-#     return
+def fill_redcap_for_selected_scan_01142026(session_label,project_name, subject_name ,csv_file):
+    try:
+
+        # session_id=args.stuff[1]
+        # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
+        # xmlfile=args.stuff[1]
+
+        csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
+        # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
+        # return
+        # project_name,subject_name, session_label=given_sessionid_get_project_n_subjectids(session_id)
+        # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
+        # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
+        # project_name, subject_name = utilities_using_xnat_python.given_sessionid_get_project_n_subjectids(session_id)
+        # session_label=session_id
+        subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
+                        shell=True)
+        subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label),
+                        shell=True)
+        # return
+        subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
+                        shell=True)
+        this_project_redcapfile_latest=project_name+'_latest.csv'
+        # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
+        api_token = os.environ['REDCAP_API']
+        df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)
+        this_session_redcap_repeat_instance_df=df_scan_latest[df_scan_latest['snipr_session']==session_label]
+        this_session_redcap_repeat_instance=str(this_session_redcap_repeat_instance_df['redcap_repeat_instance'].item())
+        imaging_data_complete=str(this_session_redcap_repeat_instance_df['imaging_data_complete'].item())
+        if imaging_data_complete != '2':
+            for each_colname in csv_file_df.columns:
+                # print(each_colname)
+                # print(csv_file_df[each_colname])
+                subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
+                subprocess.call("echo " + "I PASSED AT this_session_redcap_repeat_instance::{}  >> /workingoutput/error.txt".format(this_session_redcap_repeat_instance) ,shell=True )
+                subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
+                subprocess.call("echo " + "I PASSED AT each_colname::{}  >> /workingoutput/error.txt".format(each_colname) ,shell=True )
+                subprocess.call("echo " + "I PASSED AT each_colname_value::{}  >> /workingoutput/error.txt".format(csv_file_df[each_colname][0]) ,shell=True )
+                try:
+                    add_one_data_to_redcap(subject_name,'imaging_data',this_session_redcap_repeat_instance,str(each_colname),csv_file_df[each_colname].item())
+                except:
+                    subprocess.call("echo " + "I FAILED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
+                    pass
+        #fill scan base
+        ## fill scan complete name
+        ## fill number of slices,kvp,px,pz, scanner detail
+
+        # subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT session_label::{}  >> /workingoutput/error.txt".format(session_label) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT acquisition_site_xml::{}  >> /workingoutput/error.txt".format(acquisition_site_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT acquisition_datetime_xml::{}  >> /workingoutput/error.txt".format(acquisition_datetime_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT scanner_from_xml::{}  >> /workingoutput/error.txt".format(scanner_from_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT body_part_xml::{}  >> /workingoutput/error.txt".format(body_part_xml) ,shell=True )
+        # subprocess.call("echo " + "I PASSED AT kvp_xml::{}  >> /workingoutput/error.txt".format(kvp_xml) ,shell=True )
+    except:
+        subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
+        pass
+    return
 #
 #
 

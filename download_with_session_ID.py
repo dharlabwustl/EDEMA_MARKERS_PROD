@@ -1118,7 +1118,7 @@ def sanitize_csv_non_ascii_to_O(
 
         if not input_csv or not os.path.exists(input_csv):
             # log_error(f"Input CSV not found: {input_csv}", func_name)
-            subprocess.call("echo " + "I FAILED AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(
+            subprocess.call("echo " + "I FAILED _1 AT sanitize_csv_non_ascii_to_O::{}  >> /workingoutput/error.txt".format(
                 sanitize_csv_non_ascii_to_O),
                             shell=True)
             return None

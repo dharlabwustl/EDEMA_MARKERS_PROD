@@ -570,7 +570,7 @@ python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_c
   read ACQ_SITE ACQ_DT SCANNER BODY_PART KVP <<< $(
 python3 -c "
 from utilities_using_xnat_python import get_scan_dicom_metadata
-a,b,c,d,e = get_scan_dicom_metadata('${sessionID}','${ID_VALUE}')
+a,b,c,d,e = get_scan_dicom_metadata_from_first_dicom('${sessionID}','${ID_VALUE}')
 if a is not None:
     print(a,b,c,d,e)
 "

@@ -467,20 +467,22 @@ def given_csvfile_proj_subjids_append(csvfile, session_id):
         with open(LOG_FILE, "a") as f:
             f.write(err)
         return None
-def get_scan_dicom_metadata(session_id: str, scan_id: str):
+def get_scan_dicom_metadata_from_first_dicom(
+    session_id: str,
+    scan_id: str,
+    dicom_resource_name: str = "DICOM",
+    bash_safe: bool = True,
+):
     """
-    Given:
-      - session_id (experiment id)
-      - scan_id (scan number/id within the session)
+    Given session_id and scan_id:
+      - find scan's resource folder (default: "DICOM")
+      - download the first DICOM file from that resource
+      - read DICOM header tags using SimpleITK (GDCM)
+      - return tuple:
+          (acquisition_site, acquisition_datetime, scanner, body_part, kvp)
 
-    Returns a 5-tuple:
-      (acquisition_site, acquisition_datetime, scanner, body_part, kvp)
-
-    Notes:
-      - Uses XNAT dicomdump service on:
-          /archive/projects/{project}/subjects/{subject}/experiments/{session}/scans/{scan}
-      - Returns None values on failure.
-      - Values are sanitized (spaces -> underscores) for safe Bash 'read' parsing.
+    Returns:
+      (site, acq_dt, scanner, body_part, kvp) OR (None, None, None, None, None) on failure
     """
     func_name = inspect.currentframe().f_code.co_name
 
@@ -490,9 +492,19 @@ def get_scan_dicom_metadata(session_id: str, scan_id: str):
         s = str(v).strip()
         if not s:
             return None
-        # Make it Bash-friendly for: read A B C <<< "$(python ...)"
-        # (scanner/site often contain spaces)
-        return " ".join(s.split()).replace(" ", "_")
+        # Collapse whitespace
+        s = " ".join(s.split())
+        if bash_safe:
+            s = s.replace(" ", "_")
+        return s
+
+    def _get_tag(reader, tag, default=None):
+        try:
+            if reader.HasMetaDataKey(tag):
+                return reader.GetMetaData(tag)
+        except Exception:
+            pass
+        return default
 
     try:
         if not session_id or not str(session_id).strip():
@@ -502,87 +514,134 @@ def get_scan_dicom_metadata(session_id: str, scan_id: str):
             log_error("scan_id is empty", func_name)
             return None, None, None, None, None
 
-        # 1) Resolve project + subject using xnatpy
+        import tempfile
+        import os
+        import SimpleITK as sitk
+
+        # -------------------------
+        # 1) Find first DICOM file in scan resource
+        # -------------------------
         with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
             if session_id not in conn.experiments:
                 log_error(f"Session ID not found on XNAT: {session_id}", func_name)
                 return None, None, None, None, None
 
             exp = conn.experiments[session_id]
-            project = exp.project
-            subject = exp.subject.label
 
-        # 2) Call dicomdump for the specific scan
-        src = f"/archive/projects/{project}/subjects/{subject}/experiments/{session_id}/scans/{scan_id}"
+            if scan_id not in exp.scans:
+                log_error(f"Scan ID not found in session: {scan_id}", func_name)
+                return None, None, None, None, None
 
-        url = f"{XNAT_HOST.rstrip('/')}/data/services/dicomdump"
+            scan = exp.scans[scan_id]
 
-        fields = [
-            "InstitutionName",         # acquisition_site (often)
-            "AcquisitionDateTime",     # acquisition_datetime
-            "Manufacturer",            # scanner components
-            "ManufacturerModelName",   # scanner components
-            "BodyPartExamined",        # body_part
-            "KVP",                     # kvp
-        ]
+            if dicom_resource_name not in scan.resources:
+                log_error(
+                    f'Scan resource "{dicom_resource_name}" not found for scan_id={scan_id}',
+                    func_name,
+                )
+                return None, None, None, None, None
 
-        params = [("src", src), ("format", "json")] + [("field", f) for f in fields]
+            res = scan.resources[dicom_resource_name]
 
-        r = requests.get(url, auth=(XNAT_USER, XNAT_PASS), params=params)
-        if r.status_code != 200:
-            log_error(f"dicomdump failed HTTP {r.status_code}: {r.text[:200]}", func_name)
-            return None, None, None, None, None
+            # list all files (keys may include paths)
+            all_files = [str(k) for k in res.files.keys()]
 
-        data = r.json()
+            # Prefer .dcm (case-insensitive), otherwise take the first file
+            dcm_files = [f for f in all_files if f.lower().endswith(".dcm")]
+            candidates = sorted(dcm_files) if dcm_files else sorted(all_files)
 
-        # 3) Parse dicomdump JSON (robust to common XNAT shapes)
-        values = {}
+            if not candidates:
+                log_error(
+                    f'No files found in scan resource "{dicom_resource_name}" (scan_id={scan_id})',
+                    func_name,
+                )
+                return None, None, None, None, None
 
-        # Common XNAT shape: {"ResultSet":{"Result":[{"field":"KVP","value":"120"}, ...]}}
-        if isinstance(data, dict) and "ResultSet" in data:
-            rs = data.get("ResultSet", {})
-            results = rs.get("Result", [])
-            if isinstance(results, dict):
-                results = [results]
-            for item in results:
-                if isinstance(item, dict):
-                    f = item.get("field") or item.get("Field") or item.get("name")
-                    v = item.get("value") or item.get("Value")
-                    if f:
-                        values[str(f)] = v
+            first_name = candidates[0]
 
-        # Sometimes returned as list of dicts
-        elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    f = item.get("field") or item.get("Field") or item.get("name")
-                    v = item.get("value") or item.get("Value")
-                    if f:
-                        values[str(f)] = v
+            # download to temp file
+            tmp_path = None
+            try:
+                suffix = ".dcm" if first_name.lower().endswith(".dcm") else ".bin"
+                with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+                    tmp_path = tmp.name
 
-        else:
-            # Unexpected format
-            log_error(f"Unexpected dicomdump JSON structure: {type(data)}", func_name)
-            return None, None, None, None, None
+                res.files[first_name].download(tmp_path)
 
-        acquisition_site = _clean(values.get("InstitutionName"))
-        acquisition_datetime = _clean(values.get("AcquisitionDateTime"))
-        body_part = _clean(values.get("BodyPartExamined"))
-        kvp = _clean(values.get("KVP"))
+            except Exception:
+                log_error(
+                    f"Failed to download first DICOM file: {first_name} (scan_id={scan_id})",
+                    func_name,
+                )
+                if tmp_path and os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
+                return None, None, None, None, None
 
-        manufacturer = _clean(values.get("Manufacturer"))
-        model = _clean(values.get("ManufacturerModelName"))
+        # -------------------------
+        # 2) Read DICOM header tags using SimpleITK (no pixel load)
+        # -------------------------
+        try:
+            # Use ImageFileReader for metadata
+            reader = sitk.ImageFileReader()
+            reader.SetFileName(tmp_path)
 
-        # scanner string (Bash-friendly)
-        if manufacturer and model:
-            scanner = f"{manufacturer}_{model}"
-        else:
-            scanner = manufacturer or model
+            # Ensure GDCM for DICOM
+            image_io = sitk.GDCMImageIO()
+            reader.SetImageIO(image_io)
 
-        return acquisition_site, acquisition_datetime, scanner, body_part, kvp
+            # Only read header info (fast)
+            reader.ReadImageInformation()
+
+            # DICOM tags (group|element)
+            institution = _get_tag(reader, "0008|0080")  # InstitutionName
+            acq_dt = _get_tag(reader, "0008|002a")       # AcquisitionDateTime
+
+            # Fallback if AcquisitionDateTime missing:
+            if not acq_dt:
+                acq_date = _get_tag(reader, "0008|0022")  # AcquisitionDate
+                acq_time = _get_tag(reader, "0008|0032")  # AcquisitionTime
+                if acq_date and acq_time:
+                    acq_dt = f"{acq_date}_{acq_time}"
+                else:
+                    # Additional fallbacks (often present)
+                    study_date = _get_tag(reader, "0008|0020")  # StudyDate
+                    study_time = _get_tag(reader, "0008|0030")  # StudyTime
+                    if study_date and study_time:
+                        acq_dt = f"{study_date}_{study_time}"
+
+            manufacturer = _get_tag(reader, "0008|0070")  # Manufacturer
+            model = _get_tag(reader, "0008|1090")         # ManufacturerModelName
+            body_part = _get_tag(reader, "0018|0015")     # BodyPartExamined
+            kvp = _get_tag(reader, "0018|0060")           # KVP
+
+            scanner = None
+            if manufacturer and model:
+                scanner = f"{manufacturer}_{model}"
+            else:
+                scanner = manufacturer or model
+
+            # Clean for Bash if requested
+            institution = _clean(institution)
+            acq_dt = _clean(acq_dt)
+            scanner = _clean(scanner)
+            body_part = _clean(body_part)
+            kvp = _clean(kvp)
+
+            return institution, acq_dt, scanner, body_part, kvp
+
+        finally:
+            # cleanup temp file
+            if tmp_path and os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
 
     except Exception:
-        log_error("Unhandled exception during get_scan_dicom_metadata", func_name)
+        log_error("Unhandled exception during get_scan_dicom_metadata_from_first_dicom", func_name)
         return None, None, None, None, None
 
 

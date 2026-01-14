@@ -4,7 +4,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 import os, sys, errno, shutil, uuid,subprocess,csv,json
 import math,inspect
-import glob ,xnat
+import glob,xnat
 import re,time
 import requests
 import pandas as pd
@@ -15,7 +15,6 @@ import os
 import traceback
 # import xnat
 import argparse,xmltodict
-# import utilities_using_xnat_python
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
@@ -553,154 +552,3 @@ def upload_file_to_project_resource(
         return {"ok": False, "where": "upload_file_to_project_resource", "error": str(e)}
 
 
-# import xnat
-
-def get_session_label_from_session_id(session_id):
-    """
-    Given an XNAT experiment/session ID, return the session LABEL.
-    """
-    with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
-        exp = conn.experiments[session_id]
-        return exp.label
-
-def clear_session_resource_files(
-    session_id: str,
-    resource_name: str,
-    verify: bool = True,
-    dry_run: bool = False,
-) -> dict:
-    """
-    Given an XNAT experiment/session ID and a SESSION-level resource directory name,
-    delete ALL files inside that resource (keeps the resource folder).
-
-    Example:
-      clear_session_resource_files("SNIPR02_E02558", "MASKS")
-
-    Returns:
-      {
-        "ok": True/False,
-        "session_id": ...,
-        "resource_name": ...,
-        "deleted_count": int,
-        "deleted_files": [filenames...],
-        "error": "..." (only if ok=False)
-      }
-    """
-    func_name = inspect.currentframe().f_code.co_name
-
-    try:
-        if not session_id or not str(session_id).strip():
-            log_error("session_id is empty", func_name)
-            return {"ok": False, "session_id": session_id, "resource_name": resource_name,
-                    "deleted_count": 0, "deleted_files": [], "error": "session_id is empty"}
-
-        if not resource_name or not str(resource_name).strip():
-            log_error("resource_name is empty", func_name)
-            return {"ok": False, "session_id": session_id, "resource_name": resource_name,
-                    "deleted_count": 0, "deleted_files": [], "error": "resource_name is empty"}
-
-        deleted_files = []
-
-        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS, verify=verify) as conn:
-            if session_id not in conn.experiments:
-                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
-                return {"ok": False, "session_id": session_id, "resource_name": resource_name,
-                        "deleted_count": 0, "deleted_files": [], "error": "session not found"}
-
-            exp = conn.experiments[session_id]
-
-            if resource_name not in exp.resources:
-                # Not an error in batch pipelines; just nothing to delete.
-                return {"ok": True, "session_id": session_id, "resource_name": resource_name,
-                        "deleted_count": 0, "deleted_files": []}
-
-            res = exp.resources[resource_name]
-
-            # res.files is dict-like: {filename: file_obj}
-            file_names = list(res.files.keys())
-
-            if not file_names:
-                return {"ok": True, "session_id": session_id, "resource_name": resource_name,
-                        "deleted_count": 0, "deleted_files": []}
-
-            for fname in file_names:
-                deleted_files.append(str(fname))
-                if dry_run:
-                    continue
-
-                # xnatpy file object supports .delete()
-                try:
-                    res.files[fname].delete()
-                except Exception:
-                    # log & keep going so one bad file doesn't stop the rest
-                    log_error(f"Failed deleting file={fname} in session={session_id} resource={resource_name}", func_name)
-
-        return {
-            "ok": True,
-            "session_id": session_id,
-            "resource_name": resource_name,
-            "deleted_count": len(deleted_files) if not dry_run else len(deleted_files),
-            "deleted_files": deleted_files,
-        }
-
-    except Exception as e:
-        log_error(f"Unhandled exception: {e}", func_name)
-        return {
-            "ok": False,
-            "session_id": session_id,
-            "resource_name": resource_name,
-            "deleted_count": 0,
-            "deleted_files": [],
-            "error": str(e),
-        }
-
-def download_selected_scan_file(
-    session_id: str,
-    scan_resource_dir_name: str,
-    file_extension: str,
-    out_path: str,
-    verify: bool = True,
-):
-    """
-    Given a session ID:
-      1) Find the SELECTED scan ID
-      2) Find the latest file in the given scan resource with extension
-      3) Download the file to out_path
-
-    Returns:
-      out_path on success, None on failure
-    """
-    func_name = inspect.currentframe().f_code.co_name
-
-    try:
-        # Step 1: get selected scan
-        scan_id = get_selected_scan_id_from_session(session_id)
-
-        if not scan_id:
-            log_error(f"No selected scan found for session {session_id}", func_name)
-            return None
-
-        # Step 2: resolve file URI
-        uri = get_latest_file_uri_from_scan_resource(
-            session_id=session_id,
-            scan_id=scan_id,
-            scan_resource_dir_name=scan_resource_dir_name,
-            file_extension=file_extension,
-        )
-
-        if not uri:
-            log_error(
-                f"No file found for session={session_id}, scan={scan_id}, "
-                f"resource={scan_resource_dir_name}, ext={file_extension}",
-                func_name,
-            )
-            return None
-
-        # Step 3: download
-        download_file_from_xnat_uri(uri, out_path, verify=verify)
-
-        return out_path
-
-    except Exception as e:
-        log_error(f"Unhandled exception: {e}", func_name)
-        return None

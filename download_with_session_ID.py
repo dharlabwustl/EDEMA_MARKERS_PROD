@@ -981,8 +981,7 @@ def select_scan_for_analysis(args):
     df.to_csv(csvfilename,index=False)
     return
 def fill_redcap_for_selected_scan(args):
-    subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format('fill_redcap_for_selected_scan'), shell=True)
-    return
+
     try:
 
         # session_id=args.stuff[1]
@@ -995,6 +994,10 @@ def fill_redcap_for_selected_scan(args):
         this_project_redcapfile_latest=project_name+'_latest.csv'
         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
                         shell=True)
+        subprocess.call(
+            "echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format('fill_redcap_for_selected_scan'),
+            shell=True)
+        return
         # api_token='EC6A2206FF8C1D87D4035E61C99290FF'
         api_token = os.environ['REDCAP_API']
         df_scan_latest=download_latest_redcapfile(api_token,this_project_redcapfile_latest)

@@ -4,7 +4,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 import os, sys, errno, shutil, uuid,subprocess,csv,json
 import math,inspect
-import glob #,xnat
+import glob ,xnat
 import re,time
 import requests
 import pandas as pd
@@ -15,7 +15,7 @@ import os
 import traceback
 # import xnat
 import argparse,xmltodict
-impot utilities_using_xnat_python
+# import utilities_using_xnat_python
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
 XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'

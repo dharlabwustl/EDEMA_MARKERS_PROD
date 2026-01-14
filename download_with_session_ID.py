@@ -15,10 +15,10 @@ import pathlib
 import argparse,xmltodict
 from xnatSession import XnatSession
 import inspect
-import xnat
+# import xnat
 from datetime import datetime
 import traceback
-from utilities_using_xnat_python import given_sessionid_get_project_n_subjectids
+import utilities_using_xnat_python # given_sessionid_get_project_n_subjectids
 # from biomarker_db_module import BiomarkerDB
 from biomarkerdbclass import  BiomarkerDB
 from redcapapi_functions import *
@@ -1095,7 +1095,7 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
         # project_name,subject_name, session_label=given_sessionid_get_project_n_subjectids(session_id)
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
-        project_name, subject_name = given_sessionid_get_project_n_subjectids(session_id)
+        project_name, subject_name = utilities_using_xnat_python.given_sessionid_get_project_n_subjectids(session_id)
         session_label=session_id
         subprocess.call("echo " + "I PASSED AT project_name::{}  >> /workingoutput/error.txt".format(project_name),
                         shell=True)

@@ -467,6 +467,123 @@ def given_csvfile_proj_subjids_append(csvfile, session_id):
         with open(LOG_FILE, "a") as f:
             f.write(err)
         return None
+def get_scan_dicom_metadata(session_id: str, scan_id: str):
+    """
+    Given:
+      - session_id (experiment id)
+      - scan_id (scan number/id within the session)
+
+    Returns a 5-tuple:
+      (acquisition_site, acquisition_datetime, scanner, body_part, kvp)
+
+    Notes:
+      - Uses XNAT dicomdump service on:
+          /archive/projects/{project}/subjects/{subject}/experiments/{session}/scans/{scan}
+      - Returns None values on failure.
+      - Values are sanitized (spaces -> underscores) for safe Bash 'read' parsing.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    def _clean(v):
+        if v is None:
+            return None
+        s = str(v).strip()
+        if not s:
+            return None
+        # Make it Bash-friendly for: read A B C <<< "$(python ...)"
+        # (scanner/site often contain spaces)
+        return " ".join(s.split()).replace(" ", "_")
+
+    try:
+        if not session_id or not str(session_id).strip():
+            log_error("session_id is empty", func_name)
+            return None, None, None, None, None
+        if not scan_id or not str(scan_id).strip():
+            log_error("scan_id is empty", func_name)
+            return None, None, None, None, None
+
+        # 1) Resolve project + subject using xnatpy
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+            if session_id not in conn.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return None, None, None, None, None
+
+            exp = conn.experiments[session_id]
+            project = exp.project
+            subject = exp.subject.label
+
+        # 2) Call dicomdump for the specific scan
+        src = f"/archive/projects/{project}/subjects/{subject}/experiments/{session_id}/scans/{scan_id}"
+
+        url = f"{XNAT_HOST.rstrip('/')}/data/services/dicomdump"
+
+        fields = [
+            "InstitutionName",         # acquisition_site (often)
+            "AcquisitionDateTime",     # acquisition_datetime
+            "Manufacturer",            # scanner components
+            "ManufacturerModelName",   # scanner components
+            "BodyPartExamined",        # body_part
+            "KVP",                     # kvp
+        ]
+
+        params = [("src", src), ("format", "json")] + [("field", f) for f in fields]
+
+        r = requests.get(url, auth=(XNAT_USER, XNAT_PASS), params=params)
+        if r.status_code != 200:
+            log_error(f"dicomdump failed HTTP {r.status_code}: {r.text[:200]}", func_name)
+            return None, None, None, None, None
+
+        data = r.json()
+
+        # 3) Parse dicomdump JSON (robust to common XNAT shapes)
+        values = {}
+
+        # Common XNAT shape: {"ResultSet":{"Result":[{"field":"KVP","value":"120"}, ...]}}
+        if isinstance(data, dict) and "ResultSet" in data:
+            rs = data.get("ResultSet", {})
+            results = rs.get("Result", [])
+            if isinstance(results, dict):
+                results = [results]
+            for item in results:
+                if isinstance(item, dict):
+                    f = item.get("field") or item.get("Field") or item.get("name")
+                    v = item.get("value") or item.get("Value")
+                    if f:
+                        values[str(f)] = v
+
+        # Sometimes returned as list of dicts
+        elif isinstance(data, list):
+            for item in data:
+                if isinstance(item, dict):
+                    f = item.get("field") or item.get("Field") or item.get("name")
+                    v = item.get("value") or item.get("Value")
+                    if f:
+                        values[str(f)] = v
+
+        else:
+            # Unexpected format
+            log_error(f"Unexpected dicomdump JSON structure: {type(data)}", func_name)
+            return None, None, None, None, None
+
+        acquisition_site = _clean(values.get("InstitutionName"))
+        acquisition_datetime = _clean(values.get("AcquisitionDateTime"))
+        body_part = _clean(values.get("BodyPartExamined"))
+        kvp = _clean(values.get("KVP"))
+
+        manufacturer = _clean(values.get("Manufacturer"))
+        model = _clean(values.get("ManufacturerModelName"))
+
+        # scanner string (Bash-friendly)
+        if manufacturer and model:
+            scanner = f"{manufacturer}_{model}"
+        else:
+            scanner = manufacturer or model
+
+        return acquisition_site, acquisition_datetime, scanner, body_part, kvp
+
+    except Exception:
+        log_error("Unhandled exception during get_scan_dicom_metadata", func_name)
+        return None, None, None, None, None
 
 
 def get_session_label_from_session_id(session_id: str):

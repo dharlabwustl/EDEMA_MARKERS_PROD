@@ -564,7 +564,20 @@ SESSION_LABEL=$(
 python3 -c "from utilities_using_xnat_python import get_session_label_from_session_id; \
 print(get_session_label_from_session_id('${sessionID}'))"
 )
-  echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}
+ID_VALUE=$(
+python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_csv; print(get_id_from_nifti_location_csv('${SESSION_ID}'))"
+)
+  read ACQ_SITE ACQ_DT SCANNER BODY_PART KVP <<< $(
+python3 -c "
+from utilities_using_xnat_python import get_scan_dicom_metadata
+a,b,c,d,e = get_scan_dicom_metadata('${sessionID}','${ID_VALUE}')
+if a is not None:
+    print(a,b,c,d,e)
+"
+)
+
+
+  echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}::${ACQ_SITE}
 fi
 #########################################
 #outputfiles_present=0

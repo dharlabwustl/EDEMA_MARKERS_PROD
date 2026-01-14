@@ -469,6 +469,31 @@ def given_csvfile_proj_subjids_append(csvfile, session_id):
         return None
 
 
+def get_session_label_from_session_id(session_id: str):
+    """
+    Given an XNAT experiment/session ID, return the session label.
+
+    Returns:
+      - session_label (str) OR None on failure
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        if not session_id or not str(session_id).strip():
+            log_error("session_id is empty", func_name)
+            return None
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+            if session_id not in conn.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return None
+
+            exp = conn.experiments[session_id]
+            return exp.label
+
+    except Exception:
+        log_error("Unhandled exception during get_session_label_from_session_id", func_name)
+        return None
 
 
 def upload_file_to_project_resource(

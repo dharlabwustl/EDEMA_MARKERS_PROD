@@ -8,7 +8,9 @@ import inspect,xmltodict
 import pandas as pd
 import numpy as np
 import os,sys,glob,json,subprocess
-import datetime
+# import datetime as datetime
+from datetime import datetime
+
 import argparse
 import SimpleITK as sitk
 
@@ -107,7 +109,7 @@ def get_dicom_datetime(dicom_path):
         time_str = time_str.ljust(6, '0')
 
         # Combine and parse to datetime 04/20/2015 10:13
-        dt = datetime.datetime.strptime(study_date + time_str, "%Y%m%d%H%M%S")
+        dt = datetime.strptime(study_date + time_str, "%Y%m%d%H%M%S")
         return dt.strftime("%m/%d/%Y %H:%M")
 
     except Exception as e:
@@ -1018,7 +1020,7 @@ def download_csvs_combine_upload(masterfile_scans,X_level,level_name,dir_to_save
         masterfile_scans_df=masterfile_scans_df[masterfile_scans_df['CSV_FILE_AVAILABLE']==1]
         csv_counter=0
         # subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
-        now=datetime.datetime.now()
+        now=datetime.now()
         date_time = now.strftime("%m_%d_%Y") #, %H:%M:%S")
         combined_file_name=level_name+"_COMBINED_"+date_time+".csv"
         for index, row in masterfile_scans_df.iterrows():
@@ -2006,7 +2008,7 @@ def creat_analytics_scanasID(sessionlist_filename,csvfilename,projectID,output_d
             # if session_counter>=2: ##sessionId== "SNIPR01_E02503": # session_counter>6: #
             #     break
 
-        now=datetime.datetime.now()
+        now=datetime.now()
         date_time = now.strftime("%m%d%Y%H%M%S") #, %H:%M:%S")
         csvfilename_new=csvfilename.split('.csv')[0]+"_"+date_time + ".csv"
         csvfilename_df=pd.read_csv(csvfilename)
@@ -3831,7 +3833,7 @@ def csvfile_scan_selection_for_redcap(args):
         px,py,pz,scanner_model,scanner_manufacturer,dateandtime,body_site,kvp=get_dicom_information(df_scan.at[0,"URI"],os.path.dirname(niftifilename_csv))
         scanner_name= scanner_model + ' ' +scanner_manufacturer
         subprocess.call("echo " + "I PASSED AT dateandtime ::{}  >> /workingoutput/error.txt".format(dateandtime) ,shell=True )
-        scan_date_time=this_date_time=datetime.datetime.strptime(dateandtime,'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
+        scan_date_time=this_date_time=datetime.strptime(dateandtime,'%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
         #
         #####################
         # scan_datetime=
@@ -3892,8 +3894,8 @@ def csvfile_edema_biomarkers_values_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]
     csvoutputfilename=args.stuff[2]
     pdffilename_basename=os.path.basename(args.stuff[3])
-    software_version=datetime.datetime.strptime(str(pdffilename_basename.split('.pdf')[0].split('_')[-4].split('VersionDate-')[1]), '%m%d%Y').strftime('%Y-%m-%d')
-    software_application_date=datetime.datetime.strptime(str( pdffilename_basename.split('.pdf')[0][-10:]), '%m_%d_%Y').strftime('%Y-%m-%d')
+    software_version=datetime.strptime(str(pdffilename_basename.split('.pdf')[0].split('_')[-4].split('VersionDate-')[1]), '%m%d%Y').strftime('%Y-%m-%d')
+    software_application_date=datetime.strptime(str( pdffilename_basename.split('.pdf')[0][-10:]), '%m_%d_%Y').strftime('%Y-%m-%d')
     # session_id=args.stuff[3]
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(preprocessing_filename_csv) ,shell=True )
     subprocess.call("echo " + "I PASSED AT ::{}  >> /workingoutput/error.txt".format(csvoutputfilename) ,shell=True )

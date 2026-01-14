@@ -568,7 +568,7 @@ python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_c
 
   CLEAN_CSV=$(
 python3 -c "
-from utilities_using_xnat_python import sanitize_csv_non_ascii_to_O
+from download_with_session_ID import sanitize_csv_non_ascii_to_O
 out = sanitize_csv_non_ascii_to_O('${csvfile_for_redcap}',  overwrite=True)
 if out: print(out)
 "

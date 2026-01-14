@@ -547,8 +547,12 @@ if  ls ${working_dir}/*_NIFTILOCATION.csv 1> /dev/null 2>&1; then
   download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
   outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 
-  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
-  outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+#  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
+#  outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
+  SUCCESS_VALUE_0_FAIL_1=$(
+python3 -c "from download_with_session_ID import fill_redcap_for_selected_scan_01142026; print(fill_redcap_for_selected_scan_01142026('${SESSION_ID}','${csvfile_for_redcap}','${xml_filename}'))"
+)
+  echo SUCCESS_VALUE_0_FAIL_1::${SUCCESS_VALUE_0_FAIL_1}
 fi
 #########################################
 #outputfiles_present=0

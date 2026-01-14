@@ -14,6 +14,11 @@ import numpy as np
 import pathlib
 import argparse,xmltodict
 from xnatSession import XnatSession
+import inspect
+import xnat
+from datetime import datetime
+import traceback
+
 # from biomarker_db_module import BiomarkerDB
 from biomarkerdbclass import  BiomarkerDB
 from redcapapi_functions import *
@@ -28,6 +33,47 @@ xnatSession.renew_httpsession()
 class arguments:
     def __init__(self,stuff=[]):
         self.stuff=stuff
+
+
+def get_project_subject_session_from_session_id(session_id):
+    """
+    Given an XNAT session (experiment) ID, return:
+      - project_name
+      - subject_name (subject label)
+      - session_label
+
+    Returns:
+      (project_name, subject_name, session_label) OR (None, None, None) on failure
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+            if session_id not in conn.experiments:
+                return None, None, None
+
+            exp = conn.experiments[session_id]
+
+            project_name = exp.project
+            subject_name = exp.subject.label
+            session_label = exp.label
+
+            return project_name, subject_name, session_label
+
+    except Exception:
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        err = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Session ID: {session_id}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(LOG_FILE, "a") as f:
+            f.write(err)
+
+        return None, None, None
+
+
 def call_fill_google_mysql_db_with_single_value(args):
     db_table_name=args.stuff[1]
     session_id=args.stuff[2]
@@ -1036,17 +1082,19 @@ def fill_redcap_for_selected_scan(args):
         pass
     return
 
-def fill_redcap_for_selected_scan_01142026(args):
+def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
     try:
 
         # session_id=args.stuff[1]
         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
-        xmlfile=args.stuff[1]
-        csv_file_df=pd.read_csv(args.stuff[2])
-        subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
-        return
+        # xmlfile=args.stuff[1]
+        csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
+        # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
+        # return
+        # project_name,subject_name, session_label=get_project_subject_session_from_session_id(session_id)
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
+        project_name, subject_name, session_label = get_project_subject_session_from_session_id(session_id)
         subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
                         shell=True)
         this_project_redcapfile_latest=project_name+'_latest.csv'

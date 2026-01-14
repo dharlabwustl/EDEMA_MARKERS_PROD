@@ -992,7 +992,7 @@ def fill_redcap_for_selected_scan(args):
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
         this_project_redcapfile_latest=project_name+'_latest.csv'
-        subprocess.call("echo " + "I PASSED AT subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
+        subprocess.call("echo " + "I PASSED AT subject_name::subject_name::{}  >> /workingoutput/error.txt".format(subject_name),
                         shell=True)
         subprocess.call(
             "echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format('fill_redcap_for_selected_scan'),

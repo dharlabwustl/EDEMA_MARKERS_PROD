@@ -577,7 +577,7 @@ if a is not None:
 )
 
 
-  echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}::${ACQ_SITE}
+  echo SUCCESS_VALUE_0_FAIL_1::${SUBJECT_ID}:${PROJECT_ID}::${SESSION_LABEL}::${ID_VALUE}
 fi
 #########################################
 #outputfiles_present=0

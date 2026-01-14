@@ -1094,7 +1094,7 @@ def fill_redcap_for_selected_scan_01142026(session_id,csv_file,xmlfile):
                         shell=True)
         subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),
                         shell=True)
-        return
+        # return
         csv_file_df=pd.read_csv(csv_file) ###args.stuff[2])
         # subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile),shell=True)
         # return

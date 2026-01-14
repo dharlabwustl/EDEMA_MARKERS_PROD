@@ -548,7 +548,7 @@ echo "I AM EXITING"
   download_an_xmlfile_with_URIString_arguments=('download_an_xmlfile_with_URIString' ${this_session_id} ${filename_xml} ${dir_to_save_xml})
   outputfiles_present=$(python3 download_with_session_ID.py "${download_an_xmlfile_with_URIString_arguments[@]}")
 
-  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan_01142026' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
+  fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap} ) #${subj_listfile})
   outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 fi
 #########################################

@@ -360,7 +360,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #          fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap}) #${subj_listfile})
 #          outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
               /software/write_to_redcap.sh ${sessionID} ${csvfile_for_redcap}
-             echo " /software/upload_pdf_to_redcap_step.sh ${sessionID} ${scanId} ${pdffilename} "  ##${csvfile_for_redcap} "
+             echo " /software/upload_pdf_to_redcap_step.sh ${sessionID} ${scanID} ${pdffilename} "  ##${csvfile_for_redcap} "
 #          fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
 #          outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 

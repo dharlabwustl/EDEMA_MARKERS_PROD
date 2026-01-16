@@ -1034,6 +1034,8 @@ def fill_redcap_for_selected_scan(args):
         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
         xmlfile=args.stuff[1]
         csv_file_df=pd.read_csv(args.stuff[2])
+        remove_non_ascii(args.stuff[2], args.stuff[2].split('.csv')[0]+'_copy.csv')
+        csv_file_df = pd.read_csv(args.stuff[2].split('.csv')[0]+'_copy.csv')
         subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile), shell=True)
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml
         project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml=get_info_from_xml(xmlfile)
@@ -1085,12 +1087,7 @@ def fill_redcap_for_selected_scan(args):
 import unicodedata
 
 import re
-def remove_non_ascii(inputfile, outputfile):
-    with open(inputfile) as f:
-        new_text = re.sub(r'[^\x00-\x7F]+', '', f.read())
 
-    with open(outputfile, 'w') as f:
-        f.write(new_text)
 def replace_non_ascii_with_O(s):
     if not s:
         return s
@@ -1101,6 +1098,13 @@ import inspect
 import re
 import subprocess
 
+
+def remove_non_ascii(inputfile, outputfile):
+    with open(inputfile) as f:
+        new_text = re.sub(r'[^\x00-\x7F]+', '', f.read())
+
+    with open(outputfile, 'w') as f:
+        f.write(new_text)
 def sanitize_csv_non_ascii_to_O(
     input_csv: str,
     output_csv: str = None,

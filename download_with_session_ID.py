@@ -1034,7 +1034,7 @@ def fill_redcap_for_selected_scan(args):
         # subprocess.call("echo " + "I zai zeli AT ::{}  >> /workingoutput/error.txt".format(session_id) ,shell=True )
         xmlfile=args.stuff[1]
         # csv_file_df=pd.read_csv(args.stuff[2])
-        remove_non_ascii(args.stuff[2], args.stuff[2].split('.csv')[0]+'_copy.csv')
+        sanitize_csv_non_ascii_to_O(args.stuff[2], args.stuff[2].split('.csv')[0]+'_copy.csv')
         csv_file_df = pd.read_csv(args.stuff[2].split('.csv')[0]+'_copy.csv')
         subprocess.call("echo " + "I PASSED AT xmlfile::{}  >> /workingoutput/error.txt".format(xmlfile), shell=True)
         # project_name,subject_name, session_label,acquisition_site_xml,acquisition_datetime_xml,scanner_from_xml,body_part_xml,kvp_xml

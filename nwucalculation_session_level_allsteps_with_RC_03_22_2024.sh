@@ -361,6 +361,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
 #          outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
               /software/write_to_redcap.sh ${sessionID} ${csvfile_for_redcap}
              echo " /software/upload_pdf_to_redcap_step.sh ${sessionID} ${scanID} ${pdffilename} "  ##${csvfile_for_redcap} "
+             /software/upload_pdf_to_redcap_step.sh ${sessionID} ${scanID} ${pdffilename}
 #          fill_redcap_for_selected_scan_arguments=('fill_redcap_for_pdffile' ${xml_filename} ${pdffilename}) #${subj_listfile})
 #          outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
 

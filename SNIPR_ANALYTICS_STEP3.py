@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-import subprocess,os,sys,glob,datetime
+import subprocess,os,sys,glob
+from datetime import datetime
 import pandas as pd
 # sys.path.append('/software')
 from fillmaster_session_list import *
@@ -34,7 +35,8 @@ get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_met
 print(get_latest_filepath_from_metadata_arguments.stuff)
 get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
 sessions_list=os.path.join(working_dir,'sessions.csv')
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+# time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+time_now=datetime.now().strftime('%Y%m%d%H%M%S')
 copy_session=os.path.join(dir_to_receive_the_data,os.path.basename(sessions_list).split('.csv')[0]+project_ID+'_ANALYTICS_STEP3_'+time_now+'.csv')
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,os.path.basename(copy_session))
 copy_session_df=pd.read_csv(copy_session)
@@ -71,7 +73,8 @@ for row_id,row in copy_session_df.iterrows():
 
 #
 new_analytics_file_prefix=os.path.join(working_dir,project_ID+'_SESSIONS_RESULTS_METRICS')
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+# time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+time_now=datetime.now().strftime('%Y%m%d%H%M%S')
 new_analytics_file=new_analytics_file_prefix+'_'+time_now+'.csv'
 command="cp " + copy_session + " " + new_analytics_file
 subprocess.call(command,shell=True)

@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # tininfo@proteantech.in
-import subprocess,os,sys,glob,datetime
+import subprocess,os,sys,glob #,datetime
 import pandas as pd
+from datetime import datetime
+
 # sys.path.append('/software')
 from fillmaster_session_list import *
 from download_with_session_ID import *
@@ -36,7 +38,8 @@ get_latest_filepath_from_metadata_arguments=arguments()
 get_latest_filepath_from_metadata_arguments.stuff=['get_latest_filepath_from_metadata_for_analytics',URI,resource_dir,".csv", "sessions_"+project_ID+"_ANALYTICS_STEP1_", file_path_csv]
 get_latest_filepath_from_metadata_for_analytics(get_latest_filepath_from_metadata_arguments)
 sessions_list=os.path.join(working_dir,'sessions.csv')
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+time_now=datetime.now().strftime('%Y%m%d%H%M%S')
+# time_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 copy_session=os.path.join(dir_to_receive_the_data,os.path.basename(sessions_list).split('.csv')[0]+project_ID+'_ANALYTICS_STEP2_'+time_now+'.csv')
 download_a_single_file(file_path_csv,dir_to_receive_the_data,project_ID,os.path.basename(copy_session))
 #
@@ -71,7 +74,7 @@ resource_dirname_at_snipr=project_ID+"_SESSION_ANALYTICS_2"
 # ##############################
 copy_session_df=pd.read_csv(copy_session)
 counter=0
-time_now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+time_now=datetime.now().strftime('%Y%m%d%H%M%S') #datetime.
 for row_id,row in copy_session_df.iterrows():
     if '.pdf' in str(row['PDF_FILE_PATH']):
         file_url=row['PDF_FILE_PATH']

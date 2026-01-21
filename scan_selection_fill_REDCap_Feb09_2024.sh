@@ -520,9 +520,9 @@ outputfiles_present=$(python3 download_with_session_ID.py "${call_download_files
 echo '$outputfiles_present'::$outputfiles_present
 #if [[ "${outputfiles_present: -1}" -eq 1 ]]; then
 if  ls ${working_dir}/*_NIFTILOCATION.csv 1> /dev/null 2>&1; then
-##  echo " I AM ALREADY PRESENT"
+  echo " I AM ALREADY PRESENT"
 
-#else
+else
 
   niftifile_csvfilename=${working_dir}/'this_session_final_ct.csv'
   get_nifti_scan_uri ${sessionID} ${working_dir} ${niftifile_csvfilename}

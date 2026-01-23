@@ -337,7 +337,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
           csvfile_for_redcap_1='/workinginput/csvfile_for_redcap_edema_biom_values.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_values_for_redcap' ${csvfile_with_biomarkers} ${csvfile_for_redcap_1} ${pdffilename} ) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
-          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec' ${csvfile_for_redcap_1}  ${csvfile_for_redcap_1%.csv}_temp.csv )# 'Name' scan_name)
+          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec' ${csvfile_for_redcap_1}  ${csvfile_for_redcap_1%.csv}_temp.csv ) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
           cp ${csvfile_for_redcap_1%.csv}_temp.csv ${csvfile_for_redcap_1}
           this_csvfilename='/workinginput/all_files_present_flag_df.csv'
@@ -346,7 +346,7 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
           csvfile_for_redcap='/workinginput/csvfile_for_redcap_segm.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_for_redcap' ${this_csvfilename} ${csvfile_for_redcap}) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
-          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec' ${csvfile_for_redcap}  ${csvfile_for_redcap%.csv}_temp.csv )# 'Name' scan_name)
+          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec' ${csvfile_for_redcap}  ${csvfile_for_redcap%.csv}_temp.csv ) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
           cp ${csvfile_for_redcap%.csv}_temp.csv ${csvfile_for_redcap}
           this_session_id=${sessionID}

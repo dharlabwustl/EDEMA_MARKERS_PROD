@@ -337,8 +337,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
           csvfile_for_redcap_1='/workinginput/csvfile_for_redcap_edema_biom_values.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_values_for_redcap' ${csvfile_with_biomarkers} ${csvfile_for_redcap_1} ${pdffilename} ) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
-          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec_inplace' ${csvfile_for_redcap_1}  ) # 'Name' scan_name)
-          outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
+#          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec_inplace' ${csvfile_for_redcap_1}  ) # 'Name' scan_name)
+#          outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
 
           this_csvfilename='/workinginput/all_files_present_flag_df.csv'
           call_check_if_a_file_exist_in_snipr_arguments=('call_check_if_a_file_exist_in_snipr' ${sessionID} ${scanID} ${snipr_output_foldername} .pdf .csv .mat)
@@ -346,8 +346,8 @@ for niftifile_csvfilename in ${working_dir}/*NIFTILOCATION.csv; do
           csvfile_for_redcap='/workinginput/csvfile_for_redcap_segm.csv'
           csvfile_scan_selection_for_redcap_call=('csvfile_edema_biomarkers_for_redcap' ${this_csvfilename} ${csvfile_for_redcap}) # 'Name' scan_name)
           outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
-          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec_inplace' ${csvfile_for_redcap} ) # 'Name' scan_name)
-          outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
+#          csvfile_scan_selection_for_redcap_call=('format_csv_numeric_2dec_inplace' ${csvfile_for_redcap} ) # 'Name' scan_name)
+#          outputfiles_present=$(python3 fillmaster_session_list.py "${csvfile_scan_selection_for_redcap_call[@]}")
           this_session_id=${sessionID}
           xml_filename=${working_dir}/${this_session_id}.xml
           filename_xml=$(basename ${xml_filename})   #args.stuff[2]

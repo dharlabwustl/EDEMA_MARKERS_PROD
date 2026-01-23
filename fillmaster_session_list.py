@@ -3893,12 +3893,13 @@ def csvfile_edema_biomarkers_for_redcap(args):
 import tempfile
 
 
-def format_csv_numeric_2dec_inplace(csv_file: str) -> None:
+def format_csv_numeric_2dec_inplace( args) -> None:
     """
     Reads a CSV, rounds numeric columns to 2 decimals,
     preserves non-numeric columns, and overwrites the same file.
     """
     # Load CSV
+    csv_file=args.stuff[1]
     df = pd.read_csv(csv_file)
 
     # Identify numeric columns

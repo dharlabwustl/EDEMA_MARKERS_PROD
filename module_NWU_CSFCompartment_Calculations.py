@@ -37,8 +37,22 @@ Version_Date="_VersionDate-" + '01032024' #dt.strftime("%m%d%Y")
 
 now=time.localtime()
 
+
+
+def format_numeric_2dec(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns a copy of df where all numeric columns are rounded
+    to 2 decimal places.
+    """
+    df2 = df.copy()
+    num_cols = df2.select_dtypes(include=['number']).columns
+    df2[num_cols] = df2[num_cols].round(2)
+    return df2
+
+
 def remove_few_columns(csvfilename,columnstoremove):
     csvfilename_df=pd.read_csv(csvfilename)
+    csvfilename_df=format_numeric_2dec(csvfilename_df)
     csvfilename_df.drop(columnstoremove, axis=1, inplace=True)
     csvfilename_df.to_csv(csvfilename.split('.csv')[0]+'columndropped.csv',index=False)
 

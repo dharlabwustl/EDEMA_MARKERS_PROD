@@ -3890,6 +3890,33 @@ def csvfile_edema_biomarkers_for_redcap(args):
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
+import tempfile
+
+
+def format_csv_numeric_2dec_inplace(csv_file: str) -> None:
+    """
+    Reads a CSV, rounds numeric columns to 2 decimals,
+    preserves non-numeric columns, and overwrites the same file.
+    """
+    # Load CSV
+    df = pd.read_csv(csv_file)
+
+    # Identify numeric columns
+    num_cols = df.select_dtypes(include=['number']).columns
+
+    # Round numeric columns to 2 decimals
+    df[num_cols] = df[num_cols].round(2)
+
+    # Write to a temporary file first (safer overwrite)
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
+    tmp_name = tmp.name
+    tmp.close()
+
+    df.to_csv(tmp_name, index=False)
+
+    # Replace original
+    os.replace(tmp_name, csv_file)
+
 def csvfile_edema_biomarkers_values_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]
     csvoutputfilename=args.stuff[2]

@@ -3191,6 +3191,11 @@ def wide_to_long(df) : # pd.DataFrame) -> pd.DataFrame:
     return df_long
 
 
+
+
+# Example usage:
+# format_csv_numeric_2dec("input.csv", "output.csv")
+
 def make_sulci_df(df):
     data = {
         "Sulci": ["Above Ventricle", "Ventricle", "Below Vent"],

@@ -3890,17 +3890,20 @@ def csvfile_edema_biomarkers_for_redcap(args):
     except:
         subprocess.call("echo " + "I FAILED AT ::{}  >> /workingoutput/error.txt".format(inspect.stack()[0][3]) ,shell=True )
     return
-import tempfile
+# import tempfile
+#
+#
+# import pandas as pd
 
-
-def format_csv_numeric_2dec_inplace( args):
+def format_csv_numeric_2dec(args): ## str, output_csv: str) -> None:
     """
-    Reads a CSV, rounds numeric columns to 2 decimals,
-    preserves non-numeric columns, and overwrites the same file.
+    Reads input_csv, rounds numeric columns to 2 decimals,
+    preserves non-numeric columns, writes result to output_csv.
     """
     # Load CSV
-    csv_file=args.stuff[1]
-    df = pd.read_csv(csv_file)
+    input_csv=args.stuff[1]
+    output_csv = args.stuff[2]
+    df = pd.read_csv(input_csv)
 
     # Identify numeric columns
     num_cols = df.select_dtypes(include=['number']).columns
@@ -3908,15 +3911,12 @@ def format_csv_numeric_2dec_inplace( args):
     # Round numeric columns to 2 decimals
     df[num_cols] = df[num_cols].round(2)
 
-    # Write to a temporary file first (safer overwrite)
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
-    tmp_name = tmp.name
-    tmp.close()
+    # Write to output
+    df.to_csv(output_csv, index=False)
 
-    df.to_csv(tmp_name, index=False)
 
-    # Replace original
-    os.replace(tmp_name, csv_file)
+# Example usage:
+# format_csv_numeric_2dec("input.csv", "output.csv")
 
 def csvfile_edema_biomarkers_values_for_redcap(args):
     preprocessing_filename_csv=args.stuff[1]

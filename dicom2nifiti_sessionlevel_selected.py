@@ -203,14 +203,15 @@ if __name__ == '__main__':
             subprocess.call(command,shell=True)
             # print("Decision::{}".format(decision))
             if decision==True:
-                xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-                xnatSession.renew_httpsession()
-                outcome=get_dicom_using_xnat(sessionId, scanId)
-                message_text="If true decision: scanId: " + scanId
-                command="echo " + message_text +"  >>  logmessage.txt"
-                subprocess.call(command,shell=True)
-                ####
                 try:
+                    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
+                    xnatSession.renew_httpsession()
+                    outcome=get_dicom_using_xnat(sessionId, scanId)
+                    message_text="If true decision: scanId: " + scanId
+                    command="echo " + message_text +"  >>  logmessage.txt"
+                    subprocess.call(command,shell=True)
+                ####
+
                     resource_dirname="NIFTI"
                     # URI = "/data/experiments/"+sessionId+"/scans/"+scanId #%s")  %
                     # URI = (URI+'/resources/' + resource_dirname +'/files?format=json')

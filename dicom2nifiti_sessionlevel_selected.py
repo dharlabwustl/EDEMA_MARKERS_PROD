@@ -126,7 +126,7 @@ def get_dicom_using_xnat(sessionId, scanId):
     subprocess.call(command,shell=True)
     ## rename nifti file:
     ####################################################
-    return
+    # return
     folder_path = "/output"
 
     # List all NIFTI files in the folder

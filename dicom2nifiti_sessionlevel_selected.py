@@ -80,98 +80,102 @@ def get_dicom_from_filesystem(sessionId, scanId):
     subprocess.call(command,shell=True)
 
 def get_dicom_using_xnat(sessionId, scanId):
-    xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
-    
-    # Handle DICOM files that are not stored in a directory matching their XNAT scanId
-#####################################################################
-    url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" % 
-        (sessionId, scanId))
-    xnatSession.renew_httpsession()
-    response = xnatSession.httpsess.get(xnatSession.host + url)
-    if response.status_code != 200:
+    try:
+        xnatSession = XnatSession(username=XNAT_USER, password=XNAT_PASS, host=XNAT_HOST)
 
-        return False
-        # raise Exception("Error querying XNAT for %s DICOM files: %s %s %s" % (scanId, 
-        #                                                                       response.status_code, 
-        #                                                                       response.reason, 
-        #                                                                       response.text))
-    result = response.json()['ResultSet']['Result']
-    # print(result[0]) #['absolutePath'])
-    nDicomFiles = len(result)
-    # print(nDicomFiles)
-    if nDicomFiles == 0:
-        return False
-        # raise Exception("No DICOM files for %s stored in XNAT" % scanId)
+        # Handle DICOM files that are not stored in a directory matching their XNAT scanId
+    #####################################################################
+        url = ("/data/experiments/%s/scans/%s/files?format=json&locator=absolutePath&file_format=DICOM" %
+            (sessionId, scanId))
+        xnatSession.renew_httpsession()
+        response = xnatSession.httpsess.get(xnatSession.host + url)
+        if response.status_code != 200:
 
-    # Get 70% file and ensure it exists
-    selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
-    selDicomAbs_split=selDicomAbs.split('/')
-    print(selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3])
-    ######################################################################################
+            return False
+            # raise Exception("Error querying XNAT for %s DICOM files: %s %s %s" % (scanId,
+            #                                                                       response.status_code,
+            #                                                                       response.reason,
+            #                                                                       response.text))
+        result = response.json()['ResultSet']['Result']
+        # print(result[0]) #['absolutePath'])
+        nDicomFiles = len(result)
+        # print(nDicomFiles)
+        if nDicomFiles == 0:
+            return False
+            # raise Exception("No DICOM files for %s stored in XNAT" % scanId)
 
-    # print("No DICOM found in %s directory, querying XNAT for DICOM path" % scanId)
-    url = ("/data/experiments/%s/scans/%s/resources/DICOM/files?format=zip" % 
-        (sessionId, scanId))
+        # Get 70% file and ensure it exists
+        selDicomAbs = result[get_slice_idx(nDicomFiles)]['absolutePath']
+        selDicomAbs_split=selDicomAbs.split('/')
+        print(selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3])
+        ######################################################################################
 
-    xnatSession.renew_httpsession()
-    response = xnatSession.httpsess.get(xnatSession.host + url)
-    zipfilename=sessionId+scanId+'.zip'
-    with open(zipfilename, "wb") as f:
-        for chunk in response.iter_content(chunk_size=512):
-            if chunk:  # filter out keep-alive new chunks
-                f.write(chunk)
-    command = 'unzip -d /output ' + zipfilename
-    subprocess.call(command,shell=True)
-    command='dcm2niix -o /output/ -f ' + "%t" + '  -m 1 ' + '    /output/*'
-    subprocess.call(command,shell=True)
-    ## rename nifti file:
-    ####################################################
-    # return
-    folder_path = "/output"
+        # print("No DICOM found in %s directory, querying XNAT for DICOM path" % scanId)
+        url = ("/data/experiments/%s/scans/%s/resources/DICOM/files?format=zip" %
+            (sessionId, scanId))
 
-    # List all NIFTI files in the folder
-    nifti_files = [f for f in os.listdir(folder_path) if f.endswith(".nii") or f.endswith(".nii.gz")]
-
-    # Find the largest file by size
-    largest_file = max(nifti_files, key=lambda f: os.path.getsize(os.path.join(folder_path, f)))
-
-    # # Print the result
-    # print(f"Largest file: {largest_file}")
-    largest_file_path = os.path.join(folder_path, largest_file)
-    print(f"Path to largest file: {largest_file_path}")
-    niftifile=largest_file_path #
-    current_filename=os.path.basename(niftifile).split('.nii')[0]
-    new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
-    new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
-    command = "mv "  + niftifile + "  " + new_filename_path
-    subprocess.call(command,shell=True)
-    #####################################################
-
-    # for niftifile in glob.glob("/output/*.nii"):
-    #     # total_niftifiles=total_niftifiles+1
-    #     current_filename=largest_file_path #os.path.basename(niftifile).split('.nii')[0]
-    #     new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
-    #     new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
-    #     command = "mv "  + niftifile + "  " + new_filename_path
-    #     subprocess.call(command,shell=True)
-    # command='dcm2niix -o /output/ -f ' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '  -m 1 ' + '    /output/*'
-    # subprocess.call(command,shell=True)
-    # command = 'cp /output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '.nii   ' + '/output/'
-    # subprocess.call(command,shell=True)
-    url = ("/data/experiments/%s/scans/%s/resources/NIFTI/files/" %
-           (sessionId, scanId))
-    # allniftifiles=glob.glob('/output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '*.nii')
-    # for eachniftifile in allniftifiles:
-    eachniftifile=new_filename_path
-    files={'file':open(eachniftifile,'rb')}
-    response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
-    print(response)
-    xnatSession.close_httpsession()
-    xnatSession.close_httpsession()
-    for eachniftifile in glob.glob('/output/' +  '*.nii'):
-        command= 'rm  ' + eachniftifile
+        xnatSession.renew_httpsession()
+        response = xnatSession.httpsess.get(xnatSession.host + url)
+        zipfilename=sessionId+scanId+'.zip'
+        with open(zipfilename, "wb") as f:
+            for chunk in response.iter_content(chunk_size=512):
+                if chunk:  # filter out keep-alive new chunks
+                    f.write(chunk)
+        command = 'unzip -d /output ' + zipfilename
         subprocess.call(command,shell=True)
-    return True 
+        command='dcm2niix -o /output/ -f ' + "%t" + '  -m 1 ' + '    /output/*'
+        subprocess.call(command,shell=True)
+        ## rename nifti file:
+        ####################################################
+        # return
+        folder_path = "/output"
+
+        # List all NIFTI files in the folder
+        nifti_files = [f for f in os.listdir(folder_path) if f.endswith(".nii") or f.endswith(".nii.gz")]
+
+        # Find the largest file by size
+        largest_file = max(nifti_files, key=lambda f: os.path.getsize(os.path.join(folder_path, f)))
+
+        # # Print the result
+        # print(f"Largest file: {largest_file}")
+        largest_file_path = os.path.join(folder_path, largest_file)
+        print(f"Path to largest file: {largest_file_path}")
+        niftifile=largest_file_path #
+        current_filename=os.path.basename(niftifile).split('.nii')[0]
+        new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
+        new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
+        command = "mv "  + niftifile + "  " + new_filename_path
+        subprocess.call(command,shell=True)
+        #####################################################
+
+        # for niftifile in glob.glob("/output/*.nii"):
+        #     # total_niftifiles=total_niftifiles+1
+        #     current_filename=largest_file_path #os.path.basename(niftifile).split('.nii')[0]
+        #     new_filename="_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),"{}{}_{}".format(current_filename[4:8],current_filename[0:4],current_filename[8:12]),scanId)) #selDicomAbs_split[-3]))
+        #     new_filename_path=os.path.join(os.path.dirname(niftifile),new_filename+".nii")
+        #     command = "mv "  + niftifile + "  " + new_filename_path
+        #     subprocess.call(command,shell=True)
+        # command='dcm2niix -o /output/ -f ' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '  -m 1 ' + '    /output/*'
+        # subprocess.call(command,shell=True)
+        # command = 'cp /output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '.nii   ' + '/output/'
+        # subprocess.call(command,shell=True)
+        url = ("/data/experiments/%s/scans/%s/resources/NIFTI/files/" %
+               (sessionId, scanId))
+        # allniftifiles=glob.glob('/output/' + selDicomAbs_split[-5]+'_'+selDicomAbs_split[-3] + '*.nii')
+        # for eachniftifile in allniftifiles:
+        eachniftifile=new_filename_path
+        files={'file':open(eachniftifile,'rb')}
+        response = xnatSession.httpsess.post(xnatSession.host + url,files=files)
+        print(response)
+        xnatSession.close_httpsession()
+        xnatSession.close_httpsession()
+        for eachniftifile in glob.glob('/output/' +  '*.nii'):
+            command= 'rm  ' + eachniftifile
+            subprocess.call(command,shell=True)
+        return True
+    except:
+        pass
+
 
 
 if __name__ == '__main__':

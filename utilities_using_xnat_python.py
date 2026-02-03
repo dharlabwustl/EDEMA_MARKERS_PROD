@@ -27,7 +27,7 @@ api_token=os.environ['REDCAP_API']
 import inspect
 import traceback
 from datetime import datetime
-from railway_fill_database import apply_single_row_csv_to_table
+from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project
 LOG_FILE = "./xnat_session_errors.log"
 import inspect
 import traceback
@@ -751,5 +751,10 @@ def upload_file_to_project_resource(
             pass
 
         return {"ok": False, "where": "upload_file_to_project_resource", "error": str(e)}
+
+def create_new_sessionlist_table_in_railway(project_id: str) -> str:
+    table_present=railway_table_exists_for_project(project_id)
+    func_name = inspect.currentframe().f_code.co_name
+    log_error(f"table present in the railway: {table_present}", func_name)
 
 

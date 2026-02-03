@@ -44,6 +44,76 @@ def build_engine():
     url = f"mysql+mysqlconnector://{user}:{pwd}@{host}:{port}/{db}?charset=utf8mb4"
     return create_engine(url, pool_pre_ping=True)
 engine = build_engine()
+
+################################################################################################################
+def railway_table_exists_for_project(project_id: str, table_prefix: str = "") -> int:
+    """
+    Function-1 (Railway side):
+    Given a project_id, check whether the corresponding table exists in Railway MySQL.
+
+    Returns:
+      1  -> table exists
+      0  -> table does NOT exist
+
+    Table naming rule:
+      table_name = f"{table_prefix}{clean_col(project_id)}"
+
+    Notes:
+    - Uses information_schema.tables (safe + fast).
+    - Never raises on "not found"; returns 0.
+    - Logs and re-raises only on true DB errors.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    if project_id is None or str(project_id).strip() == "":
+        return 0
+
+    # Use your existing standard column/table sanitizer
+    table_name = f"{table_prefix}{clean_col(str(project_id))}"
+
+    # Extra safety for identifier format (defense-in-depth)
+    if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", table_name):
+        # If the sanitized name is still unsafe, treat as non-existent
+        return 0
+
+    db = os.environ.get("MYSQL_DB")  # your build_engine() uses MYSQL_DB
+    if not db:
+        # If schema isn't known, we cannot check reliably
+        return 0
+
+    try:
+        with engine.connect() as conn:
+            exists = conn.execute(
+                text("""
+                    SELECT COUNT(*)
+                    FROM information_schema.tables
+                    WHERE table_schema = :db
+                      AND table_name   = :t
+                """),
+                {"db": db, "t": table_name},
+            ).scalar()
+
+        return 1 if int(exists or 0) > 0 else 0
+
+    except SQLAlchemyError as e:
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        msg = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Project ID: {project_id}\n"
+            f"Table: {table_name}\n"
+            f"Error: {e}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        try:
+            with open(LOG_FILE, "a") as f:
+                f.write(msg)
+        except Exception:
+            pass
+        raise
+
+
+
 def download_table_as_csv(engine, table_name, csv_path):
     """
     Download a MySQL table as a CSV file.

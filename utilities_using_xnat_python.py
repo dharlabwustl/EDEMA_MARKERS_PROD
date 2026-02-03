@@ -762,103 +762,64 @@ def create_new_sessionlist_table_in_railway(project_id: str) -> str:
 
 
 
+
+
+
 def xnat_download_project_sessions_csv(
     project_id: str,
     out_csv_path: str,
     *,
-    # xnat_base_url: str = None,
-    # xnat_user: str = None,
-    # xnat_password: str = None,
+    # xnat_host: str,
+    # username: str,
+    # password: str,
     verify: bool = True,
-    timeout: int = 120,
 ) -> str:
     """
-    Step-2 (Utilities/XNAT side):
-    Download the sessions/experiments list for a given XNAT project as a CSV file.
+    Step-2:
+    Download XNAT sessions (experiments) list for a project as CSV
+    using xnatpy session + native XNAT CSV endpoint.
 
-    Inputs
-    ------
-    project_id : str
-        XNAT project ID (e.g., "BM", "KRAKOW", etc.)
-    out_csv_path : str
-        Where to save the CSV (e.g., "/tmp/BM_sessions.csv")
-
-    Credentials / config
-    --------------------
-    You can pass credentials explicitly OR set env vars:
-      - XNAT_BASE_URL or XNAT_HOST or XNAT_URL
-      - XNAT_USER
-      - XNAT_PASS or XNAT_PASSWORD
-
-    Behavior
-    --------
-    Tries common XNAT endpoints (CSV format) and writes the first successful response.
-    Returns the saved file path.
-    Raises RuntimeError if none succeed.
+    Endpoint used:
+      /data/projects/{project_id}/experiments?format=csv
 
     Returns
     -------
-    str : out_csv_path
+    str
+        Path to saved CSV file
     """
-    xnat_base_url=XNAT_HOST
-    xnat_user = XNAT_USER
-    xnat_password = XNAT_PASS
-    if project_id is None or str(project_id).strip() == "":
+    xnat_host= XNAT_HOST #: str,
+    username=XNAT_USER #str,
+    password=XNAT_PASS #: str,
+
+    if not project_id or not project_id.strip():
         raise ValueError("project_id is required")
-    if out_csv_path is None or str(out_csv_path).strip() == "":
-        raise ValueError("out_csv_path is required")
 
-    project_id = str(project_id).strip()
+    project_id = project_id.strip()
+    os.makedirs(os.path.dirname(out_csv_path) or ".", exist_ok=True)
 
-    base = (
-        xnat_base_url
-        or os.getenv("XNAT_BASE_URL")
-        or os.getenv("XNAT_HOST")
-        or os.getenv("XNAT_URL")
-    )
-    user = xnat_user or os.getenv("XNAT_USER")
-    pwd = xnat_password or os.getenv("XNAT_PASS") or os.getenv("XNAT_PASSWORD")
+    with xnat.connect(
+        xnat_host,
+        user=username,
+        password=password,
+        verify=verify,
+    ) as sess:
 
-    if not base or not user or not pwd:
-        raise ValueError(
-            "Missing XNAT config. Provide xnat_base_url/xnat_user/xnat_password "
-            "or set env vars XNAT_BASE_URL (or XNAT_HOST/XNAT_URL), XNAT_USER, XNAT_PASS."
-        )
+        if project_id not in sess.projects:
+            raise ValueError(f"Project '{project_id}' not found in XNAT")
 
-    base = base.rstrip("/")
+        base = sess.host.rstrip("/")
+        csv_url = f"{base}/data/projects/{project_id}/experiments?format=csv"
 
-    # Common XNAT endpoints for sessions/experiments lists as CSV
-    url_candidates = [
-        f"{base}/data/projects/{project_id}/experiments?format=csv",
-        f"{base}/data/experiments?project={project_id}&format=csv",
-        # some deployments accept "sessions" synonym; harmless to try
-        f"{base}/data/projects/{project_id}/sessions?format=csv",
-        f"{base}/data/sessions?project={project_id}&format=csv",
-    ]
+        # Use authenticated session from xnatpy
+        response = sess._interface.get(csv_url)
 
-    last_error = None
-    for url in url_candidates:
-        try:
-            r = requests.get(
-                url,
-                auth=(user, pwd),
-                verify=verify,
-                timeout=timeout,
-                headers={"Accept": "text/csv"},
+        if response.status_code != 200:
+            raise RuntimeError(
+                f"Failed to fetch sessions CSV for project '{project_id}': "
+                f"HTTP {response.status_code}"
             )
-            if r.status_code == 200 and r.text and "DOCTYPE HTML" not in r.text[:200]:
-                # Save exactly as received
-                os.makedirs(os.path.dirname(out_csv_path) or ".", exist_ok=True)
-                with open(out_csv_path, "w", encoding="utf-8") as f:
-                    f.write(r.text)
-                return out_csv_path
 
-            last_error = f"{url} -> {r.status_code}: {r.text[:250]}"
+        with open(out_csv_path, "wb") as f:
+            f.write(response.content)
 
-        except Exception as e:
-            last_error = f"{url} -> {type(e).__name__}: {e}"
-
-    raise RuntimeError(
-        f"Failed to download sessions list CSV for project '{project_id}'. "
-        f"Last error: {last_error}"
-    )
+    return out_csv_path

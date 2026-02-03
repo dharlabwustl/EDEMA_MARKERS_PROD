@@ -757,6 +757,7 @@ def create_new_sessionlist_table_in_railway(project_id: str) -> str:
     func_name = inspect.currentframe().f_code.co_name
     if table_present == 0:
         xnat_download_project_sessions_csv(project_id,f'/software/{project_id}.csv')
+        make_csv_columns_railway_compatible(f'/software/{project_id}.csv',f'/software/{project_id}_copy.csv')
         log_error(f"table created in the railway: {project_id}", func_name)
     log_error(f"table present in the railway: {table_present}", func_name)
 
@@ -822,5 +823,64 @@ def xnat_download_project_sessions_csv(
 
         with open(out_csv_path, "wb") as f:
             f.write(response.content)
+
+    return out_csv_path
+
+def make_csv_columns_railway_compatible(
+    in_csv_path: str,
+    out_csv_path: str,
+) -> str:
+    """
+    Step-3:
+    Take an input CSV (XNAT sessions list),
+    make column names compatible with Railway/MySQL,
+    and write a cleaned CSV.
+
+    Assumptions (explicit by design):
+    - The column `ID` ALWAYS exists and is the session identifier.
+    - `ID` will be renamed to `SESSION_ID`.
+    """
+
+    if not in_csv_path or not str(in_csv_path).strip():
+        raise ValueError("in_csv_path is required")
+    if not out_csv_path or not str(out_csv_path).strip():
+        raise ValueError("out_csv_path is required")
+
+    if not os.path.exists(in_csv_path):
+        raise FileNotFoundError(f"Input CSV not found: {in_csv_path}")
+
+    def clean_col(col: str) -> str:
+        c = str(col).strip()
+        c = re.sub(r"\s+", "_", c)              # spaces → _
+        c = re.sub(r"[^0-9A-Za-z_]+", "", c)    # drop special chars
+        c = re.sub(r"_+", "_", c).strip("_")    # collapse _
+        if not c:
+            c = "COL"
+        if re.match(r"^[0-9]", c):
+            c = f"C_{c}"
+        return c.upper()
+
+    # Read CSV
+    df = pd.read_csv(in_csv_path)
+
+    # Clean column names
+    df.columns = [clean_col(c) for c in df.columns]
+
+    # Enforce session ID rule
+    if "ID" not in df.columns:
+        raise RuntimeError("Expected column 'ID' not found in sessions CSV")
+
+    df.rename(columns={"ID": "SESSION_ID"}, inplace=True)
+
+    # Drop duplicate columns after cleaning
+    if df.columns.duplicated().any():
+        df = df.loc[:, ~df.columns.duplicated()].copy()
+
+    # Drop fully-null columns (safe for DB creation)
+    df.dropna(axis=1, how="all", inplace=True)
+
+    # Write cleaned CSV
+    os.makedirs(os.path.dirname(out_csv_path) or ".", exist_ok=True)
+    df.to_csv(out_csv_path, index=False)
 
     return out_csv_path

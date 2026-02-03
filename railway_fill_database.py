@@ -754,6 +754,50 @@ def apply_single_row_csv_to_table(
         "updates": results,
     }
 
+
+
+def railway_drop_table(table_name: str, *, confirm: bool = False) -> bool:
+    """
+    Drop a SINGLE table from the Railway MySQL database.
+
+    Guardrails
+    ----------
+    - Will NOT execute unless confirm=True.
+    - Table name is validated to prevent SQL injection.
+    - Uses IF EXISTS to avoid hard failure.
+
+    Parameters
+    ----------
+    table_name : str
+        Name of the table to drop
+    confirm : bool
+        Must be True to actually drop the table
+
+    Returns
+    -------
+    bool
+        True if drop attempted, False if skipped
+    """
+    if confirm is not True:
+        return False
+
+    if not table_name or not str(table_name).strip():
+        raise ValueError("table_name is required")
+
+    table_name = table_name.strip()
+
+    # Defensive check: allow only safe SQL identifiers
+    if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", table_name):
+        raise ValueError(f"Unsafe table name: {table_name}")
+
+    try:
+        with engine.begin() as conn:
+            conn.execute(text(f"DROP TABLE IF EXISTS `{table_name}`;"))
+        return True
+
+    except SQLAlchemyError as e:
+        raise RuntimeError(f"Failed to drop table '{table_name}': {e}") from e
+
 # def main():
 # #     # create_table('/home/atul/Downloads/sessions_COLI_BEFORE_SORTING_STEP1_20231208210754.csv')
 # #     # make_column_not_null_and_unique(engine, "COLI", "SESSION_ID") #, col_type="VARCHAR(64)")

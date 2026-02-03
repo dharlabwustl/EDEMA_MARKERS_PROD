@@ -755,6 +755,110 @@ def upload_file_to_project_resource(
 def create_new_sessionlist_table_in_railway(project_id: str) -> str:
     table_present=railway_table_exists_for_project(project_id)
     func_name = inspect.currentframe().f_code.co_name
+    if table_present == 0:
+        xnat_download_project_sessions_csv(project_id,f'/software/{project_id}.csv')
+        log_error(f"table created in the railway: {project_id}", func_name)
     log_error(f"table present in the railway: {table_present}", func_name)
 
 
+
+def xnat_download_project_sessions_csv(
+    project_id: str,
+    out_csv_path: str,
+    *,
+    # xnat_base_url: str = None,
+    # xnat_user: str = None,
+    # xnat_password: str = None,
+    verify: bool = True,
+    timeout: int = 120,
+) -> str:
+    """
+    Step-2 (Utilities/XNAT side):
+    Download the sessions/experiments list for a given XNAT project as a CSV file.
+
+    Inputs
+    ------
+    project_id : str
+        XNAT project ID (e.g., "BM", "KRAKOW", etc.)
+    out_csv_path : str
+        Where to save the CSV (e.g., "/tmp/BM_sessions.csv")
+
+    Credentials / config
+    --------------------
+    You can pass credentials explicitly OR set env vars:
+      - XNAT_BASE_URL or XNAT_HOST or XNAT_URL
+      - XNAT_USER
+      - XNAT_PASS or XNAT_PASSWORD
+
+    Behavior
+    --------
+    Tries common XNAT endpoints (CSV format) and writes the first successful response.
+    Returns the saved file path.
+    Raises RuntimeError if none succeed.
+
+    Returns
+    -------
+    str : out_csv_path
+    """
+    xnat_base_url=XNAT_HOST
+    xnat_user = XNAT_USER
+    xnat_password = XNAT_PASS
+    if project_id is None or str(project_id).strip() == "":
+        raise ValueError("project_id is required")
+    if out_csv_path is None or str(out_csv_path).strip() == "":
+        raise ValueError("out_csv_path is required")
+
+    project_id = str(project_id).strip()
+
+    base = (
+        xnat_base_url
+        or os.getenv("XNAT_BASE_URL")
+        or os.getenv("XNAT_HOST")
+        or os.getenv("XNAT_URL")
+    )
+    user = xnat_user or os.getenv("XNAT_USER")
+    pwd = xnat_password or os.getenv("XNAT_PASS") or os.getenv("XNAT_PASSWORD")
+
+    if not base or not user or not pwd:
+        raise ValueError(
+            "Missing XNAT config. Provide xnat_base_url/xnat_user/xnat_password "
+            "or set env vars XNAT_BASE_URL (or XNAT_HOST/XNAT_URL), XNAT_USER, XNAT_PASS."
+        )
+
+    base = base.rstrip("/")
+
+    # Common XNAT endpoints for sessions/experiments lists as CSV
+    url_candidates = [
+        f"{base}/data/projects/{project_id}/experiments?format=csv",
+        f"{base}/data/experiments?project={project_id}&format=csv",
+        # some deployments accept "sessions" synonym; harmless to try
+        f"{base}/data/projects/{project_id}/sessions?format=csv",
+        f"{base}/data/sessions?project={project_id}&format=csv",
+    ]
+
+    last_error = None
+    for url in url_candidates:
+        try:
+            r = requests.get(
+                url,
+                auth=(user, pwd),
+                verify=verify,
+                timeout=timeout,
+                headers={"Accept": "text/csv"},
+            )
+            if r.status_code == 200 and r.text and "DOCTYPE HTML" not in r.text[:200]:
+                # Save exactly as received
+                os.makedirs(os.path.dirname(out_csv_path) or ".", exist_ok=True)
+                with open(out_csv_path, "w", encoding="utf-8") as f:
+                    f.write(r.text)
+                return out_csv_path
+
+            last_error = f"{url} -> {r.status_code}: {r.text[:250]}"
+
+        except Exception as e:
+            last_error = f"{url} -> {type(e).__name__}: {e}"
+
+    raise RuntimeError(
+        f"Failed to download sessions list CSV for project '{project_id}'. "
+        f"Last error: {last_error}"
+    )

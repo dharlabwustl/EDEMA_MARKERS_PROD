@@ -756,8 +756,8 @@ def create_new_sessionlist_table_in_railway(project_id: str) -> str:
     table_present=railway_table_exists_for_project(project_id)
     func_name = inspect.currentframe().f_code.co_name
     if table_present == 0:
-        xnat_download_project_sessions_csv(project_id,f'/software/{project_id}.csv')
-        make_csv_columns_railway_compatible(f'/software/{project_id}.csv',f'/software/{project_id}.csv')
+        xnat_download_project_sessions_csv(project_id,f'/software/{project_id}_copy.csv')
+        make_csv_columns_railway_compatible(f'/software/{project_id}_copy.csv',f'/software/{project_id}.csv')
         log_error(f"table created in the railway: {project_id}", func_name)
         load_csv_to_mysql(f'/software/{project_id}_copy.csv')
     log_error(f"table present in the railway: {table_present}", func_name)

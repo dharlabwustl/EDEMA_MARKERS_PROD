@@ -807,7 +807,8 @@ def xnat_download_project_sessions_csv(
         if project_id not in sess.projects:
             raise ValueError(f"Project '{project_id}' not found in XNAT")
 
-        base = sess.host.rstrip("/")
+        # base = sess.host.rstrip("/")
+        base = XNAT_HOST.rstrip("/")
         csv_url = f"{base}/data/projects/{project_id}/experiments?format=csv"
 
         # Use authenticated session from xnatpy

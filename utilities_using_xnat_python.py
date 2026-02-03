@@ -27,7 +27,7 @@ api_token=os.environ['REDCAP_API']
 import inspect
 import traceback
 from datetime import datetime
-from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project
+from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project,load_csv_to_mysql
 LOG_FILE = "./xnat_session_errors.log"
 import inspect
 import traceback
@@ -759,6 +759,7 @@ def create_new_sessionlist_table_in_railway(project_id: str) -> str:
         xnat_download_project_sessions_csv(project_id,f'/software/{project_id}.csv')
         make_csv_columns_railway_compatible(f'/software/{project_id}.csv',f'/software/{project_id}_copy.csv')
         log_error(f"table created in the railway: {project_id}", func_name)
+        load_csv_to_mysql(f'/software/{project_id}_copy.csv')
     log_error(f"table present in the railway: {table_present}", func_name)
 
 

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-project_id="Krakow_copy"
+project_id="BM"
 python3 -c "from utilities_using_xnat_python import create_new_sessionlist_table_in_railway; create_new_sessionlist_table_in_railway('${project_id}')"
 echo "TABLE SEARCH DONE"

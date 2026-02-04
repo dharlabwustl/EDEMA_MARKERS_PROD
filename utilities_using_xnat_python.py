@@ -932,11 +932,11 @@ def analyze_scans_in_session(
     # -----------------------------
     # CONFIG
     # -----------------------------
-    TARGET_TYPES = {"Z-Axial-Brain", "Z-Axial-Thin"}
+    TARGET_TYPES = {"Z-Axial-Brain", "Z-Brain-Thin"}
 
     type_counts = {
         "Z-Axial-Brain": 0,
-        "Z-Axial-Thin": 0
+        "Z-Brain-Thin": 0
     }
 
     quality_counts = {

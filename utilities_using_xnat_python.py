@@ -27,7 +27,7 @@ api_token=os.environ['REDCAP_API']
 import inspect
 import traceback
 from datetime import datetime
-from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project,load_csv_to_mysql
+from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project,load_csv_to_mysql,drop_column_from_table
 LOG_FILE = "./xnat_session_errors.log"
 import inspect
 import traceback
@@ -1154,7 +1154,7 @@ def _flatten_nifti_list(nifti_list):
         files = rec.get("files", []) or []
         files = [str(f) for f in files if f]
         if files:
-            parts.append(f"{scan_id}:" + "|".join(files))
+            parts.append(f"|".join(files)) #{scan_id}:" +
         else:
             parts.append(f"{scan_id}:(no_files)")
     return ";".join(parts)

@@ -686,6 +686,79 @@ def create_table(csvfilenamefortable):
 # import inspect
 # import numpy as np
 # import pandas as pd
+def drop_column_from_table(
+    table_name: str,
+    column_name: str,
+):
+    """
+    Drop a column from a MySQL (Railway) table safely.
+    Uses the global `engine`, consistent with other functions in this file.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        db = os.environ["MYSQL_DB"]
+
+        table = _safe_ident(table_name)
+        col = _safe_ident(column_name)
+
+        with engine.begin() as conn:
+            # 1) Check table exists
+            table_exists = conn.execute(
+                text("""
+                    SELECT COUNT(*)
+                    FROM information_schema.tables
+                    WHERE table_schema = :db AND table_name = :t
+                """),
+                {"db": db, "t": table},
+            ).scalar()
+
+            if not table_exists:
+                raise ValueError(f"Table does not exist: `{table}`")
+
+            # 2) Check column exists
+            col_exists = conn.execute(
+                text("""
+                    SELECT COUNT(*)
+                    FROM information_schema.columns
+                    WHERE table_schema = :db
+                      AND table_name = :t
+                      AND column_name = :c
+                """),
+                {"db": db, "t": table, "c": col},
+            ).scalar()
+
+            if not col_exists:
+                return {
+                    "status": "column_not_found",
+                    "table": table,
+                    "column": col,
+                }
+
+            # 3) Drop column
+            conn.execute(
+                text(f"ALTER TABLE `{table}` DROP COLUMN `{col}`")
+            )
+
+        return {
+            "status": "dropped",
+            "table": table,
+            "column": col,
+        }
+
+    except (SQLAlchemyError, Exception) as e:
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        msg = (
+            f"[{ts}] Function: {func_name}\n"
+            f"Table: {table_name}\n"
+            f"Column: {column_name}\n"
+            f"Error: {e}\n"
+            f"Traceback:\n{traceback.format_exc()}\n"
+            f"{'-'*80}\n"
+        )
+        with open(LOG_FILE, "a") as f:
+            f.write(msg)
+        raise
 
 def _to_native(v):
     """Convert numpy/pandas scalars to native Python types for mysql-connector."""

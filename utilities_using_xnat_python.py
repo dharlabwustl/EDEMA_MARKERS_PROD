@@ -1166,7 +1166,7 @@ def write_session_scan_summary_csv(
 
     # ---- write CSV ----
     headers = [
-        "session_id",
+        "session_id_this",
         "Z-Brain-Thin_count",
         "Z-Axial-Brain_count",
         "Z-Axial-Brain_usable_count",

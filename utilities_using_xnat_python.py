@@ -911,7 +911,7 @@ def make_csv_columns_railway_compatible(
 
     return out_csv_path
 # Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_names Z-Axial-Brain_names
-import xnat
+# import xnat
 
 def analyze_scans_in_session(
     # xnat_url: str,
@@ -942,7 +942,7 @@ def analyze_scans_in_session(
     quality_counts = {
         "usable": 0,
         "questionable": 0,
-        "Other": 0
+        "unusable": 0
     }
 
     scan_details = []
@@ -972,7 +972,7 @@ def analyze_scans_in_session(
             elif scan_quality == "questionable":
                 quality_counts["questionable"] += 1
             else:
-                quality_counts["Other"] += 1
+                quality_counts["unusable"] += 1
 
             # -----------------------------
             # STORE ONLY TARGET TYPES

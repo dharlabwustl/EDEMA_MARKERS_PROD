@@ -910,7 +910,9 @@ def make_csv_columns_railway_compatible(
     df.to_csv(out_csv_path, index=False)
 
     return out_csv_path
-# Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_names Z-Axial-Brain_names
+# Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_scan_ids Z-Axial-Brain_scan_ids
+# import xnat
+
 # import xnat
 
 import xnat
@@ -921,6 +923,9 @@ def analyze_scans_in_session(session_id: str):
 
     - Counts Z-Axial-Brain and Z-Brain-Thin
     - Counts scan quality (usable / questionable / unusable) ONLY for those types
+    - Separately counts:
+        * axial_usable
+        * thin_usable
     - Stores scan details ONLY for Z-Axial-Brain and Z-Brain-Thin
     """
 
@@ -937,6 +942,12 @@ def analyze_scans_in_session(session_id: str):
         "unusable": 0
     }
 
+    # 🔹 NEW: explicit usable-by-type counters
+    usable_by_type = {
+        "axial_usable": 0,
+        "thin_usable": 0
+    }
+
     scan_details = []
 
     with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as xnat_session:
@@ -948,22 +959,29 @@ def analyze_scans_in_session(session_id: str):
             scan_type = getattr(scan, "type", None)
             scan_quality = getattr(scan, "quality", None)
 
-            # TYPE COUNTS (only for your tracked types)
+            # TYPE COUNTS
             if scan_type in type_counts:
                 type_counts[scan_type] += 1
 
-            # Only consider quality + store details for target types
+            # Only operate on target types
             if scan_type in TARGET_TYPES:
 
-                # QUALITY COUNTS (only for target types)
+                # QUALITY COUNTS
                 if scan_quality == "usable":
                     quality_counts["usable"] += 1
+
+                    # 🔹 usable separated by type
+                    if scan_type == "Z-Axial-Brain":
+                        usable_by_type["axial_usable"] += 1
+                    elif scan_type == "Z-Brain-Thin":
+                        usable_by_type["thin_usable"] += 1
+
                 elif scan_quality == "questionable":
                     quality_counts["questionable"] += 1
                 else:
                     quality_counts["unusable"] += 1
 
-                # STORE DETAILS (only for target types)
+                # STORE DETAILS
                 scan_details.append({
                     "scan_id": scan_id,
                     "type": scan_type,
@@ -975,11 +993,12 @@ def analyze_scans_in_session(session_id: str):
     return {
         "scan_details": scan_details,
         "type_counts": type_counts,
-        "quality_counts": quality_counts
+        "quality_counts": quality_counts,
+        "usable_by_type": usable_by_type
     }
 
-import xnat
-
+# import xnat
+#
 def get_nifti_filenames_from_scan_details(session_id: str, scan_details: list):
     """
     Takes scan_details (from analyze_scans_in_session) and returns NIFTI filenames

@@ -36,7 +36,7 @@ from datetime import datetime
 LOG_FILE = "/software/railway_db_errors.log"
 
 ERROR_FILE = "/software/error.log"
-def log_error(msg,func_name):
+def log_error_2(msg,func_name):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # err = (
     #     f"[{ts}]\n"
@@ -55,6 +55,34 @@ def log_error(msg,func_name):
     )
     with open(ERROR_FILE, "w") as f:
         f.write(err)
+import json
+# import traceback
+# from datetime import datetime
+
+
+def log_error(msg, func_name):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Allow structured logging
+    if isinstance(msg, (dict, list)):
+        msg_str = json.dumps(msg, indent=2, default=str)
+    else:
+        msg_str = str(msg)
+
+    tb = traceback.format_exc()
+    tb_str = tb if "Traceback" in tb else "No traceback"
+
+    err = (
+        f"[{ts}]\n"
+        f"Function: {func_name}\n"
+        f"Message:\n{msg_str}\n"
+        f"Traceback:\n{tb_str}\n"
+        f"{'-' * 80}\n"
+    )
+
+    with open(ERROR_FILE, "a") as f:   # APPEND, not overwrite
+        f.write(err)
+
 import re
 from datetime import datetime
 
@@ -882,3 +910,87 @@ def make_csv_columns_railway_compatible(
     df.to_csv(out_csv_path, index=False)
 
     return out_csv_path
+# Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_names Z-Axial-Brain_names
+# import xnat
+# import inspect
+# import traceback
+# from datetime import datetime
+#
+# # Uses your globals from utilities_using_xnat_python.py:
+# # XNAT_HOST, XNAT_USER, XNAT_PASS, log_error(...)
+
+def count_z_axial_scans_in_session(
+    session_id: str,
+    *,
+    scan_types=("Z-axial-brain", "Z-axial-Thin"),
+    verify: bool = True,
+):
+    """
+    Step 1:
+    Given a session_id, count scans whose scan.type matches:
+      - "Z-axial-brain"
+      - "Z-axial-Thin"
+
+    Returns dict:
+      {
+        "session_id": ...,
+        "counts": {"Z-axial-brain": N1, "Z-axial-Thin": N2},
+        "scan_ids": {"Z-axial-brain": [..], "Z-axial-Thin": [..]}
+      }
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        if not session_id or not str(session_id).strip():
+            log_error("session_id is empty", func_name)
+            return None
+
+        # Keep exact keys as requested (case-sensitive match)
+        counts = {t: 0 for t in scan_types}
+        scan_ids = {t: [] for t in scan_types}
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS, verify=verify) as conn:
+            if session_id not in conn.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return None
+
+            exp = conn.experiments[session_id]
+
+            # exp.scans is dict-like: {scan_id: scan_obj}
+            for sid, scan in exp.scans.items():
+                # xnatpy typically exposes scan.type
+                stype = getattr(scan, "type", None)
+
+                # Defensive fallback (some xnatpy versions store attrs differently)
+                if stype is None:
+                    try:
+                        stype = scan.get("type")
+                    except Exception:
+                        stype = None
+
+                if stype in counts:
+                    counts[stype] += 1
+                    scan_ids[stype].append(str(sid))
+        result={
+            "session_id": session_id,
+            "counts": counts,
+            "scan_ids": scan_ids,
+        }
+        log_error(
+            {
+                "event": "Z-axial scan count",
+                "session_id": result["session_id"],
+                "counts": result["counts"],
+                "scan_ids": result["scan_ids"],
+            },
+            func_name="count_z_axial_scans_in_session",
+        )
+        return {
+            "session_id": session_id,
+            "counts": counts,
+            "scan_ids": scan_ids,
+        }
+
+    except Exception:
+        log_error("Unhandled exception during count_z_axial_scans_in_session", func_name)
+        return None

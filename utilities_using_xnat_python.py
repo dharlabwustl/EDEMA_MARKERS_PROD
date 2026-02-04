@@ -1117,7 +1117,26 @@ def log_step2_nifti_files(nifti_files: dict, session_id: str = None):
         step2,
         func_name="fill_after_dicom2nifti"
     )
-import csv
+# import csv
+def combine_analysis_with_nifti_files(analysis: dict, nifti_files: dict) -> dict:
+    """
+    Merge nifti_files into the analysis dict so downstream (CSV/DB/logging) can use one object.
+    """
+    analysis["nifti_files"] = nifti_files
+
+    # Optional convenience fields (ready for CSV/db)
+    analysis["nifti_files_axial"] = [
+        {"scan_id": r.get("scan_id"), "files": r.get("files", [])}
+        for r in nifti_files.get("axial", [])
+    ]
+    analysis["nifti_files_thin"] = [
+        {"scan_id": r.get("scan_id"), "files": r.get("files", [])}
+        for r in nifti_files.get("thin", [])
+    ]
+    analysis["missing_nifti_resource_scan_ids"] = nifti_files.get("missing_nifti_resource", [])
+    analysis["nifti_errors"] = nifti_files.get("errors", [])
+
+    return analysis
 
 def write_session_scan_summary_csv(
     session_id: str,
@@ -1200,7 +1219,11 @@ def fill_after_dicom2nifti(session_id):
     # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
     analysis = analyze_scans_in_session(session_id)
     nifti_files = get_nifti_filenames_from_scan_details(session_id, analysis["scan_details"])
+    step1=combine_analysis_with_nifti_files(analysis, nifti_files)
     log_step2_nifti_files(nifti_files, session_id=session_id)
+    log_error(step1,
+        func_name="fill_after_dicom2nifti",
+    )
     # csv_file=f'{session_id}_values_after_dicom2nifti.csv'
     # write_session_scan_summary_csv(session_id,
     # step1,csv_file

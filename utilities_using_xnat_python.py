@@ -1193,12 +1193,14 @@ def write_session_scan_summary_csv(
     return out_csv
 
 def fill_after_dicom2nifti(session_id):
-    step1=analyze_scans_in_session(session_id)
+    # step1=analyze_scans_in_session(session_id)
     # log_error(step1,
     #     func_name="fill_after_dicom2nifti",
     # )
-    nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
-    step2 = format_nifti_files_for_log(nifti_files, session_id=session_id)
+    # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
+    analysis = analyze_scans_in_session(session_id)
+    nifti_files = get_nifti_filenames_from_scan_details(session_id, analysis["scan_details"])
+    log_step2_nifti_files(nifti_files, session_id=session_id)
     # csv_file=f'{session_id}_values_after_dicom2nifti.csv'
     # write_session_scan_summary_csv(session_id,
     # step1,csv_file

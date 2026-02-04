@@ -911,269 +911,94 @@ def make_csv_columns_railway_compatible(
 
     return out_csv_path
 # Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_names Z-Axial-Brain_names
-# import xnat
-# import inspect
-# import traceback
-# from datetime import datetime
-#
-# # Uses your globals from utilities_using_xnat_python.py:
-# # XNAT_HOST, XNAT_USER, XNAT_PASS, log_error(...)
+import xnat
 
-def count_z_axial_scans_in_session(
-    session_id: str,
-    *,
-    scan_types=("Z-Axial-Brain", "Z-Brain-Thin"),
-    verify: bool = True,
+def analyze_scans_in_session(
+    # xnat_url: str,
+    # username: str,
+    # password: str,
+    # project_id: str,
+    # subject_id: str,
+    session_id: str
 ):
     """
-    Step 1:
-    Given a session_id, count scans whose scan.type matches:
-      - "Z-axial-brain"
-      - "Z-axial-Thin"
+    Analyze scans in an XNAT session.
 
-    Returns dict:
-      {
-        "session_id": ...,
-        "counts": {"Z-axial-brain": N1, "Z-axial-Thin": N2},
-        "scan_ids": {"Z-axial-brain": [..], "Z-axial-Thin": [..]}
-      }
+    - Counts Z-Axial-Brain and Z-Axial-Thin
+    - Counts scan quality (usable / questionable / others)
+    - Stores scan details ONLY for Z-Axial-Brain and Z-Axial-Thin
     """
-    func_name = inspect.currentframe().f_code.co_name
 
-    try:
-        if not session_id or not str(session_id).strip():
-            log_error("session_id is empty", func_name)
-            return None
+    # -----------------------------
+    # CONFIG
+    # -----------------------------
+    TARGET_TYPES = {"Z-Axial-Brain", "Z-Axial-Thin"}
 
-        # Keep exact keys as requested (case-sensitive match)
-        counts = {t: 0 for t in scan_types}
-        scan_ids = {t: [] for t in scan_types}
-
-        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS, verify=verify) as conn:
-            if session_id not in conn.experiments:
-                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
-                return None
-
-            exp = conn.experiments[session_id]
-
-            # exp.scans is dict-like: {scan_id: scan_obj}
-            for sid, scan in exp.scans.items():
-                # xnatpy typically exposes scan.type
-                stype = getattr(scan, "type", None)
-
-                # Defensive fallback (some xnatpy versions store attrs differently)
-                if stype is None:
-                    try:
-                        stype = scan.get("type")
-                    except Exception:
-                        stype = None
-
-                if stype in counts:
-                    counts[stype] += 1
-                    scan_ids[stype].append(str(sid))
-        result={
-            "session_id": session_id,
-            "counts": counts,
-            "scan_ids": scan_ids,
-        }
-
-        return {
-            "session_id": session_id,
-            "counts": counts,
-            "scan_ids": scan_ids,
-        }
-
-    except Exception:
-        log_error("Unhandled exception during count_z_axial_scans_in_session", func_name)
-        return None
-
-
-# import xnat
-# import inspect
-# import re
-#
-# # Uses your globals from utilities_using_xnat_python.py:
-# # XNAT_HOST, XNAT_USER, XNAT_PASS, log_error(...)
-
-
-def _normalize_usability_value(v: str):
-    """
-    Normalize various spellings/cases to one of:
-      USABLE, UNUSABLE, QUESTIONABLE, UNKNOWN
-    """
-    if v is None:
-        return "UNKNOWN"
-    s = str(v).strip()
-    if not s:
-        return "UNKNOWN"
-
-    s_low = s.lower()
-
-    # common normalizations
-    if s_low in ("usable"): #, "useable", "good", "ok", "okay"):
-        return "USABLE"
-    if s_low in ("unusable",) : # "not usable", "bad", "poor"):
-        return "UNUSABLE"
-    if s_low in ("questionable"): #, "maybe", "borderline"):
-        return "QUESTIONABLE"
-
-    # sometimes values include extra text
-    if "unusable" in s_low:
-        return "UNUSABLE"
-    if "question" in s_low:
-        return "QUESTIONABLE"
-    if "usable" in s_low:
-        return "USABLE"
-
-    return "UNKNOWN"
-
-
-def _get_first_attr(scan, keys):
-    """
-    Try multiple attribute keys on an xnatpy scan object.
-    Returns first non-empty value found, else None.
-    """
-    for k in keys:
-        # 1) direct attribute (rare)
-        try:
-            if hasattr(scan, k):
-                v = getattr(scan, k)
-                if v not in (None, ""):
-                    return v
-        except Exception:
-            pass
-
-        # 2) scan.get("...") style (often works)
-        try:
-            v = scan.get(k)
-            if v not in (None, ""):
-                return v
-        except Exception:
-            pass
-
-        # 3) attributes dict (sometimes present)
-        try:
-            attrs = getattr(scan, "attributes", None)
-            if isinstance(attrs, dict) and k in attrs:
-                v = attrs.get(k)
-                if v not in (None, ""):
-                    return v
-        except Exception:
-            pass
-
-    return None
-
-
-def count_usability_for_z_axial_scans(
-    session_id: str,
-    scan_ids_by_type: dict,
-    *,
-    verify: bool = True,
-    # You can tune these if your XNAT stores usability under a specific key
-    usability_attr_keys=(
-        "quality" #,
-        # "USABILITY",
-        # "quality",
-        # "QUALITY",
-        # "scan_quality",
-        # "SCAN_QUALITY",
-        # "image_quality",
-        # "IMAGE_QUALITY",
-        # "QC",
-        # "qc",
-    ),
-):
-    """
-    Step-2:
-    For the given session_id and the scan_ids grouped by scan type (from Step-1),
-    count how many are USABLE / UNUSABLE / QUESTIONABLE.
-
-    Parameters
-    ----------
-    session_id : str
-        XNAT experiment/session ID (e.g., XNAT_E0...)
-    scan_ids_by_type : dict
-        Output "scan_ids" from Step-1, e.g.:
-          {
-            "Z-axial-brain": ["1","3"],
-            "Z-axial-Thin":  ["7"]
-          }
-
-    Returns
-    -------
-    dict like:
-    {
-      "session_id": "...",
-      "usability_counts": {
-        "Z-axial-brain": {"USABLE": 1, "UNUSABLE": 0, "QUESTIONABLE": 1, "UNKNOWN": 0},
-        "Z-axial-Thin":  {"USABLE": 0, "UNUSABLE": 1, "QUESTIONABLE": 0, "UNKNOWN": 0}
-      },
-      "usability_by_scan": {
-        "Z-axial-brain": {"1": "USABLE", "3": "QUESTIONABLE"},
-        "Z-axial-Thin":  {"7": "UNUSABLE"}
-      }
+    type_counts = {
+        "Z-Axial-Brain": 0,
+        "Z-Axial-Thin": 0
     }
-    """
-    func_name = inspect.currentframe().f_code.co_name
 
-    try:
-        if not session_id or not str(session_id).strip():
-            log_error("session_id is empty", func_name)
-            return None
-        if not isinstance(scan_ids_by_type, dict) or not scan_ids_by_type:
-            log_error("scan_ids_by_type is empty or not a dict", func_name)
-            return None
+    quality_counts = {
+        "usable": 0,
+        "questionable": 0,
+        "others": 0
+    }
 
-        usability_counts = {}
-        usability_by_scan = {}
+    scan_details = []
 
-        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS, verify=verify) as conn:
-            if session_id not in conn.experiments:
-                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
-                return None
+    with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as xnat_session:
 
-            exp = conn.experiments[session_id]
+        # project = xnat_session.projects[project_id]
+        # subject = project.subjects[subject_id]
+        # experiment = subject.experiments[session_id]
+        experiment = xnat_session.experiments[session_id]
+        for scan_id, scan in experiment.scans.items():
 
-            for scan_type, scan_ids in scan_ids_by_type.items():
-                # initialize
-                usability_counts[scan_type] = {"USABLE": 0, "UNUSABLE": 0, "QUESTIONABLE": 0, "UNKNOWN": 0}
-                usability_by_scan[scan_type] = {}
+            scan_type = getattr(scan, "type", None)
+            scan_quality = getattr(scan, "quality", None)
 
-                if not scan_ids:
-                    continue
+            # -----------------------------
+            # TYPE COUNTS
+            # -----------------------------
+            if scan_type in type_counts:
+                type_counts[scan_type] += 1
 
-                for sid in scan_ids:
-                    sid_str = str(sid)
-                    if sid_str not in exp.scans:
-                        # if scan id missing, mark unknown
-                        usability_counts[scan_type]["UNKNOWN"] += 1
-                        usability_by_scan[scan_type][sid_str] = "UNKNOWN"
-                        continue
+            # -----------------------------
+            # QUALITY COUNTS
+            # -----------------------------
+            if scan_quality == "usable":
+                quality_counts["usable"] += 1
+            elif scan_quality == "questionable":
+                quality_counts["questionable"] += 1
+            else:
+                quality_counts["others"] += 1
 
-                    scan = exp.scans[sid_str]
+            # -----------------------------
+            # STORE ONLY TARGET TYPES
+            # -----------------------------
+            if scan_type in TARGET_TYPES:
+                scan_details.append({
+                    "scan_id": scan_id,
+                    "type": scan_type,
+                    "series_description": getattr(scan, "series_description", None),
+                    "quality": scan_quality,
+                    "frames": getattr(scan, "frames", None)
+                })
 
-                    raw_val = _get_first_attr(scan, usability_attr_keys)
-                    norm = _normalize_usability_value(raw_val)
+    return {
+        "scan_details": scan_details,
+        "type_counts": type_counts,
+        "quality_counts": quality_counts
+    }
 
-                    usability_counts[scan_type][norm] += 1
-                    usability_by_scan[scan_type][sid_str] = norm
-
-        return {
-            "session_id": session_id,
-            "usability_counts": usability_counts,
-            "usability_by_scan": usability_by_scan,
-        }
-
-    except Exception:
-        log_error("Unhandled exception during count_usability_for_z_axial_scans", func_name)
-        return None
 
 def fill_after_dicom2nifti(session_id):
-    step1=count_z_axial_scans_in_session(session_id)
+    step1=analyze_scans_in_session(session_id)
     log_error(step1,
         func_name="fill_after_dicom2nifti",
     )
-    step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])
-    log_error(step2,
-        func_name="fill_after_dicom2nifti",
-    )
+    # step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])
+    # log_error(step2,
+    #     func_name="fill_after_dicom2nifti",
+    # )

@@ -978,11 +978,134 @@ def analyze_scans_in_session(session_id: str):
         "quality_counts": quality_counts
     }
 
+import xnat
+
+def get_nifti_filenames_from_scan_details(session_id: str, scan_details: list):
+    """
+    Takes scan_details (from analyze_scans_in_session) and returns NIFTI filenames
+    found in each scan's 'NIFTI' resource.
+
+    Output structure:
+    {
+      "axial": [ {"scan_id":..., "files":[...]} , ...],
+      "thin":  [ {"scan_id":..., "files":[...]} , ...],
+      "missing_nifti_resource": [scan_id, ...],
+      "errors": [ {"scan_id":..., "error":...}, ...]
+    }
+
+    NOTE: Uses global XNAT_HOST / XNAT_USER / XNAT_PASS like your previous function.
+    """
+
+    out = {
+        "axial": [],
+        "thin": [],
+        "missing_nifti_resource": [],
+        "errors": []
+    }
+
+    with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as xnat_session:
+        experiment = xnat_session.experiments[session_id]
+
+        for item in scan_details:
+            scan_id = str(item.get("scan_id"))
+            scan_type = item.get("type")
+
+            try:
+                scan = experiment.scans[scan_id]
+
+                # Get NIFTI resource (common label is "NIFTI")
+                if "NIFTI" not in scan.resources:
+                    out["missing_nifti_resource"].append(scan_id)
+                    continue
+
+                nifti_res = scan.resources["NIFTI"]
+
+                # List filenames in that resource
+                filenames = []
+                for f in nifti_res.files.values():
+                    # xnatpy file objects usually have .name
+                    filenames.append(getattr(f, "name", None))
+
+                # clean Nones
+                filenames = [n for n in filenames if n]
+
+                # Put into the correct bucket based on scan_type
+                payload = {"scan_id": scan_id, "files": filenames}
+
+                if scan_type == "Z-Axial-Brain":
+                    out["axial"].append(payload)
+                elif scan_type == "Z-Brain-Thin":
+                    out["thin"].append(payload)
+                else:
+                    # ignore non-target types silently (scan_details should already be filtered)
+                    pass
+
+            except Exception as e:
+                out["errors"].append({"scan_id": scan_id, "error": str(e)})
+
+    return out
+
+def format_nifti_files_for_log(nifti_files: dict, session_id: str = None) -> str:
+    """
+    Convert nifti_files dict into a compact, readable multi-line string for logging.
+    """
+    lines = []
+    if session_id:
+        lines.append(f"Session: {session_id}")
+
+    # Axial
+    lines.append("NIFTI files (AXIAL):")
+    if nifti_files.get("axial"):
+        for rec in nifti_files["axial"]:
+            scan_id = rec.get("scan_id")
+            files = rec.get("files", [])
+            lines.append(f"  - scan {scan_id}: " + (", ".join(files) if files else "(no files)"))
+    else:
+        lines.append("  (none)")
+
+    # Thin
+    lines.append("NIFTI files (THIN):")
+    if nifti_files.get("thin"):
+        for rec in nifti_files["thin"]:
+            scan_id = rec.get("scan_id")
+            files = rec.get("files", [])
+            lines.append(f"  - scan {scan_id}: " + (", ".join(files) if files else "(no files)"))
+    else:
+        lines.append("  (none)")
+
+    # Missing resource
+    missing = nifti_files.get("missing_nifti_resource", [])
+    if missing:
+        lines.append("Missing NIFTI resource scan_ids: " + ", ".join(map(str, missing)))
+
+    # Errors
+    errs = nifti_files.get("errors", [])
+    if errs:
+        lines.append("Errors:")
+        for e in errs:
+            lines.append(f"  - scan {e.get('scan_id')}: {e.get('error')}")
+
+    return "\n".join(lines)
+
+
+def log_step2_nifti_files(nifti_files: dict, session_id: str = None):
+    """
+    Logs the NIFTI file listing using your existing log_error(msg, func_name).
+    """
+    step2 = format_nifti_files_for_log(nifti_files, session_id=session_id)
+
+    log_error(
+        step2,
+        func_name="fill_after_dicom2nifti"
+    )
+
 def fill_after_dicom2nifti(session_id):
     step1=analyze_scans_in_session(session_id)
     log_error(step1,
         func_name="fill_after_dicom2nifti",
     )
+    nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
+    log_step2_nifti_files(nifti_files, session_id=session_id)
     # step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])
     # log_error(step2,
     #     func_name="fill_after_dicom2nifti",

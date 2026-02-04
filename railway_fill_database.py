@@ -684,6 +684,27 @@ def create_table(csvfilenamefortable):
     print(f"✅ Done. Loaded ~{total} rows into `{table}`.")
 import pandas as pd
 import inspect
+import numpy as np
+import pandas as pd
+
+def _to_native(v):
+    """Convert numpy/pandas scalars to native Python types for mysql-connector."""
+    if v is None:
+        return None
+
+    # pandas missing
+    if pd.isna(v):
+        return None
+
+    # numpy scalar -> python scalar
+    if isinstance(v, (np.generic,)):
+        return v.item()
+
+    # pandas Timestamp -> python datetime (or string if you prefer)
+    if hasattr(v, "to_pydatetime"):
+        return v.to_pydatetime()
+
+    return v
 
 def apply_single_row_csv_to_table(
     csv_file: str,
@@ -723,7 +744,7 @@ def apply_single_row_csv_to_table(
         # if col == identifier_col:
         #     continue
 
-        val = row[col]
+        val = _to_native(row[col])
 
         # Skip NaN values (optional but usually desired)
         if pd.isna(val):

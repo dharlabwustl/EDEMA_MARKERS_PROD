@@ -915,7 +915,7 @@ def make_csv_columns_railway_compatible(
 
 # import xnat
 
-import xnat
+# import xnat
 
 def analyze_scans_in_session(session_id: str):
     """
@@ -1117,11 +1117,89 @@ def log_step2_nifti_files(nifti_files: dict, session_id: str = None):
         step2,
         func_name="fill_after_dicom2nifti"
     )
+import csv
+
+def write_session_scan_summary_csv(
+    session_id: str,
+    analysis: dict,
+    out_csv: str,
+):
+    """
+    Writes a 1-row CSV with columns:
+      session_id,
+      Z-Brain-Thin_count,
+      Z-Axial-Brain_count,
+      Z-Axial-Brain_usable_count,
+      Z-Brain-Thin_usable_count,
+      Z-Brain-Thin_scan_ids,
+      Z-Axial-Brain_scan_ids
+
+    `analysis` is the dict returned by analyze_scans_in_session().
+    """
+
+    # ---- counts ----
+    type_counts = analysis.get("type_counts", {})
+    usable_by_type = analysis.get("usable_by_type", {})
+    scan_details = analysis.get("scan_details", [])
+
+    z_thin_count = int(type_counts.get("Z-Brain-Thin", 0))
+    z_axial_count = int(type_counts.get("Z-Axial-Brain", 0))
+
+    z_axial_usable = int(usable_by_type.get("axial_usable", 0))
+    z_thin_usable = int(usable_by_type.get("thin_usable", 0))
+
+    # ---- scan_ids (from scan_details, which are only target types) ----
+    z_thin_ids = []
+    z_axial_ids = []
+
+    for rec in scan_details:
+        sid = str(rec.get("scan_id"))
+        stype = rec.get("type")
+        if stype == "Z-Brain-Thin":
+            z_thin_ids.append(sid)
+        elif stype == "Z-Axial-Brain":
+            z_axial_ids.append(sid)
+
+    # Join into a single CSV cell (easy to parse later)
+    z_thin_ids_str = "|".join(z_thin_ids)
+    z_axial_ids_str = "|".join(z_axial_ids)
+
+    # ---- write CSV ----
+    headers = [
+        "session_id",
+        "Z-Brain-Thin_count",
+        "Z-Axial-Brain_count",
+        "Z-Axial-Brain_usable_count",
+        "Z-Brain-Thin_usable_count",
+        "Z-Brain-Thin_scan_ids",
+        "Z-Axial-Brain_scan_ids",
+    ]
+
+    row = {
+        "session_id": session_id,
+        "Z-Brain-Thin_count": z_thin_count,
+        "Z-Axial-Brain_count": z_axial_count,
+        "Z-Axial-Brain_usable_count": z_axial_usable,
+        "Z-Brain-Thin_usable_count": z_thin_usable,
+        "Z-Brain-Thin_scan_ids": z_thin_ids_str,
+        "Z-Axial-Brain_scan_ids": z_axial_ids_str,
+    }
+
+    with open(out_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=headers)
+        writer.writeheader()
+        writer.writerow(row)
+
+    return out_csv
 
 def fill_after_dicom2nifti(session_id):
     step1=analyze_scans_in_session(session_id)
     log_error(step1,
         func_name="fill_after_dicom2nifti",
+    )
+    write_session_scan_summary_csv(session_id,
+    step1,
+    f'{session_id}_values_after_dicom2nifti.csv'
     )
     # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
     # log_step2_nifti_files(nifti_files, session_id=session_id)

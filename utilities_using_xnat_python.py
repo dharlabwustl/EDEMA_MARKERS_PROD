@@ -1138,28 +1138,53 @@ def combine_analysis_with_nifti_files(analysis: dict, nifti_files: dict) -> dict
 
     return analysis
 
+import csv
+
+def _flatten_nifti_list(nifti_list):
+    """
+    nifti_list format:
+      [ {"scan_id": "...", "files": ["a.nii.gz","b.nii.gz"]}, ... ]
+
+    Returns a single string safe for CSV/DB:
+      "scanID:file1|file2;scanID:file1"
+    """
+    parts = []
+    for rec in (nifti_list or []):
+        scan_id = str(rec.get("scan_id"))
+        files = rec.get("files", []) or []
+        files = [str(f) for f in files if f]
+        if files:
+            parts.append(f"{scan_id}:" + "|".join(files))
+        else:
+            parts.append(f"{scan_id}:(no_files)")
+    return ";".join(parts)
+
+
 def write_session_scan_summary_csv(
     session_id: str,
     analysis: dict,
     out_csv: str,
 ):
     """
-    Writes a 1-row CSV with columns:
-      session_id,
+    Writes a 1-row CSV using the COMBINED output (analysis + nifti_files).
+
+    Columns:
+      session_id_this,
       Z-Brain-Thin_count,
       Z-Axial-Brain_count,
       Z-Axial-Brain_usable_count,
       Z-Brain-Thin_usable_count,
       Z-Brain-Thin_scan_ids,
-      Z-Axial-Brain_scan_ids
-
-    `analysis` is the dict returned by analyze_scans_in_session().
+      Z-Axial-Brain_scan_ids,
+      Z-Brain-Thin_nifti_files,
+      Z-Axial-Brain_nifti_files,
+      missing_nifti_resource_scan_ids
     """
 
     # ---- counts ----
-    type_counts = analysis.get("type_counts", {})
-    usable_by_type = analysis.get("usable_by_type", {})
-    scan_details = analysis.get("scan_details", [])
+    type_counts = analysis.get("type_counts", {}) or {}
+    usable_by_type = analysis.get("usable_by_type", {}) or {}
+    scan_details = analysis.get("scan_details", []) or []
 
     z_thin_count = int(type_counts.get("Z-Brain-Thin", 0))
     z_axial_count = int(type_counts.get("Z-Axial-Brain", 0))
@@ -1167,7 +1192,7 @@ def write_session_scan_summary_csv(
     z_axial_usable = int(usable_by_type.get("axial_usable", 0))
     z_thin_usable = int(usable_by_type.get("thin_usable", 0))
 
-    # ---- scan_ids (from scan_details, which are only target types) ----
+    # ---- scan_ids ----
     z_thin_ids = []
     z_axial_ids = []
 
@@ -1179,9 +1204,27 @@ def write_session_scan_summary_csv(
         elif stype == "Z-Axial-Brain":
             z_axial_ids.append(sid)
 
-    # Join into a single CSV cell (easy to parse later)
     z_thin_ids_str = "|".join(z_thin_ids)
     z_axial_ids_str = "|".join(z_axial_ids)
+
+    # ---- nifti filenames (combined output) ----
+    # Prefer the convenience lists if you added them via combine_analysis_with_nifti_files()
+    thin_nifti_list = analysis.get("nifti_files_thin")
+    axial_nifti_list = analysis.get("nifti_files_axial")
+
+    # Fallback if only raw nifti_files dict exists
+    if thin_nifti_list is None or axial_nifti_list is None:
+        nf = analysis.get("nifti_files", {}) or {}
+        thin_nifti_list = thin_nifti_list if thin_nifti_list is not None else nf.get("thin", [])
+        axial_nifti_list = axial_nifti_list if axial_nifti_list is not None else nf.get("axial", [])
+
+    z_thin_nifti_str = _flatten_nifti_list(thin_nifti_list)
+    z_axial_nifti_str = _flatten_nifti_list(axial_nifti_list)
+
+    missing_ids = analysis.get("missing_nifti_resource_scan_ids")
+    if missing_ids is None:
+        missing_ids = (analysis.get("nifti_files", {}) or {}).get("missing_nifti_resource", [])
+    missing_ids_str = "|".join([str(x) for x in (missing_ids or [])])
 
     # ---- write CSV ----
     headers = [
@@ -1192,6 +1235,9 @@ def write_session_scan_summary_csv(
         "Z-Brain-Thin_usable_count",
         "Z-Brain-Thin_scan_ids",
         "Z-Axial-Brain_scan_ids",
+        "Z-Brain-Thin_nifti_files",
+        "Z-Axial-Brain_nifti_files",
+        "missing_nifti_resource_scan_ids",
     ]
 
     row = {
@@ -1202,6 +1248,9 @@ def write_session_scan_summary_csv(
         "Z-Brain-Thin_usable_count": z_thin_usable,
         "Z-Brain-Thin_scan_ids": z_thin_ids_str,
         "Z-Axial-Brain_scan_ids": z_axial_ids_str,
+        "Z-Brain-Thin_nifti_files": z_thin_nifti_str,
+        "Z-Axial-Brain_nifti_files": z_axial_nifti_str,
+        "missing_nifti_resource_scan_ids": missing_ids_str,
     }
 
     with open(out_csv, "w", newline="") as f:

@@ -682,10 +682,10 @@ def create_table(csvfilenamefortable):
         print(f"[INFO] Inserted {total} rows...", flush=True)
 
     print(f"✅ Done. Loaded ~{total} rows into `{table}`.")
-import pandas as pd
-import inspect
-import numpy as np
-import pandas as pd
+# import pandas as pd
+# import inspect
+# import numpy as np
+# import pandas as pd
 
 def _to_native(v):
     """Convert numpy/pandas scalars to native Python types for mysql-connector."""

@@ -1197,23 +1197,25 @@ def fill_after_dicom2nifti(session_id):
     log_error(step1,
         func_name="fill_after_dicom2nifti",
     )
-    csv_file=f'{session_id}_values_after_dicom2nifti.csv'
-    write_session_scan_summary_csv(session_id,
-    step1,csv_file
-
-    )
-    project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
-    table_name = project_id  # as per your design
-
-    result = apply_single_row_csv_to_table(
-        # engine=ENGINE,                    # global/shared engine
-        csv_file=csv_file,
-        table_name=table_name,
-        session_id=session_id,  # identifier column in CSV & DB
-    )
-    # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
-    # log_step2_nifti_files(nifti_files, session_id=session_id)
-    # step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])
-    # log_error(step2,
-    #     func_name="fill_after_dicom2nifti",
+    nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
+    step2 = format_nifti_files_for_log(nifti_files, session_id=session_id)
+    # csv_file=f'{session_id}_values_after_dicom2nifti.csv'
+    # write_session_scan_summary_csv(session_id,
+    # step1,csv_file
+    #
     # )
+    # project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
+    # table_name = project_id  # as per your design
+    #
+    # result = apply_single_row_csv_to_table(
+    #     # engine=ENGINE,                    # global/shared engine
+    #     csv_file=csv_file,
+    #     table_name=table_name,
+    #     session_id=session_id,  # identifier column in CSV & DB
+    # )
+    # # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
+    # # log_step2_nifti_files(nifti_files, session_id=session_id)
+    # # step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])
+    # # log_error(step2,
+    # #     func_name="fill_after_dicom2nifti",
+    # # )

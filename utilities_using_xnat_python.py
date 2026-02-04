@@ -913,25 +913,17 @@ def make_csv_columns_railway_compatible(
 # Z-Brain-Thin  Z-Axial-Brain Z-Axial-Brain_usable Z-Brain-Thin_usable Z-Brain-Thin_names Z-Axial-Brain_names
 # import xnat
 
-def analyze_scans_in_session(
-    # xnat_url: str,
-    # username: str,
-    # password: str,
-    # project_id: str,
-    # subject_id: str,
-    session_id: str
-):
+import xnat
+
+def analyze_scans_in_session(session_id: str):
     """
     Analyze scans in an XNAT session.
 
-    - Counts Z-Axial-Brain and Z-Axial-Thin
-    - Counts scan quality (usable / questionable / Other)
-    - Stores scan details ONLY for Z-Axial-Brain and Z-Axial-Thin
+    - Counts Z-Axial-Brain and Z-Brain-Thin
+    - Counts scan quality (usable / questionable / unusable) ONLY for those types
+    - Stores scan details ONLY for Z-Axial-Brain and Z-Brain-Thin
     """
 
-    # -----------------------------
-    # CONFIG
-    # -----------------------------
     TARGET_TYPES = {"Z-Axial-Brain", "Z-Brain-Thin"}
 
     type_counts = {
@@ -949,35 +941,29 @@ def analyze_scans_in_session(
 
     with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as xnat_session:
 
-        # project = xnat_session.projects[project_id]
-        # subject = project.subjects[subject_id]
-        # experiment = subject.experiments[session_id]
         experiment = xnat_session.experiments[session_id]
+
         for scan_id, scan in experiment.scans.items():
 
             scan_type = getattr(scan, "type", None)
             scan_quality = getattr(scan, "quality", None)
 
-            # -----------------------------
-            # TYPE COUNTS
-            # -----------------------------
+            # TYPE COUNTS (only for your tracked types)
             if scan_type in type_counts:
                 type_counts[scan_type] += 1
 
-            # -----------------------------
-            # QUALITY COUNTS
-            # -----------------------------
-            if scan_quality == "usable":
-                quality_counts["usable"] += 1
-            elif scan_quality == "questionable":
-                quality_counts["questionable"] += 1
-            else:
-                quality_counts["unusable"] += 1
-
-            # -----------------------------
-            # STORE ONLY TARGET TYPES
-            # -----------------------------
+            # Only consider quality + store details for target types
             if scan_type in TARGET_TYPES:
+
+                # QUALITY COUNTS (only for target types)
+                if scan_quality == "usable":
+                    quality_counts["usable"] += 1
+                elif scan_quality == "questionable":
+                    quality_counts["questionable"] += 1
+                else:
+                    quality_counts["unusable"] += 1
+
+                # STORE DETAILS (only for target types)
                 scan_details.append({
                     "scan_id": scan_id,
                     "type": scan_type,
@@ -991,7 +977,6 @@ def analyze_scans_in_session(
         "type_counts": type_counts,
         "quality_counts": quality_counts
     }
-
 
 def fill_after_dicom2nifti(session_id):
     step1=analyze_scans_in_session(session_id)

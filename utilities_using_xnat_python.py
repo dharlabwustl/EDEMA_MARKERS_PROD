@@ -925,7 +925,7 @@ def analyze_scans_in_session(
     Analyze scans in an XNAT session.
 
     - Counts Z-Axial-Brain and Z-Axial-Thin
-    - Counts scan quality (usable / questionable / others)
+    - Counts scan quality (usable / questionable / Other)
     - Stores scan details ONLY for Z-Axial-Brain and Z-Axial-Thin
     """
 
@@ -942,7 +942,7 @@ def analyze_scans_in_session(
     quality_counts = {
         "usable": 0,
         "questionable": 0,
-        "others": 0
+        "Other": 0
     }
 
     scan_details = []
@@ -972,7 +972,7 @@ def analyze_scans_in_session(
             elif scan_quality == "questionable":
                 quality_counts["questionable"] += 1
             else:
-                quality_counts["others"] += 1
+                quality_counts["Other"] += 1
 
             # -----------------------------
             # STORE ONLY TARGET TYPES

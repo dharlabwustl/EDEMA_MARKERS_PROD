@@ -27,7 +27,7 @@ api_token=os.environ['REDCAP_API']
 import inspect
 import traceback
 from datetime import datetime
-from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project,load_csv_to_mysql,drop_column_from_table
+from railway_fill_database import apply_single_row_csv_to_table,railway_table_exists_for_project,load_csv_to_mysql,drop_column_from_table,apply_single_row_csv_to_table_1
 LOG_FILE = "./xnat_session_errors.log"
 import inspect
 import traceback
@@ -391,13 +391,14 @@ def call_apply_single_row_csv_to_table(session_id, csv_file):
 
         table_name = project_id  # as per your design
 
-        result = apply_single_row_csv_to_table(
+        result = apply_single_row_csv_to_table_1(
             # engine=ENGINE,                    # global/shared engine
             csv_file=csv_file,
             table_name=table_name,
-            session_id=session_id,      # identifier column in CSV & DB
-        )
+            session_id_col='session_id_this',
 
+        )
+        # session_id=session_id,      # identifier column in CSV & DB
         return result
 
     except Exception as e:
@@ -1278,8 +1279,8 @@ def fill_after_dicom2nifti(session_id):
     step1,csv_file
 
     )
-    # project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
-    # table_name = project_id  # as per your design
+    project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
+    table_name = project_id  # as per your design
     #
     # result = apply_single_row_csv_to_table(
     #     # engine=ENGINE,                    # global/shared engine

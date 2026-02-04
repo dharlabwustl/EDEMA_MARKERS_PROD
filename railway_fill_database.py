@@ -848,6 +848,88 @@ def apply_single_row_csv_to_table(
         "updates": results,
     }
 
+def apply_single_row_csv_to_table_1(
+    csv_file: str,
+    table_name: str,
+    session_id_col: str,
+    insert_if_missing: bool = True,
+    create_target_col_if_missing: bool = True,
+    default_target_col_type: str = "VARCHAR(255) NULL",
+):
+    """
+    Read a single-row CSV and apply each column value to the database table
+    using update_table_value_by_identifier().
+
+    - session_id is READ from the CSV itself.
+    - user provides `session_id_col` (the column name in the CSV that contains the session id).
+    - identifier_col in DB remains "SESSION_ID".
+    """
+    func_name = inspect.currentframe().f_code.co_name
+
+    # Load CSV
+    df = pd.read_csv(csv_file)
+
+    if df.shape[0] != 1:
+        raise ValueError(f"{func_name}: CSV must contain exactly ONE row, found {df.shape[0]}")
+
+    # Find the session id column in a tolerant way (case/space insensitive)
+    norm = lambda s: str(s).strip().lower()
+    col_map = {norm(c): c for c in df.columns}
+    key = norm(session_id_col)
+
+    if key not in col_map:
+        raise ValueError(
+            f"{func_name}: session_id_col '{session_id_col}' not found in CSV columns: {list(df.columns)}"
+        )
+
+    actual_session_col = col_map[key]
+
+    row = df.iloc[0]
+    identifier_val = _to_native(row[actual_session_col])
+
+    if identifier_val is None or (isinstance(identifier_val, str) and identifier_val.strip() == ""):
+        raise ValueError(f"{func_name}: session id value is empty in column '{actual_session_col}'")
+
+    # Always treat SESSION_ID as string in DB
+    identifier_val = str(identifier_val)
+
+    results = []
+
+    for col in df.columns:
+        # Skip the session id column itself (do not write it as a target col)
+        if col == actual_session_col:
+            continue
+
+        val = _to_native(row[col])
+
+        # Skip NaN/None
+        if val is None or pd.isna(val):
+            continue
+
+        res = update_table_value_by_identifier(
+            engine=engine,
+            table_name=table_name,
+            identifier_col="SESSION_ID",
+            identifier_val=identifier_val,
+            target_col=col,
+            target_val=val,
+            insert_if_missing=insert_if_missing,
+            create_target_col_if_missing=create_target_col_if_missing,
+            target_col_type=default_target_col_type,
+        )
+
+        results.append({
+            "column": col,
+            "value": val,
+            "result": res,
+        })
+
+    return {
+        "status": "completed",
+        "table": table_name,
+        "identifier": {"SESSION_ID": identifier_val},
+        "updates": results,
+    }
 
 
 def railway_drop_table(table_name: str, *, confirm: bool = False) -> bool:

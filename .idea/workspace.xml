@@ -490,7 +490,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="5742" />
+    <option name="localTasksCounter" value="5743" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -552,6 +552,11 @@
           <url>file://$PROJECT_DIR$/module_NWU_CSFCompartment_Calculations.py</url>
           <line>659</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utilities_using_xnat_python.py</url>
+          <line>1000</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

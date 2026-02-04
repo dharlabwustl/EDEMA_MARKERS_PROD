@@ -684,7 +684,7 @@ def create_table(csvfilenamefortable):
     print(f"✅ Done. Loaded ~{total} rows into `{table}`.")
 # import pandas as pd
 # import inspect
-# import numpy as np
+import numpy as np
 # import pandas as pd
 def drop_column_from_table(
     table_name: str,

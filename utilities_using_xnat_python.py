@@ -1281,6 +1281,10 @@ def fill_after_dicom2nifti(session_id):
     project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
     table_name = project_id  # as per your design
 
+    drop_column_from_table(
+            table_name,
+            'session_id_this'
+    )
     result = apply_single_row_csv_to_table_1(
         # engine=ENGINE,                    # global/shared engine
         csv_file=csv_file,

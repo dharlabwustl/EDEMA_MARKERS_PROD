@@ -391,14 +391,13 @@ def call_apply_single_row_csv_to_table(session_id, csv_file):
 
         table_name = project_id  # as per your design
 
-        result = apply_single_row_csv_to_table_1(
+        result = apply_single_row_csv_to_table(
             # engine=ENGINE,                    # global/shared engine
             csv_file=csv_file,
             table_name=table_name,
-            session_id_col='session_id_this',
-
+            session_id=session_id,      # identifier column in CSV & DB
         )
-        # session_id=session_id,      # identifier column in CSV & DB
+
         return result
 
     except Exception as e:
@@ -1281,13 +1280,13 @@ def fill_after_dicom2nifti(session_id):
     )
     project_id,subject_id=given_sessionid_get_project_n_subjectids(session_id)
     table_name = project_id  # as per your design
-    #
-    # result = apply_single_row_csv_to_table(
-    #     # engine=ENGINE,                    # global/shared engine
-    #     csv_file=csv_file,
-    #     table_name=table_name,
-    #     session_id=session_id,  # identifier column in CSV & DB
-    # )
+
+    result = apply_single_row_csv_to_table_1(
+        # engine=ENGINE,                    # global/shared engine
+        csv_file=csv_file,
+        table_name=table_name,
+        session_id_col='session_id_this',  # identifier column in CSV & DB
+    )
     # # nifti_files=get_nifti_filenames_from_scan_details(session_id, step1["scan_details"])
     # # log_step2_nifti_files(nifti_files, session_id=session_id)
     # # step2 = count_usability_for_z_axial_scans(session_id, step1["scan_ids"])

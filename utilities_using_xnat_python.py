@@ -1043,7 +1043,7 @@ def get_nifti_filenames_from_scan_details(session_id: str, scan_details: list):
                 filenames = []
                 for f in nifti_res.files.values():
                     # xnatpy file objects usually have .name
-                    filenames.append(getattr(f, "uri", None))
+                    filenames.append(getattr(f, "URI", None))
 
                 # clean Nones
                 filenames = [n for n in filenames if n]

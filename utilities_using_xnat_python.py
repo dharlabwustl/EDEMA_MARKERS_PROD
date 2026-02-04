@@ -922,7 +922,7 @@ def make_csv_columns_railway_compatible(
 def count_z_axial_scans_in_session(
     session_id: str,
     *,
-    scan_types=("Z-axial-brain", "Z-axial-Thin"),
+    scan_types=("Z-Axial-Brain", "Z-Brain-Thin"),
     verify: bool = True,
 ):
     """

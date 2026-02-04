@@ -1071,7 +1071,7 @@ def count_usability_for_z_axial_scans(
     verify: bool = True,
     # You can tune these if your XNAT stores usability under a specific key
     usability_attr_keys=(
-        "usability" #,
+        "quality" #,
         # "USABILITY",
         # "quality",
         # "QUALITY",

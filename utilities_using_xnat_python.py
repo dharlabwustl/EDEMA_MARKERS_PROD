@@ -1176,7 +1176,7 @@ def write_session_scan_summary_csv(
     ]
 
     row = {
-        "session_id": session_id,
+        "session_id_this": session_id,
         "Z-Brain-Thin_count": z_thin_count,
         "Z-Axial-Brain_count": z_axial_count,
         "Z-Axial-Brain_usable_count": z_axial_usable,

@@ -120,7 +120,7 @@ def convert_scan_dicom_to_nifti_and_upload(
         exact_filename = f"{session_label}_{scan_id}.nii"
         out_base = f"{session_label}_{scan_id}"  # dcm2niix base
 
-        tmp_root = tempfile.mkdtemp(prefix=f"dcm2niix_{session_id}_{scan_id}_")
+        tmp_root ="/ZIPFILEDIR" ## tempfile.mkdtemp(prefix=f"dcm2niix_{session_id}_{scan_id}_")
         zip_path = os.path.join(tmp_root, "dicom.zip")
         dicom_dir = os.path.join(tmp_root, "dicom")
         out_dir = os.path.join(tmp_root, "out")

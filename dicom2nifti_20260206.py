@@ -204,7 +204,32 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
             },
             func_name,
         )
-        command = f'dcm2niix -o {DICOM_DIR} -f  %t +   -m 1     {leaf_dir}'
+        command = f'dcm2niix -o /output/ -f  %t +   -m 1     {leaf_dir}'
+        subprocess.call(command, shell=True)
+        folder_path ="/output"
+
+        # List all NIFTI files in the folder
+        nifti_files = [f for f in os.listdir(folder_path) if f.endswith(".nii") or f.endswith(".nii.gz")]
+
+        # Find the largest file by size
+        largest_file = max(nifti_files, key=lambda f: os.path.getsize(os.path.join(folder_path, f)))
+
+        # # Print the result
+        # print(f"Largest file: {largest_file}")
+        largest_file_path = os.path.join(folder_path, largest_file)
+        print(f"Path to largest file: {largest_file_path}")
+        niftifile = largest_file_path  #
+        # current_filename = os.path.basename(niftifile).split('.nii')[0]
+        # new_filename = "_".join(("_".join(selDicomAbs_split[6].split("_")[0:2]),
+        #                          "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
+        #                          scanId))  # selDicomAbs_split[-3]))
+        # new_filename = "_".join(("_".join(session_label.split("_")[0:2]),
+        #                          "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
+        #                          scanId))
+        new_filename_path = os.path.join(os.path.dirname(niftifile),exact_filename) # new_filename + ".nii")
+        print(new_filename_path)
+        # return
+        command = "mv " + niftifile + "  " + new_filename_path
         subprocess.call(command, shell=True)
 
         return

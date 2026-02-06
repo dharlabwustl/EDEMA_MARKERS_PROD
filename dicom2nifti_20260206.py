@@ -251,7 +251,7 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         #
         # # 6) Upload to scan resource NIFTI
         # # xnat_ensure_scan_resource_exists(session_id, scan_id, nifti_resource_name)
-        xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, exact_filename, os.path.basename(exact_filename))
+        xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, new_filename_path, exact_filename)
 
         # def xnat_upload_file_to_scan_resource(
         #         session_id: str,

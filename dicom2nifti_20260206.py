@@ -198,6 +198,12 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         # 3) Find best dicom leaf directory
         leaf_dir = find_best_dicom_leaf_dir(DICOM_DIR)
         print("Using DICOM leaf dir:", leaf_dir, flush=True)
+        log_error(
+            {
+                "leaf_dir": leaf_dir,
+            },
+            func_name,
+        )
         return
 
         # 4) Convert into mounted NIFTI_DIR

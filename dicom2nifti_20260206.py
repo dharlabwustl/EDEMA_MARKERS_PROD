@@ -157,7 +157,8 @@ def convert_scan_dicom_to_nifti_and_upload(
 
     finally:
         if tmp_root and os.path.isdir(tmp_root):
-            shutil.rmtree(tmp_root, ignore_errors=True)
+            x=1
+            # shutil.rmtree(tmp_root, ignore_errors=True)
 
 
 def run_dicom2nifti_for_session(session_id: str):

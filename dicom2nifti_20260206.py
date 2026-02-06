@@ -201,6 +201,7 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
 
         # 4) Convert into mounted NIFTI_DIR
         run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
+        return
 
         # 5) Pick produced nifti and ensure exact filename
         produced = pick_nifti_file(NIFTI_DIR)

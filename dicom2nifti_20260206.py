@@ -204,7 +204,7 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
             },
             func_name,
         )
-        command = f'dcm2niix -o ${DICOM_DIR} -f  %t +   -m 1     ${leaf_dir}'
+        command = f'dcm2niix -o {DICOM_DIR} -f  %t +   -m 1     {leaf_dir}'
         subprocess.call(command, shell=True)
 
         return

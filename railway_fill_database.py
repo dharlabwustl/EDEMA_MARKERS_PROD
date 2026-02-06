@@ -364,6 +364,15 @@ def add_unique_key_if_needed(engine, table, key_col):
         except Exception:
             # likely already exists; ignore
             pass
+from sqlalchemy import text
+
+def upsert_chunk_1(engine, df, table, key_col):
+    sql = text("""YOUR UPSERT SQL HERE""")
+
+    rows = df.to_dict(orient="records")
+
+    with engine.begin() as conn:
+        conn.execute(sql, rows)   # executes many with list-of-dicts
 
 def upsert_chunk(engine, df, table, key_col):
     # Build ON DUPLICATE KEY UPDATE
@@ -449,7 +458,7 @@ def load_csv_to_mysql(
             if key_col not in first_chunk.columns:
                 raise ValueError(f"key_col '{key_col}' not found in CSV columns after cleaning/renaming.")
             add_unique_key_if_needed(engine, table, key_col)
-            upsert_chunk(engine, first_chunk.fillna(pd.NA).astype(object), table, key_col)
+            upsert_chunk_1(engine, first_chunk.fillna(pd.NA).astype(object), table, key_col)
         else:
             first_chunk.to_sql(name=table, con=engine, if_exists="append", index=False, method="multi")
 
@@ -468,7 +477,7 @@ def load_csv_to_mysql(
             if key_col:
                 if key_col not in chunk.columns:
                     raise ValueError(f"key_col '{key_col}' not found in CSV columns.")
-                upsert_chunk(engine, chunk.fillna(pd.NA).astype(object), table, key_col)
+                upsert_chunk_1(engine, chunk.fillna(pd.NA).astype(object), table, key_col)
             else:
                 chunk.to_sql(
                     name=table,

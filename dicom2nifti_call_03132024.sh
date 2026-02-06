@@ -21,7 +21,7 @@ if [ 1 -gt 0 ] ; then  ###! -f /workinginput/number_nifti_check.csv ]; then
   csvfile_for_redcap=${working_dir}/total_niftifiles.csv
   fill_redcap_for_selected_scan_arguments=('fill_redcap_for_selected_scan' ${xml_filename} ${csvfile_for_redcap}) #${subj_listfile})
   outputfiles_present=$(python3 download_with_session_ID.py "${fill_redcap_for_selected_scan_arguments[@]}")
-  python3 -c "from utilities_using_xnat_python import create_new_sessionlist_table_in_railway_with_session_id; create_new_sessionlist_table_in_railway_with_session_id('${1}')"
-  python3 -c "from utilities_using_xnat_python import fill_after_dicom2nifti; fill_after_dicom2nifti('${1}')"
+#  python3 -c "from utilities_using_xnat_python import create_new_sessionlist_table_in_railway_with_session_id; create_new_sessionlist_table_in_railway_with_session_id('${1}')"
+#  python3 -c "from utilities_using_xnat_python import fill_after_dicom2nifti; fill_after_dicom2nifti('${1}')"
 #  echo "File not found!"
 fi

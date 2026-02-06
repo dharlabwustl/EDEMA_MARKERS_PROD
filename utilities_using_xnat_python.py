@@ -1369,3 +1369,177 @@ def fill_after_dicom2nifti(session_id):
     # # log_error(step2,
     # #     func_name="fill_after_dicom2nifti",
     # # )
+def get_candidate_scans_for_dicom2nifti(
+    session_id: str,
+    target_types=("Z-Axial-Brain", "Z-Brain-Thin"),
+    ok_qualities=("usable", "questionable"),
+):
+    """
+    (1) Given a session_id, return scan_ids that match type + quality criteria.
+
+    Returns: list[str]
+    """
+    func_name = "get_candidate_scans_for_dicom2nifti"
+    try:
+        target_types_set = set(target_types)
+        ok_qualities_set = set(q.lower() for q in ok_qualities)
+
+        scan_ids = []
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            exp = sess.experiments[session_id]
+
+            for scan_id, scan in exp.scans.items():
+                stype = getattr(scan, "type", None)
+                squal = getattr(scan, "quality", None)
+
+                if stype in target_types_set and (squal or "").lower() in ok_qualities_set:
+                    scan_ids.append(str(scan_id))
+
+        return scan_ids
+
+    except Exception:
+        log_error({"session_id": session_id}, func_name)
+        return []
+
+# import os
+# import xnat
+
+# expects these to exist in your utilities file (as they already do)
+# XNAT_HOST, XNAT_USER, XNAT_PASS
+# log_error(msg, func_name)
+
+def xnat_download_scan_resource_zip(
+    session_id: str,
+    scan_id: str,
+    resource_name: str,
+    zip_path: str,
+    chunk_size: int = 1024 * 1024,
+) -> str:
+    """
+    Download *any* scan resource folder as a ZIP:
+      /data/experiments/{session_id}/scans/{scan_id}/resources/{resource_name}/files?format=zip
+
+    Returns zip_path if successful; raises on failure.
+    """
+    func_name = "xnat_download_scan_resource_zip"
+    try:
+        os.makedirs(os.path.dirname(os.path.abspath(zip_path)), exist_ok=True)
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            base = XNAT_HOST.rstrip("/")
+            url = (
+                f"{base}/data/experiments/{session_id}/scans/{scan_id}/resources/{resource_name}/files"
+                f"?format=zip"
+            )
+
+            http = getattr(sess, "interface", sess)
+            r = http.get(url, stream=True)
+            if getattr(r, "status_code", 999) != 200:
+                raise RuntimeError(
+                    f"Download failed: HTTP {r.status_code} :: {getattr(r, 'text', '')[:300]}"
+                )
+
+            with open(zip_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    if chunk:
+                        f.write(chunk)
+
+        return zip_path
+
+    except Exception as e:
+        log_error(
+            {
+                "session_id": session_id,
+                "scan_id": scan_id,
+                "resource_name": resource_name,
+                "zip_path": zip_path,
+                "error": str(e),
+            },
+            func_name,
+        )
+        raise
+
+
+def xnat_ensure_scan_resource_exists(session_id: str, scan_id: str, resource_name: str) -> None:
+    """
+    Ensure scan resource folder exists (idempotent-ish).
+    Uses REST PUT, which is commonly accepted by XNAT for resource creation.
+    """
+    func_name = "xnat_ensure_scan_resource_exists"
+    try:
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            base = XNAT_HOST.rstrip("/")
+            http = getattr(sess, "interface", sess)
+            resource_uri = f"/data/experiments/{session_id}/scans/{scan_id}/resources/{resource_name}"
+            http.put(base + resource_uri)
+    except Exception as e:
+        log_error(
+            {
+                "session_id": session_id,
+                "scan_id": scan_id,
+                "resource_name": resource_name,
+                "error": str(e),
+            },
+            func_name,
+        )
+        raise
+
+
+def xnat_upload_file_to_scan_resource(
+    session_id: str,
+    scan_id: str,
+    resource_name: str,
+    local_path: str,
+    remote_filename: str | None = None,
+    ensure_resource: bool = True,
+) -> None:
+    """
+    Upload *any* local file into *any* scan resource folder.
+
+    Upload target:
+      /data/experiments/{session_id}/scans/{scan_id}/resources/{resource_name}/files/{remote_filename}
+
+    - If remote_filename is None, uses basename(local_path)
+    - If ensure_resource True, creates the resource folder if needed.
+    - Raises on failure.
+    """
+    func_name = "xnat_upload_file_to_scan_resource"
+    try:
+        if not os.path.exists(local_path):
+            raise FileNotFoundError(f"local_path does not exist: {local_path}")
+
+        if remote_filename is None:
+            remote_filename = os.path.basename(local_path)
+
+        if ensure_resource:
+            xnat_ensure_scan_resource_exists(session_id, scan_id, resource_name)
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            base = XNAT_HOST.rstrip("/")
+            http = getattr(sess, "interface", sess)
+
+            upload_uri = (
+                f"/data/experiments/{session_id}/scans/{scan_id}/resources/{resource_name}/files/{remote_filename}"
+            )
+
+            with open(local_path, "rb") as f:
+                r = http.put(base + upload_uri, files={"file": f})
+
+            if getattr(r, "status_code", 999) not in (200, 201):
+                raise RuntimeError(
+                    f"Upload failed: HTTP {r.status_code} :: {getattr(r, 'text', '')[:300]}"
+                )
+
+    except Exception as e:
+        log_error(
+            {
+                "session_id": session_id,
+                "scan_id": scan_id,
+                "resource_name": resource_name,
+                "local_path": local_path,
+                "remote_filename": remote_filename,
+                "error": str(e),
+            },
+            func_name,
+        )
+        raise

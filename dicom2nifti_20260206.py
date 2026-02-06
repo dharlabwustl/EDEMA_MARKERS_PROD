@@ -122,8 +122,8 @@ def convert_scan_dicom_to_nifti_and_upload(
 
         tmp_root ="/ZIPFILEDIR" ## tempfile.mkdtemp(prefix=f"dcm2niix_{session_id}_{scan_id}_")
         zip_path = os.path.join(tmp_root, "dicom.zip")
-        dicom_dir = os.path.join(tmp_root, "dicom")
-        out_dir = os.path.join(tmp_root, "out")
+        dicom_dir = "/DICOMFILEDIR" ##os.path.join(tmp_root, "dicom")
+        out_dir = "/NIFTIFILEDIR" ##os.path.join(tmp_root, "out")
 
         # XNAT-dependent: download
         xnat_download_scan_resource_zip(session_id, scan_id, dicom_resource_name, zip_path)

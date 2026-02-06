@@ -200,7 +200,7 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         print("Using DICOM leaf dir:", leaf_dir, flush=True)
         log_error(
             {
-                "leaf_dir": leaf_dir,
+                "leaf_dir": leaf_dir+"I AM HERE",
             },
             func_name,
         )

@@ -1483,16 +1483,27 @@ def xnat_ensure_scan_resource_exists(session_id: str, scan_id: str, resource_nam
             func_name,
         )
         raise
-
+from typing import Optional
 
 def xnat_upload_file_to_scan_resource(
     session_id: str,
     scan_id: str,
     resource_name: str,
     local_path: str,
-    remote_filename: str | None = None,
+    remote_filename: Optional[str] = None,
     ensure_resource: bool = True,
 ) -> None:
+#     ...
+#
+#
+# def xnat_upload_file_to_scan_resource(
+#     session_id: str,
+#     scan_id: str,
+#     resource_name: str,
+#     local_path: str,
+#     remote_filename: str | None = None,
+#     ensure_resource: bool = True,
+# ) -> None:
     """
     Upload *any* local file into *any* scan resource folder.
 

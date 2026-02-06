@@ -1,17 +1,40 @@
+#!/usr/bin/env python3
+# Python 3.6 compatible (no "|" union typing)
+
 import os
 import shutil
-import tempfile
 import subprocess
 import zipfile
 from datetime import datetime
 import traceback
 import json
-from utilities_using_xnat_python import get_session_label_from_session_id, xnat_upload_file_to_scan_resource,xnat_ensure_scan_resource_exists,xnat_download_scan_resource_zip,get_candidate_scans_for_dicom2nifti
-ERROR_FILE="dicom2nifti_20260206_error.txt"
+
+from utilities_using_xnat_python import (
+    get_session_label_from_session_id,
+    xnat_upload_file_to_scan_resource,
+    xnat_ensure_scan_resource_exists,
+    xnat_download_scan_resource_zip,
+    get_candidate_scans_for_dicom2nifti,
+)
+
+# -----------------------------
+# CONFIG (mounted inside Docker)
+# -----------------------------
+ZIP_DIR = "/ZIPFILEDIR"         # mounted
+DICOM_DIR = "/DICOMFILEDIR"     # mounted
+NIFTI_DIR = "/NIFTIFILEDIR"     # mounted
+ERROR_FILE = "dicom2nifti_20260206_error.txt"
+
+# If True, keep intermediate DICOMs/NIFTIs for debugging
+KEEP_LOCAL_FILES = False
+
+
+# -----------------------------
+# LOGGING
+# -----------------------------
 def log_error(msg, func_name):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Allow structured logging
     if isinstance(msg, (dict, list)):
         msg_str = json.dumps(msg, indent=2, default=str)
     else:
@@ -27,62 +50,111 @@ def log_error(msg, func_name):
         f"Traceback:\n{tb_str}\n"
         f"{'-' * 80}\n"
     )
-
-    with open(ERROR_FILE, "a") as f:   # APPEND, not overwrite
+    with open(ERROR_FILE, "a") as f:
         f.write(err)
 
-def unzip_to_dir(zip_path: str, out_dir: str) -> None:
-    """Unzip zip_path into out_dir. No XNAT."""
+
+# -----------------------------
+# LOCAL HELPERS (no XNAT)
+# -----------------------------
+def clear_dir(dir_path):
+    """Delete everything inside dir_path but keep the directory."""
+    os.makedirs(dir_path, exist_ok=True)
+    for name in os.listdir(dir_path):
+        fp = os.path.join(dir_path, name)
+        try:
+            if os.path.isdir(fp):
+                shutil.rmtree(fp)
+            else:
+                os.remove(fp)
+        except Exception:
+            # don't crash cleanup
+            pass
+
+
+def unzip_to_dir(zip_path, out_dir):
     os.makedirs(out_dir, exist_ok=True)
     with zipfile.ZipFile(zip_path, "r") as zf:
         zf.extractall(out_dir)
 
 
-def run_dcm2niix_convert(dicom_dir: str, out_dir: str, out_base: str, force_nii: bool = True) -> None:
+def find_best_dicom_leaf_dir(root_dir):
     """
-    Run dcm2niix on dicom_dir, writing to out_dir.
-    out_base is -f argument (base name). No XNAT.
+    XNAT zips often extract into nested folders. dcm2niix works best when
+    you point it at a folder that actually contains the DICOM files.
+
+    Strategy:
+      - Prefer folders containing *.dcm
+      - If none, pick folder containing the most files
+    """
+    best_dir = None
+    best_count = -1
+
+    # First pass: *.dcm
+    for cur_root, _, files in os.walk(root_dir):
+        dcm_count = sum(1 for f in files if f.lower().endswith(".dcm"))
+        if dcm_count > best_count:
+            best_count = dcm_count
+            best_dir = cur_root
+
+    if best_dir is not None and best_count > 0:
+        return best_dir
+
+    # Second pass: any files (some DICOMs have no .dcm extension)
+    best_dir = None
+    best_count = -1
+    for cur_root, _, files in os.walk(root_dir):
+        file_count = sum(1 for f in files if os.path.isfile(os.path.join(cur_root, f)))
+        if file_count > best_count:
+            best_count = file_count
+            best_dir = cur_root
+
+    if best_dir is None or best_count <= 0:
+        raise RuntimeError("No files found after unzip; DICOM folder appears empty.")
+
+    return best_dir
+
+
+def run_dcm2niix_convert(dicom_dir, out_dir, out_base, force_nii=True):
+    """
+    Clean, single dcm2niix call.
+    Writes into out_dir.
     """
     os.makedirs(out_dir, exist_ok=True)
-    # cmd = ["dcm2niix", "-o", out_dir, "-f", out_base, "-m", "1"]
-    # out_base = f"{session_label}_{scan_id}"
 
-    cmd = [
-        "dcm2niix",
-        "-o", out_dir,
-        "-f", out_base,
-        "-m", "1",
-        "-z", "n",
-        dicom_dir,
-    ]
-
+    cmd = ["dcm2niix", "-o", out_dir, "-f", out_base, "-m", "1"]
     if force_nii:
-        cmd += ["-z", "n"]  # ensure .nii not .nii.gz
+        cmd += ["-z", "n"]  # ensure .nii
     cmd += [dicom_dir]
 
+    print("DCM2NIIX CMD:", " ".join(cmd), flush=True)
+
     p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    # Helpful in Docker logs
+    if p.stdout.strip():
+        print("dcm2niix STDOUT:\n" + p.stdout, flush=True)
+    if p.stderr.strip():
+        print("dcm2niix STDERR:\n" + p.stderr, flush=True)
+
     if p.returncode != 0:
-        raise RuntimeError(f"dcm2niix failed (rc={p.returncode})\nSTDOUT:\n{p.stdout}\nSTDERR:\n{p.stderr}")
+        raise RuntimeError(
+            "dcm2niix failed (rc={})\nCMD: {}\nSTDOUT:\n{}\nSTDERR:\n{}".format(
+                p.returncode, " ".join(cmd), p.stdout, p.stderr
+            )
+        )
 
 
-def pick_nifti_file(out_dir: str) -> str:
-    """
-    Pick the best nifti from out_dir. Strategy: choose largest .nii or .nii.gz. No XNAT.
-    """
+def pick_nifti_file(out_dir):
     files = [f for f in os.listdir(out_dir) if f.endswith(".nii") or f.endswith(".nii.gz")]
     if not files:
-        raise RuntimeError(f"No NIfTI produced in {out_dir}")
+        raise RuntimeError("No NIfTI produced in {}".format(out_dir))
     full = [os.path.join(out_dir, f) for f in files]
     return max(full, key=lambda fp: os.path.getsize(fp))
 
 
-def force_exact_output_name(nifti_path: str, out_dir: str, exact_filename: str) -> str:
-    """
-    Rename/move nifti_path into out_dir/exact_filename.
-    Returns new full path. No XNAT.
-    """
+def force_exact_output_name(nifti_path, out_dir, exact_filename):
     exact_path = os.path.join(out_dir, exact_filename)
-    # If it already exists, overwrite (optional — adjust to your preference)
     if os.path.exists(exact_path):
         os.remove(exact_path)
     os.rename(nifti_path, exact_path)
@@ -90,56 +162,65 @@ def force_exact_output_name(nifti_path: str, out_dir: str, exact_filename: str) 
 
 
 # -----------------------------
-# ORCHESTRATOR (thin wrapper)
+# PIPELINE (XNAT + local)
 # -----------------------------
-
-def convert_scan_dicom_to_nifti_and_upload(
-    session_id: str,
-    scan_id: str,
-    dicom_resource_name: str = "DICOM",
-    nifti_resource_name: str = "NIFTI",
-) -> bool:
-    """
-    Pipeline wrapper:
-      - XNAT download DICOM zip
-      - unzip locally
-      - dcm2niix locally
-      - choose best nifti + rename to session_label_scanid.nii
-      - XNAT upload to scan's NIFTI resource
-
-    Returns True/False.
-    """
+def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_name="DICOM", nifti_resource_name="NIFTI"):
     func_name = "convert_scan_dicom_to_nifti_and_upload"
-    tmp_root = None
 
     try:
         session_label = get_session_label_from_session_id(session_id)
         if not session_label:
-            raise RuntimeError(f"Could not resolve session label for session_id={session_id}")
+            raise RuntimeError("Could not resolve session label for session_id={}".format(session_id))
 
-        exact_filename = f"{session_label}_{scan_id}.nii"
-        out_base = f"{session_label}_{scan_id}"  # dcm2niix base
+        out_base = "{}_{}".format(session_label, scan_id)
+        exact_filename = out_base + ".nii"
 
-        tmp_root ="/ZIPFILEDIR" ## tempfile.mkdtemp(prefix=f"dcm2niix_{session_id}_{scan_id}_")
-        zip_path = os.path.join(tmp_root, "dicom.zip")
-        dicom_dir = "/DICOMFILEDIR" ##os.path.join(tmp_root, "dicom")
-        out_dir = "/NIFTIFILEDIR" ##os.path.join(tmp_root, "out")
+        # Use unique ZIP per scan (avoid collisions)
+        os.makedirs(ZIP_DIR, exist_ok=True)
+        zip_path = os.path.join(ZIP_DIR, "{}_{}_{}.zip".format(session_id, scan_id, dicom_resource_name))
 
-        # XNAT-dependent: download
+        # Ensure working dirs exist
+        os.makedirs(DICOM_DIR, exist_ok=True)
+        os.makedirs(NIFTI_DIR, exist_ok=True)
+
+        # IMPORTANT: clear mounted dirs per scan to avoid leftovers
+        clear_dir(DICOM_DIR)
+        clear_dir(NIFTI_DIR)
+
+        # 1) Download resource zip
         xnat_download_scan_resource_zip(session_id, scan_id, dicom_resource_name, zip_path)
+        if not os.path.exists(zip_path) or os.path.getsize(zip_path) == 0:
+            raise RuntimeError("Downloaded zip missing/empty: {}".format(zip_path))
 
-        # Local: unzip + convert
-        unzip_to_dir(zip_path, dicom_dir)
-        run_dcm2niix_convert(dicom_dir=dicom_dir, out_dir=out_dir, out_base=out_base, force_nii=True)
+        # 2) Unzip into mounted DICOM_DIR
+        unzip_to_dir(zip_path, DICOM_DIR)
 
-        # Local: choose output + rename exactly
-        produced = pick_nifti_file(out_dir)
-        produced_exact = force_exact_output_name(produced, out_dir, exact_filename)
+        # 3) Find best dicom leaf directory
+        leaf_dir = find_best_dicom_leaf_dir(DICOM_DIR)
+        print("Using DICOM leaf dir:", leaf_dir, flush=True)
 
-        # XNAT-dependent: ensure resource + upload
+        # 4) Convert into mounted NIFTI_DIR
+        run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
+
+        # 5) Pick produced nifti and ensure exact filename
+        produced = pick_nifti_file(NIFTI_DIR)
+        produced_exact = force_exact_output_name(produced, NIFTI_DIR, exact_filename)
+
+        # 6) Upload to scan resource NIFTI
         xnat_ensure_scan_resource_exists(session_id, scan_id, nifti_resource_name)
         xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, produced_exact, exact_filename)
 
+        # Optional cleanup
+        if not KEEP_LOCAL_FILES:
+            try:
+                os.remove(zip_path)
+            except Exception:
+                pass
+            clear_dir(DICOM_DIR)
+            # keep NIFTI_DIR file? if you want local visibility set KEEP_LOCAL_FILES=True
+            clear_dir(NIFTI_DIR)
+
+        print("✅ Completed:", session_id, scan_id, produced_exact, flush=True)
         return True
 
     except Exception as e:
@@ -150,18 +231,42 @@ def convert_scan_dicom_to_nifti_and_upload(
                 "dicom_resource": dicom_resource_name,
                 "nifti_resource": nifti_resource_name,
                 "error": str(e),
+                "ZIP_DIR": ZIP_DIR,
+                "DICOM_DIR": DICOM_DIR,
+                "NIFTI_DIR": NIFTI_DIR,
             },
             func_name,
         )
+        print("❌ Failed:", session_id, scan_id, str(e), flush=True)
         return False
 
-    finally:
-        if tmp_root and os.path.isdir(tmp_root):
-            x=1
-            # shutil.rmtree(tmp_root, ignore_errors=True)
+
+def run_dicom2nifti_for_session(session_id, dicom_resource_name="DICOM", nifti_resource_name="NIFTI"):
+    func_name = "run_dicom2nifti_for_session"
+    try:
+        scan_ids = get_candidate_scans_for_dicom2nifti(session_id)
+        print("Candidate scans:", scan_ids, flush=True)
+
+        ok, fail = [], []
+        for scan_id in scan_ids:
+            success = convert_scan_dicom_to_nifti_and_upload(
+                session_id=session_id,
+                scan_id=str(scan_id),
+                dicom_resource_name=dicom_resource_name,
+                nifti_resource_name=nifti_resource_name,
+            )
+            (ok if success else fail).append(str(scan_id))
+
+        print("DONE. OK:", ok, "FAILED:", fail, flush=True)
+        return {"session_id": session_id, "ok": ok, "failed": fail}
+
+    except Exception as e:
+        log_error({"session_id": session_id, "error": str(e)}, func_name)
+        return {"session_id": session_id, "ok": [], "failed": [], "error": str(e)}
 
 
-def run_dicom2nifti_for_session(session_id: str):
-    scan_ids = get_candidate_scans_for_dicom2nifti(session_id)   # <-- call it here (once)
-    for scan_id in scan_ids:
-        convert_scan_dicom_to_nifti_and_upload(session_id, scan_id)
+# Optional CLI
+# if __name__ == "__main__":
+#     import sys
+#     sid = sys.argv[1]
+#     run_dicom2nifti_for_session(sid)

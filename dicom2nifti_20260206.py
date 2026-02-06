@@ -232,38 +232,46 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         command = "mv " + niftifile + "  " + new_filename_path
         subprocess.call(command, shell=True)
 
-        return
+        # return
 
-        # 4) Convert into mounted NIFTI_DIR
-        dicom2nifti_convert_select_largest_and_rename(
-                leaf_dir,
-                NIFTI_DIR,
-                session_label,
-                scan_id,
-                # keep_all_niftis: bool = True,
-        )
-        # run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
-        return
+        # # 4) Convert into mounted NIFTI_DIR
+        # dicom2nifti_convert_select_largest_and_rename(
+        #         leaf_dir,
+        #         NIFTI_DIR,
+        #         session_label,
+        #         scan_id,
+        #         # keep_all_niftis: bool = True,
+        # )
+        # # run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
+        # return
+        #
+        # # 5) Pick produced nifti and ensure exact filename
+        # produced = pick_nifti_file(NIFTI_DIR)
+        # produced_exact = force_exact_output_name(produced, NIFTI_DIR, exact_filename)
+        #
+        # # 6) Upload to scan resource NIFTI
+        # # xnat_ensure_scan_resource_exists(session_id, scan_id, nifti_resource_name)
+        xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, exact_filename, os.path.basename(exact_filename))
 
-        # 5) Pick produced nifti and ensure exact filename
-        produced = pick_nifti_file(NIFTI_DIR)
-        produced_exact = force_exact_output_name(produced, NIFTI_DIR, exact_filename)
-
-        # 6) Upload to scan resource NIFTI
-        xnat_ensure_scan_resource_exists(session_id, scan_id, nifti_resource_name)
-        xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, produced_exact, exact_filename)
-
+        # def xnat_upload_file_to_scan_resource(
+        #         session_id: str,
+        #         scan_id: str,
+        #         resource_name: str,
+        #         local_path: str,
+        #         remote_filename: Optional[str] = None,
+        #         ensure_resource: bool = True,
+        # )
         # Optional cleanup
         if not KEEP_LOCAL_FILES:
             try:
                 os.remove(zip_path)
             except Exception:
                 pass
-            # clear_dir(DICOM_DIR)
+            clear_dir(DICOM_DIR)
             # keep NIFTI_DIR file? if you want local visibility set KEEP_LOCAL_FILES=True
-            # clear_dir(NIFTI_DIR)
+            clear_dir(NIFTI_DIR)
 
-        print("✅ Completed:", session_id, scan_id, produced_exact, flush=True)
+        print("✅ Completed:", session_id, scan_id, exact_filename, flush=True)
         return True
 
     except Exception as e:

@@ -252,7 +252,12 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         # # 6) Upload to scan resource NIFTI
         # # xnat_ensure_scan_resource_exists(session_id, scan_id, nifti_resource_name)
         xnat_upload_file_to_scan_resource(session_id, scan_id, nifti_resource_name, new_filename_path, exact_filename)
-
+        log_error(
+            {
+                "leaf_dir": new_filename_path+ exact_filename "I AM HERE",
+            },
+            func_name,
+        )
         # def xnat_upload_file_to_scan_resource(
         #         session_id: str,
         #         scan_id: str,

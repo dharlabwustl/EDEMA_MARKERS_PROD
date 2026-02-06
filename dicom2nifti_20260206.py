@@ -200,7 +200,14 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         print("Using DICOM leaf dir:", leaf_dir, flush=True)
 
         # 4) Convert into mounted NIFTI_DIR
-        run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
+        dicom2nifti_convert_select_largest_and_rename(
+                leaf_dir,
+                NIFTI_DIR,
+                session_label,
+                scan_id,
+                # keep_all_niftis: bool = True,
+        )
+        # run_dcm2niix_convert(dicom_dir=leaf_dir, out_dir=NIFTI_DIR, out_base=out_base, force_nii=True)
         return
 
         # 5) Pick produced nifti and ensure exact filename
@@ -241,6 +248,114 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
         print("❌ Failed:", session_id, scan_id, str(e), flush=True)
         return False
 
+# import os
+# import subprocess
+
+
+def dicom2nifti_convert_select_largest_and_rename(
+    dicom_dir: str,
+    out_dir: str,
+    session_label: str,
+    scan_id: str,
+    keep_all_niftis: bool = True,
+) -> str:
+    """
+    Convert DICOM->NIfTI using dcm2niix, then:
+      - if multiple NIfTIs produced, pick the largest by filesize
+      - rename it using the same naming logic from get_dicom_using_xnat()
+
+    Naming rule (same as your old code):
+        new_filename = "_".join((
+            "_".join(session_label.split("_")[0:2]),
+            "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12]),
+            scan_id
+        )) + ".nii"
+
+    Params
+    ------
+    dicom_dir : str
+        Path to directory containing DICOM files (already present locally).
+    out_dir : str
+        Output directory where dcm2niix will write NIfTI(s).
+    session_label : str
+        Session label string (e.g., from get_session_label(sessionId)).
+    scan_id : str
+        Scan ID (XNAT scan ID as string).
+    keep_all_niftis : bool
+        If False, delete other NIfTIs in out_dir after selecting+renaming the largest.
+
+    Returns
+    -------
+    str
+        Full path to the renamed "selected" NIfTI.
+    """
+    os.makedirs(out_dir, exist_ok=True)
+
+    # 1) Run dcm2niix (match your old behavior: -m 1, filename pattern %t)
+    cmd = ["dcm2niix", "-o", out_dir, "-f", "%t", "-m", "1", dicom_dir]
+    print("DCM2NIIX CMD:", " ".join(cmd), flush=True)
+    p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if p.stdout.strip():
+        print("dcm2niix STDOUT:\n" + p.stdout, flush=True)
+    if p.stderr.strip():
+        print("dcm2niix STDERR:\n" + p.stderr, flush=True)
+    if p.returncode != 0:
+        raise RuntimeError(
+            "dcm2niix failed (rc={})\nCMD: {}\nSTDOUT:\n{}\nSTDERR:\n{}".format(
+                p.returncode, " ".join(cmd), p.stdout, p.stderr
+            )
+        )
+
+    # 2) Collect NIfTIs
+    nifti_files = [
+        f for f in os.listdir(out_dir)
+        if f.endswith(".nii") or f.endswith(".nii.gz")
+    ]
+    if not nifti_files:
+        raise RuntimeError("No NIfTI produced in {}".format(out_dir))
+
+    # 3) Pick largest
+    largest_file = max(
+        nifti_files,
+        key=lambda f: os.path.getsize(os.path.join(out_dir, f))
+    )
+    largest_path = os.path.join(out_dir, largest_file)
+
+    # 4) Build new filename using your exact convention
+    # current_filename = basename without .nii / .nii.gz
+    base = os.path.basename(largest_path)
+    if base.endswith(".nii.gz"):
+        current_filename = base[:-7]
+    else:
+        current_filename = base.split(".nii")[0]
+
+    prefix = "_".join(session_label.split("_")[0:2])
+    if len(current_filename) >= 12:
+        mid = "{}{}_{}".format(current_filename[4:8], current_filename[0:4], current_filename[8:12])
+    else:
+        # fallback if dcm2niix name isn't long enough
+        mid = current_filename
+
+    new_filename = "_".join((prefix, mid, str(scan_id))) + ".nii"
+    new_path = os.path.join(out_dir, new_filename)
+
+    if os.path.exists(new_path):
+        os.remove(new_path)
+
+    os.rename(largest_path, new_path)
+    print("Selected+Renamed:", largest_path, "->", new_path, flush=True)
+
+    # 5) Optionally delete the other NIfTIs
+    if not keep_all_niftis:
+        for f in nifti_files:
+            fp = os.path.join(out_dir, f)
+            if fp != new_path and os.path.exists(fp):
+                try:
+                    os.remove(fp)
+                except Exception:
+                    pass
+
+    return new_path
 
 def run_dicom2nifti_for_session(session_id, dicom_resource_name="DICOM", nifti_resource_name="NIFTI"):
     func_name = "run_dicom2nifti_for_session"

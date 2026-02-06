@@ -545,6 +545,7 @@ def load_csv_to_mysql(
         print(f"[INFO] Inserted {total} rows...", flush=True)
 
     print(f"✅ Done. Loaded ~{total} rows into `{table}`.")
+    make_column_primary_key(engine, table, "SESSION_ID")
     return {"table": table, "total_rows": total}
 
 # ------------------ Main ------------------------------------------------------
@@ -982,6 +983,51 @@ def railway_drop_table(table_name: str, *, confirm: bool = False) -> bool:
 
     except SQLAlchemyError as e:
         raise RuntimeError(f"Failed to drop table '{table_name}': {e}") from e
+from sqlalchemy import text
+
+def make_column_primary_key(engine, table_name: str, column_name: str):
+    """
+    Make `column_name` the PRIMARY KEY of `table_name`.
+
+    - Drops existing primary key if present
+    - Assumes column already exists
+    """
+    with engine.begin() as conn:
+        # Check column exists
+        res = conn.execute(
+            text("""
+                SELECT COUNT(*)
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_SCHEMA = DATABASE()
+                  AND TABLE_NAME = :table
+                  AND COLUMN_NAME = :col
+            """),
+            {"table": table_name, "col": column_name},
+        ).scalar()
+
+        if res == 0:
+            raise ValueError(f"Column `{column_name}` does not exist in table `{table_name}`")
+
+        # Check if PK already exists
+        pk = conn.execute(
+            text("""
+                SELECT COUNT(*)
+                FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+                WHERE TABLE_SCHEMA = DATABASE()
+                  AND TABLE_NAME = :table
+                  AND CONSTRAINT_TYPE = 'PRIMARY KEY'
+            """),
+            {"table": table_name},
+        ).scalar()
+
+        if pk > 0:
+            print(f"[INFO] Dropping existing PRIMARY KEY on `{table_name}`")
+            conn.execute(text(f"ALTER TABLE `{table_name}` DROP PRIMARY KEY"))
+
+        print(f"[INFO] Setting `{column_name}` as PRIMARY KEY on `{table_name}`")
+        conn.execute(
+            text(f"ALTER TABLE `{table_name}` ADD PRIMARY KEY (`{column_name}`)")
+        )
 
 # def main():
 # #     # create_table('/home/atul/Downloads/sessions_COLI_BEFORE_SORTING_STEP1_20231208210754.csv')

@@ -54,9 +54,10 @@ if [[ ${TYPE_OF_PROGRAM} == 'TEST_A_CODE' ]]; then
   echo " I AM AT TEST_A_CODE" >> /software/ERROR.txt
   echo " I AM AT TEST_A_CODE"
     echo $SESSION_ID::$SESSION_ID::$SESSION_ID::"$SESSION_ID"
+    /software/dicom2nifti_call_20260206.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 #  /software/upload_pdf_to_redcap.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 #  /software/download_pdf_to_local.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
- /software/upload_sessions_list_to_railway.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
+# /software/upload_sessions_list_to_railway.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'DOWNLOAD_PDF_TO_LOCAL' ]]; then
   echo " I AM AT TEST_A_CODE" >> /software/ERROR.txt
@@ -513,6 +514,8 @@ fi
 if [[ ${TYPE_OF_PROGRAM} == 'DICOM2NIFTI' ]]; then
   /software/dicom2nifti_call_03132024.sh  ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST
 fi
+
+
 if [[ ${TYPE_OF_PROGRAM} == 'EDEMABIOMARKERS' ]]; then
   echo " AI M HERE"
    echo ${SESSION_ID} $XNAT_USER $XNAT_PASS $XNAT_HOST

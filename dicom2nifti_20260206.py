@@ -382,7 +382,7 @@ def run_dicom2nifti_for_session(session_id, dicom_resource_name="DICOM", nifti_r
                 nifti_resource_name=nifti_resource_name,
             )
             (ok if success else fail).append(str(scan_id))
-
+        return
         print("DONE. OK:", ok, "FAILED:", fail, flush=True)
         return {"session_id": session_id, "ok": ok, "failed": fail}
 

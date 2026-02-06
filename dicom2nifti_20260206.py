@@ -267,9 +267,9 @@ def convert_scan_dicom_to_nifti_and_upload(session_id, scan_id, dicom_resource_n
                 os.remove(zip_path)
             except Exception:
                 pass
-            clear_dir(DICOM_DIR)
+            # clear_dir(DICOM_DIR)
             # keep NIFTI_DIR file? if you want local visibility set KEEP_LOCAL_FILES=True
-            clear_dir(NIFTI_DIR)
+            # clear_dir(NIFTI_DIR)
 
         print("✅ Completed:", session_id, scan_id, exact_filename, flush=True)
         return True

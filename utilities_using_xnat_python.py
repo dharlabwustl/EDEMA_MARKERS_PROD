@@ -791,6 +791,10 @@ def create_new_sessionlist_table_in_railway(project_id: str) -> str:
         log_error(f"table created in the railway: {project_id}", func_name)
         load_csv_to_mysql(f'/software/{project_id}.csv')
     log_error(f"table present in the railway: {table_present}", func_name)
+def create_new_sessionlist_table_in_railway_with_session_id(session_id: str) -> str:
+
+    proj_id,subj_id=given_sessionid_get_project_n_subjectids(session_id)
+    create_new_sessionlist_table_in_railway(proj_id)
 
 def xnat_download_project_sessions_csv(
     project_id: str,

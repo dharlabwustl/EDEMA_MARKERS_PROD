@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="New Commitdgfdgf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom2nifti_20260206.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom2nifti_20260206.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,9 +104,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/../../download_files" />
       <recent name="$PROJECT_DIR$/../TEST_EDEMA_MARKERS_PROD" />
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/../TEST_PIPELINE" />
     </key>
   </component>
@@ -492,7 +493,7 @@
       <option name="project" value="LOCAL" />
       <updated>1707827360595</updated>
     </task>
-    <option name="localTasksCounter" value="5753" />
+    <option name="localTasksCounter" value="5755" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

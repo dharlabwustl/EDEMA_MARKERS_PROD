@@ -44,7 +44,18 @@ def run_dcm2niix_convert(dicom_dir: str, out_dir: str, out_base: str, force_nii:
     out_base is -f argument (base name). No XNAT.
     """
     os.makedirs(out_dir, exist_ok=True)
-    cmd = ["dcm2niix", "-o", out_dir, "-f", out_base, "-m", "1"]
+    # cmd = ["dcm2niix", "-o", out_dir, "-f", out_base, "-m", "1"]
+    # out_base = f"{session_label}_{scan_id}"
+
+    cmd = [
+        "dcm2niix",
+        "-o", out_dir,
+        "-f", out_base,
+        "-m", "1",
+        "-z", "n",
+        dicom_dir,
+    ]
+
     if force_nii:
         cmd += ["-z", "n"]  # ensure .nii not .nii.gz
     cmd += [dicom_dir]

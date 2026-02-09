@@ -1555,3 +1555,126 @@ def xnat_upload_file_to_scan_resource(
             func_name,
         )
         raise
+import inspect
+
+def xnat_get_scans_list_in_session(session_id: str):
+    """
+    (1) Given an XNAT session/experiment ID, return list of scans in that session.
+
+    Returns: list[dict]
+      [
+        {"scan_id": "1", "type": "...", "quality": "...", "series_description": "...", "frames": ...},
+        ...
+      ]
+    """
+    func_name = inspect.currentframe().f_code.co_name
+    try:
+        out = []
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            if session_id not in sess.experiments:
+                log_error(f"Session ID not found on XNAT: {session_id}", func_name)
+                return []
+
+            exp = sess.experiments[session_id]
+            for scan_id, scan in exp.scans.items():
+                out.append({
+                    "scan_id": str(scan_id),
+                    "type": getattr(scan, "type", None),
+                    "quality": getattr(scan, "quality", None),
+                    "series_description": getattr(scan, "series_description", None),
+                    "frames": getattr(scan, "frames", None),
+                })
+        return out
+
+    except Exception:
+        log_error({"session_id": session_id}, func_name)
+        return []
+
+
+def xnat_set_all_scan_types_in_session(session_id: str, new_type: str = "Z-Axial-Brain", dry_run: bool = False):
+    """
+    (2) For each scan in the session, update scan type to `new_type`.
+
+    Returns dict summary:
+      {
+        "session_id": ...,
+        "new_type": ...,
+        "updated": [{"scan_id":..., "old_type":..., "method":...}, ...],
+        "skipped": [{"scan_id":..., "reason":...}, ...],
+        "errors":  [{"scan_id":..., "error":...}, ...]
+      }
+
+    Implementation notes:
+    - Uses REST PUT via xnatpy interface.
+    - Tries multiple common XNAT field keys for 'type' to handle different scan datatypes.
+    """
+    func_name = inspect.currentframe().f_code.co_name
+    summary = {"session_id": session_id, "new_type": new_type, "updated": [], "skipped": [], "errors": []}
+
+    try:
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            if session_id not in sess.experiments:
+                msg = f"Session ID not found on XNAT: {session_id}"
+                log_error(msg, func_name)
+                summary["errors"].append({"scan_id": None, "error": msg})
+                return summary
+
+            exp = sess.experiments[session_id]
+            base = XNAT_HOST.rstrip("/")
+            http = getattr(sess, "interface", sess)
+
+            # Iterate scans
+            for scan_id, scan in exp.scans.items():
+                scan_id = str(scan_id)
+                old_type = getattr(scan, "type", None)
+
+                if old_type == new_type:
+                    summary["skipped"].append({"scan_id": scan_id, "reason": "already_target_type"})
+                    continue
+
+                if dry_run:
+                    summary["skipped"].append({"scan_id": scan_id, "reason": f"dry_run(old_type={old_type})"})
+                    continue
+
+                # Try different attribute keys (XNAT differs by scan datatype)
+                # Most common is xnat:imagescandata/type
+                candidates = [
+                    "xnat:ctScanData/type",
+                    "type",
+                ]
+
+                updated = False
+                last_err = None
+
+                for key in candidates:
+                    try:
+                        # PUT /data/experiments/{session_id}/scans/{scan_id}?{key}={new_type}
+                        url = f"{base}/data/experiments/{session_id}/scans/{scan_id}"
+                        r = http.put(url, params={key: new_type})
+
+                        code = getattr(r, "status_code", None)
+                        ok = (code in (200, 201)) or getattr(r, "ok", False)
+
+                        if ok:
+                            summary["updated"].append({
+                                "scan_id": scan_id,
+                                "old_type": old_type,
+                                "method": f"PUT params {key}={new_type}",
+                                "http_status": code,
+                            })
+                            updated = True
+                            break
+                        else:
+                            last_err = f"HTTP {code} {getattr(r, 'text', '')[:200]}"
+                    except Exception as e:
+                        last_err = str(e)
+
+                if not updated:
+                    summary["errors"].append({"scan_id": scan_id, "error": last_err or "unknown_error"})
+
+        return summary
+
+    except Exception:
+        log_error({"session_id": session_id, "new_type": new_type}, func_name)
+        summary["errors"].append({"scan_id": None, "error": "Unhandled exception (see error log)"})
+        return summary

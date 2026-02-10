@@ -13,7 +13,7 @@ python3 -c "from utilities_using_xnat_python import get_id_from_nifti_location_c
 )
 
 RESOURCE_DIR="SAH_CSF_ANALYSIS" ###"EDEMA_BIOMARKER_WITH_COMPARTMENTS" #"EDEMA_BIOMARKER_WITH_COMPARTMENTS" ##"EDEMA_BIOMARKER"
-EXT='.pdf'
+EXT='.csv' #.pdf'
 LATEST_URI=$(
 python3 -c "from utilities_using_xnat_python import get_latest_file_uri_from_scan_resource; \
 print(get_latest_file_uri_from_scan_resource('${SESSION_ID}','${ID_VALUE}','${RESOURCE_DIR}','${EXT}'))"

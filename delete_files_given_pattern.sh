@@ -11,7 +11,7 @@ if val is not None:
 EOF
 )
 resourceName="MASKS"
-pattern='ventricle'
+pattern='ventricle.nii'
 patternType='regex'
 echo "NIFTI_ID = $scanID"
 python3 - <<EOF
@@ -28,7 +28,7 @@ summary = xnat_delete_files_in_scan_resource_by_pattern(
 
 print(summary)
 EOF
-pattern='total'
+pattern='total.nii'
 python3 - <<EOF
 from utilities_using_xnat_python import xnat_delete_files_in_scan_resource_by_pattern
 

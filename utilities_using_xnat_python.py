@@ -1821,3 +1821,163 @@ def get_value_from_csv_match(
     except Exception as e:
         print(f"Error: {e}")
         return None
+
+
+import re
+import fnmatch
+import inspect
+
+def xnat_delete_files_in_scan_resource_by_pattern(
+        session_id: str,
+        scan_id: str,
+        resource_name: str,
+        pattern: str,
+        *,
+        pattern_type: str = "regex",   # "regex" or "glob"
+        dry_run: bool = False,
+) -> dict:
+    """
+    Delete files in a scan-level resource folder whose filenames match a pattern.
+
+    Parameters
+    ----------
+    session_id : str
+        XNAT experiment/session ID
+    scan_id : str
+        Scan ID within the session
+    resource_name : str
+        Scan resource directory name (e.g., "NIFTI", "DICOM", "MASKS", ...)
+    pattern : str
+        Matching pattern (regex by default, or glob if pattern_type="glob")
+    pattern_type : str
+        "regex" (default) or "glob"
+    dry_run : bool
+        If True, do not delete; only report what would be deleted.
+
+    Returns
+    -------
+    dict
+      {
+        "session_id": ...,
+        "scan_id": ...,
+        "resource_name": ...,
+        "pattern": ...,
+        "pattern_type": ...,
+        "dry_run": ...,
+        "matched": [<filenames>],
+        "deleted": [<filenames>],
+        "skipped": [<filenames>],
+        "errors": [{"filename": ..., "error": ...}, ...]
+      }
+    """
+    func_name = inspect.currentframe().f_code.co_name
+    summary = {
+        "session_id": session_id,
+        "scan_id": str(scan_id),
+        "resource_name": resource_name,
+        "pattern": pattern,
+        "pattern_type": pattern_type,
+        "dry_run": dry_run,
+        "matched": [],
+        "deleted": [],
+        "skipped": [],
+        "errors": [],
+    }
+
+    try:
+        if not session_id or not str(session_id).strip():
+            raise ValueError("session_id is empty")
+        if not scan_id or not str(scan_id).strip():
+            raise ValueError("scan_id is empty")
+        if not resource_name or not str(resource_name).strip():
+            raise ValueError("resource_name is empty")
+        if not pattern:
+            raise ValueError("pattern is empty")
+
+        # Compile regex once if needed
+        rx = None
+        if pattern_type.lower() == "regex":
+            rx = re.compile(pattern)
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as sess:
+            if session_id not in sess.experiments:
+                raise ValueError(f"Session ID not found on XNAT: {session_id}")
+
+            exp = sess.experiments[session_id]
+
+            if str(scan_id) not in exp.scans:
+                raise ValueError(f"Scan ID not found in session: {scan_id}")
+
+            scan = exp.scans[str(scan_id)]
+
+            if resource_name not in scan.resources:
+                raise ValueError(f'Scan resource "{resource_name}" not found (scan_id={scan_id})')
+
+            res = scan.resources[resource_name]
+
+            # Collect matching filenames (keys may include paths in some XNATs)
+            all_names = [str(k) for k in res.files.keys()]
+            matched = []
+            for name in all_names:
+                base = name.split("/")[-1]  # match on basename, safer
+                if rx is not None:
+                    if rx.search(base):
+                        matched.append(name)
+                else:
+                    if fnmatch.fnmatch(base, pattern):
+                        matched.append(name)
+
+            summary["matched"] = matched
+
+            if not matched:
+                return summary
+
+            if dry_run:
+                summary["skipped"] = matched
+                return summary
+
+            base_url = XNAT_HOST.rstrip("/")
+            http = getattr(sess, "interface", sess)
+
+            for name in matched:
+                try:
+                    # Delete endpoint:
+                    # /data/experiments/{session}/scans/{scan}/resources/{resource}/files/{filename}
+                    delete_url = (
+                        f"{base_url}/data/experiments/{session_id}/scans/{scan_id}"
+                        f"/resources/{resource_name}/files/{name}"
+                    )
+
+                    r = http.delete(delete_url)
+
+                    code = getattr(r, "status_code", None)
+                    ok = (code in (200, 202, 204)) or getattr(r, "ok", False)
+
+                    if ok:
+                        summary["deleted"].append(name)
+                    else:
+                        summary["errors"].append({
+                            "filename": name,
+                            "error": f"HTTP {code} {getattr(r, 'text', '')[:300]}",
+                        })
+
+                except Exception as e:
+                    summary["errors"].append({"filename": name, "error": str(e)})
+
+            return summary
+
+    except Exception as e:
+        log_error(
+            {
+                "session_id": session_id,
+                "scan_id": scan_id,
+                "resource_name": resource_name,
+                "pattern": pattern,
+                "pattern_type": pattern_type,
+                "dry_run": dry_run,
+                "error": str(e),
+                "summary_so_far": summary,
+            },
+            func_name,
+        )
+        return summary

@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b7703539-bebb-46f9-9292-022aedf7fa67" name="Changes" comment="New Commitdgfdgf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/download_pdf_to_local.sh" beforeDir="false" afterPath="$PROJECT_DIR$/download_pdf_to_local.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities_using_xnat_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities_using_xnat_python.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,13 +133,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -700,6 +700,34 @@ def get_session_label_from_session_id(session_id: str):
         return None
 
 
+def get_session_id_from_session_label(session_label: str):
+    """
+    Given an XNAT session label, return the session ID (experiment ID).
+
+    Returns:
+      - session_id (str) OR None on failure
+    """
+
+    func_name = inspect.currentframe().f_code.co_name
+
+    try:
+        if not session_label or not str(session_label).strip():
+            log_error("session_label is empty", func_name)
+            return None
+
+        with xnat.connect(XNAT_HOST, user=XNAT_USER, password=XNAT_PASS) as conn:
+
+            # Iterate through experiments to find matching label
+            for exp_id, exp in conn.experiments.items():
+                if exp.label == session_label:
+                    return exp_id
+
+            log_error(f"Session label not found on XNAT: {session_label}", func_name)
+            return None
+
+    except Exception:
+        log_error("Unhandled exception during get_session_id_from_session_label", func_name)
+        return None
 def upload_file_to_project_resource(
     project_id: str,
     resource_label: str,

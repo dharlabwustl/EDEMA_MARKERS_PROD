@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+echo " I AM TRYING TO DELETE FILES"
 sessionID=${1}
 scanID=$(python3 - <<EOF
 from utilities_using_xnat_python import get_id_from_nifti_location_csv

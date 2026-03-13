@@ -34,6 +34,7 @@ if [[ ${TYPE_OF_PROGRAM} == 'TEST_CODE_ON_ATUL_UBUNTU_DESKTOP' ]]; then
   /software/run_ssh_test.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi
 if [[ ${TYPE_OF_PROGRAM} == 'DELETE_FILES_GIVEN_PATTERN' ]]; then
+  echo "I AM IN THE SCRIPT TO CALL FOR DELETING FILE"
 #  /software/single_data_mask_on_gray_pdf.sh $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
   /software/delete_files_given_pattern.sh  $SESSION_ID $XNAT_USER $XNAT_PASS $XNAT_HOST /input1 /output
 fi

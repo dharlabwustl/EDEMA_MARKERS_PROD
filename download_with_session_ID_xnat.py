@@ -16,11 +16,29 @@ import argparse,xmltodict
 from biomarkerdbclass import  BiomarkerDB
 from redcapapi_functions import *
 catalogXmlRegex = re.compile(r'.*\.xml$')
-XNAT_HOST_URL=os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
+XNAT_HOST_URL= "https://snipr02.nrg.wustl.edu" ##'https://snipr.wustl.edu' ##os.environ['XNAT_HOST']  #'http://snipr02.nrg.wustl.edu:8080' #'https://snipr02.nrg.wustl.edu' #'https://snipr.wustl.edu'
 XNAT_HOST = XNAT_HOST_URL # os.environ['XNAT_HOST'] #
-XNAT_USER = os.environ['XNAT_USER']#
+XNAT_USER =os.environ['XNAT_USER']#
 XNAT_PASS =os.environ['XNAT_PASS'] #
 api_token=os.environ['REDCAP_API']
+print('{}::{}::{}'.format(XNAT_HOST,XNAT_USER,XNAT_PASS))
+# # python3 - <<'PY'
+# import os
+# import xnat
+
+# print("XNATpy module:", xnat.__file__)
+
+# connection = xnat.connect(
+#     XNAT_HOST,
+#     user=XNAT_USER, #os.environ["XNAT_USER"],
+#     password=XNAT_PASS, ##os.environ["XNAT_PASS"],
+#     no_parse_model=True,
+#     debug=True,
+# )
+
+# print("XNAT login successful")
+# connection.disconnect()
+# # PY
 xnatSession = xnat.connect(
     XNAT_HOST,
     user=XNAT_USER,

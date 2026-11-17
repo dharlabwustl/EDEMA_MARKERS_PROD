@@ -51,7 +51,7 @@ function call_get_resourcefiles_metadata_saveascsv_args() {
 sessions_list=${working_dir}/'sessions.csv'
 time_now=$(date -dnow +%Y%m%d%H%M%S)
 copy_session=${sessions_list%.csv}_${project_ID}_ANALYTICS_STEP1_${time_now}.csv
-
+echo "curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}"
 curl -u $XNAT_USER:$XNAT_PASS -X GET $XNAT_HOST/data/projects/${project_ID}/experiments/?format=csv >${sessions_list}
 
 filter_ctsession_arguments=('filter_ctsession' ${sessions_list} ${sessions_list})

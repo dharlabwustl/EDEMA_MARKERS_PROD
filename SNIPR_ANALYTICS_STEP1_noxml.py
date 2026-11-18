@@ -125,9 +125,10 @@ def session_values(connection, session_id, subject_labels):
     acquired = None
     if fields.get("date") and fields.get("time"):
         try:
-            acquired = datetime.fromisoformat(
-                f"{fields['date']}T{fields['time']}"
-            ).strftime("%m/%d/%Y %H:%M")
+            # Step 1 records local acquisition time to minute precision.
+            date = datetime.strptime(fields["date"], "%Y-%m-%d")
+            time = datetime.strptime(fields["time"][:5], "%H:%M")
+            acquired = date.replace(hour=time.hour, minute=time.minute).strftime("%m/%d/%Y %H:%M")
         except ValueError:
             logging.warning("Invalid acquisition date or time for session %s", session_id)
 

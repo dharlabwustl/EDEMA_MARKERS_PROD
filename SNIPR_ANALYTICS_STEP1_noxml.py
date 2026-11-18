@@ -5,10 +5,14 @@ import argparse
 import logging
 import os
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import ExitStack
 from datetime import datetime
+from functools import partial
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from threading import Lock, local
 from urllib.parse import quote
 
 import pandas as pd
@@ -166,7 +170,38 @@ def upload_csv(connection, host, project_uri, resource, path):
     response.raise_for_status()
 
 
-def run(connection, host, project, working_dir):
+def enrich_sessions(connection, sessions, subject_labels, connect, workers):
+    total = len(sessions)
+    active_workers = min(workers, total)
+    logging.info("Processing %d CT sessions with %d worker(s)", total, active_workers)
+    if active_workers <= 1:
+        for completed, (index, session_id) in enumerate(sessions.items(), 1):
+            yield index, session_values(connection, session_id, subject_labels)
+            if completed % 25 == 0 or completed == total:
+                logging.info("Processed %d/%d CT sessions", completed, total)
+        return
+
+    worker = local()
+    connection_lock = Lock()
+    with ExitStack() as connections, ThreadPoolExecutor(max_workers=active_workers) as pool:
+        def enrich(session_id):
+            if not hasattr(worker, "connection"):
+                with connection_lock:
+                    worker.connection = connections.enter_context(connect())
+            return session_values(worker.connection, session_id, subject_labels)
+
+        pending = {pool.submit(enrich, session_id): index for index, session_id in sessions.items()}
+        try:
+            for completed, future in enumerate(as_completed(pending), 1):
+                yield pending[future], future.result()
+                if completed % 25 == 0 or completed == total:
+                    logging.info("Processed %d/%d CT sessions", completed, total)
+        finally:
+            for future in pending:
+                future.cancel()
+
+
+def run(connection, host, project, working_dir, connect=None, workers=1):
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     project_uri = f"/data/projects/{quote(project, safe='')}"
     sessions = project_csv(connection, f"{project_uri}/experiments/")
@@ -181,8 +216,8 @@ def run(connection, host, project, working_dir):
     analytics = sessions.copy()
     for column in ENRICHMENT_COLUMNS:
         analytics[column] = None
-    for index, session_id in sessions["ID"].items():
-        for column, value in session_values(connection, session_id, subject_labels).items():
+    for index, values in enrich_sessions(connection, sessions["ID"], subject_labels, connect, workers):
+        for column, value in values.items():
             analytics.at[index, column] = value
 
     before_sorting = working_dir / f"sessions_{project}_BEFORE_SORTING_STEP1_{timestamp}.csv"
@@ -211,10 +246,18 @@ def main():
         parser.error("project must be an XNAT project ID")
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     host = os.environ["XNAT_HOST"]
-    with xnat.connect(
-        host, user=os.environ["XNAT_USER"], password=os.environ["XNAT_PASS"], no_parse_model=True
-    ) as connection:
-        run(connection, host, args.project, Path("/workinginput"))
+    try:
+        workers = int(os.environ.get("XNAT_STEP1_WORKERS", "4"))
+        if workers < 1:
+            raise ValueError
+    except ValueError:
+        parser.error("XNAT_STEP1_WORKERS must be a positive integer")
+    connect = partial(
+        xnat.connect, host, user=os.environ["XNAT_USER"],
+        password=os.environ["XNAT_PASS"], no_parse_model=True,
+    )
+    with connect() as connection:
+        run(connection, host, args.project, Path("/workinginput"), connect, workers)
 
 
 if __name__ == "__main__":
